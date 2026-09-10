@@ -1,183 +1,403 @@
 // ==========================================
 // AUNG BUSINESS ACADEMY
-// APP.JS V1
+// APP.JS V2
 // ==========================================
-
-
-// -------------------------------
-// DATA
-// -------------------------------
 
 const lessons = [
   {
     title: "Business ဆိုတာဘာလဲ?",
-    description: "Business ရဲ့ အခြေခံသဘောတရားကို နားလည်ပါ။",
-    premium: false
+    description: "Business ရဲ့ အခြေခံသဘောတရား",
+    premium: false,
+    content: `
+      <h2>📚 Business ဆိုတာဘာလဲ?</h2>
+
+      <p>
+      Business ဆိုတာ Customer တစ်ယောက်ရဲ့ လိုအပ်ချက်ကို
+      Product သို့မဟုတ် Service နဲ့ ဖြည့်ဆည်းပေးပြီး
+      Revenue နဲ့ Profit ရရှိအောင် လုပ်ဆောင်တဲ့စနစ် ဖြစ်ပါတယ်။
+      </p>
+
+      <h3>Business တစ်ခုမှာ အရေးကြီးတာ ၅ ခု</h3>
+
+      <ol>
+        <li>Customer</li>
+        <li>Product / Service</li>
+        <li>Marketing</li>
+        <li>Sales</li>
+        <li>Profit</li>
+      </ol>
+
+      <p>
+      Business အောင်မြင်ဖို့ Product ကောင်းရုံနဲ့ မလုံလောက်ပါဘူး။
+      Customer ကိုနားလည်ပြီး Marketing နဲ့ Sales ကိုပါ
+      စနစ်တကျလုပ်ဖို့လိုပါတယ်။
+      </p>
+    `
   },
+
   {
     title: "Business Idea ဘယ်လိုရွေးမလဲ?",
-    description: "ကိုယ်နဲ့ကိုက်ညီတဲ့ Business Idea ရွေးချယ်နည်း။",
-    premium: false
+    description: "ကိုယ်နဲ့ကိုက်ညီတဲ့ Business Idea ရွေးချယ်နည်း",
+    premium: false,
+    content: `
+      <h2>💡 Business Idea ရွေးချယ်နည်း</h2>
+
+      <p>
+      Business Idea ကောင်းတစ်ခုဆိုတာ ကိုယ်ကြိုက်တာတစ်ခုတည်း
+      မဟုတ်ပါဘူး။ Customer လိုအပ်ချက်နဲ့ Market Demand
+      ရှိတဲ့ Idea ဖြစ်ရပါမယ်။
+      </p>
+
+      <h3>စစ်ဆေးရမယ့်အချက်များ</h3>
+
+      <ol>
+        <li>Customer ဘယ်သူလဲ?</li>
+        <li>သူတို့ဘာလိုအပ်လဲ?</li>
+        <li>ဘယ်လောက်ပေးဝယ်နိုင်လဲ?</li>
+        <li>Competitor ရှိလား?</li>
+        <li>ကိုယ်က ဘာကွာခြားအောင်လုပ်နိုင်လဲ?</li>
+      </ol>
+    `
   },
+
   {
     title: "Customer ဘယ်လိုရှာမလဲ?",
-    description: "ကိုယ့်ရဲ့ Target Customer ကို သတ်မှတ်နည်း။",
-    premium: false
+    description: "Target Customer သတ်မှတ်နည်း",
+    premium: false,
+    content: `
+      <h2>👥 Customer ရှာနည်း</h2>
+
+      <p>
+      Business တစ်ခုစမယ်ဆိုရင် "လူတိုင်းက Customer"
+      လို့မယူဆသင့်ပါဘူး။
+      ကိုယ့် Product ကို အမှန်တကယ်ဝယ်နိုင်မယ့်
+      Target Customer ကို သတ်မှတ်ရပါမယ်။
+      </p>
+
+      <h3>Target Customer ကို သတ်မှတ်ရာမှာ</h3>
+
+      <ul>
+        <li>အသက်</li>
+        <li>နေရာ</li>
+        <li>ဝင်ငွေ</li>
+        <li>အလုပ်အကိုင်</li>
+        <li>ဝယ်ယူမှုအလေ့အထ</li>
+      </ul>
+    `
   },
+
   {
     title: "Product ဘယ်လိုရွေးမလဲ?",
-    description: "Customer လိုအပ်ချက်နဲ့ကိုက်တဲ့ Product ရွေးနည်း။",
-    premium: false
+    description: "Customer လိုအပ်ချက်နဲ့ကိုက်တဲ့ Product ရွေးနည်း",
+    premium: false,
+    content: `
+      <h2>📦 Product ရွေးချယ်နည်း</h2>
+
+      <p>
+      Product တစ်ခုရွေးတဲ့အခါ ကိုယ်ကြိုက်တာထက်
+      Customer လိုချင်တာကို ပိုအာရုံစိုက်ပါ။
+      </p>
+
+      <h3>Product ကောင်းတစ်ခုမှာ</h3>
+
+      <ul>
+        <li>Customer Problem ဖြေရှင်းပေးနိုင်ရမယ်</li>
+        <li>Quality သင့်တင့်ရမယ်</li>
+        <li>Price သင့်တင့်ရမယ်</li>
+        <li>Competitor ထက် အားသာချက်ရှိရမယ်</li>
+      </ul>
+    `
   },
+
   {
     title: "Sales တိုးအောင် ဘယ်လိုလုပ်မလဲ?",
-    description: "Sales တိုးတက်အောင် အသုံးချနိုင်တဲ့ အခြေခံနည်းလမ်းများ။",
-    premium: false
+    description: "Sales တိုးတက်အောင်လုပ်နည်း",
+    premium: false,
+    content: `
+      <h2>📈 Sales တိုးအောင်လုပ်နည်း</h2>
+
+      <p>
+      Sales တိုးဖို့ Customer ပိုများလာအောင်လုပ်ရုံမက
+      ရှိပြီးသား Customer တွေဆီကနေ
+      Repeat Purchase ရအောင်လည်းလုပ်ရပါတယ်။
+      </p>
+
+      <h3>Sales Growth ရဲ့ အခြေခံ</h3>
+
+      <ol>
+        <li>New Customers ရှာပါ</li>
+        <li>Conversion တိုးပါ</li>
+        <li>Average Order Value တိုးပါ</li>
+        <li>Repeat Purchase တိုးပါ</li>
+      </ol>
+    `
   },
+
   {
     title: "Marketing Strategy",
-    description: "Business အတွက် Marketing Strategy တည်ဆောက်နည်း။",
-    premium: true
+    description: "Business အတွက် Marketing Strategy",
+    premium: true,
+    content: `
+      <h2>📣 Marketing Strategy</h2>
+
+      <p>
+      ဒီ Lesson က Premium Content ဖြစ်ပါတယ်။
+      </p>
+
+      <p>
+      Marketing Strategy အပြည့်အစုံမှာ
+      Target Customer, Positioning, Content,
+      Promotion, Channel Strategy နဲ့ Measurement
+      စတာတွေ ပါဝင်ပါတယ်။
+      </p>
+    `
   },
+
   {
     title: "Pricing Strategy",
-    description: "Product Price ကို မှန်ကန်စွာသတ်မှတ်နည်း။",
-    premium: true
+    description: "Product Price သတ်မှတ်နည်း",
+    premium: true,
+    content: `
+      <h2>💰 Pricing Strategy</h2>
+
+      <p>
+      ဒီ Lesson က Premium Content ဖြစ်ပါတယ်။
+      </p>
+
+      <p>
+      Cost, Market Price, Customer Value နဲ့
+      Desired Profit Margin တွေကို တွဲဖက်စဉ်းစားပြီး
+      Pricing Strategy တည်ဆောက်ရပါမယ်။
+      </p>
+    `
   },
+
   {
     title: "Profit & Cost Management",
-    description: "ကုန်ကျစရိတ်နဲ့ အမြတ်ကို စီမံခန့်ခွဲနည်း။",
-    premium: true
+    description: "Cost နဲ့ Profit စီမံခန့်ခွဲနည်း",
+    premium: true,
+    content: `
+      <h2>💵 Profit & Cost Management</h2>
+
+      <p>
+      ဒီ Lesson က Premium Content ဖြစ်ပါတယ်။
+      </p>
+    `
   },
+
   {
     title: "Business Plan",
-    description: "Business Plan တစ်ခုကို အစမှအဆုံးရေးဆွဲနည်း။",
-    premium: true
+    description: "Business Plan ရေးဆွဲနည်း",
+    premium: true,
+    content: `
+      <h2>📋 Business Plan</h2>
+
+      <p>
+      ဒီ Lesson က Premium Content ဖြစ်ပါတယ်။
+      </p>
+    `
   },
+
   {
     title: "Business Growth Strategy",
-    description: "Business ကို တိုးချဲ့ပြီး Scale လုပ်နည်း။",
-    premium: true
+    description: "Business ကို Scale လုပ်နည်း",
+    premium: true,
+    content: `
+      <h2>🚀 Business Growth Strategy</h2>
+
+      <p>
+      ဒီ Lesson က Premium Content ဖြစ်ပါတယ်။
+      </p>
+    `
   }
 ];
 
 
-// -------------------------------
+// ==========================================
 // INITIALIZE
-// -------------------------------
+// ==========================================
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
 
-  const lessonCount = document.getElementById("lessonCount");
-
-  if (lessonCount) {
-    lessonCount.textContent = lessons.length;
-  }
+  document.getElementById("lessonCount").textContent =
+    lessons.length;
 
   updateProgress();
 
 });
 
 
-// -------------------------------
-// START LEARNING
-// -------------------------------
+// ==========================================
+// START
+// ==========================================
 
 function startLearning() {
+  openLessons();
+}
 
-  alert(
-    "🚀 Welcome to Aung Business Academy!\n\n" +
-    "Your Business Journey Starts Now."
-  );
+
+// ==========================================
+// LESSON LIST
+// ==========================================
+
+function openLessons() {
+
+  const container = document.querySelector(".app");
+
+  container.innerHTML = `
+
+    <div class="header">
+      <div class="logo">📚 Business Lessons</div>
+      <p>Learn business step by step.</p>
+    </div>
+
+    <button
+      onclick="location.reload()"
+      style="
+        padding:12px 18px;
+        border:none;
+        border-radius:10px;
+        cursor:pointer;
+        margin-bottom:20px;
+      "
+    >
+      ← Back Home
+    </button>
+
+    <div class="lesson-list">
+
+      ${lessons.map((lesson, index) => `
+
+        <div
+          class="menu-card"
+          onclick="openLesson(${index})"
+          style="cursor:pointer;"
+        >
+
+          <div class="icon">
+            ${lesson.premium ? "🔒" : "📖"}
+          </div>
+
+          <h3>
+            ${index + 1}. ${lesson.title}
+          </h3>
+
+          <p>
+            ${lesson.description}
+          </p>
+
+          <button>
+            ${lesson.premium ? "🔒 Premium" : "Start Lesson →"}
+          </button>
+
+        </div>
+
+      `).join("")}
+
+    </div>
+  `;
+}
+
+
+// ==========================================
+// OPEN LESSON
+// ==========================================
+
+function openLesson(index) {
+
+  const lesson = lessons[index];
+
+  if (lesson.premium) {
+
+    showPremiumLock();
+
+    return;
+  }
+
+  const container = document.querySelector(".app");
+
+  container.innerHTML = `
+
+    <div class="header">
+      <div class="logo">📚 Aung Business Academy</div>
+    </div>
+
+    <button
+      onclick="openLessons()"
+      style="
+        padding:12px 18px;
+        border:none;
+        border-radius:10px;
+        cursor:pointer;
+        margin-bottom:20px;
+      "
+    >
+      ← Back to Lessons
+    </button>
+
+    <article
+      style="
+        background:white;
+        padding:30px;
+        border-radius:20px;
+        box-shadow:0 5px 20px rgba(0,0,0,0.06);
+        line-height:1.8;
+      "
+    >
+
+      ${lesson.content}
+
+      <hr style="margin:30px 0;">
+
+      <button
+        onclick="completeLesson(${index})"
+        style="
+          background:#172033;
+          color:white;
+          border:none;
+          padding:13px 20px;
+          border-radius:10px;
+          cursor:pointer;
+        "
+      >
+        ✅ Complete Lesson
+      </button>
+
+    </article>
+
+  `;
+}
+
+
+// ==========================================
+// COMPLETE LESSON
+// ==========================================
+
+function completeLesson(index) {
+
+  let completed =
+    JSON.parse(localStorage.getItem("completedLessonList")) || [];
+
+  if (!completed.includes(index)) {
+
+    completed.push(index);
+
+    localStorage.setItem(
+      "completedLessonList",
+      JSON.stringify(completed)
+    );
+
+  }
+
+  alert("🎉 Lesson Completed!");
 
   openLessons();
 }
 
 
-// -------------------------------
-// OPEN LESSONS
-// -------------------------------
-
-function openLessons() {
-
-  let message = "📚 BUSINESS LESSONS\n\n";
-
-  lessons.forEach((lesson, index) => {
-
-    if (lesson.premium) {
-      message +=
-        `${index + 1}. 🔒 ${lesson.title} — PREMIUM\n`;
-    } else {
-      message +=
-        `${index + 1}. 🟢 ${lesson.title} — FREE\n`;
-    }
-
-  });
-
-  alert(message);
-}
-
-
-// -------------------------------
-// OPEN TOOLS
-// -------------------------------
-
-function openTools() {
-
-  alert(
-    "🧰 BUSINESS TOOLS\n\n" +
-    "Coming Soon:\n\n" +
-    "• Profit Calculator\n" +
-    "• Pricing Calculator\n" +
-    "• Break-even Calculator\n" +
-    "• Sales Target Calculator\n" +
-    "• Business Plan Generator"
-  );
-
-}
-
-
-// -------------------------------
-// AI BUSINESS COACH
-// -------------------------------
-
-function openAI() {
-
-  alert(
-    "🤖 AI BUSINESS COACH\n\n" +
-    "🔒 Premium Feature\n\n" +
-    "Upgrade to Premium to unlock your AI Business Coach."
-  );
-
-}
-
-
-// -------------------------------
-// PREMIUM
-// -------------------------------
-
-function openPremium() {
-
-  alert(
-    "👑 PREMIUM ACADEMY\n\n" +
-    "Unlock:\n\n" +
-    "✓ Advanced Business Lessons\n" +
-    "✓ Business Strategy\n" +
-    "✓ Pricing Strategy\n" +
-    "✓ Marketing Strategy\n" +
-    "✓ Sales Strategy\n" +
-    "✓ Business Tools\n" +
-    "✓ Business Templates\n" +
-    "✓ AI Business Coach\n\n" +
-    "💳 Subscription System — Coming Soon"
-  );
-
-}
-
-
-// -------------------------------
+// ==========================================
 // PROGRESS
-// -------------------------------
+// ==========================================
 
 function updateProgress() {
 
@@ -186,16 +406,87 @@ function updateProgress() {
   if (!progress) return;
 
   const completed =
-    Number(localStorage.getItem("completedLessons")) || 0;
+    JSON.parse(localStorage.getItem("completedLessonList")) || [];
 
   const freeLessons =
     lessons.filter(lesson => !lesson.premium).length;
 
+  const completedFree =
+    completed.filter(index =>
+      lessons[index] && !lessons[index].premium
+    ).length;
+
   const percentage =
     freeLessons === 0
       ? 0
-      : Math.round((completed / freeLessons) * 100);
+      : Math.round((completedFree / freeLessons) * 100);
 
   progress.textContent = percentage + "%";
+}
+
+
+// ==========================================
+// TOOLS
+// ==========================================
+
+function openTools() {
+
+  alert(
+    "🧰 Business Tools\n\n" +
+    "Coming Soon:\n\n" +
+    "• Profit Calculator\n" +
+    "• Pricing Calculator\n" +
+    "• Break-even Calculator\n" +
+    "• Sales Target Calculator"
+  );
+
+}
+
+
+// ==========================================
+// AI COACH
+// ==========================================
+
+function openAI() {
+
+  showPremiumLock();
+
+}
+
+
+// ==========================================
+// PREMIUM LOCK
+// ==========================================
+
+function showPremiumLock() {
+
+  alert(
+    "🔒 PREMIUM CONTENT\n\n" +
+    "ဒီ Content ကို Premium Member များသာ\n" +
+    "အသုံးပြုနိုင်ပါတယ်။\n\n" +
+    "👑 Premium Subscription — Coming Soon"
+  );
+
+}
+
+
+// ==========================================
+// PREMIUM
+// ==========================================
+
+function openPremium() {
+
+  alert(
+    "👑 AUNG BUSINESS ACADEMY PREMIUM\n\n" +
+    "Premium မှာ ရရှိမယ့်အရာများ\n\n" +
+    "✓ Advanced Business Lessons\n" +
+    "✓ Business Strategy\n" +
+    "✓ Pricing Strategy\n" +
+    "✓ Marketing Strategy\n" +
+    "✓ Business Tools\n" +
+    "✓ Templates\n" +
+    "✓ AI Business Coach\n\n" +
+    "💳 Subscription — Coming Soon"
+  );
 
 }

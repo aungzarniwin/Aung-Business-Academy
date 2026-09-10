@@ -1,9 +1,15 @@
 // ==========================================
 // AUNG BUSINESS ACADEMY
-// APP.JS V2
+// APP.JS V3
+// ==========================================
+
+
+// ==========================================
+// LESSON DATA
 // ==========================================
 
 const lessons = [
+
   {
     title: "Business ဆိုတာဘာလဲ?",
     description: "Business ရဲ့ အခြေခံသဘောတရား",
@@ -12,9 +18,9 @@ const lessons = [
       <h2>📚 Business ဆိုတာဘာလဲ?</h2>
 
       <p>
-      Business ဆိုတာ Customer တစ်ယောက်ရဲ့ လိုအပ်ချက်ကို
-      Product သို့မဟုတ် Service နဲ့ ဖြည့်ဆည်းပေးပြီး
-      Revenue နဲ့ Profit ရရှိအောင် လုပ်ဆောင်တဲ့စနစ် ဖြစ်ပါတယ်။
+        Business ဆိုတာ Customer တစ်ယောက်ရဲ့ လိုအပ်ချက်ကို
+        Product သို့မဟုတ် Service နဲ့ ဖြည့်ဆည်းပေးပြီး
+        Revenue နဲ့ Profit ရရှိအောင် လုပ်ဆောင်တဲ့စနစ် ဖြစ်ပါတယ်။
       </p>
 
       <h3>Business တစ်ခုမှာ အရေးကြီးတာ ၅ ခု</h3>
@@ -28,12 +34,13 @@ const lessons = [
       </ol>
 
       <p>
-      Business အောင်မြင်ဖို့ Product ကောင်းရုံနဲ့ မလုံလောက်ပါဘူး။
-      Customer ကိုနားလည်ပြီး Marketing နဲ့ Sales ကိုပါ
-      စနစ်တကျလုပ်ဖို့လိုပါတယ်။
+        Business အောင်မြင်ဖို့ Product ကောင်းရုံနဲ့ မလုံလောက်ပါဘူး။
+        Customer ကိုနားလည်ပြီး Marketing နဲ့ Sales ကိုပါ
+        စနစ်တကျလုပ်ဖို့လိုပါတယ်။
       </p>
     `
   },
+
 
   {
     title: "Business Idea ဘယ်လိုရွေးမလဲ?",
@@ -43,9 +50,9 @@ const lessons = [
       <h2>💡 Business Idea ရွေးချယ်နည်း</h2>
 
       <p>
-      Business Idea ကောင်းတစ်ခုဆိုတာ ကိုယ်ကြိုက်တာတစ်ခုတည်း
-      မဟုတ်ပါဘူး။ Customer လိုအပ်ချက်နဲ့ Market Demand
-      ရှိတဲ့ Idea ဖြစ်ရပါမယ်။
+        Business Idea ကောင်းတစ်ခုဆိုတာ ကိုယ်ကြိုက်တာတစ်ခုတည်း
+        မဟုတ်ပါဘူး။ Customer လိုအပ်ချက်နဲ့ Market Demand
+        ရှိတဲ့ Idea ဖြစ်ရပါမယ်။
       </p>
 
       <h3>စစ်ဆေးရမယ့်အချက်များ</h3>
@@ -60,6 +67,7 @@ const lessons = [
     `
   },
 
+
   {
     title: "Customer ဘယ်လိုရှာမလဲ?",
     description: "Target Customer သတ်မှတ်နည်း",
@@ -68,10 +76,10 @@ const lessons = [
       <h2>👥 Customer ရှာနည်း</h2>
 
       <p>
-      Business တစ်ခုစမယ်ဆိုရင် "လူတိုင်းက Customer"
-      လို့မယူဆသင့်ပါဘူး။
-      ကိုယ့် Product ကို အမှန်တကယ်ဝယ်နိုင်မယ့်
-      Target Customer ကို သတ်မှတ်ရပါမယ်။
+        Business တစ်ခုစမယ်ဆိုရင် "လူတိုင်းက Customer"
+        လို့မယူဆသင့်ပါဘူး။
+        ကိုယ့် Product ကို အမှန်တကယ်ဝယ်နိုင်မယ့်
+        Target Customer ကို သတ်မှတ်ရပါမယ်။
       </p>
 
       <h3>Target Customer ကို သတ်မှတ်ရာမှာ</h3>
@@ -86,6 +94,7 @@ const lessons = [
     `
   },
 
+
   {
     title: "Product ဘယ်လိုရွေးမလဲ?",
     description: "Customer လိုအပ်ချက်နဲ့ကိုက်တဲ့ Product ရွေးနည်း",
@@ -94,8 +103,8 @@ const lessons = [
       <h2>📦 Product ရွေးချယ်နည်း</h2>
 
       <p>
-      Product တစ်ခုရွေးတဲ့အခါ ကိုယ်ကြိုက်တာထက်
-      Customer လိုချင်တာကို ပိုအာရုံစိုက်ပါ။
+        Product တစ်ခုရွေးတဲ့အခါ ကိုယ်ကြိုက်တာထက်
+        Customer လိုချင်တာကို ပိုအာရုံစိုက်ပါ။
       </p>
 
       <h3>Product ကောင်းတစ်ခုမှာ</h3>
@@ -109,6 +118,7 @@ const lessons = [
     `
   },
 
+
   {
     title: "Sales တိုးအောင် ဘယ်လိုလုပ်မလဲ?",
     description: "Sales တိုးတက်အောင်လုပ်နည်း",
@@ -117,9 +127,9 @@ const lessons = [
       <h2>📈 Sales တိုးအောင်လုပ်နည်း</h2>
 
       <p>
-      Sales တိုးဖို့ Customer ပိုများလာအောင်လုပ်ရုံမက
-      ရှိပြီးသား Customer တွေဆီကနေ
-      Repeat Purchase ရအောင်လည်းလုပ်ရပါတယ်။
+        Sales တိုးဖို့ Customer ပိုများလာအောင်လုပ်ရုံမက
+        ရှိပြီးသား Customer တွေဆီကနေ
+        Repeat Purchase ရအောင်လည်းလုပ်ရပါတယ်။
       </p>
 
       <h3>Sales Growth ရဲ့ အခြေခံ</h3>
@@ -133,6 +143,7 @@ const lessons = [
     `
   },
 
+
   {
     title: "Marketing Strategy",
     description: "Business အတွက် Marketing Strategy",
@@ -141,17 +152,18 @@ const lessons = [
       <h2>📣 Marketing Strategy</h2>
 
       <p>
-      ဒီ Lesson က Premium Content ဖြစ်ပါတယ်။
+        ဒီ Lesson က Premium Content ဖြစ်ပါတယ်။
       </p>
 
       <p>
-      Marketing Strategy အပြည့်အစုံမှာ
-      Target Customer, Positioning, Content,
-      Promotion, Channel Strategy နဲ့ Measurement
-      စတာတွေ ပါဝင်ပါတယ်။
+        Marketing Strategy အပြည့်အစုံမှာ
+        Target Customer, Positioning, Content,
+        Promotion, Channel Strategy နဲ့ Measurement
+        စတာတွေ ပါဝင်ပါတယ်။
       </p>
     `
   },
+
 
   {
     title: "Pricing Strategy",
@@ -161,16 +173,11 @@ const lessons = [
       <h2>💰 Pricing Strategy</h2>
 
       <p>
-      ဒီ Lesson က Premium Content ဖြစ်ပါတယ်။
-      </p>
-
-      <p>
-      Cost, Market Price, Customer Value နဲ့
-      Desired Profit Margin တွေကို တွဲဖက်စဉ်းစားပြီး
-      Pricing Strategy တည်ဆောက်ရပါမယ်။
+        ဒီ Lesson က Premium Content ဖြစ်ပါတယ်။
       </p>
     `
   },
+
 
   {
     title: "Profit & Cost Management",
@@ -180,10 +187,11 @@ const lessons = [
       <h2>💵 Profit & Cost Management</h2>
 
       <p>
-      ဒီ Lesson က Premium Content ဖြစ်ပါတယ်။
+        ဒီ Lesson က Premium Content ဖြစ်ပါတယ်။
       </p>
     `
   },
+
 
   {
     title: "Business Plan",
@@ -193,10 +201,11 @@ const lessons = [
       <h2>📋 Business Plan</h2>
 
       <p>
-      ဒီ Lesson က Premium Content ဖြစ်ပါတယ်။
+        ဒီ Lesson က Premium Content ဖြစ်ပါတယ်။
       </p>
     `
   },
+
 
   {
     title: "Business Growth Strategy",
@@ -206,33 +215,51 @@ const lessons = [
       <h2>🚀 Business Growth Strategy</h2>
 
       <p>
-      ဒီ Lesson က Premium Content ဖြစ်ပါတယ်။
+        ဒီ Lesson က Premium Content ဖြစ်ပါတယ်။
       </p>
     `
   }
+
 ];
 
 
 // ==========================================
-// INITIALIZE
+// APP START
 // ==========================================
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
 
-  document.getElementById("lessonCount").textContent =
-    lessons.length;
-
-  updateProgress();
+  updateDashboard();
 
 });
 
 
 // ==========================================
-// START
+// DASHBOARD
+// ==========================================
+
+function updateDashboard() {
+
+  const lessonCount =
+    document.getElementById("lessonCount");
+
+  if (lessonCount) {
+    lessonCount.textContent = lessons.length;
+  }
+
+  updateProgress();
+
+}
+
+
+// ==========================================
+// START LEARNING
 // ==========================================
 
 function startLearning() {
+
   openLessons();
+
 }
 
 
@@ -242,14 +269,23 @@ function startLearning() {
 
 function openLessons() {
 
-  const container = document.querySelector(".app");
+  const container =
+    document.querySelector(".app");
 
   container.innerHTML = `
 
     <div class="header">
-      <div class="logo">📚 Business Lessons</div>
-      <p>Learn business step by step.</p>
+
+      <div class="logo">
+        📚 Business Lessons
+      </div>
+
+      <p>
+        Learn business step by step.
+      </p>
+
     </div>
+
 
     <button
       onclick="location.reload()"
@@ -264,7 +300,16 @@ function openLessons() {
       ← Back Home
     </button>
 
-    <div class="lesson-list">
+
+    <div
+      class="lesson-list"
+      style="
+        display:grid;
+        grid-template-columns:
+        repeat(auto-fit,minmax(250px,1fr));
+        gap:18px;
+      "
+    >
 
       ${lessons.map((lesson, index) => `
 
@@ -287,7 +332,11 @@ function openLessons() {
           </p>
 
           <button>
-            ${lesson.premium ? "🔒 Premium" : "Start Lesson →"}
+            ${
+              lesson.premium
+              ? "🔒 Premium"
+              : "Start Lesson →"
+            }
           </button>
 
         </div>
@@ -295,7 +344,9 @@ function openLessons() {
       `).join("")}
 
     </div>
+
   `;
+
 }
 
 
@@ -312,15 +363,24 @@ function openLesson(index) {
     showPremiumLock();
 
     return;
+
   }
 
-  const container = document.querySelector(".app");
+
+  const container =
+    document.querySelector(".app");
+
 
   container.innerHTML = `
 
     <div class="header">
-      <div class="logo">📚 Aung Business Academy</div>
+
+      <div class="logo">
+        📚 Aung Business Academy
+      </div>
+
     </div>
+
 
     <button
       onclick="openLessons()"
@@ -335,19 +395,23 @@ function openLesson(index) {
       ← Back to Lessons
     </button>
 
+
     <article
       style="
         background:white;
         padding:30px;
         border-radius:20px;
-        box-shadow:0 5px 20px rgba(0,0,0,0.06);
+        box-shadow:
+        0 5px 20px rgba(0,0,0,0.06);
         line-height:1.8;
       "
     >
 
       ${lesson.content}
 
+
       <hr style="margin:30px 0;">
+
 
       <button
         onclick="completeLesson(${index})"
@@ -366,6 +430,7 @@ function openLesson(index) {
     </article>
 
   `;
+
 }
 
 
@@ -376,7 +441,12 @@ function openLesson(index) {
 function completeLesson(index) {
 
   let completed =
-    JSON.parse(localStorage.getItem("completedLessonList")) || [];
+    JSON.parse(
+      localStorage.getItem(
+        "completedLessonList"
+      )
+    ) || [];
+
 
   if (!completed.includes(index)) {
 
@@ -389,9 +459,11 @@ function completeLesson(index) {
 
   }
 
+
   alert("🎉 Lesson Completed!");
 
   openLessons();
+
 }
 
 
@@ -401,53 +473,460 @@ function completeLesson(index) {
 
 function updateProgress() {
 
-  const progress = document.getElementById("progress");
+  const progress =
+    document.getElementById("progress");
 
   if (!progress) return;
 
+
   const completed =
-    JSON.parse(localStorage.getItem("completedLessonList")) || [];
+    JSON.parse(
+      localStorage.getItem(
+        "completedLessonList"
+      )
+    ) || [];
+
 
   const freeLessons =
-    lessons.filter(lesson => !lesson.premium).length;
+    lessons.filter(
+      lesson => !lesson.premium
+    ).length;
+
 
   const completedFree =
     completed.filter(index =>
-      lessons[index] && !lessons[index].premium
+      lessons[index] &&
+      !lessons[index].premium
     ).length;
+
 
   const percentage =
     freeLessons === 0
-      ? 0
-      : Math.round((completedFree / freeLessons) * 100);
+    ? 0
+    : Math.round(
+        (completedFree / freeLessons) * 100
+      );
 
-  progress.textContent = percentage + "%";
+
+  progress.textContent =
+    percentage + "%";
+
 }
 
 
 // ==========================================
-// TOOLS
+// BUSINESS TOOLS
 // ==========================================
 
 function openTools() {
 
-  alert(
-    "🧰 Business Tools\n\n" +
-    "Coming Soon:\n\n" +
-    "• Profit Calculator\n" +
-    "• Pricing Calculator\n" +
-    "• Break-even Calculator\n" +
-    "• Sales Target Calculator"
-  );
+  const container =
+    document.querySelector(".app");
+
+
+  container.innerHTML = `
+
+    <div class="header">
+
+      <div class="logo">
+        🧰 Business Tools
+      </div>
+
+      <p>
+        Practical tools for your business.
+      </p>
+
+    </div>
+
+
+    <button
+      onclick="location.reload()"
+      style="
+        padding:12px 18px;
+        border:none;
+        border-radius:10px;
+        cursor:pointer;
+        margin-bottom:20px;
+      "
+    >
+      ← Back Home
+    </button>
+
+
+    <div
+      style="
+        display:grid;
+        grid-template-columns:
+        repeat(auto-fit,minmax(250px,1fr));
+        gap:18px;
+      "
+    >
+
+      <div
+        class="menu-card"
+        onclick="openProfitCalculator()"
+        style="cursor:pointer;"
+      >
+
+        <div class="icon">💰</div>
+
+        <h3>Profit Calculator</h3>
+
+        <p>
+          Revenue, Cost, Profit နဲ့
+          Profit Margin တွက်ပါ။
+        </p>
+
+        <button>
+          Open Calculator →
+        </button>
+
+      </div>
+
+
+      <div
+        class="menu-card premium"
+        onclick="showPremiumLock()"
+        style="cursor:pointer;"
+      >
+
+        <div class="icon">💵</div>
+
+        <h3>Pricing Calculator</h3>
+
+        <p>
+          🔒 Premium Tool
+        </p>
+
+        <button>
+          🔒 Premium
+        </button>
+
+      </div>
+
+
+      <div
+        class="menu-card premium"
+        onclick="showPremiumLock()"
+        style="cursor:pointer;"
+      >
+
+        <div class="icon">📊</div>
+
+        <h3>Break-even Calculator</h3>
+
+        <p>
+          🔒 Premium Tool
+        </p>
+
+        <button>
+          🔒 Premium
+        </button>
+
+      </div>
+
+
+      <div
+        class="menu-card premium"
+        onclick="showPremiumLock()"
+        style="cursor:pointer;"
+      >
+
+        <div class="icon">🎯</div>
+
+        <h3>Sales Target Calculator</h3>
+
+        <p>
+          🔒 Premium Tool
+        </p>
+
+        <button>
+          🔒 Premium
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
 
 }
 
 
 // ==========================================
-// AI COACH
+// PROFIT CALCULATOR
+// ==========================================
+
+function openProfitCalculator() {
+
+  const container =
+    document.querySelector(".app");
+
+
+  container.innerHTML = `
+
+    <div class="header">
+
+      <div class="logo">
+        💰 Profit Calculator
+      </div>
+
+      <p>
+        သင့် Business ရဲ့ အမြတ်ကို
+        အလွယ်တကူတွက်ပါ။
+      </p>
+
+    </div>
+
+
+    <button
+      onclick="openTools()"
+      style="
+        padding:12px 18px;
+        border:none;
+        border-radius:10px;
+        cursor:pointer;
+        margin-bottom:20px;
+      "
+    >
+      ← Back to Tools
+    </button>
+
+
+    <div
+      style="
+        background:white;
+        padding:25px;
+        border-radius:20px;
+        box-shadow:
+        0 5px 20px rgba(0,0,0,0.06);
+      "
+    >
+
+      <label>
+        Cost per Product
+        (ဝယ်ဈေး)
+      </label>
+
+      <input
+        id="costPrice"
+        type="number"
+        placeholder="ဥပမာ - 2000"
+        style="
+          width:100%;
+          padding:13px;
+          margin:8px 0 18px;
+          border:1px solid #ddd;
+          border-radius:10px;
+        "
+      >
+
+
+      <label>
+        Selling Price
+        (ရောင်းဈေး)
+      </label>
+
+      <input
+        id="sellingPrice"
+        type="number"
+        placeholder="ဥပမာ - 3000"
+        style="
+          width:100%;
+          padding:13px;
+          margin:8px 0 18px;
+          border:1px solid #ddd;
+          border-radius:10px;
+        "
+      >
+
+
+      <label>
+        Quantity Sold
+        (ရောင်းရသည့်အရေအတွက်)
+      </label>
+
+      <input
+        id="quantity"
+        type="number"
+        placeholder="ဥပမာ - 100"
+        style="
+          width:100%;
+          padding:13px;
+          margin:8px 0 20px;
+          border:1px solid #ddd;
+          border-radius:10px;
+        "
+      >
+
+
+      <button
+        onclick="calculateProfit()"
+        style="
+          width:100%;
+          padding:14px;
+          background:#172033;
+          color:white;
+          border:none;
+          border-radius:10px;
+          font-weight:bold;
+          cursor:pointer;
+        "
+      >
+        Calculate Profit
+      </button>
+
+
+      <div
+        id="profitResult"
+        style="margin-top:25px;"
+      ></div>
+
+    </div>
+
+  `;
+
+}
+
+
+// ==========================================
+// CALCULATE PROFIT
+// ==========================================
+
+function calculateProfit() {
+
+  const cost =
+    Number(
+      document.getElementById(
+        "costPrice"
+      ).value
+    );
+
+
+  const selling =
+    Number(
+      document.getElementById(
+        "sellingPrice"
+      ).value
+    );
+
+
+  const quantity =
+    Number(
+      document.getElementById(
+        "quantity"
+      ).value
+    );
+
+
+  if (
+    cost < 0 ||
+    selling <= 0 ||
+    quantity <= 0
+  ) {
+
+    alert(
+      "ကျေးဇူးပြုပြီး အချက်အလက်အားလုံးကို မှန်ကန်စွာထည့်ပါ။"
+    );
+
+    return;
+
+  }
+
+
+  const revenue =
+    selling * quantity;
+
+
+  const totalCost =
+    cost * quantity;
+
+
+  const profit =
+    revenue - totalCost;
+
+
+  const margin =
+    revenue > 0
+    ? (profit / revenue) * 100
+    : 0;
+
+
+  const result =
+    document.getElementById(
+      "profitResult"
+    );
+
+
+  result.innerHTML = `
+
+    <div
+      style="
+        background:#f5f7fa;
+        padding:20px;
+        border-radius:15px;
+      "
+    >
+
+      <h3>
+        📊 Business Result
+      </h3>
+
+
+      <p>
+        💵 Total Revenue:
+        <strong>
+          ${revenue.toLocaleString()} Ks
+        </strong>
+      </p>
+
+
+      <p>
+        📦 Total Cost:
+        <strong>
+          ${totalCost.toLocaleString()} Ks
+        </strong>
+      </p>
+
+
+      <p>
+        💰 Total Profit:
+        <strong>
+          ${profit.toLocaleString()} Ks
+        </strong>
+      </p>
+
+
+      <p>
+        📈 Profit Margin:
+        <strong>
+          ${margin.toFixed(2)}%
+        </strong>
+      </p>
+
+    </div>
+
+  `;
+
+}
+
+
+// ==========================================
+// AI BUSINESS COACH
 // ==========================================
 
 function openAI() {
+
+  showPremiumLock();
+
+}
+
+
+// ==========================================
+// PREMIUM
+// ==========================================
+
+function openPremium() {
 
   showPremiumLock();
 
@@ -462,31 +941,9 @@ function showPremiumLock() {
 
   alert(
     "🔒 PREMIUM CONTENT\n\n" +
-    "ဒီ Content ကို Premium Member များသာ\n" +
+    "ဒီ Content / Tool ကို Premium Member များသာ\n" +
     "အသုံးပြုနိုင်ပါတယ်။\n\n" +
     "👑 Premium Subscription — Coming Soon"
-  );
-
-}
-
-
-// ==========================================
-// PREMIUM
-// ==========================================
-
-function openPremium() {
-
-  alert(
-    "👑 AUNG BUSINESS ACADEMY PREMIUM\n\n" +
-    "Premium မှာ ရရှိမယ့်အရာများ\n\n" +
-    "✓ Advanced Business Lessons\n" +
-    "✓ Business Strategy\n" +
-    "✓ Pricing Strategy\n" +
-    "✓ Marketing Strategy\n" +
-    "✓ Business Tools\n" +
-    "✓ Templates\n" +
-    "✓ AI Business Coach\n\n" +
-    "💳 Subscription — Coming Soon"
   );
 
 }

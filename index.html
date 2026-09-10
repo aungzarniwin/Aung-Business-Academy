@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Aung Business Academy</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="app">
+
+    <!-- HEADER -->
+    <header class="header">
+      <div>
+        <div class="logo">🚀 Aung Business Academy</div>
+        <p>Learn Business. Build Business. Grow Business.</p>
+      </div>
+    </header>
+
+
+    <!-- HERO -->
+    <section class="hero">
+      <h1>Build Your Business From Zero</h1>
+
+      <p>
+        Learn practical business knowledge,
+        improve your sales and marketing,
+        and grow your business step by step.
+      </p>
+
+      <button onclick="startLearning()">
+        Start Learning →
+      </button>
+    </section>
+
+
+    <!-- DASHBOARD -->
+    <section class="dashboard">
+
+      <div class="stat-card">
+        <span>📚</span>
+        <h3>Lessons</h3>
+        <strong id="lessonCount">0</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>🔥</span>
+        <h3>Progress</h3>
+        <strong id="progress">0%</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>👑</span>
+        <h3>Premium</h3>
+        <strong>LOCKED</strong>
+      </div>
+
+    </section>
+
+
+    <!-- MAIN MENU -->
+    <section class="section">
+
+      <h2>What do you want to learn?</h2>
+
+      <div class="menu-grid">
+
+        <div class="menu-card" onclick="openLessons()">
+          <div class="icon">📚</div>
+          <h3>Business Lessons</h3>
+          <p>Learn business step by step.</p>
+          <button>Learn Now →</button>
+        </div>
+
+
+        <div class="menu-card" onclick="openTools()">
+          <div class="icon">🧰</div>
+          <h3>Business Tools</h3>
+          <p>Useful tools for your business.</p>
+          <button>Open Tools →</button>
+        </div>
+
+
+        <div class="menu-card premium" onclick="openAI()">
+          <div class="icon">🤖</div>
+          <h3>AI Business Coach</h3>
+          <p>Get AI-powered business guidance.</p>
+          <button>🔒 Premium</button>
+        </div>
+
+
+        <div class="menu-card premium" onclick="openPremium()">
+          <div class="icon">👑</div>
+          <h3>Premium Academy</h3>
+          <p>Unlock advanced business knowledge.</p>
+          <button>🔒 Unlock Premium</button>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- BUSINESS ROADMAP -->
+    <section class="section roadmap">
+
+      <h2>🚀 Business Roadmap</h2>
+
+      <div class="roadmap-list">
+
+        <div class="roadmap-item">
+          <span>1</span>
+          <div>
+            <h3>Find Your Business Idea</h3>
+            <p>Discover a business idea that fits you.</p>
+          </div>
+        </div>
+
+
+        <div class="roadmap-item">
+          <span>2</span>
+          <div>
+            <h3>Understand Your Customer</h3>
+            <p>Know who will buy your product or service.</p>
+          </div>
+        </div>
+
+
+        <div class="roadmap-item">
+          <span>3</span>
+          <div>
+            <h3>Build Your Product</h3>
+            <p>Create something customers really want.</p>
+          </div>
+        </div>
+
+
+        <div class="roadmap-item">
+          <span>4</span>
+          <div>
+            <h3>Marketing & Sales</h3>
+            <p>Learn how to attract customers and increase sales.</p>
+          </div>
+        </div>
+
+
+        <div class="roadmap-item premium-roadmap">
+          <span>🔒</span>
+          <div>
+            <h3>Scale Your Business</h3>
+            <p>Advanced strategies are available in Premium.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- PREMIUM -->
+    <section class="premium-box">
+
+      <div>
+        <h2>👑 Unlock Premium</h2>
+
+        <p>
+          Get access to advanced business strategies,
+          templates, calculators and AI Business Coach.
+        </p>
+      </div>
+
+      <button onclick="openPremium()">
+        View Premium →
+      </button>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+      <p>© 2026 Aung Business Academy</p>
+      <p>Learn • Build • Grow</p>
+    </footer>
+
+  </div>
+
+
+  <script src="app.js"></script>
+
+</body>
+</html>

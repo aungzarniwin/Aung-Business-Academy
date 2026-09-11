@@ -1,7 +1,7 @@
-
-      // =====================================================
+// =====================================================
 // AUNG BUSINESS ACADEMY
-// APP.JS V3
+// APP.JS V4
+// English Titles + Myanmar Explanations
 // =====================================================
 
 "use strict";
@@ -10,7 +10,7 @@
 // STORAGE
 // =====================================================
 
-const STORAGE_KEY = "aung_business_academy_v3";
+const STORAGE_KEY = "aung_business_academy_v4";
 
 let academyData = {
     completedLessons: [],
@@ -40,10 +40,11 @@ function saveData() {
 
 
 // =====================================================
-// LESSON DATABASE
+// 10 MAIN LESSONS
 // =====================================================
 
 const lessons = [
+
     {
         id: 1,
         title: "Business Basics",
@@ -51,21 +52,31 @@ const lessons = [
         description: "Learn the foundation of starting and growing a business.",
         content: `
             <h3>What is a Business?</h3>
-            <p>A business creates value for customers and earns revenue by providing products or services.</p>
+
+            <p>
+                စီးပွားရေးဆိုတာ ဖောက်သည်တွေရဲ့ လိုအပ်ချက်နဲ့
+                ပြဿနာတွေကို ဖြေရှင်းပေးနိုင်တဲ့
+                ထုတ်ကုန် သို့မဟုတ် ဝန်ဆောင်မှုကို ပေးအပ်ပြီး
+                ဝင်ငွေနဲ့ အမြတ်ရရှိအောင် လုပ်ဆောင်ခြင်းဖြစ်ပါတယ်။
+            </p>
 
             <h3>Three Important Things</h3>
+
             <ul>
-                <li>Customer</li>
-                <li>Product or Service</li>
-                <li>Profit</li>
+                <li>ဖောက်သည် (Customer)</li>
+                <li>ထုတ်ကုန် / ဝန်ဆောင်မှု (Product / Service)</li>
+                <li>အမြတ် (Profit)</li>
             </ul>
 
             <div class="aba-learning-box">
                 <strong>Key Point:</strong>
-                A successful business solves a real customer problem.
+                အောင်မြင်တဲ့ Business တစ်ခုဟာ
+                ဖောက်သည်တွေရဲ့ တကယ့်လိုအပ်ချက်ကို
+                ဖြေရှင်းပေးနိုင်ရပါမယ်။
             </div>
         `
     },
+
 
     {
         id: 2,
@@ -74,21 +85,32 @@ const lessons = [
         description: "Understand who your customers are and what they need.",
         content: `
             <h3>Know Your Customer</h3>
-            <p>Before selling, understand your customer's needs, problems, budget and buying behavior.</p>
+
+            <p>
+                ရောင်းချမှုမစတင်ခင်မှာ
+                ကိုယ့်ရဲ့ Customer က ဘယ်သူလဲ၊
+                သူတို့ရဲ့ လိုအပ်ချက်က ဘာလဲ၊
+                ဘယ်လိုပြဿနာတွေရှိလဲဆိုတာ
+                နားလည်ထားဖို့ အရေးကြီးပါတယ်။
+            </p>
+
+            <h3>Customer Questions</h3>
 
             <ul>
-                <li>Who is your customer?</li>
-                <li>What problem do they have?</li>
-                <li>What solution are they looking for?</li>
-                <li>Why should they buy from you?</li>
+                <li>ကိုယ့် Customer က ဘယ်သူလဲ?</li>
+                <li>သူတို့မှာ ဘာပြဿနာရှိလဲ?</li>
+                <li>သူတို့ ဘာ Solution လိုချင်လဲ?</li>
+                <li>ဘာကြောင့် ကိုယ့်ဆီက ဝယ်သင့်လဲ?</li>
             </ul>
 
             <div class="aba-learning-box">
                 <strong>Key Point:</strong>
-                The better you understand customers, the easier it becomes to sell.
+                Customer ကို ပိုနားလည်လေလေ
+                Sales လုပ်ရတာ ပိုလွယ်ကူလာလေလေ ဖြစ်ပါတယ်။
             </div>
         `
     },
+
 
     {
         id: 3,
@@ -97,22 +119,33 @@ const lessons = [
         description: "Learn how to build a strong and memorable brand.",
         content: `
             <h3>What is a Brand?</h3>
-            <p>A brand is the perception customers have about your business.</p>
+
+            <p>
+                Brand ဆိုတာ Logo တစ်ခုတည်းမဟုတ်ပါဘူး။
+                Customer တစ်ယောက်က ကိုယ့် Business ကို
+                ဘယ်လိုမြင်သလဲ၊ ဘယ်လိုခံစားသလဲ၊
+                ဘယ်လောက်ယုံကြည်သလဲဆိုတဲ့
+                Customer ရဲ့ အမြင်နဲ့ အတွေ့အကြုံတွေပါဝင်ပါတယ်။
+            </p>
 
             <h3>Strong Brand Elements</h3>
+
             <ul>
-                <li>Clear positioning</li>
-                <li>Consistent identity</li>
-                <li>Customer trust</li>
-                <li>Strong value proposition</li>
+                <li>ရှင်းလင်းတဲ့ Brand Positioning</li>
+                <li>တစ်သမတ်တည်းဖြစ်တဲ့ Brand Identity</li>
+                <li>Customer Trust</li>
+                <li>ကောင်းမွန်တဲ့ Customer Experience</li>
             </ul>
 
             <div class="aba-learning-box">
                 <strong>Key Point:</strong>
-                A brand is more than a logo. It is the customer's experience and perception.
+                Brand ဆိုတာ Logo ထက်ပိုပါတယ်။
+                Customer ရဲ့ ယုံကြည်မှုနဲ့ အတွေ့အကြုံက
+                Brand ရဲ့ တန်ဖိုးကို ဖန်တီးပေးပါတယ်။
             </div>
         `
     },
+
 
     {
         id: 4,
@@ -120,18 +153,34 @@ const lessons = [
         category: "Marketing",
         description: "Understand the fundamentals of marketing.",
         content: `
-            <h3>Marketing</h3>
-            <p>Marketing is the process of attracting customers and creating demand for your product or service.</p>
+            <h3>What is Marketing?</h3>
+
+            <p>
+                Marketing ဆိုတာ ကိုယ့်ရဲ့ Product သို့မဟုတ်
+                Service ကို လိုအပ်နေတဲ့ Customer တွေဆီ
+                ရောက်ရှိအောင် ဆွဲဆောင်ပေးပြီး
+                ဝယ်ယူလိုစိတ် ဖြစ်ပေါ်လာအောင်
+                လုပ်ဆောင်တဲ့ လုပ်ငန်းစဉ်ဖြစ်ပါတယ်။
+            </p>
 
             <h3>Basic Marketing Questions</h3>
+
             <ul>
-                <li>What are you selling?</li>
-                <li>Who are you selling to?</li>
-                <li>Where can you find customers?</li>
-                <li>Why should they choose you?</li>
+                <li>ဘာကို ရောင်းမလဲ?</li>
+                <li>ဘယ်သူ့ကို ရောင်းမလဲ?</li>
+                <li>Customer တွေကို ဘယ်မှာရှာမလဲ?</li>
+                <li>ဘာကြောင့် ကိုယ့် Product ကို ဝယ်သင့်လဲ?</li>
             </ul>
+
+            <div class="aba-learning-box">
+                <strong>Key Point:</strong>
+                Marketing က Customer ကို ရှာဖွေခြင်း၊
+                ဆွဲဆောင်ခြင်းနဲ့ Demand ဖန်တီးခြင်းတို့ကို
+                အဓိကလုပ်ဆောင်ပါတယ်။
+            </div>
         `
     },
+
 
     {
         id: 5,
@@ -142,20 +191,31 @@ const lessons = [
             <h3>Sales Process</h3>
 
             <ol>
-                <li>Find prospects</li>
-                <li>Understand needs</li>
-                <li>Present the solution</li>
-                <li>Handle objections</li>
-                <li>Close the sale</li>
-                <li>Follow up</li>
+                <li>Potential Customer ရှာဖွေခြင်း</li>
+                <li>Customer လိုအပ်ချက်ကို နားလည်ခြင်း</li>
+                <li>Solution ကို ရှင်းပြခြင်း</li>
+                <li>Customer Objection ကို ဖြေရှင်းခြင်း</li>
+                <li>Sale Closing ပြုလုပ်ခြင်း</li>
+                <li>Follow-up ပြန်လုပ်ခြင်း</li>
             </ol>
+
+            <h3>Professional Selling</h3>
+
+            <p>
+                Professional Sales ဆိုတာ Product ကို
+                အတင်းအကျပ် ရောင်းချခြင်းမဟုတ်ပါဘူး။
+                Customer ရဲ့ ပြဿနာကို နားလည်ပြီး
+                သင့်တော်တဲ့ Solution ကို ပေးနိုင်ခြင်းဖြစ်ပါတယ်။
+            </p>
 
             <div class="aba-learning-box">
                 <strong>Key Point:</strong>
-                Professional selling is about solving customer problems, not simply pushing products.
+                Customer ရဲ့ Problem ကို ကောင်းကောင်းနားလည်နိုင်ရင်
+                Sales Closing လုပ်ဖို့ ပိုလွယ်ကူပါတယ်။
             </div>
         `
     },
+
 
     {
         id: 6,
@@ -165,20 +225,31 @@ const lessons = [
         content: `
             <h3>Great Customer Service</h3>
 
+            <p>
+                Customer Service က Sale ပြီးတဲ့အချိန်မှာ
+                အဆုံးသတ်သွားတာမဟုတ်ပါဘူး။
+                Customer ကို ဆက်လက်ဂရုစိုက်ပြီး
+                ပြဿနာရှိရင် မြန်မြန်ဖြေရှင်းပေးခြင်းက
+                Customer Loyalty ကို တိုးတက်စေပါတယ်။
+            </p>
+
             <ul>
-                <li>Listen carefully</li>
-                <li>Respond quickly</li>
-                <li>Communicate clearly</li>
-                <li>Solve problems</li>
-                <li>Follow up</li>
+                <li>Customer ကို သေချာနားထောင်ပါ</li>
+                <li>မြန်မြန်တုံ့ပြန်ပါ</li>
+                <li>ရှင်းလင်းစွာ ဆက်သွယ်ပါ</li>
+                <li>ပြဿနာကို ဖြေရှင်းပေးပါ</li>
+                <li>Follow-up ပြန်လုပ်ပါ</li>
             </ul>
 
             <div class="aba-learning-box">
                 <strong>Key Point:</strong>
-                Good service creates repeat customers and referrals.
+                ကောင်းမွန်တဲ့ Customer Service က
+                Repeat Customer နဲ့ Customer Referral
+                ရရှိစေပါတယ်။
             </div>
         `
     },
+
 
     {
         id: 7,
@@ -188,21 +259,32 @@ const lessons = [
         content: `
             <h3>Effective People Management</h3>
 
+            <p>
+                Manager က လူတွေကို အမိန့်ပေးရုံနဲ့
+                အောင်မြင်တဲ့ Team တစ်ခု မတည်ဆောက်နိုင်ပါဘူး။
+                Team Member တစ်ယောက်ချင်းစီကို
+                လမ်းညွှန်ပေးခြင်း၊ Coaching လုပ်ခြင်းနဲ့
+                တာဝန်ယူမှုရှိအောင် ဖွံ့ဖြိုးပေးဖို့ လိုပါတယ်။
+            </p>
+
             <ul>
-                <li>Set clear expectations</li>
-                <li>Delegate responsibility</li>
-                <li>Coach team members</li>
-                <li>Review performance</li>
-                <li>Give feedback</li>
-                <li>Recognize achievement</li>
+                <li>Clear Expectations သတ်မှတ်ပါ</li>
+                <li>တာဝန်နဲ့ Ownership ပေးပါ</li>
+                <li>Coaching လုပ်ပါ</li>
+                <li>Performance ကို Review လုပ်ပါ</li>
+                <li>Feedback ပေးပါ</li>
+                <li>အောင်မြင်မှုကို အသိအမှတ်ပြုပါ</li>
             </ul>
 
             <div class="aba-learning-box">
                 <strong>Leadership Principle:</strong>
-                Great managers develop people instead of micromanaging them.
+                ကောင်းမွန်တဲ့ Manager တစ်ယောက်ဟာ
+                Team ကို Micromanage လုပ်တာထက်
+                လူတွေကို Develop လုပ်ပေးရပါတယ်။
             </div>
         `
     },
+
 
     {
         id: 8,
@@ -213,18 +295,48 @@ const lessons = [
             <h3>Basic Formula</h3>
 
             <div class="aba-learning-box">
-                <strong>Profit = Revenue − Total Costs</strong>
+                <strong>
+                    Profit = Revenue − Total Costs
+                </strong>
             </div>
 
             <h3>Example</h3>
 
-            <p>Revenue = 10,000,000 Ks</p>
-            <p>Total Costs = 7,000,000 Ks</p>
-            <p>Profit = 3,000,000 Ks</p>
+            <p>
+                ဥပမာ -
+            </p>
 
-            <p>Understanding profit is essential for business decision-making.</p>
+            <p>
+                Revenue = 10,000,000 Ks
+            </p>
+
+            <p>
+                Total Costs = 7,000,000 Ks
+            </p>
+
+            <p>
+                Profit = 3,000,000 Ks
+            </p>
+
+            <h3>Why It Matters</h3>
+
+            <p>
+                Business တစ်ခုမှာ Sales များတာတစ်ခုတည်းနဲ့
+                အောင်မြင်တယ်လို့ မဆိုနိုင်ပါဘူး။
+                ကုန်ကျစရိတ်ကို ထိန်းချုပ်ပြီး
+                အမှန်တကယ် အမြတ်ရရှိနေတာလားဆိုတာ
+                သိထားဖို့ အရေးကြီးပါတယ်။
+            </p>
+
+            <div class="aba-learning-box">
+                <strong>Key Point:</strong>
+                Revenue များတာထက်
+                Sustainable Profit ရရှိနိုင်ခြင်းက
+                Business အတွက် ပိုအရေးကြီးပါတယ်။
+            </div>
         `
     },
+
 
     {
         id: 9,
@@ -234,20 +346,30 @@ const lessons = [
         content: `
             <h3>Effective Time Management</h3>
 
+            <p>
+                Time Management ဆိုတာ အချိန်ပိုရအောင်
+                ဖန်တီးတာမဟုတ်ပါဘူး။
+                ရရှိထားတဲ့အချိန်ကို အရေးကြီးဆုံး
+                အလုပ်တွေအတွက် မှန်ကန်စွာ အသုံးချခြင်းဖြစ်ပါတယ်။
+            </p>
+
             <ul>
-                <li>Set priorities</li>
-                <li>Plan your day</li>
-                <li>Focus on important tasks</li>
-                <li>Avoid unnecessary activities</li>
-                <li>Review your results</li>
+                <li>အရေးကြီးဆုံးအလုပ်ကို ဦးစားပေးပါ</li>
+                <li>နေ့စဉ် Plan ပြုလုပ်ပါ</li>
+                <li>အာရုံစူးစိုက်ပြီး အလုပ်လုပ်ပါ</li>
+                <li>မလိုအပ်တဲ့ အလုပ်တွေကို လျှော့ချပါ</li>
+                <li>နေ့ကုန်မှာ Result ကို Review လုပ်ပါ</li>
             </ul>
 
             <div class="aba-learning-box">
                 <strong>Key Point:</strong>
-                Productivity is not about being busy. It is about producing meaningful results.
+                Productivity ဆိုတာ အလုပ်များများလုပ်တာမဟုတ်ပါဘူး။
+                တန်ဖိုးရှိတဲ့ Result ကို ရရှိအောင်
+                မှန်ကန်တဲ့အလုပ်ကို လုပ်နိုင်ခြင်းဖြစ်ပါတယ်။
             </div>
         `
     },
+
 
     {
         id: 10,
@@ -257,28 +379,38 @@ const lessons = [
         content: `
             <h3>Business Growth</h3>
 
-            <p>Business growth can come from:</p>
+            <p>
+                Business Growth ဆိုတာ Sales တိုးလာတာတစ်ခုတည်းမဟုတ်ပါဘူး။
+                Customer ပိုများလာခြင်း၊ Revenue တိုးလာခြင်း၊
+                Profit တိုးလာခြင်းနဲ့ Market Expansion ဖြစ်လာခြင်းတို့
+                အားလုံးပါဝင်ပါတယ်။
+            </p>
+
+            <h3>Ways to Grow a Business</h3>
 
             <ul>
-                <li>More customers</li>
-                <li>Higher sales per customer</li>
-                <li>New products</li>
-                <li>New markets</li>
-                <li>Better distribution</li>
-                <li>Improved customer retention</li>
+                <li>Customer အသစ်များ ရှာဖွေခြင်း</li>
+                <li>Customer တစ်ယောက်ချင်းစီရဲ့ Sales တိုးခြင်း</li>
+                <li>Product အသစ်များ ထည့်သွင်းခြင်း</li>
+                <li>Market အသစ်များ ဝင်ရောက်ခြင်း</li>
+                <li>Distribution ပိုမိုကောင်းမွန်အောင်လုပ်ခြင်း</li>
+                <li>Customer Retention တိုးတက်အောင်လုပ်ခြင်း</li>
             </ul>
 
             <div class="aba-learning-box">
                 <strong>Key Point:</strong>
-                Sustainable growth requires customers, revenue, profit and strong execution.
+                ရေရှည် Business Growth ရဖို့
+                Customer + Revenue + Profit + Execution
+                လေးခုလုံးကို ကောင်းမွန်စွာ စီမံခန့်ခွဲရပါတယ်။
             </div>
         `
     }
+
 ];
 
 
 // =====================================================
-// CATEGORY DATABASE
+// CATEGORY LESSONS
 // =====================================================
 
 const categoryData = {
@@ -612,6 +744,7 @@ const categoryData = {
             "Daily Review"
         ]
     }
+
 };
 
 
@@ -621,36 +754,46 @@ const categoryData = {
 
 function updateDashboard() {
 
-    const lessonCount = document.getElementById("lessonCount");
-    const progress = document.getElementById("progress");
+    const lessonCount =
+        document.getElementById("lessonCount");
 
-    const completed = academyData.completedLessons.length;
-    const total = lessons.length;
+    const progress =
+        document.getElementById("progress");
 
-    const percentage = total === 0
-        ? 0
-        : Math.round((completed / total) * 100);
+    const completed =
+        academyData.completedLessons.length;
+
+    const total =
+        lessons.length;
+
+    const percentage =
+        total === 0
+            ? 0
+            : Math.round(
+                (completed / total) * 100
+            );
 
     if (lessonCount) {
-        lessonCount.textContent = completed;
+        lessonCount.textContent =
+            completed;
     }
 
     if (progress) {
-        progress.textContent = percentage + "%";
+        progress.textContent =
+            percentage + "%";
     }
 
-    const progressElements = document.querySelectorAll(
-        "[data-progress]"
-    );
-
-    progressElements.forEach(element => {
-        element.textContent = percentage + "%";
-    });
+    document
+        .querySelectorAll("[data-progress]")
+        .forEach(element => {
+            element.textContent =
+                percentage + "%";
+        });
 }
 
 
 // =====================================================
-// DASHBOARD NAVIGATION
+// DASHBOARD
 // =====================================================
 
 function goDashboard() {
@@ -662,21 +805,24 @@ function goDashboard() {
         behavior: "smooth"
     });
 
-    const title = document.querySelector(".topbar h1");
+    const title =
+        document.querySelector(".topbar h1");
 
     if (title) {
-        title.textContent = "Dashboard";
+        title.textContent =
+            "Dashboard";
     }
 }
 
 
 // =====================================================
-// SIDEBAR MENU
+// MENU
 // =====================================================
 
 function toggleMenu(id) {
 
-    const menu = document.getElementById(id);
+    const menu =
+        document.getElementById(id);
 
     if (!menu) {
         return;
@@ -684,12 +830,16 @@ function toggleMenu(id) {
 
     menu.classList.toggle("show");
 
-    const parent = menu.previousElementSibling;
+    const parent =
+        menu.previousElementSibling;
 
     if (parent) {
-        const arrow = parent.querySelector(".arrow");
+
+        const arrow =
+            parent.querySelector(".arrow");
 
         if (arrow) {
+
             arrow.textContent =
                 menu.classList.contains("show")
                     ? "▴"
@@ -701,30 +851,49 @@ function toggleMenu(id) {
 
 function toggleSidebar() {
 
-    const sidebar = document.querySelector(".sidebar");
+    const sidebar =
+        document.querySelector(".sidebar");
 
     if (!sidebar) {
         return;
     }
 
-    sidebar.classList.toggle("mobile-open");
+    sidebar.classList.toggle(
+        "mobile-open"
+    );
 }
 
 
 // =====================================================
-// LESSONS
+// LESSON LIST
 // =====================================================
 
 function openLessons() {
 
     const html = `
-        <div class="aba-modal-overlay" id="abaModalOverlay">
+
+        <div
+            class="aba-modal-overlay"
+            id="abaModalOverlay">
+
             <div class="aba-modal">
 
                 <div class="aba-modal-header">
+
                     <div>
-                        <h2>📚 Business Lessons</h2>
-                        <p>Learn business step by step.</p>
+
+                        <div class="aba-badge">
+                            BUSINESS ACADEMY
+                        </div>
+
+                        <h2>
+                            📚 Business Lessons
+                        </h2>
+
+                        <p>
+                            Learn business step by step.
+                        </p>
+
                     </div>
 
                     <button
@@ -732,61 +901,86 @@ function openLessons() {
                         onclick="closeModal()">
                         ×
                     </button>
+
                 </div>
 
                 <div class="aba-modal-body">
 
                     <div class="aba-lesson-grid">
 
-                        ${lessons.map(lesson => {
+                        ${lessons.map(
+                            lesson => {
 
-                            const completed =
-                                academyData.completedLessons.includes(
-                                    lesson.id
-                                );
+                                const completed =
+                                    academyData
+                                    .completedLessons
+                                    .includes(
+                                        lesson.id
+                                    );
 
-                            return `
-                                <div class="aba-lesson-card">
+                                return `
 
-                                    <div class="aba-badge">
-                                        Lesson ${lesson.id}
+                                    <div
+                                        class="aba-lesson-card">
+
+                                        <div
+                                            class="aba-badge">
+
+                                            Lesson
+                                            ${lesson.id}
+
+                                        </div>
+
+                                        <h3>
+                                            ${lesson.title}
+                                        </h3>
+
+                                        <p>
+                                            ${lesson.description}
+                                        </p>
+
+                                        <small>
+                                            ${lesson.category}
+                                        </small>
+
+                                        <button
+                                            class="aba-primary-btn"
+                                            onclick="startLesson(${lesson.id})">
+
+                                            ${
+                                                completed
+                                                ? "Review Lesson"
+                                                : "Start Lesson →"
+                                            }
+
+                                        </button>
+
+                                        ${
+                                            completed
+                                            ? `
+                                                <div
+                                                    class="aba-completed">
+
+                                                    ✓ Completed
+
+                                                </div>
+                                            `
+                                            : ""
+                                        }
+
                                     </div>
 
-                                    <h3>${lesson.title}</h3>
+                                `;
 
-                                    <p>
-                                        ${lesson.description}
-                                    </p>
-
-                                    <small>
-                                        ${lesson.category}
-                                    </small>
-
-                                    <button
-                                        class="aba-primary-btn"
-                                        onclick="startLesson(${lesson.id})">
-
-                                        ${completed
-                                            ? "Review Lesson"
-                                            : "Start Lesson →"}
-
-                                    </button>
-
-                                    ${completed
-                                        ? `<div class="aba-completed">
-                                            ✓ Completed
-                                           </div>`
-                                        : ""}
-
-                                </div>
-                            `;
-
-                        }).join("")}
+                            }
+                        ).join("")}
 
                     </div>
 
                 </div>
+
             </div>
+
         </div>
     `;
 
@@ -800,35 +994,48 @@ function openLessons() {
 
 function startLesson(id) {
 
-    const lesson = lessons.find(
-        item => item.id === id
-    );
+    const lesson =
+        lessons.find(
+            item => item.id === id
+        );
 
     if (!lesson) {
         return;
     }
 
-    academyData.lastOpened = id;
+    academyData.lastOpened =
+        id;
+
     saveData();
 
     const completed =
-        academyData.completedLessons.includes(id);
+        academyData.completedLessons
+        .includes(id);
 
     const html = `
-        <div class="aba-modal-overlay" id="abaModalOverlay">
+
+        <div
+            class="aba-modal-overlay"
+            id="abaModalOverlay">
 
             <div class="aba-modal">
 
                 <div class="aba-modal-header">
 
                     <div>
+
                         <div class="aba-badge">
                             Lesson ${lesson.id}
                         </div>
 
-                        <h2>${lesson.title}</h2>
+                        <h2>
+                            ${lesson.title}
+                        </h2>
 
-                        <p>${lesson.category}</p>
+                        <p>
+                            ${lesson.category}
+                        </p>
+
                     </div>
 
                     <button
@@ -841,7 +1048,8 @@ function startLesson(id) {
 
                 <div class="aba-modal-body">
 
-                    <div class="aba-lesson-detail">
+                    <div
+                        class="aba-lesson-detail">
 
                         ${lesson.content}
 
@@ -850,8 +1058,12 @@ function startLesson(id) {
                     ${
                         completed
                         ? `
-                            <div class="aba-learning-box">
-                                ✓ You have already completed this lesson.
+                            <div
+                                class="aba-learning-box">
+
+                                ✓ ဒီသင်ခန်းစာကို
+                                ပြီးမြောက်ပြီးပါပြီ။
+
                             </div>
                         `
                         : `
@@ -876,6 +1088,7 @@ function startLesson(id) {
                 </div>
 
             </div>
+
         </div>
     `;
 
@@ -889,9 +1102,13 @@ function startLesson(id) {
 
 function completeLesson(id) {
 
-    if (!academyData.completedLessons.includes(id)) {
+    if (
+        !academyData.completedLessons
+            .includes(id)
+    ) {
 
-        academyData.completedLessons.push(id);
+        academyData.completedLessons
+            .push(id);
 
         saveData();
 
@@ -912,7 +1129,8 @@ function completeLesson(id) {
 
 function openCategory(name) {
 
-    const data = categoryData[name];
+    const data =
+        categoryData[name];
 
     if (!data) {
 
@@ -924,51 +1142,74 @@ function openCategory(name) {
     }
 
     const html = `
-        <div class="aba-modal-overlay" id="abaModalOverlay">
+
+        <div
+            class="aba-modal-overlay"
+            id="abaModalOverlay">
 
             <div class="aba-modal">
 
                 <div class="aba-modal-header">
 
                     <div>
+
                         <div class="aba-badge">
                             ${data.category}
                         </div>
 
-                        <h2>${name}</h2>
+                        <h2>
+                            ${name}
+                        </h2>
 
-                        <p>${data.description}</p>
+                        <p>
+                            ${data.description}
+                        </p>
+
                     </div>
 
                     <button
                         class="aba-modal-close"
                         onclick="closeModal()">
+
                         ×
+
                     </button>
 
                 </div>
 
                 <div class="aba-modal-body">
 
-                    <h3>Course Content</h3>
+                    <h3>
+                        Course Content
+                    </h3>
 
-                    <div class="aba-lesson-grid">
+                    <div
+                        class="aba-lesson-grid">
 
                         ${data.lessons.map(
                             (lesson, index) => `
 
-                            <div class="aba-lesson-card">
+                            <div
+                                class="aba-lesson-card">
 
-                                <div class="aba-badge">
+                                <div
+                                    class="aba-badge">
+
                                     ${index + 1}
+
                                 </div>
 
-                                <h3>${lesson}</h3>
+                                <h3>
+                                    ${lesson}
+                                </h3>
 
                                 <p>
-                                    Learn practical
-                                    ${lesson.toLowerCase()}
-                                    skills.
+                                    ဒီ Lesson မှာ
+                                    ${lesson}
+                                    နဲ့ ပတ်သက်တဲ့
+                                    လက်တွေ့ Business
+                                    Knowledge တွေကို
+                                    လေ့လာနိုင်ပါတယ်။
                                 </p>
 
                                 <button
@@ -981,7 +1222,8 @@ function openCategory(name) {
 
                             </div>
 
-                        `).join("")}
+                        `
+                        ).join("")}
 
                     </div>
 
@@ -1002,12 +1244,15 @@ function openCategory(name) {
 
 function completeCategory(id) {
 
-    if (!academyData.completedCategories.includes(id)) {
+    if (
+        !academyData.completedCategories
+            .includes(id)
+    ) {
 
-        academyData.completedCategories.push(id);
+        academyData.completedCategories
+            .push(id);
 
         saveData();
-
     }
 
     showToast(
@@ -1023,26 +1268,37 @@ function completeCategory(id) {
 function openBusinessPlan() {
 
     const html = `
-        <div class="aba-modal-overlay" id="abaModalOverlay">
+
+        <div
+            class="aba-modal-overlay"
+            id="abaModalOverlay">
 
             <div class="aba-modal">
 
                 <div class="aba-modal-header">
 
                     <div>
+
                         <div class="aba-badge">
                             BUSINESS PLAN
                         </div>
 
-                        <h2>📋 Business Plan Builder</h2>
+                        <h2>
+                            📋 Business Plan Builder
+                        </h2>
 
-                        <p>Create your business plan step by step.</p>
+                        <p>
+                            Create your business plan step by step.
+                        </p>
+
                     </div>
 
                     <button
                         class="aba-modal-close"
                         onclick="closeModal()">
+
                         ×
+
                     </button>
 
                 </div>
@@ -1051,32 +1307,42 @@ function openBusinessPlan() {
 
                     <div class="aba-form">
 
-                        <label>Business Name</label>
+                        <label>
+                            Business Name
+                        </label>
 
                         <input
                             id="businessName"
                             placeholder="Enter business name">
 
-                        <label>Product / Service</label>
+                        <label>
+                            Product / Service
+                        </label>
 
                         <input
                             id="businessProduct"
                             placeholder="What do you sell?">
 
-                        <label>Target Customer</label>
+                        <label>
+                            Target Customer
+                        </label>
 
                         <input
                             id="businessCustomer"
                             placeholder="Who is your customer?">
 
-                        <label>Monthly Sales Target</label>
+                        <label>
+                            Monthly Sales Target
+                        </label>
 
                         <input
                             id="businessSales"
                             type="number"
                             placeholder="Example: 10000000">
 
-                        <label>Monthly Cost</label>
+                        <label>
+                            Monthly Cost
+                        </label>
 
                         <input
                             id="businessCost"
@@ -1111,48 +1377,68 @@ function openBusinessPlan() {
 function generateBusinessPlan() {
 
     const name =
-        document.getElementById("businessName").value ||
+        document.getElementById(
+            "businessName"
+        ).value ||
         "My Business";
 
     const product =
-        document.getElementById("businessProduct").value ||
+        document.getElementById(
+            "businessProduct"
+        ).value ||
         "Product / Service";
 
     const customer =
-        document.getElementById("businessCustomer").value ||
+        document.getElementById(
+            "businessCustomer"
+        ).value ||
         "Target Customers";
 
     const sales =
         Number(
-            document.getElementById("businessSales").value
+            document.getElementById(
+                "businessSales"
+            ).value
         ) || 0;
 
     const cost =
         Number(
-            document.getElementById("businessCost").value
+            document.getElementById(
+                "businessCost"
+            ).value
         ) || 0;
 
-    const profit = sales - cost;
+    const profit =
+        sales - cost;
 
     const html = `
-        <div class="aba-modal-overlay" id="abaModalOverlay">
+
+        <div
+            class="aba-modal-overlay"
+            id="abaModalOverlay">
 
             <div class="aba-modal">
 
                 <div class="aba-modal-header">
 
                     <div>
+
                         <div class="aba-badge">
                             BUSINESS PLAN
                         </div>
 
-                        <h2>${name}</h2>
+                        <h2>
+                            ${name}
+                        </h2>
+
                     </div>
 
                     <button
                         class="aba-modal-close"
                         onclick="openBusinessPlan()">
+
                         ×
+
                     </button>
 
                 </div>
@@ -1162,28 +1448,53 @@ function generateBusinessPlan() {
                     <div class="aba-result">
 
                         <div class="aba-result-item">
-                            <span>Product / Service</span>
-                            <strong>${product}</strong>
+                            <span>
+                                Product / Service
+                            </span>
+
+                            <strong>
+                                ${product}
+                            </strong>
                         </div>
 
                         <div class="aba-result-item">
-                            <span>Target Customer</span>
-                            <strong>${customer}</strong>
+                            <span>
+                                Target Customer
+                            </span>
+
+                            <strong>
+                                ${customer}
+                            </strong>
                         </div>
 
                         <div class="aba-result-item">
-                            <span>Monthly Sales</span>
-                            <strong>${formatMoney(sales)} Ks</strong>
+                            <span>
+                                Monthly Sales
+                            </span>
+
+                            <strong>
+                                ${formatMoney(sales)} Ks
+                            </strong>
                         </div>
 
                         <div class="aba-result-item">
-                            <span>Monthly Cost</span>
-                            <strong>${formatMoney(cost)} Ks</strong>
+                            <span>
+                                Monthly Cost
+                            </span>
+
+                            <strong>
+                                ${formatMoney(cost)} Ks
+                            </strong>
                         </div>
 
                         <div class="aba-result-item">
-                            <span>Estimated Profit</span>
-                            <strong>${formatMoney(profit)} Ks</strong>
+                            <span>
+                                Estimated Profit
+                            </span>
+
+                            <strong>
+                                ${formatMoney(profit)} Ks
+                            </strong>
                         </div>
 
                     </div>
@@ -1214,26 +1525,37 @@ function generateBusinessPlan() {
 function openTools() {
 
     const html = `
-        <div class="aba-modal-overlay" id="abaModalOverlay">
+
+        <div
+            class="aba-modal-overlay"
+            id="abaModalOverlay">
 
             <div class="aba-modal">
 
                 <div class="aba-modal-header">
 
                     <div>
+
                         <div class="aba-badge">
                             BUSINESS TOOLS
                         </div>
 
-                        <h2>🧮 Business Tools</h2>
+                        <h2>
+                            🧮 Business Tools
+                        </h2>
 
-                        <p>Practical calculators for business owners.</p>
+                        <p>
+                            Practical calculators for business owners.
+                        </p>
+
                     </div>
 
                     <button
                         class="aba-modal-close"
                         onclick="closeModal()">
+
                         ×
+
                     </button>
 
                 </div>
@@ -1248,7 +1570,9 @@ function openTools() {
                                 💰
                             </div>
 
-                            <h3>Pricing Calculator</h3>
+                            <h3>
+                                Pricing Calculator
+                            </h3>
 
                             <p>
                                 Calculate selling price and margin.
@@ -1271,7 +1595,9 @@ function openTools() {
                                 📈
                             </div>
 
-                            <h3>Profit Calculator</h3>
+                            <h3>
+                                Profit Calculator
+                            </h3>
 
                             <p>
                                 Calculate business profit.
@@ -1294,7 +1620,9 @@ function openTools() {
                                 🎯
                             </div>
 
-                            <h3>Sales Target Calculator</h3>
+                            <h3>
+                                Sales Target Calculator
+                            </h3>
 
                             <p>
                                 Calculate daily sales targets.
@@ -1317,7 +1645,9 @@ function openTools() {
                                 ⚖️
                             </div>
 
-                            <h3>Break-Even Calculator</h3>
+                            <h3>
+                                Break-Even Calculator
+                            </h3>
 
                             <p>
                                 Calculate your break-even point.
@@ -1353,18 +1683,25 @@ function openTools() {
 function pricingCalculator() {
 
     const html = `
-        <div class="aba-modal-overlay" id="abaModalOverlay">
+
+        <div
+            class="aba-modal-overlay"
+            id="abaModalOverlay">
 
             <div class="aba-modal">
 
                 <div class="aba-modal-header">
 
-                    <h2>💰 Pricing Calculator</h2>
+                    <h2>
+                        💰 Pricing Calculator
+                    </h2>
 
                     <button
                         class="aba-modal-close"
                         onclick="openTools()">
+
                         ×
+
                     </button>
 
                 </div>
@@ -1373,14 +1710,18 @@ function pricingCalculator() {
 
                     <div class="aba-calculator">
 
-                        <label>Cost Price</label>
+                        <label>
+                            Cost Price
+                        </label>
 
                         <input
                             id="priceCost"
                             type="number"
                             placeholder="Example: 10000">
 
-                        <label>Desired Profit Margin (%)</label>
+                        <label>
+                            Desired Profit Margin (%)
+                        </label>
 
                         <input
                             id="priceMargin"
@@ -1414,20 +1755,33 @@ function calculatePrice() {
 
     const cost =
         Number(
-            document.getElementById("priceCost").value
+            document.getElementById(
+                "priceCost"
+            ).value
         );
 
     const margin =
         Number(
-            document.getElementById("priceMargin").value
+            document.getElementById(
+                "priceMargin"
+            ).value
         );
 
-    if (cost <= 0 || margin >= 100) {
+    if (
+        cost <= 0 ||
+        margin < 0 ||
+        margin >= 100
+    ) {
 
-        document.getElementById("priceResult").innerHTML =
-            `<div class="aba-error">
-                Please enter valid numbers.
-             </div>`;
+        document.getElementById(
+            "priceResult"
+        ).innerHTML = `
+
+            <div class="aba-error">
+                ကျေးဇူးပြုပြီး မှန်ကန်တဲ့
+                Number တွေ ထည့်ပေးပါ။
+            </div>
+        `;
 
         return;
     }
@@ -1435,16 +1789,22 @@ function calculatePrice() {
     const sellingPrice =
         cost / (1 - margin / 100);
 
-    document.getElementById("priceResult").innerHTML = `
+    document.getElementById(
+        "priceResult"
+    ).innerHTML = `
 
         <div class="aba-result">
 
             <div class="aba-result-item">
 
-                <span>Recommended Selling Price</span>
+                <span>
+                    Recommended Selling Price
+                </span>
 
                 <strong>
-                    ${formatMoney(sellingPrice)} Ks
+                    ${formatMoney(
+                        sellingPrice
+                    )} Ks
                 </strong>
 
             </div>
@@ -1461,18 +1821,25 @@ function calculatePrice() {
 function profitCalculator() {
 
     const html = `
-        <div class="aba-modal-overlay" id="abaModalOverlay">
+
+        <div
+            class="aba-modal-overlay"
+            id="abaModalOverlay">
 
             <div class="aba-modal">
 
                 <div class="aba-modal-header">
 
-                    <h2>📈 Profit Calculator</h2>
+                    <h2>
+                        📈 Profit Calculator
+                    </h2>
 
                     <button
                         class="aba-modal-close"
                         onclick="openTools()">
+
                         ×
+
                     </button>
 
                 </div>
@@ -1481,14 +1848,18 @@ function profitCalculator() {
 
                     <div class="aba-calculator">
 
-                        <label>Total Revenue</label>
+                        <label>
+                            Total Revenue
+                        </label>
 
                         <input
                             id="profitRevenue"
                             type="number"
                             placeholder="Revenue">
 
-                        <label>Total Cost</label>
+                        <label>
+                            Total Cost
+                        </label>
 
                         <input
                             id="profitCost"
@@ -1522,33 +1893,54 @@ function calculateProfit() {
 
     const revenue =
         Number(
-            document.getElementById("profitRevenue").value
+            document.getElementById(
+                "profitRevenue"
+            ).value
         );
 
     const cost =
         Number(
-            document.getElementById("profitCost").value
+            document.getElementById(
+                "profitCost"
+            ).value
         );
 
-    const profit = revenue - cost;
+    const profit =
+        revenue - cost;
 
     const margin =
         revenue > 0
             ? (profit / revenue) * 100
             : 0;
 
-    document.getElementById("profitResult").innerHTML = `
+    document.getElementById(
+        "profitResult"
+    ).innerHTML = `
 
         <div class="aba-result">
 
             <div class="aba-result-item">
-                <span>Profit</span>
-                <strong>${formatMoney(profit)} Ks</strong>
+
+                <span>
+                    Profit
+                </span>
+
+                <strong>
+                    ${formatMoney(profit)} Ks
+                </strong>
+
             </div>
 
             <div class="aba-result-item">
-                <span>Profit Margin</span>
-                <strong>${margin.toFixed(2)}%</strong>
+
+                <span>
+                    Profit Margin
+                </span>
+
+                <strong>
+                    ${margin.toFixed(2)}%
+                </strong>
+
             </div>
 
         </div>
@@ -1557,24 +1949,31 @@ function calculateProfit() {
 
 
 // =====================================================
-// SALES TARGET CALCULATOR
+// SALES TARGET
 // =====================================================
 
 function salesTargetCalculator() {
 
     const html = `
-        <div class="aba-modal-overlay" id="abaModalOverlay">
+
+        <div
+            class="aba-modal-overlay"
+            id="abaModalOverlay">
 
             <div class="aba-modal">
 
                 <div class="aba-modal-header">
 
-                    <h2>🎯 Sales Target Calculator</h2>
+                    <h2>
+                        🎯 Sales Target Calculator
+                    </h2>
 
                     <button
                         class="aba-modal-close"
                         onclick="openTools()">
+
                         ×
+
                     </button>
 
                 </div>
@@ -1583,14 +1982,18 @@ function salesTargetCalculator() {
 
                     <div class="aba-calculator">
 
-                        <label>Monthly Sales Target</label>
+                        <label>
+                            Monthly Sales Target
+                        </label>
 
                         <input
                             id="salesTarget"
                             type="number"
                             placeholder="Example: 30000000">
 
-                        <label>Working Days</label>
+                        <label>
+                            Working Days
+                        </label>
 
                         <input
                             id="workingDays"
@@ -1605,7 +2008,9 @@ function salesTargetCalculator() {
 
                         </button>
 
-                        <div id="salesTargetResult"></div>
+                        <div
+                            id="salesTargetResult">
+                        </div>
 
                     </div>
 
@@ -1624,27 +2029,38 @@ function calculateSalesTarget() {
 
     const target =
         Number(
-            document.getElementById("salesTarget").value
+            document.getElementById(
+                "salesTarget"
+            ).value
         );
 
     const days =
         Number(
-            document.getElementById("workingDays").value
+            document.getElementById(
+                "workingDays"
+            ).value
         );
 
-    if (target <= 0 || days <= 0) {
+    if (
+        target <= 0 ||
+        days <= 0
+    ) {
 
         document.getElementById(
             "salesTargetResult"
-        ).innerHTML =
-            `<div class="aba-error">
-                Please enter valid numbers.
-             </div>`;
+        ).innerHTML = `
+
+            <div class="aba-error">
+                ကျေးဇူးပြုပြီး မှန်ကန်တဲ့
+                Number တွေ ထည့်ပေးပါ။
+            </div>
+        `;
 
         return;
     }
 
-    const daily = target / days;
+    const daily =
+        target / days;
 
     document.getElementById(
         "salesTargetResult"
@@ -1654,7 +2070,9 @@ function calculateSalesTarget() {
 
             <div class="aba-result-item">
 
-                <span>Monthly Target</span>
+                <span>
+                    Monthly Target
+                </span>
 
                 <strong>
                     ${formatMoney(target)} Ks
@@ -1664,7 +2082,9 @@ function calculateSalesTarget() {
 
             <div class="aba-result-item">
 
-                <span>Daily Target</span>
+                <span>
+                    Daily Target
+                </span>
 
                 <strong>
                     ${formatMoney(daily)} Ks
@@ -1684,18 +2104,25 @@ function calculateSalesTarget() {
 function breakEvenCalculator() {
 
     const html = `
-        <div class="aba-modal-overlay" id="abaModalOverlay">
+
+        <div
+            class="aba-modal-overlay"
+            id="abaModalOverlay">
 
             <div class="aba-modal">
 
                 <div class="aba-modal-header">
 
-                    <h2>⚖️ Break-Even Calculator</h2>
+                    <h2>
+                        ⚖️ Break-Even Calculator
+                    </h2>
 
                     <button
                         class="aba-modal-close"
                         onclick="openTools()">
+
                         ×
+
                     </button>
 
                 </div>
@@ -1704,21 +2131,27 @@ function breakEvenCalculator() {
 
                     <div class="aba-calculator">
 
-                        <label>Fixed Costs</label>
+                        <label>
+                            Fixed Costs
+                        </label>
 
                         <input
                             id="fixedCost"
                             type="number"
                             placeholder="Example: 5000000">
 
-                        <label>Selling Price Per Unit</label>
+                        <label>
+                            Selling Price Per Unit
+                        </label>
 
                         <input
                             id="unitPrice"
                             type="number"
                             placeholder="Example: 10000">
 
-                        <label>Variable Cost Per Unit</label>
+                        <label>
+                            Variable Cost Per Unit
+                        </label>
 
                         <input
                             id="variableCost"
@@ -1733,7 +2166,9 @@ function breakEvenCalculator() {
 
                         </button>
 
-                        <div id="breakEvenResult"></div>
+                        <div
+                            id="breakEvenResult">
+                        </div>
 
                     </div>
 
@@ -1752,17 +2187,23 @@ function calculateBreakEven() {
 
     const fixed =
         Number(
-            document.getElementById("fixedCost").value
+            document.getElementById(
+                "fixedCost"
+            ).value
         );
 
     const price =
         Number(
-            document.getElementById("unitPrice").value
+            document.getElementById(
+                "unitPrice"
+            ).value
         );
 
     const variable =
         Number(
-            document.getElementById("variableCost").value
+            document.getElementById(
+                "variableCost"
+            ).value
         );
 
     const contribution =
@@ -1776,10 +2217,14 @@ function calculateBreakEven() {
 
         document.getElementById(
             "breakEvenResult"
-        ).innerHTML =
-            `<div class="aba-error">
-                Selling price must be higher than variable cost.
-             </div>`;
+        ).innerHTML = `
+
+            <div class="aba-error">
+                Selling Price က
+                Variable Cost ထက်
+                မြင့်ရပါမယ်။
+            </div>
+        `;
 
         return;
     }
@@ -1798,7 +2243,9 @@ function calculateBreakEven() {
 
             <div class="aba-result-item">
 
-                <span>Break-Even Units</span>
+                <span>
+                    Break-Even Units
+                </span>
 
                 <strong>
                     ${Math.ceil(units)}
@@ -1808,7 +2255,9 @@ function calculateBreakEven() {
 
             <div class="aba-result-item">
 
-                <span>Break-Even Sales</span>
+                <span>
+                    Break-Even Sales
+                </span>
 
                 <strong>
                     ${formatMoney(sales)} Ks
@@ -1828,7 +2277,10 @@ function calculateBreakEven() {
 function openAI() {
 
     const html = `
-        <div class="aba-modal-overlay" id="abaModalOverlay">
+
+        <div
+            class="aba-modal-overlay"
+            id="abaModalOverlay">
 
             <div class="aba-modal">
 
@@ -1840,16 +2292,22 @@ function openAI() {
                             AI BUSINESS COACH
                         </div>
 
-                        <h2>🤖 AI Business Coach</h2>
+                        <h2>
+                            🤖 AI Business Coach
+                        </h2>
 
-                        <p>Your future AI business assistant.</p>
+                        <p>
+                            Your future AI business assistant.
+                        </p>
 
                     </div>
 
                     <button
                         class="aba-modal-close"
                         onclick="closeModal()">
+
                         ×
+
                     </button>
 
                 </div>
@@ -1862,27 +2320,49 @@ function openAI() {
                             🤖
                         </div>
 
-                        <h3>AI Business Coach</h3>
+                        <h3>
+                            AI Business Coach
+                        </h3>
 
                         <p>
-                            Get business advice, sales strategy,
-                            marketing ideas and management guidance.
+                            Business Strategy,
+                            Sales, Marketing,
+                            Leadership နဲ့
+                            Business Management
+                            အကြောင်းတွေကို
+                            AI နဲ့ မေးမြန်းနိုင်မယ့်
+                            Feature ဖြစ်ပါတယ်။
                         </p>
 
                         <div class="aba-ai-features">
 
-                            <div>✓ Business Strategy</div>
-                            <div>✓ Sales Coaching</div>
-                            <div>✓ Marketing Ideas</div>
-                            <div>✓ Financial Thinking</div>
-                            <div>✓ Leadership Advice</div>
+                            <div>
+                                ✓ Business Strategy
+                            </div>
+
+                            <div>
+                                ✓ Sales Coaching
+                            </div>
+
+                            <div>
+                                ✓ Marketing Ideas
+                            </div>
+
+                            <div>
+                                ✓ Financial Thinking
+                            </div>
+
+                            <div>
+                                ✓ Leadership Advice
+                            </div>
 
                         </div>
 
                         <div class="aba-premium-lock">
 
-                            🔒 AI Coach is coming in the
-                            Premium version.
+                            🔒 AI Coach ကို
+                            Premium Version မှာ
+                            အသုံးပြုနိုင်ပါမယ်။
 
                         </div>
 
@@ -1906,7 +2386,10 @@ function openAI() {
 function openPremium() {
 
     const html = `
-        <div class="aba-modal-overlay" id="abaModalOverlay">
+
+        <div
+            class="aba-modal-overlay"
+            id="abaModalOverlay">
 
             <div class="aba-modal">
 
@@ -1918,7 +2401,9 @@ function openPremium() {
                             PREMIUM
                         </div>
 
-                        <h2>👑 Premium Academy</h2>
+                        <h2>
+                            👑 Premium Academy
+                        </h2>
 
                         <p>
                             Unlock the complete business learning system.
@@ -1929,7 +2414,9 @@ function openPremium() {
                     <button
                         class="aba-modal-close"
                         onclick="closeModal()">
+
                         ×
+
                     </button>
 
                 </div>
@@ -1947,18 +2434,36 @@ function openPremium() {
                         </h2>
 
                         <p>
-                            Take your business knowledge
-                            to the next level.
+                            သင့်ရဲ့ Business Knowledge နဲ့
+                            Management Skill ကို
+                            ပိုမိုတိုးတက်အောင် လေ့လာနိုင်ပါမယ်။
                         </p>
 
                         <div class="aba-premium-list">
 
-                            <div>✓ Advanced Business Courses</div>
-                            <div>✓ AI Business Coach</div>
-                            <div>✓ Advanced Business Tools</div>
-                            <div>✓ Business Plan Builder</div>
-                            <div>✓ Sales & Marketing Templates</div>
-                            <div>✓ Premium Resources</div>
+                            <div>
+                                ✓ Advanced Business Courses
+                            </div>
+
+                            <div>
+                                ✓ AI Business Coach
+                            </div>
+
+                            <div>
+                                ✓ Advanced Business Tools
+                            </div>
+
+                            <div>
+                                ✓ Business Plan Builder
+                            </div>
+
+                            <div>
+                                ✓ Sales & Marketing Templates
+                            </div>
+
+                            <div>
+                                ✓ Premium Resources
+                            </div>
 
                         </div>
 
@@ -1996,19 +2501,31 @@ function openProfile() {
     const completed =
         academyData.completedLessons.length;
 
+    const percentage =
+        Math.round(
+            (completed / lessons.length) * 100
+        );
+
     const html = `
-        <div class="aba-modal-overlay" id="abaModalOverlay">
+
+        <div
+            class="aba-modal-overlay"
+            id="abaModalOverlay">
 
             <div class="aba-modal">
 
                 <div class="aba-modal-header">
 
-                    <h2>👤 My Profile</h2>
+                    <h2>
+                        👤 My Profile
+                    </h2>
 
                     <button
                         class="aba-modal-close"
                         onclick="closeModal()">
+
                         ×
+
                     </button>
 
                 </div>
@@ -2021,33 +2538,50 @@ function openProfile() {
                             A
                         </div>
 
-                        <h2>Aung</h2>
+                        <h2>
+                            Aung
+                        </h2>
 
-                        <p>Business Learner</p>
+                        <p>
+                            Business Learner
+                        </p>
 
                         <div class="aba-profile-stats">
 
                             <div>
+
                                 <strong>
                                     ${completed}
                                 </strong>
-                                <span>Lessons</span>
+
+                                <span>
+                                    Lessons
+                                </span>
+
                             </div>
 
                             <div>
+
                                 <strong>
-                                    ${Math.round(
-                                        (completed / lessons.length) * 100
-                                    )}%
+                                    ${percentage}%
                                 </strong>
-                                <span>Progress</span>
+
+                                <span>
+                                    Progress
+                                </span>
+
                             </div>
 
                             <div>
+
                                 <strong>
                                     4
                                 </strong>
-                                <span>Tools</span>
+
+                                <span>
+                                    Tools
+                                </span>
+
                             </div>
 
                         </div>
@@ -2072,40 +2606,64 @@ function openProfile() {
 function openNotifications() {
 
     const html = `
-        <div class="aba-modal-overlay" id="abaModalOverlay">
+
+        <div
+            class="aba-modal-overlay"
+            id="abaModalOverlay">
 
             <div class="aba-modal">
 
                 <div class="aba-modal-header">
 
-                    <h2>🔔 Notifications</h2>
+                    <h2>
+                        🔔 Notifications
+                    </h2>
 
                     <button
                         class="aba-modal-close"
                         onclick="closeModal()">
+
                         ×
+
                     </button>
 
                 </div>
 
                 <div class="aba-modal-body">
 
-                    <div class="aba-notification-box">
+                    <div
+                        class="aba-notification-box">
 
-                        <div class="aba-notification-item">
-                            📚 New business lessons are available.
+                        <div
+                            class="aba-notification-item">
+
+                            📚 New business lessons
+                            are available.
+
                         </div>
 
-                        <div class="aba-notification-item">
-                            🧮 Business Tools are ready to use.
+                        <div
+                            class="aba-notification-item">
+
+                            🧮 Business Tools
+                            are ready to use.
+
                         </div>
 
-                        <div class="aba-notification-item">
-                            🤖 AI Business Coach is coming soon.
+                        <div
+                            class="aba-notification-item">
+
+                            🤖 AI Business Coach
+                            is coming soon.
+
                         </div>
 
-                        <div class="aba-notification-item">
-                            👑 Premium Academy is under development.
+                        <div
+                            class="aba-notification-item">
+
+                            👑 Premium Academy
+                            is under development.
+
                         </div>
 
                     </div>
@@ -2122,7 +2680,7 @@ function openNotifications() {
 
 
 // =====================================================
-// MODAL SYSTEM
+// MODAL
 // =====================================================
 
 function showModal(html) {
@@ -2134,7 +2692,8 @@ function showModal(html) {
         html
     );
 
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow =
+        "hidden";
 }
 
 
@@ -2149,7 +2708,8 @@ function closeModal() {
         modal.remove();
     }
 
-    document.body.style.overflow = "";
+    document.body.style.overflow =
+        "";
 }
 
 
@@ -2160,33 +2720,47 @@ function closeModal() {
 function showToast(message) {
 
     const oldToast =
-        document.querySelector(".aba-toast");
+        document.querySelector(
+            ".aba-toast"
+        );
 
     if (oldToast) {
         oldToast.remove();
     }
 
     const toast =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
-    toast.className = "aba-toast";
+    toast.className =
+        "aba-toast";
 
-    toast.textContent = message;
+    toast.textContent =
+        message;
 
-    document.body.appendChild(toast);
+    document.body.appendChild(
+        toast
+    );
 
     setTimeout(() => {
 
-        toast.classList.add("show");
+        toast.classList.add(
+            "show"
+        );
 
     }, 50);
 
     setTimeout(() => {
 
-        toast.classList.remove("show");
+        toast.classList.remove(
+            "show"
+        );
 
         setTimeout(() => {
+
             toast.remove();
+
         }, 300);
 
     }, 2500);
@@ -2199,7 +2773,9 @@ function showToast(message) {
 
 function formatMoney(value) {
 
-    return Number(value || 0).toLocaleString(
+    return Number(
+        value || 0
+    ).toLocaleString(
         "en-US",
         {
             maximumFractionDigits: 0
@@ -2209,8 +2785,7 @@ function formatMoney(value) {
 
 
 // =====================================================
-// AUTOMATIC SUBMENU CONNECTION
-// IMPORTANT
+// AUTOMATIC CATEGORY CONNECTION
 // =====================================================
 
 function connectSubmenuButtons() {
@@ -2222,29 +2797,46 @@ function connectSubmenuButtons() {
 
     buttons.forEach(button => {
 
-        if (button.dataset.abaConnected) {
+        if (
+            button.dataset.abaConnected
+        ) {
             return;
         }
 
         const text =
             button.textContent
                 .trim()
-                .replace(/\s+/g, " ");
+                .replace(
+                    /\s+/g,
+                    " "
+                );
 
         button.addEventListener(
             "click",
             function(event) {
 
                 event.preventDefault();
+
                 event.stopPropagation();
 
-                if (text === "Business Plan") {
+                if (
+                    text ===
+                    "Business Plan"
+                ) {
+
                     openBusinessPlan();
+
                     return;
                 }
 
-                if (categoryData[text]) {
-                    openCategory(text);
+                if (
+                    categoryData[text]
+                ) {
+
+                    openCategory(
+                        text
+                    );
+
                     return;
                 }
 
@@ -2254,13 +2846,14 @@ function connectSubmenuButtons() {
             }
         );
 
-        button.dataset.abaConnected = "true";
+        button.dataset.abaConnected =
+            "true";
     });
 }
 
 
 // =====================================================
-// NAVIGATION CONNECTION
+// NAVIGATION
 // =====================================================
 
 function connectNavigation() {
@@ -2278,7 +2871,9 @@ function connectNavigation() {
 
                 if (
                     window.innerWidth <= 900 &&
-                    !item.closest(".nav-group")
+                    !item.closest(
+                        ".nav-group"
+                    )
                 ) {
 
                     toggleSidebar();
@@ -2293,7 +2888,7 @@ function connectNavigation() {
 
 
 // =====================================================
-// CLOSE MODAL BY CLICKING OUTSIDE
+// MODAL OUTSIDE CLICK
 // =====================================================
 
 document.addEventListener(
@@ -2309,7 +2904,9 @@ document.addEventListener(
             overlay &&
             event.target === overlay
         ) {
+
             closeModal();
+
         }
 
     }
@@ -2324,8 +2921,12 @@ document.addEventListener(
     "keydown",
     function(event) {
 
-        if (event.key === "Escape") {
+        if (
+            event.key === "Escape"
+        ) {
+
             closeModal();
+
         }
 
     }
@@ -2333,7 +2934,7 @@ document.addEventListener(
 
 
 // =====================================================
-// INITIALIZATION
+// START APP
 // =====================================================
 
 document.addEventListener(
@@ -2347,7 +2948,7 @@ document.addEventListener(
         connectNavigation();
 
         console.log(
-            "Aung Business Academy V3 loaded successfully."
+            "Aung Business Academy V4 loaded successfully."
         );
 
     }
@@ -2355,43 +2956,80 @@ document.addEventListener(
 
 
 // =====================================================
-// EXPORT GLOBAL FUNCTIONS
+// GLOBAL FUNCTIONS
 // =====================================================
 
-window.toggleMenu = toggleMenu;
-window.toggleSidebar = toggleSidebar;
+window.toggleMenu =
+    toggleMenu;
 
-window.goDashboard = goDashboard;
+window.toggleSidebar =
+    toggleSidebar;
 
-window.openLessons = openLessons;
-window.startLesson = startLesson;
-window.completeLesson = completeLesson;
+window.goDashboard =
+    goDashboard;
 
-window.openCategory = openCategory;
-window.completeCategory = completeCategory;
+window.openLessons =
+    openLessons;
 
-window.openBusinessPlan = openBusinessPlan;
-window.generateBusinessPlan = generateBusinessPlan;
+window.startLesson =
+    startLesson;
 
-window.openTools = openTools;
+window.completeLesson =
+    completeLesson;
 
-window.pricingCalculator = pricingCalculator;
-window.calculatePrice = calculatePrice;
+window.openCategory =
+    openCategory;
 
-window.profitCalculator = profitCalculator;
-window.calculateProfit = calculateProfit;
+window.completeCategory =
+    completeCategory;
 
-window.salesTargetCalculator = salesTargetCalculator;
-window.calculateSalesTarget = calculateSalesTarget;
+window.openBusinessPlan =
+    openBusinessPlan;
 
-window.breakEvenCalculator = breakEvenCalculator;
-window.calculateBreakEven = calculateBreakEven;
+window.generateBusinessPlan =
+    generateBusinessPlan;
 
-window.openAI = openAI;
-window.openPremium = openPremium;
+window.openTools =
+    openTools;
 
-window.openProfile = openProfile;
-window.openNotifications = openNotifications;
+window.pricingCalculator =
+    pricingCalculator;
 
-window.closeModal = closeModal;
-window.showToast = showToast;
+window.calculatePrice =
+    calculatePrice;
+
+window.profitCalculator =
+    profitCalculator;
+
+window.calculateProfit =
+    calculateProfit;
+
+window.salesTargetCalculator =
+    salesTargetCalculator;
+
+window.calculateSalesTarget =
+    calculateSalesTarget;
+
+window.breakEvenCalculator =
+    breakEvenCalculator;
+
+window.calculateBreakEven =
+    calculateBreakEven;
+
+window.openAI =
+    openAI;
+
+window.openPremium =
+    openPremium;
+
+window.openProfile =
+    openProfile;
+
+window.openNotifications =
+    openNotifications;
+
+window.closeModal =
+    closeModal;
+
+window.showToast =
+    showToast;

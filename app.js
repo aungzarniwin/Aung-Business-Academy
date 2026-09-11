@@ -1,27 +1,51 @@
 // ============================================================
 // AUNG BUSINESS ACADEMY
-// APP.JS V3
-// LOGIN + USER PROFILE + PROGRESS + LESSONS + TOOLS
+// APP.JS V4
+// LOGIN + PROFILE + PROGRESS + 30 LESSONS + TOOLS
+// GEMINI AI BUSINESS COACH + PREMIUM + BUSINESS PLAN
 // ============================================================
+
 (function () {
     "use strict";
+
+    // ============================================================
+    // CONFIGURATION
+    // ============================================================
+
+    // Render Backend URL
+    const API_BASE_URL =
+        "https://aung-business-academy.onrender.com";
+
+    const AI_API_URL =
+        API_BASE_URL + "/api/ai";
+
     // ============================================================
     // STORAGE KEYS
     // ============================================================
-    const USER_KEY = "aung_business_academy_user";
-    const COMPLETED_KEY = "aung_business_academy_completed";
-    const TRIAL_KEY = "aung_business_academy_trial";
+
+    const USER_KEY =
+        "aung_business_academy_user";
+
+    const COMPLETED_KEY =
+        "aung_business_academy_completed";
+
+    const TRIAL_KEY =
+        "aung_business_academy_trial";
+
     // ============================================================
     // LESSON DATA
     // ============================================================
+
     const lessons = [
+
         {
             id: 1,
             title: "Business Foundation",
             category: "Business",
             level: "Beginner",
             duration: "10 min",
-            description: "Learn the foundation of a successful business.",
+            description:
+                "Learn the foundation of a successful business.",
             content: `
                 <h2>Business Foundation</h2>
                 <p>A business solves customer problems and creates value.</p>
@@ -58,13 +82,15 @@
                 }
             ]
         },
+
         {
             id: 2,
             title: "Business Model",
             category: "Business",
             level: "Beginner",
             duration: "10 min",
-            description: "Understand how a business creates and earns money.",
+            description:
+                "Understand how a business creates and earns money.",
             content: `
                 <h2>Business Model</h2>
                 <p>A business model explains how a company creates value and makes money.</p>
@@ -101,13 +127,15 @@
                 }
             ]
         },
+
         {
             id: 3,
             title: "Finding Your Customer",
             category: "Marketing",
             level: "Beginner",
             duration: "10 min",
-            description: "Learn how to identify the right customer.",
+            description:
+                "Learn how to identify the right customer.",
             content: `
                 <h2>Finding Your Customer</h2>
                 <p>Not everyone is your customer. Successful businesses clearly define their target customer.</p>
@@ -144,13 +172,15 @@
                 }
             ]
         },
+
         {
             id: 4,
             title: "Market Research",
             category: "Marketing",
             level: "Beginner",
             duration: "12 min",
-            description: "Learn how to understand your market and competitors.",
+            description:
+                "Learn how to understand your market and competitors.",
             content: `
                 <h2>Market Research</h2>
                 <p>Market research helps you understand customers, competitors and opportunities.</p>
@@ -186,13 +216,15 @@
                 }
             ]
         },
+
         {
             id: 5,
             title: "Value Proposition",
             category: "Marketing",
             level: "Beginner",
             duration: "10 min",
-            description: "Learn how to communicate customer value.",
+            description:
+                "Learn how to communicate customer value.",
             content: `
                 <h2>Value Proposition</h2>
                 <p>A value proposition explains the main benefit a customer receives.</p>
@@ -227,13 +259,15 @@
                 }
             ]
         },
+
         {
             id: 6,
             title: "Product Basics",
             category: "Business",
             level: "Beginner",
             duration: "10 min",
-            description: "Understand product features, benefits and value.",
+            description:
+                "Understand product features, benefits and value.",
             content: `
                 <h2>Product Basics</h2>
                 <p>A product should solve a customer need.</p>
@@ -264,13 +298,15 @@
                 }
             ]
         },
+
         {
             id: 7,
             title: "Pricing Basics",
             category: "Finance",
             level: "Beginner",
             duration: "12 min",
-            description: "Learn the basic principles of business pricing.",
+            description:
+                "Learn the basic principles of business pricing.",
             content: `
                 <h2>Pricing Basics</h2>
                 <p>Pricing affects revenue, profit, customer perception and competitiveness.</p>
@@ -306,13 +342,15 @@
                 }
             ]
         },
+
         {
             id: 8,
             title: "Sales Fundamentals",
             category: "Sales",
             level: "Beginner",
             duration: "12 min",
-            description: "Learn the foundation of professional selling.",
+            description:
+                "Learn the foundation of professional selling.",
             content: `
                 <h2>Sales Fundamentals</h2>
                 <p>Professional selling is about understanding customer needs and providing the right solution.</p>
@@ -350,13 +388,15 @@
                 }
             ]
         },
+
         {
             id: 9,
             title: "Marketing Basics",
             category: "Marketing",
             level: "Beginner",
             duration: "10 min",
-            description: "Understand the basic marketing process.",
+            description:
+                "Understand the basic marketing process.",
             content: `
                 <h2>Marketing Basics</h2>
                 <p>Marketing connects the right product with the right customer through the right message and channel.</p>
@@ -391,13 +431,15 @@
                 }
             ]
         },
+
         {
             id: 10,
             title: "Personal Productivity",
             category: "Productivity",
             level: "Beginner",
             duration: "10 min",
-            description: "Improve personal productivity and execution.",
+            description:
+                "Improve personal productivity and execution.",
             content: `
                 <h2>Personal Productivity</h2>
                 <p>Productivity means achieving important results through effective use of time and resources.</p>
@@ -432,13 +474,15 @@
                 }
             ]
         },
+
         {
             id: 11,
             title: "Sales Strategy",
             category: "Sales",
             level: "Intermediate",
             duration: "15 min",
-            description: "Build a practical sales strategy.",
+            description:
+                "Build a practical sales strategy.",
             content: `
                 <h2>Sales Strategy</h2>
                 <p>Sales strategy defines how your team will achieve revenue and volume targets.</p>
@@ -475,13 +519,15 @@
                 }
             ]
         },
+
         {
             id: 12,
             title: "Customer Finding",
             category: "Sales",
             level: "Intermediate",
             duration: "12 min",
-            description: "Learn prospecting and customer acquisition.",
+            description:
+                "Learn prospecting and customer acquisition.",
             content: `
                 <h2>Customer Finding</h2>
                 <p>Prospecting is the process of identifying potential customers.</p>
@@ -516,13 +562,15 @@
                 }
             ]
         },
+
         {
             id: 13,
             title: "Negotiation",
             category: "Sales",
             level: "Intermediate",
             duration: "15 min",
-            description: "Develop professional negotiation skills.",
+            description:
+                "Develop professional negotiation skills.",
             content: `
                 <h2>Negotiation</h2>
                 <p>Effective negotiation creates value while protecting business interests.</p>
@@ -557,13 +605,15 @@
                 }
             ]
         },
+
         {
             id: 14,
             title: "Sales Management",
             category: "Sales",
             level: "Intermediate",
             duration: "15 min",
-            description: "Learn how to manage sales teams and performance.",
+            description:
+                "Learn how to manage sales teams and performance.",
             content: `
                 <h2>Sales Management</h2>
                 <p>Sales management combines target setting, execution, monitoring, coaching and performance improvement.</p>
@@ -598,13 +648,15 @@
                 }
             ]
         },
+
         {
             id: 15,
             title: "Digital Marketing",
             category: "Marketing",
             level: "Intermediate",
             duration: "15 min",
-            description: "Learn how digital channels support business growth.",
+            description:
+                "Learn how digital channels support business growth.",
             content: `
                 <h2>Digital Marketing</h2>
                 <p>Digital marketing uses online channels to reach and engage customers.</p>
@@ -641,13 +693,15 @@
                 }
             ]
         },
+
         {
             id: 16,
             title: "Content Marketing",
             category: "Marketing",
             level: "Intermediate",
             duration: "12 min",
-            description: "Learn how valuable content attracts customers.",
+            description:
+                "Learn how valuable content attracts customers.",
             content: `
                 <h2>Content Marketing</h2>
                 <p>Content marketing provides useful information that attracts and builds customer relationships.</p>
@@ -682,13 +736,15 @@
                 }
             ]
         },
+
         {
             id: 17,
             title: "Branding Basics",
             category: "Branding",
             level: "Intermediate",
             duration: "12 min",
-            description: "Understand how brands create trust and recognition.",
+            description:
+                "Understand how brands create trust and recognition.",
             content: `
                 <h2>Branding Basics</h2>
                 <p>A brand is more than a logo. It represents the customer's overall perception of a business.</p>
@@ -724,13 +780,15 @@
                 }
             ]
         },
+
         {
             id: 18,
             title: "Brand Positioning",
             category: "Branding",
             level: "Intermediate",
             duration: "15 min",
-            description: "Learn how to position your brand in the market.",
+            description:
+                "Learn how to position your brand in the market.",
             content: `
                 <h2>Brand Positioning</h2>
                 <p>Positioning defines how you want customers to perceive your brand compared with competitors.</p>
@@ -764,13 +822,15 @@
                 }
             ]
         },
+
         {
             id: 19,
             title: "Team Management",
             category: "Management",
             level: "Intermediate",
             duration: "15 min",
-            description: "Learn practical methods for managing teams.",
+            description:
+                "Learn practical methods for managing teams.",
             content: `
                 <h2>Team Management</h2>
                 <p>Effective team management requires clear expectations, communication, coaching and accountability.</p>
@@ -806,13 +866,15 @@
                 }
             ]
         },
+
         {
             id: 20,
             title: "Recruitment",
             category: "Management",
             level: "Intermediate",
             duration: "12 min",
-            description: "Learn the basics of hiring the right people.",
+            description:
+                "Learn the basics of hiring the right people.",
             content: `
                 <h2>Recruitment</h2>
                 <p>Recruitment is about finding people with the right skills, attitude and potential.</p>
@@ -848,13 +910,15 @@
                 }
             ]
         },
+
         {
             id: 21,
             title: "Leadership",
             category: "Leadership",
             level: "Advanced",
             duration: "18 min",
-            description: "Develop leadership skills for high-performing teams.",
+            description:
+                "Develop leadership skills for high-performing teams.",
             content: `
                 <h2>Leadership</h2>
                 <p>Leadership is the ability to influence people toward a common goal.</p>
@@ -891,13 +955,15 @@
                 }
             ]
         },
+
         {
             id: 22,
             title: "Strategic Thinking",
             category: "Strategy",
             level: "Advanced",
             duration: "18 min",
-            description: "Learn how managers think beyond daily operations.",
+            description:
+                "Learn how managers think beyond daily operations.",
             content: `
                 <h2>Strategic Thinking</h2>
                 <p>Strategic thinking means understanding the bigger picture and preparing for future opportunities and risks.</p>
@@ -933,13 +999,15 @@
                 }
             ]
         },
+
         {
             id: 23,
             title: "Decision Making",
             category: "Leadership",
             level: "Advanced",
             duration: "15 min",
-            description: "Improve business decision-making skills.",
+            description:
+                "Improve business decision-making skills.",
             content: `
                 <h2>Decision Making</h2>
                 <p>Good decisions combine facts, experience, business judgment and risk assessment.</p>
@@ -975,13 +1043,15 @@
                 }
             ]
         },
+
         {
             id: 24,
             title: "Performance Management",
             category: "Management",
             level: "Advanced",
             duration: "18 min",
-            description: "Build a performance management system.",
+            description:
+                "Build a performance management system.",
             content: `
                 <h2>Performance Management</h2>
                 <p>Performance management ensures people understand expectations and receive regular feedback.</p>
@@ -1017,13 +1087,15 @@
                 }
             ]
         },
+
         {
             id: 25,
             title: "Coaching",
             category: "Management",
             level: "Advanced",
             duration: "15 min",
-            description: "Learn how managers develop people through coaching.",
+            description:
+                "Learn how managers develop people through coaching.",
             content: `
                 <h2>Coaching</h2>
                 <p>Coaching helps employees identify gaps, improve skills and take ownership.</p>
@@ -1058,13 +1130,15 @@
                 }
             ]
         },
+
         {
             id: 26,
             title: "Revenue Management",
             category: "Finance",
             level: "Advanced",
             duration: "18 min",
-            description: "Understand how managers improve revenue performance.",
+            description:
+                "Understand how managers improve revenue performance.",
             content: `
                 <h2>Revenue Management</h2>
                 <p>Revenue is the money generated from selling products or services.</p>
@@ -1100,13 +1174,15 @@
                 }
             ]
         },
+
         {
             id: 27,
             title: "Profit & Loss",
             category: "Finance",
             level: "Advanced",
             duration: "18 min",
-            description: "Understand revenue, costs and profitability.",
+            description:
+                "Understand revenue, costs and profitability.",
             content: `
                 <h2>Profit & Loss</h2>
                 <p>Profit is generally calculated as revenue minus costs.</p>
@@ -1143,13 +1219,15 @@
                 }
             ]
         },
+
         {
             id: 28,
             title: "Cash Flow",
             category: "Finance",
             level: "Advanced",
             duration: "18 min",
-            description: "Understand why cash flow is critical.",
+            description:
+                "Understand why cash flow is critical.",
             content: `
                 <h2>Cash Flow</h2>
                 <p>Cash flow tracks money coming into and going out of a business.</p>
@@ -1190,13 +1268,15 @@
                 }
             ]
         },
+
         {
             id: 29,
             title: "Financial Analysis",
             category: "Finance",
             level: "Advanced",
             duration: "20 min",
-            description: "Learn how managers analyze financial performance.",
+            description:
+                "Learn how managers analyze financial performance.",
             content: `
                 <h2>Financial Analysis</h2>
                 <p>Financial analysis helps managers understand business performance and make better decisions.</p>
@@ -1233,13 +1313,15 @@
                 }
             ]
         },
+
         {
             id: 30,
             title: "Business Strategy",
             category: "Strategy",
             level: "Advanced",
             duration: "20 min",
-            description: "Learn how to create a practical business strategy.",
+            description:
+                "Learn how to create a practical business strategy.",
             content: `
                 <h2>Business Strategy</h2>
                 <p>Business strategy defines where the business wants to go and how it will compete and grow.</p>
@@ -1278,29 +1360,41 @@
             ]
         }
     ];
+
     // ============================================================
     // USER SYSTEM
     // ============================================================
+
     function getUser() {
         try {
-            return JSON.parse(localStorage.getItem(USER_KEY)) || null;
+            return JSON.parse(
+                localStorage.getItem(USER_KEY)
+            ) || null;
         } catch (error) {
             return null;
         }
     }
+
     function saveUser(user) {
-        localStorage.setItem(USER_KEY, JSON.stringify(user));
+        localStorage.setItem(
+            USER_KEY,
+            JSON.stringify(user)
+        );
     }
+
     function isLoggedIn() {
         return !!getUser();
     }
+
     function getUserName() {
         const user = getUser();
         return user ? user.name : "Guest";
     }
+
     // ============================================================
     // COMPLETED LESSONS
     // ============================================================
+
     function getCompletedLessons() {
         try {
             return JSON.parse(
@@ -1310,42 +1404,65 @@
             return [];
         }
     }
+
     function saveCompletedLessons(data) {
         localStorage.setItem(
             COMPLETED_KEY,
             JSON.stringify(data)
         );
     }
+
     function isCompleted(id) {
-        return getCompletedLessons().includes(Number(id));
+        return getCompletedLessons().includes(
+            Number(id)
+        );
     }
+
     // ============================================================
     // LOGIN SCREEN
     // ============================================================
+
     function showLoginScreen() {
-        if (document.getElementById("academyLoginScreen")) {
+
+        if (
+            document.getElementById(
+                "academyLoginScreen"
+            )
+        ) {
             return;
         }
-        const overlay = document.createElement("div");
-        overlay.id = "academyLoginScreen";
+
+        const overlay =
+            document.createElement("div");
+
+        overlay.id =
+            "academyLoginScreen";
+
         overlay.innerHTML = `
             <div style="
                 position:fixed;
                 inset:0;
                 z-index:200000;
-                background:linear-gradient(135deg,#0f172a,#1e3a8a);
+                background:linear-gradient(
+                    135deg,
+                    #0f172a,
+                    #1e3a8a
+                );
                 display:flex;
                 align-items:center;
                 justify-content:center;
                 padding:20px;
             ">
+
                 <div style="
                     width:min(430px,100%);
                     background:#fff;
                     border-radius:24px;
                     padding:30px;
-                    box-shadow:0 25px 80px rgba(0,0,0,.35);
+                    box-shadow:
+                        0 25px 80px rgba(0,0,0,.35);
                 ">
+
                     <div style="
                         width:70px;
                         height:70px;
@@ -1361,6 +1478,7 @@
                     ">
                         A
                     </div>
+
                     <h1 style="
                         text-align:center;
                         margin:0;
@@ -1369,6 +1487,7 @@
                     ">
                         Aung Business Academy
                     </h1>
+
                     <p style="
                         text-align:center;
                         color:#64748b;
@@ -1376,7 +1495,9 @@
                     ">
                         Learn • Build • Grow
                     </p>
+
                     <form id="academyLoginForm">
+
                         <label style="
                             display:block;
                             font-weight:700;
@@ -1385,6 +1506,7 @@
                         ">
                             Your Name
                         </label>
+
                         <input
                             id="academyLoginName"
                             type="text"
@@ -1401,6 +1523,7 @@
                                 outline:none;
                             "
                         >
+
                         <label style="
                             display:block;
                             font-weight:700;
@@ -1409,6 +1532,7 @@
                         ">
                             Email
                         </label>
+
                         <input
                             id="academyLoginEmail"
                             type="email"
@@ -1425,6 +1549,7 @@
                                 outline:none;
                             "
                         >
+
                         <button
                             type="submit"
                             style="
@@ -1441,7 +1566,9 @@
                         >
                             🚀 Enter Academy
                         </button>
+
                     </form>
+
                     <p style="
                         text-align:center;
                         color:#94a3b8;
@@ -1450,12 +1577,18 @@
                     ">
                         Prototype local account system
                     </p>
+
                 </div>
             </div>
         `;
+
         document.body.appendChild(overlay);
+
         const form =
-            document.getElementById("academyLoginForm");
+            document.getElementById(
+                "academyLoginForm"
+            );
+
         if (form) {
             form.addEventListener(
                 "submit",
@@ -1463,126 +1596,181 @@
             );
         }
     }
+
     function handleLogin(event) {
+
         event.preventDefault();
+
         const name =
             document.getElementById(
                 "academyLoginName"
             ).value.trim();
+
         const email =
             document.getElementById(
                 "academyLoginEmail"
             ).value.trim();
+
         if (!name || !email) {
-            alert("Please enter your name and email.");
+            alert(
+                "Please enter your name and email."
+            );
             return;
         }
-        const existingUser = getUser();
+
+        const existingUser =
+            getUser();
+
         const user = {
             name: name,
             email: email,
             createdAt:
                 existingUser?.createdAt ||
                 new Date().toISOString(),
-            plan: existingUser?.plan || "free"
+            plan:
+                existingUser?.plan ||
+                "free"
         };
+
         saveUser(user);
+
         const login =
             document.getElementById(
                 "academyLoginScreen"
             );
+
         if (login) {
             login.remove();
         }
+
         updateUserUI();
+
         showToast(
             "👋 Welcome, " + name + "!"
         );
     }
+
     // ============================================================
     // USER UI
     // ============================================================
+
     function updateUserUI() {
+
         const user = getUser();
-        if (!user) return;
-        const possibleNameSelectors = [
+
+        if (!user) {
+            return;
+        }
+
+        const selectors = [
             "#userName",
             "#profileName",
             "#welcomeName",
             "[data-user-name]"
         ];
-        possibleNameSelectors.forEach(selector => {
-            document
-                .querySelectorAll(selector)
-                .forEach(element => {
-                    element.textContent = user.name;
-                });
-        });
+
+        selectors.forEach(
+            selector => {
+
+                document
+                    .querySelectorAll(selector)
+                    .forEach(element => {
+
+                        element.textContent =
+                            user.name;
+
+                    });
+
+            }
+        );
+
         document
-            .querySelectorAll("[data-user-email]")
+            .querySelectorAll(
+                "[data-user-email]"
+            )
             .forEach(element => {
-                element.textContent = user.email;
+
+                element.textContent =
+                    user.email;
+
             });
-        document
-            .querySelectorAll("[data-user-name]")
-            .forEach(element => {
-                element.textContent = user.name;
-            });
+
         updateDashboard();
     }
+
     // ============================================================
     // DASHBOARD
     // ============================================================
+
     function updateDashboard() {
+
         const completed =
             getCompletedLessons();
+
         const total =
             lessons.length;
+
         const percent =
             Math.round(
                 (completed.length / total) * 100
             );
+
         const count =
             document.getElementById(
                 "lessonCount"
             );
+
         const progress =
             document.getElementById(
                 "progress"
             );
+
         if (count) {
-            count.textContent = total;
+            count.textContent =
+                total;
         }
+
         if (progress) {
             progress.textContent =
                 percent + "%";
         }
+
         const completedElement =
             document.getElementById(
                 "completedLessons"
             );
+
         if (completedElement) {
             completedElement.textContent =
                 completed.length;
         }
-        const progressBars =
-            document.querySelectorAll(
+
+        document
+            .querySelectorAll(
                 "[data-progress-bar]"
-            );
-        progressBars.forEach(bar => {
-            bar.style.width =
-                percent + "%";
-        });
+            )
+            .forEach(bar => {
+
+                bar.style.width =
+                    percent + "%";
+
+            });
     }
+
     // ============================================================
     // MODAL
     // ============================================================
+
     function showModal(title, content) {
+
         closeModal();
+
         const modal =
             document.createElement("div");
+
         modal.id =
             "academyModal";
+
         modal.innerHTML = `
             <div style="
                 position:fixed;
@@ -1594,6 +1782,7 @@
                 justify-content:center;
                 padding:15px;
             ">
+
                 <div style="
                     background:#fff;
                     width:min(900px,100%);
@@ -1601,22 +1790,32 @@
                     overflow-y:auto;
                     border-radius:20px;
                     color:#172033;
-                    box-shadow:0 20px 60px rgba(0,0,0,.3);
+                    box-shadow:
+                        0 20px 60px rgba(0,0,0,.3);
                 ">
+
                     <div style="
                         position:sticky;
                         top:0;
                         z-index:5;
                         background:#fff;
                         padding:18px 22px;
-                        border-bottom:1px solid #e5e7eb;
+                        border-bottom:
+                            1px solid #e5e7eb;
                         display:flex;
-                        justify-content:space-between;
+                        justify-content:
+                            space-between;
                         align-items:center;
+                        gap:10px;
                     ">
-                        <h2 style="margin:0;font-size:21px;">
+
+                        <h2 style="
+                            margin:0;
+                            font-size:21px;
+                        ">
                             ${escapeHTML(title)}
                         </h2>
+
                         <button
                             onclick="closeModal()"
                             style="
@@ -1627,9 +1826,14 @@
                                 border-radius:50%;
                                 font-size:24px;
                                 cursor:pointer;
+                                flex-shrink:0;
                             "
-                        >×</button>
+                        >
+                            ×
+                        </button>
+
                     </div>
+
                     <div style="
                         padding:22px;
                         line-height:1.7;
@@ -1637,50 +1841,77 @@
                     ">
                         ${content}
                     </div>
+
                 </div>
+
             </div>
         `;
+
         document.body.appendChild(modal);
     }
+
     function closeModal() {
+
         const modal =
             document.getElementById(
                 "academyModal"
             );
+
         if (modal) {
             modal.remove();
         }
     }
+
     // ============================================================
     // LOGIN GUARD
     // ============================================================
+
     function requireLogin(action) {
+
         if (!isLoggedIn()) {
+
             showLoginScreen();
+
             return false;
         }
+
         if (typeof action === "function") {
             action();
         }
+
         return true;
     }
+
     // ============================================================
     // LESSON LIBRARY
     // ============================================================
+
     function openLessons() {
+
         requireLogin(function () {
+
             renderLessons(
                 lessons,
                 "📚 Business Lessons"
             );
+
         });
     }
+
     function renderLessons(list, title) {
+
         let html = `
-            <div style="margin-bottom:20px;">
-                <p style="color:#64748b;">
-                    Learn practical business skills from Beginner to Advanced.
+            <div style="
+                margin-bottom:20px;
+            ">
+
+                <p style="
+                    color:#64748b;
+                ">
+                    Learn practical business skills
+                    from Beginner to Advanced.
                 </p>
+
                 <input
                     id="lessonSearch"
                     type="text"
@@ -1694,41 +1925,51 @@
                         font-size:15px;
                     "
                 >
+
                 <div style="
                     display:flex;
                     gap:8px;
                     flex-wrap:wrap;
                     margin-top:12px;
                 ">
+
                     <button
                         onclick="setLessonFilter('All')"
                         style="${filterStyle()}"
                     >
                         All
                     </button>
+
                     <button
                         onclick="setLessonFilter('Beginner')"
                         style="${filterStyle()}"
                     >
                         🟢 Beginner
                     </button>
+
                     <button
                         onclick="setLessonFilter('Intermediate')"
                         style="${filterStyle()}"
                     >
                         🟡 Intermediate
                     </button>
+
                     <button
                         onclick="setLessonFilter('Advanced')"
                         style="${filterStyle()}"
                     >
                         🔴 Advanced
                     </button>
+
                 </div>
+
             </div>
+
             <div id="lessonList">
         `;
+
         if (!list.length) {
+
             html += `
                 <div style="
                     text-align:center;
@@ -1737,34 +1978,48 @@
                     border-radius:15px;
                 ">
                     <h3>No lessons found</h3>
-                    <p style="color:#64748b;">
+                    <p style="
+                        color:#64748b;
+                    ">
                         Try another search.
                     </p>
                 </div>
             `;
         }
+
         list.forEach(
             lesson => {
-                html += createLessonCard(
-                    lesson
-                );
+
+                html +=
+                    createLessonCard(
+                        lesson
+                    );
+
             }
         );
-        html += `</div>`;
+
+        html += `
+            </div>
+        `;
+
         showModal(
             title,
             html
         );
     }
+
     function createLessonCard(lesson) {
+
         const done =
             isCompleted(lesson.id);
+
         const icon =
             lesson.level === "Beginner"
                 ? "🟢"
                 : lesson.level === "Intermediate"
                     ? "🟡"
                     : "🔴";
+
         return `
             <div
                 class="academy-lesson-card"
@@ -1783,13 +2038,19 @@
                     background:#fff;
                 "
             >
+
                 <div style="
                     display:flex;
-                    justify-content:space-between;
+                    justify-content:
+                        space-between;
                     gap:15px;
                     align-items:flex-start;
                 ">
-                    <div style="flex:1;">
+
+                    <div style="
+                        flex:1;
+                    ">
+
                         <div style="
                             color:#64748b;
                             font-size:12px;
@@ -1798,13 +2059,17 @@
                             Lesson ${lesson.id}
                             • ${lesson.category}
                         </div>
+
                         <h3 style="
                             margin:0 0 7px;
                             font-size:18px;
                         ">
                             ${icon}
-                            ${escapeHTML(lesson.title)}
+                            ${escapeHTML(
+                                lesson.title
+                            )}
                         </h3>
+
                         <p style="
                             margin:0 0 10px;
                             color:#64748b;
@@ -1814,12 +2079,20 @@
                                 lesson.description
                             )}
                         </p>
-                        <small style="color:#64748b;">
+
+                        <small style="
+                            color:#64748b;
+                        ">
                             ⏱️ ${lesson.duration}
                             • ${lesson.level}
                         </small>
+
                     </div>
-                    <div style="text-align:right;">
+
+                    <div style="
+                        text-align:right;
+                    ">
+
                         ${
                             done
                                 ? `
@@ -1836,6 +2109,7 @@
                                 `
                                 : ""
                         }
+
                         <button
                             onclick="openLesson(${lesson.id})"
                             style="
@@ -1850,16 +2124,24 @@
                         >
                             ${done ? "Review" : "Start"}
                         </button>
+
                     </div>
+
                 </div>
+
             </div>
         `;
     }
+
     // ============================================================
     // FILTER
     // ============================================================
-    let currentFilter = "All";
+
+    let currentFilter =
+        "All";
+
     function filterStyle() {
+
         return `
             border:0;
             background:#f1f5f9;
@@ -1869,45 +2151,71 @@
             cursor:pointer;
         `;
     }
+
     function setLessonFilter(level) {
-        currentFilter = level;
+
+        currentFilter =
+            level;
+
         const search =
             document.getElementById(
                 "lessonSearch"
             );
+
         const text =
             search
-                ? search.value.toLowerCase().trim()
+                ? search.value
+                    .toLowerCase()
+                    .trim()
                 : "";
+
         applyFilter(
             level,
             text
         );
     }
+
     function filterLessons() {
+
         const search =
             document.getElementById(
                 "lessonSearch"
             );
-        if (!search) return;
+
+        if (!search) {
+            return;
+        }
+
         applyFilter(
             currentFilter,
-            search.value.toLowerCase().trim()
+            search.value
+                .toLowerCase()
+                .trim()
         );
     }
+
     function applyFilter(level, text) {
+
         document
             .querySelectorAll(
                 ".academy-lesson-card"
             )
             .forEach(card => {
+
                 const levelMatch =
                     level === "All" ||
-                    card.dataset.level === level;
+                    card.dataset.level ===
+                        level;
+
                 const searchMatch =
                     !text ||
-                    card.dataset.title.includes(text) ||
-                    card.dataset.category.includes(text);
+                    card.dataset.title.includes(
+                        text
+                    ) ||
+                    card.dataset.category.includes(
+                        text
+                    );
+
                 card.style.display =
                     levelMatch &&
                     searchMatch
@@ -1915,26 +2223,45 @@
                         : "none";
             });
     }
+
     // ============================================================
     // SINGLE LESSON
     // ============================================================
+
     function openLesson(id) {
+
         requireLogin(function () {
+
             const index =
                 lessons.findIndex(
                     lesson =>
-                        lesson.id === Number(id)
+                        lesson.id ===
+                        Number(id)
                 );
-            if (index === -1) return;
+
+            if (index === -1) {
+                return;
+            }
+
             showLesson(index);
+
         });
     }
+
     function showLesson(index) {
+
         const lesson =
             lessons[index];
-        if (!lesson) return;
+
+        if (!lesson) {
+            return;
+        }
+
         const done =
-            isCompleted(lesson.id);
+            isCompleted(
+                lesson.id
+            );
+
         const previous =
             index > 0
                 ? `
@@ -1953,6 +2280,7 @@
                         ← Previous
                     </button>
                 `;
+
         const next =
             index < lessons.length - 1
                 ? `
@@ -1971,36 +2299,52 @@
                         Next →
                     </button>
                 `;
+
         const html = `
+
             <div style="
                 display:flex;
                 gap:8px;
                 flex-wrap:wrap;
                 margin-bottom:18px;
             ">
+
                 <span style="${badgeStyle()}">
                     ${lesson.category}
                 </span>
+
                 <span style="${badgeStyle()}">
                     ${lesson.level}
                 </span>
+
                 <span style="${badgeStyle()}">
                     ⏱️ ${lesson.duration}
                 </span>
+
             </div>
+
             ${lesson.content}
+
             <div style="
                 margin-top:25px;
                 padding:18px;
                 background:#f8fafc;
                 border-radius:15px;
             ">
-                <h3 style="margin-top:0;">
+
+                <h3 style="
+                    margin-top:0;
+                ">
                     📝 Lesson Quiz
                 </h3>
-                <p style="color:#64748b;">
-                    Get at least 70% to complete this lesson.
+
+                <p style="
+                    color:#64748b;
+                ">
+                    Get at least 70%
+                    to complete this lesson.
                 </p>
+
                 <button
                     onclick="startQuiz(${lesson.id})"
                     style="
@@ -2015,7 +2359,9 @@
                 >
                     Start Quiz
                 </button>
+
             </div>
+
             ${
                 done
                     ? `
@@ -2033,15 +2379,20 @@
                     `
                     : ""
             }
+
             <div style="
                 display:flex;
-                justify-content:space-between;
+                justify-content:
+                    space-between;
                 gap:8px;
                 margin-top:25px;
                 padding-top:20px;
-                border-top:1px solid #e5e7eb;
+                border-top:
+                    1px solid #e5e7eb;
             ">
+
                 ${previous}
+
                 <button
                     onclick="openLessons()"
                     style="
@@ -2055,15 +2406,20 @@
                 >
                     📚 All Lessons
                 </button>
+
                 ${next}
+
             </div>
         `;
+
         showModal(
             `Lesson ${lesson.id}: ${lesson.title}`,
             html
         );
     }
+
     function navButtonStyle() {
+
         return `
             border:1px solid #cbd5e1;
             background:#fff;
@@ -2073,7 +2429,9 @@
             cursor:pointer;
         `;
     }
+
     function badgeStyle() {
+
         return `
             background:#eff6ff;
             color:#1d4ed8;
@@ -2082,24 +2440,37 @@
             font-size:12px;
         `;
     }
+
     // ============================================================
     // QUIZ
     // ============================================================
+
     function startQuiz(id) {
+
         const lesson =
             lessons.find(
                 item =>
-                    item.id === Number(id)
+                    item.id ===
+                    Number(id)
             );
-        if (!lesson) return;
+
+        if (!lesson) {
+            return;
+        }
+
         let html = `
-            <p style="color:#64748b;">
+            <p style="
+                color:#64748b;
+            ">
                 Answer all questions.
             </p>
+
             <form id="lessonQuizForm">
         `;
+
         lesson.quiz.forEach(
             (question, index) => {
+
                 html += `
                     <div style="
                         background:#f8fafc;
@@ -2107,42 +2478,60 @@
                         border-radius:14px;
                         margin-bottom:18px;
                     ">
-                        <h3 style="font-size:16px;">
+
+                        <h3 style="
+                            font-size:16px;
+                        ">
                             ${index + 1}.
                             ${escapeHTML(
                                 question.q
                             )}
                         </h3>
                 `;
+
                 question.options.forEach(
-                    (option, optionIndex) => {
+                    (
+                        option,
+                        optionIndex
+                    ) => {
+
                         html += `
                             <label style="
                                 display:block;
                                 background:#fff;
-                                border:1px solid #e2e8f0;
+                                border:
+                                    1px solid #e2e8f0;
                                 padding:11px;
                                 border-radius:9px;
                                 margin:7px 0;
                                 cursor:pointer;
                             ">
+
                                 <input
                                     type="radio"
                                     name="question${index}"
                                     value="${optionIndex}"
                                 >
-                                <span style="margin-left:7px;">
+
+                                <span style="
+                                    margin-left:7px;
+                                ">
                                     ${escapeHTML(
                                         option
                                     )}
                                 </span>
+
                             </label>
                         `;
                     }
                 );
-                html += `</div>`;
+
+                html += `
+                    </div>
+                `;
             }
         );
+
         html += `
                 <button
                     type="button"
@@ -2160,46 +2549,64 @@
                 >
                     Submit Quiz
                 </button>
+
             </form>
         `;
+
         showModal(
             `📝 Quiz: ${lesson.title}`,
             html
         );
     }
+
     function submitQuiz(id) {
+
         const lesson =
             lessons.find(
                 item =>
-                    item.id === Number(id)
+                    item.id ===
+                    Number(id)
             );
-        if (!lesson) return;
+
+        if (!lesson) {
+            return;
+        }
+
         let score = 0;
+
         lesson.quiz.forEach(
             (question, index) => {
+
                 const selected =
                     document.querySelector(
                         `input[name="question${index}"]:checked`
                     );
+
                 if (
                     selected &&
-                    Number(selected.value) ===
-                        question.answer
+                    Number(
+                        selected.value
+                    ) === question.answer
                 ) {
                     score++;
                 }
             }
         );
+
         const total =
             lesson.quiz.length;
+
         const percentage =
             Math.round(
                 (score / total) * 100
             );
+
         if (percentage >= 70) {
+
             markLessonComplete(
                 lesson.id
             );
+
             showQuizResult(
                 lesson,
                 score,
@@ -2207,7 +2614,9 @@
                 percentage,
                 true
             );
+
         } else {
+
             showQuizResult(
                 lesson,
                 score,
@@ -2217,6 +2626,7 @@
             );
         }
     }
+
     function showQuizResult(
         lesson,
         score,
@@ -2224,26 +2634,37 @@
         percentage,
         passed
     ) {
+
         const index =
             lessons.findIndex(
                 item =>
-                    item.id === lesson.id
+                    item.id ===
+                    lesson.id
             );
+
         showModal(
             passed
                 ? "🎉 Quiz Passed!"
                 : "📚 Try Again",
+
             `
                 <div style="
                     text-align:center;
                     padding:20px;
                 ">
-                    <div style="font-size:55px;">
-                        ${passed ? "🏆" : "📚"}
+
+                    <div style="
+                        font-size:55px;
+                    ">
+                        ${passed
+                            ? "🏆"
+                            : "📚"}
                     </div>
+
                     <h2>
                         ${score} / ${total}
                     </h2>
+
                     <div style="
                         font-size:32px;
                         font-weight:800;
@@ -2251,13 +2672,17 @@
                     ">
                         ${percentage}%
                     </div>
-                    <p style="color:#64748b;">
+
+                    <p style="
+                        color:#64748b;
+                    ">
                         ${
                             passed
                                 ? "Excellent! This lesson is now completed."
                                 : "You need 70% to complete this lesson."
                         }
                     </p>
+
                     ${
                         passed
                             ? `
@@ -2293,35 +2718,50 @@
                                 </button>
                             `
                     }
+
                 </div>
             `
         );
     }
+
     // ============================================================
     // COMPLETE LESSON
     // ============================================================
+
     function markLessonComplete(id) {
+
         const completed =
             getCompletedLessons();
+
         id = Number(id);
+
         if (!completed.includes(id)) {
+
             completed.push(id);
+
             saveCompletedLessons(
                 completed
             );
+
             updateDashboard();
+
             showToast(
                 "✓ Lesson completed!"
             );
         }
     }
+
     // ============================================================
     // CONTINUE LEARNING
     // ============================================================
+
     function continueLearning() {
+
         requireLogin(function () {
+
             const completed =
                 getCompletedLessons();
+
             const next =
                 lessons.find(
                     lesson =>
@@ -2329,124 +2769,173 @@
                             lesson.id
                         )
                 );
+
             if (next) {
+
                 openLesson(
                     next.id
                 );
+
             } else {
+
                 showModal(
                     "🏆 Congratulations!",
+
                     `
                         <div style="
                             text-align:center;
                             padding:30px;
                         ">
-                            <div style="font-size:60px;">
+
+                            <div style="
+                                font-size:60px;
+                            ">
                                 🏆
                             </div>
+
                             <h2>
                                 All Lessons Completed!
                             </h2>
+
                             <p>
-                                You have completed all 30 Business Academy lessons.
+                                You have completed
+                                all 30 Business Academy lessons.
                             </p>
+
                         </div>
                     `
                 );
             }
         });
     }
+
     // ============================================================
     // CATEGORY
     // ============================================================
+
     function openCategory(category) {
+
         requireLogin(function () {
+
             const filtered =
                 lessons.filter(
                     lesson =>
-                        lesson.category.toLowerCase() ===
-                        String(category).toLowerCase()
+                        lesson.category
+                            .toLowerCase() ===
+                        String(category)
+                            .toLowerCase()
                 );
+
             if (filtered.length) {
+
                 renderLessons(
                     filtered,
                     `📚 ${category} Lessons`
                 );
+
             } else {
+
                 showModal(
                     category,
+
                     `
                         <div style="
                             text-align:center;
                             padding:30px;
                         ">
-                            <div style="font-size:50px;">
+
+                            <div style="
+                                font-size:50px;
+                            ">
                                 📚
                             </div>
+
                             <h3>
                                 More lessons coming soon
                             </h3>
-                            <p style="color:#64748b;">
+
+                            <p style="
+                                color:#64748b;
+                            ">
                                 New lessons will be added soon.
                             </p>
+
                         </div>
                     `
                 );
             }
         });
     }
+
     // ============================================================
     // BUSINESS TOOLS
     // ============================================================
+
     function openTools() {
+
         requireLogin(function () {
+
             showModal(
                 "🛠️ Business Tools",
+
                 `
-                    <p style="color:#64748b;">
+                    <p style="
+                        color:#64748b;
+                    ">
                         Practical tools for business managers.
                     </p>
+
                     <div style="
                         display:grid;
                         grid-template-columns:
-                        repeat(auto-fit,minmax(210px,1fr));
+                        repeat(
+                            auto-fit,
+                            minmax(210px,1fr)
+                        );
                         gap:15px;
                     ">
+
                         ${toolCard(
                             "💰",
                             "Profit Calculator",
                             "Calculate business profit.",
                             "openProfitCalculator()"
                         )}
+
                         ${toolCard(
                             "🏷️",
                             "Pricing Calculator",
                             "Calculate selling price.",
                             "openPricingCalculator()"
                         )}
+
                         ${toolCard(
                             "📊",
                             "Break-even Calculator",
                             "Calculate break-even units.",
                             "openBreakEvenCalculator()"
                         )}
+
                         ${toolCard(
                             "🎯",
                             "Sales Target",
                             "Calculate daily sales target.",
                             "openSalesTargetCalculator()"
                         )}
+
                     </div>
                 `
             );
         });
     }
+
     function toolCard(
         icon,
         title,
         description,
         action
     ) {
+
         return `
             <button
                 onclick="${action}"
@@ -2459,172 +2948,221 @@
                     cursor:pointer;
                 "
             >
-                <div style="font-size:30px;">
+
+                <div style="
+                    font-size:30px;
+                ">
                     ${icon}
                 </div>
+
                 <strong style="
                     display:block;
                     margin:8px 0;
                 ">
                     ${title}
                 </strong>
+
                 <span style="
                     color:#64748b;
                     font-size:13px;
                 ">
                     ${description}
                 </span>
+
             </button>
         `;
     }
+
     // ============================================================
     // PROFIT CALCULATOR
     // ============================================================
+
     function openProfitCalculator() {
+
         showModal(
             "💰 Profit Calculator",
+
             `
                 ${inputField(
                     "revenue",
                     "Revenue"
                 )}
+
                 ${inputField(
                     "cost",
                     "Total Cost"
                 )}
+
                 ${calculateButton(
                     "calculateProfit()",
                     "Calculate Profit"
                 )}
+
                 <div id="calculatorResult"></div>
             `
         );
     }
+
     function calculateProfit() {
+
         const revenue =
             Number(
                 document.getElementById(
                     "revenue"
                 ).value
             ) || 0;
+
         const cost =
             Number(
                 document.getElementById(
                     "cost"
                 ).value
             ) || 0;
+
         resultBox(
             `Profit: ${formatNumber(
                 revenue - cost
             )} Ks`
         );
     }
+
     // ============================================================
     // PRICING
     // ============================================================
+
     function openPricingCalculator() {
+
         showModal(
             "🏷️ Pricing Calculator",
+
             `
                 ${inputField(
                     "productCost",
                     "Product Cost"
                 )}
+
                 ${inputField(
                     "margin",
                     "Target Profit Margin (%)"
                 )}
+
                 ${calculateButton(
                     "calculatePrice()",
                     "Calculate Selling Price"
                 )}
+
                 <div id="calculatorResult"></div>
             `
         );
     }
+
     function calculatePrice() {
+
         const cost =
             Number(
                 document.getElementById(
                     "productCost"
                 ).value
             ) || 0;
+
         const margin =
             Number(
                 document.getElementById(
                     "margin"
                 ).value
             ) || 0;
+
         if (margin >= 100) {
+
             resultBox(
                 "Margin must be below 100%.",
                 true
             );
+
             return;
         }
+
         const price =
             cost /
             (1 - margin / 100);
+
         resultBox(
             `Recommended Selling Price:
             ${formatNumber(price)} Ks`
         );
     }
+
     // ============================================================
     // BREAK EVEN
     // ============================================================
+
     function openBreakEvenCalculator() {
+
         showModal(
             "📊 Break-even Calculator",
+
             `
                 ${inputField(
                     "fixedCost",
                     "Fixed Cost"
                 )}
+
                 ${inputField(
                     "sellingPrice",
                     "Selling Price / Unit"
                 )}
+
                 ${inputField(
                     "variableCost",
                     "Variable Cost / Unit"
                 )}
+
                 ${calculateButton(
                     "calculateBreakEven()",
                     "Calculate"
                 )}
+
                 <div id="calculatorResult"></div>
             `
         );
     }
+
     function calculateBreakEven() {
+
         const fixed =
             Number(
                 document.getElementById(
                     "fixedCost"
                 ).value
             ) || 0;
+
         const price =
             Number(
                 document.getElementById(
                     "sellingPrice"
                 ).value
             ) || 0;
+
         const variable =
             Number(
                 document.getElementById(
                     "variableCost"
                 ).value
             ) || 0;
+
         const contribution =
             price - variable;
+
         if (contribution <= 0) {
+
             resultBox(
                 "Selling price must be higher than variable cost.",
                 true
             );
+
             return;
         }
+
         resultBox(
             `Break-even:
             ${Math.ceil(
@@ -2632,49 +3170,63 @@
             )} units`
         );
     }
+
     // ============================================================
     // SALES TARGET
     // ============================================================
+
     function openSalesTargetCalculator() {
+
         showModal(
             "🎯 Sales Target Calculator",
+
             `
                 ${inputField(
                     "monthlyTarget",
                     "Monthly Sales Target"
                 )}
+
                 ${inputField(
                     "workingDays",
                     "Working Days"
                 )}
+
                 ${calculateButton(
                     "calculateSalesTarget()",
                     "Calculate"
                 )}
+
                 <div id="calculatorResult"></div>
             `
         );
     }
+
     function calculateSalesTarget() {
+
         const target =
             Number(
                 document.getElementById(
                     "monthlyTarget"
                 ).value
             ) || 0;
+
         const days =
             Number(
                 document.getElementById(
                     "workingDays"
                 ).value
             ) || 0;
+
         if (days <= 0) {
+
             resultBox(
                 "Working days must be greater than 0.",
                 true
             );
+
             return;
         }
+
         resultBox(
             `Daily Sales Target:
             ${formatNumber(
@@ -2682,12 +3234,17 @@
             )} Ks`
         );
     }
+
     function inputField(
         id,
         label
     ) {
+
         return `
-            <div style="margin-bottom:15px;">
+            <div style="
+                margin-bottom:15px;
+            ">
+
                 <label style="
                     display:block;
                     margin-bottom:7px;
@@ -2695,24 +3252,29 @@
                 ">
                     ${label}
                 </label>
+
                 <input
                     id="${id}"
                     type="number"
                     style="
                         width:100%;
                         padding:13px;
-                        border:1px solid #cbd5e1;
+                        border:
+                            1px solid #cbd5e1;
                         border-radius:10px;
                         font-size:15px;
                     "
                 >
+
             </div>
         `;
     }
+
     function calculateButton(
         action,
         text
     ) {
+
         return `
             <button
                 onclick="${action}"
@@ -2731,27 +3293,37 @@
             </button>
         `;
     }
+
     function resultBox(
         message,
         error = false
     ) {
+
         const result =
             document.getElementById(
                 "calculatorResult"
             );
-        if (!result) return;
+
+        if (!result) {
+            return;
+        }
+
         result.innerHTML = `
             <div style="
                 margin-top:18px;
                 padding:15px;
                 background:
-                    ${error
-                        ? "#fef2f2"
-                        : "#eff6ff"};
+                    ${
+                        error
+                            ? "#fef2f2"
+                            : "#eff6ff"
+                    };
                 color:
-                    ${error
-                        ? "#b91c1c"
-                        : "#1d4ed8"};
+                    ${
+                        error
+                            ? "#b91c1c"
+                            : "#1d4ed8"
+                    };
                 border-radius:12px;
                 text-align:center;
                 font-weight:700;
@@ -2760,138 +3332,769 @@
             </div>
         `;
     }
+
     function formatNumber(value) {
+
         return Number(value).toLocaleString(
             "en-US",
             {
-                maximumFractionDigits: 2
+                maximumFractionDigits:2
             }
         );
     }
+
     // ============================================================
-    // AI BUSINESS COACH
+    // 🤖 GEMINI AI BUSINESS COACH
     // ============================================================
+
     function openAI() {
+
         requireLogin(function () {
+
             showModal(
                 "🤖 AI Business Coach",
+
                 `
                     <div style="
-                        background:#f8fafc;
+                        background:
+                            linear-gradient(
+                                135deg,
+                                #eff6ff,
+                                #f5f3ff
+                            );
                         padding:20px;
-                        border-radius:15px;
+                        border-radius:18px;
                     ">
-                        <h3>
-                            🤖 AI Business Coach
-                        </h3>
-                        <p style="color:#64748b;">
-                            Your AI Coach will help with
-                            Sales, Marketing, Leadership,
-                            Finance and Business Strategy.
-                        </p>
+
                         <div style="
-                            background:#fff;
-                            padding:15px;
-                            border-radius:12px;
-                            border:1px solid #e2e8f0;
+                            text-align:center;
+                            margin-bottom:18px;
                         ">
-                            🚀 Gemini AI integration
-                            will be connected in the next step.
+
+                            <div style="
+                                font-size:48px;
+                            ">
+                                🤖
+                            </div>
+
+                            <h2 style="
+                                margin:5px 0;
+                                color:#0f172a;
+                            ">
+                                AI Business Coach
+                            </h2>
+
+                            <p style="
+                                color:#64748b;
+                                margin:0;
+                            ">
+                                Powered by Gemini AI
+                            </p>
+
                         </div>
+
+                        <div id="aiChatMessages"
+                            style="
+                                background:#fff;
+                                border:
+                                    1px solid #e2e8f0;
+                                border-radius:15px;
+                                padding:15px;
+                                min-height:120px;
+                                max-height:420px;
+                                overflow-y:auto;
+                                margin-bottom:12px;
+                            "
+                        >
+
+                            <div style="
+                                background:#eff6ff;
+                                color:#1e3a8a;
+                                padding:12px;
+                                border-radius:12px;
+                                margin-bottom:10px;
+                            ">
+                                👋 Hello ${escapeHTML(
+                                    getUserName()
+                                )}!
+
+                                <br><br>
+
+                                I am your AI Business Coach.
+                                Ask me about Sales, Marketing,
+                                Leadership, Finance,
+                                Strategy or Business Growth.
+                            </div>
+
+                        </div>
+
+                        <div style="
+                            display:flex;
+                            gap:8px;
+                            flex-wrap:wrap;
+                            margin-bottom:12px;
+                        ">
+
+                            <button
+                                onclick="askAIQuick(
+                                    'How can I increase my sales?'
+                                )"
+                                style="
+                                    border:1px solid #bfdbfe;
+                                    background:#fff;
+                                    color:#1d4ed8;
+                                    padding:8px 10px;
+                                    border-radius:20px;
+                                    cursor:pointer;
+                                    font-size:12px;
+                                "
+                            >
+                                📈 Increase Sales
+                            </button>
+
+                            <button
+                                onclick="askAIQuick(
+                                    'How can I improve my sales team performance?'
+                                )"
+                                style="
+                                    border:1px solid #bfdbfe;
+                                    background:#fff;
+                                    color:#1d4ed8;
+                                    padding:8px 10px;
+                                    border-radius:20px;
+                                    cursor:pointer;
+                                    font-size:12px;
+                                "
+                            >
+                                👥 Team Performance
+                            </button>
+
+                            <button
+                                onclick="askAIQuick(
+                                    'Give me a 90-day business growth plan.'
+                                )"
+                                style="
+                                    border:1px solid #bfdbfe;
+                                    background:#fff;
+                                    color:#1d4ed8;
+                                    padding:8px 10px;
+                                    border-radius:20px;
+                                    cursor:pointer;
+                                    font-size:12px;
+                                "
+                            >
+                                🚀 Growth Plan
+                            </button>
+
+                        </div>
+
+                        <div style="
+                            display:flex;
+                            gap:8px;
+                            align-items:flex-end;
+                        ">
+
+                            <textarea
+                                id="aiMessage"
+                                rows="3"
+                                placeholder="
+                                    Ask your business question...
+                                "
+                                style="
+                                    flex:1;
+                                    resize:none;
+                                    padding:13px;
+                                    border:
+                                        1px solid #cbd5e1;
+                                    border-radius:12px;
+                                    font-size:15px;
+                                    outline:none;
+                                "
+                            ></textarea>
+
+                            <button
+                                id="aiSendButton"
+                                onclick="sendAIMessage()"
+                                style="
+                                    border:0;
+                                    background:#2563eb;
+                                    color:#fff;
+                                    padding:13px 17px;
+                                    border-radius:12px;
+                                    cursor:pointer;
+                                    font-weight:800;
+                                "
+                            >
+                                Send
+                            </button>
+
+                        </div>
+
+                        <div style="
+                            margin-top:10px;
+                            font-size:11px;
+                            color:#94a3b8;
+                            text-align:center;
+                        ">
+                            AI advice should be reviewed
+                            using your own business judgment.
+                        </div>
+
                     </div>
                 `
             );
+
+            setTimeout(
+                function () {
+
+                    const input =
+                        document.getElementById(
+                            "aiMessage"
+                        );
+
+                    if (input) {
+
+                        input.focus();
+
+                        input.addEventListener(
+                            "keydown",
+                            function (event) {
+
+                                if (
+                                    event.key ===
+                                        "Enter" &&
+                                    !event.shiftKey
+                                ) {
+
+                                    event.preventDefault();
+
+                                    sendAIMessage();
+                                }
+                            }
+                        );
+                    }
+
+                },
+                100
+            );
         });
     }
+
+    // ============================================================
+    // SEND AI MESSAGE
+    // ============================================================
+
+    async function sendAIMessage() {
+
+        const input =
+            document.getElementById(
+                "aiMessage"
+            );
+
+        const button =
+            document.getElementById(
+                "aiSendButton"
+            );
+
+        const messages =
+            document.getElementById(
+                "aiChatMessages"
+            );
+
+        if (!input || !messages) {
+            return;
+        }
+
+        const message =
+            input.value.trim();
+
+        if (!message) {
+
+            showToast(
+                "✍️ Please enter your question."
+            );
+
+            input.focus();
+
+            return;
+        }
+
+        if (message.length > 8000) {
+
+            showToast(
+                "⚠️ Message is too long."
+            );
+
+            return;
+        }
+
+        appendAIMessage(
+            "user",
+            message
+        );
+
+        input.value = "";
+
+        input.disabled = true;
+
+        if (button) {
+
+            button.disabled = true;
+
+            button.textContent =
+                "⏳";
+        }
+
+        const loadingId =
+            "aiLoading_" +
+            Date.now();
+
+        messages.insertAdjacentHTML(
+            "beforeend",
+
+            `
+                <div
+                    id="${loadingId}"
+                    style="
+                        background:#f8fafc;
+                        color:#64748b;
+                        padding:12px;
+                        border-radius:12px;
+                        margin-bottom:10px;
+                    "
+                >
+                    🤖 AI Coach is thinking...
+                </div>
+            `
+        );
+
+        scrollAIChat();
+
+        try {
+
+            const response =
+                await fetch(
+                    AI_API_URL,
+                    {
+                        method:"POST",
+
+                        headers:{
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:JSON.stringify({
+                            message:
+                                message
+                        })
+                    }
+                );
+
+            let data = null;
+
+            try {
+
+                data =
+                    await response.json();
+
+            } catch (jsonError) {
+
+                data = null;
+            }
+
+            const loading =
+                document.getElementById(
+                    loadingId
+                );
+
+            if (loading) {
+                loading.remove();
+            }
+
+            if (!response.ok) {
+
+                const errorMessage =
+                    data?.error ||
+                    "AI server returned an error.";
+
+                appendAIMessage(
+                    "error",
+                    errorMessage
+                );
+
+                return;
+            }
+
+            if (
+                !data ||
+                !data.success ||
+                !data.reply
+            ) {
+
+                appendAIMessage(
+                    "error",
+                    "No AI response received."
+                );
+
+                return;
+            }
+
+            appendAIMessage(
+                "ai",
+                data.reply
+            );
+
+        } catch (error) {
+
+            console.error(
+                "AI Connection Error:",
+                error
+            );
+
+            const loading =
+                document.getElementById(
+                    loadingId
+                );
+
+            if (loading) {
+                loading.remove();
+            }
+
+            appendAIMessage(
+                "error",
+                `
+                    ❌ AI connection failed.
+
+                    Please make sure the Render
+                    server is online and try again.
+                `
+            );
+
+        } finally {
+
+            input.disabled = false;
+
+            if (button) {
+
+                button.disabled = false;
+
+                button.textContent =
+                    "Send";
+            }
+
+            input.focus();
+
+            scrollAIChat();
+        }
+    }
+
+    // ============================================================
+    // QUICK AI QUESTIONS
+    // ============================================================
+
+    function askAIQuick(question) {
+
+        const input =
+            document.getElementById(
+                "aiMessage"
+            );
+
+        if (!input) {
+            return;
+        }
+
+        input.value =
+            question;
+
+        sendAIMessage();
+    }
+
+    // ============================================================
+    // AI CHAT MESSAGE
+    // ============================================================
+
+    function appendAIMessage(
+        type,
+        message
+    ) {
+
+        const messages =
+            document.getElementById(
+                "aiChatMessages"
+            );
+
+        if (!messages) {
+            return;
+        }
+
+        let background =
+            "#eff6ff";
+
+        let textColor =
+            "#1e3a8a";
+
+        let align =
+            "left";
+
+        let label =
+            "🤖 AI Coach";
+
+        if (type === "user") {
+
+            background =
+                "#2563eb";
+
+            textColor =
+                "#ffffff";
+
+            align =
+                "right";
+
+            label =
+                "You";
+        }
+
+        if (type === "error") {
+
+            background =
+                "#fef2f2";
+
+            textColor =
+                "#b91c1c";
+
+            label =
+                "⚠️ Error";
+        }
+
+        const safeMessage =
+            escapeHTML(
+                String(message)
+            ).replace(
+                /\n/g,
+                "<br>"
+            );
+
+        messages.insertAdjacentHTML(
+            "beforeend",
+
+            `
+                <div style="
+                    display:flex;
+                    justify-content:
+                        ${align === "right"
+                            ? "flex-end"
+                            : "flex-start"};
+                    margin-bottom:10px;
+                ">
+
+                    <div style="
+                        max-width:90%;
+                        background:${background};
+                        color:${textColor};
+                        padding:12px 14px;
+                        border-radius:14px;
+                        line-height:1.6;
+                    ">
+
+                        <div style="
+                            font-size:11px;
+                            font-weight:800;
+                            margin-bottom:5px;
+                            opacity:.75;
+                        ">
+                            ${label}
+                        </div>
+
+                        <div>
+                            ${safeMessage}
+                        </div>
+
+                    </div>
+
+                </div>
+            `
+        );
+
+        scrollAIChat();
+    }
+
+    function scrollAIChat() {
+
+        const messages =
+            document.getElementById(
+                "aiChatMessages"
+            );
+
+        if (!messages) {
+            return;
+        }
+
+        messages.scrollTop =
+            messages.scrollHeight;
+    }
+
+    // ============================================================
+    // AI HEALTH CHECK
+    // ============================================================
+
+    async function checkAIHealth() {
+
+        try {
+
+            const response =
+                await fetch(
+                    API_BASE_URL +
+                    "/api/health"
+                );
+
+            const data =
+                await response.json();
+
+            return data;
+
+        } catch (error) {
+
+            console.error(
+                "AI Health Check Error:",
+                error
+            );
+
+            return null;
+        }
+    }
+
     // ============================================================
     // PREMIUM
     // ============================================================
+
     function getTrialInfo() {
+
         try {
+
             return JSON.parse(
                 localStorage.getItem(
                     TRIAL_KEY
                 )
             ) || null;
+
         } catch (error) {
+
             return null;
         }
     }
+
     function startTrial() {
+
         const existing =
             getTrialInfo();
+
         if (existing) {
+
             showToast(
                 "⭐ Your trial has already started."
             );
+
             return;
         }
+
         const trial = {
+
             startedAt:
                 new Date().toISOString()
         };
+
         localStorage.setItem(
             TRIAL_KEY,
             JSON.stringify(trial)
         );
+
         showToast(
             "⭐ 7-Day Trial Started!"
         );
+
         openPremium();
     }
+
     function getTrialDaysRemaining() {
+
         const trial =
             getTrialInfo();
+
         if (!trial) {
             return 7;
         }
+
         const started =
             new Date(
                 trial.startedAt
             );
+
         const now =
             new Date();
+
         const diff =
             now.getTime() -
             started.getTime();
+
         const daysPassed =
             Math.floor(
                 diff /
-                (1000 * 60 * 60 * 24)
+                (
+                    1000 *
+                    60 *
+                    60 *
+                    24
+                )
             );
+
         return Math.max(
             0,
             7 - daysPassed
         );
     }
+
     function openPremium() {
+
         requireLogin(function () {
+
             const remaining =
                 getTrialDaysRemaining();
+
             const trial =
                 getTrialInfo();
+
             showModal(
                 "⭐ Premium Academy",
+
                 `
                     <div style="
                         text-align:center;
                     ">
-                        <div style="font-size:55px;">
+
+                        <div style="
+                            font-size:55px;
+                        ">
                             👑
                         </div>
+
                         <h2>
                             Premium Business Academy
                         </h2>
-                        <p style="color:#64748b;">
+
+                        <p style="
+                            color:#64748b;
+                        ">
                             Advanced business education
                             and professional tools.
                         </p>
+
                         <div style="
                             background:#f5f3ff;
                             padding:18px;
                             border-radius:15px;
                             margin:20px 0;
                         ">
+
                             <strong>
                                 ${
                                     trial
@@ -2899,35 +4102,49 @@
                                         : "🎁 7-Day Free Trial"
                                 }
                             </strong>
+
                         </div>
+
                         <div style="
                             text-align:left;
                             padding:15px;
                         ">
+
                             <p>
                                 ✓ 100+ Business Lessons
                             </p>
+
                             <p>
-                                ✓ AI Business Coach
+                                ✓ Gemini AI Business Coach
                             </p>
+
                             <p>
                                 ✓ Advanced Business Tools
                             </p>
+
                             <p>
                                 ✓ Business Templates
                             </p>
+
                             <p>
                                 ✓ Sales Management System
                             </p>
+
                             <p>
                                 ✓ Certificates
                             </p>
+
                         </div>
+
                         ${
                             trial
                                 ? `
                                     <button
-                                        onclick="showToast('💳 Subscription system coming soon!')"
+                                        onclick="
+                                            showToast(
+                                                '💳 Subscription system coming soon!'
+                                            )
+                                        "
                                         style="
                                             width:100%;
                                             border:0;
@@ -2960,31 +4177,40 @@
                                     </button>
                                 `
                         }
+
                     </div>
                 `
             );
         });
     }
+
     // ============================================================
     // BUSINESS PLAN
     // ============================================================
+
     function openBusinessPlan() {
+
         requireLogin(function () {
+
             showModal(
                 "📋 Business Plan Builder",
+
                 `
                     ${textInput(
                         "businessName",
                         "Business Name"
                     )}
+
                     ${textInput(
                         "productService",
                         "Product / Service"
                     )}
+
                     ${textInput(
                         "targetCustomer",
                         "Target Customer"
                     )}
+
                     <button
                         onclick="generateBusinessPlan()"
                         style="
@@ -3000,17 +4226,23 @@
                     >
                         Generate 90-Day Plan
                     </button>
+
                     <div id="businessPlanResult"></div>
                 `
             );
         });
     }
+
     function textInput(
         id,
         label
     ) {
+
         return `
-            <div style="margin-bottom:15px;">
+            <div style="
+                margin-bottom:15px;
+            ">
+
                 <label style="
                     display:block;
                     margin-bottom:7px;
@@ -3018,90 +4250,118 @@
                 ">
                     ${label}
                 </label>
+
                 <input
                     id="${id}"
                     type="text"
                     style="
                         width:100%;
                         padding:13px;
-                        border:1px solid #cbd5e1;
+                        border:
+                            1px solid #cbd5e1;
                         border-radius:10px;
                         font-size:15px;
                     "
                 >
+
             </div>
         `;
     }
+
     function generateBusinessPlan() {
+
         const name =
             document.getElementById(
                 "businessName"
             ).value ||
             "My Business";
+
         const product =
             document.getElementById(
                 "productService"
             ).value ||
             "Product / Service";
+
         const customer =
             document.getElementById(
                 "targetCustomer"
             ).value ||
             "Target Customer";
+
         const result =
             document.getElementById(
                 "businessPlanResult"
             );
-        if (!result) return;
+
+        if (!result) {
+            return;
+        }
+
         result.innerHTML = `
+
             <div style="
                 margin-top:20px;
                 background:#f8fafc;
                 padding:20px;
                 border-radius:15px;
             ">
+
                 <h3>
                     ${escapeHTML(name)}
                 </h3>
+
                 <p>
                     <strong>Product:</strong>
                     ${escapeHTML(product)}
                 </p>
+
                 <p>
                     <strong>Target Customer:</strong>
                     ${escapeHTML(customer)}
                 </p>
+
                 <hr>
+
                 <h3>
                     90-Day Action Plan
                 </h3>
+
                 <p>
                     <strong>Days 1–30:</strong>
                     Research market, define customers
                     and prepare the offer.
                 </p>
+
                 <p>
                     <strong>Days 31–60:</strong>
                     Start sales and marketing activities
                     and measure results.
                 </p>
+
                 <p>
                     <strong>Days 61–90:</strong>
                     Improve profitable channels
                     and scale the business.
                 </p>
+
             </div>
         `;
     }
+
     // ============================================================
     // PROFILE
     // ============================================================
+
     function openProfile() {
+
         requireLogin(function () {
+
             const user =
                 getUser();
+
             const completed =
                 getCompletedLessons();
+
             const percent =
                 Math.round(
                     (
@@ -3109,13 +4369,16 @@
                         lessons.length
                     ) * 100
                 );
+
             showModal(
                 "👤 My Profile",
+
                 `
                     <div style="
                         text-align:center;
                         padding:20px;
                     ">
+
                         <div style="
                             width:80px;
                             height:80px;
@@ -3135,11 +4398,13 @@
                                     .toUpperCase()
                             )}
                         </div>
+
                         <h2>
                             ${escapeHTML(
                                 user.name
                             )}
                         </h2>
+
                         <p style="
                             color:#64748b;
                         ">
@@ -3147,50 +4412,66 @@
                                 user.email
                             )}
                         </p>
+
                         <div style="
                             display:grid;
                             grid-template-columns:
-                            repeat(2,1fr);
+                                repeat(2,1fr);
                             gap:12px;
                             margin-top:20px;
                         ">
+
                             <div style="
                                 background:#f8fafc;
                                 padding:18px;
                                 border-radius:15px;
                             ">
-                                <h2 style="margin:0;">
+
+                                <h2 style="
+                                    margin:0;
+                                ">
                                     ${completed.length}
                                 </h2>
+
                                 <p style="
                                     margin:5px 0 0;
                                     color:#64748b;
                                 ">
                                     Completed
                                 </p>
+
                             </div>
+
                             <div style="
                                 background:#f8fafc;
                                 padding:18px;
                                 border-radius:15px;
                             ">
-                                <h2 style="margin:0;">
+
+                                <h2 style="
+                                    margin:0;
+                                ">
                                     ${percent}%
                                 </h2>
+
                                 <p style="
                                     margin:5px 0 0;
                                     color:#64748b;
                                 ">
                                     Progress
                                 </p>
+
                             </div>
+
                         </div>
+
                         <div style="
                             margin-top:20px;
                             padding:15px;
                             background:#eff6ff;
                             border-radius:12px;
                         ">
+
                             ⭐ Plan:
                             <strong>
                                 ${escapeHTML(
@@ -3198,24 +4479,32 @@
                                     "Free"
                                 )}
                             </strong>
+
                         </div>
+
                     </div>
                 `
             );
         });
     }
+
     // ============================================================
     // NOTIFICATION
     // ============================================================
+
     function showNotification() {
+
         showToast(
             "🔔 Welcome to Aung Business Academy!"
         );
     }
+
     // ============================================================
     // LOGOUT
     // ============================================================
+
     function logoutUser() {
+
         if (
             !confirm(
                 "Are you sure you want to logout?"
@@ -3223,59 +4512,83 @@
         ) {
             return;
         }
+
         localStorage.removeItem(
             USER_KEY
         );
+
         closeModal();
+
         showLoginScreen();
     }
+
     // ============================================================
     // SIDEBAR
     // ============================================================
+
     function toggleSidebar() {
+
         const sidebar =
             document.querySelector(
                 ".sidebar"
             );
-        if (!sidebar) return;
+
+        if (!sidebar) {
+            return;
+        }
+
         sidebar.classList.toggle(
             "active"
         );
     }
+
     function toggleMenu() {
+
         toggleSidebar();
     }
+
     // ============================================================
     // DASHBOARD BUTTON
     // ============================================================
+
     function goDashboard() {
+
         window.scrollTo({
             top:0,
             behavior:"smooth"
         });
+
         showToast(
             "🏠 Dashboard"
         );
     }
+
     // ============================================================
     // TOAST
     // ============================================================
+
     function showToast(message) {
+
         const old =
             document.getElementById(
                 "academyToast"
             );
+
         if (old) {
             old.remove();
         }
+
         const toast =
             document.createElement(
                 "div"
             );
+
         toast.id =
             "academyToast";
+
         toast.textContent =
             message;
+
         toast.style.cssText = `
             position:fixed;
             left:50%;
@@ -3293,35 +4606,47 @@
             max-width:90%;
             text-align:center;
         `;
+
         document.body.appendChild(
             toast
         );
+
         setTimeout(
             function () {
+
                 if (toast) {
                     toast.remove();
                 }
+
             },
             2500
         );
     }
+
     // ============================================================
     // ESC KEY
     // ============================================================
+
     document.addEventListener(
         "keydown",
         function (event) {
+
             if (
-                event.key === "Escape"
+                event.key ===
+                "Escape"
             ) {
+
                 closeModal();
             }
         }
     );
+
     // ============================================================
     // SECURITY
     // ============================================================
+
     function escapeHTML(text) {
+
         return String(text)
             .replace(
                 /&/g,
@@ -3344,87 +4669,143 @@
                 "&#039;"
             );
     }
+
     // ============================================================
     // GLOBAL FUNCTIONS
     // ============================================================
+
     window.openLessons =
         openLessons;
+
     window.openLesson =
         openLesson;
+
     window.showLesson =
         showLesson;
+
     window.closeModal =
         closeModal;
+
     window.startQuiz =
         startQuiz;
+
     window.submitQuiz =
         submitQuiz;
+
     window.continueLearning =
         continueLearning;
+
     window.filterLessons =
         filterLessons;
+
     window.setLessonFilter =
         setLessonFilter;
+
     window.openCategory =
         openCategory;
+
     window.openTools =
         openTools;
+
     window.openProfitCalculator =
         openProfitCalculator;
+
     window.calculateProfit =
         calculateProfit;
+
     window.openPricingCalculator =
         openPricingCalculator;
+
     window.calculatePrice =
         calculatePrice;
+
     window.openBreakEvenCalculator =
         openBreakEvenCalculator;
+
     window.calculateBreakEven =
         calculateBreakEven;
+
     window.openSalesTargetCalculator =
         openSalesTargetCalculator;
+
     window.calculateSalesTarget =
         calculateSalesTarget;
+
     window.openAI =
         openAI;
+
+    window.sendAIMessage =
+        sendAIMessage;
+
+    window.askAIQuick =
+        askAIQuick;
+
+    window.checkAIHealth =
+        checkAIHealth;
+
     window.openPremium =
         openPremium;
+
     window.startTrial =
         startTrial;
+
     window.openBusinessPlan =
         openBusinessPlan;
+
     window.generateBusinessPlan =
         generateBusinessPlan;
+
     window.openProfile =
         openProfile;
+
     window.showNotification =
         showNotification;
+
     window.logoutUser =
         logoutUser;
+
     window.toggleSidebar =
         toggleSidebar;
+
     window.toggleMenu =
         toggleMenu;
+
     window.goDashboard =
         goDashboard;
+
     window.showToast =
         showToast;
+
     // ============================================================
     // INIT
     // ============================================================
+
     function init() {
+
         updateDashboard();
+
         if (!isLoggedIn()) {
+
             setTimeout(
                 showLoginScreen,
                 100
             );
+
         } else {
+
             updateUserUI();
         }
+
         console.log(
-            "Aung Business Academy V3 loaded successfully."
+            "Aung Business Academy V4 loaded successfully."
+        );
+
+        console.log(
+            "Gemini AI Endpoint:",
+            AI_API_URL
         );
     }
+
     init();
+
 })();

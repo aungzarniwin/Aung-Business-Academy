@@ -1,651 +1,883 @@
-// ==========================================
+// ======================================================
 // AUNG BUSINESS ACADEMY
-// APP.JS V4
-// Pricing Calculator Added
-// ==========================================
+// APP.JS V1
+// Professional Dashboard Logic
+// ======================================================
 
 
-// ================================
-// LESSON DATA
-// ================================
+// ======================================================
+// 1. LESSON DATA
+// ======================================================
 
 const lessons = [
   {
-    title: "Business ဆိုတာဘာလဲ?",
-    premium: false,
-    content: `
-      <h2>📖 Business ဆိုတာဘာလဲ?</h2>
-      <p>Business ဆိုတာ Customer ရဲ့ လိုအပ်ချက်ကို ဖြည့်ဆည်းပေးပြီး Revenue နဲ့ Profit ရရှိအောင် တည်ဆောက်ထားတဲ့ စီးပွားရေးလုပ်ငန်း ဖြစ်ပါတယ်။</p>
-
-      <h3>Business ရဲ့ အခြေခံ 4 ခု</h3>
-      <ul>
-        <li>Product / Service</li>
-        <li>Customer</li>
-        <li>Sales</li>
-        <li>Profit</li>
-      </ul>
-    `
+    id: 1,
+    title: "Business Fundamentals",
+    category: "Business",
+    description: "Learn the basic principles of starting and managing a business.",
+    level: "Beginner"
   },
-
   {
-    title: "Business Idea ဘယ်လိုရွေးမလဲ?",
-    premium: false,
-    content: `
-      <h2>💡 Business Idea</h2>
-      <p>Business Idea ကောင်းတစ်ခုဆိုတာ ကိုယ်ကြိုက်တာတစ်ခုတည်း မဟုတ်ဘဲ Customer လိုအပ်ချက်နဲ့ Market Demand ရှိတဲ့ Idea ဖြစ်ရပါမယ်။</p>
-
-      <h3>စဉ်းစားရမယ့်အချက်များ</h3>
-      <ul>
-        <li>Customer ဘာလိုချင်သလဲ?</li>
-        <li>ဘယ်သူတွေ ဝယ်မလဲ?</li>
-        <li>Competitor တွေ ဘယ်လိုရောင်းနေကြလဲ?</li>
-        <li>Profit ရနိုင်မလား?</li>
-      </ul>
-    `
+    id: 2,
+    title: "Sales & Marketing",
+    category: "Sales",
+    description: "Understand sales strategy, customer needs and market growth.",
+    level: "Beginner"
   },
-
   {
-    title: "Customer ဘယ်လိုရှာမလဲ?",
-    premium: false,
-    content: `
-      <h2>👥 Customer Finding</h2>
-      <p>Business တစ်ခုအောင်မြင်ဖို့ Customer ကို ရှာနိုင်ဖို့ အရေးကြီးပါတယ်။</p>
-
-      <h3>Customer ရှာနိုင်တဲ့နေရာများ</h3>
-      <ul>
-        <li>Facebook</li>
-        <li>TikTok</li>
-        <li>Telegram</li>
-        <li>Marketplace</li>
-        <li>Direct Sales</li>
-        <li>Referral</li>
-      </ul>
-    `
+    id: 3,
+    title: "Customer Management",
+    category: "Customer",
+    description: "Build strong customer relationships and improve retention.",
+    level: "Beginner"
   },
-
   {
-    title: "Product ဘယ်လိုရွေးမလဲ?",
-    premium: false,
-    content: `
-      <h2>📦 Product Selection</h2>
-      <p>ရောင်းမယ့် Product ကို Customer Demand၊ Competition၊ Cost နဲ့ Profit ကိုကြည့်ပြီး ရွေးချယ်သင့်ပါတယ်။</p>
-
-      <h3>Product စစ်ဆေးရန်</h3>
-      <ul>
-        <li>Demand ရှိပါသလား?</li>
-        <li>ပြန်ဝယ်တဲ့ Customer ရှိပါသလား?</li>
-        <li>Margin ကောင်းပါသလား?</li>
-        <li>Competition ဘယ်လောက်ရှိပါသလဲ?</li>
-      </ul>
-    `
-  },
-
-  {
-    title: "Sales တိုးအောင် ဘယ်လိုလုပ်မလဲ?",
-    premium: false,
-    content: `
-      <h2>📈 Sales Growth</h2>
-      <p>Sales တိုးဖို့ Customer အသစ်ရှာခြင်း၊ Existing Customer ကို ပြန်ရောင်းခြင်းနဲ့ Average Order Value တိုးခြင်းတို့ကို အသုံးပြုနိုင်ပါတယ်။</p>
-
-      <h3>Sales Growth Formula</h3>
-      <p>More Customers + More Orders + Higher Value = Higher Sales</p>
-    `
-  },
-
-  {
-    title: "Marketing Strategy",
-    premium: true,
-    content: `
-      <h2>🎯 Marketing Strategy</h2>
-      <p>Premium Lesson မှာ Marketing Strategy ကို အသေးစိတ်လေ့လာနိုင်ပါတယ်။</p>
-    `
-  },
-
-  {
+    id: 4,
     title: "Pricing Strategy",
-    premium: true,
-    content: `
-      <h2>💰 Pricing Strategy</h2>
-      <p>Premium Lesson မှာ Product Pricing Strategy ကို အသေးစိတ်လေ့လာနိုင်ပါတယ်။</p>
-    `
+    category: "Finance",
+    description: "Learn how to calculate selling prices and protect your profit.",
+    level: "Intermediate"
   },
-
   {
-    title: "Profit & Cost Management",
-    premium: true,
-    content: `
-      <h2>💵 Profit & Cost Management</h2>
-      <p>Premium Lesson မှာ Cost နဲ့ Profit Management ကို အသေးစိတ်လေ့လာနိုင်ပါတယ်။</p>
-    `
+    id: 5,
+    title: "Profit Management",
+    category: "Finance",
+    description: "Understand revenue, cost, gross profit and net profit.",
+    level: "Intermediate"
   },
-
   {
-    title: "Business Plan",
-    premium: true,
-    content: `
-      <h2>📋 Business Plan</h2>
-      <p>Premium Member များအတွက် Complete Business Plan တည်ဆောက်နည်းကို သင်ကြားပေးပါမယ်။</p>
-    `
+    id: 6,
+    title: "Sales Team Management",
+    category: "Leadership",
+    description: "Learn coaching, KPI management and sales team leadership.",
+    level: "Intermediate"
   },
-
   {
+    id: 7,
+    title: "Business Planning",
+    category: "Strategy",
+    description: "Create practical business plans and action plans.",
+    level: "Intermediate"
+  },
+  {
+    id: 8,
     title: "Business Growth Strategy",
-    premium: true,
-    content: `
-      <h2>🚀 Business Growth Strategy</h2>
-      <p>Business ကို Scale Up လုပ်နည်းနဲ့ Growth Strategy တွေကို Premium Academy မှာ လေ့လာနိုင်ပါတယ်။</p>
-    `
+    category: "Strategy",
+    description: "Learn practical methods to expand your business.",
+    level: "Advanced"
   }
 ];
 
 
-// ================================
-// START APP
-// ================================
+// ======================================================
+// 2. LOCAL STORAGE
+// ======================================================
 
-document.addEventListener("DOMContentLoaded", function () {
-  updateDashboard();
-});
+const STORAGE_KEY = "aung_business_academy";
+
+let academyData = {
+  completedLessons: [],
+  notifications: true
+};
 
 
-// ================================
-// DASHBOARD
-// ================================
+function loadData() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+
+    if (saved) {
+      academyData = {
+        ...academyData,
+        ...JSON.parse(saved)
+      };
+    }
+  } catch (error) {
+    console.log("Storage loading error:", error);
+  }
+}
+
+
+function saveData() {
+  try {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(academyData)
+    );
+  } catch (error) {
+    console.log("Storage saving error:", error);
+  }
+}
+
+
+// ======================================================
+// 3. DASHBOARD STATS
+// ======================================================
 
 function updateDashboard() {
+
   const lessonCount = document.getElementById("lessonCount");
   const progress = document.getElementById("progress");
 
+  const totalLessons = lessons.length;
+
+  const completed =
+    academyData.completedLessons.length;
+
+  const percentage =
+    totalLessons === 0
+      ? 0
+      : Math.round((completed / totalLessons) * 100);
+
   if (lessonCount) {
-    lessonCount.textContent = lessons.length;
+    lessonCount.textContent =
+      `${completed} / ${totalLessons}`;
   }
 
   if (progress) {
-    progress.textContent = updateProgress();
+    progress.textContent =
+      `${percentage}%`;
   }
 }
 
 
-// ================================
-// START LEARNING
-// ================================
+// ======================================================
+// 4. MARK LESSON COMPLETE
+// ======================================================
 
-function startLearning() {
-  openLessons();
+function completeLesson(id) {
+
+  if (!academyData.completedLessons.includes(id)) {
+
+    academyData.completedLessons.push(id);
+
+    saveData();
+    updateDashboard();
+
+    showToast(
+      "Lesson completed successfully!",
+      "success"
+    );
+  }
 }
 
 
-// ================================
-// LESSON LIST
-// ================================
+// ======================================================
+// 5. GENERIC MODAL
+// ======================================================
+
+function createModal(title, content, options = {}) {
+
+  closeModal();
+
+  const overlay = document.createElement("div");
+
+  overlay.className = "aba-modal-overlay";
+
+  overlay.innerHTML = `
+    <div class="aba-modal">
+
+      <div class="aba-modal-header">
+
+        <div>
+          <h2>${title}</h2>
+
+          ${
+            options.subtitle
+              ? `<p>${options.subtitle}</p>`
+              : ""
+          }
+
+        </div>
+
+        <button
+          class="aba-modal-close"
+          onclick="closeModal()"
+        >
+          ×
+        </button>
+
+      </div>
+
+      <div class="aba-modal-body">
+        ${content}
+      </div>
+
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  setTimeout(() => {
+    overlay.classList.add("active");
+  }, 10);
+
+  overlay.addEventListener("click", function(e) {
+
+    if (e.target === overlay) {
+      closeModal();
+    }
+
+  });
+}
+
+
+function closeModal() {
+
+  const modal =
+    document.querySelector(".aba-modal-overlay");
+
+  if (modal) {
+    modal.remove();
+  }
+}
+
+
+// ======================================================
+// 6. OPEN LESSONS
+// ======================================================
 
 function openLessons() {
 
   let html = `
-    <div class="header">
-      <h1>📚 Business Lessons</h1>
-      <p>Learn business step by step.</p>
+    <div class="aba-section-intro">
+      <p>
+        Learn practical business skills step by step.
+        Complete lessons to increase your academy progress.
+      </p>
     </div>
 
-    <div class="menu-grid">
+    <div class="aba-lesson-grid">
   `;
 
-  lessons.forEach((lesson, index) => {
+  lessons.forEach((lesson) => {
 
-    const icon = lesson.premium ? "🔒" : "📖";
+    const completed =
+      academyData.completedLessons.includes(
+        lesson.id
+      );
 
     html += `
-      <div class="menu-card" onclick="openLesson(${index})">
-        <h3>${icon} ${lesson.title}</h3>
+
+      <div class="aba-lesson-card">
+
+        <div class="aba-lesson-top">
+
+          <span class="aba-badge">
+            ${lesson.level}
+          </span>
+
+          ${
+            completed
+              ? `<span class="aba-completed">✓ Completed</span>`
+              : ""
+          }
+
+        </div>
+
+        <h3>
+          ${lesson.title}
+        </h3>
+
+        <small>
+          ${lesson.category}
+        </small>
+
         <p>
-          ${lesson.premium ? "Premium Lesson" : "Free Lesson"}
+          ${lesson.description}
         </p>
+
+        <button
+          class="aba-primary-btn"
+          onclick="startLesson(${lesson.id})"
+        >
+          ${
+            completed
+              ? "Review Lesson"
+              : "Start Lesson"
+          }
+        </button>
+
       </div>
+
     `;
   });
 
   html += `
     </div>
-
-    <div style="margin-top:20px;">
-      <button onclick="location.reload()">🏠 Back Home</button>
-    </div>
   `;
 
-  document.querySelector(".app").innerHTML = html;
-}
-
-
-// ================================
-// OPEN LESSON
-// ================================
-
-function openLesson(index) {
-
-  const lesson = lessons[index];
-
-  if (lesson.premium) {
-    showPremiumLock();
-    return;
-  }
-
-  const completedLessons =
-    JSON.parse(localStorage.getItem("completedLessonList")) || [];
-
-  const alreadyCompleted =
-    completedLessons.includes(index);
-
-  let html = `
-    <div class="header">
-      <h1>${lesson.title}</h1>
-    </div>
-
-    <div class="premium-box">
-      ${lesson.content}
-    </div>
-
-    <div style="margin-top:20px;">
-      ${
-        alreadyCompleted
-          ? `<button disabled>✅ Completed</button>`
-          : `<button onclick="completeLesson(${index})">✅ Complete Lesson</button>`
-      }
-
-      <button onclick="openLessons()">⬅️ Back to Lessons</button>
-    </div>
-  `;
-
-  document.querySelector(".app").innerHTML = html;
-}
-
-
-// ================================
-// COMPLETE LESSON
-// ================================
-
-function completeLesson(index) {
-
-  let completedLessons =
-    JSON.parse(localStorage.getItem("completedLessonList")) || [];
-
-  if (!completedLessons.includes(index)) {
-    completedLessons.push(index);
-  }
-
-  localStorage.setItem(
-    "completedLessonList",
-    JSON.stringify(completedLessons)
+  createModal(
+    "Academy Lessons",
+    html,
+    {
+      subtitle:
+        `${lessons.length} practical business lessons`
+    }
   );
-
-  alert("🎉 Lesson Completed!");
-
-  openLessons();
 }
 
 
-// ================================
-// UPDATE PROGRESS
-// ================================
+// ======================================================
+// 7. START LESSON
+// ======================================================
 
-function updateProgress() {
+function startLesson(id) {
 
-  const completedLessons =
-    JSON.parse(localStorage.getItem("completedLessonList")) || [];
-
-  const freeLessons =
-    lessons.filter(lesson => !lesson.premium);
-
-  if (freeLessons.length === 0) {
-    return "0%";
-  }
-
-  const completedFreeLessons =
-    completedLessons.filter(index => !lessons[index].premium);
-
-  const percentage =
-    Math.round(
-      (completedFreeLessons.length / freeLessons.length) * 100
+  const lesson =
+    lessons.find(
+      item => item.id === id
     );
 
-  return percentage + "%";
+  if (!lesson) return;
+
+  const content = `
+
+    <div class="aba-lesson-detail">
+
+      <span class="aba-badge">
+        ${lesson.level}
+      </span>
+
+      <h2>
+        ${lesson.title}
+      </h2>
+
+      <p class="aba-category">
+        Category: ${lesson.category}
+      </p>
+
+      <div class="aba-learning-box">
+
+        <h3>
+          What you will learn
+        </h3>
+
+        <p>
+          ${lesson.description}
+        </p>
+
+        <ul>
+
+          <li>
+            Understand the key concepts
+          </li>
+
+          <li>
+            Apply the knowledge in real business situations
+          </li>
+
+          <li>
+            Build practical business skills
+          </li>
+
+          <li>
+            Improve your decision-making ability
+          </li>
+
+        </ul>
+
+      </div>
+
+      <div class="aba-lesson-actions">
+
+        <button
+          class="aba-primary-btn"
+          onclick="completeLesson(${lesson.id}); openLessons();"
+        >
+          ✓ Mark as Completed
+        </button>
+
+        <button
+          class="aba-secondary-btn"
+          onclick="closeModal()"
+        >
+          Close
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+  createModal(
+    lesson.title,
+    content,
+    {
+      subtitle:
+        "Aung Business Academy"
+    }
+  );
 }
 
 
-// ================================
-// BUSINESS TOOLS
-// ================================
+// ======================================================
+// 8. BUSINESS TOOLS
+// ======================================================
 
 function openTools() {
 
-  const html = `
-    <div class="header">
-      <h1>🛠️ Business Tools</h1>
-      <p>Practical tools for your business.</p>
+  const content = `
+
+    <div class="aba-tools-grid">
+
+      <button
+        class="aba-tool-card"
+        onclick="openPricingCalculator()"
+      >
+
+        <div class="aba-tool-icon">
+          💰
+        </div>
+
+        <h3>
+          Pricing Calculator
+        </h3>
+
+        <p>
+          Calculate selling price and profit margin.
+        </p>
+
+      </button>
+
+
+      <button
+        class="aba-tool-card"
+        onclick="openProfitCalculator()"
+      >
+
+        <div class="aba-tool-icon">
+          📈
+        </div>
+
+        <h3>
+          Profit Calculator
+        </h3>
+
+        <p>
+          Calculate revenue, cost and profit.
+        </p>
+
+      </button>
+
+
+      <button
+        class="aba-tool-card"
+        onclick="openTargetCalculator()"
+      >
+
+        <div class="aba-tool-icon">
+          🎯
+        </div>
+
+        <h3>
+          Sales Target
+        </h3>
+
+        <p>
+          Calculate your daily and monthly target.
+        </p>
+
+      </button>
+
+
+      <button
+        class="aba-tool-card"
+        onclick="openBreakEvenCalculator()"
+      >
+
+        <div class="aba-tool-icon">
+          ⚖️
+        </div>
+
+        <h3>
+          Break-Even
+        </h3>
+
+        <p>
+          Find your break-even sales volume.
+        </p>
+
+      </button>
+
     </div>
 
-    <div class="menu-grid">
-
-      <div class="menu-card" onclick="openProfitCalculator()">
-        <h3>💰 Profit Calculator</h3>
-        <p>Calculate sales, cost and profit.</p>
-        <strong>FREE</strong>
-      </div>
-
-      <div class="menu-card" onclick="showPremiumLock()">
-        <h3>💵 Pricing Calculator</h3>
-        <p>Calculate the right selling price.</p>
-        <strong>🔒 PREMIUM</strong>
-      </div>
-
-      <div class="menu-card" onclick="showPremiumLock()">
-        <h3>📊 Break-even Calculator</h3>
-        <p>Find your break-even point.</p>
-        <strong>🔒 PREMIUM</strong>
-      </div>
-
-      <div class="menu-card" onclick="showPremiumLock()">
-        <h3>🎯 Sales Target Calculator</h3>
-        <p>Calculate your sales target.</p>
-        <strong>🔒 PREMIUM</strong>
-      </div>
-
-    </div>
-
-    <div style="margin-top:20px;">
-      <button onclick="location.reload()">🏠 Back Home</button>
-    </div>
   `;
 
-  document.querySelector(".app").innerHTML = html;
+  createModal(
+    "Business Tools",
+    content,
+    {
+      subtitle:
+        "Practical tools for business owners and sales managers"
+    }
+  );
 }
 
 
-// ================================
-// PROFIT CALCULATOR
-// ================================
+// ======================================================
+// 9. PRICING CALCULATOR
+// ======================================================
 
-function openProfitCalculator() {
+function openPricingCalculator() {
 
-  const html = `
-    <div class="header">
-      <h1>💰 Profit Calculator</h1>
-      <p>Calculate your business profit.</p>
-    </div>
+  const content = `
 
-    <div class="premium-box">
+    <div class="aba-calculator">
 
-      <label>Cost per Product</label>
+      <label>
+        Cost Price
+      </label>
+
       <input
         type="number"
         id="costPrice"
-        placeholder="Example: 2000"
+        placeholder="Example: 10000"
       >
 
-      <br><br>
+      <label>
+        Desired Profit Margin (%)
+      </label>
 
-      <label>Selling Price</label>
       <input
         type="number"
-        id="sellingPrice"
-        placeholder="Example: 3000"
+        id="profitMargin"
+        placeholder="Example: 20"
       >
 
-      <br><br>
-
-      <label>Quantity Sold</label>
-      <input
-        type="number"
-        id="quantity"
-        placeholder="Example: 100"
+      <button
+        class="aba-primary-btn"
+        onclick="calculatePricing()"
       >
-
-      <br><br>
-
-      <button onclick="calculateProfit()">
-        🧮 Calculate Profit
+        Calculate
       </button>
 
-      <div id="profitResult" style="margin-top:20px;"></div>
+      <div
+        id="pricingResult"
+        class="aba-result"
+      ></div>
 
     </div>
 
-    <div style="margin-top:20px;">
-      <button onclick="openTools()">⬅️ Back to Tools</button>
-    </div>
   `;
 
-  document.querySelector(".app").innerHTML = html;
+  createModal(
+    "Pricing Calculator",
+    content,
+    {
+      subtitle:
+        "Calculate the recommended selling price"
+    }
+  );
 }
 
 
-// ================================
-// CALCULATE PROFIT
-// ================================
-
-function calculateProfit() {
+function calculatePricing() {
 
   const cost =
-    parseFloat(document.getElementById("costPrice").value);
+    parseFloat(
+      document.getElementById("costPrice").value
+    );
 
-  const selling =
-    parseFloat(document.getElementById("sellingPrice").value);
+  const margin =
+    parseFloat(
+      document.getElementById("profitMargin").value
+    );
 
-  const quantity =
-    parseFloat(document.getElementById("quantity").value);
+  const result =
+    document.getElementById("pricingResult");
 
   if (
     isNaN(cost) ||
-    isNaN(selling) ||
-    isNaN(quantity) ||
-    cost < 0 ||
-    selling < 0 ||
-    quantity <= 0
+    isNaN(margin) ||
+    cost <= 0 ||
+    margin < 0 ||
+    margin >= 100
   ) {
 
-    alert("ကျေးဇူးပြု၍ အချက်အလက်များ မှန်ကန်စွာ ထည့်ပါ။");
+    result.innerHTML = `
+      <p class="aba-error">
+        Please enter valid numbers.
+      </p>
+    `;
 
     return;
   }
 
-  const revenue = selling * quantity;
+  const sellingPrice =
+    cost / (1 - margin / 100);
 
-  const totalCost = cost * quantity;
+  const profit =
+    sellingPrice - cost;
 
-  const profit = revenue - totalCost;
+  result.innerHTML = `
+
+    <div class="aba-result-item">
+
+      <span>
+        Recommended Selling Price
+      </span>
+
+      <strong>
+        ${formatNumber(sellingPrice)} Ks
+      </strong>
+
+    </div>
+
+    <div class="aba-result-item">
+
+      <span>
+        Estimated Profit
+      </span>
+
+      <strong>
+        ${formatNumber(profit)} Ks
+      </strong>
+
+    </div>
+
+  `;
+}
+
+
+// ======================================================
+// 10. PROFIT CALCULATOR
+// ======================================================
+
+function openProfitCalculator() {
+
+  const content = `
+
+    <div class="aba-calculator">
+
+      <label>
+        Total Sales Revenue
+      </label>
+
+      <input
+        type="number"
+        id="salesRevenue"
+        placeholder="Example: 5000000"
+      >
+
+      <label>
+        Total Cost
+      </label>
+
+      <input
+        type="number"
+        id="totalCost"
+        placeholder="Example: 3500000"
+      >
+
+      <button
+        class="aba-primary-btn"
+        onclick="calculateProfit()"
+      >
+        Calculate Profit
+      </button>
+
+      <div
+        id="profitResult"
+        class="aba-result"
+      ></div>
+
+    </div>
+
+  `;
+
+  createModal(
+    "Profit Calculator",
+    content,
+    {
+      subtitle:
+        "Calculate gross business profit"
+    }
+  );
+}
+
+
+function calculateProfit() {
+
+  const revenue =
+    parseFloat(
+      document.getElementById("salesRevenue").value
+    );
+
+  const cost =
+    parseFloat(
+      document.getElementById("totalCost").value
+    );
+
+  const result =
+    document.getElementById("profitResult");
+
+  if (
+    isNaN(revenue) ||
+    isNaN(cost)
+  ) {
+
+    result.innerHTML = `
+      <p class="aba-error">
+        Please enter valid numbers.
+      </p>
+    `;
+
+    return;
+  }
+
+  const profit =
+    revenue - cost;
 
   const margin =
     revenue > 0
       ? (profit / revenue) * 100
       : 0;
 
-  document.getElementById("profitResult").innerHTML = `
-    <div class="premium-box">
+  result.innerHTML = `
 
-      <h3>📊 Result</h3>
+    <div class="aba-result-item">
 
-      <p>
-        💵 Total Sales:
-        <strong>${revenue.toLocaleString()} Ks</strong>
-      </p>
+      <span>
+        Gross Profit
+      </span>
 
-      <p>
-        📦 Total Cost:
-        <strong>${totalCost.toLocaleString()} Ks</strong>
-      </p>
-
-      <p>
-        💰 Total Profit:
-        <strong>${profit.toLocaleString()} Ks</strong>
-      </p>
-
-      <p>
-        📈 Profit Margin:
-        <strong>${margin.toFixed(2)}%</strong>
-      </p>
+      <strong>
+        ${formatNumber(profit)} Ks
+      </strong>
 
     </div>
+
+    <div class="aba-result-item">
+
+      <span>
+        Profit Margin
+      </span>
+
+      <strong>
+        ${margin.toFixed(2)}%
+      </strong>
+
+    </div>
+
   `;
 }
 
 
-// ================================
-// PRICING CALCULATOR
-// ================================
+// ======================================================
+// 11. SALES TARGET CALCULATOR
+// ======================================================
 
-function openPricingCalculator() {
+function openTargetCalculator() {
 
-  const html = `
-    <div class="header">
-      <h1>💵 Pricing Calculator</h1>
-      <p>Find the right selling price for your product.</p>
-    </div>
+  const content = `
 
-    <div class="premium-box">
+    <div class="aba-calculator">
 
-      <h3>📌 Enter Your Cost & Target Margin</h3>
-
-      <label>Product Cost per Unit</label>
+      <label>
+        Monthly Sales Target
+      </label>
 
       <input
         type="number"
-        id="pricingCost"
-        placeholder="Example: 2000"
+        id="monthlyTarget"
+        placeholder="Example: 30000000"
       >
 
-      <br><br>
-
-      <label>Other Cost per Unit</label>
+      <label>
+        Working Days
+      </label>
 
       <input
         type="number"
-        id="otherCost"
-        placeholder="Example: 300"
+        id="workingDays"
+        placeholder="Example: 26"
       >
 
-      <br><br>
-
-      <label>Desired Profit Margin (%)</label>
-
-      <input
-        type="number"
-        id="profitMargin"
-        placeholder="Example: 30"
+      <button
+        class="aba-primary-btn"
+        onclick="calculateTarget()"
       >
-
-      <br><br>
-
-      <button onclick="calculatePricing()">
-        🧮 Calculate Selling Price
+        Calculate Target
       </button>
 
-      <div id="pricingResult" style="margin-top:20px;"></div>
+      <div
+        id="targetResult"
+        class="aba-result"
+      ></div>
 
     </div>
 
-    <div style="margin-top:20px;">
-      <button onclick="openTools()">⬅️ Back to Tools</button>
-    </div>
   `;
 
-  document.querySelector(".app").innerHTML = html;
+  createModal(
+    "Sales Target Calculator",
+    content,
+    {
+      subtitle:
+        "Convert monthly target into daily execution"
+    }
+  );
 }
 
 
-// ================================
-// CALCULATE PRICING
-// ================================
+function calculateTarget() {
 
-function calculatePricing() {
+  const monthly =
+    parseFloat(
+      document.getElementById("monthlyTarget").value
+    );
 
-  const productCost =
-    parseFloat(document.getElementById("pricingCost").value);
+  const days =
+    parseFloat(
+      document.getElementById("workingDays").value
+    );
 
-  const otherCost =
-    parseFloat(document.getElementById("otherCost").value) || 0;
-
-  const margin =
-    parseFloat(document.getElementById("profitMargin").value);
+  const result =
+    document.getElementById("targetResult");
 
   if (
-    isNaN(productCost) ||
-    productCost < 0 ||
-    isNaN(margin) ||
-    margin < 0 ||
-    margin >= 100
+    isNaN(monthly) ||
+    isNaN(days) ||
+    monthly <= 0 ||
+    days <= 0
   ) {
 
-    alert(
-      "Product Cost နဲ့ Profit Margin ကို မှန်ကန်စွာ ထည့်ပါ။\n\nProfit Margin သည် 0% မှ 99% အတွင်း ဖြစ်ရပါမယ်။"
-    );
+    result.innerHTML = `
+      <p class="aba-error">
+        Please enter valid numbers.
+      </p>
+    `;
 
     return;
   }
 
-  const totalCost =
-    productCost + otherCost;
+  const daily =
+    monthly / days;
 
-  /*
-    Selling Price Formula
+  result.innerHTML = `
 
-    Selling Price =
-    Total Cost / (1 - Profit Margin / 100)
-  */
+    <div class="aba-result-item">
 
-  const sellingPrice =
-    totalCost / (1 - margin / 100);
+      <span>
+        Monthly Target
+      </span>
 
-  const profit =
-    sellingPrice - totalCost;
+      <strong>
+        ${formatNumber(monthly)} Ks
+      </strong>
 
-  const markup =
-    totalCost > 0
-      ? (profit / totalCost) * 100
-      : 0;
+    </div>
 
-  document.getElementById("pricingResult").innerHTML = `
+    <div class="aba-result-item">
 
-    <div class="premium-box">
+      <span>
+        Daily Target
+      </span>
 
-      <h3>🎯 Recommended Price</h3>
-
-      <p>
-        📦 Total Cost / Unit:
-        <strong>
-          ${totalCost.toLocaleString()} Ks
-        </strong>
-      </p>
-
-      <p>
-        💵 Recommended Selling Price:
-        <strong>
-          ${sellingPrice.toLocaleString(undefined, {
-            maximumFractionDigits: 0
-          })} Ks
-        </strong>
-      </p>
-
-      <p>
-        💰 Profit / Unit:
-        <strong>
-          ${profit.toLocaleString(undefined, {
-            maximumFractionDigits: 0
-          })} Ks
-        </strong>
-      </p>
-
-      <p>
-        📈 Profit Margin:
-        <strong>
-          ${margin.toFixed(2)}%
-        </strong>
-      </p>
-
-      <p>
-        📊 Markup:
-        <strong>
-          ${markup.toFixed(2)}%
-        </strong>
-      </p>
+      <strong>
+        ${formatNumber(daily)} Ks
+      </strong>
 
     </div>
 
@@ -653,30 +885,1475 @@ function calculatePricing() {
 }
 
 
-// ================================
-// PREMIUM
-// ================================
+// ======================================================
+// 12. BREAK-EVEN CALCULATOR
+// ======================================================
 
-function openAI() {
-  showPremiumLock();
-}
+function openBreakEvenCalculator() {
 
+  const content = `
 
-function openPremium() {
-  showPremiumLock();
-}
+    <div class="aba-calculator">
 
+      <label>
+        Fixed Cost
+      </label>
 
-// ================================
-// PREMIUM LOCK
-// ================================
+      <input
+        type="number"
+        id="fixedCost"
+        placeholder="Example: 3000000"
+      >
 
-function showPremiumLock() {
+      <label>
+        Selling Price per Unit
+      </label>
 
-  alert(
-    "🔒 PREMIUM CONTENT\n\n" +
-    "ဒီ Content / Tool ကို Premium Member များသာ\n" +
-    "အသုံးပြုနိုင်ပါတယ်။\n\n" +
-    "👑 Premium Subscription — Coming Soon"
+      <input
+        type="number"
+        id="sellingPriceUnit"
+        placeholder="Example: 10000"
+      >
+
+      <label>
+        Variable Cost per Unit
+      </label>
+
+      <input
+        type="number"
+        id="variableCostUnit"
+        placeholder="Example: 6000"
+      >
+
+      <button
+        class="aba-primary-btn"
+        onclick="calculateBreakEven()"
+      >
+        Calculate
+      </button>
+
+      <div
+        id="breakEvenResult"
+        class="aba-result"
+      ></div>
+
+    </div>
+
+  `;
+
+  createModal(
+    "Break-Even Calculator",
+    content,
+    {
+      subtitle:
+        "Calculate minimum units needed to cover costs"
+    }
   );
 }
+
+
+function calculateBreakEven() {
+
+  const fixed =
+    parseFloat(
+      document.getElementById("fixedCost").value
+    );
+
+  const selling =
+    parseFloat(
+      document.getElementById("sellingPriceUnit").value
+    );
+
+  const variable =
+    parseFloat(
+      document.getElementById("variableCostUnit").value
+    );
+
+  const result =
+    document.getElementById("breakEvenResult");
+
+  if (
+    isNaN(fixed) ||
+    isNaN(selling) ||
+    isNaN(variable) ||
+    selling <= variable
+  ) {
+
+    result.innerHTML = `
+      <p class="aba-error">
+        Please enter valid numbers.
+        Selling price must be higher than variable cost.
+      </p>
+    `;
+
+    return;
+  }
+
+  const contribution =
+    selling - variable;
+
+  const units =
+    fixed / contribution;
+
+  result.innerHTML = `
+
+    <div class="aba-result-item">
+
+      <span>
+        Break-Even Units
+      </span>
+
+      <strong>
+        ${Math.ceil(units).toLocaleString()} units
+      </strong>
+
+    </div>
+
+    <div class="aba-result-item">
+
+      <span>
+        Contribution / Unit
+      </span>
+
+      <strong>
+        ${formatNumber(contribution)} Ks
+      </strong>
+
+    </div>
+
+  `;
+}
+
+
+// ======================================================
+// 13. AI BUSINESS COACH
+// ======================================================
+
+function openAI() {
+
+  const content = `
+
+    <div class="aba-ai-box">
+
+      <div class="aba-ai-icon">
+        🤖
+      </div>
+
+      <h2>
+        AI Business Coach
+      </h2>
+
+      <p>
+        Your personal AI assistant for business,
+        sales, marketing and management decisions.
+      </p>
+
+      <div class="aba-ai-features">
+
+        <div>
+          ✓ Sales strategy
+        </div>
+
+        <div>
+          ✓ Business planning
+        </div>
+
+        <div>
+          ✓ Marketing ideas
+        </div>
+
+        <div>
+          ✓ Customer strategy
+        </div>
+
+        <div>
+          ✓ Sales team coaching
+        </div>
+
+      </div>
+
+      <div class="aba-premium-lock">
+
+        🔒 Premium Feature
+
+        <br>
+
+        <small>
+          AI Business Coach will be available
+          in the Premium Academy.
+        </small>
+
+      </div>
+
+      <button
+        class="aba-primary-btn"
+        onclick="openPremium()"
+      >
+        Upgrade to Premium
+      </button>
+
+    </div>
+
+  `;
+
+  createModal(
+    "AI Business Coach",
+    content,
+    {
+      subtitle:
+        "AI-powered business support"
+    }
+  );
+}
+
+
+// ======================================================
+// 14. PREMIUM ACADEMY
+// ======================================================
+
+function openPremium() {
+
+  const content = `
+
+    <div class="aba-premium-box">
+
+      <div class="aba-premium-large-icon">
+        👑
+      </div>
+
+      <h2>
+        Aung Business Academy Premium
+      </h2>
+
+      <p>
+        Unlock advanced business education,
+        professional tools and AI Business Coach.
+      </p>
+
+      <div class="aba-premium-list">
+
+        <div>
+          ✓ Advanced Business Courses
+        </div>
+
+        <div>
+          ✓ AI Business Coach
+        </div>
+
+        <div>
+          ✓ Advanced Business Calculators
+        </div>
+
+        <div>
+          ✓ Sales Management Training
+        </div>
+
+        <div>
+          ✓ Leadership Training
+        </div>
+
+        <div>
+          ✓ Business Growth Strategies
+        </div>
+
+      </div>
+
+      <div class="aba-price">
+
+        Premium Academy
+
+        <strong>
+          Coming Soon
+        </strong>
+
+      </div>
+
+      <button
+        class="aba-primary-btn"
+        onclick="showToast('Premium subscription system coming soon!', 'success'); closeModal();"
+      >
+        Join Premium
+      </button>
+
+    </div>
+
+  `;
+
+  createModal(
+    "Premium Academy",
+    content,
+    {
+      subtitle:
+        "Unlock your next level"
+    }
+  );
+}
+
+
+// ======================================================
+// 15. SIDEBAR FUNCTIONS
+// ======================================================
+
+function toggleMenu(id) {
+
+  const menu =
+    document.getElementById(id);
+
+  if (!menu) return;
+
+  menu.classList.toggle("show");
+
+}
+
+
+function toggleSidebar() {
+
+  const sidebar =
+    document.querySelector(".sidebar");
+
+  if (!sidebar) return;
+
+  sidebar.classList.toggle(
+    "mobile-open"
+  );
+
+}
+
+
+// ======================================================
+// 16. MOBILE SIDEBAR AUTO CLOSE
+// ======================================================
+
+document.addEventListener(
+  "click",
+  function(e) {
+
+    if (
+      window.innerWidth > 900
+    ) {
+      return;
+    }
+
+    const sidebar =
+      document.querySelector(".sidebar");
+
+    const mobileMenu =
+      document.querySelector(".mobile-menu");
+
+    if (!sidebar) return;
+
+    if (
+      sidebar.classList.contains(
+        "mobile-open"
+      ) &&
+      !sidebar.contains(e.target) &&
+      !mobileMenu?.contains(e.target)
+    ) {
+
+      sidebar.classList.remove(
+        "mobile-open"
+      );
+
+    }
+
+  }
+);
+
+
+// ======================================================
+// 17. NUMBER FORMAT
+// ======================================================
+
+function formatNumber(number) {
+
+  return Math.round(number)
+    .toLocaleString("en-US");
+
+}
+
+
+// ======================================================
+// 18. TOAST NOTIFICATION
+// ======================================================
+
+function showToast(
+  message,
+  type = "success"
+) {
+
+  const existing =
+    document.querySelector(
+      ".aba-toast"
+    );
+
+  if (existing) {
+    existing.remove();
+  }
+
+  const toast =
+    document.createElement("div");
+
+  toast.className =
+    `aba-toast ${type}`;
+
+  toast.innerHTML = `
+    <span>
+      ${type === "success" ? "✓" : "!"}
+    </span>
+
+    <span>
+      ${message}
+    </span>
+  `;
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+
+    toast.classList.add(
+      "hide"
+    );
+
+    setTimeout(() => {
+      toast.remove();
+    }, 300);
+
+  }, 2500);
+}
+
+
+// ======================================================
+// 19. NOTIFICATION
+// ======================================================
+
+function showNotification() {
+
+  createModal(
+    "Notifications",
+    `
+      <div class="aba-notification-box">
+
+        <div class="aba-notification-item">
+
+          <strong>
+            Welcome to Aung Business Academy
+          </strong>
+
+          <p>
+            Start your first business lesson today.
+          </p>
+
+        </div>
+
+        <div class="aba-notification-item">
+
+          <strong>
+            Business Tools Available
+          </strong>
+
+          <p>
+            Try the Pricing and Profit Calculators.
+          </p>
+
+        </div>
+
+      </div>
+    `,
+    {
+      subtitle:
+        "Your latest academy updates"
+    }
+  );
+}
+
+
+// ======================================================
+// 20. PROFILE
+// ======================================================
+
+function openProfile() {
+
+  createModal(
+    "My Profile",
+    `
+      <div class="aba-profile-box">
+
+        <div class="aba-profile-avatar">
+          A
+        </div>
+
+        <h2>
+          Academy Member
+        </h2>
+
+        <p>
+          Aung Business Academy
+        </p>
+
+        <div class="aba-profile-stats">
+
+          <div>
+            <strong>
+              ${academyData.completedLessons.length}
+            </strong>
+
+            <span>
+              Completed
+            </span>
+          </div>
+
+          <div>
+            <strong>
+              ${Math.round(
+                (
+                  academyData.completedLessons.length /
+                  lessons.length
+                ) * 100
+              )}%
+            </strong>
+
+            <span>
+              Progress
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+    `,
+    {
+      subtitle:
+        "Your academy profile"
+    }
+  );
+}
+
+
+// ======================================================
+// 21. INITIALIZE
+// ======================================================
+
+function initializeAcademy() {
+
+  loadData();
+
+  updateDashboard();
+
+  console.log(
+    "Aung Business Academy initialized."
+  );
+
+}
+
+
+// ======================================================
+// 22. DOM READY
+// ======================================================
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    initializeAcademy();
+
+    // Notification button
+    const notification =
+      document.querySelector(
+        ".notification"
+      );
+
+    if (notification) {
+
+      notification.addEventListener(
+        "click",
+        showNotification
+      );
+
+    }
+
+
+    // Profile button
+    const profile =
+      document.querySelector(
+        ".profile"
+      );
+
+    if (profile) {
+
+      profile.addEventListener(
+        "click",
+        openProfile
+      );
+
+    }
+
+
+    // Close sidebar after navigation
+    const navItems =
+      document.querySelectorAll(
+        ".nav-item"
+      );
+
+    navItems.forEach(item => {
+
+      item.addEventListener(
+        "click",
+        function() {
+
+          if (
+            window.innerWidth <= 900
+          ) {
+
+            const sidebar =
+              document.querySelector(
+                ".sidebar"
+              );
+
+            sidebar?.classList.remove(
+              "mobile-open"
+            );
+
+          }
+
+        }
+      );
+
+    });
+
+  }
+);
+
+
+// ======================================================
+// 23. EXTRA MODAL CSS
+// ======================================================
+
+const dynamicStyle =
+document.createElement("style");
+
+dynamicStyle.textContent = `
+
+/* ==========================================
+   MODAL
+========================================== */
+
+.aba-modal-overlay {
+
+  position: fixed;
+
+  inset: 0;
+
+  background:
+    rgba(0, 0, 0, 0.65);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 20px;
+
+  z-index: 9999;
+
+  opacity: 0;
+
+  transition:
+    opacity 0.2s ease;
+
+}
+
+.aba-modal-overlay.active {
+
+  opacity: 1;
+
+}
+
+.aba-modal {
+
+  width: 100%;
+
+  max-width: 850px;
+
+  max-height: 90vh;
+
+  overflow-y: auto;
+
+  background: #ffffff;
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 25px 80px
+    rgba(0,0,0,.30);
+
+  transform:
+    translateY(20px);
+
+  transition:
+    transform .25s ease;
+
+}
+
+.aba-modal-overlay.active
+.aba-modal {
+
+  transform:
+    translateY(0);
+
+}
+
+.aba-modal-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-start;
+
+  padding: 25px 28px;
+
+  border-bottom:
+    1px solid #eeeeee;
+
+}
+
+.aba-modal-header h2 {
+
+  margin: 0;
+
+  font-size: 24px;
+
+  color: #111827;
+
+}
+
+.aba-modal-header p {
+
+  margin: 6px 0 0;
+
+  color: #6b7280;
+
+}
+
+.aba-modal-close {
+
+  border: none;
+
+  background: #f3f4f6;
+
+  width: 38px;
+
+  height: 38px;
+
+  border-radius: 50%;
+
+  font-size: 25px;
+
+  cursor: pointer;
+
+}
+
+.aba-modal-body {
+
+  padding: 28px;
+
+}
+
+
+/* ==========================================
+   LESSONS
+========================================== */
+
+.aba-lesson-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 18px;
+
+}
+
+.aba-lesson-card {
+
+  border:
+    1px solid #e5e7eb;
+
+  border-radius: 16px;
+
+  padding: 20px;
+
+  background: #ffffff;
+
+  transition:
+    transform .2s,
+    box-shadow .2s;
+
+}
+
+.aba-lesson-card:hover {
+
+  transform:
+    translateY(-3px);
+
+  box-shadow:
+    0 10px 30px
+    rgba(0,0,0,.08);
+
+}
+
+.aba-lesson-top {
+
+  display: flex;
+
+  justify-content:
+    space-between;
+
+  align-items: center;
+
+  margin-bottom: 14px;
+
+}
+
+.aba-badge {
+
+  display: inline-block;
+
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  background: #eef2ff;
+
+  color: #4f46e5;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+}
+
+.aba-completed {
+
+  color: #16a34a;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+}
+
+.aba-lesson-card h3 {
+
+  margin:
+    0 0 6px;
+
+  color: #111827;
+
+}
+
+.aba-lesson-card small {
+
+  color: #6366f1;
+
+  font-weight: 600;
+
+}
+
+.aba-lesson-card p {
+
+  color: #6b7280;
+
+  line-height: 1.6;
+
+}
+
+
+/* ==========================================
+   BUTTONS
+========================================== */
+
+.aba-primary-btn {
+
+  border: none;
+
+  background:
+    linear-gradient(
+      135deg,
+      #4f46e5,
+      #7c3aed
+    );
+
+  color: white;
+
+  padding:
+    11px 18px;
+
+  border-radius: 10px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform .2s,
+    opacity .2s;
+
+}
+
+.aba-primary-btn:hover {
+
+  transform:
+    translateY(-1px);
+
+  opacity: .92;
+
+}
+
+.aba-secondary-btn {
+
+  border:
+    1px solid #d1d5db;
+
+  background: #ffffff;
+
+  color: #374151;
+
+  padding:
+    11px 18px;
+
+  border-radius: 10px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+}
+
+
+/* ==========================================
+   TOOLS
+========================================== */
+
+.aba-tools-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 18px;
+
+}
+
+.aba-tool-card {
+
+  text-align: left;
+
+  border:
+    1px solid #e5e7eb;
+
+  background: #fff;
+
+  border-radius: 16px;
+
+  padding: 22px;
+
+  cursor: pointer;
+
+  transition:
+    transform .2s,
+    box-shadow .2s;
+
+}
+
+.aba-tool-card:hover {
+
+  transform:
+    translateY(-3px);
+
+  box-shadow:
+    0 10px 30px
+    rgba(0,0,0,.08);
+
+}
+
+.aba-tool-icon {
+
+  font-size: 30px;
+
+  margin-bottom: 12px;
+
+}
+
+.aba-tool-card h3 {
+
+  margin:
+    0 0 7px;
+
+}
+
+.aba-tool-card p {
+
+  margin: 0;
+
+  color: #6b7280;
+
+  line-height: 1.5;
+
+}
+
+
+/* ==========================================
+   CALCULATOR
+========================================== */
+
+.aba-calculator {
+
+  max-width: 550px;
+
+  margin: auto;
+
+}
+
+.aba-calculator label {
+
+  display: block;
+
+  margin:
+    14px 0 7px;
+
+  font-weight: 700;
+
+  color: #374151;
+
+}
+
+.aba-calculator input {
+
+  width: 100%;
+
+  padding: 13px;
+
+  border:
+    1px solid #d1d5db;
+
+  border-radius: 10px;
+
+  outline: none;
+
+  font-size: 15px;
+
+}
+
+.aba-calculator input:focus {
+
+  border-color:
+    #6366f1;
+
+}
+
+.aba-calculator
+.aba-primary-btn {
+
+  margin-top: 18px;
+
+  width: 100%;
+
+}
+
+.aba-result {
+
+  margin-top: 20px;
+
+  padding: 15px;
+
+  background: #f8fafc;
+
+  border-radius: 12px;
+
+}
+
+.aba-result-item {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 10px 0;
+
+  border-bottom:
+    1px solid #e5e7eb;
+
+}
+
+.aba-result-item:last-child {
+
+  border-bottom: none;
+
+}
+
+.aba-result-item strong {
+
+  color: #4f46e5;
+
+}
+
+.aba-error {
+
+  color: #dc2626;
+
+  font-weight: 600;
+
+}
+
+
+/* ==========================================
+   AI / PREMIUM
+========================================== */
+
+.aba-ai-box,
+.aba-premium-box {
+
+  text-align: center;
+
+  max-width: 600px;
+
+  margin: auto;
+
+}
+
+.aba-ai-icon,
+.aba-premium-large-icon {
+
+  font-size: 55px;
+
+  margin-bottom: 10px;
+
+}
+
+.aba-ai-features,
+.aba-premium-list {
+
+  text-align: left;
+
+  display: grid;
+
+  gap: 10px;
+
+  margin:
+    22px 0;
+
+}
+
+.aba-ai-features div,
+.aba-premium-list div {
+
+  padding: 12px;
+
+  border-radius: 10px;
+
+  background: #f8fafc;
+
+}
+
+.aba-premium-lock {
+
+  padding: 18px;
+
+  border-radius: 14px;
+
+  background:
+    #fff7ed;
+
+  color: #c2410c;
+
+  font-weight: 700;
+
+  margin-bottom: 20px;
+
+}
+
+.aba-premium-lock small {
+
+  display: block;
+
+  margin-top: 7px;
+
+  font-weight: 500;
+
+}
+
+.aba-price {
+
+  margin:
+    20px 0;
+
+  padding: 18px;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #eef2ff,
+      #f5f3ff
+    );
+
+}
+
+.aba-price strong {
+
+  display: block;
+
+  margin-top: 5px;
+
+  color: #4f46e5;
+
+  font-size: 20px;
+
+}
+
+
+/* ==========================================
+   PROFILE
+========================================== */
+
+.aba-profile-box {
+
+  text-align: center;
+
+}
+
+.aba-profile-avatar {
+
+  width: 80px;
+
+  height: 80px;
+
+  margin: auto;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      135deg,
+      #4f46e5,
+      #7c3aed
+    );
+
+  color: white;
+
+  font-size: 30px;
+
+  font-weight: 800;
+
+}
+
+.aba-profile-stats {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 15px;
+
+  margin-top: 25px;
+
+}
+
+.aba-profile-stats div {
+
+  background: #f8fafc;
+
+  padding: 18px;
+
+  border-radius: 12px;
+
+}
+
+.aba-profile-stats strong {
+
+  display: block;
+
+  font-size: 24px;
+
+  color: #4f46e5;
+
+}
+
+.aba-profile-stats span {
+
+  color: #6b7280;
+
+  font-size: 13px;
+
+}
+
+
+/* ==========================================
+   TOAST
+========================================== */
+
+.aba-toast {
+
+  position: fixed;
+
+  right: 25px;
+
+  bottom: 25px;
+
+  z-index: 10000;
+
+  display: flex;
+
+  gap: 10px;
+
+  align-items: center;
+
+  padding:
+    14px 18px;
+
+  border-radius: 12px;
+
+  background: #111827;
+
+  color: white;
+
+  box-shadow:
+    0 10px 30px
+    rgba(0,0,0,.2);
+
+  animation:
+    abaToastIn .3s ease;
+
+}
+
+.aba-toast.success {
+
+  border-left:
+    4px solid #22c55e;
+
+}
+
+.aba-toast.hide {
+
+  opacity: 0;
+
+  transform:
+    translateY(10px);
+
+  transition:
+    all .3s;
+
+}
+
+@keyframes abaToastIn {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      translateY(10px);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      translateY(0);
+
+  }
+
+}
+
+
+/* ==========================================
+   NOTIFICATION
+========================================== */
+
+.aba-notification-item {
+
+  padding: 16px;
+
+  background: #f8fafc;
+
+  border-radius: 12px;
+
+  margin-bottom: 12px;
+
+}
+
+.aba-notification-item p {
+
+  color: #6b7280;
+
+  margin-bottom: 0;
+
+}
+
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 700px) {
+
+  .aba-modal {
+
+    max-height: 94vh;
+
+    border-radius: 16px;
+
+  }
+
+  .aba-modal-body {
+
+    padding: 20px;
+
+  }
+
+  .aba-lesson-grid,
+  .aba-tools-grid {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .aba-modal-header {
+
+    padding: 20px;
+
+  }
+
+  .aba-toast {
+
+    left: 15px;
+
+    right: 15px;
+
+    bottom: 15px;
+
+  }
+
+}
+
+`;
+
+document.head.appendChild(
+  dynamicStyle
+);

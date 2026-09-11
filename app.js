@@ -1,1996 +1,2689 @@
-/* =====================================================
-   AUNG BUSINESS ACADEMY
-   APP.JS V6
-   Stable Click System
-===================================================== */
+// ============================================================
+// AUNG BUSINESS ACADEMY
+// APP.JS V2 - LESSON SYSTEM
+// ============================================================
 
 (function () {
-
-  "use strict";
-
-
-  /* =====================================================
-     LESSON DATA
-  ===================================================== */
-
-  const lessons = [
-
-    {
-      id: 1,
-      title: "Business Foundation",
-      category: "Business Basics",
-      icon: "🚀",
-      description:
-        "Understand the basic principles of starting and running a business.",
-
-      content: `
-        <h2>Business Foundation</h2>
-
-        <p>
-          Business တစ်ခုကို စတင်တဲ့အခါ အခြေခံအနေနဲ့
-          Customer, Product, Market နဲ့ Money ဆိုတဲ့
-          အချက်တွေကို နားလည်ထားဖို့လိုပါတယ်။
-        </p>
-
-        <h3>1. Customer</h3>
-
-        <p>
-          ဘယ်သူတွေကို ရောင်းမလဲဆိုတာ အရင်ဆုံးသိရပါမယ်။
-          Customer ကို မသိဘဲ Product ကို ရောင်းဖို့ခက်ပါတယ်။
-        </p>
-
-        <h3>2. Product</h3>
-
-        <p>
-          Customer ရဲ့ ပြဿနာကို ဖြေရှင်းပေးနိုင်တဲ့
-          Product သို့မဟုတ် Service ဖြစ်ဖို့လိုပါတယ်။
-        </p>
-
-        <h3>3. Market</h3>
-
-        <p>
-          Market size, competitor နဲ့ customer demand ကို
-          လေ့လာရပါမယ်။
-        </p>
-
-        <h3>4. Money</h3>
-
-        <p>
-          Revenue, Cost, Profit နဲ့ Cash Flow ကို
-          စနစ်တကျ စီမံရပါမယ်။
-        </p>
-      `
-    },
-
-
-    {
-      id: 2,
-      title: "Finding Your Customer",
-      category: "Marketing",
-      icon: "🎯",
-      description:
-        "Learn how to identify and understand your target customer.",
-
-      content: `
-        <h2>Finding Your Customer</h2>
-
-        <p>
-          Customer ကို ရှာတဲ့အခါ လူတိုင်းကို Target မထားဘဲ
-          သင့် Product နဲ့ အကိုက်ညီဆုံး Customer ကို
-          သတ်မှတ်ရပါမယ်။
-        </p>
-
-        <h3>Target Customer</h3>
-
-        <p>
-          အသက်၊ နေရာ၊ ဝင်ငွေ၊ အလုပ်အကိုင်၊ လိုအပ်ချက်နဲ့
-          ဝယ်ယူမှုအလေ့အထတွေကို လေ့လာပါ။
-        </p>
-
-        <h3>Customer Problem</h3>
-
-        <p>
-          Customer ဘာပြဿနာရှိသလဲ သိမှ
-          သင့် Product ရဲ့ Value ကို ပြနိုင်မှာဖြစ်ပါတယ်။
-        </p>
-      `
-    },
-
-
-    {
-      id: 3,
-      title: "Sales Fundamentals",
-      category: "Sales",
-      icon: "💰",
-      description:
-        "Learn the basic principles of professional selling.",
-
-      content: `
-        <h2>Sales Fundamentals</h2>
-
-        <p>
-          Sales ဆိုတာ Product ကို အတင်းရောင်းတာမဟုတ်ပါဘူး။
-          Customer ရဲ့ Need ကို နားလည်ပြီး
-          သင့် Solution က ဘယ်လို Value ပေးနိုင်သလဲ
-          ပြသပေးတာဖြစ်ပါတယ်။
-        </p>
-
-        <h3>Sales Process</h3>
-
-        <p>
-          Prospecting → Qualification → Presentation →
-          Objection Handling → Closing → Follow-up
-        </p>
-
-        <h3>Key Point</h3>
-
-        <p>
-          အကောင်းဆုံး Salesperson က စကားအများဆုံးပြောသူမဟုတ်ပါဘူး။
-          Customer ကို အကောင်းဆုံးနားထောင်သူ ဖြစ်ပါတယ်။
-        </p>
-      `
-    },
-
-
-    {
-      id: 4,
-      title: "Marketing Basics",
-      category: "Marketing",
-      icon: "📣",
-      description:
-        "Understand the core concepts of marketing.",
-
-      content: `
-        <h2>Marketing Basics</h2>
-
-        <p>
-          Marketing ရဲ့ အဓိကရည်ရွယ်ချက်က
-          Customer ကို သိအောင်လုပ်ခြင်း၊
-          စိတ်ဝင်စားအောင်လုပ်ခြင်းနဲ့
-          ဝယ်ယူစေခြင်း ဖြစ်ပါတယ်။
-        </p>
-
-        <h3>4P Marketing Mix</h3>
-
-        <p>
-          Product<br>
-          Price<br>
-          Place<br>
-          Promotion
-        </p>
-      `
-    },
-
-
-    {
-      id: 5,
-      title: "Leadership Basics",
-      category: "Leadership",
-      icon: "👑",
-      description:
-        "Learn the fundamentals of effective leadership.",
-
-      content: `
-        <h2>Leadership Basics</h2>
-
-        <p>
-          Leader တစ်ယောက်ရဲ့ အလုပ်က လူတွေကို
-          အမိန့်ပေးရုံမဟုတ်ပါဘူး။
-          Direction ပေးခြင်း၊ People Development လုပ်ခြင်းနဲ့
-          Team ကို Result ရအောင် ဦးဆောင်ခြင်း ဖြစ်ပါတယ်။
-        </p>
-
-        <h3>Good Leader</h3>
-
-        <p>
-          Clear Expectations + Coaching + Accountability +
-          Feedback = Strong Team
-        </p>
-      `
-    },
-
-
-    {
-      id: 6,
-      title: "Profit & Loss",
-      category: "Finance",
-      icon: "📊",
-      description:
-        "Understand revenue, cost and profit.",
-
-      content: `
-        <h2>Profit & Loss</h2>
-
-        <p>
-          Business ရဲ့ အခြေခံ Formula က
-        </p>
-
-        <p>
-          <strong>Profit = Revenue - Cost</strong>
-        </p>
-
-        <p>
-          Revenue တက်တာတစ်ခုတည်းနဲ့ Business အောင်မြင်တာ
-          မဟုတ်ပါဘူး။ Cost ကိုလည်း ထိန်းချုပ်နိုင်ဖို့လိုပါတယ်။
-        </p>
-      `
-    },
-
-
-    {
-      id: 7,
-      title: "Cash Flow",
-      category: "Finance",
-      icon: "💵",
-      description:
-        "Learn why cash flow is critical to business.",
-
-      content: `
-        <h2>Cash Flow</h2>
-
-        <p>
-          Profit ရှိပေမယ့် Cash မရှိရင် Business လည်ပတ်ဖို့
-          ခက်နိုင်ပါတယ်။
-        </p>
-
-        <h3>Cash Flow Management</h3>
-
-        <p>
-          Receivable, Payable, Inventory နဲ့
-          Operating Expenses တွေကို စနစ်တကျစီမံပါ။
-        </p>
-      `
-    },
-
-
-    {
-      id: 8,
-      title: "Team Management",
-      category: "Management",
-      icon: "👥",
-      description:
-        "Learn how to manage and develop your team.",
-
-      content: `
-        <h2>Team Management</h2>
-
-        <p>
-          Team Management ရဲ့ အဓိကက
-          လူမှန်ကို နေရာမှန်မှာထားပြီး
-          Clear KPI နဲ့ Coaching ပေးခြင်း ဖြစ်ပါတယ်။
-        </p>
-
-        <h3>Manager Responsibilities</h3>
-
-        <p>
-          Set expectations<br>
-          Monitor performance<br>
-          Coach people<br>
-          Give feedback<br>
-          Build accountability
-        </p>
-      `
-    },
-
-
-    {
-      id: 9,
-      title: "Time Management",
-      category: "Productivity",
-      icon: "⏰",
-      description:
-        "Learn how to manage your time and priorities.",
-
-      content: `
-        <h2>Time Management</h2>
-
-        <p>
-          အရေးကြီးတာနဲ့ အရေးပေါ်တာကို ခွဲခြားနိုင်ဖို့လိုပါတယ်။
-        </p>
-
-        <h3>Daily Priority</h3>
-
-        <p>
-          တစ်နေ့တာအတွက် အရေးကြီးဆုံး 3 ခုကို
-          သတ်မှတ်ပြီး အရင်ဆုံးလုပ်ပါ။
-        </p>
-      `
-    },
-
-
-    {
-      id: 10,
-      title: "Business Strategy",
-      category: "Strategy",
-      icon: "🧠",
-      description:
-        "Learn how to build a practical business strategy.",
-
-      content: `
-        <h2>Business Strategy</h2>
-
-        <p>
-          Strategy ဆိုတာ ဘာလုပ်မလဲဆိုတာတင်မဟုတ်ဘဲ
-          ဘာကို မလုပ်ဘူးဆိုတာကိုပါ ဆုံးဖြတ်ခြင်း ဖြစ်ပါတယ်။
-        </p>
-
-        <h3>Strategy Questions</h3>
-
-        <p>
-          ဘယ် Customer ကို Target လုပ်မလဲ?<br>
-          ဘာ Value ပေးမလဲ?<br>
-          Competitor ထက် ဘာပိုကောင်းမလဲ?<br>
-          ဘယ်လို Profit ရအောင်လုပ်မလဲ?
-        </p>
-      `
+    "use strict";
+
+    const STORAGE_KEY = "aung_business_academy_completed";
+
+    const lessons = [
+        {
+            id: 1,
+            title: "Business Foundation",
+            category: "Business",
+            level: "Beginner",
+            duration: "10 min",
+            description: "Learn the foundation of a successful business.",
+            content: `
+                <h2>Business Foundation</h2>
+                <p>A business solves customer problems and creates value.</p>
+                <h3>Key Principles</h3>
+                <ul>
+                    <li>Know your customer.</li>
+                    <li>Solve a real problem.</li>
+                    <li>Create value.</li>
+                    <li>Control costs.</li>
+                    <li>Build repeat customers.</li>
+                </ul>
+                <p><strong>Key Takeaway:</strong> A strong business starts with a strong foundation.</p>
+            `,
+            quiz: [
+                {
+                    q: "What is one main purpose of a business?",
+                    options: ["Solve customer problems", "Avoid customers", "Increase expenses", "Reduce quality"],
+                    answer: 0
+                },
+                {
+                    q: "What should a business manager understand?",
+                    options: ["Only sales", "Only finance", "Customers, people, operations and finance", "Nothing"],
+                    answer: 2
+                }
+            ]
+        },
+
+        {
+            id: 2,
+            title: "Business Model",
+            category: "Business",
+            level: "Beginner",
+            duration: "10 min",
+            description: "Understand how a business creates and earns money.",
+            content: `
+                <h2>Business Model</h2>
+                <p>A business model explains how a company creates value and makes money.</p>
+                <h3>Important Elements</h3>
+                <ul>
+                    <li>Customer</li>
+                    <li>Product or Service</li>
+                    <li>Value Proposition</li>
+                    <li>Revenue</li>
+                    <li>Cost Structure</li>
+                    <li>Distribution Channel</li>
+                </ul>
+            `,
+            quiz: [
+                {
+                    q: "What does a business model explain?",
+                    options: ["How the business creates and earns money", "Employee attendance", "Advertising only", "Accounting only"],
+                    answer: 0
+                },
+                {
+                    q: "Which is part of a business model?",
+                    options: ["Customer", "Product", "Revenue", "All of the above"],
+                    answer: 3
+                }
+            ]
+        },
+
+        {
+            id: 3,
+            title: "Finding Your Customer",
+            category: "Marketing",
+            level: "Beginner",
+            duration: "10 min",
+            description: "Learn how to identify the right customer.",
+            content: `
+                <h2>Finding Your Customer</h2>
+                <p>Not everyone is your customer. Successful businesses clearly define their target customer.</p>
+                <h3>Customer Profile</h3>
+                <ul>
+                    <li>Age</li>
+                    <li>Location</li>
+                    <li>Income</li>
+                    <li>Occupation</li>
+                    <li>Needs</li>
+                    <li>Buying behavior</li>
+                </ul>
+            `,
+            quiz: [
+                {
+                    q: "Should every person be considered your customer?",
+                    options: ["Yes", "No", "Only employees", "Only competitors"],
+                    answer: 1
+                },
+                {
+                    q: "Which helps define a customer?",
+                    options: ["Location", "Needs", "Buying behavior", "All of the above"],
+                    answer: 3
+                }
+            ]
+        },
+
+        {
+            id: 4,
+            title: "Market Research",
+            category: "Marketing",
+            level: "Beginner",
+            duration: "12 min",
+            description: "Learn how to understand your market and competitors.",
+            content: `
+                <h2>Market Research</h2>
+                <p>Market research helps you understand customers, competitors and opportunities.</p>
+                <h3>Research Areas</h3>
+                <ul>
+                    <li>Market size</li>
+                    <li>Customer demand</li>
+                    <li>Competitors</li>
+                    <li>Price levels</li>
+                    <li>Market trends</li>
+                </ul>
+            `,
+            quiz: [
+                {
+                    q: "Why do businesses conduct market research?",
+                    options: ["To understand the market", "To ignore customers", "To create confusion", "To avoid competitors"],
+                    answer: 0
+                },
+                {
+                    q: "What should market research include?",
+                    options: ["Competitors", "Customer demand", "Price levels", "All of the above"],
+                    answer: 3
+                }
+            ]
+        },
+
+        {
+            id: 5,
+            title: "Value Proposition",
+            category: "Marketing",
+            level: "Beginner",
+            duration: "10 min",
+            description: "Learn how to communicate customer value.",
+            content: `
+                <h2>Value Proposition</h2>
+                <p>A value proposition explains the main benefit a customer receives.</p>
+                <h3>Good Value Proposition</h3>
+                <ul>
+                    <li>Clear</li>
+                    <li>Customer-focused</li>
+                    <li>Specific</li>
+                    <li>Easy to understand</li>
+                </ul>
+            `,
+            quiz: [
+                {
+                    q: "What does a value proposition communicate?",
+                    options: ["Customer benefit", "Employee salary", "Office location", "Tax information"],
+                    answer: 0
+                },
+                {
+                    q: "A good value proposition should be:",
+                    options: ["Confusing", "Clear", "Complicated", "Hidden"],
+                    answer: 1
+                }
+            ]
+        },
+
+        {
+            id: 6,
+            title: "Product Basics",
+            category: "Business",
+            level: "Beginner",
+            duration: "10 min",
+            description: "Understand product features, benefits and value.",
+            content: `
+                <h2>Product Basics</h2>
+                <p>A product should solve a customer need.</p>
+                <p>Features explain what the product has. Benefits explain what the customer gets.</p>
+                <h3>Remember</h3>
+                <p>Customers usually buy benefits, not features.</p>
+            `,
+            quiz: [
+                {
+                    q: "What do customers usually care about?",
+                    options: ["Benefits", "Office furniture", "Employee attendance", "Internal rules"],
+                    answer: 0
+                },
+                {
+                    q: "A product should solve:",
+                    options: ["A customer need", "Only a manager problem", "Employee schedules", "Nothing"],
+                    answer: 0
+                }
+            ]
+        },
+
+        {
+            id: 7,
+            title: "Pricing Basics",
+            category: "Finance",
+            level: "Beginner",
+            duration: "12 min",
+            description: "Learn the basic principles of business pricing.",
+            content: `
+                <h2>Pricing Basics</h2>
+                <p>Pricing affects revenue, profit, customer perception and competitiveness.</p>
+                <h3>Consider</h3>
+                <ul>
+                    <li>Product cost</li>
+                    <li>Customer willingness to pay</li>
+                    <li>Competitor prices</li>
+                    <li>Target profit margin</li>
+                    <li>Market positioning</li>
+                </ul>
+            `,
+            quiz: [
+                {
+                    q: "What can pricing affect?",
+                    options: ["Revenue", "Profit", "Customer perception", "All of the above"],
+                    answer: 3
+                },
+                {
+                    q: "Should pricing consider customer willingness to pay?",
+                    options: ["Yes", "No", "Never", "Only for employees"],
+                    answer: 0
+                }
+            ]
+        },
+
+        {
+            id: 8,
+            title: "Sales Fundamentals",
+            category: "Sales",
+            level: "Beginner",
+            duration: "12 min",
+            description: "Learn the foundation of professional selling.",
+            content: `
+                <h2>Sales Fundamentals</h2>
+                <p>Professional selling is about understanding customer needs and providing the right solution.</p>
+                <h3>Basic Sales Process</h3>
+                <ol>
+                    <li>Prospecting</li>
+                    <li>Customer approach</li>
+                    <li>Needs discovery</li>
+                    <li>Presentation</li>
+                    <li>Objection handling</li>
+                    <li>Closing</li>
+                    <li>Follow-up</li>
+                </ol>
+            `,
+            quiz: [
+                {
+                    q: "What should a salesperson discover?",
+                    options: ["Customer needs", "Employee salary", "Office rent", "Tax rate"],
+                    answer: 0
+                },
+                {
+                    q: "What comes after objection handling?",
+                    options: ["Closing", "Recruitment", "Accounting", "Product design"],
+                    answer: 0
+                }
+            ]
+        },
+
+        {
+            id: 9,
+            title: "Marketing Basics",
+            category: "Marketing",
+            level: "Beginner",
+            duration: "10 min",
+            description: "Understand the basic marketing process.",
+            content: `
+                <h2>Marketing Basics</h2>
+                <p>Marketing connects the right product with the right customer through the right message and channel.</p>
+                <h3>Marketing Mix</h3>
+                <ul>
+                    <li>Product</li>
+                    <li>Price</li>
+                    <li>Place</li>
+                    <li>Promotion</li>
+                </ul>
+            `,
+            quiz: [
+                {
+                    q: "What are the traditional 4Ps?",
+                    options: [
+                        "Product, Price, Place, Promotion",
+                        "People, Profit, Power, Plan",
+                        "Product, People, Profit, Process",
+                        "Price, Profit, Plan, Power"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What should marketing start with?",
+                    options: ["Customer needs", "Office design", "Employee uniforms", "Accounting"],
+                    answer: 0
+                }
+            ]
+        },
+
+        {
+            id: 10,
+            title: "Personal Productivity",
+            category: "Productivity",
+            level: "Beginner",
+            duration: "10 min",
+            description: "Improve personal productivity and execution.",
+            content: `
+                <h2>Personal Productivity</h2>
+                <p>Productivity means achieving important results through effective use of time and resources.</p>
+                <ul>
+                    <li>Set priorities.</li>
+                    <li>Plan your day.</li>
+                    <li>Focus on important tasks.</li>
+                    <li>Avoid distractions.</li>
+                    <li>Review your results.</li>
+                </ul>
+            `,
+            quiz: [
+                {
+                    q: "What should you do first?",
+                    options: ["Set priorities", "Ignore tasks", "Wait for problems", "Do random activities"],
+                    answer: 0
+                },
+                {
+                    q: "What should happen at the end of the day?",
+                    options: ["Review results", "Delete goals", "Ignore performance", "Stop planning"],
+                    answer: 0
+                }
+            ]
+        },
+
+        {
+            id: 11,
+            title: "Sales Strategy",
+            category: "Sales",
+            level: "Intermediate",
+            duration: "15 min",
+            description: "Build a practical sales strategy.",
+            content: `
+                <h2>Sales Strategy</h2>
+                <p>Sales strategy defines how your team will achieve revenue and volume targets.</p>
+                <ul>
+                    <li>Target customers</li>
+                    <li>Sales channels</li>
+                    <li>Territory planning</li>
+                    <li>Sales targets</li>
+                    <li>Key accounts</li>
+                    <li>Sales activities</li>
+                </ul>
+                <p>Strategy must be converted into daily field execution.</p>
+            `,
+            quiz: [
+                {
+                    q: "What should sales strategy ultimately drive?",
+                    options: ["Field execution", "Confusion", "Higher costs only", "Less customer contact"],
+                    answer: 0
+                },
+                {
+                    q: "Which is part of sales strategy?",
+                    options: ["Territory planning", "Target customers", "Sales channels", "All of the above"],
+                    answer: 3
+                }
+            ]
+        },
+
+        {
+            id: 12,
+            title: "Customer Finding",
+            category: "Sales",
+            level: "Intermediate",
+            duration: "12 min",
+            description: "Learn prospecting and customer acquisition.",
+            content: `
+                <h2>Customer Finding</h2>
+                <p>Prospecting is the process of identifying potential customers.</p>
+                <ul>
+                    <li>Customer referrals</li>
+                    <li>Online channels</li>
+                    <li>Market visits</li>
+                    <li>Business directories</li>
+                    <li>Networking</li>
+                </ul>
+            `,
+            quiz: [
+                {
+                    q: "What is prospecting?",
+                    options: ["Finding potential customers", "Closing a company", "Hiring employees", "Preparing taxes"],
+                    answer: 0
+                },
+                {
+                    q: "What is important after finding a prospect?",
+                    options: ["Follow-up", "Ignore them", "Delete information", "Stop communication"],
+                    answer: 0
+                }
+            ]
+        },
+
+        {
+            id: 13,
+            title: "Negotiation",
+            category: "Sales",
+            level: "Intermediate",
+            duration: "15 min",
+            description: "Develop professional negotiation skills.",
+            content: `
+                <h2>Negotiation</h2>
+                <p>Effective negotiation creates value while protecting business interests.</p>
+                <ul>
+                    <li>Prepare before meeting.</li>
+                    <li>Understand the other side.</li>
+                    <li>Know your minimum acceptable position.</li>
+                    <li>Focus on value.</li>
+                    <li>Remain professional.</li>
+                </ul>
+            `,
+            quiz: [
+                {
+                    q: "What should you do before negotiation?",
+                    options: ["Prepare", "Guess", "Ignore customer", "Avoid information"],
+                    answer: 0
+                },
+                {
+                    q: "Negotiation should focus on:",
+                    options: ["Value", "Conflict", "Confusion", "Personal arguments"],
+                    answer: 0
+                }
+            ]
+        },
+
+        {
+            id: 14,
+            title: "Sales Management",
+            category: "Sales",
+            level: "Intermediate",
+            duration: "15 min",
+            description: "Learn how to manage sales teams and performance.",
+            content: `
+                <h2>Sales Management</h2>
+                <p>Sales management combines target setting, execution, monitoring, coaching and performance improvement.</p>
+                <ul>
+                    <li>Set clear targets.</li>
+                    <li>Track KPIs.</li>
+                    <li>Coach team members.</li>
+                    <li>Review performance.</li>
+                    <li>Take corrective action.</li>
+                </ul>
+            `,
+            quiz: [
+                {
+                    q: "What should a sales manager track?",
+                    options: ["KPIs", "Only attendance", "Only expenses", "Nothing"],
+                    answer: 0
+                },
+                {
+                    q: "What is a key management responsibility?",
+                    options: ["Coaching", "Ignoring performance", "Avoiding targets", "Removing accountability"],
+                    answer: 0
+                }
+            ]
+        },
+
+        {
+            id: 15,
+            title: "Digital Marketing",
+            category: "Marketing",
+            level: "Intermediate",
+            duration: "15 min",
+            description: "Learn how digital channels support business growth.",
+            content: `
+                <h2>Digital Marketing</h2>
+                <p>Digital marketing uses online channels to reach and engage customers.</p>
+                <ul>
+                    <li>Facebook</li>
+                    <li>YouTube</li>
+                    <li>TikTok</li>
+                    <li>Google</li>
+                    <li>Email</li>
+                    <li>Websites</li>
+                </ul>
+                <p>Measure reach, engagement, leads, conversions and revenue.</p>
+            `,
+            quiz: [
+                {
+                    q: "What is digital marketing?",
+                    options: ["Online marketing", "Printed advertising", "TV only", "Store decoration"],
+                    answer: 0
+                },
+                {
+                    q: "Which metric can measure digital marketing?",
+                    options: ["Conversions", "Leads", "Revenue", "All of the above"],
+                    answer: 3
+                }
+            ]
+        },
+
+        {
+            id: 16,
+            title: "Content Marketing",
+            category: "Marketing",
+            level: "Intermediate",
+            duration: "12 min",
+            description: "Learn how valuable content attracts customers.",
+            content: `
+                <h2>Content Marketing</h2>
+                <p>Content marketing provides useful information that attracts and builds customer relationships.</p>
+                <ul>
+                    <li>Educational content</li>
+                    <li>Product content</li>
+                    <li>Customer stories</li>
+                    <li>Videos</li>
+                    <li>Tips and tutorials</li>
+                </ul>
+            `,
+            quiz: [
+                {
+                    q: "What should content provide?",
+                    options: ["Value", "Confusion", "Spam", "Nothing"],
+                    answer: 0
+                },
+                {
+                    q: "Which is content marketing?",
+                    options: ["Educational videos", "Customer stories", "Tips", "All of the above"],
+                    answer: 3
+                }
+            ]
+        },
+
+        {
+            id: 17,
+            title: "Branding Basics",
+            category: "Branding",
+            level: "Intermediate",
+            duration: "12 min",
+            description: "Understand how brands create trust and recognition.",
+            content: `
+                <h2>Branding Basics</h2>
+                <p>A brand is more than a logo. It represents the customer's overall perception of a business.</p>
+                <ul>
+                    <li>Name</li>
+                    <li>Logo</li>
+                    <li>Colors</li>
+                    <li>Voice</li>
+                    <li>Customer experience</li>
+                    <li>Reputation</li>
+                </ul>
+            `,
+            quiz: [
+                {
+                    q: "Is a brand only a logo?",
+                    options: ["Yes", "No", "Always", "Only for large companies"],
+                    answer: 1
+                },
+                {
+                    q: "What affects brand perception?",
+                    options: ["Customer experience", "Reputation", "Communication", "All of the above"],
+                    answer: 3
+                }
+            ]
+        },
+
+        {
+            id: 18,
+            title: "Brand Positioning",
+            category: "Branding",
+            level: "Intermediate",
+            duration: "15 min",
+            description: "Learn how to position your brand in the market.",
+            content: `
+                <h2>Brand Positioning</h2>
+                <p>Positioning defines how you want customers to perceive your brand compared with competitors.</p>
+                <ul>
+                    <li>Who is the target customer?</li>
+                    <li>What problem do we solve?</li>
+                    <li>What makes us different?</li>
+                    <li>Why should customers choose us?</li>
+                </ul>
+            `,
+            quiz: [
+                {
+                    q: "What does positioning define?",
+                    options: ["How customers perceive the brand", "Employee attendance", "Office size", "Tax payments"],
+                    answer: 0
+                },
+                {
+                    q: "Should positioning consider competitors?",
+                    options: ["Yes", "No", "Never", "Only after failure"],
+                    answer: 0
+                }
+            ]
+        },
+
+        {
+            id: 19,
+            title: "Team Management",
+            category: "Management",
+            level: "Intermediate",
+            duration: "15 min",
+            description: "Learn practical methods for managing teams.",
+            content: `
+                <h2>Team Management</h2>
+                <p>Effective team management requires clear expectations, communication, coaching and accountability.</p>
+                <ul>
+                    <li>Set expectations.</li>
+                    <li>Give direction.</li>
+                    <li>Monitor performance.</li>
+                    <li>Coach people.</li>
+                    <li>Provide feedback.</li>
+                    <li>Recognize good performance.</li>
+                </ul>
+            `,
+            quiz: [
+                {
+                    q: "What should managers set?",
+                    options: ["Clear expectations", "Confusion", "Unclear targets", "No standards"],
+                    answer: 0
+                },
+                {
+                    q: "What supports employee development?",
+                    options: ["Coaching", "Ignoring", "Micromanagement only", "No feedback"],
+                    answer: 0
+                }
+            ]
+        },
+
+        {
+            id: 20,
+            title: "Recruitment",
+            category: "Management",
+            level: "Intermediate",
+            duration: "12 min",
+            description: "Learn the basics of hiring the right people.",
+            content: `
+                <h2>Recruitment</h2>
+                <p>Recruitment is about finding people with the right skills, attitude and potential.</p>
+                <ol>
+                    <li>Define job requirements.</li>
+                    <li>Source candidates.</li>
+                    <li>Screen candidates.</li>
+                    <li>Interview.</li>
+                    <li>Select.</li>
+                    <li>Onboard.</li>
+                </ol>
+            `,
+            quiz: [
+                {
+                    q: "What should be defined first?",
+                    options: ["Job requirements", "Office decoration", "Company party", "Holiday schedule"],
+                    answer: 0
+                },
+                {
+                    q: "What comes after interview?",
+                    options: ["Selection", "Market research", "Product launch", "Accounting"],
+                    answer: 0
+                }
+            ]
+        },
+
+        {
+            id: 21,
+            title: "Leadership",
+            category: "Leadership",
+            level: "Advanced",
+            duration: "18 min",
+            description: "Develop leadership skills for high-performing teams.",
+            content: `
+                <h2>Leadership</h2>
+                <p>Leadership is the ability to influence people toward a common goal.</p>
+                <ul>
+                    <li>Clear vision</li>
+                    <li>Strong communication</li>
+                    <li>Coaching</li>
+                    <li>Empowerment</li>
+                    <li>Accountability</li>
+                    <li>Decision making</li>
+                </ul>
+                <p>A leader should create ownership rather than dependence.</p>
+            `,
+            quiz: [
+                {
+                    q: "What is leadership?",
+                    options: ["Influencing people toward a common goal", "Controlling every detail", "Avoiding responsibility", "Only giving orders"],
+                    answer: 0
+                },
+                {
+                    q: "Strong leaders create:",
+                    options: ["Ownership", "Fear only", "Confusion", "Dependence"],
+                    answer: 0
+                }
+            ]
+        },
+
+        {
+            id: 22,
+            title: "Strategic Thinking",
+            category: "Strategy",
+            level: "Advanced",
+            duration: "18 min",
+            description: "Learn how managers think beyond daily operations.",
+            content: `
+                <h2>Strategic Thinking</h2>
+                <p>Strategic thinking means understanding the bigger picture and preparing for future opportunities and risks.</p>
+                <ul>
+                    <li>Market trends</li>
+                    <li>Competition</li>
+                    <li>Customer changes</li>
+                    <li>Business capabilities</li>
+                    <li>Future opportunities</li>
+                    <li>Potential risks</li>
+                </ul>
+            `,
+            quiz: [
+                {
+                    q: "Strategic thinking focuses on:",
+                    options: ["The bigger picture", "Only today's tasks", "Only attendance", "Only expenses"],
+                    answer: 0
+                },
+                {
+                    q: "What should strategy consider?",
+                    options: ["Competition", "Market trends", "Risks", "All of the above"],
+                    answer: 3
+                }
+            ]
+        },
+
+        {
+            id: 23,
+            title: "Decision Making",
+            category: "Leadership",
+            level: "Advanced",
+            duration: "15 min",
+            description: "Improve business decision-making skills.",
+            content: `
+                <h2>Decision Making</h2>
+                <p>Good decisions combine facts, experience, business judgment and risk assessment.</p>
+                <ol>
+                    <li>Define the problem.</li>
+                    <li>Collect information.</li>
+                    <li>Identify options.</li>
+                    <li>Evaluate risks.</li>
+                    <li>Choose an action.</li>
+                    <li>Monitor results.</li>
+                </ol>
+            `,
+            quiz: [
+                {
+                    q: "What should happen before choosing an action?",
+                    options: ["Evaluate options and risks", "Ignore information", "Guess", "Avoid the problem"],
+                    answer: 0
+                },
+                {
+                    q: "After a decision, managers should:",
+                    options: ["Monitor results", "Forget it", "Ignore outcomes", "Stop measuring"],
+                    answer: 0
+                }
+            ]
+        },
+
+        {
+            id: 24,
+            title: "Performance Management",
+            category: "Management",
+            level: "Advanced",
+            duration: "18 min",
+            description: "Build a performance management system.",
+            content: `
+                <h2>Performance Management</h2>
+                <p>Performance management ensures people understand expectations and receive regular feedback.</p>
+                <ul>
+                    <li>Clear KPIs</li>
+                    <li>Regular reviews</li>
+                    <li>Performance gaps</li>
+                    <li>Coaching plans</li>
+                    <li>Corrective actions</li>
+                    <li>Recognition</li>
+                </ul>
+            `,
+            quiz: [
+                {
+                    q: "What should performance management use?",
+                    options: ["Clear KPIs", "Rumors", "Guesswork", "No measurement"],
+                    answer: 0
+                },
+                {
+                    q: "What helps improve performance?",
+                    options: ["Coaching", "Clear feedback", "Action plans", "All of the above"],
+                    answer: 3
+                }
+            ]
+        },
+
+        {
+            id: 25,
+            title: "Coaching",
+            category: "Management",
+            level: "Advanced",
+            duration: "15 min",
+            description: "Learn how managers develop people through coaching.",
+            content: `
+                <h2>Coaching</h2>
+                <p>Coaching helps employees identify gaps, improve skills and take ownership.</p>
+                <ul>
+                    <li>Observe performance.</li>
+                    <li>Ask questions.</li>
+                    <li>Identify the gap.</li>
+                    <li>Agree on an action.</li>
+                    <li>Follow up.</li>
+                </ul>
+            `,
+            quiz: [
+                {
+                    q: "What is the purpose of coaching?",
+                    options: ["Develop people", "Punish employees", "Avoid communication", "Reduce learning"],
+                    answer: 0
+                },
+                {
+                    q: "What should happen after agreeing on an action?",
+                    options: ["Follow up", "Forget it", "Ignore results", "Stop communication"],
+                    answer: 0
+                }
+            ]
+        },
+
+        {
+            id: 26,
+            title: "Revenue Management",
+            category: "Finance",
+            level: "Advanced",
+            duration: "18 min",
+            description: "Understand how managers improve revenue performance.",
+            content: `
+                <h2>Revenue Management</h2>
+                <p>Revenue is the money generated from selling products or services.</p>
+                <h3>Revenue Drivers</h3>
+                <ul>
+                    <li>Volume</li>
+                    <li>Price</li>
+                    <li>Product mix</li>
+                    <li>Customer mix</li>
+                    <li>Distribution</li>
+                </ul>
+            `,
+            quiz: [
+                {
+                    q: "What is revenue?",
+                    options: ["Money generated from sales", "Only profit", "Only expenses", "Employee salary"],
+                    answer: 0
+                },
+                {
+                    q: "Which can drive revenue?",
+                    options: ["Volume", "Price", "Product mix", "All of the above"],
+                    answer: 3
+                }
+            ]
+        },
+
+        {
+            id: 27,
+            title: "Profit & Loss",
+            category: "Finance",
+            level: "Advanced",
+            duration: "18 min",
+            description: "Understand revenue, costs and profitability.",
+            content: `
+                <h2>Profit & Loss</h2>
+                <p>Profit is generally calculated as revenue minus costs.</p>
+                <h3>Formula</h3>
+                <p><strong>Profit = Revenue - Total Costs</strong></p>
+                <ul>
+                    <li>Revenue</li>
+                    <li>Cost of goods</li>
+                    <li>Operating expenses</li>
+                    <li>Gross profit</li>
+                    <li>Net profit</li>
+                </ul>
+            `,
+            quiz: [
+                {
+                    q: "What is the basic profit formula?",
+                    options: ["Revenue - Costs", "Costs - Revenue", "Revenue + Costs", "Revenue × Costs"],
+                    answer: 0
+                },
+                {
+                    q: "What should managers monitor?",
+                    options: ["Revenue", "Costs", "Profit", "All of the above"],
+                    answer: 3
+                }
+            ]
+        },
+
+        {
+            id: 28,
+            title: "Cash Flow",
+            category: "Finance",
+            level: "Advanced",
+            duration: "18 min",
+            description: "Understand why cash flow is critical.",
+            content: `
+                <h2>Cash Flow</h2>
+                <p>Cash flow tracks money coming into and going out of a business.</p>
+                <h3>Cash Inflows</h3>
+                <ul>
+                    <li>Customer payments</li>
+                    <li>Loans</li>
+                    <li>Investments</li>
+                </ul>
+                <h3>Cash Outflows</h3>
+                <ul>
+                    <li>Supplier payments</li>
+                    <li>Salaries</li>
+                    <li>Rent</li>
+                    <li>Operating expenses</li>
+                </ul>
+            `,
+            quiz: [
+                {
+                    q: "Cash flow tracks:",
+                    options: ["Money coming in and going out", "Only profit", "Only sales", "Only inventory"],
+                    answer: 0
+                },
+                {
+                    q: "Can a profitable business have cash-flow problems?",
+                    options: ["Yes", "No", "Never", "Only large companies"],
+                    answer: 0
+                }
+            ]
+        },
+
+        {
+            id: 29,
+            title: "Financial Analysis",
+            category: "Finance",
+            level: "Advanced",
+            duration: "20 min",
+            description: "Learn how managers analyze financial performance.",
+            content: `
+                <h2>Financial Analysis</h2>
+                <p>Financial analysis helps managers understand business performance and make better decisions.</p>
+                <h3>Important Metrics</h3>
+                <ul>
+                    <li>Revenue growth</li>
+                    <li>Gross margin</li>
+                    <li>Net profit margin</li>
+                    <li>Operating expenses</li>
+                    <li>Cash flow</li>
+                    <li>Return on investment</li>
+                </ul>
+            `,
+            quiz: [
+                {
+                    q: "Why do financial analysis?",
+                    options: ["To support better decisions", "To create confusion", "To avoid targets", "To stop reporting"],
+                    answer: 0
+                },
+                {
+                    q: "What can be analyzed?",
+                    options: ["Revenue growth", "Margins", "Cash flow", "All of the above"],
+                    answer: 3
+                }
+            ]
+        },
+
+        {
+            id: 30,
+            title: "Business Strategy",
+            category: "Strategy",
+            level: "Advanced",
+            duration: "20 min",
+            description: "Learn how to create a practical business strategy.",
+            content: `
+                <h2>Business Strategy</h2>
+                <p>Business strategy defines where the business wants to go and how it will compete and grow.</p>
+                <ol>
+                    <li>Define vision.</li>
+                    <li>Understand current position.</li>
+                    <li>Analyze market.</li>
+                    <li>Identify opportunities.</li>
+                    <li>Set strategic priorities.</li>
+                    <li>Create action plans.</li>
+                    <li>Measure results.</li>
+                </ol>
+                <p><strong>Key Takeaway:</strong> Strategy is valuable when it becomes execution.</p>
+            `,
+            quiz: [
+                {
+                    q: "What does business strategy define?",
+                    options: [
+                        "Where the business wants to go and how to grow",
+                        "Employee schedules",
+                        "Office design",
+                        "Accounting only"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What makes strategy valuable?",
+                    options: ["Execution", "Ignoring it", "Keeping it hidden", "Avoiding measurement"],
+                    answer: 0
+                }
+            ]
+        }
+    ];
+
+    // ============================================================
+    // STORAGE
+    // ============================================================
+
+    function getCompletedLessons() {
+        try {
+            return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        } catch (error) {
+            return [];
+        }
     }
 
-  ];
-
-
-  /* =====================================================
-     STORAGE
-  ===================================================== */
-
-  const STORAGE_KEY = "aung_business_academy_completed";
-
-
-  function getCompleted() {
-
-    try {
-
-      return JSON.parse(
-        localStorage.getItem(STORAGE_KEY) || "[]"
-      );
-
-    } catch (error) {
-
-      return [];
-
+    function saveCompletedLessons(data) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     }
 
-  }
-
-
-  function saveCompleted(list) {
-
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(list)
-    );
-
-  }
-
-
-  /* =====================================================
-     DASHBOARD
-  ===================================================== */
-
-  function updateDashboard() {
-
-    const lessonCount =
-      document.getElementById("lessonCount");
-
-    const progress =
-      document.getElementById("progress");
-
-    if (lessonCount) {
-
-      lessonCount.textContent =
-        lessons.length;
-
+    function isCompleted(id) {
+        return getCompletedLessons().includes(Number(id));
     }
 
-    if (progress) {
+    // ============================================================
+    // DASHBOARD
+    // ============================================================
 
-      const completed =
-        getCompleted();
+    function updateDashboard() {
+        const completed = getCompletedLessons();
+        const total = lessons.length;
+        const percent = Math.round((completed.length / total) * 100);
 
-      const percentage =
-        Math.round(
-          (completed.length / lessons.length) * 100
-        );
+        const count = document.getElementById("lessonCount");
+        const progress = document.getElementById("progress");
 
-      progress.textContent =
-        percentage + "%";
-
+        if (count) count.textContent = total;
+        if (progress) progress.textContent = percent + "%";
     }
 
-  }
+    // ============================================================
+    // MODAL
+    // ============================================================
 
+    function showModal(title, content) {
 
-  /* =====================================================
-     MODAL
-  ===================================================== */
+        closeModal();
 
-  function closeModal() {
+        const modal = document.createElement("div");
+        modal.id = "academyModal";
 
-    const modal =
-      document.getElementById("abaModal");
+        modal.innerHTML = `
+            <div style="
+                position:fixed;
+                inset:0;
+                background:rgba(0,0,0,.65);
+                z-index:99999;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                padding:15px;
+            ">
 
-    if (modal) {
+                <div style="
+                    background:#fff;
+                    width:min(900px,100%);
+                    max-height:92vh;
+                    overflow-y:auto;
+                    border-radius:20px;
+                    color:#172033;
+                    box-shadow:0 20px 60px rgba(0,0,0,.3);
+                ">
 
-      modal.remove();
+                    <div style="
+                        position:sticky;
+                        top:0;
+                        z-index:5;
+                        background:#fff;
+                        padding:18px 22px;
+                        border-bottom:1px solid #e5e7eb;
+                        display:flex;
+                        justify-content:space-between;
+                        align-items:center;
+                    ">
 
+                        <h2 style="margin:0;font-size:21px;">
+                            ${escapeHTML(title)}
+                        </h2>
+
+                        <button
+                            onclick="closeModal()"
+                            style="
+                                border:0;
+                                background:#f1f5f9;
+                                width:40px;
+                                height:40px;
+                                border-radius:50%;
+                                font-size:24px;
+                                cursor:pointer;
+                            "
+                        >×</button>
+
+                    </div>
+
+                    <div style="
+                        padding:22px;
+                        line-height:1.7;
+                        overflow-wrap:anywhere;
+                    ">
+                        ${content}
+                    </div>
+
+                </div>
+
+            </div>
+        `;
+
+        document.body.appendChild(modal);
     }
 
-  }
+    function closeModal() {
+        const modal = document.getElementById("academyModal");
+        if (modal) modal.remove();
+    }
 
+    // ============================================================
+    // LESSON LIBRARY
+    // ============================================================
 
-  function showModal(title, body, options = {}) {
+    function openLessons() {
+        renderLessons(lessons, "📚 Business Lessons");
+    }
 
-    closeModal();
+    function renderLessons(list, title) {
 
-    const modal =
-      document.createElement("div");
+        let html = `
+            <div style="margin-bottom:20px;">
 
-    modal.id = "abaModal";
+                <p style="color:#64748b;">
+                    Learn practical business skills from Beginner to Advanced.
+                </p>
 
-    modal.style.cssText = `
-      position:fixed;
-      inset:0;
-      z-index:99999;
-      background:rgba(0,0,0,.65);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
-      overflow-y:auto;
-    `;
+                <input
+                    id="lessonSearch"
+                    type="text"
+                    placeholder="🔎 Search lessons..."
+                    oninput="filterLessons()"
+                    style="
+                        width:100%;
+                        padding:14px;
+                        border:1px solid #dbe1ea;
+                        border-radius:12px;
+                        font-size:15px;
+                    "
+                >
 
+                <div style="
+                    display:flex;
+                    gap:8px;
+                    flex-wrap:wrap;
+                    margin-top:12px;
+                ">
 
-    const box =
-      document.createElement("div");
+                    <button onclick="setLessonFilter('All')"
+                        style="${filterStyle()}">All</button>
 
-    box.style.cssText = `
-      position:relative;
-      width:min(760px,100%);
-      max-height:90vh;
-      overflow-y:auto;
-      background:#ffffff;
-      border-radius:20px;
-      padding:28px;
-      box-shadow:0 25px 70px rgba(0,0,0,.3);
-      color:#172033;
-      font-family:Arial,sans-serif;
-    `;
+                    <button onclick="setLessonFilter('Beginner')"
+                        style="${filterStyle()}">🟢 Beginner</button>
 
+                    <button onclick="setLessonFilter('Intermediate')"
+                        style="${filterStyle()}">🟡 Intermediate</button>
 
-    box.innerHTML = `
+                    <button onclick="setLessonFilter('Advanced')"
+                        style="${filterStyle()}">🔴 Advanced</button>
 
-      <button
-        id="abaClose"
-        style="
-          position:absolute;
-          right:16px;
-          top:14px;
-          width:38px;
-          height:38px;
-          border:0;
-          border-radius:50%;
-          background:#f1f3f7;
-          font-size:22px;
-          cursor:pointer;
-        "
-      >
-        ×
-      </button>
+                </div>
+            </div>
 
-      <div style="padding-right:45px;">
+            <div id="lessonList">
+        `;
 
-        <h2 style="
-          margin:0 0 18px;
-          font-size:28px;
-          line-height:1.3;
-        ">
-          ${title}
-        </h2>
-
-      </div>
-
-      <div style="
-        font-size:16px;
-        line-height:1.8;
-        overflow-wrap:anywhere;
-        word-break:normal;
-      ">
-        ${body}
-      </div>
-
-    `;
-
-
-    modal.appendChild(box);
-
-    document.body.appendChild(modal);
-
-
-    document
-      .getElementById("abaClose")
-      .addEventListener(
-        "click",
-        closeModal
-      );
-
-
-    modal.addEventListener(
-      "click",
-      function (event) {
-
-        if (event.target === modal) {
-
-          closeModal();
-
+        if (!list.length) {
+            html += `
+                <div style="
+                    text-align:center;
+                    padding:35px;
+                    background:#f8fafc;
+                    border-radius:15px;
+                ">
+                    <h3>No lessons found</h3>
+                    <p style="color:#64748b;">
+                        Try another search.
+                    </p>
+                </div>
+            `;
         }
 
-      }
-    );
+        list.forEach(lesson => {
+            html += createLessonCard(lesson);
+        });
 
+        html += `</div>`;
 
-    document.addEventListener(
-      "keydown",
-      function escHandler(event) {
-
-        if (event.key === "Escape") {
-
-          closeModal();
-
-          document.removeEventListener(
-            "keydown",
-            escHandler
-          );
-
-        }
-
-      }
-    );
-
-
-    if (options.onReady) {
-
-      options.onReady(box);
-
+        showModal(title, html);
     }
 
-  }
+    function createLessonCard(lesson) {
 
+        const done = isCompleted(lesson.id);
 
-  /* =====================================================
-     DASHBOARD
-  ===================================================== */
+        const icon =
+            lesson.level === "Beginner"
+                ? "🟢"
+                : lesson.level === "Intermediate"
+                    ? "🟡"
+                    : "🔴";
 
-  function goDashboard() {
-
-    closeModal();
-
-    const title =
-      document.getElementById("pageTitle");
-
-    const subtitle =
-      document.getElementById("pageSubtitle");
-
-    if (title) {
-
-      title.textContent =
-        "Dashboard";
-
-    }
-
-    if (subtitle) {
-
-      subtitle.textContent =
-        "Learn Business. Build Business. Grow Business.";
-
-    }
-
-    updateDashboard();
-
-  }
-
-
-  /* =====================================================
-     LESSONS
-  ===================================================== */
-
-  function openLessons() {
-
-    showModal(
-      "📚 Business Lessons",
-      `
-        <p>
-          Welcome to Aung Business Academy.
-          Choose a lesson below to start learning.
-        </p>
-
-        <div style="
-          display:grid;
-          grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-          gap:14px;
-          margin-top:20px;
-        ">
-
-          ${lessons.map(function (lesson) {
-
-            const completed =
-              getCompleted().includes(lesson.id);
-
-            return `
-
-              <button
-                onclick="openLesson(${lesson.id})"
+        return `
+            <div
+                class="academy-lesson-card"
+                data-level="${lesson.level}"
+                data-title="${escapeHTML(lesson.title.toLowerCase())}"
+                data-category="${escapeHTML(lesson.category.toLowerCase())}"
                 style="
-                  text-align:left;
-                  padding:18px;
-                  border:1px solid #e5e7eb;
-                  border-radius:14px;
-                  background:#f8fafc;
-                  cursor:pointer;
-                  color:#172033;
+                    border:1px solid #e5e7eb;
+                    border-radius:16px;
+                    padding:18px;
+                    margin-bottom:12px;
+                    background:#fff;
                 "
-              >
+            >
 
                 <div style="
-                  font-size:28px;
-                  margin-bottom:8px;
+                    display:flex;
+                    justify-content:space-between;
+                    gap:15px;
+                    align-items:flex-start;
                 ">
-                  ${lesson.icon}
+
+                    <div style="flex:1;">
+
+                        <div style="
+                            color:#64748b;
+                            font-size:12px;
+                            margin-bottom:5px;
+                        ">
+                            Lesson ${lesson.id} • ${lesson.category}
+                        </div>
+
+                        <h3 style="
+                            margin:0 0 7px;
+                            font-size:18px;
+                        ">
+                            ${icon} ${escapeHTML(lesson.title)}
+                        </h3>
+
+                        <p style="
+                            margin:0 0 10px;
+                            color:#64748b;
+                            font-size:14px;
+                        ">
+                            ${escapeHTML(lesson.description)}
+                        </p>
+
+                        <small style="color:#64748b;">
+                            ⏱️ ${lesson.duration} • ${lesson.level}
+                        </small>
+
+                    </div>
+
+                    <div style="text-align:right;">
+
+                        ${
+                            done
+                            ? `
+                                <div style="
+                                    color:#166534;
+                                    background:#dcfce7;
+                                    padding:5px 9px;
+                                    border-radius:20px;
+                                    font-size:11px;
+                                    margin-bottom:8px;
+                                ">
+                                    ✓ Completed
+                                </div>
+                            `
+                            : ""
+                        }
+
+                        <button
+                            onclick="openLesson(${lesson.id})"
+                            style="
+                                border:0;
+                                background:#2563eb;
+                                color:#fff;
+                                padding:10px 15px;
+                                border-radius:10px;
+                                cursor:pointer;
+                                font-weight:600;
+                            "
+                        >
+                            ${done ? "Review" : "Start"}
+                        </button>
+
+                    </div>
+
                 </div>
 
-                <strong style="
-                  display:block;
-                  font-size:17px;
-                  margin-bottom:6px;
-                ">
-                  ${lesson.title}
-                </strong>
+            </div>
+        `;
+    }
 
-                <small style="
-                  display:block;
-                  color:#667085;
-                  line-height:1.5;
-                ">
-                  ${lesson.description}
-                </small>
+    // ============================================================
+    // FILTER
+    // ============================================================
 
-                <div style="
-                  margin-top:10px;
-                  font-size:13px;
-                  font-weight:bold;
-                ">
-                  ${completed ? "✓ Completed" : "Start Lesson →"}
-                </div>
+    let currentFilter = "All";
 
-              </button>
+    function filterStyle() {
+        return `
+            border:0;
+            background:#f1f5f9;
+            color:#334155;
+            padding:9px 13px;
+            border-radius:9px;
+            cursor:pointer;
+        `;
+    }
 
+    function setLessonFilter(level) {
+
+        currentFilter = level;
+
+        const search =
+            document.getElementById("lessonSearch");
+
+        const text =
+            search ? search.value.toLowerCase().trim() : "";
+
+        applyFilter(level, text);
+    }
+
+    function filterLessons() {
+
+        const search =
+            document.getElementById("lessonSearch");
+
+        if (!search) return;
+
+        applyFilter(
+            currentFilter,
+            search.value.toLowerCase().trim()
+        );
+    }
+
+    function applyFilter(level, text) {
+
+        document
+            .querySelectorAll(".academy-lesson-card")
+            .forEach(card => {
+
+                const levelMatch =
+                    level === "All" ||
+                    card.dataset.level === level;
+
+                const searchMatch =
+                    !text ||
+                    card.dataset.title.includes(text) ||
+                    card.dataset.category.includes(text);
+
+                card.style.display =
+                    levelMatch && searchMatch
+                        ? "block"
+                        : "none";
+            });
+    }
+
+    // ============================================================
+    // SINGLE LESSON
+    // ============================================================
+
+    function openLesson(id) {
+
+        const index =
+            lessons.findIndex(
+                lesson => lesson.id === Number(id)
+            );
+
+        if (index === -1) return;
+
+        showLesson(index);
+    }
+
+    function showLesson(index) {
+
+        const lesson = lessons[index];
+
+        if (!lesson) return;
+
+        const done = isCompleted(lesson.id);
+
+        const previous =
+            index > 0
+            ? `
+                <button
+                    onclick="showLesson(${index - 1})"
+                    style="${navButtonStyle()}"
+                >
+                    ← Previous
+                </button>
+            `
+            : `
+                <button disabled style="${navButtonStyle()}">
+                    ← Previous
+                </button>
             `;
 
-          }).join("")}
-
-        </div>
-      `
-    );
-
-  }
-
-
-  function openLesson(id) {
-
-    const lesson =
-      lessons.find(function (item) {
-
-        return item.id === id;
-
-      });
-
-
-    if (!lesson) {
-
-      showToast("Lesson not found.");
-
-      return;
-
-    }
-
-
-    const completed =
-      getCompleted().includes(id);
-
-
-    showModal(
-      `${lesson.icon} ${lesson.title}`,
-      `
-
-        <div style="
-          color:#667085;
-          margin-bottom:18px;
-          font-weight:bold;
-        ">
-          ${lesson.category}
-        </div>
-
-        <div>
-          ${lesson.content}
-        </div>
-
-        <div style="
-          margin-top:25px;
-          padding-top:20px;
-          border-top:1px solid #eee;
-        ">
-
-          <button
-            onclick="completeLesson(${id})"
-            style="
-              width:100%;
-              padding:14px 18px;
-              border:0;
-              border-radius:12px;
-              background:#111827;
-              color:white;
-              font-size:16px;
-              font-weight:bold;
-              cursor:pointer;
-            "
-          >
-            ${completed ? "✓ Lesson Completed" : "Mark as Completed"}
-          </button>
-
-        </div>
-
-      `
-    );
-
-  }
-
-
-  function completeLesson(id) {
-
-    const completed =
-      getCompleted();
-
-
-    if (!completed.includes(id)) {
-
-      completed.push(id);
-
-      saveCompleted(completed);
-
-    }
-
-
-    updateDashboard();
-
-    showToast(
-      "Lesson completed successfully! 🎉"
-    );
-
-
-    setTimeout(function () {
-
-      openLessons();
-
-    }, 500);
-
-  }
-
-
-  /* =====================================================
-     CATEGORY
-  ===================================================== */
-
-  function openCategory(category) {
-
-    const matching =
-      lessons.filter(function (lesson) {
-
-        return lesson.category
-          .toLowerCase()
-          .includes(category.toLowerCase()) ||
-          category
-            .toLowerCase()
-            .includes(lesson.category.toLowerCase());
-
-      });
-
-
-    showModal(
-      category,
-      `
-
-        <p>
-          <strong>${category}</strong>
-          business learning section.
-        </p>
-
-        <p>
-          ဒီ Category အတွက် lessons တွေကို
-          အောက်မှာ လေ့လာနိုင်ပါတယ်။
-        </p>
-
-        ${
-          matching.length
-            ? matching.map(function (lesson) {
-
-                return `
-
-                  <button
-                    onclick="openLesson(${lesson.id})"
-                    style="
-                      display:block;
-                      width:100%;
-                      text-align:left;
-                      margin:10px 0;
-                      padding:16px;
-                      border:1px solid #e5e7eb;
-                      border-radius:12px;
-                      background:#f8fafc;
-                      cursor:pointer;
-                    "
-                  >
-                    ${lesson.icon}
-                    <strong>
-                      ${lesson.title}
-                    </strong>
-                    →
-                  </button>
-
-                `;
-
-              }).join("")
+        const next =
+            index < lessons.length - 1
+            ? `
+                <button
+                    onclick="showLesson(${index + 1})"
+                    style="${navButtonStyle()}"
+                >
+                    Next →
+                </button>
+            `
             : `
+                <button disabled style="${navButtonStyle()}">
+                    Next →
+                </button>
+            `;
+
+        const html = `
+
+            <div style="
+                display:flex;
+                gap:8px;
+                flex-wrap:wrap;
+                margin-bottom:18px;
+            ">
+
+                <span style="${badgeStyle()}">
+                    ${lesson.category}
+                </span>
+
+                <span style="${badgeStyle()}">
+                    ${lesson.level}
+                </span>
+
+                <span style="${badgeStyle()}">
+                    ⏱️ ${lesson.duration}
+                </span>
+
+            </div>
+
+            ${lesson.content}
+
+            <div style="
+                margin-top:25px;
+                padding:18px;
+                background:#f8fafc;
+                border-radius:15px;
+            ">
+
+                <h3 style="margin-top:0;">
+                    📝 Lesson Quiz
+                </h3>
+
+                <p style="color:#64748b;">
+                    Get at least 70% to complete this lesson.
+                </p>
+
+                <button
+                    onclick="startQuiz(${lesson.id})"
+                    style="
+                        border:0;
+                        background:#7c3aed;
+                        color:#fff;
+                        padding:12px 18px;
+                        border-radius:10px;
+                        cursor:pointer;
+                        font-weight:700;
+                    "
+                >
+                    Start Quiz
+                </button>
+
+            </div>
+
+            ${
+                done
+                ? `
+                    <div style="
+                        margin-top:15px;
+                        background:#dcfce7;
+                        color:#166534;
+                        padding:14px;
+                        border-radius:12px;
+                        text-align:center;
+                        font-weight:700;
+                    ">
+                        ✓ Lesson Completed
+                    </div>
+                `
+                : ""
+            }
+
+            <div style="
+                display:flex;
+                justify-content:space-between;
+                gap:8px;
+                margin-top:25px;
+                padding-top:20px;
+                border-top:1px solid #e5e7eb;
+            ">
+
+                ${previous}
+
+                <button
+                    onclick="openLessons()"
+                    style="
+                        border:0;
+                        background:#0f172a;
+                        color:#fff;
+                        padding:11px 14px;
+                        border-radius:10px;
+                        cursor:pointer;
+                    "
+                >
+                    📚 All Lessons
+                </button>
+
+                ${next}
+
+            </div>
+        `;
+
+        showModal(
+            `Lesson ${lesson.id}: ${lesson.title}`,
+            html
+        );
+    }
+
+    function navButtonStyle() {
+        return `
+            border:1px solid #cbd5e1;
+            background:#fff;
+            color:#334155;
+            padding:11px 14px;
+            border-radius:10px;
+            cursor:pointer;
+        `;
+    }
+
+    function badgeStyle() {
+        return `
+            background:#eff6ff;
+            color:#1d4ed8;
+            padding:6px 10px;
+            border-radius:20px;
+            font-size:12px;
+        `;
+    }
+
+    // ============================================================
+    // QUIZ
+    // ============================================================
+
+    function startQuiz(id) {
+
+        const lesson =
+            lessons.find(
+                item => item.id === Number(id)
+            );
+
+        if (!lesson) return;
+
+        let html = `
+            <p style="color:#64748b;">
+                Answer all questions.
+            </p>
+
+            <form id="lessonQuizForm">
+        `;
+
+        lesson.quiz.forEach((question, index) => {
+
+            html += `
                 <div style="
-                  padding:20px;
-                  border-radius:12px;
-                  background:#f5f6f8;
+                    background:#f8fafc;
+                    padding:18px;
+                    border-radius:14px;
+                    margin-bottom:18px;
                 ">
-                  More lessons coming soon.
+
+                    <h3 style="font-size:16px;">
+                        ${index + 1}. ${escapeHTML(question.q)}
+                    </h3>
+            `;
+
+            question.options.forEach((option, optionIndex) => {
+
+                html += `
+                    <label style="
+                        display:block;
+                        background:#fff;
+                        border:1px solid #e2e8f0;
+                        padding:11px;
+                        border-radius:9px;
+                        margin:7px 0;
+                        cursor:pointer;
+                    ">
+
+                        <input
+                            type="radio"
+                            name="question${index}"
+                            value="${optionIndex}"
+                        >
+
+                        <span style="margin-left:7px;">
+                            ${escapeHTML(option)}
+                        </span>
+
+                    </label>
+                `;
+            });
+
+            html += `</div>`;
+        });
+
+        html += `
+
+                <button
+                    type="button"
+                    onclick="submitQuiz(${lesson.id})"
+                    style="
+                        width:100%;
+                        border:0;
+                        background:#2563eb;
+                        color:#fff;
+                        padding:14px;
+                        border-radius:11px;
+                        cursor:pointer;
+                        font-weight:700;
+                    "
+                >
+                    Submit Quiz
+                </button>
+
+            </form>
+        `;
+
+        showModal(
+            `📝 Quiz: ${lesson.title}`,
+            html
+        );
+    }
+
+    function submitQuiz(id) {
+
+        const lesson =
+            lessons.find(
+                item => item.id === Number(id)
+            );
+
+        if (!lesson) return;
+
+        let score = 0;
+
+        lesson.quiz.forEach((question, index) => {
+
+            const selected =
+                document.querySelector(
+                    `input[name="question${index}"]:checked`
+                );
+
+            if (
+                selected &&
+                Number(selected.value) === question.answer
+            ) {
+                score++;
+            }
+        });
+
+        const total = lesson.quiz.length;
+        const percentage =
+            Math.round((score / total) * 100);
+
+        if (percentage >= 70) {
+
+            markLessonComplete(lesson.id);
+
+            showQuizResult(
+                lesson,
+                score,
+                total,
+                percentage,
+                true
+            );
+
+        } else {
+
+            showQuizResult(
+                lesson,
+                score,
+                total,
+                percentage,
+                false
+            );
+        }
+    }
+
+    function showQuizResult(
+        lesson,
+        score,
+        total,
+        percentage,
+        passed
+    ) {
+
+        const index =
+            lessons.findIndex(
+                item => item.id === lesson.id
+            );
+
+        showModal(
+            passed ? "🎉 Quiz Passed!" : "📚 Try Again",
+            `
+
+                <div style="
+                    text-align:center;
+                    padding:20px;
+                ">
+
+                    <div style="font-size:55px;">
+                        ${passed ? "🏆" : "📚"}
+                    </div>
+
+                    <h2>
+                        ${score} / ${total}
+                    </h2>
+
+                    <div style="
+                        font-size:32px;
+                        font-weight:800;
+                        margin:15px;
+                    ">
+                        ${percentage}%
+                    </div>
+
+                    <p style="color:#64748b;">
+                        ${
+                            passed
+                            ? "Excellent! This lesson is now completed."
+                            : "You need 70% to complete this lesson."
+                        }
+                    </p>
+
+                    ${
+                        passed
+                        ? `
+                            <button
+                                onclick="showLesson(${index})"
+                                style="
+                                    border:0;
+                                    background:#2563eb;
+                                    color:#fff;
+                                    padding:12px 20px;
+                                    border-radius:10px;
+                                    cursor:pointer;
+                                    font-weight:700;
+                                "
+                            >
+                                Continue
+                            </button>
+                        `
+                        : `
+                            <button
+                                onclick="startQuiz(${lesson.id})"
+                                style="
+                                    border:0;
+                                    background:#7c3aed;
+                                    color:#fff;
+                                    padding:12px 20px;
+                                    border-radius:10px;
+                                    cursor:pointer;
+                                    font-weight:700;
+                                "
+                            >
+                                Try Again
+                            </button>
+                        `
+                    }
+
                 </div>
-              `
+            `
+        );
+    }
+
+    // ============================================================
+    // COMPLETE
+    // ============================================================
+
+    function markLessonComplete(id) {
+
+        const completed =
+            getCompletedLessons();
+
+        id = Number(id);
+
+        if (!completed.includes(id)) {
+
+            completed.push(id);
+
+            saveCompletedLessons(completed);
+
+            updateDashboard();
+
+            showToast("✓ Lesson completed!");
+        }
+    }
+
+    // ============================================================
+    // CONTINUE LEARNING
+    // ============================================================
+
+    function continueLearning() {
+
+        const completed =
+            getCompletedLessons();
+
+        const next =
+            lessons.find(
+                lesson => !completed.includes(lesson.id)
+            );
+
+        if (next) {
+
+            openLesson(next.id);
+
+        } else {
+
+            showModal(
+                "🏆 Congratulations!",
+                `
+                    <div style="
+                        text-align:center;
+                        padding:30px;
+                    ">
+                        <div style="font-size:60px;">🏆</div>
+                        <h2>All Lessons Completed!</h2>
+                        <p>
+                            You have completed all 30 Business Academy lessons.
+                        </p>
+                    </div>
+                `
+            );
+        }
+    }
+
+    // ============================================================
+    // CATEGORY
+    // ============================================================
+
+    function openCategory(category) {
+
+        const filtered =
+            lessons.filter(
+                lesson =>
+                    lesson.category.toLowerCase() ===
+                    String(category).toLowerCase()
+            );
+
+        if (filtered.length) {
+
+            renderLessons(
+                filtered,
+                `📚 ${category} Lessons`
+            );
+
+        } else {
+
+            showModal(
+                category,
+                `
+                    <div style="
+                        text-align:center;
+                        padding:30px;
+                    ">
+                        <div style="font-size:50px;">📚</div>
+                        <h3>More lessons coming soon</h3>
+                        <p style="color:#64748b;">
+                            New lessons will be added soon.
+                        </p>
+                    </div>
+                `
+            );
+        }
+    }
+
+    // ============================================================
+    // BUSINESS TOOLS
+    // ============================================================
+
+    function openTools() {
+
+        showModal(
+            "🛠️ Business Tools",
+            `
+                <p style="color:#64748b;">
+                    Practical tools for business managers.
+                </p>
+
+                <div style="
+                    display:grid;
+                    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+                    gap:15px;
+                ">
+
+                    ${toolCard(
+                        "💰",
+                        "Profit Calculator",
+                        "Calculate business profit.",
+                        "openProfitCalculator()"
+                    )}
+
+                    ${toolCard(
+                        "🏷️",
+                        "Pricing Calculator",
+                        "Calculate selling price.",
+                        "openPricingCalculator()"
+                    )}
+
+                    ${toolCard(
+                        "📊",
+                        "Break-even Calculator",
+                        "Calculate break-even units.",
+                        "openBreakEvenCalculator()"
+                    )}
+
+                    ${toolCard(
+                        "🎯",
+                        "Sales Target",
+                        "Calculate daily sales target.",
+                        "openSalesTargetCalculator()"
+                    )}
+
+                </div>
+            `
+        );
+    }
+
+    function toolCard(icon, title, description, action) {
+
+        return `
+            <button
+                onclick="${action}"
+                style="
+                    text-align:left;
+                    border:1px solid #e2e8f0;
+                    background:#fff;
+                    border-radius:15px;
+                    padding:18px;
+                    cursor:pointer;
+                "
+            >
+                <div style="font-size:30px;">${icon}</div>
+
+                <strong style="
+                    display:block;
+                    margin:8px 0;
+                ">
+                    ${title}
+                </strong>
+
+                <span style="
+                    color:#64748b;
+                    font-size:13px;
+                ">
+                    ${description}
+                </span>
+            </button>
+        `;
+    }
+
+    // ============================================================
+    // PROFIT CALCULATOR
+    // ============================================================
+
+    function openProfitCalculator() {
+
+        showModal(
+            "💰 Profit Calculator",
+            `
+                ${inputField("revenue", "Revenue")}
+                ${inputField("cost", "Total Cost")}
+
+                ${calculateButton("calculateProfit()", "Calculate Profit")}
+
+                <div id="calculatorResult"></div>
+            `
+        );
+    }
+
+    function calculateProfit() {
+
+        const revenue =
+            Number(document.getElementById("revenue").value) || 0;
+
+        const cost =
+            Number(document.getElementById("cost").value) || 0;
+
+        resultBox(
+            `Profit: ${formatNumber(revenue - cost)} Ks`
+        );
+    }
+
+    // ============================================================
+    // PRICING
+    // ============================================================
+
+    function openPricingCalculator() {
+
+        showModal(
+            "🏷️ Pricing Calculator",
+            `
+                ${inputField("productCost", "Product Cost")}
+                ${inputField("margin", "Target Profit Margin (%)")}
+
+                ${calculateButton("calculatePrice()", "Calculate Selling Price")}
+
+                <div id="calculatorResult"></div>
+            `
+        );
+    }
+
+    function calculatePrice() {
+
+        const cost =
+            Number(document.getElementById("productCost").value) || 0;
+
+        const margin =
+            Number(document.getElementById("margin").value) || 0;
+
+        if (margin >= 100) {
+
+            resultBox(
+                "Margin must be below 100%.",
+                true
+            );
+
+            return;
         }
 
-      `
-    );
+        const price =
+            cost / (1 - margin / 100);
 
-  }
-
-
-  /* =====================================================
-     BUSINESS TOOLS
-  ===================================================== */
-
-  function openTools() {
-
-    showModal(
-      "🛠️ Business Tools",
-      `
-
-        <p>
-          Use these simple tools to understand
-          your business numbers.
-        </p>
-
-        <div style="
-          display:grid;
-          grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-          gap:15px;
-          margin-top:20px;
-        ">
-
-          <button
-            onclick="profitCalculator()"
-            style="
-              padding:22px;
-              border:1px solid #e5e7eb;
-              border-radius:15px;
-              background:#f8fafc;
-              cursor:pointer;
-              text-align:left;
-            "
-          >
-            💰
-            <strong style="display:block;margin-top:8px;">
-              Profit Calculator
-            </strong>
-            <small>
-              Calculate your business profit.
-            </small>
-          </button>
-
-
-          <button
-            onclick="pricingCalculator()"
-            style="
-              padding:22px;
-              border:1px solid #e5e7eb;
-              border-radius:15px;
-              background:#f8fafc;
-              cursor:pointer;
-              text-align:left;
-            "
-          >
-            🧮
-            <strong style="display:block;margin-top:8px;">
-              Pricing Calculator
-            </strong>
-            <small>
-              Calculate selling price and margin.
-            </small>
-          </button>
-
-
-          <button
-            onclick="breakEvenCalculator()"
-            style="
-              padding:22px;
-              border:1px solid #e5e7eb;
-              border-radius:15px;
-              background:#f8fafc;
-              cursor:pointer;
-              text-align:left;
-            "
-          >
-            📊
-            <strong style="display:block;margin-top:8px;">
-              Break-even Calculator
-            </strong>
-            <small>
-              Find your break-even point.
-            </small>
-          </button>
-
-
-          <button
-            onclick="salesTargetCalculator()"
-            style="
-              padding:22px;
-              border:1px solid #e5e7eb;
-              border-radius:15px;
-              background:#f8fafc;
-              cursor:pointer;
-              text-align:left;
-            "
-          >
-            🎯
-            <strong style="display:block;margin-top:8px;">
-              Sales Target
-            </strong>
-            <small>
-              Plan your sales target.
-            </small>
-          </button>
-
-        </div>
-
-      `
-    );
-
-  }
-
-
-  /* =====================================================
-     PROFIT CALCULATOR
-  ===================================================== */
-
-  function profitCalculator() {
-
-    showModal(
-      "💰 Profit Calculator",
-      `
-
-        <label>Revenue</label>
-
-        <input
-          id="calcRevenue"
-          type="number"
-          placeholder="e.g. 1000000"
-          style="
-            width:100%;
-            padding:13px;
-            margin:8px 0 15px;
-            border:1px solid #ddd;
-            border-radius:10px;
-          "
-        >
-
-        <label>Total Cost</label>
-
-        <input
-          id="calcCost"
-          type="number"
-          placeholder="e.g. 700000"
-          style="
-            width:100%;
-            padding:13px;
-            margin:8px 0 15px;
-            border:1px solid #ddd;
-            border-radius:10px;
-          "
-        >
-
-        <button
-          onclick="calculateProfit()"
-          style="
-            width:100%;
-            padding:14px;
-            border:0;
-            border-radius:10px;
-            background:#111827;
-            color:white;
-            font-weight:bold;
-            cursor:pointer;
-          "
-        >
-          Calculate Profit
-        </button>
-
-        <div
-          id="profitResult"
-          style="
-            margin-top:18px;
-            font-size:20px;
-            font-weight:bold;
-          "
-        ></div>
-
-      `
-    );
-
-  }
-
-
-  function calculateProfit() {
-
-    const revenue =
-      Number(
-        document.getElementById("calcRevenue").value
-      ) || 0;
-
-
-    const cost =
-      Number(
-        document.getElementById("calcCost").value
-      ) || 0;
-
-
-    const profit =
-      revenue - cost;
-
-
-    const result =
-      document.getElementById("profitResult");
-
-
-    result.innerHTML =
-      `Profit: ${profit.toLocaleString()} Ks`;
-
-  }
-
-
-  /* =====================================================
-     PRICING CALCULATOR
-  ===================================================== */
-
-  function pricingCalculator() {
-
-    showModal(
-      "🧮 Pricing Calculator",
-      `
-
-        <label>Product Cost</label>
-
-        <input
-          id="priceCost"
-          type="number"
-          placeholder="e.g. 5000"
-          style="
-            width:100%;
-            padding:13px;
-            margin:8px 0 15px;
-            border:1px solid #ddd;
-            border-radius:10px;
-          "
-        >
-
-        <label>Desired Profit Margin (%)</label>
-
-        <input
-          id="priceMargin"
-          type="number"
-          placeholder="e.g. 30"
-          style="
-            width:100%;
-            padding:13px;
-            margin:8px 0 15px;
-            border:1px solid #ddd;
-            border-radius:10px;
-          "
-        >
-
-        <button
-          onclick="calculatePrice()"
-          style="
-            width:100%;
-            padding:14px;
-            border:0;
-            border-radius:10px;
-            background:#111827;
-            color:white;
-            font-weight:bold;
-            cursor:pointer;
-          "
-        >
-          Calculate Selling Price
-        </button>
-
-        <div
-          id="priceResult"
-          style="
-            margin-top:18px;
-            font-size:20px;
-            font-weight:bold;
-          "
-        ></div>
-
-      `
-    );
-
-  }
-
-
-  function calculatePrice() {
-
-    const cost =
-      Number(
-        document.getElementById("priceCost").value
-      ) || 0;
-
-
-    const margin =
-      Number(
-        document.getElementById("priceMargin").value
-      ) || 0;
-
-
-    if (margin >= 100) {
-
-      document.getElementById(
-        "priceResult"
-      ).textContent =
-        "Margin must be below 100%.";
-
-      return;
-
+        resultBox(
+            `Recommended Selling Price: ${formatNumber(price)} Ks`
+        );
     }
 
+    // ============================================================
+    // BREAK EVEN
+    // ============================================================
 
-    const price =
-      cost / (1 - margin / 100);
+    function openBreakEvenCalculator() {
 
+        showModal(
+            "📊 Break-even Calculator",
+            `
+                ${inputField("fixedCost", "Fixed Cost")}
+                ${inputField("sellingPrice", "Selling Price / Unit")}
+                ${inputField("variableCost", "Variable Cost / Unit")}
 
-    document.getElementById(
-      "priceResult"
-    ).textContent =
-      `Selling Price: ${Math.round(price).toLocaleString()} Ks`;
+                ${calculateButton("calculateBreakEven()", "Calculate")}
 
-  }
-
-
-  /* =====================================================
-     BREAK EVEN
-  ===================================================== */
-
-  function breakEvenCalculator() {
-
-    showModal(
-      "📊 Break-even Calculator",
-      `
-
-        <label>Fixed Cost</label>
-
-        <input
-          id="fixedCost"
-          type="number"
-          placeholder="e.g. 500000"
-          style="
-            width:100%;
-            padding:13px;
-            margin:8px 0 15px;
-            border:1px solid #ddd;
-            border-radius:10px;
-          "
-        >
-
-        <label>Selling Price / Unit</label>
-
-        <input
-          id="sellingPrice"
-          type="number"
-          placeholder="e.g. 10000"
-          style="
-            width:100%;
-            padding:13px;
-            margin:8px 0 15px;
-            border:1px solid #ddd;
-            border-radius:10px;
-          "
-        >
-
-        <label>Variable Cost / Unit</label>
-
-        <input
-          id="variableCost"
-          type="number"
-          placeholder="e.g. 6000"
-          style="
-            width:100%;
-            padding:13px;
-            margin:8px 0 15px;
-            border:1px solid #ddd;
-            border-radius:10px;
-          "
-        >
-
-        <button
-          onclick="calculateBreakEven()"
-          style="
-            width:100%;
-            padding:14px;
-            border:0;
-            border-radius:10px;
-            background:#111827;
-            color:white;
-            font-weight:bold;
-            cursor:pointer;
-          "
-        >
-          Calculate
-        </button>
-
-        <div
-          id="breakEvenResult"
-          style="
-            margin-top:18px;
-            font-size:20px;
-            font-weight:bold;
-          "
-        ></div>
-
-      `
-    );
-
-  }
-
-
-  function calculateBreakEven() {
-
-    const fixed =
-      Number(
-        document.getElementById("fixedCost").value
-      ) || 0;
-
-
-    const selling =
-      Number(
-        document.getElementById("sellingPrice").value
-      ) || 0;
-
-
-    const variable =
-      Number(
-        document.getElementById("variableCost").value
-      ) || 0;
-
-
-    const contribution =
-      selling - variable;
-
-
-    const result =
-      document.getElementById(
-        "breakEvenResult"
-      );
-
-
-    if (contribution <= 0) {
-
-      result.textContent =
-        "Selling price must be higher than variable cost.";
-
-      return;
-
+                <div id="calculatorResult"></div>
+            `
+        );
     }
 
+    function calculateBreakEven() {
 
-    const units =
-      Math.ceil(
-        fixed / contribution
-      );
+        const fixed =
+            Number(document.getElementById("fixedCost").value) || 0;
 
+        const price =
+            Number(document.getElementById("sellingPrice").value) || 0;
 
-    result.textContent =
-      `Break-even: ${units.toLocaleString()} units`;
+        const variable =
+            Number(document.getElementById("variableCost").value) || 0;
 
-  }
+        const contribution =
+            price - variable;
 
+        if (contribution <= 0) {
 
-  /* =====================================================
-     SALES TARGET
-  ===================================================== */
+            resultBox(
+                "Selling price must be higher than variable cost.",
+                true
+            );
 
-  function salesTargetCalculator() {
+            return;
+        }
 
-    showModal(
-      "🎯 Sales Target Calculator",
-      `
-
-        <label>Monthly Sales Target</label>
-
-        <input
-          id="monthlyTarget"
-          type="number"
-          placeholder="e.g. 30000000"
-          style="
-            width:100%;
-            padding:13px;
-            margin:8px 0 15px;
-            border:1px solid #ddd;
-            border-radius:10px;
-          "
-        >
-
-        <label>Working Days</label>
-
-        <input
-          id="workingDays"
-          type="number"
-          placeholder="e.g. 26"
-          style="
-            width:100%;
-            padding:13px;
-            margin:8px 0 15px;
-            border:1px solid #ddd;
-            border-radius:10px;
-          "
-        >
-
-        <button
-          onclick="calculateSalesTarget()"
-          style="
-            width:100%;
-            padding:14px;
-            border:0;
-            border-radius:10px;
-            background:#111827;
-            color:white;
-            font-weight:bold;
-            cursor:pointer;
-          "
-        >
-          Calculate
-        </button>
-
-        <div
-          id="salesTargetResult"
-          style="
-            margin-top:18px;
-            font-size:20px;
-            font-weight:bold;
-          "
-        ></div>
-
-      `
-    );
-
-  }
-
-
-  function calculateSalesTarget() {
-
-    const target =
-      Number(
-        document.getElementById("monthlyTarget").value
-      ) || 0;
-
-
-    const days =
-      Number(
-        document.getElementById("workingDays").value
-      ) || 0;
-
-
-    const result =
-      document.getElementById(
-        "salesTargetResult"
-      );
-
-
-    if (days <= 0) {
-
-      result.textContent =
-        "Please enter valid working days.";
-
-      return;
-
+        resultBox(
+            `Break-even: ${Math.ceil(fixed / contribution)} units`
+        );
     }
 
-
-    const daily =
-      target / days;
-
-
-    result.textContent =
-      `Daily Target: ${Math.round(daily).toLocaleString()} Ks`;
-
-  }
-
-
-  /* =====================================================
-     AI BUSINESS COACH
-  ===================================================== */
-
-  function openAI() {
-
-    showModal(
-      "🤖 AI Business Coach",
-      `
-
-        <div style="
-          padding:20px;
-          background:#f8fafc;
-          border-radius:14px;
-        ">
-
-          <h3>
-            AI Business Coach
-          </h3>
-
-          <p>
-            AI Business Coach သည် Premium Feature
-            အဖြစ် ထည့်သွင်းပေးသွားမည်ဖြစ်ပါတယ်။
-          </p>
-
-          <p>
-            Future version မှာ Business Strategy,
-            Sales, Marketing, Finance နဲ့ Management
-            အတွက် AI advice ရရှိနိုင်ပါမယ်။
-          </p>
-
-        </div>
-
-        <button
-          onclick="openPremium()"
-          style="
-            margin-top:20px;
-            width:100%;
-            padding:14px;
-            border:0;
-            border-radius:10px;
-            background:#111827;
-            color:white;
-            font-weight:bold;
-            cursor:pointer;
-          "
-        >
-          👑 View Premium
-        </button>
-
-      `
-    );
-
-  }
-
-
-  /* =====================================================
-     PREMIUM
-  ===================================================== */
-
-  function openPremium() {
-
-    showModal(
-      "👑 Premium Academy",
-      `
-
-        <div style="
-          padding:20px;
-          background:#f8fafc;
-          border-radius:14px;
-        ">
-
-          <h3>
-            Premium Academy
-          </h3>
-
-          <p>
-            Advanced business education and tools
-            coming soon.
-          </p>
-
-          <ul style="line-height:2;">
-            <li>Advanced Business Courses</li>
-            <li>Business Templates</li>
-            <li>Advanced Calculators</li>
-            <li>AI Business Coach</li>
-            <li>Business Plan Builder</li>
-            <li>Sales & Marketing Tools</li>
-          </ul>
-
-        </div>
-
-        <div style="
-          margin-top:20px;
-          padding:16px;
-          background:#fff7ed;
-          border-radius:12px;
-        ">
-          🔒 Subscription system coming soon.
-        </div>
-
-      `
-    );
-
-  }
-
-
-  /* =====================================================
-     BUSINESS PLAN
-  ===================================================== */
-
-  function openBusinessPlan() {
-
-    showModal(
-      "📋 Business Plan",
-      `
-
-        <p>
-          Build your business plan step by step.
-        </p>
-
-        <label>Business Name</label>
-
-        <input
-          id="businessName"
-          placeholder="Enter business name"
-          style="
-            width:100%;
-            padding:13px;
-            margin:8px 0 15px;
-            border:1px solid #ddd;
-            border-radius:10px;
-          "
-        >
-
-        <label>Product / Service</label>
-
-        <input
-          id="businessProduct"
-          placeholder="What do you sell?"
-          style="
-            width:100%;
-            padding:13px;
-            margin:8px 0 15px;
-            border:1px solid #ddd;
-            border-radius:10px;
-          "
-        >
-
-        <label>Target Customer</label>
-
-        <input
-          id="businessCustomer"
-          placeholder="Who are your customers?"
-          style="
-            width:100%;
-            padding:13px;
-            margin:8px 0 15px;
-            border:1px solid #ddd;
-            border-radius:10px;
-          "
-        >
-
-        <button
-          onclick="generateBusinessPlan()"
-          style="
-            width:100%;
-            padding:14px;
-            border:0;
-            border-radius:10px;
-            background:#111827;
-            color:white;
-            font-weight:bold;
-            cursor:pointer;
-          "
-        >
-          Generate Plan
-        </button>
-
-        <div
-          id="businessPlanResult"
-          style="
-            margin-top:20px;
-            line-height:1.8;
-          "
-        ></div>
-
-      `
-    );
-
-  }
-
-
-  function generateBusinessPlan() {
-
-    const name =
-      document.getElementById(
-        "businessName"
-      ).value || "My Business";
-
-
-    const product =
-      document.getElementById(
-        "businessProduct"
-      ).value || "Product / Service";
-
-
-    const customer =
-      document.getElementById(
-        "businessCustomer"
-      ).value || "Target Customers";
-
-
-    document.getElementById(
-      "businessPlanResult"
-    ).innerHTML = `
-
-      <div style="
-        padding:18px;
-        background:#f8fafc;
-        border-radius:14px;
-      ">
-
-        <h3>
-          ${name}
-        </h3>
-
-        <p>
-          <strong>Product:</strong>
-          ${product}
-        </p>
-
-        <p>
-          <strong>Target Customer:</strong>
-          ${customer}
-        </p>
-
-        <h4>
-          90-Day Action Plan
-        </h4>
-
-        <ol>
-          <li>Validate customer demand.</li>
-          <li>Define product and pricing.</li>
-          <li>Build sales channels.</li>
-          <li>Launch marketing activities.</li>
-          <li>Track revenue and profit.</li>
-          <li>Improve based on customer feedback.</li>
-        </ol>
-
-      </div>
-
-    `;
-
-  }
-
-
-  /* =====================================================
-     PROFILE
-  ===================================================== */
-
-  function openProfile() {
-
-    showModal(
-      "👤 My Profile",
-      `
-
-        <div style="
-          text-align:center;
-          padding:20px;
-        ">
-
-          <div style="
-            width:80px;
-            height:80px;
-            margin:0 auto 15px;
-            border-radius:50%;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            background:#111827;
-            color:white;
-            font-size:32px;
-            font-weight:bold;
-          ">
-            A
-          </div>
-
-          <h3>
-            Aung
-          </h3>
-
-          <p>
-            Business Learner
-          </p>
-
-          <p>
-            Completed Lessons:
-            <strong>
-              ${getCompleted().length}
-            </strong>
-          </p>
-
-        </div>
-
-      `
-    );
-
-  }
-
-
-  /* =====================================================
-     NOTIFICATION
-  ===================================================== */
-
-  function showNotification() {
-
-    showModal(
-      "🔔 Notifications",
-      `
-
-        <div style="
-          padding:18px;
-          background:#f8fafc;
-          border-radius:12px;
-        ">
-
-          <strong>
-            Welcome to Aung Business Academy!
-          </strong>
-
-          <p>
-            Start your first business lesson today.
-          </p>
-
-        </div>
-
-      `
-    );
-
-  }
-
-
-  /* =====================================================
-     LOGOUT
-  ===================================================== */
-
-  function logoutUser() {
-
-    const confirmLogout =
-      confirm(
-        "Are you sure you want to log out?"
-      );
-
-
-    if (confirmLogout) {
-
-      showToast(
-        "Logged out successfully."
-      );
-
+    // ============================================================
+    // SALES TARGET
+    // ============================================================
+
+    function openSalesTargetCalculator() {
+
+        showModal(
+            "🎯 Sales Target Calculator",
+            `
+                ${inputField("monthlyTarget", "Monthly Sales Target")}
+                ${inputField("workingDays", "Working Days")}
+
+                ${calculateButton("calculateSalesTarget()", "Calculate")}
+
+                <div id="calculatorResult"></div>
+            `
+        );
     }
 
-  }
+    function calculateSalesTarget() {
 
+        const target =
+            Number(document.getElementById("monthlyTarget").value) || 0;
 
-  /* =====================================================
-     TOAST
-  ===================================================== */
+        const days =
+            Number(document.getElementById("workingDays").value) || 0;
 
-  function showToast(message) {
+        if (days <= 0) {
 
-    const old =
-      document.getElementById("abaToast");
+            resultBox(
+                "Working days must be greater than 0.",
+                true
+            );
 
-    if (old) {
+            return;
+        }
 
-      old.remove();
-
+        resultBox(
+            `Daily Sales Target: ${formatNumber(target / days)} Ks`
+        );
     }
 
+    function inputField(id, label) {
 
-    const toast =
-      document.createElement("div");
+        return `
+            <div style="margin-bottom:15px;">
 
-    toast.id = "abaToast";
+                <label style="
+                    display:block;
+                    margin-bottom:7px;
+                    font-weight:600;
+                ">
+                    ${label}
+                </label>
 
-    toast.textContent =
-      message;
+                <input
+                    id="${id}"
+                    type="number"
+                    style="
+                        width:100%;
+                        padding:13px;
+                        border:1px solid #cbd5e1;
+                        border-radius:10px;
+                        font-size:15px;
+                    "
+                >
 
-
-    toast.style.cssText = `
-      position:fixed;
-      left:50%;
-      bottom:25px;
-      transform:translateX(-50%);
-      z-index:100000;
-      background:#111827;
-      color:white;
-      padding:13px 20px;
-      border-radius:999px;
-      font-size:14px;
-      box-shadow:0 10px 30px rgba(0,0,0,.25);
-    `;
-
-
-    document.body.appendChild(toast);
-
-
-    setTimeout(function () {
-
-      toast.remove();
-
-    }, 2500);
-
-  }
-
-
-  /* =====================================================
-     SIDEBAR
-  ===================================================== */
-
-  function toggleMenu(id) {
-
-    const menu =
-      document.getElementById(id);
-
-
-    if (!menu) {
-
-      return;
-
+            </div>
+        `;
     }
 
+    function calculateButton(action, text) {
 
-    menu.classList.toggle("show");
-
-  }
-
-
-  function toggleSidebar() {
-
-    const sidebar =
-      document.querySelector(".sidebar");
-
-
-    if (!sidebar) {
-
-      return;
-
+        return `
+            <button
+                onclick="${action}"
+                style="
+                    width:100%;
+                    border:0;
+                    background:#2563eb;
+                    color:white;
+                    padding:13px;
+                    border-radius:10px;
+                    cursor:pointer;
+                    font-weight:700;
+                "
+            >
+                ${text}
+            </button>
+        `;
     }
 
+    function resultBox(message, error = false) {
 
-    sidebar.classList.toggle(
-      "mobile-open"
-    );
+        const result =
+            document.getElementById("calculatorResult");
 
-  }
+        if (!result) return;
 
+        result.innerHTML = `
+            <div style="
+                margin-top:18px;
+                padding:15px;
+                background:${error ? "#fef2f2" : "#eff6ff"};
+                color:${error ? "#b91c1c" : "#1d4ed8"};
+                border-radius:12px;
+                text-align:center;
+                font-weight:700;
+            ">
+                ${message}
+            </div>
+        `;
+    }
 
-  /* =====================================================
-     MAKE FUNCTIONS PUBLIC
-     IMPORTANT FOR HTML ONCLICK
-  ===================================================== */
+    function formatNumber(value) {
+        return Number(value).toLocaleString("en-US", {
+            maximumFractionDigits: 2
+        });
+    }
 
-  window.goDashboard =
-    goDashboard;
+    // ============================================================
+    // AI COACH
+    // ============================================================
 
-  window.toggleMenu =
-    toggleMenu;
+    function openAI() {
 
-  window.toggleSidebar =
-    toggleSidebar;
+        showModal(
+            "🤖 AI Business Coach",
+            `
+                <div style="
+                    background:#f8fafc;
+                    padding:20px;
+                    border-radius:15px;
+                ">
 
-  window.openLessons =
-    openLessons;
+                    <h3>AI Business Coach</h3>
 
-  window.openLesson =
-    openLesson;
+                    <p style="color:#64748b;">
+                        Your AI Coach will help with Sales, Marketing,
+                        Leadership, Finance and Business Strategy.
+                    </p>
 
-  window.completeLesson =
-    completeLesson;
+                    <div style="
+                        background:#fff;
+                        padding:15px;
+                        border-radius:12px;
+                        border:1px solid #e2e8f0;
+                    ">
+                        🚀 AI Coach integration is the next upgrade.
+                    </div>
 
-  window.openCategory =
-    openCategory;
+                </div>
+            `
+        );
+    }
 
-  window.openTools =
-    openTools;
+    // ============================================================
+    // PREMIUM
+    // ============================================================
 
-  window.profitCalculator =
-    profitCalculator;
+    function openPremium() {
 
-  window.calculateProfit =
-    calculateProfit;
+        showModal(
+            "⭐ Premium Academy",
+            `
+                <div style="text-align:center;">
 
-  window.pricingCalculator =
-    pricingCalculator;
+                    <div style="font-size:55px;">👑</div>
 
-  window.calculatePrice =
-    calculatePrice;
+                    <h2>Premium Business Academy</h2>
 
-  window.breakEvenCalculator =
-    breakEvenCalculator;
+                    <p style="color:#64748b;">
+                        Advanced business education and professional tools.
+                    </p>
 
-  window.calculateBreakEven =
-    calculateBreakEven;
+                    <div style="
+                        text-align:left;
+                        padding:15px;
+                    ">
+                        <p>✓ 100+ Business Lessons</p>
+                        <p>✓ AI Business Coach</p>
+                        <p>✓ Advanced Business Tools</p>
+                        <p>✓ Business Templates</p>
+                        <p>✓ Sales Management System</p>
+                        <p>✓ Certificates</p>
+                    </div>
 
-  window.salesTargetCalculator =
-    salesTargetCalculator;
+                    <button
+                        onclick="showToast('Premium subscription coming soon!')"
+                        style="
+                            width:100%;
+                            border:0;
+                            background:#7c3aed;
+                            color:#fff;
+                            padding:14px;
+                            border-radius:10px;
+                            cursor:pointer;
+                            font-weight:700;
+                        "
+                    >
+                        Premium Coming Soon
+                    </button>
 
-  window.calculateSalesTarget =
-    calculateSalesTarget;
+                </div>
+            `
+        );
+    }
 
-  window.openAI =
-    openAI;
+    // ============================================================
+    // BUSINESS PLAN
+    // ============================================================
 
-  window.openPremium =
-    openPremium;
+    function openBusinessPlan() {
 
-  window.openBusinessPlan =
-    openBusinessPlan;
+        showModal(
+            "📋 Business Plan Builder",
+            `
+                ${textInput("businessName", "Business Name")}
+                ${textInput("productService", "Product / Service")}
+                ${textInput("targetCustomer", "Target Customer")}
 
-  window.generateBusinessPlan =
-    generateBusinessPlan;
+                <button
+                    onclick="generateBusinessPlan()"
+                    style="
+                        width:100%;
+                        border:0;
+                        background:#2563eb;
+                        color:#fff;
+                        padding:14px;
+                        border-radius:10px;
+                        cursor:pointer;
+                        font-weight:700;
+                    "
+                >
+                    Generate 90-Day Plan
+                </button>
 
-  window.openProfile =
-    openProfile;
+                <div id="businessPlanResult"></div>
+            `
+        );
+    }
 
-  window.showNotification =
-    showNotification;
+    function textInput(id, label) {
 
-  window.logoutUser =
-    logoutUser;
+        return `
+            <div style="margin-bottom:15px;">
 
-  window.closeModal =
-    closeModal;
+                <label style="
+                    display:block;
+                    margin-bottom:7px;
+                    font-weight:600;
+                ">
+                    ${label}
+                </label>
 
+                <input
+                    id="${id}"
+                    type="text"
+                    style="
+                        width:100%;
+                        padding:13px;
+                        border:1px solid #cbd5e1;
+                        border-radius:10px;
+                        font-size:15px;
+                    "
+                >
 
-  /* =====================================================
-     INITIALIZE
-  ===================================================== */
+            </div>
+        `;
+    }
 
-  function init() {
+    function generateBusinessPlan() {
 
-    updateDashboard();
+        const name =
+            document.getElementById("businessName").value ||
+            "My Business";
 
-    console.log(
-      "Aung Business Academy V6 loaded successfully."
-    );
+        const product =
+            document.getElementById("productService").value ||
+            "Product / Service";
 
-  }
+        const customer =
+            document.getElementById("targetCustomer").value ||
+            "Target Customer";
 
+        document.getElementById(
+            "businessPlanResult"
+        ).innerHTML = `
 
-  if (
-    document.readyState === "loading"
-  ) {
+            <div style="
+                margin-top:20px;
+                background:#f8fafc;
+                padding:20px;
+                border-radius:15px;
+            ">
 
-    document.addEventListener(
-      "DOMContentLoaded",
-      init
-    );
+                <h3>${escapeHTML(name)}</h3>
 
-  } else {
+                <p>
+                    <strong>Product:</strong>
+                    ${escapeHTML(product)}
+                </p>
+
+                <p>
+                    <strong>Target Customer:</strong>
+                    ${escapeHTML(customer)}
+                </p>
+
+                <hr>
+
+                <h3>90-Day Action Plan</h3>
+
+                <p>
+                    <strong>Days 1–30:</strong>
+                    Research market, define customers and prepare the offer.
+                </p>
+
+                <p>
+                    <strong>Days 31–60:</strong>
+                    Start sales and marketing activities and measure results.
+                </p>
+
+                <p>
+                    <strong>Days 61–90:</strong>
+                    Improve profitable channels and scale the business.
+                </p>
+
+            </div>
+        `;
+    }
+
+    // ============================================================
+    // PROFILE
+    // ============================================================
+
+    function openProfile() {
+
+        const completed =
+            getCompletedLessons();
+
+        showModal(
+            "👤 My Profile",
+            `
+                <div style="text-align:center;padding:20px;">
+
+                    <div style="
+                        width:80px;
+                        height:80px;
+                        margin:auto;
+                        border-radius:50%;
+                        background:#2563eb;
+                        color:#fff;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        font-size:30px;
+                        font-weight:700;
+                    ">
+                        A
+                    </div>
+
+                    <h2>Aung Business Academy User</h2>
+
+                    <p style="color:#64748b;">
+                        Business Learner
+                    </p>
+
+                    <div style="
+                        background:#f8fafc;
+                        padding:20px;
+                        border-radius:15px;
+                        margin-top:20px;
+                    ">
+
+                        <h2>${completed.length}</h2>
+
+                        <p style="margin:0;">
+                            Lessons Completed
+                        </p>
+
+                    </div>
+
+                </div>
+            `
+        );
+    }
+
+    // ============================================================
+    // NOTIFICATION
+    // ============================================================
+
+    function showNotification() {
+        showToast("🔔 Welcome to Aung Business Academy!");
+    }
+
+    // ============================================================
+    // LOGOUT
+    // ============================================================
+
+    function logoutUser() {
+
+        if (confirm("Are you sure you want to logout?")) {
+            showToast("Logout system will be connected later.");
+        }
+    }
+
+    // ============================================================
+    // SIDEBAR
+    // ============================================================
+
+    function toggleSidebar() {
+
+        const sidebar =
+            document.querySelector(".sidebar");
+
+        if (!sidebar) return;
+
+        sidebar.classList.toggle("active");
+    }
+
+    function toggleMenu() {
+        toggleSidebar();
+    }
+
+    // ============================================================
+    // DASHBOARD
+    // ============================================================
+
+    function goDashboard() {
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+        showToast("🏠 Dashboard");
+    }
+
+    // ============================================================
+    // TOAST
+    // ============================================================
+
+    function showToast(message) {
+
+        const old =
+            document.getElementById("academyToast");
+
+        if (old) old.remove();
+
+        const toast =
+            document.createElement("div");
+
+        toast.id = "academyToast";
+
+        toast.textContent = message;
+
+        toast.style.cssText = `
+            position:fixed;
+            left:50%;
+            bottom:25px;
+            transform:translateX(-50%);
+            background:#0f172a;
+            color:#fff;
+            padding:13px 20px;
+            border-radius:12px;
+            z-index:100000;
+            box-shadow:0 10px 30px rgba(0,0,0,.25);
+            font-size:14px;
+            font-weight:600;
+        `;
+
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.remove();
+        }, 2500);
+    }
+
+    // ============================================================
+    // ESC KEY
+    // ============================================================
+
+    document.addEventListener("keydown", function (event) {
+
+        if (event.key === "Escape") {
+            closeModal();
+        }
+
+    });
+
+    // ============================================================
+    // SECURITY
+    // ============================================================
+
+    function escapeHTML(text) {
+
+        return String(text)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    // ============================================================
+    // GLOBAL FUNCTIONS
+    // ============================================================
+
+    window.openLessons = openLessons;
+    window.openLesson = openLesson;
+    window.showLesson = showLesson;
+    window.closeModal = closeModal;
+
+    window.startQuiz = startQuiz;
+    window.submitQuiz = submitQuiz;
+
+    window.continueLearning = continueLearning;
+
+    window.filterLessons = filterLessons;
+    window.setLessonFilter = setLessonFilter;
+
+    window.openCategory = openCategory;
+
+    window.openTools = openTools;
+
+    window.openProfitCalculator = openProfitCalculator;
+    window.calculateProfit = calculateProfit;
+
+    window.openPricingCalculator = openPricingCalculator;
+    window.calculatePrice = calculatePrice;
+
+    window.openBreakEvenCalculator = openBreakEvenCalculator;
+    window.calculateBreakEven = calculateBreakEven;
+
+    window.openSalesTargetCalculator = openSalesTargetCalculator;
+    window.calculateSalesTarget = calculateSalesTarget;
+
+    window.openAI = openAI;
+    window.openPremium = openPremium;
+
+    window.openBusinessPlan = openBusinessPlan;
+    window.generateBusinessPlan = generateBusinessPlan;
+
+    window.openProfile = openProfile;
+    window.showNotification = showNotification;
+    window.logoutUser = logoutUser;
+
+    window.toggleSidebar = toggleSidebar;
+    window.toggleMenu = toggleMenu;
+    window.goDashboard = goDashboard;
+
+    window.showToast = showToast;
+
+    // ============================================================
+    // INIT
+    // ============================================================
+
+    function init() {
+        updateDashboard();
+        console.log(
+            "Aung Business Academy V2 loaded successfully."
+        );
+    }
 
     init();
-
-  }
-
 
 })();

@@ -14,11 +14,13 @@
 
   <div class="academy">
 
-    <!-- ================================= -->
+    <!-- ========================================= -->
     <!-- SIDEBAR -->
-    <!-- ================================= -->
+    <!-- ========================================= -->
 
     <aside class="sidebar">
+
+      <!-- BRAND -->
 
       <div class="brand">
 
@@ -34,13 +36,15 @@
       </div>
 
 
-      <!-- DASHBOARD -->
+      <!-- NAVIGATION -->
 
       <nav class="navigation">
 
+        <!-- DASHBOARD -->
+
         <button
           class="nav-item active"
-          onclick="location.reload()">
+          onclick="goDashboard()">
 
           <span class="nav-icon">▣</span>
           <span>Dashboard</span>
@@ -48,7 +52,9 @@
         </button>
 
 
+        <!-- ========================================= -->
         <!-- LEADERSHIP -->
+        <!-- ========================================= -->
 
         <div class="nav-group">
 
@@ -57,26 +63,46 @@
             onclick="toggleMenu('leadershipMenu')">
 
             <span class="nav-icon">♟</span>
-            <span>Leadership & Strategy</span>
-            <span class="arrow">▾</span>
+
+            <span>
+              Leadership & Strategy
+            </span>
+
+            <span class="arrow">
+              ▾
+            </span>
 
           </button>
+
 
           <div
             class="submenu"
             id="leadershipMenu">
 
-            <button>Leadership Basics</button>
-            <button>Strategic Thinking</button>
-            <button>Decision Making</button>
-            <button>Team Leadership</button>
+            <button onclick="openCategory('Leadership Basics')">
+              Leadership Basics
+            </button>
+
+            <button onclick="openCategory('Strategic Thinking')">
+              Strategic Thinking
+            </button>
+
+            <button onclick="openCategory('Decision Making')">
+              Decision Making
+            </button>
+
+            <button onclick="openCategory('Team Leadership')">
+              Team Leadership
+            </button>
 
           </div>
 
         </div>
 
 
+        <!-- ========================================= -->
         <!-- BRANDING -->
+        <!-- ========================================= -->
 
         <div class="nav-group">
 
@@ -85,25 +111,42 @@
             onclick="toggleMenu('brandingMenu')">
 
             <span class="nav-icon">✎</span>
-            <span>Branding</span>
-            <span class="arrow">▾</span>
+
+            <span>
+              Branding
+            </span>
+
+            <span class="arrow">
+              ▾
+            </span>
 
           </button>
+
 
           <div
             class="submenu"
             id="brandingMenu">
 
-            <button>Brand Basics</button>
-            <button>Brand Positioning</button>
-            <button>Brand Identity</button>
+            <button onclick="openCategory('Brand Basics')">
+              Brand Basics
+            </button>
+
+            <button onclick="openCategory('Brand Positioning')">
+              Brand Positioning
+            </button>
+
+            <button onclick="openCategory('Brand Identity')">
+              Brand Identity
+            </button>
 
           </div>
 
         </div>
 
 
+        <!-- ========================================= -->
         <!-- MARKETING -->
+        <!-- ========================================= -->
 
         <div class="nav-group">
 
@@ -112,26 +155,46 @@
             onclick="toggleMenu('marketingMenu')">
 
             <span class="nav-icon">▤</span>
-            <span>Marketing</span>
-            <span class="arrow">▾</span>
+
+            <span>
+              Marketing
+            </span>
+
+            <span class="arrow">
+              ▾
+            </span>
 
           </button>
+
 
           <div
             class="submenu"
             id="marketingMenu">
 
-            <button>Marketing Basics</button>
-            <button>Digital Marketing</button>
-            <button>Content Marketing</button>
-            <button>Marketing Strategy</button>
+            <button onclick="openCategory('Marketing Basics')">
+              Marketing Basics
+            </button>
+
+            <button onclick="openCategory('Digital Marketing')">
+              Digital Marketing
+            </button>
+
+            <button onclick="openCategory('Content Marketing')">
+              Content Marketing
+            </button>
+
+            <button onclick="openCategory('Marketing Strategy')">
+              Marketing Strategy
+            </button>
 
           </div>
 
         </div>
 
 
+        <!-- ========================================= -->
         <!-- SALES -->
+        <!-- ========================================= -->
 
         <div class="nav-group">
 
@@ -140,27 +203,50 @@
             onclick="toggleMenu('salesMenu')">
 
             <span class="nav-icon">🛒</span>
-            <span>Sales</span>
-            <span class="arrow">▾</span>
+
+            <span>
+              Sales
+            </span>
+
+            <span class="arrow">
+              ▾
+            </span>
 
           </button>
+
 
           <div
             class="submenu"
             id="salesMenu">
 
-            <button>Sales Basics</button>
-            <button>Customer Finding</button>
-            <button>Sales Strategy</button>
-            <button>Negotiation</button>
-            <button>Sales Management</button>
+            <button onclick="openCategory('Sales Basics')">
+              Sales Basics
+            </button>
+
+            <button onclick="openCategory('Customer Finding')">
+              Customer Finding
+            </button>
+
+            <button onclick="openCategory('Sales Strategy')">
+              Sales Strategy
+            </button>
+
+            <button onclick="openCategory('Negotiation')">
+              Negotiation
+            </button>
+
+            <button onclick="openCategory('Sales Management')">
+              Sales Management
+            </button>
 
           </div>
 
         </div>
 
 
-        <!-- SERVICE -->
+        <!-- ========================================= -->
+        <!-- SERVICE DELIVERY -->
+        <!-- ========================================= -->
 
         <div class="nav-group">
 
@@ -169,25 +255,42 @@
             onclick="toggleMenu('serviceMenu')">
 
             <span class="nav-icon">♟</span>
-            <span>Service Delivery</span>
-            <span class="arrow">▾</span>
+
+            <span>
+              Service Delivery
+            </span>
+
+            <span class="arrow">
+              ▾
+            </span>
 
           </button>
+
 
           <div
             class="submenu"
             id="serviceMenu">
 
-            <button>Customer Service</button>
-            <button>Service Quality</button>
-            <button>Customer Experience</button>
+            <button onclick="openCategory('Customer Service')">
+              Customer Service
+            </button>
+
+            <button onclick="openCategory('Service Quality')">
+              Service Quality
+            </button>
+
+            <button onclick="openCategory('Customer Experience')">
+              Customer Experience
+            </button>
 
           </div>
 
         </div>
 
 
-        <!-- MANAGEMENT -->
+        <!-- ========================================= -->
+        <!-- MANAGEMENT & HR -->
+        <!-- ========================================= -->
 
         <div class="nav-group">
 
@@ -196,26 +299,46 @@
             onclick="toggleMenu('managementMenu')">
 
             <span class="nav-icon">▣</span>
-            <span>Management & HR</span>
-            <span class="arrow">▾</span>
+
+            <span>
+              Management & HR
+            </span>
+
+            <span class="arrow">
+              ▾
+            </span>
 
           </button>
+
 
           <div
             class="submenu"
             id="managementMenu">
 
-            <button>People Management</button>
-            <button>Recruitment</button>
-            <button>Performance Management</button>
-            <button>Coaching</button>
+            <button onclick="openCategory('People Management')">
+              People Management
+            </button>
+
+            <button onclick="openCategory('Recruitment')">
+              Recruitment
+            </button>
+
+            <button onclick="openCategory('Performance Management')">
+              Performance Management
+            </button>
+
+            <button onclick="openCategory('Coaching')">
+              Coaching
+            </button>
 
           </div>
 
         </div>
 
 
-        <!-- FINANCIAL -->
+        <!-- ========================================= -->
+        <!-- FINANCIAL STATEMENTS -->
+        <!-- ========================================= -->
 
         <div class="nav-group">
 
@@ -224,26 +347,46 @@
             onclick="toggleMenu('financeMenu')">
 
             <span class="nav-icon">▰</span>
-            <span>Financial Statements</span>
-            <span class="arrow">▾</span>
+
+            <span>
+              Financial Statements
+            </span>
+
+            <span class="arrow">
+              ▾
+            </span>
 
           </button>
+
 
           <div
             class="submenu"
             id="financeMenu">
 
-            <button>Revenue</button>
-            <button>Profit & Loss</button>
-            <button>Cash Flow</button>
-            <button>Financial Analysis</button>
+            <button onclick="openCategory('Revenue')">
+              Revenue
+            </button>
+
+            <button onclick="openCategory('Profit & Loss')">
+              Profit & Loss
+            </button>
+
+            <button onclick="openCategory('Cash Flow')">
+              Cash Flow
+            </button>
+
+            <button onclick="openCategory('Financial Analysis')">
+              Financial Analysis
+            </button>
 
           </div>
 
         </div>
 
 
-        <!-- PRODUCTIVITY -->
+        <!-- ========================================= -->
+        <!-- PERSONAL PRODUCTIVITY -->
+        <!-- ========================================= -->
 
         <div class="nav-group">
 
@@ -252,37 +395,59 @@
             onclick="toggleMenu('productivityMenu')">
 
             <span class="nav-icon">▤</span>
-            <span>Personal Productivity</span>
-            <span class="arrow">▾</span>
+
+            <span>
+              Personal Productivity
+            </span>
+
+            <span class="arrow">
+              ▾
+            </span>
 
           </button>
+
 
           <div
             class="submenu"
             id="productivityMenu">
 
-            <button>Time Management</button>
-            <button>Goal Setting</button>
-            <button>Daily Planning</button>
+            <button onclick="openCategory('Time Management')">
+              Time Management
+            </button>
+
+            <button onclick="openCategory('Goal Setting')">
+              Goal Setting
+            </button>
+
+            <button onclick="openCategory('Daily Planning')">
+              Daily Planning
+            </button>
 
           </div>
 
         </div>
 
 
+        <!-- ========================================= -->
         <!-- BUSINESS PLAN -->
+        <!-- ========================================= -->
 
         <button
           class="nav-item"
-          onclick="openPremium()">
+          onclick="openBusinessPlan()">
 
           <span class="nav-icon">✎</span>
-          <span>Business Plan</span>
+
+          <span>
+            Business Plan
+          </span>
 
         </button>
 
 
+        <!-- ========================================= -->
         <!-- LEARN -->
+        <!-- ========================================= -->
 
         <div class="nav-group">
 
@@ -290,11 +455,20 @@
             class="nav-item"
             onclick="toggleMenu('learnMenu')">
 
-            <span class="nav-icon">🎓</span>
-            <span>Learn</span>
-            <span class="arrow">▾</span>
+            <span class="nav-icon">
+              🎓
+            </span>
+
+            <span>
+              Learn
+            </span>
+
+            <span class="arrow">
+              ▾
+            </span>
 
           </button>
+
 
           <div
             class="submenu"
@@ -319,7 +493,9 @@
       </nav>
 
 
-      <!-- PREMIUM -->
+      <!-- ========================================= -->
+      <!-- PREMIUM SIDEBAR -->
+      <!-- ========================================= -->
 
       <div class="sidebar-premium">
 
@@ -328,8 +504,15 @@
         </div>
 
         <div>
-          <strong>Premium Academy</strong>
-          <p>Unlock advanced business tools.</p>
+
+          <strong>
+            Premium Academy
+          </strong>
+
+          <p>
+            Unlock advanced business tools.
+          </p>
+
         </div>
 
         <button onclick="openPremium()">
@@ -343,9 +526,12 @@
 
       <button
         class="logout"
-        onclick="location.reload()">
+        onclick="logoutUser()">
 
-        <span>↪</span>
+        <span>
+          ↪
+        </span>
+
         Log Out
 
       </button>
@@ -358,14 +544,16 @@
     </aside>
 
 
-    <!-- ================================= -->
+    <!-- ========================================= -->
     <!-- MAIN CONTENT -->
-    <!-- ================================= -->
+    <!-- ========================================= -->
 
     <main class="main-content">
 
 
-      <!-- TOP BAR -->
+      <!-- ========================================= -->
+      <!-- TOPBAR -->
+      <!-- ========================================= -->
 
       <header class="topbar">
 
@@ -377,9 +565,12 @@
 
         </button>
 
+
         <div>
 
-          <h2>Dashboard</h2>
+          <h2>
+            Dashboard
+          </h2>
 
           <p>
             Learn Business. Build Business. Grow Business.
@@ -390,19 +581,33 @@
 
         <div class="top-actions">
 
-          <button class="notification">
+          <button
+            class="notification"
+            onclick="showNotification()">
+
             🔔
+
           </button>
 
-          <div class="profile">
+
+          <div
+            class="profile"
+            onclick="openProfile()">
 
             <div class="profile-avatar">
               A
             </div>
 
             <div>
-              <strong>Aung</strong>
-              <span>Business Learner</span>
+
+              <strong>
+                Aung
+              </strong>
+
+              <span>
+                Business Learner
+              </span>
+
             </div>
 
           </div>
@@ -412,9 +617,9 @@
       </header>
 
 
-      <!-- ================================= -->
+      <!-- ========================================= -->
       <!-- WELCOME -->
-      <!-- ================================= -->
+      <!-- ========================================= -->
 
       <section class="welcome">
 
@@ -424,16 +629,19 @@
             🚀 AUNG BUSINESS ACADEMY
           </span>
 
+
           <h1>
             Build Your Business
             <br>
             From Zero to Growth.
           </h1>
 
+
           <p>
             Learn practical business skills, use powerful tools,
             and build a profitable business step by step.
           </p>
+
 
           <button
             class="primary-button"
@@ -457,17 +665,24 @@
       </section>
 
 
-      <!-- ================================= -->
+      <!-- ========================================= -->
       <!-- DASHBOARD STATS -->
-      <!-- ================================= -->
+      <!-- ========================================= -->
 
       <section class="section">
 
         <div class="section-title">
 
           <div>
-            <h2>Business Dashboard</h2>
-            <p>Your learning and business overview.</p>
+
+            <h2>
+              Business Dashboard
+            </h2>
+
+            <p>
+              Your learning and business overview.
+            </p>
+
           </div>
 
         </div>
@@ -486,10 +701,12 @@
 
             <div>
 
-              <span>Lessons</span>
+              <span>
+                Lessons
+              </span>
 
               <strong id="lessonCount">
-                0
+                10
               </strong>
 
               <small>
@@ -511,7 +728,9 @@
 
             <div>
 
-              <span>Learning Progress</span>
+              <span>
+                Learning Progress
+              </span>
 
               <strong id="progress">
                 0%
@@ -536,7 +755,9 @@
 
             <div>
 
-              <span>Business Tools</span>
+              <span>
+                Business Tools
+              </span>
 
               <strong>
                 4
@@ -561,7 +782,9 @@
 
             <div>
 
-              <span>Premium</span>
+              <span>
+                Premium
+              </span>
 
               <strong>
                 LOCKED
@@ -581,9 +804,9 @@
       </section>
 
 
-      <!-- ================================= -->
+      <!-- ========================================= -->
       <!-- QUICK ACCESS -->
-      <!-- ================================= -->
+      <!-- ========================================= -->
 
       <section class="section">
 
@@ -591,7 +814,9 @@
 
           <div>
 
-            <h2>Quick Access</h2>
+            <h2>
+              Quick Access
+            </h2>
 
             <p>
               Start learning or use your business tools.
@@ -605,7 +830,7 @@
         <div class="quick-grid">
 
 
-          <!-- LESSONS -->
+          <!-- BUSINESS LESSONS -->
 
           <div
             class="quick-card"
@@ -617,7 +842,9 @@
 
             <div>
 
-              <h3>Business Lessons</h3>
+              <h3>
+                Business Lessons
+              </h3>
 
               <p>
                 Learn business fundamentals step by step.
@@ -632,7 +859,7 @@
           </div>
 
 
-          <!-- TOOLS -->
+          <!-- BUSINESS TOOLS -->
 
           <div
             class="quick-card"
@@ -644,7 +871,9 @@
 
             <div>
 
-              <h3>Business Tools</h3>
+              <h3>
+                Business Tools
+              </h3>
 
               <p>
                 Calculate profit, pricing and business numbers.
@@ -724,9 +953,9 @@
       </section>
 
 
-      <!-- ================================= -->
+      <!-- ========================================= -->
       <!-- BUSINESS ROADMAP -->
-      <!-- ================================= -->
+      <!-- ========================================= -->
 
       <section class="section">
 
@@ -734,7 +963,9 @@
 
           <div>
 
-            <h2>🚀 Business Roadmap</h2>
+            <h2>
+              🚀 Business Roadmap
+            </h2>
 
             <p>
               Your journey from beginner to business owner.
@@ -748,6 +979,8 @@
         <div class="roadmap">
 
 
+          <!-- STEP 1 -->
+
           <div class="roadmap-step completed">
 
             <div class="roadmap-number">
@@ -756,7 +989,9 @@
 
             <div>
 
-              <h3>Business Foundation</h3>
+              <h3>
+                Business Foundation
+              </h3>
 
               <p>
                 Understand business fundamentals.
@@ -770,6 +1005,8 @@
           <div class="roadmap-line"></div>
 
 
+          <!-- STEP 2 -->
+
           <div class="roadmap-step">
 
             <div class="roadmap-number">
@@ -778,7 +1015,9 @@
 
             <div>
 
-              <h3>Find Your Market</h3>
+              <h3>
+                Find Your Market
+              </h3>
 
               <p>
                 Customer, product and market research.
@@ -792,6 +1031,8 @@
           <div class="roadmap-line"></div>
 
 
+          <!-- STEP 3 -->
+
           <div class="roadmap-step">
 
             <div class="roadmap-number">
@@ -800,7 +1041,9 @@
 
             <div>
 
-              <h3>Sales & Marketing</h3>
+              <h3>
+                Sales & Marketing
+              </h3>
 
               <p>
                 Learn how to attract customers and sell.
@@ -814,6 +1057,8 @@
           <div class="roadmap-line"></div>
 
 
+          <!-- STEP 4 -->
+
           <div class="roadmap-step premium-roadmap">
 
             <div class="roadmap-number">
@@ -822,7 +1067,9 @@
 
             <div>
 
-              <h3>Scale Your Business</h3>
+              <h3>
+                Scale Your Business
+              </h3>
 
               <p>
                 Advanced strategy available in Premium.
@@ -838,15 +1085,16 @@
       </section>
 
 
-      <!-- ================================= -->
+      <!-- ========================================= -->
       <!-- PREMIUM CTA -->
-      <!-- ================================= -->
+      <!-- ========================================= -->
 
       <section class="premium-banner">
 
         <div class="premium-banner-icon">
           👑
         </div>
+
 
         <div class="premium-banner-content">
 
@@ -866,6 +1114,7 @@
 
         </div>
 
+
         <button onclick="openPremium()">
           Explore Premium →
         </button>
@@ -873,9 +1122,9 @@
       </section>
 
 
-      <!-- ================================= -->
+      <!-- ========================================= -->
       <!-- FOOTER -->
-      <!-- ================================= -->
+      <!-- ========================================= -->
 
       <footer>
 
@@ -894,15 +1143,16 @@
   </div>
 
 
-  <!-- ================================= -->
-  <!-- JAVASCRIPT -->
-  <!-- ================================= -->
+  <!-- ========================================= -->
+  <!-- BASIC JAVASCRIPT -->
+  <!-- ========================================= -->
 
   <script>
 
     function toggleMenu(id) {
 
-      const menu = document.getElementById(id);
+      const menu =
+        document.getElementById(id);
 
       if (!menu) return;
 
@@ -918,14 +1168,19 @@
 
       if (!sidebar) return;
 
-      sidebar.classList.toggle("mobile-open");
+      sidebar.classList.toggle(
+        "mobile-open"
+      );
 
     }
 
   </script>
 
 
+  <!-- MAIN APP -->
+
   <script src="app.js"></script>
+
 
 </body>
 

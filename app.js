@@ -1,13 +1,19 @@
 // ============================================================
 // AUNG BUSINESS ACADEMY
-// APP.JS V2 - LESSON SYSTEM
+// APP.JS V3
+// LOGIN + USER PROFILE + PROGRESS + LESSONS + TOOLS
 // ============================================================
-
 (function () {
     "use strict";
-
-    const STORAGE_KEY = "aung_business_academy_completed";
-
+    // ============================================================
+    // STORAGE KEYS
+    // ============================================================
+    const USER_KEY = "aung_business_academy_user";
+    const COMPLETED_KEY = "aung_business_academy_completed";
+    const TRIAL_KEY = "aung_business_academy_trial";
+    // ============================================================
+    // LESSON DATA
+    // ============================================================
     const lessons = [
         {
             id: 1,
@@ -32,17 +38,26 @@
             quiz: [
                 {
                     q: "What is one main purpose of a business?",
-                    options: ["Solve customer problems", "Avoid customers", "Increase expenses", "Reduce quality"],
+                    options: [
+                        "Solve customer problems",
+                        "Avoid customers",
+                        "Increase expenses",
+                        "Reduce quality"
+                    ],
                     answer: 0
                 },
                 {
                     q: "What should a business manager understand?",
-                    options: ["Only sales", "Only finance", "Customers, people, operations and finance", "Nothing"],
+                    options: [
+                        "Only sales",
+                        "Only finance",
+                        "Customers, people, operations and finance",
+                        "Nothing"
+                    ],
                     answer: 2
                 }
             ]
         },
-
         {
             id: 2,
             title: "Business Model",
@@ -66,17 +81,26 @@
             quiz: [
                 {
                     q: "What does a business model explain?",
-                    options: ["How the business creates and earns money", "Employee attendance", "Advertising only", "Accounting only"],
+                    options: [
+                        "How the business creates and earns money",
+                        "Employee attendance",
+                        "Advertising only",
+                        "Accounting only"
+                    ],
                     answer: 0
                 },
                 {
                     q: "Which is part of a business model?",
-                    options: ["Customer", "Product", "Revenue", "All of the above"],
+                    options: [
+                        "Customer",
+                        "Product",
+                        "Revenue",
+                        "All of the above"
+                    ],
                     answer: 3
                 }
             ]
         },
-
         {
             id: 3,
             title: "Finding Your Customer",
@@ -100,17 +124,26 @@
             quiz: [
                 {
                     q: "Should every person be considered your customer?",
-                    options: ["Yes", "No", "Only employees", "Only competitors"],
+                    options: [
+                        "Yes",
+                        "No",
+                        "Only employees",
+                        "Only competitors"
+                    ],
                     answer: 1
                 },
                 {
                     q: "Which helps define a customer?",
-                    options: ["Location", "Needs", "Buying behavior", "All of the above"],
+                    options: [
+                        "Location",
+                        "Needs",
+                        "Buying behavior",
+                        "All of the above"
+                    ],
                     answer: 3
                 }
             ]
         },
-
         {
             id: 4,
             title: "Market Research",
@@ -133,17 +166,26 @@
             quiz: [
                 {
                     q: "Why do businesses conduct market research?",
-                    options: ["To understand the market", "To ignore customers", "To create confusion", "To avoid competitors"],
+                    options: [
+                        "To understand the market",
+                        "To ignore customers",
+                        "To create confusion",
+                        "To avoid competitors"
+                    ],
                     answer: 0
                 },
                 {
                     q: "What should market research include?",
-                    options: ["Competitors", "Customer demand", "Price levels", "All of the above"],
+                    options: [
+                        "Competitors",
+                        "Customer demand",
+                        "Price levels",
+                        "All of the above"
+                    ],
                     answer: 3
                 }
             ]
         },
-
         {
             id: 5,
             title: "Value Proposition",
@@ -165,17 +207,26 @@
             quiz: [
                 {
                     q: "What does a value proposition communicate?",
-                    options: ["Customer benefit", "Employee salary", "Office location", "Tax information"],
+                    options: [
+                        "Customer benefit",
+                        "Employee salary",
+                        "Office location",
+                        "Tax information"
+                    ],
                     answer: 0
                 },
                 {
                     q: "A good value proposition should be:",
-                    options: ["Confusing", "Clear", "Complicated", "Hidden"],
+                    options: [
+                        "Confusing",
+                        "Clear",
+                        "Complicated",
+                        "Hidden"
+                    ],
                     answer: 1
                 }
             ]
         },
-
         {
             id: 6,
             title: "Product Basics",
@@ -193,17 +244,26 @@
             quiz: [
                 {
                     q: "What do customers usually care about?",
-                    options: ["Benefits", "Office furniture", "Employee attendance", "Internal rules"],
+                    options: [
+                        "Benefits",
+                        "Office furniture",
+                        "Employee attendance",
+                        "Internal rules"
+                    ],
                     answer: 0
                 },
                 {
                     q: "A product should solve:",
-                    options: ["A customer need", "Only a manager problem", "Employee schedules", "Nothing"],
+                    options: [
+                        "A customer need",
+                        "Only a manager problem",
+                        "Employee schedules",
+                        "Nothing"
+                    ],
                     answer: 0
                 }
             ]
         },
-
         {
             id: 7,
             title: "Pricing Basics",
@@ -226,17 +286,26 @@
             quiz: [
                 {
                     q: "What can pricing affect?",
-                    options: ["Revenue", "Profit", "Customer perception", "All of the above"],
+                    options: [
+                        "Revenue",
+                        "Profit",
+                        "Customer perception",
+                        "All of the above"
+                    ],
                     answer: 3
                 },
                 {
                     q: "Should pricing consider customer willingness to pay?",
-                    options: ["Yes", "No", "Never", "Only for employees"],
+                    options: [
+                        "Yes",
+                        "No",
+                        "Never",
+                        "Only for employees"
+                    ],
                     answer: 0
                 }
             ]
         },
-
         {
             id: 8,
             title: "Sales Fundamentals",
@@ -261,17 +330,26 @@
             quiz: [
                 {
                     q: "What should a salesperson discover?",
-                    options: ["Customer needs", "Employee salary", "Office rent", "Tax rate"],
+                    options: [
+                        "Customer needs",
+                        "Employee salary",
+                        "Office rent",
+                        "Tax rate"
+                    ],
                     answer: 0
                 },
                 {
                     q: "What comes after objection handling?",
-                    options: ["Closing", "Recruitment", "Accounting", "Product design"],
+                    options: [
+                        "Closing",
+                        "Recruitment",
+                        "Accounting",
+                        "Product design"
+                    ],
                     answer: 0
                 }
             ]
         },
-
         {
             id: 9,
             title: "Marketing Basics",
@@ -303,12 +381,16 @@
                 },
                 {
                     q: "What should marketing start with?",
-                    options: ["Customer needs", "Office design", "Employee uniforms", "Accounting"],
+                    options: [
+                        "Customer needs",
+                        "Office design",
+                        "Employee uniforms",
+                        "Accounting"
+                    ],
                     answer: 0
                 }
             ]
         },
-
         {
             id: 10,
             title: "Personal Productivity",
@@ -330,17 +412,26 @@
             quiz: [
                 {
                     q: "What should you do first?",
-                    options: ["Set priorities", "Ignore tasks", "Wait for problems", "Do random activities"],
+                    options: [
+                        "Set priorities",
+                        "Ignore tasks",
+                        "Wait for problems",
+                        "Do random activities"
+                    ],
                     answer: 0
                 },
                 {
                     q: "What should happen at the end of the day?",
-                    options: ["Review results", "Delete goals", "Ignore performance", "Stop planning"],
+                    options: [
+                        "Review results",
+                        "Delete goals",
+                        "Ignore performance",
+                        "Stop planning"
+                    ],
                     answer: 0
                 }
             ]
         },
-
         {
             id: 11,
             title: "Sales Strategy",
@@ -364,17 +455,26 @@
             quiz: [
                 {
                     q: "What should sales strategy ultimately drive?",
-                    options: ["Field execution", "Confusion", "Higher costs only", "Less customer contact"],
+                    options: [
+                        "Field execution",
+                        "Confusion",
+                        "Higher costs only",
+                        "Less customer contact"
+                    ],
                     answer: 0
                 },
                 {
                     q: "Which is part of sales strategy?",
-                    options: ["Territory planning", "Target customers", "Sales channels", "All of the above"],
+                    options: [
+                        "Territory planning",
+                        "Target customers",
+                        "Sales channels",
+                        "All of the above"
+                    ],
                     answer: 3
                 }
             ]
         },
-
         {
             id: 12,
             title: "Customer Finding",
@@ -396,17 +496,26 @@
             quiz: [
                 {
                     q: "What is prospecting?",
-                    options: ["Finding potential customers", "Closing a company", "Hiring employees", "Preparing taxes"],
+                    options: [
+                        "Finding potential customers",
+                        "Closing a company",
+                        "Hiring employees",
+                        "Preparing taxes"
+                    ],
                     answer: 0
                 },
                 {
                     q: "What is important after finding a prospect?",
-                    options: ["Follow-up", "Ignore them", "Delete information", "Stop communication"],
+                    options: [
+                        "Follow-up",
+                        "Ignore them",
+                        "Delete information",
+                        "Stop communication"
+                    ],
                     answer: 0
                 }
             ]
         },
-
         {
             id: 13,
             title: "Negotiation",
@@ -428,17 +537,26 @@
             quiz: [
                 {
                     q: "What should you do before negotiation?",
-                    options: ["Prepare", "Guess", "Ignore customer", "Avoid information"],
+                    options: [
+                        "Prepare",
+                        "Guess",
+                        "Ignore customer",
+                        "Avoid information"
+                    ],
                     answer: 0
                 },
                 {
                     q: "Negotiation should focus on:",
-                    options: ["Value", "Conflict", "Confusion", "Personal arguments"],
+                    options: [
+                        "Value",
+                        "Conflict",
+                        "Confusion",
+                        "Personal arguments"
+                    ],
                     answer: 0
                 }
             ]
         },
-
         {
             id: 14,
             title: "Sales Management",
@@ -460,17 +578,26 @@
             quiz: [
                 {
                     q: "What should a sales manager track?",
-                    options: ["KPIs", "Only attendance", "Only expenses", "Nothing"],
+                    options: [
+                        "KPIs",
+                        "Only attendance",
+                        "Only expenses",
+                        "Nothing"
+                    ],
                     answer: 0
                 },
                 {
                     q: "What is a key management responsibility?",
-                    options: ["Coaching", "Ignoring performance", "Avoiding targets", "Removing accountability"],
+                    options: [
+                        "Coaching",
+                        "Ignoring performance",
+                        "Avoiding targets",
+                        "Removing accountability"
+                    ],
                     answer: 0
                 }
             ]
         },
-
         {
             id: 15,
             title: "Digital Marketing",
@@ -494,17 +621,26 @@
             quiz: [
                 {
                     q: "What is digital marketing?",
-                    options: ["Online marketing", "Printed advertising", "TV only", "Store decoration"],
+                    options: [
+                        "Online marketing",
+                        "Printed advertising",
+                        "TV only",
+                        "Store decoration"
+                    ],
                     answer: 0
                 },
                 {
                     q: "Which metric can measure digital marketing?",
-                    options: ["Conversions", "Leads", "Revenue", "All of the above"],
+                    options: [
+                        "Conversions",
+                        "Leads",
+                        "Revenue",
+                        "All of the above"
+                    ],
                     answer: 3
                 }
             ]
         },
-
         {
             id: 16,
             title: "Content Marketing",
@@ -526,17 +662,26 @@
             quiz: [
                 {
                     q: "What should content provide?",
-                    options: ["Value", "Confusion", "Spam", "Nothing"],
+                    options: [
+                        "Value",
+                        "Confusion",
+                        "Spam",
+                        "Nothing"
+                    ],
                     answer: 0
                 },
                 {
                     q: "Which is content marketing?",
-                    options: ["Educational videos", "Customer stories", "Tips", "All of the above"],
+                    options: [
+                        "Educational videos",
+                        "Customer stories",
+                        "Tips",
+                        "All of the above"
+                    ],
                     answer: 3
                 }
             ]
         },
-
         {
             id: 17,
             title: "Branding Basics",
@@ -559,17 +704,26 @@
             quiz: [
                 {
                     q: "Is a brand only a logo?",
-                    options: ["Yes", "No", "Always", "Only for large companies"],
+                    options: [
+                        "Yes",
+                        "No",
+                        "Always",
+                        "Only for large companies"
+                    ],
                     answer: 1
                 },
                 {
                     q: "What affects brand perception?",
-                    options: ["Customer experience", "Reputation", "Communication", "All of the above"],
+                    options: [
+                        "Customer experience",
+                        "Reputation",
+                        "Communication",
+                        "All of the above"
+                    ],
                     answer: 3
                 }
             ]
         },
-
         {
             id: 18,
             title: "Brand Positioning",
@@ -590,17 +744,26 @@
             quiz: [
                 {
                     q: "What does positioning define?",
-                    options: ["How customers perceive the brand", "Employee attendance", "Office size", "Tax payments"],
+                    options: [
+                        "How customers perceive the brand",
+                        "Employee attendance",
+                        "Office size",
+                        "Tax payments"
+                    ],
                     answer: 0
                 },
                 {
                     q: "Should positioning consider competitors?",
-                    options: ["Yes", "No", "Never", "Only after failure"],
+                    options: [
+                        "Yes",
+                        "No",
+                        "Never",
+                        "Only after failure"
+                    ],
                     answer: 0
                 }
             ]
         },
-
         {
             id: 19,
             title: "Team Management",
@@ -623,17 +786,26 @@
             quiz: [
                 {
                     q: "What should managers set?",
-                    options: ["Clear expectations", "Confusion", "Unclear targets", "No standards"],
+                    options: [
+                        "Clear expectations",
+                        "Confusion",
+                        "Unclear targets",
+                        "No standards"
+                    ],
                     answer: 0
                 },
                 {
                     q: "What supports employee development?",
-                    options: ["Coaching", "Ignoring", "Micromanagement only", "No feedback"],
+                    options: [
+                        "Coaching",
+                        "Ignoring",
+                        "Micromanagement only",
+                        "No feedback"
+                    ],
                     answer: 0
                 }
             ]
         },
-
         {
             id: 20,
             title: "Recruitment",
@@ -656,17 +828,26 @@
             quiz: [
                 {
                     q: "What should be defined first?",
-                    options: ["Job requirements", "Office decoration", "Company party", "Holiday schedule"],
+                    options: [
+                        "Job requirements",
+                        "Office decoration",
+                        "Company party",
+                        "Holiday schedule"
+                    ],
                     answer: 0
                 },
                 {
                     q: "What comes after interview?",
-                    options: ["Selection", "Market research", "Product launch", "Accounting"],
+                    options: [
+                        "Selection",
+                        "Market research",
+                        "Product launch",
+                        "Accounting"
+                    ],
                     answer: 0
                 }
             ]
         },
-
         {
             id: 21,
             title: "Leadership",
@@ -690,17 +871,26 @@
             quiz: [
                 {
                     q: "What is leadership?",
-                    options: ["Influencing people toward a common goal", "Controlling every detail", "Avoiding responsibility", "Only giving orders"],
+                    options: [
+                        "Influencing people toward a common goal",
+                        "Controlling every detail",
+                        "Avoiding responsibility",
+                        "Only giving orders"
+                    ],
                     answer: 0
                 },
                 {
                     q: "Strong leaders create:",
-                    options: ["Ownership", "Fear only", "Confusion", "Dependence"],
+                    options: [
+                        "Ownership",
+                        "Fear only",
+                        "Confusion",
+                        "Dependence"
+                    ],
                     answer: 0
                 }
             ]
         },
-
         {
             id: 22,
             title: "Strategic Thinking",
@@ -723,17 +913,26 @@
             quiz: [
                 {
                     q: "Strategic thinking focuses on:",
-                    options: ["The bigger picture", "Only today's tasks", "Only attendance", "Only expenses"],
+                    options: [
+                        "The bigger picture",
+                        "Only today's tasks",
+                        "Only attendance",
+                        "Only expenses"
+                    ],
                     answer: 0
                 },
                 {
                     q: "What should strategy consider?",
-                    options: ["Competition", "Market trends", "Risks", "All of the above"],
+                    options: [
+                        "Competition",
+                        "Market trends",
+                        "Risks",
+                        "All of the above"
+                    ],
                     answer: 3
                 }
             ]
         },
-
         {
             id: 23,
             title: "Decision Making",
@@ -756,17 +955,26 @@
             quiz: [
                 {
                     q: "What should happen before choosing an action?",
-                    options: ["Evaluate options and risks", "Ignore information", "Guess", "Avoid the problem"],
+                    options: [
+                        "Evaluate options and risks",
+                        "Ignore information",
+                        "Guess",
+                        "Avoid the problem"
+                    ],
                     answer: 0
                 },
                 {
                     q: "After a decision, managers should:",
-                    options: ["Monitor results", "Forget it", "Ignore outcomes", "Stop measuring"],
+                    options: [
+                        "Monitor results",
+                        "Forget it",
+                        "Ignore outcomes",
+                        "Stop measuring"
+                    ],
                     answer: 0
                 }
             ]
         },
-
         {
             id: 24,
             title: "Performance Management",
@@ -789,17 +997,26 @@
             quiz: [
                 {
                     q: "What should performance management use?",
-                    options: ["Clear KPIs", "Rumors", "Guesswork", "No measurement"],
+                    options: [
+                        "Clear KPIs",
+                        "Rumors",
+                        "Guesswork",
+                        "No measurement"
+                    ],
                     answer: 0
                 },
                 {
                     q: "What helps improve performance?",
-                    options: ["Coaching", "Clear feedback", "Action plans", "All of the above"],
+                    options: [
+                        "Coaching",
+                        "Clear feedback",
+                        "Action plans",
+                        "All of the above"
+                    ],
                     answer: 3
                 }
             ]
         },
-
         {
             id: 25,
             title: "Coaching",
@@ -821,17 +1038,26 @@
             quiz: [
                 {
                     q: "What is the purpose of coaching?",
-                    options: ["Develop people", "Punish employees", "Avoid communication", "Reduce learning"],
+                    options: [
+                        "Develop people",
+                        "Punish employees",
+                        "Avoid communication",
+                        "Reduce learning"
+                    ],
                     answer: 0
                 },
                 {
                     q: "What should happen after agreeing on an action?",
-                    options: ["Follow up", "Forget it", "Ignore results", "Stop communication"],
+                    options: [
+                        "Follow up",
+                        "Forget it",
+                        "Ignore results",
+                        "Stop communication"
+                    ],
                     answer: 0
                 }
             ]
         },
-
         {
             id: 26,
             title: "Revenue Management",
@@ -854,17 +1080,26 @@
             quiz: [
                 {
                     q: "What is revenue?",
-                    options: ["Money generated from sales", "Only profit", "Only expenses", "Employee salary"],
+                    options: [
+                        "Money generated from sales",
+                        "Only profit",
+                        "Only expenses",
+                        "Employee salary"
+                    ],
                     answer: 0
                 },
                 {
                     q: "Which can drive revenue?",
-                    options: ["Volume", "Price", "Product mix", "All of the above"],
+                    options: [
+                        "Volume",
+                        "Price",
+                        "Product mix",
+                        "All of the above"
+                    ],
                     answer: 3
                 }
             ]
         },
-
         {
             id: 27,
             title: "Profit & Loss",
@@ -888,17 +1123,26 @@
             quiz: [
                 {
                     q: "What is the basic profit formula?",
-                    options: ["Revenue - Costs", "Costs - Revenue", "Revenue + Costs", "Revenue × Costs"],
+                    options: [
+                        "Revenue - Costs",
+                        "Costs - Revenue",
+                        "Revenue + Costs",
+                        "Revenue × Costs"
+                    ],
                     answer: 0
                 },
                 {
                     q: "What should managers monitor?",
-                    options: ["Revenue", "Costs", "Profit", "All of the above"],
+                    options: [
+                        "Revenue",
+                        "Costs",
+                        "Profit",
+                        "All of the above"
+                    ],
                     answer: 3
                 }
             ]
         },
-
         {
             id: 28,
             title: "Cash Flow",
@@ -926,17 +1170,26 @@
             quiz: [
                 {
                     q: "Cash flow tracks:",
-                    options: ["Money coming in and going out", "Only profit", "Only sales", "Only inventory"],
+                    options: [
+                        "Money coming in and going out",
+                        "Only profit",
+                        "Only sales",
+                        "Only inventory"
+                    ],
                     answer: 0
                 },
                 {
                     q: "Can a profitable business have cash-flow problems?",
-                    options: ["Yes", "No", "Never", "Only large companies"],
+                    options: [
+                        "Yes",
+                        "No",
+                        "Never",
+                        "Only large companies"
+                    ],
                     answer: 0
                 }
             ]
         },
-
         {
             id: 29,
             title: "Financial Analysis",
@@ -960,17 +1213,26 @@
             quiz: [
                 {
                     q: "Why do financial analysis?",
-                    options: ["To support better decisions", "To create confusion", "To avoid targets", "To stop reporting"],
+                    options: [
+                        "To support better decisions",
+                        "To create confusion",
+                        "To avoid targets",
+                        "To stop reporting"
+                    ],
                     answer: 0
                 },
                 {
                     q: "What can be analyzed?",
-                    options: ["Revenue growth", "Margins", "Cash flow", "All of the above"],
+                    options: [
+                        "Revenue growth",
+                        "Margins",
+                        "Cash flow",
+                        "All of the above"
+                    ],
                     answer: 3
                 }
             ]
         },
-
         {
             id: 30,
             title: "Business Strategy",
@@ -1005,60 +1267,322 @@
                 },
                 {
                     q: "What makes strategy valuable?",
-                    options: ["Execution", "Ignoring it", "Keeping it hidden", "Avoiding measurement"],
+                    options: [
+                        "Execution",
+                        "Ignoring it",
+                        "Keeping it hidden",
+                        "Avoiding measurement"
+                    ],
                     answer: 0
                 }
             ]
         }
     ];
-
     // ============================================================
-    // STORAGE
+    // USER SYSTEM
     // ============================================================
-
+    function getUser() {
+        try {
+            return JSON.parse(localStorage.getItem(USER_KEY)) || null;
+        } catch (error) {
+            return null;
+        }
+    }
+    function saveUser(user) {
+        localStorage.setItem(USER_KEY, JSON.stringify(user));
+    }
+    function isLoggedIn() {
+        return !!getUser();
+    }
+    function getUserName() {
+        const user = getUser();
+        return user ? user.name : "Guest";
+    }
+    // ============================================================
+    // COMPLETED LESSONS
+    // ============================================================
     function getCompletedLessons() {
         try {
-            return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            return JSON.parse(
+                localStorage.getItem(COMPLETED_KEY)
+            ) || [];
         } catch (error) {
             return [];
         }
     }
-
     function saveCompletedLessons(data) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        localStorage.setItem(
+            COMPLETED_KEY,
+            JSON.stringify(data)
+        );
     }
-
     function isCompleted(id) {
         return getCompletedLessons().includes(Number(id));
     }
-
+    // ============================================================
+    // LOGIN SCREEN
+    // ============================================================
+    function showLoginScreen() {
+        if (document.getElementById("academyLoginScreen")) {
+            return;
+        }
+        const overlay = document.createElement("div");
+        overlay.id = "academyLoginScreen";
+        overlay.innerHTML = `
+            <div style="
+                position:fixed;
+                inset:0;
+                z-index:200000;
+                background:linear-gradient(135deg,#0f172a,#1e3a8a);
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                padding:20px;
+            ">
+                <div style="
+                    width:min(430px,100%);
+                    background:#fff;
+                    border-radius:24px;
+                    padding:30px;
+                    box-shadow:0 25px 80px rgba(0,0,0,.35);
+                ">
+                    <div style="
+                        width:70px;
+                        height:70px;
+                        margin:0 auto 15px;
+                        border-radius:20px;
+                        background:#2563eb;
+                        color:#fff;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        font-size:32px;
+                        font-weight:800;
+                    ">
+                        A
+                    </div>
+                    <h1 style="
+                        text-align:center;
+                        margin:0;
+                        color:#0f172a;
+                        font-size:25px;
+                    ">
+                        Aung Business Academy
+                    </h1>
+                    <p style="
+                        text-align:center;
+                        color:#64748b;
+                        margin:8px 0 25px;
+                    ">
+                        Learn • Build • Grow
+                    </p>
+                    <form id="academyLoginForm">
+                        <label style="
+                            display:block;
+                            font-weight:700;
+                            margin-bottom:7px;
+                            color:#334155;
+                        ">
+                            Your Name
+                        </label>
+                        <input
+                            id="academyLoginName"
+                            type="text"
+                            required
+                            autocomplete="name"
+                            placeholder="Enter your name"
+                            style="
+                                width:100%;
+                                padding:14px;
+                                border:1px solid #cbd5e1;
+                                border-radius:12px;
+                                font-size:15px;
+                                margin-bottom:15px;
+                                outline:none;
+                            "
+                        >
+                        <label style="
+                            display:block;
+                            font-weight:700;
+                            margin-bottom:7px;
+                            color:#334155;
+                        ">
+                            Email
+                        </label>
+                        <input
+                            id="academyLoginEmail"
+                            type="email"
+                            required
+                            autocomplete="email"
+                            placeholder="Enter your email"
+                            style="
+                                width:100%;
+                                padding:14px;
+                                border:1px solid #cbd5e1;
+                                border-radius:12px;
+                                font-size:15px;
+                                margin-bottom:18px;
+                                outline:none;
+                            "
+                        >
+                        <button
+                            type="submit"
+                            style="
+                                width:100%;
+                                border:0;
+                                background:#2563eb;
+                                color:#fff;
+                                padding:15px;
+                                border-radius:12px;
+                                font-size:16px;
+                                font-weight:800;
+                                cursor:pointer;
+                            "
+                        >
+                            🚀 Enter Academy
+                        </button>
+                    </form>
+                    <p style="
+                        text-align:center;
+                        color:#94a3b8;
+                        font-size:12px;
+                        margin:20px 0 0;
+                    ">
+                        Prototype local account system
+                    </p>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+        const form =
+            document.getElementById("academyLoginForm");
+        if (form) {
+            form.addEventListener(
+                "submit",
+                handleLogin
+            );
+        }
+    }
+    function handleLogin(event) {
+        event.preventDefault();
+        const name =
+            document.getElementById(
+                "academyLoginName"
+            ).value.trim();
+        const email =
+            document.getElementById(
+                "academyLoginEmail"
+            ).value.trim();
+        if (!name || !email) {
+            alert("Please enter your name and email.");
+            return;
+        }
+        const existingUser = getUser();
+        const user = {
+            name: name,
+            email: email,
+            createdAt:
+                existingUser?.createdAt ||
+                new Date().toISOString(),
+            plan: existingUser?.plan || "free"
+        };
+        saveUser(user);
+        const login =
+            document.getElementById(
+                "academyLoginScreen"
+            );
+        if (login) {
+            login.remove();
+        }
+        updateUserUI();
+        showToast(
+            "👋 Welcome, " + name + "!"
+        );
+    }
+    // ============================================================
+    // USER UI
+    // ============================================================
+    function updateUserUI() {
+        const user = getUser();
+        if (!user) return;
+        const possibleNameSelectors = [
+            "#userName",
+            "#profileName",
+            "#welcomeName",
+            "[data-user-name]"
+        ];
+        possibleNameSelectors.forEach(selector => {
+            document
+                .querySelectorAll(selector)
+                .forEach(element => {
+                    element.textContent = user.name;
+                });
+        });
+        document
+            .querySelectorAll("[data-user-email]")
+            .forEach(element => {
+                element.textContent = user.email;
+            });
+        document
+            .querySelectorAll("[data-user-name]")
+            .forEach(element => {
+                element.textContent = user.name;
+            });
+        updateDashboard();
+    }
     // ============================================================
     // DASHBOARD
     // ============================================================
-
     function updateDashboard() {
-        const completed = getCompletedLessons();
-        const total = lessons.length;
-        const percent = Math.round((completed.length / total) * 100);
-
-        const count = document.getElementById("lessonCount");
-        const progress = document.getElementById("progress");
-
-        if (count) count.textContent = total;
-        if (progress) progress.textContent = percent + "%";
+        const completed =
+            getCompletedLessons();
+        const total =
+            lessons.length;
+        const percent =
+            Math.round(
+                (completed.length / total) * 100
+            );
+        const count =
+            document.getElementById(
+                "lessonCount"
+            );
+        const progress =
+            document.getElementById(
+                "progress"
+            );
+        if (count) {
+            count.textContent = total;
+        }
+        if (progress) {
+            progress.textContent =
+                percent + "%";
+        }
+        const completedElement =
+            document.getElementById(
+                "completedLessons"
+            );
+        if (completedElement) {
+            completedElement.textContent =
+                completed.length;
+        }
+        const progressBars =
+            document.querySelectorAll(
+                "[data-progress-bar]"
+            );
+        progressBars.forEach(bar => {
+            bar.style.width =
+                percent + "%";
+        });
     }
-
     // ============================================================
     // MODAL
     // ============================================================
-
     function showModal(title, content) {
-
         closeModal();
-
-        const modal = document.createElement("div");
-        modal.id = "academyModal";
-
+        const modal =
+            document.createElement("div");
+        modal.id =
+            "academyModal";
         modal.innerHTML = `
             <div style="
                 position:fixed;
@@ -1070,7 +1594,6 @@
                 justify-content:center;
                 padding:15px;
             ">
-
                 <div style="
                     background:#fff;
                     width:min(900px,100%);
@@ -1080,7 +1603,6 @@
                     color:#172033;
                     box-shadow:0 20px 60px rgba(0,0,0,.3);
                 ">
-
                     <div style="
                         position:sticky;
                         top:0;
@@ -1092,11 +1614,9 @@
                         justify-content:space-between;
                         align-items:center;
                     ">
-
                         <h2 style="margin:0;font-size:21px;">
                             ${escapeHTML(title)}
                         </h2>
-
                         <button
                             onclick="closeModal()"
                             style="
@@ -1109,9 +1629,7 @@
                                 cursor:pointer;
                             "
                         >×</button>
-
                     </div>
-
                     <div style="
                         padding:22px;
                         line-height:1.7;
@@ -1119,37 +1637,50 @@
                     ">
                         ${content}
                     </div>
-
                 </div>
-
             </div>
         `;
-
         document.body.appendChild(modal);
     }
-
     function closeModal() {
-        const modal = document.getElementById("academyModal");
-        if (modal) modal.remove();
+        const modal =
+            document.getElementById(
+                "academyModal"
+            );
+        if (modal) {
+            modal.remove();
+        }
     }
-
+    // ============================================================
+    // LOGIN GUARD
+    // ============================================================
+    function requireLogin(action) {
+        if (!isLoggedIn()) {
+            showLoginScreen();
+            return false;
+        }
+        if (typeof action === "function") {
+            action();
+        }
+        return true;
+    }
     // ============================================================
     // LESSON LIBRARY
     // ============================================================
-
     function openLessons() {
-        renderLessons(lessons, "📚 Business Lessons");
+        requireLogin(function () {
+            renderLessons(
+                lessons,
+                "📚 Business Lessons"
+            );
+        });
     }
-
     function renderLessons(list, title) {
-
         let html = `
             <div style="margin-bottom:20px;">
-
                 <p style="color:#64748b;">
                     Learn practical business skills from Beginner to Advanced.
                 </p>
-
                 <input
                     id="lessonSearch"
                     type="text"
@@ -1163,32 +1694,40 @@
                         font-size:15px;
                     "
                 >
-
                 <div style="
                     display:flex;
                     gap:8px;
                     flex-wrap:wrap;
                     margin-top:12px;
                 ">
-
-                    <button onclick="setLessonFilter('All')"
-                        style="${filterStyle()}">All</button>
-
-                    <button onclick="setLessonFilter('Beginner')"
-                        style="${filterStyle()}">🟢 Beginner</button>
-
-                    <button onclick="setLessonFilter('Intermediate')"
-                        style="${filterStyle()}">🟡 Intermediate</button>
-
-                    <button onclick="setLessonFilter('Advanced')"
-                        style="${filterStyle()}">🔴 Advanced</button>
-
+                    <button
+                        onclick="setLessonFilter('All')"
+                        style="${filterStyle()}"
+                    >
+                        All
+                    </button>
+                    <button
+                        onclick="setLessonFilter('Beginner')"
+                        style="${filterStyle()}"
+                    >
+                        🟢 Beginner
+                    </button>
+                    <button
+                        onclick="setLessonFilter('Intermediate')"
+                        style="${filterStyle()}"
+                    >
+                        🟡 Intermediate
+                    </button>
+                    <button
+                        onclick="setLessonFilter('Advanced')"
+                        style="${filterStyle()}"
+                    >
+                        🔴 Advanced
+                    </button>
                 </div>
             </div>
-
             <div id="lessonList">
         `;
-
         if (!list.length) {
             html += `
                 <div style="
@@ -1204,33 +1743,38 @@
                 </div>
             `;
         }
-
-        list.forEach(lesson => {
-            html += createLessonCard(lesson);
-        });
-
+        list.forEach(
+            lesson => {
+                html += createLessonCard(
+                    lesson
+                );
+            }
+        );
         html += `</div>`;
-
-        showModal(title, html);
+        showModal(
+            title,
+            html
+        );
     }
-
     function createLessonCard(lesson) {
-
-        const done = isCompleted(lesson.id);
-
+        const done =
+            isCompleted(lesson.id);
         const icon =
             lesson.level === "Beginner"
                 ? "🟢"
                 : lesson.level === "Intermediate"
                     ? "🟡"
                     : "🔴";
-
         return `
             <div
                 class="academy-lesson-card"
                 data-level="${lesson.level}"
-                data-title="${escapeHTML(lesson.title.toLowerCase())}"
-                data-category="${escapeHTML(lesson.category.toLowerCase())}"
+                data-title="${escapeHTML(
+                    lesson.title.toLowerCase()
+                )}"
+                data-category="${escapeHTML(
+                    lesson.category.toLowerCase()
+                )}"
                 style="
                     border:1px solid #e5e7eb;
                     border-radius:16px;
@@ -1239,64 +1783,59 @@
                     background:#fff;
                 "
             >
-
                 <div style="
                     display:flex;
                     justify-content:space-between;
                     gap:15px;
                     align-items:flex-start;
                 ">
-
                     <div style="flex:1;">
-
                         <div style="
                             color:#64748b;
                             font-size:12px;
                             margin-bottom:5px;
                         ">
-                            Lesson ${lesson.id} • ${lesson.category}
+                            Lesson ${lesson.id}
+                            • ${lesson.category}
                         </div>
-
                         <h3 style="
                             margin:0 0 7px;
                             font-size:18px;
                         ">
-                            ${icon} ${escapeHTML(lesson.title)}
+                            ${icon}
+                            ${escapeHTML(lesson.title)}
                         </h3>
-
                         <p style="
                             margin:0 0 10px;
                             color:#64748b;
                             font-size:14px;
                         ">
-                            ${escapeHTML(lesson.description)}
+                            ${escapeHTML(
+                                lesson.description
+                            )}
                         </p>
-
                         <small style="color:#64748b;">
-                            ⏱️ ${lesson.duration} • ${lesson.level}
+                            ⏱️ ${lesson.duration}
+                            • ${lesson.level}
                         </small>
-
                     </div>
-
                     <div style="text-align:right;">
-
                         ${
                             done
-                            ? `
-                                <div style="
-                                    color:#166534;
-                                    background:#dcfce7;
-                                    padding:5px 9px;
-                                    border-radius:20px;
-                                    font-size:11px;
-                                    margin-bottom:8px;
-                                ">
-                                    ✓ Completed
-                                </div>
-                            `
-                            : ""
+                                ? `
+                                    <div style="
+                                        color:#166534;
+                                        background:#dcfce7;
+                                        padding:5px 9px;
+                                        border-radius:20px;
+                                        font-size:11px;
+                                        margin-bottom:8px;
+                                    ">
+                                        ✓ Completed
+                                    </div>
+                                `
+                                : ""
                         }
-
                         <button
                             onclick="openLesson(${lesson.id})"
                             style="
@@ -1311,21 +1850,15 @@
                         >
                             ${done ? "Review" : "Start"}
                         </button>
-
                     </div>
-
                 </div>
-
             </div>
         `;
     }
-
     // ============================================================
     // FILTER
     // ============================================================
-
     let currentFilter = "All";
-
     function filterStyle() {
         return `
             border:0;
@@ -1336,151 +1869,138 @@
             cursor:pointer;
         `;
     }
-
     function setLessonFilter(level) {
-
         currentFilter = level;
-
         const search =
-            document.getElementById("lessonSearch");
-
+            document.getElementById(
+                "lessonSearch"
+            );
         const text =
-            search ? search.value.toLowerCase().trim() : "";
-
-        applyFilter(level, text);
+            search
+                ? search.value.toLowerCase().trim()
+                : "";
+        applyFilter(
+            level,
+            text
+        );
     }
-
     function filterLessons() {
-
         const search =
-            document.getElementById("lessonSearch");
-
+            document.getElementById(
+                "lessonSearch"
+            );
         if (!search) return;
-
         applyFilter(
             currentFilter,
             search.value.toLowerCase().trim()
         );
     }
-
     function applyFilter(level, text) {
-
         document
-            .querySelectorAll(".academy-lesson-card")
+            .querySelectorAll(
+                ".academy-lesson-card"
+            )
             .forEach(card => {
-
                 const levelMatch =
                     level === "All" ||
                     card.dataset.level === level;
-
                 const searchMatch =
                     !text ||
                     card.dataset.title.includes(text) ||
                     card.dataset.category.includes(text);
-
                 card.style.display =
-                    levelMatch && searchMatch
+                    levelMatch &&
+                    searchMatch
                         ? "block"
                         : "none";
             });
     }
-
     // ============================================================
     // SINGLE LESSON
     // ============================================================
-
     function openLesson(id) {
-
-        const index =
-            lessons.findIndex(
-                lesson => lesson.id === Number(id)
-            );
-
-        if (index === -1) return;
-
-        showLesson(index);
+        requireLogin(function () {
+            const index =
+                lessons.findIndex(
+                    lesson =>
+                        lesson.id === Number(id)
+                );
+            if (index === -1) return;
+            showLesson(index);
+        });
     }
-
     function showLesson(index) {
-
-        const lesson = lessons[index];
-
+        const lesson =
+            lessons[index];
         if (!lesson) return;
-
-        const done = isCompleted(lesson.id);
-
+        const done =
+            isCompleted(lesson.id);
         const previous =
             index > 0
-            ? `
-                <button
-                    onclick="showLesson(${index - 1})"
-                    style="${navButtonStyle()}"
-                >
-                    ← Previous
-                </button>
-            `
-            : `
-                <button disabled style="${navButtonStyle()}">
-                    ← Previous
-                </button>
-            `;
-
+                ? `
+                    <button
+                        onclick="showLesson(${index - 1})"
+                        style="${navButtonStyle()}"
+                    >
+                        ← Previous
+                    </button>
+                `
+                : `
+                    <button
+                        disabled
+                        style="${navButtonStyle()}"
+                    >
+                        ← Previous
+                    </button>
+                `;
         const next =
             index < lessons.length - 1
-            ? `
-                <button
-                    onclick="showLesson(${index + 1})"
-                    style="${navButtonStyle()}"
-                >
-                    Next →
-                </button>
-            `
-            : `
-                <button disabled style="${navButtonStyle()}">
-                    Next →
-                </button>
-            `;
-
+                ? `
+                    <button
+                        onclick="showLesson(${index + 1})"
+                        style="${navButtonStyle()}"
+                    >
+                        Next →
+                    </button>
+                `
+                : `
+                    <button
+                        disabled
+                        style="${navButtonStyle()}"
+                    >
+                        Next →
+                    </button>
+                `;
         const html = `
-
             <div style="
                 display:flex;
                 gap:8px;
                 flex-wrap:wrap;
                 margin-bottom:18px;
             ">
-
                 <span style="${badgeStyle()}">
                     ${lesson.category}
                 </span>
-
                 <span style="${badgeStyle()}">
                     ${lesson.level}
                 </span>
-
                 <span style="${badgeStyle()}">
                     ⏱️ ${lesson.duration}
                 </span>
-
             </div>
-
             ${lesson.content}
-
             <div style="
                 margin-top:25px;
                 padding:18px;
                 background:#f8fafc;
                 border-radius:15px;
             ">
-
                 <h3 style="margin-top:0;">
                     📝 Lesson Quiz
                 </h3>
-
                 <p style="color:#64748b;">
                     Get at least 70% to complete this lesson.
                 </p>
-
                 <button
                     onclick="startQuiz(${lesson.id})"
                     style="
@@ -1495,27 +2015,24 @@
                 >
                     Start Quiz
                 </button>
-
             </div>
-
             ${
                 done
-                ? `
-                    <div style="
-                        margin-top:15px;
-                        background:#dcfce7;
-                        color:#166534;
-                        padding:14px;
-                        border-radius:12px;
-                        text-align:center;
-                        font-weight:700;
-                    ">
-                        ✓ Lesson Completed
-                    </div>
-                `
-                : ""
+                    ? `
+                        <div style="
+                            margin-top:15px;
+                            background:#dcfce7;
+                            color:#166534;
+                            padding:14px;
+                            border-radius:12px;
+                            text-align:center;
+                            font-weight:700;
+                        ">
+                            ✓ Lesson Completed
+                        </div>
+                    `
+                    : ""
             }
-
             <div style="
                 display:flex;
                 justify-content:space-between;
@@ -1524,9 +2041,7 @@
                 padding-top:20px;
                 border-top:1px solid #e5e7eb;
             ">
-
                 ${previous}
-
                 <button
                     onclick="openLessons()"
                     style="
@@ -1540,18 +2055,14 @@
                 >
                     📚 All Lessons
                 </button>
-
                 ${next}
-
             </div>
         `;
-
         showModal(
             `Lesson ${lesson.id}: ${lesson.title}`,
             html
         );
     }
-
     function navButtonStyle() {
         return `
             border:1px solid #cbd5e1;
@@ -1562,7 +2073,6 @@
             cursor:pointer;
         `;
     }
-
     function badgeStyle() {
         return `
             background:#eff6ff;
@@ -1572,75 +2082,68 @@
             font-size:12px;
         `;
     }
-
     // ============================================================
     // QUIZ
     // ============================================================
-
     function startQuiz(id) {
-
         const lesson =
             lessons.find(
-                item => item.id === Number(id)
+                item =>
+                    item.id === Number(id)
             );
-
         if (!lesson) return;
-
         let html = `
             <p style="color:#64748b;">
                 Answer all questions.
             </p>
-
             <form id="lessonQuizForm">
         `;
-
-        lesson.quiz.forEach((question, index) => {
-
-            html += `
-                <div style="
-                    background:#f8fafc;
-                    padding:18px;
-                    border-radius:14px;
-                    margin-bottom:18px;
-                ">
-
-                    <h3 style="font-size:16px;">
-                        ${index + 1}. ${escapeHTML(question.q)}
-                    </h3>
-            `;
-
-            question.options.forEach((option, optionIndex) => {
-
+        lesson.quiz.forEach(
+            (question, index) => {
                 html += `
-                    <label style="
-                        display:block;
-                        background:#fff;
-                        border:1px solid #e2e8f0;
-                        padding:11px;
-                        border-radius:9px;
-                        margin:7px 0;
-                        cursor:pointer;
+                    <div style="
+                        background:#f8fafc;
+                        padding:18px;
+                        border-radius:14px;
+                        margin-bottom:18px;
                     ">
-
-                        <input
-                            type="radio"
-                            name="question${index}"
-                            value="${optionIndex}"
-                        >
-
-                        <span style="margin-left:7px;">
-                            ${escapeHTML(option)}
-                        </span>
-
-                    </label>
+                        <h3 style="font-size:16px;">
+                            ${index + 1}.
+                            ${escapeHTML(
+                                question.q
+                            )}
+                        </h3>
                 `;
-            });
-
-            html += `</div>`;
-        });
-
+                question.options.forEach(
+                    (option, optionIndex) => {
+                        html += `
+                            <label style="
+                                display:block;
+                                background:#fff;
+                                border:1px solid #e2e8f0;
+                                padding:11px;
+                                border-radius:9px;
+                                margin:7px 0;
+                                cursor:pointer;
+                            ">
+                                <input
+                                    type="radio"
+                                    name="question${index}"
+                                    value="${optionIndex}"
+                                >
+                                <span style="margin-left:7px;">
+                                    ${escapeHTML(
+                                        option
+                                    )}
+                                </span>
+                            </label>
+                        `;
+                    }
+                );
+                html += `</div>`;
+            }
+        );
         html += `
-
                 <button
                     type="button"
                     onclick="submitQuiz(${lesson.id})"
@@ -1657,50 +2160,46 @@
                 >
                     Submit Quiz
                 </button>
-
             </form>
         `;
-
         showModal(
             `📝 Quiz: ${lesson.title}`,
             html
         );
     }
-
     function submitQuiz(id) {
-
         const lesson =
             lessons.find(
-                item => item.id === Number(id)
+                item =>
+                    item.id === Number(id)
             );
-
         if (!lesson) return;
-
         let score = 0;
-
-        lesson.quiz.forEach((question, index) => {
-
-            const selected =
-                document.querySelector(
-                    `input[name="question${index}"]:checked`
-                );
-
-            if (
-                selected &&
-                Number(selected.value) === question.answer
-            ) {
-                score++;
+        lesson.quiz.forEach(
+            (question, index) => {
+                const selected =
+                    document.querySelector(
+                        `input[name="question${index}"]:checked`
+                    );
+                if (
+                    selected &&
+                    Number(selected.value) ===
+                        question.answer
+                ) {
+                    score++;
+                }
             }
-        });
-
-        const total = lesson.quiz.length;
+        );
+        const total =
+            lesson.quiz.length;
         const percentage =
-            Math.round((score / total) * 100);
-
+            Math.round(
+                (score / total) * 100
+            );
         if (percentage >= 70) {
-
-            markLessonComplete(lesson.id);
-
+            markLessonComplete(
+                lesson.id
+            );
             showQuizResult(
                 lesson,
                 score,
@@ -1708,9 +2207,7 @@
                 percentage,
                 true
             );
-
         } else {
-
             showQuizResult(
                 lesson,
                 score,
@@ -1720,7 +2217,6 @@
             );
         }
     }
-
     function showQuizResult(
         lesson,
         score,
@@ -1728,29 +2224,26 @@
         percentage,
         passed
     ) {
-
         const index =
             lessons.findIndex(
-                item => item.id === lesson.id
+                item =>
+                    item.id === lesson.id
             );
-
         showModal(
-            passed ? "🎉 Quiz Passed!" : "📚 Try Again",
+            passed
+                ? "🎉 Quiz Passed!"
+                : "📚 Try Again",
             `
-
                 <div style="
                     text-align:center;
                     padding:20px;
                 ">
-
                     <div style="font-size:55px;">
                         ${passed ? "🏆" : "📚"}
                     </div>
-
                     <h2>
                         ${score} / ${total}
                     </h2>
-
                     <div style="
                         font-size:32px;
                         font-weight:800;
@@ -1758,211 +2251,202 @@
                     ">
                         ${percentage}%
                     </div>
-
                     <p style="color:#64748b;">
                         ${
                             passed
-                            ? "Excellent! This lesson is now completed."
-                            : "You need 70% to complete this lesson."
+                                ? "Excellent! This lesson is now completed."
+                                : "You need 70% to complete this lesson."
                         }
                     </p>
-
                     ${
                         passed
-                        ? `
-                            <button
-                                onclick="showLesson(${index})"
-                                style="
-                                    border:0;
-                                    background:#2563eb;
-                                    color:#fff;
-                                    padding:12px 20px;
-                                    border-radius:10px;
-                                    cursor:pointer;
-                                    font-weight:700;
-                                "
-                            >
-                                Continue
-                            </button>
-                        `
-                        : `
-                            <button
-                                onclick="startQuiz(${lesson.id})"
-                                style="
-                                    border:0;
-                                    background:#7c3aed;
-                                    color:#fff;
-                                    padding:12px 20px;
-                                    border-radius:10px;
-                                    cursor:pointer;
-                                    font-weight:700;
-                                "
-                            >
-                                Try Again
-                            </button>
-                        `
+                            ? `
+                                <button
+                                    onclick="showLesson(${index})"
+                                    style="
+                                        border:0;
+                                        background:#2563eb;
+                                        color:#fff;
+                                        padding:12px 20px;
+                                        border-radius:10px;
+                                        cursor:pointer;
+                                        font-weight:700;
+                                    "
+                                >
+                                    Continue
+                                </button>
+                            `
+                            : `
+                                <button
+                                    onclick="startQuiz(${lesson.id})"
+                                    style="
+                                        border:0;
+                                        background:#7c3aed;
+                                        color:#fff;
+                                        padding:12px 20px;
+                                        border-radius:10px;
+                                        cursor:pointer;
+                                        font-weight:700;
+                                    "
+                                >
+                                    Try Again
+                                </button>
+                            `
                     }
-
                 </div>
             `
         );
     }
-
     // ============================================================
-    // COMPLETE
+    // COMPLETE LESSON
     // ============================================================
-
     function markLessonComplete(id) {
-
         const completed =
             getCompletedLessons();
-
         id = Number(id);
-
         if (!completed.includes(id)) {
-
             completed.push(id);
-
-            saveCompletedLessons(completed);
-
+            saveCompletedLessons(
+                completed
+            );
             updateDashboard();
-
-            showToast("✓ Lesson completed!");
+            showToast(
+                "✓ Lesson completed!"
+            );
         }
     }
-
     // ============================================================
     // CONTINUE LEARNING
     // ============================================================
-
     function continueLearning() {
-
-        const completed =
-            getCompletedLessons();
-
-        const next =
-            lessons.find(
-                lesson => !completed.includes(lesson.id)
-            );
-
-        if (next) {
-
-            openLesson(next.id);
-
-        } else {
-
-            showModal(
-                "🏆 Congratulations!",
-                `
-                    <div style="
-                        text-align:center;
-                        padding:30px;
-                    ">
-                        <div style="font-size:60px;">🏆</div>
-                        <h2>All Lessons Completed!</h2>
-                        <p>
-                            You have completed all 30 Business Academy lessons.
-                        </p>
-                    </div>
-                `
-            );
-        }
+        requireLogin(function () {
+            const completed =
+                getCompletedLessons();
+            const next =
+                lessons.find(
+                    lesson =>
+                        !completed.includes(
+                            lesson.id
+                        )
+                );
+            if (next) {
+                openLesson(
+                    next.id
+                );
+            } else {
+                showModal(
+                    "🏆 Congratulations!",
+                    `
+                        <div style="
+                            text-align:center;
+                            padding:30px;
+                        ">
+                            <div style="font-size:60px;">
+                                🏆
+                            </div>
+                            <h2>
+                                All Lessons Completed!
+                            </h2>
+                            <p>
+                                You have completed all 30 Business Academy lessons.
+                            </p>
+                        </div>
+                    `
+                );
+            }
+        });
     }
-
     // ============================================================
     // CATEGORY
     // ============================================================
-
     function openCategory(category) {
-
-        const filtered =
-            lessons.filter(
-                lesson =>
-                    lesson.category.toLowerCase() ===
-                    String(category).toLowerCase()
-            );
-
-        if (filtered.length) {
-
-            renderLessons(
-                filtered,
-                `📚 ${category} Lessons`
-            );
-
-        } else {
-
-            showModal(
-                category,
-                `
-                    <div style="
-                        text-align:center;
-                        padding:30px;
-                    ">
-                        <div style="font-size:50px;">📚</div>
-                        <h3>More lessons coming soon</h3>
-                        <p style="color:#64748b;">
-                            New lessons will be added soon.
-                        </p>
-                    </div>
-                `
-            );
-        }
+        requireLogin(function () {
+            const filtered =
+                lessons.filter(
+                    lesson =>
+                        lesson.category.toLowerCase() ===
+                        String(category).toLowerCase()
+                );
+            if (filtered.length) {
+                renderLessons(
+                    filtered,
+                    `📚 ${category} Lessons`
+                );
+            } else {
+                showModal(
+                    category,
+                    `
+                        <div style="
+                            text-align:center;
+                            padding:30px;
+                        ">
+                            <div style="font-size:50px;">
+                                📚
+                            </div>
+                            <h3>
+                                More lessons coming soon
+                            </h3>
+                            <p style="color:#64748b;">
+                                New lessons will be added soon.
+                            </p>
+                        </div>
+                    `
+                );
+            }
+        });
     }
-
     // ============================================================
     // BUSINESS TOOLS
     // ============================================================
-
     function openTools() {
-
-        showModal(
-            "🛠️ Business Tools",
-            `
-                <p style="color:#64748b;">
-                    Practical tools for business managers.
-                </p>
-
-                <div style="
-                    display:grid;
-                    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
-                    gap:15px;
-                ">
-
-                    ${toolCard(
-                        "💰",
-                        "Profit Calculator",
-                        "Calculate business profit.",
-                        "openProfitCalculator()"
-                    )}
-
-                    ${toolCard(
-                        "🏷️",
-                        "Pricing Calculator",
-                        "Calculate selling price.",
-                        "openPricingCalculator()"
-                    )}
-
-                    ${toolCard(
-                        "📊",
-                        "Break-even Calculator",
-                        "Calculate break-even units.",
-                        "openBreakEvenCalculator()"
-                    )}
-
-                    ${toolCard(
-                        "🎯",
-                        "Sales Target",
-                        "Calculate daily sales target.",
-                        "openSalesTargetCalculator()"
-                    )}
-
-                </div>
-            `
-        );
+        requireLogin(function () {
+            showModal(
+                "🛠️ Business Tools",
+                `
+                    <p style="color:#64748b;">
+                        Practical tools for business managers.
+                    </p>
+                    <div style="
+                        display:grid;
+                        grid-template-columns:
+                        repeat(auto-fit,minmax(210px,1fr));
+                        gap:15px;
+                    ">
+                        ${toolCard(
+                            "💰",
+                            "Profit Calculator",
+                            "Calculate business profit.",
+                            "openProfitCalculator()"
+                        )}
+                        ${toolCard(
+                            "🏷️",
+                            "Pricing Calculator",
+                            "Calculate selling price.",
+                            "openPricingCalculator()"
+                        )}
+                        ${toolCard(
+                            "📊",
+                            "Break-even Calculator",
+                            "Calculate break-even units.",
+                            "openBreakEvenCalculator()"
+                        )}
+                        ${toolCard(
+                            "🎯",
+                            "Sales Target",
+                            "Calculate daily sales target.",
+                            "openSalesTargetCalculator()"
+                        )}
+                    </div>
+                `
+            );
+        });
     }
-
-    function toolCard(icon, title, description, action) {
-
+    function toolCard(
+        icon,
+        title,
+        description,
+        action
+    ) {
         return `
             <button
                 onclick="${action}"
@@ -1975,15 +2459,15 @@
                     cursor:pointer;
                 "
             >
-                <div style="font-size:30px;">${icon}</div>
-
+                <div style="font-size:30px;">
+                    ${icon}
+                </div>
                 <strong style="
                     display:block;
                     margin:8px 0;
                 ">
                     ${title}
                 </strong>
-
                 <span style="
                     color:#64748b;
                     font-size:13px;
@@ -1993,180 +2477,217 @@
             </button>
         `;
     }
-
     // ============================================================
     // PROFIT CALCULATOR
     // ============================================================
-
     function openProfitCalculator() {
-
         showModal(
             "💰 Profit Calculator",
             `
-                ${inputField("revenue", "Revenue")}
-                ${inputField("cost", "Total Cost")}
-
-                ${calculateButton("calculateProfit()", "Calculate Profit")}
-
+                ${inputField(
+                    "revenue",
+                    "Revenue"
+                )}
+                ${inputField(
+                    "cost",
+                    "Total Cost"
+                )}
+                ${calculateButton(
+                    "calculateProfit()",
+                    "Calculate Profit"
+                )}
                 <div id="calculatorResult"></div>
             `
         );
     }
-
     function calculateProfit() {
-
         const revenue =
-            Number(document.getElementById("revenue").value) || 0;
-
+            Number(
+                document.getElementById(
+                    "revenue"
+                ).value
+            ) || 0;
         const cost =
-            Number(document.getElementById("cost").value) || 0;
-
+            Number(
+                document.getElementById(
+                    "cost"
+                ).value
+            ) || 0;
         resultBox(
-            `Profit: ${formatNumber(revenue - cost)} Ks`
+            `Profit: ${formatNumber(
+                revenue - cost
+            )} Ks`
         );
     }
-
     // ============================================================
     // PRICING
     // ============================================================
-
     function openPricingCalculator() {
-
         showModal(
             "🏷️ Pricing Calculator",
             `
-                ${inputField("productCost", "Product Cost")}
-                ${inputField("margin", "Target Profit Margin (%)")}
-
-                ${calculateButton("calculatePrice()", "Calculate Selling Price")}
-
+                ${inputField(
+                    "productCost",
+                    "Product Cost"
+                )}
+                ${inputField(
+                    "margin",
+                    "Target Profit Margin (%)"
+                )}
+                ${calculateButton(
+                    "calculatePrice()",
+                    "Calculate Selling Price"
+                )}
                 <div id="calculatorResult"></div>
             `
         );
     }
-
     function calculatePrice() {
-
         const cost =
-            Number(document.getElementById("productCost").value) || 0;
-
+            Number(
+                document.getElementById(
+                    "productCost"
+                ).value
+            ) || 0;
         const margin =
-            Number(document.getElementById("margin").value) || 0;
-
+            Number(
+                document.getElementById(
+                    "margin"
+                ).value
+            ) || 0;
         if (margin >= 100) {
-
             resultBox(
                 "Margin must be below 100%.",
                 true
             );
-
             return;
         }
-
         const price =
-            cost / (1 - margin / 100);
-
+            cost /
+            (1 - margin / 100);
         resultBox(
-            `Recommended Selling Price: ${formatNumber(price)} Ks`
+            `Recommended Selling Price:
+            ${formatNumber(price)} Ks`
         );
     }
-
     // ============================================================
     // BREAK EVEN
     // ============================================================
-
     function openBreakEvenCalculator() {
-
         showModal(
             "📊 Break-even Calculator",
             `
-                ${inputField("fixedCost", "Fixed Cost")}
-                ${inputField("sellingPrice", "Selling Price / Unit")}
-                ${inputField("variableCost", "Variable Cost / Unit")}
-
-                ${calculateButton("calculateBreakEven()", "Calculate")}
-
+                ${inputField(
+                    "fixedCost",
+                    "Fixed Cost"
+                )}
+                ${inputField(
+                    "sellingPrice",
+                    "Selling Price / Unit"
+                )}
+                ${inputField(
+                    "variableCost",
+                    "Variable Cost / Unit"
+                )}
+                ${calculateButton(
+                    "calculateBreakEven()",
+                    "Calculate"
+                )}
                 <div id="calculatorResult"></div>
             `
         );
     }
-
     function calculateBreakEven() {
-
         const fixed =
-            Number(document.getElementById("fixedCost").value) || 0;
-
+            Number(
+                document.getElementById(
+                    "fixedCost"
+                ).value
+            ) || 0;
         const price =
-            Number(document.getElementById("sellingPrice").value) || 0;
-
+            Number(
+                document.getElementById(
+                    "sellingPrice"
+                ).value
+            ) || 0;
         const variable =
-            Number(document.getElementById("variableCost").value) || 0;
-
+            Number(
+                document.getElementById(
+                    "variableCost"
+                ).value
+            ) || 0;
         const contribution =
             price - variable;
-
         if (contribution <= 0) {
-
             resultBox(
                 "Selling price must be higher than variable cost.",
                 true
             );
-
             return;
         }
-
         resultBox(
-            `Break-even: ${Math.ceil(fixed / contribution)} units`
+            `Break-even:
+            ${Math.ceil(
+                fixed / contribution
+            )} units`
         );
     }
-
     // ============================================================
     // SALES TARGET
     // ============================================================
-
     function openSalesTargetCalculator() {
-
         showModal(
             "🎯 Sales Target Calculator",
             `
-                ${inputField("monthlyTarget", "Monthly Sales Target")}
-                ${inputField("workingDays", "Working Days")}
-
-                ${calculateButton("calculateSalesTarget()", "Calculate")}
-
+                ${inputField(
+                    "monthlyTarget",
+                    "Monthly Sales Target"
+                )}
+                ${inputField(
+                    "workingDays",
+                    "Working Days"
+                )}
+                ${calculateButton(
+                    "calculateSalesTarget()",
+                    "Calculate"
+                )}
                 <div id="calculatorResult"></div>
             `
         );
     }
-
     function calculateSalesTarget() {
-
         const target =
-            Number(document.getElementById("monthlyTarget").value) || 0;
-
+            Number(
+                document.getElementById(
+                    "monthlyTarget"
+                ).value
+            ) || 0;
         const days =
-            Number(document.getElementById("workingDays").value) || 0;
-
+            Number(
+                document.getElementById(
+                    "workingDays"
+                ).value
+            ) || 0;
         if (days <= 0) {
-
             resultBox(
                 "Working days must be greater than 0.",
                 true
             );
-
             return;
         }
-
         resultBox(
-            `Daily Sales Target: ${formatNumber(target / days)} Ks`
+            `Daily Sales Target:
+            ${formatNumber(
+                target / days
+            )} Ks`
         );
     }
-
-    function inputField(id, label) {
-
+    function inputField(
+        id,
+        label
+    ) {
         return `
             <div style="margin-bottom:15px;">
-
                 <label style="
                     display:block;
                     margin-bottom:7px;
@@ -2174,7 +2695,6 @@
                 ">
                     ${label}
                 </label>
-
                 <input
                     id="${id}"
                     type="number"
@@ -2186,13 +2706,13 @@
                         font-size:15px;
                     "
                 >
-
             </div>
         `;
     }
-
-    function calculateButton(action, text) {
-
+    function calculateButton(
+        action,
+        text
+    ) {
         return `
             <button
                 onclick="${action}"
@@ -2211,20 +2731,27 @@
             </button>
         `;
     }
-
-    function resultBox(message, error = false) {
-
+    function resultBox(
+        message,
+        error = false
+    ) {
         const result =
-            document.getElementById("calculatorResult");
-
+            document.getElementById(
+                "calculatorResult"
+            );
         if (!result) return;
-
         result.innerHTML = `
             <div style="
                 margin-top:18px;
                 padding:15px;
-                background:${error ? "#fef2f2" : "#eff6ff"};
-                color:${error ? "#b91c1c" : "#1d4ed8"};
+                background:
+                    ${error
+                        ? "#fef2f2"
+                        : "#eff6ff"};
+                color:
+                    ${error
+                        ? "#b91c1c"
+                        : "#1d4ed8"};
                 border-radius:12px;
                 text-align:center;
                 font-weight:700;
@@ -2233,86 +2760,237 @@
             </div>
         `;
     }
-
     function formatNumber(value) {
-        return Number(value).toLocaleString("en-US", {
-            maximumFractionDigits: 2
-        });
-    }
-
-    // ============================================================
-    // AI COACH
-    // ============================================================
-
-    function openAI() {
-
-        showModal(
-            "🤖 AI Business Coach",
-            `
-                <div style="
-                    background:#f8fafc;
-                    padding:20px;
-                    border-radius:15px;
-                ">
-
-                    <h3>AI Business Coach</h3>
-
-                    <p style="color:#64748b;">
-                        Your AI Coach will help with Sales, Marketing,
-                        Leadership, Finance and Business Strategy.
-                    </p>
-
-                    <div style="
-                        background:#fff;
-                        padding:15px;
-                        border-radius:12px;
-                        border:1px solid #e2e8f0;
-                    ">
-                        🚀 AI Coach integration is the next upgrade.
-                    </div>
-
-                </div>
-            `
+        return Number(value).toLocaleString(
+            "en-US",
+            {
+                maximumFractionDigits: 2
+            }
         );
     }
-
+    // ============================================================
+    // AI BUSINESS COACH
+    // ============================================================
+    function openAI() {
+        requireLogin(function () {
+            showModal(
+                "🤖 AI Business Coach",
+                `
+                    <div style="
+                        background:#f8fafc;
+                        padding:20px;
+                        border-radius:15px;
+                    ">
+                        <h3>
+                            🤖 AI Business Coach
+                        </h3>
+                        <p style="color:#64748b;">
+                            Your AI Coach will help with
+                            Sales, Marketing, Leadership,
+                            Finance and Business Strategy.
+                        </p>
+                        <div style="
+                            background:#fff;
+                            padding:15px;
+                            border-radius:12px;
+                            border:1px solid #e2e8f0;
+                        ">
+                            🚀 Gemini AI integration
+                            will be connected in the next step.
+                        </div>
+                    </div>
+                `
+            );
+        });
+    }
     // ============================================================
     // PREMIUM
     // ============================================================
-
+    function getTrialInfo() {
+        try {
+            return JSON.parse(
+                localStorage.getItem(
+                    TRIAL_KEY
+                )
+            ) || null;
+        } catch (error) {
+            return null;
+        }
+    }
+    function startTrial() {
+        const existing =
+            getTrialInfo();
+        if (existing) {
+            showToast(
+                "⭐ Your trial has already started."
+            );
+            return;
+        }
+        const trial = {
+            startedAt:
+                new Date().toISOString()
+        };
+        localStorage.setItem(
+            TRIAL_KEY,
+            JSON.stringify(trial)
+        );
+        showToast(
+            "⭐ 7-Day Trial Started!"
+        );
+        openPremium();
+    }
+    function getTrialDaysRemaining() {
+        const trial =
+            getTrialInfo();
+        if (!trial) {
+            return 7;
+        }
+        const started =
+            new Date(
+                trial.startedAt
+            );
+        const now =
+            new Date();
+        const diff =
+            now.getTime() -
+            started.getTime();
+        const daysPassed =
+            Math.floor(
+                diff /
+                (1000 * 60 * 60 * 24)
+            );
+        return Math.max(
+            0,
+            7 - daysPassed
+        );
+    }
     function openPremium() {
-
-        showModal(
-            "⭐ Premium Academy",
-            `
-                <div style="text-align:center;">
-
-                    <div style="font-size:55px;">👑</div>
-
-                    <h2>Premium Business Academy</h2>
-
-                    <p style="color:#64748b;">
-                        Advanced business education and professional tools.
-                    </p>
-
+        requireLogin(function () {
+            const remaining =
+                getTrialDaysRemaining();
+            const trial =
+                getTrialInfo();
+            showModal(
+                "⭐ Premium Academy",
+                `
                     <div style="
-                        text-align:left;
-                        padding:15px;
+                        text-align:center;
                     ">
-                        <p>✓ 100+ Business Lessons</p>
-                        <p>✓ AI Business Coach</p>
-                        <p>✓ Advanced Business Tools</p>
-                        <p>✓ Business Templates</p>
-                        <p>✓ Sales Management System</p>
-                        <p>✓ Certificates</p>
+                        <div style="font-size:55px;">
+                            👑
+                        </div>
+                        <h2>
+                            Premium Business Academy
+                        </h2>
+                        <p style="color:#64748b;">
+                            Advanced business education
+                            and professional tools.
+                        </p>
+                        <div style="
+                            background:#f5f3ff;
+                            padding:18px;
+                            border-radius:15px;
+                            margin:20px 0;
+                        ">
+                            <strong>
+                                ${
+                                    trial
+                                        ? `⭐ ${remaining} days remaining`
+                                        : "🎁 7-Day Free Trial"
+                                }
+                            </strong>
+                        </div>
+                        <div style="
+                            text-align:left;
+                            padding:15px;
+                        ">
+                            <p>
+                                ✓ 100+ Business Lessons
+                            </p>
+                            <p>
+                                ✓ AI Business Coach
+                            </p>
+                            <p>
+                                ✓ Advanced Business Tools
+                            </p>
+                            <p>
+                                ✓ Business Templates
+                            </p>
+                            <p>
+                                ✓ Sales Management System
+                            </p>
+                            <p>
+                                ✓ Certificates
+                            </p>
+                        </div>
+                        ${
+                            trial
+                                ? `
+                                    <button
+                                        onclick="showToast('💳 Subscription system coming soon!')"
+                                        style="
+                                            width:100%;
+                                            border:0;
+                                            background:#7c3aed;
+                                            color:#fff;
+                                            padding:14px;
+                                            border-radius:10px;
+                                            cursor:pointer;
+                                            font-weight:700;
+                                        "
+                                    >
+                                        💳 Subscription Coming Soon
+                                    </button>
+                                `
+                                : `
+                                    <button
+                                        onclick="startTrial()"
+                                        style="
+                                            width:100%;
+                                            border:0;
+                                            background:#7c3aed;
+                                            color:#fff;
+                                            padding:14px;
+                                            border-radius:10px;
+                                            cursor:pointer;
+                                            font-weight:700;
+                                        "
+                                    >
+                                        🎁 Start 7-Day Free Trial
+                                    </button>
+                                `
+                        }
                     </div>
-
+                `
+            );
+        });
+    }
+    // ============================================================
+    // BUSINESS PLAN
+    // ============================================================
+    function openBusinessPlan() {
+        requireLogin(function () {
+            showModal(
+                "📋 Business Plan Builder",
+                `
+                    ${textInput(
+                        "businessName",
+                        "Business Name"
+                    )}
+                    ${textInput(
+                        "productService",
+                        "Product / Service"
+                    )}
+                    ${textInput(
+                        "targetCustomer",
+                        "Target Customer"
+                    )}
                     <button
-                        onclick="showToast('Premium subscription coming soon!')"
+                        onclick="generateBusinessPlan()"
                         style="
                             width:100%;
                             border:0;
-                            background:#7c3aed;
+                            background:#2563eb;
                             color:#fff;
                             padding:14px;
                             border-radius:10px;
@@ -2320,53 +2998,19 @@
                             font-weight:700;
                         "
                     >
-                        Premium Coming Soon
+                        Generate 90-Day Plan
                     </button>
-
-                </div>
-            `
-        );
+                    <div id="businessPlanResult"></div>
+                `
+            );
+        });
     }
-
-    // ============================================================
-    // BUSINESS PLAN
-    // ============================================================
-
-    function openBusinessPlan() {
-
-        showModal(
-            "📋 Business Plan Builder",
-            `
-                ${textInput("businessName", "Business Name")}
-                ${textInput("productService", "Product / Service")}
-                ${textInput("targetCustomer", "Target Customer")}
-
-                <button
-                    onclick="generateBusinessPlan()"
-                    style="
-                        width:100%;
-                        border:0;
-                        background:#2563eb;
-                        color:#fff;
-                        padding:14px;
-                        border-radius:10px;
-                        cursor:pointer;
-                        font-weight:700;
-                    "
-                >
-                    Generate 90-Day Plan
-                </button>
-
-                <div id="businessPlanResult"></div>
-            `
-        );
-    }
-
-    function textInput(id, label) {
-
+    function textInput(
+        id,
+        label
+    ) {
         return `
             <div style="margin-bottom:15px;">
-
                 <label style="
                     display:block;
                     margin-bottom:7px;
@@ -2374,7 +3018,6 @@
                 ">
                     ${label}
                 </label>
-
                 <input
                     id="${id}"
                     type="text"
@@ -2386,196 +3029,253 @@
                         font-size:15px;
                     "
                 >
-
             </div>
         `;
     }
-
     function generateBusinessPlan() {
-
         const name =
-            document.getElementById("businessName").value ||
+            document.getElementById(
+                "businessName"
+            ).value ||
             "My Business";
-
         const product =
-            document.getElementById("productService").value ||
+            document.getElementById(
+                "productService"
+            ).value ||
             "Product / Service";
-
         const customer =
-            document.getElementById("targetCustomer").value ||
+            document.getElementById(
+                "targetCustomer"
+            ).value ||
             "Target Customer";
-
-        document.getElementById(
-            "businessPlanResult"
-        ).innerHTML = `
-
+        const result =
+            document.getElementById(
+                "businessPlanResult"
+            );
+        if (!result) return;
+        result.innerHTML = `
             <div style="
                 margin-top:20px;
                 background:#f8fafc;
                 padding:20px;
                 border-radius:15px;
             ">
-
-                <h3>${escapeHTML(name)}</h3>
-
+                <h3>
+                    ${escapeHTML(name)}
+                </h3>
                 <p>
                     <strong>Product:</strong>
                     ${escapeHTML(product)}
                 </p>
-
                 <p>
                     <strong>Target Customer:</strong>
                     ${escapeHTML(customer)}
                 </p>
-
                 <hr>
-
-                <h3>90-Day Action Plan</h3>
-
+                <h3>
+                    90-Day Action Plan
+                </h3>
                 <p>
                     <strong>Days 1–30:</strong>
-                    Research market, define customers and prepare the offer.
+                    Research market, define customers
+                    and prepare the offer.
                 </p>
-
                 <p>
                     <strong>Days 31–60:</strong>
-                    Start sales and marketing activities and measure results.
+                    Start sales and marketing activities
+                    and measure results.
                 </p>
-
                 <p>
                     <strong>Days 61–90:</strong>
-                    Improve profitable channels and scale the business.
+                    Improve profitable channels
+                    and scale the business.
                 </p>
-
             </div>
         `;
     }
-
     // ============================================================
     // PROFILE
     // ============================================================
-
     function openProfile() {
-
-        const completed =
-            getCompletedLessons();
-
-        showModal(
-            "👤 My Profile",
-            `
-                <div style="text-align:center;padding:20px;">
-
+        requireLogin(function () {
+            const user =
+                getUser();
+            const completed =
+                getCompletedLessons();
+            const percent =
+                Math.round(
+                    (
+                        completed.length /
+                        lessons.length
+                    ) * 100
+                );
+            showModal(
+                "👤 My Profile",
+                `
                     <div style="
-                        width:80px;
-                        height:80px;
-                        margin:auto;
-                        border-radius:50%;
-                        background:#2563eb;
-                        color:#fff;
-                        display:flex;
-                        align-items:center;
-                        justify-content:center;
-                        font-size:30px;
-                        font-weight:700;
-                    ">
-                        A
-                    </div>
-
-                    <h2>Aung Business Academy User</h2>
-
-                    <p style="color:#64748b;">
-                        Business Learner
-                    </p>
-
-                    <div style="
-                        background:#f8fafc;
+                        text-align:center;
                         padding:20px;
-                        border-radius:15px;
-                        margin-top:20px;
                     ">
-
-                        <h2>${completed.length}</h2>
-
-                        <p style="margin:0;">
-                            Lessons Completed
+                        <div style="
+                            width:80px;
+                            height:80px;
+                            margin:auto;
+                            border-radius:50%;
+                            background:#2563eb;
+                            color:#fff;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            font-size:30px;
+                            font-weight:700;
+                        ">
+                            ${escapeHTML(
+                                user.name
+                                    .charAt(0)
+                                    .toUpperCase()
+                            )}
+                        </div>
+                        <h2>
+                            ${escapeHTML(
+                                user.name
+                            )}
+                        </h2>
+                        <p style="
+                            color:#64748b;
+                        ">
+                            ${escapeHTML(
+                                user.email
+                            )}
                         </p>
-
+                        <div style="
+                            display:grid;
+                            grid-template-columns:
+                            repeat(2,1fr);
+                            gap:12px;
+                            margin-top:20px;
+                        ">
+                            <div style="
+                                background:#f8fafc;
+                                padding:18px;
+                                border-radius:15px;
+                            ">
+                                <h2 style="margin:0;">
+                                    ${completed.length}
+                                </h2>
+                                <p style="
+                                    margin:5px 0 0;
+                                    color:#64748b;
+                                ">
+                                    Completed
+                                </p>
+                            </div>
+                            <div style="
+                                background:#f8fafc;
+                                padding:18px;
+                                border-radius:15px;
+                            ">
+                                <h2 style="margin:0;">
+                                    ${percent}%
+                                </h2>
+                                <p style="
+                                    margin:5px 0 0;
+                                    color:#64748b;
+                                ">
+                                    Progress
+                                </p>
+                            </div>
+                        </div>
+                        <div style="
+                            margin-top:20px;
+                            padding:15px;
+                            background:#eff6ff;
+                            border-radius:12px;
+                        ">
+                            ⭐ Plan:
+                            <strong>
+                                ${escapeHTML(
+                                    user.plan ||
+                                    "Free"
+                                )}
+                            </strong>
+                        </div>
                     </div>
-
-                </div>
-            `
-        );
+                `
+            );
+        });
     }
-
     // ============================================================
     // NOTIFICATION
     // ============================================================
-
     function showNotification() {
-        showToast("🔔 Welcome to Aung Business Academy!");
+        showToast(
+            "🔔 Welcome to Aung Business Academy!"
+        );
     }
-
     // ============================================================
     // LOGOUT
     // ============================================================
-
     function logoutUser() {
-
-        if (confirm("Are you sure you want to logout?")) {
-            showToast("Logout system will be connected later.");
+        if (
+            !confirm(
+                "Are you sure you want to logout?"
+            )
+        ) {
+            return;
         }
+        localStorage.removeItem(
+            USER_KEY
+        );
+        closeModal();
+        showLoginScreen();
     }
-
     // ============================================================
     // SIDEBAR
     // ============================================================
-
     function toggleSidebar() {
-
         const sidebar =
-            document.querySelector(".sidebar");
-
+            document.querySelector(
+                ".sidebar"
+            );
         if (!sidebar) return;
-
-        sidebar.classList.toggle("active");
+        sidebar.classList.toggle(
+            "active"
+        );
     }
-
     function toggleMenu() {
         toggleSidebar();
     }
-
     // ============================================================
-    // DASHBOARD
+    // DASHBOARD BUTTON
     // ============================================================
-
     function goDashboard() {
-
         window.scrollTo({
-            top: 0,
-            behavior: "smooth"
+            top:0,
+            behavior:"smooth"
         });
-
-        showToast("🏠 Dashboard");
+        showToast(
+            "🏠 Dashboard"
+        );
     }
-
     // ============================================================
     // TOAST
     // ============================================================
-
     function showToast(message) {
-
         const old =
-            document.getElementById("academyToast");
-
-        if (old) old.remove();
-
+            document.getElementById(
+                "academyToast"
+            );
+        if (old) {
+            old.remove();
+        }
         const toast =
-            document.createElement("div");
-
-        toast.id = "academyToast";
-
-        toast.textContent = message;
-
+            document.createElement(
+                "div"
+            );
+        toast.id =
+            "academyToast";
+        toast.textContent =
+            message;
         toast.style.cssText = `
             position:fixed;
             left:50%;
@@ -2585,105 +3285,146 @@
             color:#fff;
             padding:13px 20px;
             border-radius:12px;
-            z-index:100000;
-            box-shadow:0 10px 30px rgba(0,0,0,.25);
+            z-index:300000;
+            box-shadow:
+                0 10px 30px rgba(0,0,0,.25);
             font-size:14px;
             font-weight:600;
+            max-width:90%;
+            text-align:center;
         `;
-
-        document.body.appendChild(toast);
-
-        setTimeout(() => {
-            toast.remove();
-        }, 2500);
+        document.body.appendChild(
+            toast
+        );
+        setTimeout(
+            function () {
+                if (toast) {
+                    toast.remove();
+                }
+            },
+            2500
+        );
     }
-
     // ============================================================
     // ESC KEY
     // ============================================================
-
-    document.addEventListener("keydown", function (event) {
-
-        if (event.key === "Escape") {
-            closeModal();
+    document.addEventListener(
+        "keydown",
+        function (event) {
+            if (
+                event.key === "Escape"
+            ) {
+                closeModal();
+            }
         }
-
-    });
-
+    );
     // ============================================================
     // SECURITY
     // ============================================================
-
     function escapeHTML(text) {
-
         return String(text)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
     }
-
     // ============================================================
     // GLOBAL FUNCTIONS
     // ============================================================
-
-    window.openLessons = openLessons;
-    window.openLesson = openLesson;
-    window.showLesson = showLesson;
-    window.closeModal = closeModal;
-
-    window.startQuiz = startQuiz;
-    window.submitQuiz = submitQuiz;
-
-    window.continueLearning = continueLearning;
-
-    window.filterLessons = filterLessons;
-    window.setLessonFilter = setLessonFilter;
-
-    window.openCategory = openCategory;
-
-    window.openTools = openTools;
-
-    window.openProfitCalculator = openProfitCalculator;
-    window.calculateProfit = calculateProfit;
-
-    window.openPricingCalculator = openPricingCalculator;
-    window.calculatePrice = calculatePrice;
-
-    window.openBreakEvenCalculator = openBreakEvenCalculator;
-    window.calculateBreakEven = calculateBreakEven;
-
-    window.openSalesTargetCalculator = openSalesTargetCalculator;
-    window.calculateSalesTarget = calculateSalesTarget;
-
-    window.openAI = openAI;
-    window.openPremium = openPremium;
-
-    window.openBusinessPlan = openBusinessPlan;
-    window.generateBusinessPlan = generateBusinessPlan;
-
-    window.openProfile = openProfile;
-    window.showNotification = showNotification;
-    window.logoutUser = logoutUser;
-
-    window.toggleSidebar = toggleSidebar;
-    window.toggleMenu = toggleMenu;
-    window.goDashboard = goDashboard;
-
-    window.showToast = showToast;
-
+    window.openLessons =
+        openLessons;
+    window.openLesson =
+        openLesson;
+    window.showLesson =
+        showLesson;
+    window.closeModal =
+        closeModal;
+    window.startQuiz =
+        startQuiz;
+    window.submitQuiz =
+        submitQuiz;
+    window.continueLearning =
+        continueLearning;
+    window.filterLessons =
+        filterLessons;
+    window.setLessonFilter =
+        setLessonFilter;
+    window.openCategory =
+        openCategory;
+    window.openTools =
+        openTools;
+    window.openProfitCalculator =
+        openProfitCalculator;
+    window.calculateProfit =
+        calculateProfit;
+    window.openPricingCalculator =
+        openPricingCalculator;
+    window.calculatePrice =
+        calculatePrice;
+    window.openBreakEvenCalculator =
+        openBreakEvenCalculator;
+    window.calculateBreakEven =
+        calculateBreakEven;
+    window.openSalesTargetCalculator =
+        openSalesTargetCalculator;
+    window.calculateSalesTarget =
+        calculateSalesTarget;
+    window.openAI =
+        openAI;
+    window.openPremium =
+        openPremium;
+    window.startTrial =
+        startTrial;
+    window.openBusinessPlan =
+        openBusinessPlan;
+    window.generateBusinessPlan =
+        generateBusinessPlan;
+    window.openProfile =
+        openProfile;
+    window.showNotification =
+        showNotification;
+    window.logoutUser =
+        logoutUser;
+    window.toggleSidebar =
+        toggleSidebar;
+    window.toggleMenu =
+        toggleMenu;
+    window.goDashboard =
+        goDashboard;
+    window.showToast =
+        showToast;
     // ============================================================
     // INIT
     // ============================================================
-
     function init() {
         updateDashboard();
+        if (!isLoggedIn()) {
+            setTimeout(
+                showLoginScreen,
+                100
+            );
+        } else {
+            updateUserUI();
+        }
         console.log(
-            "Aung Business Academy V2 loaded successfully."
+            "Aung Business Academy V3 loaded successfully."
         );
     }
-
     init();
-
 })();

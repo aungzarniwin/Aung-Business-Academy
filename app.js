@@ -1,1181 +1,1996 @@
-// ======================================================
-// AUNG BUSINESS ACADEMY
-// APP.JS V5 - STABLE VERSION
-// ======================================================
+/* =====================================================
+   AUNG BUSINESS ACADEMY
+   APP.JS V6
+   Stable Click System
+===================================================== */
 
 (function () {
+
   "use strict";
 
-  // ======================================================
-  // LESSON DATA
-  // ======================================================
+
+  /* =====================================================
+     LESSON DATA
+  ===================================================== */
 
   const lessons = [
+
     {
       id: 1,
-      title: "Business Basics",
-      category: "Leadership & Strategy",
+      title: "Business Foundation",
+      category: "Business Basics",
+      icon: "🚀",
       description:
-        "လုပ်ငန်းတစ်ခု စတင်ရာတွင် သိထားသင့်သော အခြေခံအချက်များကို လေ့လာပါ။",
-      keyPoints: [
-        "Business ဆိုတာ Customer Problem ကို ဖြေရှင်းပေးပြီး Value ဖန်တီးပေးခြင်းဖြစ်သည်။",
-        "Customer, Product, Price, Marketing နှင့် Profit တို့ကို နားလည်ရန်လိုသည်။",
-        "လုပ်ငန်းမစမီ Target Customer ကို သတ်မှတ်ထားသင့်သည်။"
-      ]
+        "Understand the basic principles of starting and running a business.",
+
+      content: `
+        <h2>Business Foundation</h2>
+
+        <p>
+          Business တစ်ခုကို စတင်တဲ့အခါ အခြေခံအနေနဲ့
+          Customer, Product, Market နဲ့ Money ဆိုတဲ့
+          အချက်တွေကို နားလည်ထားဖို့လိုပါတယ်။
+        </p>
+
+        <h3>1. Customer</h3>
+
+        <p>
+          ဘယ်သူတွေကို ရောင်းမလဲဆိုတာ အရင်ဆုံးသိရပါမယ်။
+          Customer ကို မသိဘဲ Product ကို ရောင်းဖို့ခက်ပါတယ်။
+        </p>
+
+        <h3>2. Product</h3>
+
+        <p>
+          Customer ရဲ့ ပြဿနာကို ဖြေရှင်းပေးနိုင်တဲ့
+          Product သို့မဟုတ် Service ဖြစ်ဖို့လိုပါတယ်။
+        </p>
+
+        <h3>3. Market</h3>
+
+        <p>
+          Market size, competitor နဲ့ customer demand ကို
+          လေ့လာရပါမယ်။
+        </p>
+
+        <h3>4. Money</h3>
+
+        <p>
+          Revenue, Cost, Profit နဲ့ Cash Flow ကို
+          စနစ်တကျ စီမံရပါမယ်။
+        </p>
+      `
     },
+
+
     {
       id: 2,
-      title: "Strategic Thinking",
-      category: "Leadership & Strategy",
+      title: "Finding Your Customer",
+      category: "Marketing",
+      icon: "🎯",
       description:
-        "ရေရှည်လုပ်ငန်းတိုးတက်မှုအတွက် Strategic Thinking ကို လေ့လာပါ။",
-      keyPoints: [
-        "လက်ရှိအခြေအနေကို Analyze လုပ်ပါ။",
-        "Goal ကို ရှင်းရှင်းလင်းလင်း သတ်မှတ်ပါ။",
-        "Action Plan တစ်ခု ဖန်တီးပြီး အကောင်အထည်ဖော်ပါ။"
-      ]
+        "Learn how to identify and understand your target customer.",
+
+      content: `
+        <h2>Finding Your Customer</h2>
+
+        <p>
+          Customer ကို ရှာတဲ့အခါ လူတိုင်းကို Target မထားဘဲ
+          သင့် Product နဲ့ အကိုက်ညီဆုံး Customer ကို
+          သတ်မှတ်ရပါမယ်။
+        </p>
+
+        <h3>Target Customer</h3>
+
+        <p>
+          အသက်၊ နေရာ၊ ဝင်ငွေ၊ အလုပ်အကိုင်၊ လိုအပ်ချက်နဲ့
+          ဝယ်ယူမှုအလေ့အထတွေကို လေ့လာပါ။
+        </p>
+
+        <h3>Customer Problem</h3>
+
+        <p>
+          Customer ဘာပြဿနာရှိသလဲ သိမှ
+          သင့် Product ရဲ့ Value ကို ပြနိုင်မှာဖြစ်ပါတယ်။
+        </p>
+      `
     },
+
+
     {
       id: 3,
-      title: "Brand Basics",
-      category: "Branding",
+      title: "Sales Fundamentals",
+      category: "Sales",
+      icon: "💰",
       description:
-        "Customer တွေရဲ့စိတ်ထဲမှာ မှတ်မိနေမယ့် Brand တစ်ခုကို တည်ဆောက်နည်း။",
-      keyPoints: [
-        "Brand ဆိုတာ Logo တစ်ခုတည်းမဟုတ်ပါ။",
-        "Customer Experience က Brand အပေါ် သက်ရောက်မှုရှိသည်။",
-        "Brand Promise ကို ရှင်းလင်းစွာ သတ်မှတ်ပါ။"
-      ]
+        "Learn the basic principles of professional selling.",
+
+      content: `
+        <h2>Sales Fundamentals</h2>
+
+        <p>
+          Sales ဆိုတာ Product ကို အတင်းရောင်းတာမဟုတ်ပါဘူး။
+          Customer ရဲ့ Need ကို နားလည်ပြီး
+          သင့် Solution က ဘယ်လို Value ပေးနိုင်သလဲ
+          ပြသပေးတာဖြစ်ပါတယ်။
+        </p>
+
+        <h3>Sales Process</h3>
+
+        <p>
+          Prospecting → Qualification → Presentation →
+          Objection Handling → Closing → Follow-up
+        </p>
+
+        <h3>Key Point</h3>
+
+        <p>
+          အကောင်းဆုံး Salesperson က စကားအများဆုံးပြောသူမဟုတ်ပါဘူး။
+          Customer ကို အကောင်းဆုံးနားထောင်သူ ဖြစ်ပါတယ်။
+        </p>
+      `
     },
+
+
     {
       id: 4,
       title: "Marketing Basics",
       category: "Marketing",
+      icon: "📣",
       description:
-        "Customer ကို ရှာဖွေပြီး Product ကို မှန်ကန်စွာ Marketing လုပ်နည်း။",
-      keyPoints: [
-        "Target Customer ကို သိပါ။",
-        "Customer Need ကို နားလည်ပါ။",
-        "မှန်ကန်တဲ့ Marketing Channel ကို ရွေးချယ်ပါ။"
-      ]
+        "Understand the core concepts of marketing.",
+
+      content: `
+        <h2>Marketing Basics</h2>
+
+        <p>
+          Marketing ရဲ့ အဓိကရည်ရွယ်ချက်က
+          Customer ကို သိအောင်လုပ်ခြင်း၊
+          စိတ်ဝင်စားအောင်လုပ်ခြင်းနဲ့
+          ဝယ်ယူစေခြင်း ဖြစ်ပါတယ်။
+        </p>
+
+        <h3>4P Marketing Mix</h3>
+
+        <p>
+          Product<br>
+          Price<br>
+          Place<br>
+          Promotion
+        </p>
+      `
     },
+
+
     {
       id: 5,
-      title: "Sales Basics",
-      category: "Sales",
+      title: "Leadership Basics",
+      category: "Leadership",
+      icon: "👑",
       description:
-        "Sales Process ကို နားလည်ပြီး ရောင်းအားတိုးအောင် လုပ်ဆောင်နည်း။",
-      keyPoints: [
-        "Prospecting",
-        "Customer Need Analysis",
-        "Presentation",
-        "Negotiation",
-        "Closing"
-      ]
+        "Learn the fundamentals of effective leadership.",
+
+      content: `
+        <h2>Leadership Basics</h2>
+
+        <p>
+          Leader တစ်ယောက်ရဲ့ အလုပ်က လူတွေကို
+          အမိန့်ပေးရုံမဟုတ်ပါဘူး။
+          Direction ပေးခြင်း၊ People Development လုပ်ခြင်းနဲ့
+          Team ကို Result ရအောင် ဦးဆောင်ခြင်း ဖြစ်ပါတယ်။
+        </p>
+
+        <h3>Good Leader</h3>
+
+        <p>
+          Clear Expectations + Coaching + Accountability +
+          Feedback = Strong Team
+        </p>
+      `
     },
+
+
     {
       id: 6,
-      title: "Negotiation",
-      category: "Sales",
+      title: "Profit & Loss",
+      category: "Finance",
+      icon: "📊",
       description:
-        "Customer နဲ့ Win-Win Agreement ရအောင် Negotiation လုပ်နည်း။",
-      keyPoints: [
-        "Customer ရဲ့ Need ကို အရင်နားထောင်ပါ။",
-        "Price တစ်ခုတည်းကို မအာရုံစိုက်ပါနှင့်။",
-        "Value ကို ရှင်းပြပါ။"
-      ]
+        "Understand revenue, cost and profit.",
+
+      content: `
+        <h2>Profit & Loss</h2>
+
+        <p>
+          Business ရဲ့ အခြေခံ Formula က
+        </p>
+
+        <p>
+          <strong>Profit = Revenue - Cost</strong>
+        </p>
+
+        <p>
+          Revenue တက်တာတစ်ခုတည်းနဲ့ Business အောင်မြင်တာ
+          မဟုတ်ပါဘူး။ Cost ကိုလည်း ထိန်းချုပ်နိုင်ဖို့လိုပါတယ်။
+        </p>
+      `
     },
+
+
     {
       id: 7,
-      title: "Customer Service",
-      category: "Service Delivery",
+      title: "Cash Flow",
+      category: "Finance",
+      icon: "💵",
       description:
-        "Customer Satisfaction နဲ့ Customer Loyalty တိုးတက်အောင် ဝန်ဆောင်မှုပေးနည်း။",
-      keyPoints: [
-        "Customer ကို နားထောင်ပါ။",
-        "Problem ကို မြန်မြန်ဖြေရှင်းပါ။",
-        "After-Sales Service ကို အာရုံစိုက်ပါ။"
-      ]
+        "Learn why cash flow is critical to business.",
+
+      content: `
+        <h2>Cash Flow</h2>
+
+        <p>
+          Profit ရှိပေမယ့် Cash မရှိရင် Business လည်ပတ်ဖို့
+          ခက်နိုင်ပါတယ်။
+        </p>
+
+        <h3>Cash Flow Management</h3>
+
+        <p>
+          Receivable, Payable, Inventory နဲ့
+          Operating Expenses တွေကို စနစ်တကျစီမံပါ။
+        </p>
+      `
     },
+
+
     {
       id: 8,
-      title: "People Management",
-      category: "Management & HR",
+      title: "Team Management",
+      category: "Management",
+      icon: "👥",
       description:
-        "Team ကို ထိရောက်စွာ ဦးဆောင်ပြီး Performance တိုးတက်အောင် လုပ်နည်း။",
-      keyPoints: [
-        "Clear Expectations သတ်မှတ်ပါ။",
-        "Team ကို Coaching ပေးပါ။",
-        "Performance ကို Regular Review လုပ်ပါ။",
-        "Ownership နဲ့ Accountability ပေးပါ။"
-      ]
+        "Learn how to manage and develop your team.",
+
+      content: `
+        <h2>Team Management</h2>
+
+        <p>
+          Team Management ရဲ့ အဓိကက
+          လူမှန်ကို နေရာမှန်မှာထားပြီး
+          Clear KPI နဲ့ Coaching ပေးခြင်း ဖြစ်ပါတယ်။
+        </p>
+
+        <h3>Manager Responsibilities</h3>
+
+        <p>
+          Set expectations<br>
+          Monitor performance<br>
+          Coach people<br>
+          Give feedback<br>
+          Build accountability
+        </p>
+      `
     },
+
+
     {
       id: 9,
-      title: "Profit & Loss",
-      category: "Financial Statements",
+      title: "Time Management",
+      category: "Productivity",
+      icon: "⏰",
       description:
-        "Revenue, Cost နဲ့ Profit ကို နားလည်ပြီး လုပ်ငန်းအမြတ်ကို စီမံခန့်ခွဲနည်း။",
-      keyPoints: [
-        "Revenue = ရောင်းအားမှရရှိသော ဝင်ငွေ",
-        "Cost = လုပ်ငန်းကုန်ကျစရိတ်",
-        "Profit = Revenue - Cost",
-        "Profit Margin ကို စောင့်ကြည့်ပါ။"
-      ]
+        "Learn how to manage your time and priorities.",
+
+      content: `
+        <h2>Time Management</h2>
+
+        <p>
+          အရေးကြီးတာနဲ့ အရေးပေါ်တာကို ခွဲခြားနိုင်ဖို့လိုပါတယ်။
+        </p>
+
+        <h3>Daily Priority</h3>
+
+        <p>
+          တစ်နေ့တာအတွက် အရေးကြီးဆုံး 3 ခုကို
+          သတ်မှတ်ပြီး အရင်ဆုံးလုပ်ပါ။
+        </p>
+      `
     },
+
+
     {
       id: 10,
-      title: "Goal Setting",
-      category: "Personal Productivity",
+      title: "Business Strategy",
+      category: "Strategy",
+      icon: "🧠",
       description:
-        "Business Goal ကို သတ်မှတ်ပြီး အကောင်အထည်ဖော်နိုင်အောင် စီမံနည်း။",
-      keyPoints: [
-        "Specific Goal သတ်မှတ်ပါ။",
-        "Measurable Target ထားပါ။",
-        "Deadline သတ်မှတ်ပါ။",
-        "Daily Action Plan ပြုလုပ်ပါ။"
-      ]
+        "Learn how to build a practical business strategy.",
+
+      content: `
+        <h2>Business Strategy</h2>
+
+        <p>
+          Strategy ဆိုတာ ဘာလုပ်မလဲဆိုတာတင်မဟုတ်ဘဲ
+          ဘာကို မလုပ်ဘူးဆိုတာကိုပါ ဆုံးဖြတ်ခြင်း ဖြစ်ပါတယ်။
+        </p>
+
+        <h3>Strategy Questions</h3>
+
+        <p>
+          ဘယ် Customer ကို Target လုပ်မလဲ?<br>
+          ဘာ Value ပေးမလဲ?<br>
+          Competitor ထက် ဘာပိုကောင်းမလဲ?<br>
+          ဘယ်လို Profit ရအောင်လုပ်မလဲ?
+        </p>
+      `
     }
+
   ];
 
-  // ======================================================
-  // CATEGORY DATA
-  // ======================================================
 
-  const categories = {
-    "Leadership & Strategy": [
-      "Leadership Basics",
-      "Strategic Thinking",
-      "Decision Making",
-      "Team Leadership"
-    ],
+  /* =====================================================
+     STORAGE
+  ===================================================== */
 
-    Branding: [
-      "Brand Basics",
-      "Brand Positioning",
-      "Brand Identity"
-    ],
+  const STORAGE_KEY = "aung_business_academy_completed";
 
-    Marketing: [
-      "Marketing Basics",
-      "Digital Marketing",
-      "Content Marketing",
-      "Marketing Strategy"
-    ],
 
-    Sales: [
-      "Sales Basics",
-      "Customer Finding",
-      "Sales Strategy",
-      "Negotiation",
-      "Sales Management"
-    ],
+  function getCompleted() {
 
-    "Service Delivery": [
-      "Customer Service",
-      "Service Quality",
-      "Customer Experience"
-    ],
-
-    "Management & HR": [
-      "People Management",
-      "Recruitment",
-      "Performance Management",
-      "Coaching"
-    ],
-
-    "Financial Statements": [
-      "Revenue",
-      "Profit & Loss",
-      "Cash Flow",
-      "Financial Analysis"
-    ],
-
-    "Personal Productivity": [
-      "Time Management",
-      "Goal Setting",
-      "Daily Planning"
-    ]
-  };
-
-  // ======================================================
-  // STORAGE
-  // ======================================================
-
-  const STORAGE_KEY = "aung_business_academy_v5";
-
-  function getProgress() {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
 
-      if (!saved) {
-        return [];
-      }
-
-      const data = JSON.parse(saved);
-
-      if (!Array.isArray(data.completedLessons)) {
-        return [];
-      }
-
-      return data.completedLessons;
-    } catch (error) {
-      console.log("Storage error:", error);
-      return [];
-    }
-  }
-
-  function saveProgress(completedLessons) {
-    try {
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify({
-          completedLessons: completedLessons
-        })
+      return JSON.parse(
+        localStorage.getItem(STORAGE_KEY) || "[]"
       );
+
     } catch (error) {
-      console.log("Save error:", error);
+
+      return [];
+
     }
+
   }
 
-  // ======================================================
-  // DASHBOARD
-  // ======================================================
+
+  function saveCompleted(list) {
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(list)
+    );
+
+  }
+
+
+  /* =====================================================
+     DASHBOARD
+  ===================================================== */
 
   function updateDashboard() {
-    const completed = getProgress();
 
-    const lessonCount = document.getElementById("lessonCount");
-    const progress = document.getElementById("progress");
+    const lessonCount =
+      document.getElementById("lessonCount");
+
+    const progress =
+      document.getElementById("progress");
 
     if (lessonCount) {
-      lessonCount.textContent = lessons.length;
+
+      lessonCount.textContent =
+        lessons.length;
+
     }
 
     if (progress) {
-      const percentage =
-        lessons.length === 0
-          ? 0
-          : Math.round((completed.length / lessons.length) * 100);
 
-      progress.textContent = percentage + "%";
+      const completed =
+        getCompleted();
+
+      const percentage =
+        Math.round(
+          (completed.length / lessons.length) * 100
+        );
+
+      progress.textContent =
+        percentage + "%";
+
     }
+
   }
 
-  // ======================================================
-  // MODAL
-  // ======================================================
 
-  function removeModal() {
-    const modal = document.getElementById("abaModal");
+  /* =====================================================
+     MODAL
+  ===================================================== */
+
+  function closeModal() {
+
+    const modal =
+      document.getElementById("abaModal");
 
     if (modal) {
+
       modal.remove();
-    }
-  }
 
-  window.closeModal = removeModal;
-
-  function showModal(title, content) {
-    removeModal();
-
-    const html = `
-      <div id="abaModal" class="aba-modal">
-        <div class="aba-modal-overlay" onclick="closeModal()"></div>
-
-        <div class="aba-modal-box">
-
-          <button class="aba-modal-close" onclick="closeModal()">
-            ×
-          </button>
-
-          <div class="aba-modal-title">
-            ${title}
-          </div>
-
-          <div class="aba-modal-content">
-            ${content}
-          </div>
-
-        </div>
-      </div>
-    `;
-
-    document.body.insertAdjacentHTML("beforeend", html);
-  }
-
-  // ======================================================
-  // LESSONS
-  // ======================================================
-
-  window.openLessons = function () {
-    let html = `
-      <div class="aba-lessons">
-        <p class="aba-intro">
-          လုပ်ငန်းအခြေခံမှ Business Growth အထိ
-          လက်တွေ့အသုံးချနိုင်သော Lessons များကို လေ့လာပါ။
-        </p>
-
-        <div class="aba-lesson-list">
-    `;
-
-    const completed = getProgress();
-
-    lessons.forEach(function (lesson) {
-      const isCompleted = completed.includes(lesson.id);
-
-      html += `
-        <div class="aba-lesson-card">
-
-          <div class="aba-lesson-number">
-            ${lesson.id}
-          </div>
-
-          <div class="aba-lesson-info">
-
-            <h3>${lesson.title}</h3>
-
-            <span class="aba-category">
-              ${lesson.category}
-            </span>
-
-            <p>
-              ${lesson.description}
-            </p>
-
-          </div>
-
-          <button
-            class="aba-lesson-button"
-            onclick="openLesson(${lesson.id})"
-          >
-            ${isCompleted ? "Review" : "Learn"}
-          </button>
-
-        </div>
-      `;
-    });
-
-    html += `
-        </div>
-      </div>
-    `;
-
-    showModal("📚 Business Lessons", html);
-  };
-
-  window.openLesson = function (lessonId) {
-    const lesson = lessons.find(function (item) {
-      return item.id === lessonId;
-    });
-
-    if (!lesson) {
-      return;
     }
 
-    const completed = getProgress();
-    const isCompleted = completed.includes(lesson.id);
+  }
 
-    let pointsHTML = "";
 
-    lesson.keyPoints.forEach(function (point) {
-      pointsHTML += `
-        <li>${point}</li>
-      `;
-    });
+  function showModal(title, body, options = {}) {
 
-    const content = `
-      <div class="aba-single-lesson">
+    closeModal();
 
-        <div class="aba-lesson-category">
-          ${lesson.category}
-        </div>
+    const modal =
+      document.createElement("div");
 
-        <h2>
-          ${lesson.title}
+    modal.id = "abaModal";
+
+    modal.style.cssText = `
+      position:fixed;
+      inset:0;
+      z-index:99999;
+      background:rgba(0,0,0,.65);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      overflow-y:auto;
+    `;
+
+
+    const box =
+      document.createElement("div");
+
+    box.style.cssText = `
+      position:relative;
+      width:min(760px,100%);
+      max-height:90vh;
+      overflow-y:auto;
+      background:#ffffff;
+      border-radius:20px;
+      padding:28px;
+      box-shadow:0 25px 70px rgba(0,0,0,.3);
+      color:#172033;
+      font-family:Arial,sans-serif;
+    `;
+
+
+    box.innerHTML = `
+
+      <button
+        id="abaClose"
+        style="
+          position:absolute;
+          right:16px;
+          top:14px;
+          width:38px;
+          height:38px;
+          border:0;
+          border-radius:50%;
+          background:#f1f3f7;
+          font-size:22px;
+          cursor:pointer;
+        "
+      >
+        ×
+      </button>
+
+      <div style="padding-right:45px;">
+
+        <h2 style="
+          margin:0 0 18px;
+          font-size:28px;
+          line-height:1.3;
+        ">
+          ${title}
         </h2>
 
-        <p class="aba-lesson-description">
-          ${lesson.description}
-        </p>
-
-        <h3>Key Points</h3>
-
-        <ul class="aba-key-points">
-          ${pointsHTML}
-        </ul>
-
-        ${
-          isCompleted
-            ? `
-              <div class="aba-completed">
-                ✓ Lesson Completed
-              </div>
-            `
-            : `
-              <button
-                class="aba-complete-button"
-                onclick="completeLesson(${lesson.id})"
-              >
-                ✓ Mark as Completed
-              </button>
-            `
-        }
-
       </div>
+
+      <div style="
+        font-size:16px;
+        line-height:1.8;
+        overflow-wrap:anywhere;
+        word-break:normal;
+      ">
+        ${body}
+      </div>
+
     `;
 
-    showModal("📖 " + lesson.title, content);
-  };
 
-  window.completeLesson = function (lessonId) {
-    const completed = getProgress();
+    modal.appendChild(box);
 
-    if (!completed.includes(lessonId)) {
-      completed.push(lessonId);
+    document.body.appendChild(modal);
+
+
+    document
+      .getElementById("abaClose")
+      .addEventListener(
+        "click",
+        closeModal
+      );
+
+
+    modal.addEventListener(
+      "click",
+      function (event) {
+
+        if (event.target === modal) {
+
+          closeModal();
+
+        }
+
+      }
+    );
+
+
+    document.addEventListener(
+      "keydown",
+      function escHandler(event) {
+
+        if (event.key === "Escape") {
+
+          closeModal();
+
+          document.removeEventListener(
+            "keydown",
+            escHandler
+          );
+
+        }
+
+      }
+    );
+
+
+    if (options.onReady) {
+
+      options.onReady(box);
+
     }
 
-    saveProgress(completed);
+  }
+
+
+  /* =====================================================
+     DASHBOARD
+  ===================================================== */
+
+  function goDashboard() {
+
+    closeModal();
+
+    const title =
+      document.getElementById("pageTitle");
+
+    const subtitle =
+      document.getElementById("pageSubtitle");
+
+    if (title) {
+
+      title.textContent =
+        "Dashboard";
+
+    }
+
+    if (subtitle) {
+
+      subtitle.textContent =
+        "Learn Business. Build Business. Grow Business.";
+
+    }
 
     updateDashboard();
 
-    showToast("Lesson completed successfully!");
+  }
 
-    openLesson(lessonId);
-  };
 
-  // ======================================================
-  // CATEGORY
-  // ======================================================
+  /* =====================================================
+     LESSONS
+  ===================================================== */
 
-  window.openCategory = function (categoryName) {
-    const items = categories[categoryName];
+  function openLessons() {
 
-    if (!items) {
-      openLessons();
-      return;
-    }
-
-    let html = `
-      <p class="aba-intro">
-        ${categoryName} မှာ လေ့လာနိုင်မည့် Topics များ
-      </p>
-
-      <div class="aba-topic-list">
-    `;
-
-    items.forEach(function (item) {
-      html += `
-        <button
-          class="aba-topic-button"
-          onclick="openTopic('${escapeAttribute(item)}')"
-        >
-          ${item}
-          <span>→</span>
-        </button>
-      `;
-    });
-
-    html += `
-      </div>
-    `;
-
-    showModal("📚 " + categoryName, html);
-  };
-
-  window.openTopic = function (topic) {
-    const matchedLesson = lessons.find(function (lesson) {
-      return lesson.title.toLowerCase() === topic.toLowerCase();
-    });
-
-    if (matchedLesson) {
-      openLesson(matchedLesson.id);
-      return;
-    }
-
-    const content = `
-      <div class="aba-topic-page">
-
-        <div class="aba-topic-icon">
-          📘
-        </div>
-
-        <h2>${topic}</h2>
-
+    showModal(
+      "📚 Business Lessons",
+      `
         <p>
-          ဒီ Topic ကို Aung Business Academy ရဲ့
-          နောက်ထပ် Lesson Update တွေမှာ
-          လက်တွေ့အသုံးချနိုင်အောင် ထည့်သွင်းပေးသွားပါမယ်။
+          Welcome to Aung Business Academy.
+          Choose a lesson below to start learning.
         </p>
 
-        <div class="aba-coming">
-          Coming Soon
+        <div style="
+          display:grid;
+          grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+          gap:14px;
+          margin-top:20px;
+        ">
+
+          ${lessons.map(function (lesson) {
+
+            const completed =
+              getCompleted().includes(lesson.id);
+
+            return `
+
+              <button
+                onclick="openLesson(${lesson.id})"
+                style="
+                  text-align:left;
+                  padding:18px;
+                  border:1px solid #e5e7eb;
+                  border-radius:14px;
+                  background:#f8fafc;
+                  cursor:pointer;
+                  color:#172033;
+                "
+              >
+
+                <div style="
+                  font-size:28px;
+                  margin-bottom:8px;
+                ">
+                  ${lesson.icon}
+                </div>
+
+                <strong style="
+                  display:block;
+                  font-size:17px;
+                  margin-bottom:6px;
+                ">
+                  ${lesson.title}
+                </strong>
+
+                <small style="
+                  display:block;
+                  color:#667085;
+                  line-height:1.5;
+                ">
+                  ${lesson.description}
+                </small>
+
+                <div style="
+                  margin-top:10px;
+                  font-size:13px;
+                  font-weight:bold;
+                ">
+                  ${completed ? "✓ Completed" : "Start Lesson →"}
+                </div>
+
+              </button>
+
+            `;
+
+          }).join("")}
+
+        </div>
+      `
+    );
+
+  }
+
+
+  function openLesson(id) {
+
+    const lesson =
+      lessons.find(function (item) {
+
+        return item.id === id;
+
+      });
+
+
+    if (!lesson) {
+
+      showToast("Lesson not found.");
+
+      return;
+
+    }
+
+
+    const completed =
+      getCompleted().includes(id);
+
+
+    showModal(
+      `${lesson.icon} ${lesson.title}`,
+      `
+
+        <div style="
+          color:#667085;
+          margin-bottom:18px;
+          font-weight:bold;
+        ">
+          ${lesson.category}
         </div>
 
-      </div>
-    `;
+        <div>
+          ${lesson.content}
+        </div>
 
-    showModal("📘 " + topic, content);
-  };
+        <div style="
+          margin-top:25px;
+          padding-top:20px;
+          border-top:1px solid #eee;
+        ">
 
-  // ======================================================
-  // BUSINESS TOOLS
-  // ======================================================
+          <button
+            onclick="completeLesson(${id})"
+            style="
+              width:100%;
+              padding:14px 18px;
+              border:0;
+              border-radius:12px;
+              background:#111827;
+              color:white;
+              font-size:16px;
+              font-weight:bold;
+              cursor:pointer;
+            "
+          >
+            ${completed ? "✓ Lesson Completed" : "Mark as Completed"}
+          </button>
 
-  window.openTools = function () {
-    const html = `
-      <div class="aba-tools-grid">
+        </div>
 
-        <button
-          class="aba-tool-card"
-          onclick="openProfitCalculator()"
-        >
-          <span>💰</span>
-          <strong>Profit Calculator</strong>
-          <small>Calculate your business profit</small>
-        </button>
+      `
+    );
 
-        <button
-          class="aba-tool-card"
-          onclick="openMarginCalculator()"
-        >
-          <span>📊</span>
-          <strong>Margin Calculator</strong>
-          <small>Calculate profit margin</small>
-        </button>
+  }
 
-        <button
-          class="aba-tool-card"
-          onclick="openBreakEvenCalculator()"
-        >
-          <span>⚖️</span>
-          <strong>Break-Even Calculator</strong>
-          <small>Find your break-even point</small>
-        </button>
 
-        <button
-          class="aba-tool-card"
-          onclick="openSalesTargetCalculator()"
-        >
-          <span>🎯</span>
-          <strong>Sales Target Calculator</strong>
-          <small>Plan your sales target</small>
-        </button>
+  function completeLesson(id) {
 
-      </div>
-    `;
+    const completed =
+      getCompleted();
 
-    showModal("🛠️ Business Tools", html);
-  };
 
-  // ======================================================
-  // PROFIT CALCULATOR
-  // ======================================================
+    if (!completed.includes(id)) {
 
-  window.openProfitCalculator = function () {
-    const html = `
-      <div class="aba-calculator">
+      completed.push(id);
 
-        <label>Total Revenue</label>
+      saveCompleted(completed);
+
+    }
+
+
+    updateDashboard();
+
+    showToast(
+      "Lesson completed successfully! 🎉"
+    );
+
+
+    setTimeout(function () {
+
+      openLessons();
+
+    }, 500);
+
+  }
+
+
+  /* =====================================================
+     CATEGORY
+  ===================================================== */
+
+  function openCategory(category) {
+
+    const matching =
+      lessons.filter(function (lesson) {
+
+        return lesson.category
+          .toLowerCase()
+          .includes(category.toLowerCase()) ||
+          category
+            .toLowerCase()
+            .includes(lesson.category.toLowerCase());
+
+      });
+
+
+    showModal(
+      category,
+      `
+
+        <p>
+          <strong>${category}</strong>
+          business learning section.
+        </p>
+
+        <p>
+          ဒီ Category အတွက် lessons တွေကို
+          အောက်မှာ လေ့လာနိုင်ပါတယ်။
+        </p>
+
+        ${
+          matching.length
+            ? matching.map(function (lesson) {
+
+                return `
+
+                  <button
+                    onclick="openLesson(${lesson.id})"
+                    style="
+                      display:block;
+                      width:100%;
+                      text-align:left;
+                      margin:10px 0;
+                      padding:16px;
+                      border:1px solid #e5e7eb;
+                      border-radius:12px;
+                      background:#f8fafc;
+                      cursor:pointer;
+                    "
+                  >
+                    ${lesson.icon}
+                    <strong>
+                      ${lesson.title}
+                    </strong>
+                    →
+                  </button>
+
+                `;
+
+              }).join("")
+            : `
+                <div style="
+                  padding:20px;
+                  border-radius:12px;
+                  background:#f5f6f8;
+                ">
+                  More lessons coming soon.
+                </div>
+              `
+        }
+
+      `
+    );
+
+  }
+
+
+  /* =====================================================
+     BUSINESS TOOLS
+  ===================================================== */
+
+  function openTools() {
+
+    showModal(
+      "🛠️ Business Tools",
+      `
+
+        <p>
+          Use these simple tools to understand
+          your business numbers.
+        </p>
+
+        <div style="
+          display:grid;
+          grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+          gap:15px;
+          margin-top:20px;
+        ">
+
+          <button
+            onclick="profitCalculator()"
+            style="
+              padding:22px;
+              border:1px solid #e5e7eb;
+              border-radius:15px;
+              background:#f8fafc;
+              cursor:pointer;
+              text-align:left;
+            "
+          >
+            💰
+            <strong style="display:block;margin-top:8px;">
+              Profit Calculator
+            </strong>
+            <small>
+              Calculate your business profit.
+            </small>
+          </button>
+
+
+          <button
+            onclick="pricingCalculator()"
+            style="
+              padding:22px;
+              border:1px solid #e5e7eb;
+              border-radius:15px;
+              background:#f8fafc;
+              cursor:pointer;
+              text-align:left;
+            "
+          >
+            🧮
+            <strong style="display:block;margin-top:8px;">
+              Pricing Calculator
+            </strong>
+            <small>
+              Calculate selling price and margin.
+            </small>
+          </button>
+
+
+          <button
+            onclick="breakEvenCalculator()"
+            style="
+              padding:22px;
+              border:1px solid #e5e7eb;
+              border-radius:15px;
+              background:#f8fafc;
+              cursor:pointer;
+              text-align:left;
+            "
+          >
+            📊
+            <strong style="display:block;margin-top:8px;">
+              Break-even Calculator
+            </strong>
+            <small>
+              Find your break-even point.
+            </small>
+          </button>
+
+
+          <button
+            onclick="salesTargetCalculator()"
+            style="
+              padding:22px;
+              border:1px solid #e5e7eb;
+              border-radius:15px;
+              background:#f8fafc;
+              cursor:pointer;
+              text-align:left;
+            "
+          >
+            🎯
+            <strong style="display:block;margin-top:8px;">
+              Sales Target
+            </strong>
+            <small>
+              Plan your sales target.
+            </small>
+          </button>
+
+        </div>
+
+      `
+    );
+
+  }
+
+
+  /* =====================================================
+     PROFIT CALCULATOR
+  ===================================================== */
+
+  function profitCalculator() {
+
+    showModal(
+      "💰 Profit Calculator",
+      `
+
+        <label>Revenue</label>
 
         <input
-          id="revenueInput"
+          id="calcRevenue"
           type="number"
           placeholder="e.g. 1000000"
+          style="
+            width:100%;
+            padding:13px;
+            margin:8px 0 15px;
+            border:1px solid #ddd;
+            border-radius:10px;
+          "
         >
 
         <label>Total Cost</label>
 
         <input
-          id="costInput"
+          id="calcCost"
           type="number"
           placeholder="e.g. 700000"
+          style="
+            width:100%;
+            padding:13px;
+            margin:8px 0 15px;
+            border:1px solid #ddd;
+            border-radius:10px;
+          "
         >
 
         <button
-          class="aba-calc-button"
           onclick="calculateProfit()"
+          style="
+            width:100%;
+            padding:14px;
+            border:0;
+            border-radius:10px;
+            background:#111827;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+          "
         >
           Calculate Profit
         </button>
 
-        <div id="profitResult"></div>
+        <div
+          id="profitResult"
+          style="
+            margin-top:18px;
+            font-size:20px;
+            font-weight:bold;
+          "
+        ></div>
 
-      </div>
-    `;
+      `
+    );
 
-    showModal("💰 Profit Calculator", html);
-  };
+  }
 
-  window.calculateProfit = function () {
+
+  function calculateProfit() {
+
     const revenue =
-      Number(document.getElementById("revenueInput").value) || 0;
+      Number(
+        document.getElementById("calcRevenue").value
+      ) || 0;
+
 
     const cost =
-      Number(document.getElementById("costInput").value) || 0;
+      Number(
+        document.getElementById("calcCost").value
+      ) || 0;
 
-    const profit = revenue - cost;
 
-    const result = document.getElementById("profitResult");
+    const profit =
+      revenue - cost;
 
-    if (result) {
-      result.innerHTML = `
-        <div class="aba-result">
-          <strong>Profit</strong>
-          <span>${formatMoney(profit)} Ks</span>
-        </div>
-      `;
-    }
-  };
 
-  // ======================================================
-  // MARGIN CALCULATOR
-  // ======================================================
+    const result =
+      document.getElementById("profitResult");
 
-  window.openMarginCalculator = function () {
-    const html = `
-      <div class="aba-calculator">
 
-        <label>Selling Price</label>
+    result.innerHTML =
+      `Profit: ${profit.toLocaleString()} Ks`;
+
+  }
+
+
+  /* =====================================================
+     PRICING CALCULATOR
+  ===================================================== */
+
+  function pricingCalculator() {
+
+    showModal(
+      "🧮 Pricing Calculator",
+      `
+
+        <label>Product Cost</label>
 
         <input
-          id="sellingPriceInput"
+          id="priceCost"
           type="number"
-          placeholder="e.g. 10000"
+          placeholder="e.g. 5000"
+          style="
+            width:100%;
+            padding:13px;
+            margin:8px 0 15px;
+            border:1px solid #ddd;
+            border-radius:10px;
+          "
         >
 
-        <label>Cost Price</label>
+        <label>Desired Profit Margin (%)</label>
 
         <input
-          id="costPriceInput"
+          id="priceMargin"
           type="number"
-          placeholder="e.g. 7000"
+          placeholder="e.g. 30"
+          style="
+            width:100%;
+            padding:13px;
+            margin:8px 0 15px;
+            border:1px solid #ddd;
+            border-radius:10px;
+          "
         >
 
         <button
-          class="aba-calc-button"
-          onclick="calculateMargin()"
+          onclick="calculatePrice()"
+          style="
+            width:100%;
+            padding:14px;
+            border:0;
+            border-radius:10px;
+            background:#111827;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+          "
         >
-          Calculate Margin
+          Calculate Selling Price
         </button>
 
-        <div id="marginResult"></div>
+        <div
+          id="priceResult"
+          style="
+            margin-top:18px;
+            font-size:20px;
+            font-weight:bold;
+          "
+        ></div>
 
-      </div>
-    `;
+      `
+    );
 
-    showModal("📊 Margin Calculator", html);
-  };
+  }
 
-  window.calculateMargin = function () {
-    const selling =
-      Number(document.getElementById("sellingPriceInput").value) || 0;
+
+  function calculatePrice() {
 
     const cost =
-      Number(document.getElementById("costPriceInput").value) || 0;
+      Number(
+        document.getElementById("priceCost").value
+      ) || 0;
 
-    let margin = 0;
 
-    if (selling > 0) {
-      margin = ((selling - cost) / selling) * 100;
+    const margin =
+      Number(
+        document.getElementById("priceMargin").value
+      ) || 0;
+
+
+    if (margin >= 100) {
+
+      document.getElementById(
+        "priceResult"
+      ).textContent =
+        "Margin must be below 100%.";
+
+      return;
+
     }
 
-    const result = document.getElementById("marginResult");
 
-    if (result) {
-      result.innerHTML = `
-        <div class="aba-result">
-          <strong>Profit Margin</strong>
-          <span>${margin.toFixed(2)}%</span>
-        </div>
-      `;
-    }
-  };
+    const price =
+      cost / (1 - margin / 100);
 
-  // ======================================================
-  // BREAK EVEN
-  // ======================================================
 
-  window.openBreakEvenCalculator = function () {
-    const html = `
-      <div class="aba-calculator">
+    document.getElementById(
+      "priceResult"
+    ).textContent =
+      `Selling Price: ${Math.round(price).toLocaleString()} Ks`;
+
+  }
+
+
+  /* =====================================================
+     BREAK EVEN
+  ===================================================== */
+
+  function breakEvenCalculator() {
+
+    showModal(
+      "📊 Break-even Calculator",
+      `
 
         <label>Fixed Cost</label>
 
         <input
-          id="fixedCostInput"
+          id="fixedCost"
           type="number"
           placeholder="e.g. 500000"
+          style="
+            width:100%;
+            padding:13px;
+            margin:8px 0 15px;
+            border:1px solid #ddd;
+            border-radius:10px;
+          "
         >
 
-        <label>Selling Price per Unit</label>
+        <label>Selling Price / Unit</label>
 
         <input
-          id="unitPriceInput"
+          id="sellingPrice"
           type="number"
           placeholder="e.g. 10000"
+          style="
+            width:100%;
+            padding:13px;
+            margin:8px 0 15px;
+            border:1px solid #ddd;
+            border-radius:10px;
+          "
         >
 
-        <label>Variable Cost per Unit</label>
+        <label>Variable Cost / Unit</label>
 
         <input
-          id="variableCostInput"
+          id="variableCost"
           type="number"
           placeholder="e.g. 6000"
+          style="
+            width:100%;
+            padding:13px;
+            margin:8px 0 15px;
+            border:1px solid #ddd;
+            border-radius:10px;
+          "
         >
 
         <button
-          class="aba-calc-button"
           onclick="calculateBreakEven()"
+          style="
+            width:100%;
+            padding:14px;
+            border:0;
+            border-radius:10px;
+            background:#111827;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+          "
         >
           Calculate
         </button>
 
-        <div id="breakEvenResult"></div>
+        <div
+          id="breakEvenResult"
+          style="
+            margin-top:18px;
+            font-size:20px;
+            font-weight:bold;
+          "
+        ></div>
 
-      </div>
-    `;
+      `
+    );
 
-    showModal("⚖️ Break-Even Calculator", html);
-  };
+  }
 
-  window.calculateBreakEven = function () {
+
+  function calculateBreakEven() {
+
     const fixed =
-      Number(document.getElementById("fixedCostInput").value) || 0;
+      Number(
+        document.getElementById("fixedCost").value
+      ) || 0;
 
-    const price =
-      Number(document.getElementById("unitPriceInput").value) || 0;
+
+    const selling =
+      Number(
+        document.getElementById("sellingPrice").value
+      ) || 0;
+
 
     const variable =
-      Number(document.getElementById("variableCostInput").value) || 0;
+      Number(
+        document.getElementById("variableCost").value
+      ) || 0;
 
-    let breakEven = 0;
 
-    if (price > variable) {
-      breakEven = fixed / (price - variable);
+    const contribution =
+      selling - variable;
+
+
+    const result =
+      document.getElementById(
+        "breakEvenResult"
+      );
+
+
+    if (contribution <= 0) {
+
+      result.textContent =
+        "Selling price must be higher than variable cost.";
+
+      return;
+
     }
 
-    const result = document.getElementById("breakEvenResult");
 
-    if (result) {
-      result.innerHTML = `
-        <div class="aba-result">
-          <strong>Break-Even Units</strong>
-          <span>${Math.ceil(breakEven)}</span>
-        </div>
-      `;
-    }
-  };
+    const units =
+      Math.ceil(
+        fixed / contribution
+      );
 
-  // ======================================================
-  // SALES TARGET
-  // ======================================================
 
-  window.openSalesTargetCalculator = function () {
-    const html = `
-      <div class="aba-calculator">
+    result.textContent =
+      `Break-even: ${units.toLocaleString()} units`;
+
+  }
+
+
+  /* =====================================================
+     SALES TARGET
+  ===================================================== */
+
+  function salesTargetCalculator() {
+
+    showModal(
+      "🎯 Sales Target Calculator",
+      `
 
         <label>Monthly Sales Target</label>
 
         <input
-          id="salesTargetInput"
+          id="monthlyTarget"
           type="number"
           placeholder="e.g. 30000000"
+          style="
+            width:100%;
+            padding:13px;
+            margin:8px 0 15px;
+            border:1px solid #ddd;
+            border-radius:10px;
+          "
         >
 
-        <label>Number of Working Days</label>
+        <label>Working Days</label>
 
         <input
-          id="workingDaysInput"
+          id="workingDays"
           type="number"
           placeholder="e.g. 26"
+          style="
+            width:100%;
+            padding:13px;
+            margin:8px 0 15px;
+            border:1px solid #ddd;
+            border-radius:10px;
+          "
         >
 
         <button
-          class="aba-calc-button"
           onclick="calculateSalesTarget()"
+          style="
+            width:100%;
+            padding:14px;
+            border:0;
+            border-radius:10px;
+            background:#111827;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+          "
         >
           Calculate
         </button>
 
-        <div id="salesTargetResult"></div>
+        <div
+          id="salesTargetResult"
+          style="
+            margin-top:18px;
+            font-size:20px;
+            font-weight:bold;
+          "
+        ></div>
 
-      </div>
-    `;
+      `
+    );
 
-    showModal("🎯 Sales Target Calculator", html);
-  };
+  }
 
-  window.calculateSalesTarget = function () {
+
+  function calculateSalesTarget() {
+
     const target =
-      Number(document.getElementById("salesTargetInput").value) || 0;
+      Number(
+        document.getElementById("monthlyTarget").value
+      ) || 0;
+
 
     const days =
-      Number(document.getElementById("workingDaysInput").value) || 0;
+      Number(
+        document.getElementById("workingDays").value
+      ) || 0;
 
-    const daily = days > 0 ? target / days : 0;
 
-    const result = document.getElementById("salesTargetResult");
+    const result =
+      document.getElementById(
+        "salesTargetResult"
+      );
 
-    if (result) {
-      result.innerHTML = `
-        <div class="aba-result">
-          <strong>Daily Sales Target</strong>
-          <span>${formatMoney(daily)} Ks</span>
-        </div>
-      `;
-    }
-  };
 
-  // ======================================================
-  // AI BUSINESS COACH
-  // ======================================================
+    if (days <= 0) {
 
-  window.openAI = function () {
-    const html = `
-      <div class="aba-ai">
+      result.textContent =
+        "Please enter valid working days.";
 
-        <div class="aba-ai-header">
-          🤖
-        </div>
-
-        <h2>AI Business Coach</h2>
-
-        <p>
-          သင့်လုပ်ငန်းနဲ့ပတ်သက်ပြီး
-          Business Strategy, Sales, Marketing,
-          Customer နဲ့ Management အကြောင်း မေးနိုင်ပါတယ်။
-        </p>
-
-        <textarea
-          id="aiQuestion"
-          placeholder="ဥပမာ - ကျွန်တော့်လုပ်ငန်းရောင်းအားကျနေတယ်။ ဘာလုပ်သင့်လဲ?"
-        ></textarea>
-
-        <button
-          class="aba-ai-button"
-          onclick="askBusinessCoach()"
-        >
-          Ask Business Coach
-        </button>
-
-        <div id="aiAnswer"></div>
-
-      </div>
-    `;
-
-    showModal("🤖 AI Business Coach", html);
-  };
-
-  window.askBusinessCoach = function () {
-    const input = document.getElementById("aiQuestion");
-    const answer = document.getElementById("aiAnswer");
-
-    if (!input || !answer) {
       return;
+
     }
 
-    const question = input.value.trim();
 
-    if (!question) {
-      answer.innerHTML = `
-        <div class="aba-warning">
-          မေးခွန်းတစ်ခု ရိုက်ထည့်ပါ။
-        </div>
-      `;
-      return;
-    }
+    const daily =
+      target / days;
 
-    answer.innerHTML = `
-      <div class="aba-ai-response">
 
-        <strong>Business Coach Advice</strong>
+    result.textContent =
+      `Daily Target: ${Math.round(daily).toLocaleString()} Ks`;
 
-        <p>
-          သင့်မေးခွန်းကို ဖြေရှင်းရန်
-          Customer, Sales, Cost နဲ့ Competition
-          အခြေအနေတွေကို အရင် Analyze လုပ်ပါ။
-        </p>
+  }
 
-        <p>
-          <strong>Step 1:</strong>
-          လက်ရှိ Problem ကို တိတိကျကျ သတ်မှတ်ပါ။
-        </p>
 
-        <p>
-          <strong>Step 2:</strong>
-          Data နဲ့ Sales Performance ကို စစ်ဆေးပါ။
-        </p>
+  /* =====================================================
+     AI BUSINESS COACH
+  ===================================================== */
 
-        <p>
-          <strong>Step 3:</strong>
-          Action Plan တစ်ခု ချမှတ်ပြီး အကောင်အထည်ဖော်ပါ။
-        </p>
+  function openAI() {
 
-      </div>
-    `;
-  };
+    showModal(
+      "🤖 AI Business Coach",
+      `
 
-  // ======================================================
-  // PREMIUM
-  // ======================================================
+        <div style="
+          padding:20px;
+          background:#f8fafc;
+          border-radius:14px;
+        ">
 
-  window.openPremium = function () {
-    const html = `
-      <div class="aba-premium">
+          <h3>
+            AI Business Coach
+          </h3>
 
-        <div class="aba-premium-icon">
-          👑
-        </div>
+          <p>
+            AI Business Coach သည် Premium Feature
+            အဖြစ် ထည့်သွင်းပေးသွားမည်ဖြစ်ပါတယ်။
+          </p>
 
-        <h2>Premium Academy</h2>
-
-        <p>
-          Advanced Business Lessons,
-          Professional Business Tools,
-          Templates နှင့် AI Business Features
-          များကို Premium Version တွင် အသုံးပြုနိုင်ပါမည်။
-        </p>
-
-        <div class="aba-premium-features">
-
-          <div>✓ Advanced Business Courses</div>
-          <div>✓ Professional Templates</div>
-          <div>✓ Advanced Business Tools</div>
-          <div>✓ AI Business Coach</div>
-          <div>✓ Business Planning System</div>
+          <p>
+            Future version မှာ Business Strategy,
+            Sales, Marketing, Finance နဲ့ Management
+            အတွက် AI advice ရရှိနိုင်ပါမယ်။
+          </p>
 
         </div>
 
         <button
-          class="aba-premium-button"
-          onclick="showToast('Premium will be available soon!'); closeModal();"
+          onclick="openPremium()"
+          style="
+            margin-top:20px;
+            width:100%;
+            padding:14px;
+            border:0;
+            border-radius:10px;
+            background:#111827;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+          "
         >
-          Premium Coming Soon
+          👑 View Premium
         </button>
 
-      </div>
-    `;
+      `
+    );
 
-    showModal("👑 Premium Academy", html);
-  };
+  }
 
-  // ======================================================
-  // BUSINESS PLAN
-  // ======================================================
 
-  window.openBusinessPlan = function () {
-    const html = `
-      <div class="aba-business-plan">
+  /* =====================================================
+     PREMIUM
+  ===================================================== */
 
-        <h2>Business Plan</h2>
+  function openPremium() {
+
+    showModal(
+      "👑 Premium Academy",
+      `
+
+        <div style="
+          padding:20px;
+          background:#f8fafc;
+          border-radius:14px;
+        ">
+
+          <h3>
+            Premium Academy
+          </h3>
+
+          <p>
+            Advanced business education and tools
+            coming soon.
+          </p>
+
+          <ul style="line-height:2;">
+            <li>Advanced Business Courses</li>
+            <li>Business Templates</li>
+            <li>Advanced Calculators</li>
+            <li>AI Business Coach</li>
+            <li>Business Plan Builder</li>
+            <li>Sales & Marketing Tools</li>
+          </ul>
+
+        </div>
+
+        <div style="
+          margin-top:20px;
+          padding:16px;
+          background:#fff7ed;
+          border-radius:12px;
+        ">
+          🔒 Subscription system coming soon.
+        </div>
+
+      `
+    );
+
+  }
+
+
+  /* =====================================================
+     BUSINESS PLAN
+  ===================================================== */
+
+  function openBusinessPlan() {
+
+    showModal(
+      "📋 Business Plan",
+      `
 
         <p>
-          Business တစ်ခုတည်ဆောက်ရန် အောက်ပါအချက်များကို
-          စီစဉ်ရေးဆွဲပါ။
+          Build your business plan step by step.
         </p>
 
-        <div class="aba-plan-list">
+        <label>Business Name</label>
 
-          <div>
-            <strong>1. Business Idea</strong>
-            <p>ဘာလုပ်ငန်းလုပ်မလဲ?</p>
-          </div>
+        <input
+          id="businessName"
+          placeholder="Enter business name"
+          style="
+            width:100%;
+            padding:13px;
+            margin:8px 0 15px;
+            border:1px solid #ddd;
+            border-radius:10px;
+          "
+        >
 
-          <div>
-            <strong>2. Target Customer</strong>
-            <p>ဘယ်သူတွေကို ရောင်းမလဲ?</p>
-          </div>
+        <label>Product / Service</label>
 
-          <div>
-            <strong>3. Product / Service</strong>
-            <p>ဘာ Value ပေးမလဲ?</p>
-          </div>
+        <input
+          id="businessProduct"
+          placeholder="What do you sell?"
+          style="
+            width:100%;
+            padding:13px;
+            margin:8px 0 15px;
+            border:1px solid #ddd;
+            border-radius:10px;
+          "
+        >
 
-          <div>
-            <strong>4. Marketing Strategy</strong>
-            <p>Customer ကို ဘယ်လိုရှာမလဲ?</p>
-          </div>
+        <label>Target Customer</label>
 
-          <div>
-            <strong>5. Sales Strategy</strong>
-            <p>ဘယ်လိုရောင်းမလဲ?</p>
-          </div>
+        <input
+          id="businessCustomer"
+          placeholder="Who are your customers?"
+          style="
+            width:100%;
+            padding:13px;
+            margin:8px 0 15px;
+            border:1px solid #ddd;
+            border-radius:10px;
+          "
+        >
 
-          <div>
-            <strong>6. Financial Plan</strong>
-            <p>Revenue, Cost, Profit ကို ဘယ်လိုစီမံမလဲ?</p>
-          </div>
+        <button
+          onclick="generateBusinessPlan()"
+          style="
+            width:100%;
+            padding:14px;
+            border:0;
+            border-radius:10px;
+            background:#111827;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+          "
+        >
+          Generate Plan
+        </button>
 
-        </div>
+        <div
+          id="businessPlanResult"
+          style="
+            margin-top:20px;
+            line-height:1.8;
+          "
+        ></div>
+
+      `
+    );
+
+  }
+
+
+  function generateBusinessPlan() {
+
+    const name =
+      document.getElementById(
+        "businessName"
+      ).value || "My Business";
+
+
+    const product =
+      document.getElementById(
+        "businessProduct"
+      ).value || "Product / Service";
+
+
+    const customer =
+      document.getElementById(
+        "businessCustomer"
+      ).value || "Target Customers";
+
+
+    document.getElementById(
+      "businessPlanResult"
+    ).innerHTML = `
+
+      <div style="
+        padding:18px;
+        background:#f8fafc;
+        border-radius:14px;
+      ">
+
+        <h3>
+          ${name}
+        </h3>
+
+        <p>
+          <strong>Product:</strong>
+          ${product}
+        </p>
+
+        <p>
+          <strong>Target Customer:</strong>
+          ${customer}
+        </p>
+
+        <h4>
+          90-Day Action Plan
+        </h4>
+
+        <ol>
+          <li>Validate customer demand.</li>
+          <li>Define product and pricing.</li>
+          <li>Build sales channels.</li>
+          <li>Launch marketing activities.</li>
+          <li>Track revenue and profit.</li>
+          <li>Improve based on customer feedback.</li>
+        </ol>
 
       </div>
+
     `;
 
-    showModal("📋 Business Plan", html);
-  };
+  }
 
-  // ======================================================
-  // PROFILE
-  // ======================================================
 
-  window.openProfile = function () {
-    const completed = getProgress();
+  /* =====================================================
+     PROFILE
+  ===================================================== */
 
-    const html = `
-      <div class="aba-profile-page">
+  function openProfile() {
 
-        <div class="aba-profile-avatar">
-          A
-        </div>
+    showModal(
+      "👤 My Profile",
+      `
 
-        <h2>Aung</h2>
+        <div style="
+          text-align:center;
+          padding:20px;
+        ">
 
-        <p>Business Learner</p>
-
-        <div class="aba-profile-stat">
-          <strong>${completed.length}</strong>
-          <span>Lessons Completed</span>
-        </div>
-
-      </div>
-    `;
-
-    showModal("👤 Profile", html);
-  };
-
-  // ======================================================
-  // NOTIFICATIONS
-  // ======================================================
-
-  window.openNotifications = function () {
-    const html = `
-      <div class="aba-notifications">
-
-        <div class="aba-notification-item">
-          🚀
-          <div>
-            <strong>Welcome to Aung Business Academy</strong>
-            <p>Start your business learning journey today.</p>
+          <div style="
+            width:80px;
+            height:80px;
+            margin:0 auto 15px;
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:#111827;
+            color:white;
+            font-size:32px;
+            font-weight:bold;
+          ">
+            A
           </div>
+
+          <h3>
+            Aung
+          </h3>
+
+          <p>
+            Business Learner
+          </p>
+
+          <p>
+            Completed Lessons:
+            <strong>
+              ${getCompleted().length}
+            </strong>
+          </p>
+
         </div>
 
-        <div class="aba-notification-item">
-          📚
-          <div>
-            <strong>10 Free Lessons Available</strong>
-            <p>Learn practical business skills step by step.</p>
-          </div>
+      `
+    );
+
+  }
+
+
+  /* =====================================================
+     NOTIFICATION
+  ===================================================== */
+
+  function showNotification() {
+
+    showModal(
+      "🔔 Notifications",
+      `
+
+        <div style="
+          padding:18px;
+          background:#f8fafc;
+          border-radius:12px;
+        ">
+
+          <strong>
+            Welcome to Aung Business Academy!
+          </strong>
+
+          <p>
+            Start your first business lesson today.
+          </p>
+
         </div>
 
-      </div>
-    `;
+      `
+    );
 
-    showModal("🔔 Notifications", html);
-  };
+  }
 
-  // ======================================================
-  // TOAST
-  // ======================================================
 
-  window.showToast = function (message) {
-    const oldToast = document.getElementById("abaToast");
+  /* =====================================================
+     LOGOUT
+  ===================================================== */
 
-    if (oldToast) {
-      oldToast.remove();
+  function logoutUser() {
+
+    const confirmLogout =
+      confirm(
+        "Are you sure you want to log out?"
+      );
+
+
+    if (confirmLogout) {
+
+      showToast(
+        "Logged out successfully."
+      );
+
     }
 
-    const toast = document.createElement("div");
+  }
+
+
+  /* =====================================================
+     TOAST
+  ===================================================== */
+
+  function showToast(message) {
+
+    const old =
+      document.getElementById("abaToast");
+
+    if (old) {
+
+      old.remove();
+
+    }
+
+
+    const toast =
+      document.createElement("div");
 
     toast.id = "abaToast";
-    toast.className = "aba-toast";
-    toast.textContent = message;
+
+    toast.textContent =
+      message;
+
+
+    toast.style.cssText = `
+      position:fixed;
+      left:50%;
+      bottom:25px;
+      transform:translateX(-50%);
+      z-index:100000;
+      background:#111827;
+      color:white;
+      padding:13px 20px;
+      border-radius:999px;
+      font-size:14px;
+      box-shadow:0 10px 30px rgba(0,0,0,.25);
+    `;
+
 
     document.body.appendChild(toast);
 
+
     setTimeout(function () {
-      toast.classList.add("hide");
 
-      setTimeout(function () {
-        toast.remove();
-      }, 300);
-    }, 2200);
-  };
+      toast.remove();
 
-  // ======================================================
-  // HELPERS
-  // ======================================================
+    }, 2500);
 
-  function formatMoney(value) {
-    return Math.round(value).toLocaleString("en-US");
   }
 
-  function escapeAttribute(value) {
-    return String(value)
-      .replace(/\\/g, "\\\\")
-      .replace(/'/g, "\\'");
+
+  /* =====================================================
+     SIDEBAR
+  ===================================================== */
+
+  function toggleMenu(id) {
+
+    const menu =
+      document.getElementById(id);
+
+
+    if (!menu) {
+
+      return;
+
+    }
+
+
+    menu.classList.toggle("show");
+
   }
 
-  // ======================================================
-  // SIDEBAR SUBMENU
-  // ======================================================
 
-  function connectSubmenus() {
-    const buttons = document.querySelectorAll(".submenu button");
+  function toggleSidebar() {
 
-    buttons.forEach(function (button) {
-      button.addEventListener("click", function (event) {
-        event.preventDefault();
-        event.stopPropagation();
+    const sidebar =
+      document.querySelector(".sidebar");
 
-        const topic = button.textContent.trim();
 
-        if (!topic) {
-          return;
-        }
+    if (!sidebar) {
 
-        openTopic(topic);
-      });
-    });
+      return;
+
+    }
+
+
+    sidebar.classList.toggle(
+      "mobile-open"
+    );
+
   }
 
-  // ======================================================
-  // BUSINESS PLAN NAV
-  // ======================================================
 
-  function connectBusinessPlan() {
-    const elements = document.querySelectorAll(".nav-item");
+  /* =====================================================
+     MAKE FUNCTIONS PUBLIC
+     IMPORTANT FOR HTML ONCLICK
+  ===================================================== */
 
-    elements.forEach(function (element) {
-      const text = element.textContent.trim();
+  window.goDashboard =
+    goDashboard;
 
-      if (text.indexOf("Business Plan") !== -1) {
-        element.addEventListener("click", function (event) {
-          event.preventDefault();
-          event.stopPropagation();
+  window.toggleMenu =
+    toggleMenu;
 
-          openBusinessPlan();
-        });
-      }
-    });
-  }
+  window.toggleSidebar =
+    toggleSidebar;
 
-  // ======================================================
-  // INITIALIZE
-  // ======================================================
+  window.openLessons =
+    openLessons;
 
-  function initialize() {
+  window.openLesson =
+    openLesson;
+
+  window.completeLesson =
+    completeLesson;
+
+  window.openCategory =
+    openCategory;
+
+  window.openTools =
+    openTools;
+
+  window.profitCalculator =
+    profitCalculator;
+
+  window.calculateProfit =
+    calculateProfit;
+
+  window.pricingCalculator =
+    pricingCalculator;
+
+  window.calculatePrice =
+    calculatePrice;
+
+  window.breakEvenCalculator =
+    breakEvenCalculator;
+
+  window.calculateBreakEven =
+    calculateBreakEven;
+
+  window.salesTargetCalculator =
+    salesTargetCalculator;
+
+  window.calculateSalesTarget =
+    calculateSalesTarget;
+
+  window.openAI =
+    openAI;
+
+  window.openPremium =
+    openPremium;
+
+  window.openBusinessPlan =
+    openBusinessPlan;
+
+  window.generateBusinessPlan =
+    generateBusinessPlan;
+
+  window.openProfile =
+    openProfile;
+
+  window.showNotification =
+    showNotification;
+
+  window.logoutUser =
+    logoutUser;
+
+  window.closeModal =
+    closeModal;
+
+
+  /* =====================================================
+     INITIALIZE
+  ===================================================== */
+
+  function init() {
+
     updateDashboard();
-    connectSubmenus();
-    connectBusinessPlan();
 
-    console.log("Aung Business Academy V5 loaded successfully.");
+    console.log(
+      "Aung Business Academy V6 loaded successfully."
+    );
+
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initialize);
+
+  if (
+    document.readyState === "loading"
+  ) {
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      init
+    );
+
   } else {
-    initialize();
+
+    init();
+
   }
+
 
 })();

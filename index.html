@@ -8,1180 +8,653 @@
   <title>Aung Business Academy</title>
 
   <link rel="stylesheet" href="style.css">
+
+  <!-- Main App -->
+  <script src="app.js" defer></script>
 </head>
 
 <body>
 
-  <div class="academy">
+<div class="academy">
 
-    <!-- ========================================= -->
-    <!-- SIDEBAR -->
-    <!-- ========================================= -->
+  <!-- ========================= -->
+  <!-- SIDEBAR -->
+  <!-- ========================= -->
 
-    <aside class="sidebar">
+  <aside class="sidebar">
 
-      <!-- BRAND -->
+    <div class="brand">
+      <div class="brand-logo">A</div>
 
-      <div class="brand">
+      <div class="brand-text">
+        <strong>AUNG</strong>
+        <span>BUSINESS ACADEMY</span>
+      </div>
+    </div>
 
-        <div class="brand-logo">
-          A
-        </div>
+    <nav class="navigation">
 
-        <div class="brand-text">
-          <strong>AUNG</strong>
-          <span>BUSINESS ACADEMY</span>
+      <!-- DASHBOARD -->
+
+      <button class="nav-item active" onclick="goDashboard()">
+        <span class="nav-icon">▣</span>
+        <span>Dashboard</span>
+      </button>
+
+
+      <!-- LEADERSHIP -->
+
+      <div class="nav-group">
+
+        <button class="nav-item" onclick="toggleMenu('leadershipMenu')">
+          <span class="nav-icon">♟</span>
+          <span>Leadership & Strategy</span>
+          <span class="arrow">▾</span>
+        </button>
+
+        <div class="submenu" id="leadershipMenu">
+
+          <button onclick="openCategory('Leadership Basics')">
+            Leadership Basics
+          </button>
+
+          <button onclick="openCategory('Strategic Thinking')">
+            Strategic Thinking
+          </button>
+
+          <button onclick="openCategory('Decision Making')">
+            Decision Making
+          </button>
+
+          <button onclick="openCategory('Team Leadership')">
+            Team Leadership
+          </button>
+
         </div>
 
       </div>
 
 
-      <!-- NAVIGATION -->
+      <!-- BRANDING -->
 
-      <nav class="navigation">
+      <div class="nav-group">
 
-        <!-- DASHBOARD -->
-
-        <button
-          class="nav-item active"
-          onclick="goDashboard()">
-
-          <span class="nav-icon">▣</span>
-          <span>Dashboard</span>
-
-        </button>
-
-
-        <!-- ========================================= -->
-        <!-- LEADERSHIP -->
-        <!-- ========================================= -->
-
-        <div class="nav-group">
-
-          <button
-            class="nav-item"
-            onclick="toggleMenu('leadershipMenu')">
-
-            <span class="nav-icon">♟</span>
-
-            <span>
-              Leadership & Strategy
-            </span>
-
-            <span class="arrow">
-              ▾
-            </span>
-
-          </button>
-
-
-          <div
-            class="submenu"
-            id="leadershipMenu">
-
-            <button onclick="openCategory('Leadership Basics')">
-              Leadership Basics
-            </button>
-
-            <button onclick="openCategory('Strategic Thinking')">
-              Strategic Thinking
-            </button>
-
-            <button onclick="openCategory('Decision Making')">
-              Decision Making
-            </button>
-
-            <button onclick="openCategory('Team Leadership')">
-              Team Leadership
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- ========================================= -->
-        <!-- BRANDING -->
-        <!-- ========================================= -->
-
-        <div class="nav-group">
-
-          <button
-            class="nav-item"
-            onclick="toggleMenu('brandingMenu')">
-
-            <span class="nav-icon">✎</span>
-
-            <span>
-              Branding
-            </span>
-
-            <span class="arrow">
-              ▾
-            </span>
-
-          </button>
-
-
-          <div
-            class="submenu"
-            id="brandingMenu">
-
-            <button onclick="openCategory('Brand Basics')">
-              Brand Basics
-            </button>
-
-            <button onclick="openCategory('Brand Positioning')">
-              Brand Positioning
-            </button>
-
-            <button onclick="openCategory('Brand Identity')">
-              Brand Identity
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- ========================================= -->
-        <!-- MARKETING -->
-        <!-- ========================================= -->
-
-        <div class="nav-group">
-
-          <button
-            class="nav-item"
-            onclick="toggleMenu('marketingMenu')">
-
-            <span class="nav-icon">▤</span>
-
-            <span>
-              Marketing
-            </span>
-
-            <span class="arrow">
-              ▾
-            </span>
-
-          </button>
-
-
-          <div
-            class="submenu"
-            id="marketingMenu">
-
-            <button onclick="openCategory('Marketing Basics')">
-              Marketing Basics
-            </button>
-
-            <button onclick="openCategory('Digital Marketing')">
-              Digital Marketing
-            </button>
-
-            <button onclick="openCategory('Content Marketing')">
-              Content Marketing
-            </button>
-
-            <button onclick="openCategory('Marketing Strategy')">
-              Marketing Strategy
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- ========================================= -->
-        <!-- SALES -->
-        <!-- ========================================= -->
-
-        <div class="nav-group">
-
-          <button
-            class="nav-item"
-            onclick="toggleMenu('salesMenu')">
-
-            <span class="nav-icon">🛒</span>
-
-            <span>
-              Sales
-            </span>
-
-            <span class="arrow">
-              ▾
-            </span>
-
-          </button>
-
-
-          <div
-            class="submenu"
-            id="salesMenu">
-
-            <button onclick="openCategory('Sales Basics')">
-              Sales Basics
-            </button>
-
-            <button onclick="openCategory('Customer Finding')">
-              Customer Finding
-            </button>
-
-            <button onclick="openCategory('Sales Strategy')">
-              Sales Strategy
-            </button>
-
-            <button onclick="openCategory('Negotiation')">
-              Negotiation
-            </button>
-
-            <button onclick="openCategory('Sales Management')">
-              Sales Management
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- ========================================= -->
-        <!-- SERVICE DELIVERY -->
-        <!-- ========================================= -->
-
-        <div class="nav-group">
-
-          <button
-            class="nav-item"
-            onclick="toggleMenu('serviceMenu')">
-
-            <span class="nav-icon">♟</span>
-
-            <span>
-              Service Delivery
-            </span>
-
-            <span class="arrow">
-              ▾
-            </span>
-
-          </button>
-
-
-          <div
-            class="submenu"
-            id="serviceMenu">
-
-            <button onclick="openCategory('Customer Service')">
-              Customer Service
-            </button>
-
-            <button onclick="openCategory('Service Quality')">
-              Service Quality
-            </button>
-
-            <button onclick="openCategory('Customer Experience')">
-              Customer Experience
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- ========================================= -->
-        <!-- MANAGEMENT & HR -->
-        <!-- ========================================= -->
-
-        <div class="nav-group">
-
-          <button
-            class="nav-item"
-            onclick="toggleMenu('managementMenu')">
-
-            <span class="nav-icon">▣</span>
-
-            <span>
-              Management & HR
-            </span>
-
-            <span class="arrow">
-              ▾
-            </span>
-
-          </button>
-
-
-          <div
-            class="submenu"
-            id="managementMenu">
-
-            <button onclick="openCategory('People Management')">
-              People Management
-            </button>
-
-            <button onclick="openCategory('Recruitment')">
-              Recruitment
-            </button>
-
-            <button onclick="openCategory('Performance Management')">
-              Performance Management
-            </button>
-
-            <button onclick="openCategory('Coaching')">
-              Coaching
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- ========================================= -->
-        <!-- FINANCIAL STATEMENTS -->
-        <!-- ========================================= -->
-
-        <div class="nav-group">
-
-          <button
-            class="nav-item"
-            onclick="toggleMenu('financeMenu')">
-
-            <span class="nav-icon">▰</span>
-
-            <span>
-              Financial Statements
-            </span>
-
-            <span class="arrow">
-              ▾
-            </span>
-
-          </button>
-
-
-          <div
-            class="submenu"
-            id="financeMenu">
-
-            <button onclick="openCategory('Revenue')">
-              Revenue
-            </button>
-
-            <button onclick="openCategory('Profit & Loss')">
-              Profit & Loss
-            </button>
-
-            <button onclick="openCategory('Cash Flow')">
-              Cash Flow
-            </button>
-
-            <button onclick="openCategory('Financial Analysis')">
-              Financial Analysis
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- ========================================= -->
-        <!-- PERSONAL PRODUCTIVITY -->
-        <!-- ========================================= -->
-
-        <div class="nav-group">
-
-          <button
-            class="nav-item"
-            onclick="toggleMenu('productivityMenu')">
-
-            <span class="nav-icon">▤</span>
-
-            <span>
-              Personal Productivity
-            </span>
-
-            <span class="arrow">
-              ▾
-            </span>
-
-          </button>
-
-
-          <div
-            class="submenu"
-            id="productivityMenu">
-
-            <button onclick="openCategory('Time Management')">
-              Time Management
-            </button>
-
-            <button onclick="openCategory('Goal Setting')">
-              Goal Setting
-            </button>
-
-            <button onclick="openCategory('Daily Planning')">
-              Daily Planning
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- ========================================= -->
-        <!-- BUSINESS PLAN -->
-        <!-- ========================================= -->
-
-        <button
-          class="nav-item"
-          onclick="openBusinessPlan()">
-
+        <button class="nav-item" onclick="toggleMenu('brandingMenu')">
           <span class="nav-icon">✎</span>
-
-          <span>
-            Business Plan
-          </span>
-
+          <span>Branding</span>
+          <span class="arrow">▾</span>
         </button>
 
+        <div class="submenu" id="brandingMenu">
 
-        <!-- ========================================= -->
-        <!-- LEARN -->
-        <!-- ========================================= -->
-
-        <div class="nav-group">
-
-          <button
-            class="nav-item"
-            onclick="toggleMenu('learnMenu')">
-
-            <span class="nav-icon">
-              🎓
-            </span>
-
-            <span>
-              Learn
-            </span>
-
-            <span class="arrow">
-              ▾
-            </span>
-
+          <button onclick="openCategory('Brand Basics')">
+            Brand Basics
           </button>
 
+          <button onclick="openCategory('Brand Positioning')">
+            Brand Positioning
+          </button>
 
-          <div
-            class="submenu"
-            id="learnMenu">
-
-            <button onclick="openLessons()">
-              📚 Business Lessons
-            </button>
-
-            <button onclick="openTools()">
-              🛠️ Business Tools
-            </button>
-
-            <button onclick="openAI()">
-              🤖 AI Business Coach
-            </button>
-
-          </div>
+          <button onclick="openCategory('Brand Identity')">
+            Brand Identity
+          </button>
 
         </div>
-
-      </nav>
-
-
-      <!-- ========================================= -->
-      <!-- PREMIUM SIDEBAR -->
-      <!-- ========================================= -->
-
-      <div class="sidebar-premium">
-
-        <div class="premium-icon">
-          👑
-        </div>
-
-        <div>
-
-          <strong>
-            Premium Academy
-          </strong>
-
-          <p>
-            Unlock advanced business tools.
-          </p>
-
-        </div>
-
-        <button onclick="openPremium()">
-          Upgrade
-        </button>
 
       </div>
 
 
-      <!-- LOGOUT -->
+      <!-- MARKETING -->
 
-      <button
-        class="logout"
-        onclick="logoutUser()">
+      <div class="nav-group">
 
-        <span>
-          ↪
-        </span>
+        <button class="nav-item" onclick="toggleMenu('marketingMenu')">
+          <span class="nav-icon">▤</span>
+          <span>Marketing</span>
+          <span class="arrow">▾</span>
+        </button>
 
-        Log Out
+        <div class="submenu" id="marketingMenu">
+
+          <button onclick="openCategory('Marketing Basics')">
+            Marketing Basics
+          </button>
+
+          <button onclick="openCategory('Digital Marketing')">
+            Digital Marketing
+          </button>
+
+          <button onclick="openCategory('Content Marketing')">
+            Content Marketing
+          </button>
+
+          <button onclick="openCategory('Marketing Strategy')">
+            Marketing Strategy
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- SALES -->
+
+      <div class="nav-group">
+
+        <button class="nav-item" onclick="toggleMenu('salesMenu')">
+          <span class="nav-icon">🛒</span>
+          <span>Sales</span>
+          <span class="arrow">▾</span>
+        </button>
+
+        <div class="submenu" id="salesMenu">
+
+          <button onclick="openCategory('Sales Basics')">
+            Sales Basics
+          </button>
+
+          <button onclick="openCategory('Customer Finding')">
+            Customer Finding
+          </button>
+
+          <button onclick="openCategory('Sales Strategy')">
+            Sales Strategy
+          </button>
+
+          <button onclick="openCategory('Negotiation')">
+            Negotiation
+          </button>
+
+          <button onclick="openCategory('Sales Management')">
+            Sales Management
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- SERVICE -->
+
+      <div class="nav-group">
+
+        <button class="nav-item" onclick="toggleMenu('serviceMenu')">
+          <span class="nav-icon">♟</span>
+          <span>Service Delivery</span>
+          <span class="arrow">▾</span>
+        </button>
+
+        <div class="submenu" id="serviceMenu">
+
+          <button onclick="openCategory('Customer Service')">
+            Customer Service
+          </button>
+
+          <button onclick="openCategory('Service Quality')">
+            Service Quality
+          </button>
+
+          <button onclick="openCategory('Customer Experience')">
+            Customer Experience
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- MANAGEMENT -->
+
+      <div class="nav-group">
+
+        <button class="nav-item" onclick="toggleMenu('managementMenu')">
+          <span class="nav-icon">▣</span>
+          <span>Management & HR</span>
+          <span class="arrow">▾</span>
+        </button>
+
+        <div class="submenu" id="managementMenu">
+
+          <button onclick="openCategory('People Management')">
+            People Management
+          </button>
+
+          <button onclick="openCategory('Recruitment')">
+            Recruitment
+          </button>
+
+          <button onclick="openCategory('Performance Management')">
+            Performance Management
+          </button>
+
+          <button onclick="openCategory('Coaching')">
+            Coaching
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- FINANCE -->
+
+      <div class="nav-group">
+
+        <button class="nav-item" onclick="toggleMenu('financeMenu')">
+          <span class="nav-icon">▰</span>
+          <span>Financial Statements</span>
+          <span class="arrow">▾</span>
+        </button>
+
+        <div class="submenu" id="financeMenu">
+
+          <button onclick="openCategory('Revenue')">
+            Revenue
+          </button>
+
+          <button onclick="openCategory('Profit & Loss')">
+            Profit & Loss
+          </button>
+
+          <button onclick="openCategory('Cash Flow')">
+            Cash Flow
+          </button>
+
+          <button onclick="openCategory('Financial Analysis')">
+            Financial Analysis
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- PRODUCTIVITY -->
+
+      <div class="nav-group">
+
+        <button class="nav-item" onclick="toggleMenu('productivityMenu')">
+          <span class="nav-icon">▤</span>
+          <span>Personal Productivity</span>
+          <span class="arrow">▾</span>
+        </button>
+
+        <div class="submenu" id="productivityMenu">
+
+          <button onclick="openCategory('Time Management')">
+            Time Management
+          </button>
+
+          <button onclick="openCategory('Goal Setting')">
+            Goal Setting
+          </button>
+
+          <button onclick="openCategory('Daily Planning')">
+            Daily Planning
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- BUSINESS PLAN -->
+
+      <button class="nav-item" onclick="openBusinessPlan()">
+
+        <span class="nav-icon">✎</span>
+        <span>Business Plan</span>
 
       </button>
 
 
-      <div class="copyright">
-        © 2026 Aung Business Academy
+      <!-- LEARN -->
+
+      <div class="nav-group">
+
+        <button class="nav-item" onclick="toggleMenu('learnMenu')">
+
+          <span class="nav-icon">🎓</span>
+          <span>Learn</span>
+          <span class="arrow">▾</span>
+
+        </button>
+
+        <div class="submenu" id="learnMenu">
+
+          <button onclick="openLessons()">
+            📚 Business Lessons
+          </button>
+
+          <button onclick="openTools()">
+            🛠️ Business Tools
+          </button>
+
+          <button onclick="openAI()">
+            🤖 AI Business Coach
+          </button>
+
+        </div>
+
       </div>
 
-    </aside>
+    </nav>
 
 
-    <!-- ========================================= -->
-    <!-- MAIN CONTENT -->
-    <!-- ========================================= -->
+    <!-- PREMIUM -->
 
-    <main class="main-content">
+    <div class="sidebar-premium">
+
+      <div class="premium-icon">👑</div>
+
+      <div>
+        <strong>Premium Academy</strong>
+
+        <p>
+          Unlock advanced business tools.
+        </p>
+      </div>
+
+      <button onclick="openPremium()">
+        Upgrade
+      </button>
+
+    </div>
 
 
-      <!-- ========================================= -->
-      <!-- TOPBAR -->
-      <!-- ========================================= -->
+    <!-- LOGOUT -->
 
-      <header class="topbar">
+    <button class="logout" onclick="logoutUser()">
+
+      <span>↪</span>
+      Log Out
+
+    </button>
+
+
+    <div class="copyright">
+      © 2026 Aung Business Academy
+    </div>
+
+  </aside>
+
+
+  <!-- ========================= -->
+  <!-- MAIN -->
+  <!-- ========================= -->
+
+  <main class="main-content">
+
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+      <button class="mobile-menu" onclick="toggleSidebar()">
+        ☰
+      </button>
+
+      <div>
+
+        <h2 id="pageTitle">
+          Dashboard
+        </h2>
+
+        <p id="pageSubtitle">
+          Learn Business. Build Business. Grow Business.
+        </p>
+
+      </div>
+
+
+      <div class="top-actions">
 
         <button
-          class="mobile-menu"
-          onclick="toggleSidebar()">
+          class="notification"
+          onclick="showNotification()">
+          🔔
+        </button>
 
-          ☰
+
+        <div
+          class="profile"
+          onclick="openProfile()">
+
+          <div class="profile-avatar">
+            A
+          </div>
+
+          <div>
+
+            <strong>Aung</strong>
+
+            <span>
+              Business Learner
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- WELCOME -->
+
+    <section class="welcome">
+
+      <div>
+
+        <span class="welcome-label">
+          🚀 AUNG BUSINESS ACADEMY
+        </span>
+
+        <h1>
+          Build Your Business
+          <br>
+          From Zero to Growth.
+        </h1>
+
+        <p>
+          Learn practical business skills, use powerful tools,
+          and build a profitable business step by step.
+        </p>
+
+        <button
+          class="primary-button"
+          onclick="openLessons()">
+
+          Start Learning →
 
         </button>
 
+      </div>
+
+
+      <div class="welcome-graphic">
+
+        <div class="graphic-circle">
+          🚀
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- DASHBOARD -->
+
+    <section class="section">
+
+      <div class="section-title">
 
         <div>
 
           <h2>
-            Dashboard
+            Business Dashboard
           </h2>
 
           <p>
-            Learn Business. Build Business. Grow Business.
+            Your learning and business overview.
           </p>
 
         </div>
 
-
-        <div class="top-actions">
-
-          <button
-            class="notification"
-            onclick="showNotification()">
-
-            🔔
-
-          </button>
+      </div>
 
 
-          <div
-            class="profile"
-            onclick="openProfile()">
+      <div class="stats-grid">
 
-            <div class="profile-avatar">
-              A
-            </div>
 
-            <div>
+        <div class="stat-card">
 
-              <strong>
-                Aung
-              </strong>
+          <div class="stat-icon blue">
+            📚
+          </div>
 
-              <span>
-                Business Learner
-              </span>
+          <div>
 
-            </div>
+            <span>Lessons</span>
+
+            <strong id="lessonCount">
+              10
+            </strong>
+
+            <small>
+              Available lessons
+            </small>
 
           </div>
 
         </div>
 
-      </header>
+
+        <div class="stat-card">
+
+          <div class="stat-icon green">
+            📈
+          </div>
+
+          <div>
+
+            <span>Learning Progress</span>
+
+            <strong id="progress">
+              0%
+            </strong>
+
+            <small>
+              Free lessons completed
+            </small>
+
+          </div>
+
+        </div>
 
 
-      <!-- ========================================= -->
-      <!-- WELCOME -->
-      <!-- ========================================= -->
+        <div class="stat-card">
 
-      <section class="welcome">
+          <div class="stat-icon orange">
+            🛠️
+          </div>
+
+          <div>
+
+            <span>Business Tools</span>
+
+            <strong>4</strong>
+
+            <small>
+              Calculators & tools
+            </small>
+
+          </div>
+
+        </div>
+
+
+        <div class="stat-card premium-stat">
+
+          <div class="stat-icon purple">
+            👑
+          </div>
+
+          <div>
+
+            <span>Premium</span>
+
+            <strong>LOCKED</strong>
+
+            <small>
+              Subscription coming soon
+            </small>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- QUICK ACCESS -->
+
+    <section class="section">
+
+      <div class="section-title">
 
         <div>
-
-          <span class="welcome-label">
-            🚀 AUNG BUSINESS ACADEMY
-          </span>
-
-
-          <h1>
-            Build Your Business
-            <br>
-            From Zero to Growth.
-          </h1>
-
-
-          <p>
-            Learn practical business skills, use powerful tools,
-            and build a profitable business step by step.
-          </p>
-
-
-          <button
-            class="primary-button"
-            onclick="openLessons()">
-
-            Start Learning →
-
-          </button>
-
-        </div>
-
-
-        <div class="welcome-graphic">
-
-          <div class="graphic-circle">
-            🚀
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- ========================================= -->
-      <!-- DASHBOARD STATS -->
-      <!-- ========================================= -->
-
-      <section class="section">
-
-        <div class="section-title">
-
-          <div>
-
-            <h2>
-              Business Dashboard
-            </h2>
-
-            <p>
-              Your learning and business overview.
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <div class="stats-grid">
-
-
-          <!-- LESSONS -->
-
-          <div class="stat-card">
-
-            <div class="stat-icon blue">
-              📚
-            </div>
-
-            <div>
-
-              <span>
-                Lessons
-              </span>
-
-              <strong id="lessonCount">
-                10
-              </strong>
-
-              <small>
-                Available lessons
-              </small>
-
-            </div>
-
-          </div>
-
-
-          <!-- PROGRESS -->
-
-          <div class="stat-card">
-
-            <div class="stat-icon green">
-              📈
-            </div>
-
-            <div>
-
-              <span>
-                Learning Progress
-              </span>
-
-              <strong id="progress">
-                0%
-              </strong>
-
-              <small>
-                Free lessons completed
-              </small>
-
-            </div>
-
-          </div>
-
-
-          <!-- TOOLS -->
-
-          <div class="stat-card">
-
-            <div class="stat-icon orange">
-              🛠️
-            </div>
-
-            <div>
-
-              <span>
-                Business Tools
-              </span>
-
-              <strong>
-                4
-              </strong>
-
-              <small>
-                Calculators & tools
-              </small>
-
-            </div>
-
-          </div>
-
-
-          <!-- PREMIUM -->
-
-          <div class="stat-card premium-stat">
-
-            <div class="stat-icon purple">
-              👑
-            </div>
-
-            <div>
-
-              <span>
-                Premium
-              </span>
-
-              <strong>
-                LOCKED
-              </strong>
-
-              <small>
-                Subscription coming soon
-              </small>
-
-            </div>
-
-          </div>
-
-
-        </div>
-
-      </section>
-
-
-      <!-- ========================================= -->
-      <!-- QUICK ACCESS -->
-      <!-- ========================================= -->
-
-      <section class="section">
-
-        <div class="section-title">
-
-          <div>
-
-            <h2>
-              Quick Access
-            </h2>
-
-            <p>
-              Start learning or use your business tools.
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <div class="quick-grid">
-
-
-          <!-- BUSINESS LESSONS -->
-
-          <div
-            class="quick-card"
-            onclick="openLessons()">
-
-            <div class="quick-icon">
-              📚
-            </div>
-
-            <div>
-
-              <h3>
-                Business Lessons
-              </h3>
-
-              <p>
-                Learn business fundamentals step by step.
-              </p>
-
-              <span>
-                Explore Lessons →
-              </span>
-
-            </div>
-
-          </div>
-
-
-          <!-- BUSINESS TOOLS -->
-
-          <div
-            class="quick-card"
-            onclick="openTools()">
-
-            <div class="quick-icon">
-              🛠️
-            </div>
-
-            <div>
-
-              <h3>
-                Business Tools
-              </h3>
-
-              <p>
-                Calculate profit, pricing and business numbers.
-              </p>
-
-              <span>
-                Open Tools →
-              </span>
-
-            </div>
-
-          </div>
-
-
-          <!-- AI -->
-
-          <div
-            class="quick-card premium-card"
-            onclick="openAI()">
-
-            <div class="quick-icon">
-              🤖
-            </div>
-
-            <div>
-
-              <h3>
-                AI Business Coach
-                <small>🔒</small>
-              </h3>
-
-              <p>
-                Get AI-powered business advice.
-              </p>
-
-              <span>
-                Premium Feature →
-              </span>
-
-            </div>
-
-          </div>
-
-
-          <!-- PREMIUM -->
-
-          <div
-            class="quick-card premium-card"
-            onclick="openPremium()">
-
-            <div class="quick-icon">
-              👑
-            </div>
-
-            <div>
-
-              <h3>
-                Premium Academy
-                <small>🔒</small>
-              </h3>
-
-              <p>
-                Unlock advanced courses and tools.
-              </p>
-
-              <span>
-                View Premium →
-              </span>
-
-            </div>
-
-          </div>
-
-
-        </div>
-
-      </section>
-
-
-      <!-- ========================================= -->
-      <!-- BUSINESS ROADMAP -->
-      <!-- ========================================= -->
-
-      <section class="section">
-
-        <div class="section-title">
-
-          <div>
-
-            <h2>
-              🚀 Business Roadmap
-            </h2>
-
-            <p>
-              Your journey from beginner to business owner.
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <div class="roadmap">
-
-
-          <!-- STEP 1 -->
-
-          <div class="roadmap-step completed">
-
-            <div class="roadmap-number">
-              1
-            </div>
-
-            <div>
-
-              <h3>
-                Business Foundation
-              </h3>
-
-              <p>
-                Understand business fundamentals.
-              </p>
-
-            </div>
-
-          </div>
-
-
-          <div class="roadmap-line"></div>
-
-
-          <!-- STEP 2 -->
-
-          <div class="roadmap-step">
-
-            <div class="roadmap-number">
-              2
-            </div>
-
-            <div>
-
-              <h3>
-                Find Your Market
-              </h3>
-
-              <p>
-                Customer, product and market research.
-              </p>
-
-            </div>
-
-          </div>
-
-
-          <div class="roadmap-line"></div>
-
-
-          <!-- STEP 3 -->
-
-          <div class="roadmap-step">
-
-            <div class="roadmap-number">
-              3
-            </div>
-
-            <div>
-
-              <h3>
-                Sales & Marketing
-              </h3>
-
-              <p>
-                Learn how to attract customers and sell.
-              </p>
-
-            </div>
-
-          </div>
-
-
-          <div class="roadmap-line"></div>
-
-
-          <!-- STEP 4 -->
-
-          <div class="roadmap-step premium-roadmap">
-
-            <div class="roadmap-number">
-              🔒
-            </div>
-
-            <div>
-
-              <h3>
-                Scale Your Business
-              </h3>
-
-              <p>
-                Advanced strategy available in Premium.
-              </p>
-
-            </div>
-
-          </div>
-
-
-        </div>
-
-      </section>
-
-
-      <!-- ========================================= -->
-      <!-- PREMIUM CTA -->
-      <!-- ========================================= -->
-
-      <section class="premium-banner">
-
-        <div class="premium-banner-icon">
-          👑
-        </div>
-
-
-        <div class="premium-banner-content">
-
-          <span>
-            PREMIUM ACADEMY
-          </span>
 
           <h2>
-            Take Your Business
-            to the Next Level.
+            Quick Access
           </h2>
 
           <p>
-            Unlock advanced business strategies,
-            calculators, templates and AI Business Coach.
+            Start learning or use your business tools.
           </p>
 
         </div>
 
-
-        <button onclick="openPremium()">
-          Explore Premium →
-        </button>
-
-      </section>
+      </div>
 
 
-      <!-- ========================================= -->
-      <!-- FOOTER -->
-      <!-- ========================================= -->
+      <div class="quick-grid">
 
-      <footer>
 
-        <div>
-          © 2026 Aung Business Academy
+        <div
+          class="quick-card"
+          onclick="openLessons()">
+
+          <div class="quick-icon">
+            📚
+          </div>
+
+          <div>
+
+            <h3>
+              Business Lessons
+            </h3>
+
+            <p>
+              Learn business fundamentals step by step.
+            </p>
+
+            <span>
+              Explore Lessons →
+            </span>
+
+          </div>
+
         </div>
 
-        <div>
-          Learn • Build • Grow
-        </div>
 
-      </footer>
+        <div
+          class="quick-card"
+          onclick="openTools()">
 
-    </main>
-
-  </div>
-
-
-  <!-- ========================================= -->
-  <!-- BASIC JAVASCRIPT -->
-  <!-- ========================================= -->
-
-  <script>
-
-    function toggleMenu(id) {
-
-      const menu =
-        document.getElementById(id);
-
-      if (!menu) return;
-
-      menu.classList.toggle("show");
-
-    }
-
-
-    function toggleSidebar() {
-
-      const sidebar =
-        document.querySelector(".sidebar");
-
-      if (!sidebar) return;
-
-      sidebar.classList.toggle(
-        "mobile-open"
-      );
-
-    }
-
-  </script>
-
-
-  <!-- MAIN APP -->
-
-  <script src="app.js"></script>
-
-
-</body>
-
-</html>
+          <div class="quick-icon">
+            🛠️
+          </div>

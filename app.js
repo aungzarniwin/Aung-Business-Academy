@@ -1,243 +1,223 @@
 /* =========================================================
-   AUNG BUSINESS ACADEMY V6
-   APP.JS - FULL VERSION
-   ========================================================= */
-
-"use strict";
-
-/* =========================================================
-   APP STATE
+   AUNG BUSINESS ACADEMY
+   APP.JS V7
+   CLEAN PROFESSIONAL VERSION
 ========================================================= */
 
-const APP_VERSION = "6.0";
 
-const STORAGE_KEY = "aungBusinessAcademyV6";
+/* =========================================================
+   STORAGE
+========================================================= */
 
-const defaultState = {
+const STORAGE_KEY = "aungBusinessAcademyV7";
+
+
+/* =========================================================
+   COURSE DATA
+========================================================= */
+
+const DEFAULT_COURSES = [
+    {
+        id: "youtube",
+        title: "YouTube Beginner",
+        category: "youtube",
+        icon: "fa-brands fa-youtube",
+        color: "red",
+        description:
+            "Learn the fundamentals of YouTube and build a strong channel foundation.",
+        lessons: [
+            {
+                id: "yt-1",
+                title: "YouTube Foundation",
+                description: "Understand how YouTube works and how successful channels are built.",
+                content:
+                    "Start with the fundamentals. Understand your audience, niche, content format and the value you want to provide."
+            },
+            {
+                id: "yt-2",
+                title: "Channel Setup",
+                description: "Build a professional YouTube channel structure.",
+                content:
+                    "Set up your channel name, profile image, banner, description and basic channel settings."
+            },
+            {
+                id: "yt-3",
+                title: "Content Strategy",
+                description: "Create a practical content strategy for consistent growth.",
+                content:
+                    "Choose content pillars, create repeatable formats and plan videos around audience demand."
+            },
+            {
+                id: "yt-4",
+                title: "Thumbnail & Title",
+                description: "Improve CTR with better thumbnails and titles.",
+                content:
+                    "A strong thumbnail earns attention while a strong title creates curiosity. Both should clearly communicate the video's value."
+            },
+            {
+                id: "yt-5",
+                title: "Monetization Basics",
+                description: "Understand YouTube monetization and revenue fundamentals.",
+                content:
+                    "Learn the basic monetization model, RPM, CPM, watch time, audience geography and revenue optimization."
+            }
+        ]
+    },
+
+    {
+        id: "sales",
+        title: "Sales Management Mastery",
+        category: "sales",
+        icon: "fa-solid fa-chart-line",
+        color: "blue",
+        description:
+            "Develop practical sales management, team leadership and execution skills.",
+        lessons: [
+            {
+                id: "sales-1",
+                title: "Sales Target Planning",
+                description: "Convert sales targets into practical field execution.",
+                content:
+                    "Break the monthly target into weekly and daily targets. Identify the gap, prioritize opportunities and build an action plan."
+            },
+            {
+                id: "sales-2",
+                title: "Team Coaching",
+                description: "Build a high-performing sales team through coaching.",
+                content:
+                    "Use regular field coaching, performance reviews, feedback and clear expectations to develop your team."
+            },
+            {
+                id: "sales-3",
+                title: "Territory Management",
+                description: "Improve territory coverage and market execution.",
+                content:
+                    "Analyze territory potential, outlet coverage, distribution, customer segmentation and route productivity."
+            },
+            {
+                id: "sales-4",
+                title: "Performance Review",
+                description: "Manage KPIs and close performance gaps.",
+                content:
+                    "Review sales volume, revenue, distribution, productivity and achievement. Identify root causes and assign corrective actions."
+            }
+        ]
+    },
+
+    {
+        id: "business",
+        title: "Business Foundation",
+        category: "business",
+        icon: "fa-solid fa-briefcase",
+        color: "purple",
+        description:
+            "Understand the essential principles of building and managing a business.",
+        lessons: [
+            {
+                id: "business-1",
+                title: "Business Fundamentals",
+                description: "Understand the basic components of a successful business.",
+                content:
+                    "Every business needs a customer, a valuable offer, a delivery system and a sustainable financial model."
+            },
+            {
+                id: "business-2",
+                title: "Customer & Value",
+                description: "Understand customers and create meaningful value.",
+                content:
+                    "Identify customer needs, pain points and buying behavior. Build your offer around a real customer problem."
+            },
+            {
+                id: "business-3",
+                title: "Profit & Cash Flow",
+                description: "Understand the difference between sales, profit and cash flow.",
+                content:
+                    "Revenue is not profit. Track cost, gross margin, operating expenses and cash flow to understand the real health of a business."
+            }
+        ]
+    },
+
+    {
+        id: "marketing",
+        title: "Marketing & Growth",
+        category: "marketing",
+        icon: "fa-solid fa-bullhorn",
+        color: "orange",
+        description:
+            "Learn practical marketing strategies for customer acquisition and growth.",
+        lessons: [
+            {
+                id: "marketing-1",
+                title: "Marketing Basics",
+                description: "Understand positioning, audience and value proposition.",
+                content:
+                    "Good marketing starts with knowing exactly who you serve and why they should choose your product or service."
+            },
+            {
+                id: "marketing-2",
+                title: "Digital Growth",
+                description: "Use digital channels to attract and engage customers.",
+                content:
+                    "Build a consistent content strategy across relevant digital channels and measure engagement and conversion."
+            },
+            {
+                id: "marketing-3",
+                title: "Campaign Measurement",
+                description: "Measure campaign performance and optimize results.",
+                content:
+                    "Track reach, engagement, leads, conversion and return on investment. Improve campaigns based on data."
+            }
+        ]
+    }
+];
+
+
+/* =========================================================
+   DEFAULT STATE
+========================================================= */
+
+const DEFAULT_STATE = {
     user: {
         name: "Aung Zar Ni Win",
-        role: "Business Manager",
-        email: ""
+        role: "Business Manager"
     },
 
-    currentPage: "dashboard",
+    completedLessons: [],
 
-    streak: 7,
+    currentCourse: "youtube",
 
-    dailyGoal: {
-        completed: 0,
-        target: 1
-    },
+    currentLesson: null,
 
-    courses: [
-        {
-            id: "youtube-beginner",
-            title: "YouTube Beginner",
-            category: "youtube",
-            categoryLabel: "YOUTUBE BUSINESS",
-            description:
-                "Learn the fundamentals and build your YouTube foundation.",
-            icon: "fa-brands fa-youtube",
-            color: "red",
-            progress: 0,
-            lessons: [
-                {
-                    id: "yt-01",
-                    title: "YouTube Fundamentals",
-                    duration: "12 min",
-                    completed: false,
-                    content:
-                        "Learn how YouTube works, how channels grow and how to build a strong foundation."
-                },
-                {
-                    id: "yt-02",
-                    title: "Choosing Your Niche",
-                    duration: "15 min",
-                    completed: false,
-                    content:
-                        "Learn how to select a profitable and sustainable YouTube niche."
-                },
-                {
-                    id: "yt-03",
-                    title: "Channel Setup",
-                    duration: "18 min",
-                    completed: false,
-                    content:
-                        "Set up your channel name, description, branding and basic settings."
-                },
-                {
-                    id: "yt-04",
-                    title: "Titles & Thumbnails",
-                    duration: "20 min",
-                    completed: false,
-                    content:
-                        "Learn how to create stronger titles and thumbnails to improve CTR."
-                },
-                {
-                    id: "yt-05",
-                    title: "Watch Time & Retention",
-                    duration: "22 min",
-                    completed: false,
-                    content:
-                        "Understand audience retention and practical ways to increase watch time."
-                }
-            ]
-        },
+    streak: 0,
 
-        {
-            id: "sales-manager",
-            title: "Sales Management Mastery",
-            category: "sales",
-            categoryLabel: "SALES MANAGEMENT",
-            description:
-                "Build strong sales execution, coaching and performance management skills.",
-            icon: "fa-solid fa-bullseye",
-            color: "blue",
-            progress: 0,
-            lessons: [
-                {
-                    id: "sales-01",
-                    title: "Sales Target Planning",
-                    duration: "18 min",
-                    completed: false,
-                    content:
-                        "Learn how to convert business targets into practical field execution."
-                },
-                {
-                    id: "sales-02",
-                    title: "Territory Management",
-                    duration: "20 min",
-                    completed: false,
-                    content:
-                        "Learn territory planning, customer coverage and route-to-market execution."
-                },
-                {
-                    id: "sales-03",
-                    title: "Team Coaching",
-                    duration: "22 min",
-                    completed: false,
-                    content:
-                        "Build a coaching and empowerment culture while maintaining accountability."
-                },
-                {
-                    id: "sales-04",
-                    title: "Performance Review",
-                    duration: "18 min",
-                    completed: false,
-                    content:
-                        "Use KPIs, gap analysis and action plans to improve sales performance."
-                }
-            ]
-        },
+    dailyGoal: 1,
 
-        {
-            id: "business-foundation",
-            title: "Business Foundation",
-            category: "business",
-            categoryLabel: "BUSINESS",
-            description:
-                "Understand core business principles, profitability and decision making.",
-            icon: "fa-solid fa-building",
-            color: "purple",
-            progress: 0,
-            lessons: [
-                {
-                    id: "biz-01",
-                    title: "Business Fundamentals",
-                    duration: "15 min",
-                    completed: false,
-                    content:
-                        "Understand revenue, cost, profit, customers and business models."
-                },
-                {
-                    id: "biz-02",
-                    title: "Profit & Margin",
-                    duration: "20 min",
-                    completed: false,
-                    content:
-                        "Understand gross profit, margin and pricing decisions."
-                },
-                {
-                    id: "biz-03",
-                    title: "Business Decision Making",
-                    duration: "17 min",
-                    completed: false,
-                    content:
-                        "Use numbers and practical analysis to make better business decisions."
-                }
-            ]
-        },
-
-        {
-            id: "marketing-growth",
-            title: "Marketing & Growth",
-            category: "marketing",
-            categoryLabel: "MARKETING",
-            description:
-                "Learn practical marketing strategies for customer and business growth.",
-            icon: "fa-solid fa-bullhorn",
-            color: "orange",
-            progress: 0,
-            lessons: [
-                {
-                    id: "mkt-01",
-                    title: "Marketing Fundamentals",
-                    duration: "15 min",
-                    completed: false,
-                    content:
-                        "Understand customers, positioning, value propositions and marketing fundamentals."
-                },
-                {
-                    id: "mkt-02",
-                    title: "Customer Acquisition",
-                    duration: "19 min",
-                    completed: false,
-                    content:
-                        "Learn practical ways to attract, convert and retain customers."
-                },
-                {
-                    id: "mkt-03",
-                    title: "Growth Strategy",
-                    duration: "21 min",
-                    completed: false,
-                    content:
-                        "Build a practical growth strategy using customers, channels and execution."
-                }
-            ]
-        }
-    ],
+    dailyCompleted: 0,
 
     sales: {
-        monthlyTarget: 100000000,
-        actualSales: 72000000,
+        target: 10000000,
+        actual: 8200000,
         priorities: [
-            "Review sales target achievement",
-            "Identify underperforming territories",
-            "Coach sales team",
-            "Visit top customers"
+            "Review monthly sales achievement",
+            "Coach underperforming sales reps",
+            "Follow up key accounts"
         ]
+    },
+
+    settings: {
+        dailyGoalReminder: true,
+        notifications: true
     },
 
     activity: [
         {
-            icon: "fa-solid fa-user",
+            icon: "fa-solid fa-user-plus",
+            color: "blue",
             title: "Welcome to Aung Business Academy",
-            description: "Your V6 academy dashboard is ready.",
-            time: "Today"
-        },
-        {
-            icon: "fa-solid fa-graduation-cap",
-            title: "Learning journey started",
-            description: "You can now begin your first course.",
-            time: "Today"
+            text: "Your learning journey has started.",
+            time: "Just now"
         }
-    ],
-
-    settings: {
-        notifications: true,
-        learningReminder: true,
-        autoSave: true
-    }
+    ]
 };
 
 
@@ -247,104 +227,9 @@ const defaultState = {
 
 let state = loadState();
 
-let selectedCourseId = null;
-let selectedLessonId = null;
-
 
 /* =========================================================
-   DOM HELPER
-========================================================= */
-
-function $(selector) {
-    return document.querySelector(selector);
-}
-
-function $$(selector) {
-    return document.querySelectorAll(selector);
-}
-
-
-/* =========================================================
-   STORAGE
-========================================================= */
-
-function loadState() {
-
-    try {
-
-        const saved = localStorage.getItem(STORAGE_KEY);
-
-        if (!saved) {
-            return structuredClone(defaultState);
-        }
-
-        const parsed = JSON.parse(saved);
-
-        return mergeState(
-            structuredClone(defaultState),
-            parsed
-        );
-
-    } catch (error) {
-
-        console.error("State loading error:", error);
-
-        return structuredClone(defaultState);
-    }
-}
-
-
-function mergeState(base, saved) {
-
-    return {
-        ...base,
-        ...saved,
-
-        user: {
-            ...base.user,
-            ...(saved.user || {})
-        },
-
-        dailyGoal: {
-            ...base.dailyGoal,
-            ...(saved.dailyGoal || {})
-        },
-
-        sales: {
-            ...base.sales,
-            ...(saved.sales || {})
-        },
-
-        settings: {
-            ...base.settings,
-            ...(saved.settings || {})
-        },
-
-        courses: saved.courses || base.courses,
-
-        activity: saved.activity || base.activity
-    };
-}
-
-
-function saveState() {
-
-    try {
-
-        localStorage.setItem(
-            STORAGE_KEY,
-            JSON.stringify(state)
-        );
-
-    } catch (error) {
-
-        console.error("State saving error:", error);
-    }
-}
-
-
-/* =========================================================
-   INITIALIZATION
+   DOM READY
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -354,41 +239,210 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-function initializeApp() {
+/* =========================================================
+   INITIALIZE APP
+========================================================= */
 
-    updateCourseProgress();
+function initializeApp() {
 
     bindNavigation();
 
-    bindDashboardEvents();
+    bindDashboardActions();
 
-    bindCourseEvents();
+    bindCourseActions();
 
-    bindLessonEvents();
+    bindLessonActions();
 
-    bindSalesEvents();
+    bindSalesActions();
 
     bindCalculator();
 
-    bindAIEvents();
+    bindAI();
 
-    bindSettingsEvents();
+    bindSettings();
 
-    bindGlobalSearch();
-
-    bindModal();
+    bindSearch();
 
     bindMobileSidebar();
 
-    updateUserUI();
+    renderAll();
 
-    renderDashboard();
+}
 
-    showPage(state.currentPage);
 
-    console.log(
-        `Aung Business Academy V${APP_VERSION} initialized.`
+/* =========================================================
+   STORAGE FUNCTIONS
+========================================================= */
+
+function loadState() {
+
+    try {
+
+        const saved = localStorage.getItem(STORAGE_KEY);
+
+        if (!saved) {
+            return structuredClone(DEFAULT_STATE);
+        }
+
+        const parsed = JSON.parse(saved);
+
+        return {
+            ...structuredClone(DEFAULT_STATE),
+            ...parsed,
+
+            user: {
+                ...DEFAULT_STATE.user,
+                ...(parsed.user || {})
+            },
+
+            sales: {
+                ...DEFAULT_STATE.sales,
+                ...(parsed.sales || {})
+            },
+
+            settings: {
+                ...DEFAULT_STATE.settings,
+                ...(parsed.settings || {})
+            },
+
+            completedLessons:
+                Array.isArray(parsed.completedLessons)
+                    ? parsed.completedLessons
+                    : [],
+
+            activity:
+                Array.isArray(parsed.activity)
+                    ? parsed.activity
+                    : DEFAULT_STATE.activity
+        };
+
+    } catch (error) {
+
+        console.error("State loading error:", error);
+
+        return structuredClone(DEFAULT_STATE);
+    }
+}
+
+
+function saveState() {
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(state)
     );
+}
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function getCourses() {
+
+    return DEFAULT_COURSES;
+}
+
+
+function getCourse(courseId) {
+
+    return getCourses().find(
+        course => course.id === courseId
+    );
+}
+
+
+function getAllLessons() {
+
+    return getCourses().flatMap(
+        course => course.lessons
+    );
+}
+
+
+function getTotalCourses() {
+
+    return getCourses().length;
+}
+
+
+function getTotalLessons() {
+
+    return getAllLessons().length;
+}
+
+
+function getCompletedLessons() {
+
+    return state.completedLessons.length;
+}
+
+
+function getOverallProgress() {
+
+    const total = getTotalLessons();
+
+    if (total === 0) {
+        return 0;
+    }
+
+    return Math.round(
+        (getCompletedLessons() / total) * 100
+    );
+}
+
+
+function getCourseCompletedCount(courseId) {
+
+    const course = getCourse(courseId);
+
+    if (!course) {
+        return 0;
+    }
+
+    return course.lessons.filter(
+        lesson => state.completedLessons.includes(lesson.id)
+    ).length;
+}
+
+
+function getCourseProgress(courseId) {
+
+    const course = getCourse(courseId);
+
+    if (!course || course.lessons.length === 0) {
+        return 0;
+    }
+
+    const completed = getCourseCompletedCount(courseId);
+
+    return Math.round(
+        (completed / course.lessons.length) * 100
+    );
+}
+
+
+function formatNumber(value) {
+
+    return Number(value || 0).toLocaleString(
+        "en-US"
+    );
+}
+
+
+function formatCurrency(value) {
+
+    return formatNumber(
+        Math.round(value || 0)
+    );
+}
+
+
+function getFirstName() {
+
+    return state.user.name
+        .trim()
+        .split(" ")[0] || "Aung";
 }
 
 
@@ -398,236 +452,215 @@ function initializeApp() {
 
 function bindNavigation() {
 
-    $$(".nav-item").forEach(button => {
+    document.querySelectorAll(".nav-item").forEach(button => {
 
         button.addEventListener("click", () => {
 
             const page = button.dataset.page;
 
-            if (page) {
-                showPage(page);
-            }
-
-            closeMobileSidebar();
+            navigateTo(page);
 
         });
 
     });
 
 
-    $$("[data-page]").forEach(element => {
+    document.querySelectorAll("[data-page-action]").forEach(button => {
 
-        if (
-            !element.classList.contains("nav-item")
-        ) {
+        button.addEventListener("click", () => {
 
-            element.addEventListener("click", () => {
+            navigateTo(
+                button.dataset.pageAction
+            );
 
-                const page = element.dataset.page;
-
-                if (page) {
-                    showPage(page);
-                }
-
-            });
-
-        }
+        });
 
     });
 
 }
 
 
-function showPage(page) {
+function navigateTo(pageName) {
 
-    const validPage = document.querySelector(
-        `[data-page-content="${page}"]`
-    );
+    document.querySelectorAll(".page").forEach(page => {
 
-    if (!validPage) {
-        page = "dashboard";
-    }
-
-    state.currentPage = page;
-
-    saveState();
-
-    $$(".page").forEach(section => {
-
-        section.classList.remove("active");
+        page.classList.remove("active");
 
     });
 
-    const target = document.querySelector(
-        `[data-page-content="${page}"]`
-    );
 
-    if (target) {
-        target.classList.add("active");
+    const targetPage =
+        document.getElementById(
+            `page-${pageName}`
+        );
+
+
+    if (targetPage) {
+
+        targetPage.classList.add("active");
+
     }
 
 
-    $$(".nav-item").forEach(item => {
+    document.querySelectorAll(".nav-item").forEach(item => {
 
         item.classList.toggle(
             "active",
-            item.dataset.page === page
+            item.dataset.page === pageName
         );
 
     });
 
 
-    updateBreadcrumb(page);
+    const navItem =
+        document.querySelector(
+            `.nav-item[data-page="${pageName}"]`
+        );
 
 
-    switch (page) {
+    const title =
+        navItem
+            ? navItem.innerText.trim()
+            : "Dashboard";
 
-        case "dashboard":
-            renderDashboard();
-            break;
 
-        case "courses":
-            renderCourses();
-            break;
+    const breadcrumb =
+        document.getElementById(
+            "breadcrumbTitle"
+        );
 
-        case "lessons":
-            renderLessons();
-            break;
 
-        case "progress":
-            renderProgress();
-            break;
+    if (breadcrumb) {
 
-        case "sales":
-            renderSales();
-            break;
+        breadcrumb.textContent = title;
 
-        case "calculator":
-            break;
-
-        case "reports":
-            renderReports();
-            break;
-
-        case "ai-coach":
-            break;
-
-        case "ai-tools":
-            break;
-
-        case "settings":
-            renderSettings();
-            break;
     }
+
+
+    closeMobileSidebar();
+
 
     window.scrollTo({
         top: 0,
         behavior: "smooth"
     });
+
+
+    if (pageName === "courses") {
+        renderCourses();
+    }
+
+    if (pageName === "lessons") {
+        renderLessons();
+    }
+
+    if (pageName === "progress") {
+        renderProgress();
+    }
+
+    if (pageName === "sales") {
+        renderSales();
+    }
+
+    if (pageName === "reports") {
+        renderReports();
+    }
+
+    if (pageName === "settings") {
+        renderSettings();
+    }
+
 }
 
 
 /* =========================================================
-   BREADCRUMB
+   RENDER ALL
 ========================================================= */
 
-function updateBreadcrumb(page) {
+function renderAll() {
 
-    const names = {
+    renderUser();
 
-        dashboard: "Dashboard",
-        courses: "My Courses",
-        lessons: "Lessons",
-        progress: "My Progress",
-        sales: "Sales Manager",
-        calculator: "Pricing Calculator",
-        reports: "Reports",
-        "ai-coach": "AI Business Coach",
-        "ai-tools": "AI Tools",
-        settings: "Settings"
+    renderDashboard();
+
+    renderCourses();
+
+    renderLessons();
+
+    renderProgress();
+
+    renderSales();
+
+    renderReports();
+
+    renderSettings();
+
+    calculatePrice();
+
+}
+
+
+/* =========================================================
+   USER
+========================================================= */
+
+function renderUser() {
+
+    const name = state.user.name;
+    const role = state.user.role;
+
+
+    const elements = {
+
+        sidebarUserName:
+            document.getElementById(
+                "sidebarUserName"
+            ),
+
+        sidebarUserRole:
+            document.getElementById(
+                "sidebarUserRole"
+            ),
+
+        topUserName:
+            document.getElementById(
+                "topUserName"
+            ),
+
+        topUserRole:
+            document.getElementById(
+                "topUserRole"
+            ),
+
+        welcomeName:
+            document.getElementById(
+                "welcomeName"
+            )
 
     };
 
-    const current = $("#breadcrumbCurrent");
 
-    if (current) {
-        current.textContent =
-            names[page] || "Dashboard";
-    }
-}
-
-
-/* =========================================================
-   USER UI
-========================================================= */
-
-function updateUserUI() {
-
-    const name =
-        state.user.name || "Aung Zar Ni Win";
-
-    const role =
-        state.user.role || "Business Manager";
-
-    const firstName =
-        name.split(" ")[0] || "Aung";
-
-
-    const ids = [
-
-        "#sidebarUserName",
-        "#topbarUserName",
-        "#settingsName"
-
-    ];
-
-    ids.forEach(selector => {
-
-        const element = $(selector);
-
-        if (element) {
-            element.value !== undefined
-                ? element.value = name
-                : element.textContent = name;
-        }
-
-    });
-
-
-    const sidebarRole =
-        $("#sidebarUserRole");
-
-    if (sidebarRole) {
-        sidebarRole.textContent = role;
+    if (elements.sidebarUserName) {
+        elements.sidebarUserName.textContent = name;
     }
 
-
-    const settingsRole =
-        $("#settingsRole");
-
-    if (settingsRole) {
-        settingsRole.value = role;
+    if (elements.sidebarUserRole) {
+        elements.sidebarUserRole.textContent = role;
     }
 
-
-    const welcome =
-        $("#welcomeUserName");
-
-    if (welcome) {
-        welcome.textContent = firstName;
+    if (elements.topUserName) {
+        elements.topUserName.textContent = name;
     }
 
-
-    const settingsEmail =
-        $("#settingsEmail");
-
-    if (
-        settingsEmail &&
-        state.user.email
-    ) {
-        settingsEmail.value =
-            state.user.email;
+    if (elements.topUserRole) {
+        elements.topUserRole.textContent = role;
     }
+
+    if (elements.welcomeName) {
+        elements.welcomeName.textContent =
+            getFirstName();
+    }
+
 }
 
 
@@ -637,136 +670,166 @@ function updateUserUI() {
 
 function renderDashboard() {
 
-    updateCourseProgress();
-
     const totalCourses =
-        state.courses.length;
+        getTotalCourses();
 
     const totalLessons =
         getTotalLessons();
 
-    const completedLessons =
-        getCompletedLessons();
-
     const progress =
         getOverallProgress();
 
+    const completed =
+        getCompletedLessons();
+
 
     setText(
-        "#dashboardCourseCount",
+        "statCourses",
         totalCourses
     );
 
     setText(
-        "#dashboardLessonCount",
+        "statLessons",
         totalLessons
     );
 
     setText(
-        "#completedLessonText",
-        `${completedLessons} lessons`
+        "statProgress",
+        `${progress}%`
     );
 
     setText(
-        "#dashboardProgress",
-        progress
+        "statStreak",
+        `${state.streak} days`
     );
 
-    setWidth(
-        "#dashboardProgressBar",
-        progress
-    );
+
+    /* Current Course */
+
+    const course =
+        getCourse(
+            state.currentCourse
+        ) || getCourses()[0];
+
+
+    const courseCompleted =
+        getCourseCompletedCount(
+            course.id
+        );
+
+    const courseProgress =
+        getCourseProgress(
+            course.id
+        );
+
 
     setText(
-        "#dashboardStreak",
-        state.streak
+        "currentCourseTitle",
+        course.title
     );
 
 
-    const currentCourse =
-        getCurrentCourse();
+    setText(
+        "currentCoursePercent",
+        `${courseProgress}%`
+    );
 
-    if (currentCourse) {
 
-        setText(
-            "#currentCourseTitle",
-            currentCourse.title
+    setText(
+        "currentCourseLessons",
+        `${courseCompleted} / ${course.lessons.length} Lessons`
+    );
+
+
+    setText(
+        "currentCourseStatus",
+        courseProgress === 100
+            ? "Completed"
+            : courseProgress > 0
+                ? "In Progress"
+                : "Not Started"
+    );
+
+
+    const currentProgress =
+        document.getElementById(
+            "currentCourseProgress"
         );
 
-        setText(
-            "#currentCourseDescription",
-            currentCourse.description
-        );
 
-        setText(
-            "#currentCourseProgress",
-            `${currentCourse.progress}%`
-        );
+    if (currentProgress) {
 
-        setText(
-            "#currentCourseLesson",
-            `${getCompletedCourseLessons(currentCourse)} / ${currentCourse.lessons.length} Lessons`
-        );
-
-        setWidth(
-            "#currentCourseProgressBar",
-            currentCourse.progress
-        );
-
-        const icon =
-            document.querySelector(
-                ".course-cover-icon"
-            );
-
-        if (icon) {
-
-            icon.innerHTML =
-                `<i class="${currentCourse.icon}"></i>`;
-        }
+        currentProgress.style.width =
+            `${courseProgress}%`;
 
     }
 
 
-    renderRecentActivity();
+    /* Daily Goal */
 
-    renderRecommendations();
-
-    renderDailyGoal();
-
-    updateCourseBadge();
-}
-
-
-function getCurrentCourse() {
-
-    const inProgress =
-        state.courses.find(
-            course =>
-                course.progress > 0 &&
-                course.progress < 100
+    const dailyGoal =
+        Math.max(
+            1,
+            Number(state.dailyGoal || 1)
         );
 
-    return (
-        inProgress ||
-        state.courses.find(
-            course => course.progress === 0
-        ) ||
-        state.courses[0]
+
+    const dailyCompleted =
+        Math.min(
+            dailyGoal,
+            Number(state.dailyCompleted || 0)
+        );
+
+
+    const dailyPercent =
+        Math.round(
+            (dailyCompleted / dailyGoal) * 100
+        );
+
+
+    setText(
+        "goalPercent",
+        `${dailyPercent}%`
     );
+
+
+    setText(
+        "goalCompleted",
+        `${dailyCompleted} / ${dailyGoal} lesson`
+    );
+
+
+    renderActivity();
+
 }
 
 
-function renderRecentActivity() {
+/* =========================================================
+   ACTIVITY
+========================================================= */
+
+function renderActivity() {
 
     const container =
-        $("#recentActivityList");
+        document.getElementById(
+            "activityList"
+        );
 
-    if (!container) return;
 
-    if (!state.activity.length) {
+    if (!container) {
+        return;
+    }
+
+
+    const activities =
+        state.activity.slice(0, 6);
+
+
+    if (activities.length === 0) {
 
         container.innerHTML = `
-            <div class="empty-state compact">
+            <div class="empty-state">
+                <i class="fa-regular fa-clock"></i>
                 <p>No recent activity yet.</p>
             </div>
         `;
@@ -776,476 +839,229 @@ function renderRecentActivity() {
 
 
     container.innerHTML =
-        state.activity
-            .slice(0, 5)
-            .map(item => `
+        activities.map(activity => {
 
+            return `
                 <div class="activity-item">
 
-                    <div class="activity-icon">
-                        <i class="${item.icon}"></i>
+                    <div class="activity-icon ${activity.color || "blue"}">
+                        <i class="${activity.icon || "fa-solid fa-circle"}"></i>
                     </div>
 
                     <div class="activity-content">
 
                         <strong>
-                            ${escapeHTML(item.title)}
+                            ${escapeHTML(activity.title)}
                         </strong>
 
                         <span>
-                            ${escapeHTML(item.description)}
+                            ${escapeHTML(activity.text)}
                         </span>
 
                     </div>
 
                     <time>
-                        ${escapeHTML(item.time)}
+                        ${escapeHTML(activity.time)}
                     </time>
 
                 </div>
+            `;
 
-            `)
-            .join("");
-}
+        }).join("");
 
-
-function renderRecommendations() {
-
-    const container =
-        $("#recommendationList");
-
-    if (!container) return;
-
-    const recommendations =
-        state.courses
-            .filter(course => course.progress < 100)
-            .slice(0, 3);
-
-
-    if (!recommendations.length) {
-
-        container.innerHTML = `
-            <div class="empty-state compact">
-                <p>All courses completed 🎉</p>
-            </div>
-        `;
-
-        return;
-    }
-
-
-    container.innerHTML =
-        recommendations
-            .map(course => `
-
-                <button
-                    class="recommendation-item"
-                    data-course-id="${course.id}"
-                    type="button"
-                >
-
-                    <div class="recommendation-icon ${course.color}">
-                        <i class="${course.icon}"></i>
-                    </div>
-
-                    <div class="recommendation-content">
-
-                        <strong>
-                            ${escapeHTML(course.title)}
-                        </strong>
-
-                        <span>
-                            ${course.progress}% complete
-                        </span>
-
-                    </div>
-
-                    <i class="fa-solid fa-chevron-right"></i>
-
-                </button>
-
-            `)
-            .join("");
-
-
-    $$(".recommendation-item").forEach(item => {
-
-        item.addEventListener("click", () => {
-
-            const course =
-                state.courses.find(
-                    c =>
-                        c.id === item.dataset.courseId
-                );
-
-            if (course) {
-                openCourse(course.id);
-            }
-
-        });
-
-    });
-}
-
-
-function renderDailyGoal() {
-
-    const completed =
-        state.dailyGoal.completed;
-
-    const target =
-        state.dailyGoal.target || 1;
-
-    const percent =
-        Math.min(
-            100,
-            Math.round(
-                (completed / target) * 100
-            )
-        );
-
-
-    setText(
-        "#dailyGoalPercent",
-        `${percent}%`
-    );
-
-    setText(
-        "#dailyGoalTitle",
-        percent >= 100
-            ? "Daily goal completed!"
-            : "Today's learning goal"
-    );
-
-    setText(
-        "#dailyGoalText",
-        percent >= 100
-            ? "Excellent work. Keep your momentum going."
-            : `${completed} of ${target} lesson completed today.`
-    );
-
-
-    const circle =
-        $("#dailyGoalCircle");
-
-    if (circle) {
-
-        circle.style.background =
-            `conic-gradient(
-                var(--primary, #2563eb)
-                ${percent * 3.6}deg,
-                #e5e7eb ${percent * 3.6}deg
-            )`;
-    }
-}
-
-
-function updateCourseBadge() {
-
-    setText(
-        "#courseCountBadge",
-        state.courses.length
-    );
 }
 
 
 /* =========================================================
-   COURSE FUNCTIONS
+   COURSES
 ========================================================= */
 
-function bindCourseEvents() {
+function bindCourseActions() {
 
-    const filters =
-        $$(".filter-btn");
+    document.querySelectorAll(".filter-tab").forEach(tab => {
 
-    filters.forEach(button => {
+        tab.addEventListener("click", () => {
 
-        button.addEventListener(
-            "click",
-            () => {
+            document
+                .querySelectorAll(".filter-tab")
+                .forEach(item => {
+                    item.classList.remove("active");
+                });
 
-                filters.forEach(
-                    item =>
-                        item.classList.remove("active")
-                );
 
-                button.classList.add("active");
+            tab.classList.add("active");
 
-                renderCourses(
-                    button.dataset.courseFilter
-                );
 
-            }
-        );
+            renderCourses(
+                tab.dataset.filter
+            );
+
+        });
 
     });
 
 
-    const viewAll =
-        $("#viewAllCoursesBtn");
+    document.querySelectorAll("[data-course]").forEach(button => {
 
-    if (viewAll) {
+        button.addEventListener("click", () => {
 
-        viewAll.addEventListener(
-            "click",
-            () => showPage("courses")
-        );
-    }
+            const courseId =
+                button.dataset.course;
 
+            state.currentCourse =
+                courseId;
 
-    const resume =
-        $("#resumeCourseBtn");
+            saveState();
 
-    if (resume) {
+            navigateTo("lessons");
 
-        resume.addEventListener(
-            "click",
-            () => {
+            renderLessons();
 
-                const course =
-                    getCurrentCourse();
+        });
 
-                if (course) {
-                    openCourse(course.id);
-                }
+    });
 
-            }
-        );
-    }
-
-
-    const continueBtn =
-        $("#continueLearningBtn");
-
-    if (continueBtn) {
-
-        continueBtn.addEventListener(
-            "click",
-            () => {
-
-                const course =
-                    getCurrentCourse();
-
-                if (course) {
-                    openCourse(course.id);
-                }
-
-            }
-        );
-    }
-
-
-    const goalBtn =
-        $("#dailyGoalBtn");
-
-    if (goalBtn) {
-
-        goalBtn.addEventListener(
-            "click",
-            () => {
-
-                const course =
-                    getCurrentCourse();
-
-                if (course) {
-                    openCourse(course.id);
-                }
-
-            }
-        );
-    }
-
-
-    const courseSearch =
-        $("#courseSearchBtn");
-
-    if (courseSearch) {
-
-        courseSearch.addEventListener(
-            "click",
-            () => {
-
-                showPage("courses");
-
-                setTimeout(() => {
-
-                    const search =
-                        $("#globalSearch");
-
-                    if (search) {
-                        search.focus();
-                    }
-
-                }, 100);
-
-            }
-        );
-    }
 }
 
 
 function renderCourses(filter = "all") {
 
-    const grid =
-        $("#coursesGrid");
-
-    if (!grid) return;
-
-
-    const courses =
-        filter === "all"
-            ? state.courses
-            : state.courses.filter(
-                course =>
-                    course.category === filter
-            );
+    const container =
+        document.getElementById(
+            "coursesGrid"
+        );
 
 
-    if (!courses.length) {
-
-        grid.innerHTML = `
-            <div class="empty-state">
-                <div class="empty-icon">
-                    <i class="fa-solid fa-book"></i>
-                </div>
-                <h3>No courses found</h3>
-                <p>Try another category.</p>
-            </div>
-        `;
-
+    if (!container) {
         return;
     }
 
 
-    grid.innerHTML =
-        courses
-            .map(course => `
+    let courses = getCourses();
 
-                <article
-                    class="course-card"
-                    data-course-id="${course.id}"
-                >
 
-                    <div class="course-card-cover ${course.color}">
+    if (filter !== "all") {
 
-                        <div class="course-card-icon">
+        courses =
+            courses.filter(
+                course =>
+                    course.category === filter
+            );
+
+    }
+
+
+    container.innerHTML =
+        courses.map(course => {
+
+            const completed =
+                getCourseCompletedCount(
+                    course.id
+                );
+
+            const progress =
+                getCourseProgress(
+                    course.id
+                );
+
+
+            return `
+                <div class="course-card">
+
+                    <div class="course-card-top">
+
+                        <div class="course-icon ${course.color}">
                             <i class="${course.icon}"></i>
                         </div>
 
-                        <span class="course-category-badge">
-                            ${escapeHTML(course.categoryLabel)}
+                        <span class="course-badge ${course.category}">
+                            ${capitalize(course.category)}
                         </span>
 
                     </div>
 
 
-                    <div class="course-card-body">
-
-                        <h3>
-                            ${escapeHTML(course.title)}
-                        </h3>
-
-                        <p>
-                            ${escapeHTML(course.description)}
-                        </p>
+                    <h3>
+                        ${escapeHTML(course.title)}
+                    </h3>
 
 
-                        <div class="course-card-meta">
-
-                            <span>
-                                <i class="fa-solid fa-book-open"></i>
-                                ${course.lessons.length} Lessons
-                            </span>
-
-                            <span>
-                                ${course.progress}%
-                            </span>
-
-                        </div>
+                    <p>
+                        ${escapeHTML(course.description)}
+                    </p>
 
 
-                        <div class="progress-track">
+                    <div class="course-meta">
 
-                            <div
-                                class="progress-fill"
-                                style="width:${course.progress}%"
-                            ></div>
+                        <span>
+                            <i class="fa-regular fa-file-lines"></i>
+                            ${course.lessons.length} Lessons
+                        </span>
 
-                        </div>
+                        <strong>
+                            ${progress}%
+                        </strong>
 
+                    </div>
+
+
+                    <div class="progress-bar small">
+
+                        <div
+                            class="progress-fill ${course.color}-fill"
+                            style="width:${progress}%"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="course-card-footer">
+
+                        <span>
+                            ${completed} / ${course.lessons.length}
+                            completed
+                        </span>
 
                         <button
-                            class="btn btn-secondary btn-small course-open-btn"
-                            data-course-id="${course.id}"
-                            type="button"
+                            class="primary-btn small-btn"
+                            data-open-course="${course.id}"
                         >
-
-                            ${
-                                course.progress >= 100
-                                    ? "Review Course"
-                                    : course.progress > 0
-                                        ? "Continue Course"
-                                        : "Start Course"
-                            }
-
+                            ${progress > 0 ? "Continue" : "Start Course"}
                             <i class="fa-solid fa-arrow-right"></i>
-
                         </button>
 
                     </div>
 
-                </article>
+                </div>
+            `;
 
-            `)
-            .join("");
-
-
-    $$(".course-open-btn").forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                openCourse(
-                    button.dataset.courseId
-                );
-
-            }
-        );
-
-    });
-}
+        }).join("");
 
 
-function openCourse(courseId) {
+    container
+        .querySelectorAll(
+            "[data-open-course]"
+        )
+        .forEach(button => {
 
-    selectedCourseId = courseId;
+            button.addEventListener(
+                "click",
+                () => {
 
-    const course =
-        state.courses.find(
-            item => item.id === courseId
-        );
+                    state.currentCourse =
+                        button.dataset.openCourse;
 
-    if (!course) return;
+                    saveState();
 
-    selectedLessonId =
-        course.lessons.find(
-            lesson => !lesson.completed
-        )?.id ||
-        course.lessons[0]?.id ||
-        null;
+                    navigateTo("lessons");
 
+                    renderLessons();
 
-    showPage("lessons");
+                }
+            );
 
-    renderLessons();
+        });
 
-    if (selectedLessonId) {
-        renderLessonContent(
-            course,
-            selectedLessonId
-        );
-    }
 }
 
 
@@ -1253,564 +1069,524 @@ function openCourse(courseId) {
    LESSONS
 ========================================================= */
 
-function bindLessonEvents() {
+function bindLessonActions() {
 
-    const sidebar =
-        $("#lessonSidebar");
+    const completeButton =
+        document.getElementById(
+            "completeLessonBtn"
+        );
 
-    if (!sidebar) return;
+
+    if (completeButton) {
+
+        completeButton.addEventListener(
+            "click",
+            completeCurrentLesson
+        );
+
+    }
+
+
+    const nextButton =
+        document.getElementById(
+            "nextLessonBtn"
+        );
+
+
+    if (nextButton) {
+
+        nextButton.addEventListener(
+            "click",
+            nextLesson
+        );
+
+    }
+
+
+    const previousButton =
+        document.getElementById(
+            "previousLessonBtn"
+        );
+
+
+    if (previousButton) {
+
+        previousButton.addEventListener(
+            "click",
+            previousLesson
+        );
+
+    }
+
+
+    const continueButton =
+        document.getElementById(
+            "continueCourseBtn"
+        );
+
+
+    if (continueButton) {
+
+        continueButton.addEventListener(
+            "click",
+            () => {
+
+                navigateTo("lessons");
+
+                renderLessons();
+
+            }
+        );
+
+    }
+
+
+    const dailyGoalButton =
+        document.getElementById(
+            "dailyGoalBtn"
+        );
+
+
+    if (dailyGoalButton) {
+
+        dailyGoalButton.addEventListener(
+            "click",
+            () => {
+
+                navigateTo("lessons");
+
+                renderLessons();
+
+            }
+        );
+
+    }
+
 }
 
 
 function renderLessons() {
 
-    const sidebar =
-        $("#lessonSidebar");
-
-    if (!sidebar) return;
-
-
-    const course =
-        state.courses.find(
-            item => item.id === selectedCourseId
-        ) || getCurrentCourse();
+    const courseList =
+        document.getElementById(
+            "lessonCourseList"
+        );
 
 
-    if (!course) {
-
-        sidebar.innerHTML = `
-            <div class="empty-state compact">
-                <p>No course selected.</p>
-            </div>
-        `;
-
+    if (!courseList) {
         return;
     }
 
 
-    selectedCourseId = course.id;
+    const courses =
+        getCourses();
 
 
-    sidebar.innerHTML = `
+    courseList.innerHTML =
+        courses.map(course => {
 
-        <div class="lesson-course-header">
-
-            <div class="lesson-course-icon ${course.color}">
-                <i class="${course.icon}"></i>
-            </div>
-
-            <div>
-
-                <strong>
-                    ${escapeHTML(course.title)}
-                </strong>
-
-                <span>
-                    ${course.progress}% complete
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <div class="lesson-course-progress">
-
-            <div class="progress-track">
-
-                <div
-                    class="progress-fill"
-                    style="width:${course.progress}%"
-                ></div>
-
-            </div>
-
-        </div>
-
-
-        <div class="lesson-list">
-
-            ${course.lessons
-                .map((lesson, index) => `
-
-                    <button
-                        class="lesson-item ${
-                            lesson.id === selectedLessonId
-                                ? "active"
-                                : ""
-                        }"
-                        data-lesson-id="${lesson.id}"
-                        type="button"
-                    >
-
-                        <span class="lesson-number">
-
-                            ${
-                                lesson.completed
-                                    ? `<i class="fa-solid fa-check"></i>`
-                                    : index + 1
-                            }
-
-                        </span>
-
-                        <span class="lesson-info">
-
-                            <strong>
-                                ${escapeHTML(lesson.title)}
-                            </strong>
-
-                            <small>
-                                ${escapeHTML(lesson.duration)}
-                            </small>
-
-                        </span>
-
-                    </button>
-
-                `)
-                .join("")}
-
-        </div>
-    `;
-
-
-    $$(".lesson-item").forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                selectedLessonId =
-                    button.dataset.lessonId;
-
-                renderLessons();
-
-                renderLessonContent(
-                    course,
-                    selectedLessonId
+            const completed =
+                getCourseCompletedCount(
+                    course.id
                 );
 
-            }
-        );
-
-    });
-}
-
-
-function renderLessonContent(course, lessonId) {
-
-    const container =
-        $("#lessonContent");
-
-    if (!container) return;
+            const progress =
+                getCourseProgress(
+                    course.id
+                );
 
 
-    const lesson =
-        course.lessons.find(
-            item => item.id === lessonId
-        );
-
-    if (!lesson) return;
-
-
-    const nextLesson =
-        getNextLesson(course, lesson.id);
-
-
-    container.innerHTML = `
-
-        <div class="lesson-view">
-
-            <div class="lesson-view-header">
-
-                <span class="card-eyebrow">
-                    ${escapeHTML(course.categoryLabel)}
-                </span>
-
-                <h2>
-                    ${escapeHTML(lesson.title)}
-                </h2>
-
-                <div class="lesson-meta">
-
-                    <span>
-                        <i class="fa-regular fa-clock"></i>
-                        ${escapeHTML(lesson.duration)}
-                    </span>
-
-                    ${
-                        lesson.completed
-                            ? `
-                                <span class="lesson-completed">
-                                    <i class="fa-solid fa-circle-check"></i>
-                                    Completed
-                                </span>
-                            `
-                            : ""
-                    }
-
-                </div>
-
-            </div>
-
-
-            <div class="lesson-body">
-
-                <div class="lesson-content-text">
-
-                    <p>
-                        ${escapeHTML(lesson.content)}
-                    </p>
-
-
-                    <h3>
-                        Key Takeaways
-                    </h3>
-
-                    <ul>
-
-                        <li>
-                            Understand the core concept.
-                        </li>
-
-                        <li>
-                            Apply the concept to your business.
-                        </li>
-
-                        <li>
-                            Measure the result and improve execution.
-                        </li>
-
-                    </ul>
-
-                </div>
-
-
-                <div class="lesson-action-panel">
-
-                    <div class="lesson-action-icon">
-                        <i class="fa-solid fa-lightbulb"></i>
-                    </div>
-
-                    <strong>
-                        Practical Action
-                    </strong>
-
-                    <p>
-                        Apply this lesson to one real business situation today.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="lesson-footer">
-
+            return `
                 <button
-                    class="btn ${
-                        lesson.completed
-                            ? "btn-secondary"
-                            : "btn-primary"
+                    class="lesson-course-item ${
+                        state.currentCourse === course.id
+                            ? "active"
+                            : ""
                     }"
-                    id="completeLessonBtn"
-                    type="button"
+                    data-select-course="${course.id}"
                 >
 
-                    <i class="fa-solid ${
-                        lesson.completed
-                            ? "fa-rotate-left"
-                            : "fa-check"
-                    }"></i>
+                    <div class="lesson-course-icon ${course.color}">
+                        <i class="${course.icon}"></i>
+                    </div>
 
-                    ${
-                        lesson.completed
-                            ? "Mark as Incomplete"
-                            : "Mark as Complete"
-                    }
+                    <div class="lesson-course-info">
+
+                        <strong>
+                            ${escapeHTML(course.title)}
+                        </strong>
+
+                        <span>
+                            ${completed}/${course.lessons.length}
+                            completed
+                        </span>
+
+                    </div>
+
+                    <div class="mini-progress">
+                        <div
+                            style="width:${progress}%"
+                        ></div>
+                    </div>
 
                 </button>
+            `;
+
+        }).join("");
 
 
-                ${
-                    nextLesson
-                        ? `
-                            <button
-                                class="btn btn-secondary"
-                                id="nextLessonBtn"
-                                type="button"
-                            >
+    courseList
+        .querySelectorAll(
+            "[data-select-course]"
+        )
+        .forEach(button => {
 
-                                Next Lesson
+            button.addEventListener(
+                "click",
+                () => {
 
-                                <i class="fa-solid fa-arrow-right"></i>
+                    state.currentCourse =
+                        button.dataset.selectCourse;
 
-                            </button>
-                        `
-                        : `
-                            <button
-                                class="btn btn-primary"
-                                id="finishCourseBtn"
-                                type="button"
-                            >
+                    state.currentLesson = null;
 
-                                Finish Course
+                    saveState();
 
-                                <i class="fa-solid fa-trophy"></i>
+                    renderLessons();
 
-                            </button>
-                        `
                 }
+            );
 
-            </div>
+        });
 
-        </div>
-    `;
-
-
-    const completeBtn =
-        $("#completeLessonBtn");
-
-    if (completeBtn) {
-
-        completeBtn.addEventListener(
-            "click",
-            () => {
-
-                toggleLessonCompletion(
-                    course.id,
-                    lesson.id
-                );
-
-            }
-        );
-    }
-
-
-    const nextBtn =
-        $("#nextLessonBtn");
-
-    if (nextBtn && nextLesson) {
-
-        nextBtn.addEventListener(
-            "click",
-            () => {
-
-                selectedLessonId =
-                    nextLesson.id;
-
-                renderLessons();
-
-                renderLessonContent(
-                    course,
-                    selectedLessonId
-                );
-
-            }
-        );
-    }
-
-
-    const finishBtn =
-        $("#finishCourseBtn");
-
-    if (finishBtn) {
-
-        finishBtn.addEventListener(
-            "click",
-            () => {
-
-                showToast(
-                    "Course completed! Great work.",
-                    "success"
-                );
-
-                addActivity(
-                    "fa-solid fa-trophy",
-                    "Course completed",
-                    course.title
-                );
-
-                renderDashboard();
-
-            }
-        );
-    }
-}
-
-
-function toggleLessonCompletion(
-    courseId,
-    lessonId
-) {
 
     const course =
-        state.courses.find(
-            item => item.id === courseId
-        );
+        getCourse(
+            state.currentCourse
+        ) || courses[0];
 
-    if (!course) return;
+
+    if (!course) {
+        return;
+    }
+
+
+    if (
+        !state.currentLesson ||
+        !course.lessons.some(
+            lesson =>
+                lesson.id === state.currentLesson
+        )
+    ) {
+
+        const firstIncomplete =
+            course.lessons.find(
+                lesson =>
+                    !state.completedLessons.includes(
+                        lesson.id
+                    )
+            );
+
+
+        state.currentLesson =
+            firstIncomplete
+                ? firstIncomplete.id
+                : course.lessons[0].id;
+
+    }
 
 
     const lesson =
         course.lessons.find(
-            item => item.id === lessonId
+            item =>
+                item.id === state.currentLesson
         );
 
-    if (!lesson) return;
 
-
-    lesson.completed =
-        !lesson.completed;
-
-
-    updateCourseProgress();
-
-
-    if (lesson.completed) {
-
-        state.dailyGoal.completed =
-            Math.min(
-                state.dailyGoal.target,
-                state.dailyGoal.completed + 1
-            );
-
-        addActivity(
-            "fa-solid fa-check",
-            "Lesson completed",
-            lesson.title
-        );
-
-        showToast(
-            "Lesson completed successfully.",
-            "success"
-        );
-
-    } else {
-
-        state.dailyGoal.completed =
-            Math.max(
-                0,
-                state.dailyGoal.completed - 1
-            );
-
-        showToast(
-            "Lesson marked as incomplete.",
-            "info"
-        );
+    if (!lesson) {
+        return;
     }
 
 
-    saveState();
+    const lessonIndex =
+        course.lessons.findIndex(
+            item =>
+                item.id === lesson.id
+        );
 
-    renderLessons();
 
-    renderLessonContent(
-        course,
+    setText(
+        "lessonTitle",
+        lesson.title
+    );
+
+
+    setText(
+        "lessonDescription",
+        lesson.description
+    );
+
+
+    setText(
+        "lessonHeading",
+        lesson.title
+    );
+
+
+    setText(
+        "lessonText",
+        lesson.content
+    );
+
+
+    setText(
+        "lessonNumber",
+        String(lessonIndex + 1).padStart(2, "0")
+    );
+
+
+    const completeButton =
+        document.getElementById(
+            "completeLessonBtn"
+        );
+
+
+    if (completeButton) {
+
+        const isCompleted =
+            state.completedLessons.includes(
+                lesson.id
+            );
+
+
+        completeButton.innerHTML =
+            isCompleted
+                ? `
+                    <i class="fa-solid fa-check"></i>
+                    Completed
+                  `
+                : `
+                    Mark Complete
+                    <i class="fa-solid fa-check"></i>
+                  `;
+
+
+        completeButton.classList.toggle(
+            "completed",
+            isCompleted
+        );
+
+    }
+
+
+    const previousButton =
+        document.getElementById(
+            "previousLessonBtn"
+        );
+
+
+    const nextButton =
+        document.getElementById(
+            "nextLessonBtn"
+        );
+
+
+    if (previousButton) {
+
+        previousButton.disabled =
+            lessonIndex === 0;
+
+    }
+
+
+    if (nextButton) {
+
+        nextButton.disabled =
+            lessonIndex ===
+            course.lessons.length - 1;
+
+    }
+
+}
+
+
+function completeCurrentLesson() {
+
+    const course =
+        getCourse(
+            state.currentCourse
+        );
+
+
+    if (!course) {
+        return;
+    }
+
+
+    const lesson =
+        course.lessons.find(
+            item =>
+                item.id === state.currentLesson
+        );
+
+
+    if (!lesson) {
+        return;
+    }
+
+
+    const alreadyCompleted =
+        state.completedLessons.includes(
+            lesson.id
+        );
+
+
+    if (alreadyCompleted) {
+
+        showToast(
+            "Already Completed",
+            "This lesson has already been completed."
+        );
+
+        return;
+
+    }
+
+
+    state.completedLessons.push(
         lesson.id
     );
 
-    renderDashboard();
 
-    renderProgress();
-}
-
-
-function getNextLesson(course, lessonId) {
-
-    const index =
-        course.lessons.findIndex(
-            lesson => lesson.id === lessonId
+    state.dailyCompleted =
+        Math.min(
+            state.dailyGoal,
+            state.dailyCompleted + 1
         );
 
-    if (
-        index === -1 ||
-        index >= course.lessons.length - 1
-    ) {
-        return null;
-    }
 
-    return course.lessons[index + 1];
-}
+    state.streak =
+        Math.max(
+            state.streak,
+            1
+        );
 
 
-/* =========================================================
-   COURSE PROGRESS
-========================================================= */
+    state.activity.unshift({
 
-function updateCourseProgress() {
+        icon: "fa-solid fa-check",
 
-    state.courses.forEach(course => {
+        color: "green",
 
-        const total =
-            course.lessons.length;
+        title: `Completed: ${lesson.title}`,
 
-        const completed =
-            course.lessons.filter(
-                lesson => lesson.completed
-            ).length;
+        text: course.title,
 
-
-        course.progress =
-            total === 0
-                ? 0
-                : Math.round(
-                    (completed / total) * 100
-                );
+        time: "Just now"
 
     });
 
+
+    state.activity =
+        state.activity.slice(0, 10);
+
+
     saveState();
-}
 
 
-function getCompletedCourseLessons(course) {
+    renderAll();
 
-    return course.lessons.filter(
-        lesson => lesson.completed
-    ).length;
-}
+    renderLessons();
 
 
-function getTotalLessons() {
-
-    return state.courses.reduce(
-        (total, course) =>
-            total + course.lessons.length,
-        0
+    showToast(
+        "Lesson Completed",
+        "Great work! Your progress has been updated."
     );
+
 }
 
 
-function getCompletedLessons() {
+function nextLesson() {
 
-    return state.courses.reduce(
-        (total, course) =>
-            total +
-            getCompletedCourseLessons(course),
-        0
-    );
+    const course =
+        getCourse(
+            state.currentCourse
+        );
+
+
+    if (!course) {
+        return;
+    }
+
+
+    const index =
+        course.lessons.findIndex(
+            lesson =>
+                lesson.id === state.currentLesson
+        );
+
+
+    if (
+        index >= 0 &&
+        index < course.lessons.length - 1
+    ) {
+
+        state.currentLesson =
+            course.lessons[index + 1].id;
+
+        saveState();
+
+        renderLessons();
+
+    } else {
+
+        showToast(
+            "Course Complete",
+            "You have reached the last lesson."
+        );
+
+    }
+
 }
 
 
-function getOverallProgress() {
+function previousLesson() {
 
-    const total =
-        getTotalLessons();
+    const course =
+        getCourse(
+            state.currentCourse
+        );
 
-    const completed =
-        getCompletedLessons();
 
-    if (!total) return 0;
+    if (!course) {
+        return;
+    }
 
-    return Math.round(
-        (completed / total) * 100
-    );
+
+    const index =
+        course.lessons.findIndex(
+            lesson =>
+                lesson.id === state.currentLesson
+        );
+
+
+    if (index > 0) {
+
+        state.currentLesson =
+            course.lessons[index - 1].id;
+
+        saveState();
+
+        renderLessons();
+
+    }
+
 }
 
 
 /* =========================================================
-   PROGRESS PAGE
+   PROGRESS
 ========================================================= */
 
 function renderProgress() {
@@ -1821,70 +1597,104 @@ function renderProgress() {
     const completed =
         getCompletedLessons();
 
+    const total =
+        getTotalLessons();
+
 
     setText(
-        "#progressOverall",
-        progress
+        "overallProgressLarge",
+        `${progress}%`
     );
 
-    setWidth(
-        "#progressOverallBar",
-        progress
-    );
 
     setText(
-        "#progressCompletedLessons",
+        "progressLessonText",
+        `${completed} of ${total} lessons completed`
+    );
+
+
+    setText(
+        "progressStreak",
+        `${state.streak} days`
+    );
+
+
+    setText(
+        "progressCompleted",
         completed
     );
 
-    setText(
-        "#progressStreak",
-        state.streak
-    );
+
+    const progressBar =
+        document.getElementById(
+            "overallProgressBar"
+        );
+
+
+    if (progressBar) {
+
+        progressBar.style.width =
+            `${progress}%`;
+
+    }
 
 
     const container =
-        $("#progressCourseList");
+        document.getElementById(
+            "courseProgressList"
+        );
 
-    if (!container) return;
+
+    if (!container) {
+        return;
+    }
 
 
     container.innerHTML =
-        state.courses
-            .map(course => `
+        getCourses().map(course => {
 
-                <div class="progress-course-item">
+            const completedCount =
+                getCourseCompletedCount(
+                    course.id
+                );
 
-                    <div class="progress-course-info">
+            const courseProgress =
+                getCourseProgress(
+                    course.id
+                );
 
-                        <div class="progress-course-icon ${course.color}">
+
+            return `
+                <div class="course-progress-row">
+
+                    <div class="course-progress-name">
+
+                        <div class="course-icon small ${course.color}">
                             <i class="${course.icon}"></i>
                         </div>
 
                         <div>
-
                             <strong>
                                 ${escapeHTML(course.title)}
                             </strong>
 
                             <span>
-                                ${getCompletedCourseLessons(course)}
-                                / ${course.lessons.length}
+                                ${completedCount} /
+                                ${course.lessons.length}
                                 lessons
                             </span>
-
                         </div>
 
                     </div>
 
 
-                    <div class="progress-course-bar">
+                    <div class="course-progress-track">
 
-                        <div class="progress-track">
+                        <div class="progress-bar">
 
                             <div
-                                class="progress-fill"
-                                style="width:${course.progress}%"
+                                class="progress-fill ${course.color}-fill"
+                                style="width:${courseProgress}%"
                             ></div>
 
                         </div>
@@ -1892,114 +1702,55 @@ function renderProgress() {
                     </div>
 
 
-                    <strong class="progress-percent">
-                        ${course.progress}%
+                    <strong class="course-progress-percent">
+                        ${courseProgress}%
                     </strong>
 
                 </div>
+            `;
 
-            `)
-            .join("");
+        }).join("");
+
 }
 
 
 /* =========================================================
-   SALES MANAGER
+   SALES
 ========================================================= */
 
-function bindSalesEvents() {
+function bindSalesActions() {
 
-    const addTarget =
-        $("#salesAddTargetBtn");
-
-    if (addTarget) {
-
-        addTarget.addEventListener(
-            "click",
-            () => {
-
-                openModal(
-                    "Add Sales Target",
-                    `
-                        <form id="targetForm" class="business-form">
-
-                            <div class="form-group">
-
-                                <label>
-                                    Monthly Target
-                                </label>
-
-                                <input
-                                    type="number"
-                                    id="newSalesTarget"
-                                    value="${state.sales.monthlyTarget}"
-                                    min="0"
-                                >
-
-                            </div>
-
-                            <button
-                                class="btn btn-primary"
-                                type="submit"
-                            >
-                                Save Target
-                            </button>
-
-                        </form>
-                    `
-                );
-
-
-                const form =
-                    $("#targetForm");
-
-                if (form) {
-
-                    form.addEventListener(
-                        "submit",
-                        event => {
-
-                            event.preventDefault();
-
-                            const value =
-                                Number(
-                                    $("#newSalesTarget").value
-                                );
-
-                            if (
-                                !Number.isFinite(value) ||
-                                value < 0
-                            ) {
-                                showToast(
-                                    "Please enter a valid target.",
-                                    "error"
-                                );
-
-                                return;
-                            }
-
-                            state.sales.monthlyTarget =
-                                value;
-
-                            saveState();
-
-                            closeModal();
-
-                            renderSales();
-
-                            showToast(
-                                "Sales target updated.",
-                                "success"
-                            );
-
-                        }
-                    );
-
-                }
-
-            }
+    const updateButton =
+        document.getElementById(
+            "updateSalesBtn"
         );
+
+
+    if (updateButton) {
+
+        updateButton.addEventListener(
+            "click",
+            updateSalesPerformance
+        );
+
     }
+
+
+    const addPriorityButton =
+        document.getElementById(
+            "addPriorityBtn"
+        );
+
+
+    if (addPriorityButton) {
+
+        addPriorityButton.addEventListener(
+            "click",
+            addPriority
+        );
+
+    }
+
 }
 
 
@@ -2007,102 +1758,305 @@ function renderSales() {
 
     const target =
         Number(
-            state.sales.monthlyTarget
-        ) || 0;
-
-    const actual =
-        Number(
-            state.sales.actualSales
-        ) || 0;
-
-    const achievement =
-        target === 0
-            ? 0
-            : Math.round(
-                (actual / target) * 100
-            );
-
-    const gap =
-        Math.max(
-            0,
-            target - actual
+            state.sales.target || 0
         );
 
 
+    const actual =
+        Number(
+            state.sales.actual || 0
+        );
+
+
+    const achievement =
+        target > 0
+            ? Math.round(
+                (actual / target) * 100
+            )
+            : 0;
+
+
+    const gap =
+        target - actual;
+
+
     setText(
-        "#salesMonthlyTarget",
+        "salesTarget",
         formatCurrency(target)
     );
 
+
     setText(
-        "#salesActual",
+        "salesActual",
         formatCurrency(actual)
     );
 
-    setText(
-        "#salesAchievement",
-        achievement
-    );
 
     setText(
-        "#salesGap",
-        formatCurrency(gap)
+        "salesAchievement",
+        `${achievement}%`
     );
 
 
-    const list =
-        $("#salesPriorityList");
+    setText(
+        "salesGap",
+        formatCurrency(
+            Math.max(0, gap)
+        )
+    );
 
-    if (!list) return;
+
+    renderPriorities();
+
+}
 
 
-    list.innerHTML =
-        state.sales.priorities
-            .map(
-                (item, index) => `
+function renderPriorities() {
 
+    const container =
+        document.getElementById(
+            "priorityList"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    const priorities =
+        state.sales.priorities || [];
+
+
+    if (priorities.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty-state">
+                <i class="fa-solid fa-list-check"></i>
+                <p>No priorities added.</p>
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        priorities.map(
+            (priority, index) => {
+
+                return `
                     <div class="priority-item">
 
-                        <span class="priority-number">
+                        <div class="priority-number">
                             ${index + 1}
-                        </span>
+                        </div>
 
                         <span>
-                            ${escapeHTML(item)}
+                            ${escapeHTML(priority)}
                         </span>
 
-                        <i class="fa-solid fa-chevron-right"></i>
+                        <button
+                            class="priority-delete"
+                            data-delete-priority="${index}"
+                        >
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
 
                     </div>
+                `;
 
-                `
-            )
-            .join("");
+            }
+        ).join("");
+
+
+    container
+        .querySelectorAll(
+            "[data-delete-priority]"
+        )
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const index =
+                        Number(
+                            button.dataset.deletePriority
+                        );
+
+
+                    state.sales.priorities.splice(
+                        index,
+                        1
+                    );
+
+
+                    saveState();
+
+                    renderSales();
+
+                    showToast(
+                        "Priority Removed",
+                        "The priority has been removed."
+                    );
+
+                }
+            );
+
+        });
+
+}
+
+
+function updateSalesPerformance() {
+
+    const target =
+        prompt(
+            "Enter monthly sales target:"
+        );
+
+
+    if (target === null) {
+        return;
+    }
+
+
+    const actual =
+        prompt(
+            "Enter actual sales:"
+        );
+
+
+    if (actual === null) {
+        return;
+    }
+
+
+    const targetNumber =
+        Number(
+            target.replace(/,/g, "")
+        );
+
+
+    const actualNumber =
+        Number(
+            actual.replace(/,/g, "")
+        );
+
+
+    if (
+        !Number.isFinite(targetNumber) ||
+        !Number.isFinite(actualNumber) ||
+        targetNumber < 0 ||
+        actualNumber < 0
+    ) {
+
+        showToast(
+            "Invalid Input",
+            "Please enter valid sales numbers."
+        );
+
+        return;
+
+    }
+
+
+    state.sales.target =
+        targetNumber;
+
+    state.sales.actual =
+        actualNumber;
+
+
+    saveState();
+
+    renderSales();
+
+    renderReports();
+
+    showToast(
+        "Sales Updated",
+        "Sales performance has been updated."
+    );
+
+}
+
+
+function addPriority() {
+
+    const priority =
+        prompt(
+            "Enter today's priority:"
+        );
+
+
+    if (!priority || !priority.trim()) {
+        return;
+    }
+
+
+    state.sales.priorities.push(
+        priority.trim()
+    );
+
+
+    saveState();
+
+    renderSales();
+
+    showToast(
+        "Priority Added",
+        "Your new priority has been added."
+    );
+
 }
 
 
 /* =========================================================
-   PRICING CALCULATOR
+   CALCULATOR
 ========================================================= */
 
 function bindCalculator() {
 
-    const form =
-        $("#pricingCalculatorForm");
+    const button =
+        document.getElementById(
+            "calculateBtn"
+        );
 
-    if (!form) return;
+
+    if (button) {
+
+        button.addEventListener(
+            "click",
+            calculatePrice
+        );
+
+    }
 
 
-    form.addEventListener(
-        "submit",
-        event => {
+    [
+        "calcCost",
+        "calcMargin",
+        "calcQuantity"
+    ].forEach(id => {
 
-            event.preventDefault();
+        const input =
+            document.getElementById(id);
 
-            calculatePrice();
+
+        if (input) {
+
+            input.addEventListener(
+                "input",
+                calculatePrice
+            );
 
         }
-    );
+
+    });
+
 }
 
 
@@ -2110,104 +2064,86 @@ function calculatePrice() {
 
     const cost =
         Number(
-            $("#costPrice")?.value
-        ) || 0;
+            document.getElementById(
+                "calcCost"
+            )?.value || 0
+        );
+
 
     const margin =
         Number(
-            $("#targetMargin")?.value
-        ) || 0;
+            document.getElementById(
+                "calcMargin"
+            )?.value || 0
+        );
 
-    const discount =
+
+    const quantity =
         Number(
-            $("#discountPercent")?.value
-        ) || 0;
-
-
-    if (cost <= 0) {
-
-        showToast(
-            "Please enter a valid cost price.",
-            "error"
+            document.getElementById(
+                "calcQuantity"
+            )?.value || 1
         );
-
-        return;
-    }
 
 
     if (
+        cost < 0 ||
         margin < 0 ||
-        margin >= 100
+        margin >= 100 ||
+        quantity < 0
     ) {
 
-        showToast(
-            "Target margin must be between 0 and 99.9%.",
-            "error"
-        );
-
         return;
+
     }
 
 
-    if (
-        discount < 0 ||
-        discount >= 100
-    ) {
-
-        showToast(
-            "Discount must be between 0 and 99.9%.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    const recommendedPrice =
+    const sellingPrice =
         cost /
         (1 - margin / 100);
 
 
-    const netPrice =
-        recommendedPrice *
-        (1 - discount / 100);
-
-
     const profit =
-        netPrice - cost;
+        sellingPrice - cost;
 
 
-    const calculatedMargin =
-        netPrice === 0
-            ? 0
-            : (profit / netPrice) * 100;
+    const revenue =
+        sellingPrice * quantity;
+
+
+    const totalProfit =
+        profit * quantity;
 
 
     setText(
-        "#recommendedPrice",
-        formatCurrency(recommendedPrice)
+        "resultPrice",
+        formatCurrency(sellingPrice)
     );
 
+
     setText(
-        "#calculatedProfit",
+        "resultProfit",
         formatCurrency(profit)
     );
 
-    setText(
-        "#calculatedMargin",
-        `${calculatedMargin.toFixed(1)}%`
-    );
 
     setText(
-        "#netSellingPrice",
-        formatCurrency(netPrice)
+        "resultRevenue",
+        formatCurrency(revenue)
     );
 
 
-    showToast(
-        "Pricing calculation completed.",
-        "success"
+    setText(
+        "resultTotalProfit",
+        formatCurrency(totalProfit)
     );
+
+
+    setText(
+        "resultMargin",
+        `${margin}%`
+    );
+
 }
 
 
@@ -2217,207 +2153,41 @@ function calculatePrice() {
 
 function renderReports() {
 
-    const container =
-        $("#reportsGrid");
-
-    if (!container) return;
-
-
     const progress =
         getOverallProgress();
 
-    const completed =
-        getCompletedLessons();
 
-    const total =
-        getTotalLessons();
-
-    const achievement =
-        state.sales.monthlyTarget === 0
-            ? 0
-            : Math.round(
-                state.sales.actualSales /
-                state.sales.monthlyTarget *
-                100
-            );
-
-
-    container.innerHTML = `
-
-        <div class="report-card">
-
-            <div class="report-icon blue">
-                <i class="fa-solid fa-graduation-cap"></i>
-            </div>
-
-            <span>
-                Learning Progress
-            </span>
-
-            <strong>
-                ${progress}%
-            </strong>
-
-            <small>
-                ${completed} of ${total} lessons completed
-            </small>
-
-        </div>
-
-
-        <div class="report-card">
-
-            <div class="report-icon green">
-                <i class="fa-solid fa-bullseye"></i>
-            </div>
-
-            <span>
-                Sales Achievement
-            </span>
-
-            <strong>
-                ${achievement}%
-            </strong>
-
-            <small>
-                Current monthly performance
-            </small>
-
-        </div>
-
-
-        <div class="report-card">
-
-            <div class="report-icon orange">
-                <i class="fa-solid fa-fire"></i>
-            </div>
-
-            <span>
-                Learning Streak
-            </span>
-
-            <strong>
-                ${state.streak} days
-            </strong>
-
-            <small>
-                Maintain your consistency
-            </small>
-
-        </div>
-
-
-        <div class="report-card">
-
-            <div class="report-icon purple">
-                <i class="fa-solid fa-book"></i>
-            </div>
-
-            <span>
-                Courses
-            </span>
-
-            <strong>
-                ${state.courses.length}
-            </strong>
-
-            <small>
-                Available learning programs
-            </small>
-
-        </div>
-
-    `;
-}
-
-
-const exportReportButton =
-    $("#exportReportBtn");
-
-if (exportReportButton) {
-
-    exportReportButton.addEventListener(
-        "click",
-        exportReport
-    );
-}
-
-
-function exportReport() {
-
-    const report = {
-
-        generatedAt:
-            new Date().toISOString(),
-
-        user:
-            state.user,
-
-        learning: {
-
-            courses:
-                state.courses.length,
-
-            lessons:
-                getTotalLessons(),
-
-            completedLessons:
-                getCompletedLessons(),
-
-            progress:
-                getOverallProgress(),
-
-            streak:
-                state.streak
-
-        },
-
-        sales:
-            state.sales
-
-    };
-
-
-    const blob =
-        new Blob(
-            [
-                JSON.stringify(
-                    report,
-                    null,
-                    2
-                )
-            ],
-            {
-                type:
-                    "application/json"
-            }
+    const target =
+        Number(
+            state.sales.target || 0
         );
 
 
-    const url =
-        URL.createObjectURL(blob);
-
-    const link =
-        document.createElement("a");
-
-    link.href = url;
-
-    link.download =
-        "aung-business-academy-report.json";
-
-    document.body.appendChild(link);
-
-    link.click();
-
-    link.remove();
-
-    URL.revokeObjectURL(url);
+    const actual =
+        Number(
+            state.sales.actual || 0
+        );
 
 
-    showToast(
-        "Report exported successfully.",
-        "success"
+    const achievement =
+        target > 0
+            ? Math.round(
+                (actual / target) * 100
+            )
+            : 0;
+
+
+    setText(
+        "reportLearning",
+        `${progress}% Complete`
     );
+
+
+    setText(
+        "reportSales",
+        `${achievement}% Achievement`
+    );
+
 }
 
 
@@ -2425,29 +2195,29 @@ function exportReport() {
    AI COACH
 ========================================================= */
 
-function bindAIEvents() {
+function bindAI() {
 
-    const form =
-        $("#aiChatForm");
+    const sendButton =
+        document.getElementById(
+            "aiSendBtn"
+        );
 
-    if (form) {
 
-        form.addEventListener(
-            "submit",
-            event => {
+    const input =
+        document.getElementById(
+            "aiInput"
+        );
 
-                event.preventDefault();
 
-                sendAIMessage();
+    if (sendButton) {
 
-            }
+        sendButton.addEventListener(
+            "click",
+            sendAIMessage
         );
 
     }
 
-
-    const input =
-        $("#aiChatInput");
 
     if (input) {
 
@@ -2455,12 +2225,7 @@ function bindAIEvents() {
             "keydown",
             event => {
 
-                if (
-                    event.key === "Enter" &&
-                    !event.shiftKey
-                ) {
-
-                    event.preventDefault();
+                if (event.key === "Enter") {
 
                     sendAIMessage();
 
@@ -2472,411 +2237,177 @@ function bindAIEvents() {
     }
 
 
-    $$(".ai-prompt").forEach(button => {
+    document
+        .querySelectorAll(".ai-question")
+        .forEach(button => {
 
-        button.addEventListener(
-            "click",
-            () => {
+            button.addEventListener(
+                "click",
+                () => {
 
-                const prompt =
-                    button.dataset.prompt;
+                    const question =
+                        button.dataset.question;
 
-                if (input) {
-                    input.value = prompt;
+                    if (input) {
+
+                        input.value =
+                            question;
+
+                        sendAIMessage();
+
+                    }
+
                 }
+            );
 
-                sendAIMessage();
+        });
 
-            }
-        );
-
-    });
-
-
-    $$(".ai-tool-card").forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                const tool =
-                    button.dataset.aiTool;
-
-                openAITool(tool);
-
-            }
-        );
-
-    });
 }
 
 
 function sendAIMessage() {
 
     const input =
-        $("#aiChatInput");
-
-    const messages =
-        $("#aiChatMessages");
-
-    if (!input || !messages) return;
+        document.getElementById(
+            "aiInput"
+        );
 
 
-    const text =
+    const container =
+        document.getElementById(
+            "chatMessages"
+        );
+
+
+    if (!input || !container) {
+        return;
+    }
+
+
+    const question =
         input.value.trim();
 
-    if (!text) return;
+
+    if (!question) {
+        return;
+    }
 
 
-    addAIMessage(
-        "user",
-        text
+    container.insertAdjacentHTML(
+        "beforeend",
+        `
+            <div class="chat-message user">
+
+                <div class="message-content">
+
+                    <strong>You</strong>
+
+                    <p>
+                        ${escapeHTML(question)}
+                    </p>
+
+                </div>
+
+            </div>
+        `
     );
+
 
     input.value = "";
 
 
-    setTimeout(() => {
-
-        const response =
-            generateAIResponse(text);
-
-        addAIMessage(
-            "assistant",
-            response
+    const answer =
+        generateAIResponse(
+            question
         );
 
-    }, 500);
-}
+
+    setTimeout(() => {
+
+        container.insertAdjacentHTML(
+            "beforeend",
+            `
+                <div class="chat-message ai">
+
+                    <div class="message-avatar">
+                        AI
+                    </div>
+
+                    <div class="message-content">
+
+                        <strong>Aung AI</strong>
+
+                        <p>
+                            ${escapeHTML(answer)}
+                        </p>
+
+                    </div>
+
+                </div>
+            `
+        );
 
 
-function addAIMessage(
-    role,
-    text
-) {
+        container.scrollTop =
+            container.scrollHeight;
 
-    const messages =
-        $("#aiChatMessages");
-
-    if (!messages) return;
+    }, 400);
 
 
-    const isUser =
-        role === "user";
+    container.scrollTop =
+        container.scrollHeight;
 
-
-    const wrapper =
-        document.createElement("div");
-
-    wrapper.className =
-        `ai-message ${role}`;
-
-
-    wrapper.innerHTML = `
-
-        <div class="message-avatar">
-            ${isUser ? "A" : "AI"}
-        </div>
-
-        <div class="message-bubble">
-
-            ${formatAIText(text)}
-
-        </div>
-
-    `;
-
-
-    messages.appendChild(wrapper);
-
-    messages.scrollTop =
-        messages.scrollHeight;
 }
 
 
 function generateAIResponse(question) {
 
-    const q =
+    const text =
         question.toLowerCase();
 
 
     if (
-        q.includes("sales") ||
-        q.includes("target") ||
-        q.includes("achievement")
+        text.includes("sales") ||
+        text.includes("target")
     ) {
 
-        return `
-            <strong>Sales Recommendation</strong>
+        return "Start with the numbers. Break the monthly target into weekly and daily targets, identify the performance gap, then assign clear actions to each sales rep. Review progress regularly and coach based on the root cause.";
 
-            <p>
-                Start with a gap analysis. Compare target vs actual,
-                identify the biggest territory or customer gaps,
-                then create a focused action plan.
-            </p>
-
-            <ul>
-                <li>Review target achievement by territory.</li>
-                <li>Identify top 20% customers and growth opportunities.</li>
-                <li>Coach underperforming salespeople.</li>
-                <li>Set weekly execution KPIs.</li>
-            </ul>
-        `;
     }
 
 
     if (
-        q.includes("coach") ||
-        q.includes("underperform")
+        text.includes("team") ||
+        text.includes("coach")
     ) {
 
-        return `
-            <strong>Coaching Framework</strong>
+        return "Use a coaching and empowerment approach. Set clear expectations, observe field execution, give specific feedback, agree on an action plan and review the result. Avoid micromanagement while maintaining accountability.";
 
-            <p>
-                Use a coaching approach instead of immediately applying pressure.
-            </p>
-
-            <ol>
-                <li>Understand the performance gap.</li>
-                <li>Identify the root cause.</li>
-                <li>Agree on a clear action plan.</li>
-                <li>Set measurable expectations.</li>
-                <li>Review progress regularly.</li>
-            </ol>
-        `;
     }
 
 
     if (
-        q.includes("customer") ||
-        q.includes("distribution")
+        text.includes("business") ||
+        text.includes("growth")
     ) {
 
-        return `
-            <strong>Customer & Distribution Strategy</strong>
+        return "Focus on three areas: customers, revenue and execution. Identify the highest-value customer segment, strengthen the offer, improve distribution or acquisition, and measure results with clear KPIs.";
 
-            <p>
-                Segment customers by value and growth potential.
-                Then prioritize coverage, availability and execution.
-            </p>
-
-            <ul>
-                <li>Classify customers by sales value.</li>
-                <li>Improve numeric distribution.</li>
-                <li>Focus on availability and visibility.</li>
-                <li>Build customer-specific action plans.</li>
-            </ul>
-        `;
     }
 
 
     if (
-        q.includes("marketing")
+        text.includes("youtube") ||
+        text.includes("channel")
     ) {
 
-        return `
-            <strong>Marketing Recommendation</strong>
+        return "For YouTube growth, focus on topic demand, thumbnail CTR, title quality and audience retention. Build repeatable content formats and study which videos generate the strongest watch time.";
 
-            <p>
-                Start with customer needs and a clear value proposition.
-                Then choose the right channel and measure conversion.
-            </p>
-        `;
     }
 
 
-    return `
-        <strong>Business Coach</strong>
+    return "A practical management approach is to define the objective, measure the current gap, identify the root cause, create a clear action plan and review the result regularly. If you give me your specific situation, I can help structure the action plan.";
 
-        <p>
-            A practical approach is to define the objective,
-            analyze the current gap, identify the root cause,
-            create an action plan and measure the result.
-        </p>
-
-        <p>
-            For a stronger recommendation, structure the problem around
-            <strong>People, Numbers and Execution.</strong>
-        </p>
-    `;
-}
-
-
-function formatAIText(text) {
-
-    if (
-        text.includes("<strong>") ||
-        text.includes("<p>")
-    ) {
-        return text;
-    }
-
-    return escapeHTML(text)
-        .replace(
-            /\n/g,
-            "<br>"
-        );
-}
-
-
-/* =========================================================
-   AI TOOLS
-========================================================= */
-
-function openAITool(tool) {
-
-    const titles = {
-
-        "sales-plan":
-            "Sales Plan Generator",
-
-        "customer-plan":
-            "Customer Plan",
-
-        marketing:
-            "Marketing Ideas",
-
-        swot:
-            "SWOT Analysis",
-
-        interview:
-            "Interview Coach",
-
-        email:
-            "Business Email Writer"
-
-    };
-
-
-    const prompts = {
-
-        "sales-plan":
-            "Create a practical monthly sales action plan.",
-
-        "customer-plan":
-            "Create a customer development plan.",
-
-        marketing:
-            "Generate practical marketing ideas.",
-
-        swot:
-            "Create a SWOT analysis for my business.",
-
-        interview:
-            "Help me prepare for a Sales Manager interview.",
-
-        email:
-            "Write a professional business email."
-
-    };
-
-
-    openModal(
-        titles[tool] || "AI Tool",
-        `
-
-            <div class="ai-tool-modal">
-
-                <p>
-                    ${prompts[tool] || "Use AI to improve your business decisions."}
-                </p>
-
-                <textarea
-                    id="aiToolInput"
-                    class="ai-tool-textarea"
-                    rows="5"
-                    placeholder="Add your business context..."
-                ></textarea>
-
-                <button
-                    class="btn btn-primary full-width"
-                    id="runAIToolBtn"
-                    type="button"
-                >
-
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
-
-                    Generate with AI
-
-                </button>
-
-                <div
-                    id="aiToolResult"
-                    class="ai-tool-result"
-                ></div>
-
-            </div>
-
-        `
-    );
-
-
-    const button =
-        $("#runAIToolBtn");
-
-    if (button) {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                const input =
-                    $("#aiToolInput")?.value.trim();
-
-                const result =
-                    $("#aiToolResult");
-
-                if (!result) return;
-
-
-                result.innerHTML = `
-
-                    <strong>
-                        AI Business Recommendation
-                    </strong>
-
-                    <p>
-                        Based on your request, start by defining the objective,
-                        current situation, target result and key constraints.
-                        Then create a measurable action plan with owners and deadlines.
-                    </p>
-
-                    <ul>
-
-                        <li>
-                            Define the business objective.
-                        </li>
-
-                        <li>
-                            Analyze the current performance gap.
-                        </li>
-
-                        <li>
-                            Identify the root cause.
-                        </li>
-
-                        <li>
-                            Create 3–5 practical actions.
-                        </li>
-
-                        <li>
-                            Review KPI performance weekly.
-                        </li>
-
-                    </ul>
-
-                    ${
-                        input
-                            ? `<p><strong>Your context:</strong> ${escapeHTML(input)}</p>`
-                            : ""
-                    }
-
-                `;
-
-            }
-        );
-    }
 }
 
 
@@ -2884,39 +2415,56 @@ function openAITool(tool) {
    SETTINGS
 ========================================================= */
 
-function bindSettingsEvents() {
+function bindSettings() {
 
-    const form =
-        $("#profileForm");
+    const saveButton =
+        document.getElementById(
+            "saveSettingsBtn"
+        );
 
-    if (form) {
 
-        form.addEventListener(
-            "submit",
-            event => {
+    if (saveButton) {
 
-                event.preventDefault();
+        saveButton.addEventListener(
+            "click",
+            saveSettings
+        );
 
-                state.user.name =
-                    $("#settingsName")?.value.trim() ||
-                    "Aung Zar Ni Win";
+    }
 
-                state.user.role =
-                    $("#settingsRole")?.value.trim() ||
-                    "Business Manager";
 
-                state.user.email =
-                    $("#settingsEmail")?.value.trim() ||
-                    "";
+    const resetButton =
+        document.getElementById(
+            "resetDataBtn"
+        );
+
+
+    if (resetButton) {
+
+        resetButton.addEventListener(
+            "click",
+            resetData
+        );
+
+    }
+
+
+    const dailyGoalToggle =
+        document.getElementById(
+            "dailyGoalToggle"
+        );
+
+
+    if (dailyGoalToggle) {
+
+        dailyGoalToggle.addEventListener(
+            "change",
+            () => {
+
+                state.settings.dailyGoalReminder =
+                    dailyGoalToggle.checked;
 
                 saveState();
-
-                updateUserUI();
-
-                showToast(
-                    "Profile saved successfully.",
-                    "success"
-                );
 
             }
         );
@@ -2924,256 +2472,273 @@ function bindSettingsEvents() {
     }
 
 
-    bindSettingToggle(
-        "#notificationSetting",
-        "notifications"
-    );
-
-    bindSettingToggle(
-        "#learningReminderSetting",
-        "learningReminder"
-    );
-
-    bindSettingToggle(
-        "#autoSaveSetting",
-        "autoSave"
-    );
-}
-
-
-function bindSettingToggle(
-    selector,
-    key
-) {
-
-    const element =
-        $(selector);
-
-    if (!element) return;
-
-
-    element.checked =
-        Boolean(
-            state.settings[key]
+    const notificationToggle =
+        document.getElementById(
+            "notificationToggle"
         );
 
 
-    element.addEventListener(
-        "change",
-        () => {
+    if (notificationToggle) {
 
-            state.settings[key] =
-                element.checked;
+        notificationToggle.addEventListener(
+            "change",
+            () => {
 
-            saveState();
+                state.settings.notifications =
+                    notificationToggle.checked;
 
-            showToast(
-                "Setting updated.",
-                "success"
-            );
+                saveState();
 
-        }
-    );
+            }
+        );
+
+    }
+
 }
 
 
 function renderSettings() {
 
-    updateUserUI();
+    const nameInput =
+        document.getElementById(
+            "settingsName"
+        );
 
-    const notification =
-        $("#notificationSetting");
 
-    if (notification) {
-        notification.checked =
+    const roleInput =
+        document.getElementById(
+            "settingsRole"
+        );
+
+
+    const dailyGoalToggle =
+        document.getElementById(
+            "dailyGoalToggle"
+        );
+
+
+    const notificationToggle =
+        document.getElementById(
+            "notificationToggle"
+        );
+
+
+    if (nameInput) {
+        nameInput.value =
+            state.user.name;
+    }
+
+
+    if (roleInput) {
+        roleInput.value =
+            state.user.role;
+    }
+
+
+    if (dailyGoalToggle) {
+
+        dailyGoalToggle.checked =
+            state.settings.dailyGoalReminder;
+
+    }
+
+
+    if (notificationToggle) {
+
+        notificationToggle.checked =
             state.settings.notifications;
+
+    }
+
+}
+
+
+function saveSettings() {
+
+    const name =
+        document.getElementById(
+            "settingsName"
+        )?.value.trim();
+
+
+    const role =
+        document.getElementById(
+            "settingsRole"
+        )?.value.trim();
+
+
+    if (!name) {
+
+        showToast(
+            "Name Required",
+            "Please enter your name."
+        );
+
+        return;
+
     }
 
 
-    const reminder =
-        $("#learningReminderSetting");
+    state.user.name =
+        name;
 
-    if (reminder) {
-        reminder.checked =
-            state.settings.learningReminder;
+
+    state.user.role =
+        role || "Business Manager";
+
+
+    saveState();
+
+    renderUser();
+
+    showToast(
+        "Settings Saved",
+        "Your profile has been updated."
+    );
+
+}
+
+
+function resetData() {
+
+    const confirmed =
+        confirm(
+            "Reset all academy progress and settings?"
+        );
+
+
+    if (!confirmed) {
+        return;
     }
 
 
-    const autoSave =
-        $("#autoSaveSetting");
+    localStorage.removeItem(
+        STORAGE_KEY
+    );
 
-    if (autoSave) {
-        autoSave.checked =
-            state.settings.autoSave;
-    }
+
+    state =
+        structuredClone(
+            DEFAULT_STATE
+        );
+
+
+    renderAll();
+
+    showToast(
+        "Data Reset",
+        "Academy data has been reset."
+    );
+
 }
 
 
 /* =========================================================
-   GLOBAL SEARCH
+   SEARCH
 ========================================================= */
 
-function bindGlobalSearch() {
+function bindSearch() {
 
-    const search =
-        $("#globalSearch");
-
-    if (!search) return;
-
-
-    search.addEventListener(
-        "input",
-        () => {
-
-            const query =
-                search.value.trim().toLowerCase();
-
-            if (!query) return;
+    const searchInput =
+        document.getElementById(
+            "globalSearch"
+        );
 
 
-            if (
-                state.currentPage === "courses"
-            ) {
-
-                searchCourses(query);
-
-            }
-
-        }
-    );
+    if (!searchInput) {
+        return;
+    }
 
 
-    document.addEventListener(
+    searchInput.addEventListener(
         "keydown",
         event => {
 
-            if (
-                event.key === "/" &&
-                document.activeElement.tagName !== "INPUT" &&
-                document.activeElement.tagName !== "TEXTAREA"
-            ) {
+            if (event.key !== "Enter") {
+                return;
+            }
 
-                event.preventDefault();
 
-                search.focus();
+            const query =
+                searchInput.value
+                    .trim()
+                    .toLowerCase();
+
+
+            if (!query) {
+                return;
+            }
+
+
+            const course =
+                getCourses().find(
+                    item =>
+                        item.title
+                            .toLowerCase()
+                            .includes(query)
+                );
+
+
+            if (course) {
+
+                state.currentCourse =
+                    course.id;
+
+                saveState();
+
+                navigateTo("lessons");
+
+                renderLessons();
+
+                return;
 
             }
 
+
             if (
-                event.key === "Escape"
+                query.includes("sales") ||
+                query.includes("manager")
             ) {
 
-                search.blur();
+                navigateTo("sales");
+
+                return;
 
             }
+
+
+            if (
+                query.includes("calculator") ||
+                query.includes("price")
+            ) {
+
+                navigateTo("calculator");
+
+                return;
+
+            }
+
+
+            if (
+                query.includes("ai") ||
+                query.includes("coach")
+            ) {
+
+                navigateTo("ai-coach");
+
+                return;
+
+            }
+
+
+            showToast(
+                "No Result",
+                `No result found for "${query}".`
+            );
 
         }
     );
-}
 
-
-function searchCourses(query) {
-
-    const grid =
-        $("#coursesGrid");
-
-    if (!grid) return;
-
-
-    const results =
-        state.courses.filter(
-            course => {
-
-                return (
-                    course.title
-                        .toLowerCase()
-                        .includes(query) ||
-
-                    course.description
-                        .toLowerCase()
-                        .includes(query) ||
-
-                    course.category
-                        .toLowerCase()
-                        .includes(query)
-                );
-
-            }
-        );
-
-
-    grid.innerHTML =
-        results
-            .map(course => `
-
-                <article class="course-card">
-
-                    <div class="course-card-cover ${course.color}">
-
-                        <div class="course-card-icon">
-                            <i class="${course.icon}"></i>
-                        </div>
-
-                        <span class="course-category-badge">
-                            ${escapeHTML(course.categoryLabel)}
-                        </span>
-
-                    </div>
-
-
-                    <div class="course-card-body">
-
-                        <h3>
-                            ${escapeHTML(course.title)}
-                        </h3>
-
-                        <p>
-                            ${escapeHTML(course.description)}
-                        </p>
-
-                        <div class="progress-track">
-
-                            <div
-                                class="progress-fill"
-                                style="width:${course.progress}%"
-                            ></div>
-
-                        </div>
-
-                        <button
-                            class="btn btn-secondary btn-small course-open-btn"
-                            data-course-id="${course.id}"
-                            type="button"
-                        >
-
-                            Open Course
-
-                            <i class="fa-solid fa-arrow-right"></i>
-
-                        </button>
-
-                    </div>
-
-                </article>
-
-            `)
-            .join("");
-
-
-    $$(".course-open-btn").forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                openCourse(
-                    button.dataset.courseId
-                );
-
-            }
-        );
-
-    });
 }
 
 
@@ -3183,27 +2748,23 @@ function searchCourses(query) {
 
 function bindMobileSidebar() {
 
-    const button =
-        $("#mobileMenuBtn");
+    const menuButton =
+        document.getElementById(
+            "mobileMenu"
+        );
+
 
     const overlay =
-        $("#sidebarOverlay");
+        document.getElementById(
+            "sidebarOverlay"
+        );
 
-    const sidebar =
-        $("#sidebar");
 
+    if (menuButton) {
 
-    if (button) {
-
-        button.addEventListener(
+        menuButton.addEventListener(
             "click",
-            () => {
-
-                sidebar?.classList.add("open");
-
-                overlay?.classList.add("show");
-
-            }
+            openMobileSidebar
         );
 
     }
@@ -3217,144 +2778,35 @@ function bindMobileSidebar() {
         );
 
     }
+
+}
+
+
+function openMobileSidebar() {
+
+    document
+        .getElementById("sidebar")
+        ?.classList.add("open");
+
+
+    document
+        .getElementById("sidebarOverlay")
+        ?.classList.add("show");
+
 }
 
 
 function closeMobileSidebar() {
 
-    $("#sidebar")?.classList.remove(
-        "open"
-    );
-
-    $("#sidebarOverlay")?.classList.remove(
-        "show"
-    );
-}
+    document
+        .getElementById("sidebar")
+        ?.classList.remove("open");
 
 
-/* =========================================================
-   MODAL
-========================================================= */
+    document
+        .getElementById("sidebarOverlay")
+        ?.classList.remove("show");
 
-function bindModal() {
-
-    const close =
-        $("#modalCloseBtn");
-
-    const overlay =
-        $("#modalOverlay");
-
-
-    if (close) {
-
-        close.addEventListener(
-            "click",
-            closeModal
-        );
-
-    }
-
-
-    if (overlay) {
-
-        overlay.addEventListener(
-            "click",
-            event => {
-
-                if (
-                    event.target === overlay
-                ) {
-
-                    closeModal();
-
-                }
-
-            }
-        );
-
-    }
-
-
-    document.addEventListener(
-        "keydown",
-        event => {
-
-            if (
-                event.key === "Escape"
-            ) {
-
-                closeModal();
-
-            }
-
-        }
-    );
-}
-
-
-function openModal(
-    title,
-    body,
-    footer = ""
-) {
-
-    const overlay =
-        $("#modalOverlay");
-
-    const titleElement =
-        $("#modalTitle");
-
-    const bodyElement =
-        $("#modalBody");
-
-    const footerElement =
-        $("#modalFooter");
-
-
-    if (!overlay) return;
-
-
-    if (titleElement) {
-        titleElement.textContent =
-            title;
-    }
-
-    if (bodyElement) {
-        bodyElement.innerHTML =
-            body;
-    }
-
-    if (footerElement) {
-        footerElement.innerHTML =
-            footer;
-    }
-
-
-    overlay.classList.add(
-        "show"
-    );
-
-    document.body.classList.add(
-        "modal-open"
-    );
-}
-
-
-function closeModal() {
-
-    const overlay =
-        $("#modalOverlay");
-
-    if (!overlay) return;
-
-
-    overlay.classList.remove(
-        "show"
-    );
-
-    document.body.classList.remove(
-        "modal-open"
-    );
 }
 
 
@@ -3362,635 +2814,414 @@ function closeModal() {
    TOAST
 ========================================================= */
 
+let toastTimer;
+
+
 function showToast(
-    message,
-    type = "info"
+    title,
+    message
 ) {
-
-    const container =
-        $("#toastContainer");
-
-    if (!container) return;
-
 
     const toast =
-        document.createElement("div");
-
-    toast.className =
-        `toast ${type}`;
-
-
-    let icon =
-        "fa-solid fa-circle-info";
-
-    if (type === "success") {
-        icon =
-            "fa-solid fa-circle-check";
-    }
-
-    if (type === "error") {
-        icon =
-            "fa-solid fa-circle-exclamation";
-    }
-
-
-    toast.innerHTML = `
-
-        <div class="toast-icon">
-            <i class="${icon}"></i>
-        </div>
-
-        <div class="toast-message">
-            ${escapeHTML(message)}
-        </div>
-
-        <button
-            class="toast-close"
-            type="button"
-        >
-
-            <i class="fa-solid fa-xmark"></i>
-
-        </button>
-
-    `;
-
-
-    container.appendChild(toast);
-
-
-    const close =
-        toast.querySelector(
-            ".toast-close"
+        document.getElementById(
+            "toast"
         );
 
-    if (close) {
 
-        close.addEventListener(
-            "click",
-            () => toast.remove()
+    const toastTitle =
+        document.getElementById(
+            "toastTitle"
         );
 
+
+    const toastMessage =
+        document.getElementById(
+            "toastMessage"
+        );
+
+
+    if (!toast) {
+        return;
     }
 
 
-    setTimeout(
-        () => {
+    if (toastTitle) {
+        toastTitle.textContent =
+            title;
+    }
 
-            toast.classList.add(
-                "hide"
-            );
 
-            setTimeout(
-                () => toast.remove(),
-                300
-            );
+    if (toastMessage) {
+        toastMessage.textContent =
+            message;
+    }
 
-        },
-        3500
+
+    toast.classList.add(
+        "show"
     );
-}
 
 
-/* =========================================================
-   ACTIVITY
-========================================================= */
-
-function addActivity(
-    icon,
-    title,
-    description
-) {
-
-    state.activity.unshift({
-
-        icon,
-        title,
-        description,
-        time: "Just now"
-
-    });
-
-
-    state.activity =
-        state.activity.slice(
-            0,
-            20
-        );
-
-
-    saveState();
-
-    renderRecentActivity();
-}
-
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function setText(
-    selector,
-    value
-) {
-
-    const element =
-        $(selector);
-
-    if (element) {
-        element.textContent =
-            value;
-    }
-}
-
-
-function setWidth(
-    selector,
-    value
-) {
-
-    const element =
-        $(selector);
-
-    if (element) {
-
-        element.style.width =
-            `${Math.max(
-                0,
-                Math.min(
-                    100,
-                    Number(value) || 0
-                )
-            )}%`;
-
-    }
-}
-
-
-function formatCurrency(value) {
-
-    const number =
-        Number(value) || 0;
-
-    return (
-        "Ks " +
-        Math.round(number)
-            .toLocaleString("en-US")
+    clearTimeout(
+        toastTimer
     );
-}
 
 
-function escapeHTML(value) {
+    toastTimer =
+        setTimeout(
+            () => {
 
-    return String(value)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-}
-
-
-/* =========================================================
-   PROFILE MENU
-========================================================= */
-
-const profileMenu =
-    $("#profileMenuBtn");
-
-if (profileMenu) {
-
-    profileMenu.addEventListener(
-        "click",
-        () => {
-
-            openModal(
-                "Profile",
-                `
-
-                    <div class="profile-modal">
-
-                        <div class="profile-modal-avatar">
-                            A
-                        </div>
-
-                        <h3>
-                            ${escapeHTML(state.user.name)}
-                        </h3>
-
-                        <p>
-                            ${escapeHTML(state.user.role)}
-                        </p>
-
-                        <button
-                            class="btn btn-primary full-width"
-                            id="profileSettingsBtn"
-                            type="button"
-                        >
-
-                            Open Settings
-
-                        </button>
-
-                    </div>
-
-                `
-            );
-
-
-            const button =
-                $("#profileSettingsBtn");
-
-            if (button) {
-
-                button.addEventListener(
-                    "click",
-                    () => {
-
-                        closeModal();
-
-                        showPage("settings");
-
-                    }
+                toast.classList.remove(
+                    "show"
                 );
 
-            }
+            },
+            3000
+        );
 
-        }
-    );
 }
 
 
 /* =========================================================
-   TOPBAR USER
+   MODAL
 ========================================================= */
 
-const topbarUser =
-    $("#topbarUserBtn");
+function openModal(content) {
 
-if (topbarUser) {
+    const overlay =
+        document.getElementById(
+            "modalOverlay"
+        );
 
-    topbarUser.addEventListener(
-        "click",
-        () => {
 
-            openModal(
-                "Account",
-                `
+    const container =
+        document.getElementById(
+            "modalContent"
+        );
 
-                    <div class="profile-modal">
 
-                        <div class="profile-modal-avatar">
-                            A
-                        </div>
+    if (!overlay || !container) {
+        return;
+    }
 
-                        <h3>
-                            ${escapeHTML(state.user.name)}
-                        </h3>
 
-                        <p>
-                            ${escapeHTML(state.user.role)}
-                        </p>
+    container.innerHTML =
+        content;
 
-                    </div>
 
-                `
-            );
+    overlay.classList.add(
+        "show"
+    );
+
+}
+
+
+function closeModal() {
+
+    document
+        .getElementById(
+            "modalOverlay"
+        )
+        ?.classList.remove(
+            "show"
+        );
+
+}
+
+
+document.addEventListener(
+    "click",
+    event => {
+
+        if (
+            event.target.closest(
+                "#modalClose"
+            )
+        ) {
+
+            closeModal();
 
         }
-    );
-}
+
+
+        if (
+            event.target.id ===
+            "modalOverlay"
+        ) {
+
+            closeModal();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   REPORT BUTTONS
+========================================================= */
+
+document.addEventListener(
+    "click",
+    event => {
+
+        const button =
+            event.target.closest(
+                "[data-report]"
+            );
+
+
+        if (!button) {
+            return;
+        }
+
+
+        const type =
+            button.dataset.report;
+
+
+        let title =
+            "Business Report";
+
+
+        let content =
+            "Your report is ready.";
+
+
+        if (type === "learning") {
+
+            title =
+                "Learning Report";
+
+            content =
+                `Overall learning progress is ${getOverallProgress()}%. You have completed ${getCompletedLessons()} of ${getTotalLessons()} lessons.`;
+
+        }
+
+
+        if (type === "sales") {
+
+            const target =
+                state.sales.target || 0;
+
+            const actual =
+                state.sales.actual || 0;
+
+            const achievement =
+                target > 0
+                    ? Math.round(
+                        actual / target * 100
+                    )
+                    : 0;
+
+
+            title =
+                "Sales Report";
+
+            content =
+                `Current sales achievement is ${achievement}%. Actual sales are ${formatCurrency(actual)} against a target of ${formatCurrency(target)}.`;
+
+        }
+
+
+        if (type === "manager") {
+
+            title =
+                "Manager Report";
+
+            content =
+                "Your management focus should remain on people, numbers and execution: coach the team, monitor KPIs and convert targets into practical field actions.";
+
+        }
+
+
+        if (type === "ai") {
+
+            title =
+                "AI Business Report";
+
+            content =
+                "AI insight: focus on closing performance gaps, improving team execution and maintaining consistent KPI reviews.";
+
+        }
+
+
+        openModal(`
+            <div class="modal-icon blue">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+
+            <h2>
+                ${title}
+            </h2>
+
+            <p>
+                ${content}
+            </p>
+
+            <button
+                class="primary-btn full"
+                onclick="closeModal()"
+            >
+                Close
+            </button>
+        `);
+
+    }
+);
+
+
+/* =========================================================
+   AI TOOL BUTTONS
+========================================================= */
+
+document.addEventListener(
+    "click",
+    event => {
+
+        const tool =
+            event.target.closest(
+                ".ai-tool-card"
+            );
+
+
+        if (!tool) {
+            return;
+        }
+
+
+        const title =
+            tool.querySelector(
+                "strong"
+            )?.textContent ||
+            "AI Tool";
+
+
+        openModal(`
+            <div class="modal-icon purple">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+
+            <h2>
+                ${escapeHTML(title)}
+            </h2>
+
+            <p>
+                This AI tool interface is ready.
+                You can connect it to your Gemini API
+                in the next version.
+            </p>
+
+            <button
+                class="primary-btn full"
+                onclick="closeModal()"
+            >
+                Got it
+            </button>
+        `);
+
+    }
+);
 
 
 /* =========================================================
    NOTIFICATION
 ========================================================= */
 
-const notificationButton =
-    $("#notificationBtn");
-
-if (notificationButton) {
-
-    notificationButton.addEventListener(
+document
+    .getElementById("notificationBtn")
+    ?.addEventListener(
         "click",
         () => {
-
-            openModal(
-                "Notifications",
-                `
-
-                    <div class="notification-modal">
-
-                        <div class="notification-row">
-
-                            <div class="notification-icon">
-                                <i class="fa-solid fa-graduation-cap"></i>
-                            </div>
-
-                            <div>
-
-                                <strong>
-                                    Keep learning
-                                </strong>
-
-                                <p>
-                                    Complete one lesson today to maintain your momentum.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="notification-row">
-
-                            <div class="notification-icon">
-                                <i class="fa-solid fa-chart-line"></i>
-                            </div>
-
-                            <div>
-
-                                <strong>
-                                    Business progress
-                                </strong>
-
-                                <p>
-                                    Review your sales performance and action priorities.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                `
-            );
-
-
-            const dot =
-                $("#notificationDot");
-
-            if (dot) {
-                dot.style.display =
-                    "none";
-            }
-
-        }
-    );
-}
-
-
-/* =========================================================
-   REFRESH RECOMMENDATIONS
-========================================================= */
-
-const refreshRecommendations =
-    $("#refreshRecommendationsBtn");
-
-if (refreshRecommendations) {
-
-    refreshRecommendations.addEventListener(
-        "click",
-        () => {
-
-            renderRecommendations();
 
             showToast(
-                "Recommendations refreshed.",
-                "success"
+                "Notifications",
+                "No new notifications."
             );
 
         }
     );
-}
 
 
 /* =========================================================
-   QUICK ACTION
+   UTILITIES
 ========================================================= */
 
-const quickAction =
-    $("#quickActionBtn");
+function setText(
+    id,
+    value
+) {
 
-if (quickAction) {
-
-    quickAction.addEventListener(
-        "click",
-        () => {
-
-            openModal(
-                "Quick Action",
-                `
-
-                    <div class="quick-action-modal">
-
-                        <button
-                            class="quick-modal-action"
-                            data-action-page="courses"
-                            type="button"
-                        >
-
-                            <i class="fa-solid fa-graduation-cap"></i>
-
-                            <span>
-                                Start Learning
-                            </span>
-
-                        </button>
+    const element =
+        document.getElementById(id);
 
 
-                        <button
-                            class="quick-modal-action"
-                            data-action-page="sales"
-                            type="button"
-                        >
+    if (element) {
 
-                            <i class="fa-solid fa-bullseye"></i>
+        element.textContent =
+            value;
 
-                            <span>
-                                Sales Manager
-                            </span>
+    }
 
-                        </button>
+}
 
 
-                        <button
-                            class="quick-modal-action"
-                            data-action-page="calculator"
-                            type="button"
-                        >
+function capitalize(text) {
 
-                            <i class="fa-solid fa-calculator"></i>
+    if (!text) {
+        return "";
+    }
 
-                            <span>
-                                Pricing Calculator
-                            </span>
-
-                        </button>
-
-
-                        <button
-                            class="quick-modal-action"
-                            data-action-page="ai-coach"
-                            type="button"
-                        >
-
-                            <i class="fa-solid fa-robot"></i>
-
-                            <span>
-                                Ask AI Coach
-                            </span>
-
-                        </button>
-
-                    </div>
-
-                `
-            );
-
-
-            $$(".quick-modal-action").forEach(
-                button => {
-
-                    button.addEventListener(
-                        "click",
-                        () => {
-
-                            closeModal();
-
-                            showPage(
-                                button.dataset.actionPage
-                            );
-
-                        }
-                    );
-
-                }
-            );
-
-        }
+    return (
+        text.charAt(0).toUpperCase() +
+        text.slice(1)
     );
+
+}
+
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
 }
 
 
 /* =========================================================
-   ACTIVITY BUTTON
-========================================================= */
-
-const activityButton =
-    $("#viewActivityBtn");
-
-if (activityButton) {
-
-    activityButton.addEventListener(
-        "click",
-        () => {
-
-            openModal(
-                "Recent Activity",
-                `
-
-                    <div class="activity-list">
-
-                        ${
-                            state.activity
-                                .map(
-                                    item => `
-
-                                        <div class="activity-item">
-
-                                            <div class="activity-icon">
-                                                <i class="${item.icon}"></i>
-                                            </div>
-
-                                            <div class="activity-content">
-
-                                                <strong>
-                                                    ${escapeHTML(item.title)}
-                                                </strong>
-
-                                                <span>
-                                                    ${escapeHTML(item.description)}
-                                                </span>
-
-                                            </div>
-
-                                            <time>
-                                                ${escapeHTML(item.time)}
-                                            </time>
-
-                                        </div>
-
-                                    `
-                                )
-                                .join("")
-                        }
-
-                    </div>
-
-                `
-            );
-
-        }
-    );
-}
-
-
-/* =========================================================
-   GLOBAL WINDOW API
+   GLOBAL API
 ========================================================= */
 
 window.AungAcademy = {
 
     state,
 
-    showPage,
+    courses: DEFAULT_COURSES,
 
-    openCourse,
+    navigateTo,
 
-    calculatePrice,
+    renderAll,
 
     renderDashboard,
 
     renderCourses,
 
+    renderLessons,
+
     renderProgress,
 
     renderSales,
 
-    renderReports,
+    calculatePrice,
 
-    resetData() {
+    showToast,
 
-        localStorage.removeItem(
-            STORAGE_KEY
-        );
+    openModal,
 
-        location.reload();
-
-    }
+    closeModal
 
 };
-
-
-/* =========================================================
-   FINAL INITIAL DATA
-========================================================= */
-
-updateCourseProgress();

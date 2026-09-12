@@ -86,9 +86,7 @@ const DEFAULT_PAYMENT = {
       };
     }
 
-    if (!state.paymentSettings) {
-      state.paymentSettings = DEFAULT_PAYMENT;
-    }
+   state.paymentSettings = DEFAULT_PAYMENT;
 
     saveState(state);
 

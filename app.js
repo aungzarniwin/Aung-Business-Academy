@@ -1,22 +1,17 @@
-```javascript
 // ======================================================
 // AUNG BUSINESS ACADEMY V8
 // BUSINESS + SALES + MARKETING + LEADERSHIP
+// FIXED LESSON CLICK VERSION
 // Myanmar Lesson Edition
 // ======================================================
 
 const STORAGE_KEY = "aungBusinessAcademyV8";
-
 
 // ======================================================
 // COURSE DATA
 // ======================================================
 
 const COURSES = [
-
-  // ====================================================
-  // SALES MANAGEMENT
-  // ====================================================
 
   {
     id: "sales",
@@ -68,7 +63,6 @@ const COURSES = [
         `
       },
 
-
       {
         title: "အရောင်းအဖွဲ့ကို Coaching ပေးခြင်း",
 
@@ -108,7 +102,6 @@ const COURSES = [
         `
       },
 
-
       {
         title: "အရောင်းနယ်မြေ စီမံခန့်ခွဲခြင်း",
 
@@ -147,7 +140,6 @@ const COURSES = [
         `
       },
 
-
       {
         title: "လုပ်ဆောင်ရည် သုံးသပ်ခြင်း",
 
@@ -174,7 +166,6 @@ const COURSES = [
 
           <p>
             Target မပြည့်တဲ့ Salesperson တစ်ဦးကို ရွေးပြီး
-            “ဘာကြောင့် Target မပြည့်တာလဲ” ဆိုတာကို
             လူ၊ Customer၊ Product၊ နယ်မြေနှင့် Execution
             အပိုင်းတွေခွဲပြီး Root Cause ရှာပါ။
           </p>
@@ -191,11 +182,6 @@ const COURSES = [
 
     ]
   },
-
-
-  // ====================================================
-  // BUSINESS FOUNDATION
-  // ====================================================
 
   {
     id: "business",
@@ -232,8 +218,8 @@ const COURSES = [
           <h4>လက်တွေ့လုပ်ဆောင်ရန်</h4>
 
           <p>
-            မိမိလုပ်ငန်းအတွက် Customer → Product → Sales →
-            Revenue → Cost → Profit ဆိုတဲ့ လုပ်ငန်းစီးကြောင်းကို
+            Customer → Product → Sales → Revenue →
+            Cost → Profit ဆိုတဲ့ လုပ်ငန်းစီးကြောင်းကို
             စာရွက်ပေါ်မှာ ရေးဆွဲကြည့်ပါ။
           </p>
 
@@ -246,7 +232,6 @@ const COURSES = [
           </div>
         `
       },
-
 
       {
         title: "ဖောက်သည်နှင့် တန်ဖိုးဖန်တီးခြင်း",
@@ -273,8 +258,7 @@ const COURSES = [
 
           <p>
             အဓိက Customer ၅ ယောက်ကို ရွေးပြီး
-            “သူတို့ရဲ့ အကြီးမားဆုံး Business Problem က ဘာလဲ”
-            ဆိုတာကို ရေးပါ။
+            သူတို့ရဲ့ အကြီးမားဆုံး Business Problem ကို ရေးပါ။
           </p>
 
           <div class="lesson-tip">
@@ -286,7 +270,6 @@ const COURSES = [
           </div>
         `
       },
-
 
       {
         title: "အမြတ်နှင့် ငွေကြေးလည်ပတ်မှု",
@@ -320,8 +303,8 @@ const COURSES = [
           <div class="lesson-tip">
             <strong>Manager Tip</strong>
             <span>
-              ရောင်းအားတက်ဖို့အရေးကြီးသလို
-              ရောင်းရငွေကို အချိန်မီ ပြန်လည်ကောက်ခံနိုင်ဖို့လည်း အရေးကြီးပါတယ်။
+              ရောင်းအားတက်ဖို့အရေးကြီးသလို ရောင်းရငွေကို
+              အချိန်မီ ပြန်လည်ကောက်ခံနိုင်ဖို့လည်း အရေးကြီးပါတယ်။
             </span>
           </div>
         `
@@ -329,11 +312,6 @@ const COURSES = [
 
     ]
   },
-
-
-  // ====================================================
-  // MARKETING & GROWTH
-  // ====================================================
 
   {
     id: "marketing",
@@ -354,8 +332,8 @@ const COURSES = [
           <p>
             Marketing ဆိုတာ Product ကို ကြော်ငြာရုံတင်မဟုတ်ပါဘူး။
             Market၊ Customer၊ Positioning၊ Value Proposition နဲ့
-            Competitive Advantage ကို နားလည်ပြီး
-            Customer Demand ဖန်တီးခြင်းဖြစ်ပါတယ်။
+            Competitive Advantage ကို နားလည်ပြီး Customer Demand
+            ဖန်တီးခြင်းဖြစ်ပါတယ်။
           </p>
 
           <h4>အဓိကအချက်များ</h4>
@@ -372,8 +350,8 @@ const COURSES = [
 
           <p>
             မိမိ Product တစ်ခုကို ရွေးပြီး
-            “ဘယ်သူအတွက်လဲ၊ ဘာပြဿနာကို ဖြေရှင်းပေးလဲ၊
-            ဘာကြောင့် ကျွန်တော်တို့ကို ရွေးသင့်လဲ” ဆိုတာကို ရေးပါ။
+            ဘယ်သူအတွက်လဲ၊ ဘာပြဿနာကို ဖြေရှင်းပေးလဲ၊
+            ဘာကြောင့် ကျွန်တော်တို့ကို ရွေးသင့်လဲဆိုတာ ရေးပါ။
           </p>
 
           <div class="lesson-tip">
@@ -386,15 +364,14 @@ const COURSES = [
         `
       },
 
-
       {
         title: "Digital ဖြင့် လုပ်ငန်းတိုးတက်စေခြင်း",
 
         content: `
           <p>
-            Digital Channel များကို အသုံးပြုပြီး
-            Customer Awareness၊ Engagement၊ Lead Generation
-            နှင့် Sales Conversion ကို တိုးတက်စေနိုင်ပါတယ်။
+            Digital Channel များကို အသုံးပြုပြီး Customer Awareness၊
+            Engagement၊ Lead Generation နှင့် Sales Conversion ကို
+            တိုးတက်စေနိုင်ပါတယ်။
           </p>
 
           <h4>အဓိကအချက်များ</h4>
@@ -411,10 +388,9 @@ const COURSES = [
           <h4>လက်တွေ့လုပ်ဆောင်ရန်</h4>
 
           <p>
-            Customer အုပ်စုတစ်ခုကို ရွေးပြီး
-            တစ်ပတ်စာ Content အစီအစဉ်တစ်ခု ဆွဲပါ။
-            Content → Lead → Follow-up → Sale ဆိုတဲ့
-            လမ်းကြောင်းကို သတ်မှတ်ပါ။
+            Customer အုပ်စုတစ်ခုကို ရွေးပြီး တစ်ပတ်စာ Content
+            အစီအစဉ်တစ်ခု ဆွဲပါ။ Content → Lead →
+            Follow-up → Sale ဆိုတဲ့ လမ်းကြောင်းကို သတ်မှတ်ပါ။
           </p>
 
           <div class="lesson-tip">
@@ -426,7 +402,6 @@ const COURSES = [
           </div>
         `
       },
-
 
       {
         title: "Marketing Campaign တိုင်းတာခြင်း",
@@ -453,15 +428,15 @@ const COURSES = [
 
           <p>
             Campaign တစ်ခုအတွက် Objective တစ်ခုသတ်မှတ်ပြီး
-            KPI ၃ ခုမှ ၅ ခုအထိ ရွေးပါ။
-            Campaign ပြီးသွားတဲ့အခါ ရလဒ်ကို အရင် Campaign နဲ့ နှိုင်းယှဉ်ပါ။
+            KPI ၃ ခုမှ ၅ ခုအထိ ရွေးပါ။ Campaign ပြီးတဲ့အခါ
+            ရလဒ်ကို အရင် Campaign နဲ့ နှိုင်းယှဉ်ပါ။
           </p>
 
           <div class="lesson-tip">
             <strong>Manager Tip</strong>
             <span>
               Like နဲ့ View အရေအတွက်တစ်ခုတည်း မကြည့်ပါနဲ့။
-              Business Result ဖြစ်တဲ့ Lead၊ Conversion နဲ့ Revenue ကိုပါ ကြည့်ပါ။
+              Lead၊ Conversion နဲ့ Revenue ကိုပါ ကြည့်ပါ။
             </span>
           </div>
         `
@@ -469,11 +444,6 @@ const COURSES = [
 
     ]
   },
-
-
-  // ====================================================
-  // LEADERSHIP
-  // ====================================================
 
   {
     id: "leadership",
@@ -504,15 +474,15 @@ const COURSES = [
             <li>Expectation ကို အစကတည်းက ရှင်းပြပါ။</li>
             <li>တာဝန်နဲ့ Ownership ကို ခွဲခြားပေးပါ။</li>
             <li>Communication ကို ပုံမှန်ပြုလုပ်ပါ။</li>
-            <li>ဆုံးဖြတ်ချက်ချတဲ့အခါ Data နဲ့ Fact ကို အသုံးပြုပါ။</li>
+            <li>Data နဲ့ Fact ကို အသုံးပြုပါ။</li>
             <li>ကိုယ်တိုင် စံနမူနာကောင်း ပြပါ။</li>
           </ul>
 
           <h4>လက်တွေ့လုပ်ဆောင်ရန်</h4>
 
           <p>
-            မိမိအဖွဲ့အတွက် “ဘာရလဒ်ကို ရချင်တာလဲ၊
-            ဘယ်သူက ဘာတာဝန်ယူမလဲ၊ ဘယ်အချိန်မှာ Review လုပ်မလဲ”
+            မိမိအဖွဲ့အတွက် ဘာရလဒ်ကို ရချင်တာလဲ၊
+            ဘယ်သူက ဘာတာဝန်ယူမလဲ၊ ဘယ်အချိန်မှာ Review လုပ်မလဲ
             ဆိုတာ ရှင်းလင်းစွာ သတ်မှတ်ပါ။
           </p>
 
@@ -525,7 +495,6 @@ const COURSES = [
           </div>
         `
       },
-
 
       {
         title: "Coaching နှင့် လုပ်ပိုင်ခွင့်ပေးခြင်း",
@@ -540,7 +509,7 @@ const COURSES = [
           <h4>အဓိကအချက်များ</h4>
 
           <ul>
-            <li>အလုပ်ကို အားလုံးကိုယ်တိုင် မလုပ်ပါနဲ့။</li>
+            <li>အလုပ်အားလုံးကို ကိုယ်တိုင် မလုပ်ပါနဲ့။</li>
             <li>Team Member ရဲ့ အားသာချက်ကို သိပါ။</li>
             <li>တာဝန်ကို ရှင်းလင်းစွာ လွှဲအပ်ပါ။</li>
             <li>Decision Making အတွက် လုပ်ပိုင်ခွင့်ပေးပါ။</li>
@@ -559,13 +528,12 @@ const COURSES = [
           <div class="lesson-tip">
             <strong>Manager Tip</strong>
             <span>
-              Micromanagement မလုပ်ပါနဲ့။
-              Direction ပေးပြီး Ownership နဲ့ Accountability ကို Team ကို ပေးပါ။
+              Micromanagement မလုပ်ပါနဲ့။ Direction ပေးပြီး
+              Ownership နဲ့ Accountability ကို Team ကို ပေးပါ။
             </span>
           </div>
         `
       },
-
 
       {
         title: "လုပ်ဆောင်ရည် စီမံခန့်ခွဲခြင်း",
@@ -583,7 +551,7 @@ const COURSES = [
             <li>KPI ကို ရှင်းလင်းစွာ သတ်မှတ်ပါ။</li>
             <li>Target နဲ့ Actual ကို ပုံမှန်စစ်ပါ။</li>
             <li>Performance Gap ကို အမြန်ရှာပါ။</li>
-            <li>အကြောင်းရင်းကို Root Cause အထိ လေ့လာပါ။</li>
+            <li>Root Cause ကို လေ့လာပါ။</li>
             <li>Development Plan ချမှတ်ပါ။</li>
             <li>ကောင်းမွန်တဲ့ Performance ကို Recognition ပေးပါ။</li>
           </ul>
@@ -604,7 +572,6 @@ const COURSES = [
           </div>
         `
       },
-
 
       {
         title: "အဖွဲ့အား တက်ကြွစေခြင်း",
@@ -631,7 +598,7 @@ const COURSES = [
 
           <p>
             Team Member တစ်ဦးချင်းစီအတွက်
-            “သူ့ကို ဘာက အလုပ်ပိုကောင်းအောင် လှုံ့ဆော်ပေးနိုင်သလဲ”
+            သူ့ကို ဘာက အလုပ်ပိုကောင်းအောင် လှုံ့ဆော်ပေးနိုင်သလဲ
             ဆိုတာ သိအောင် တစ်ဦးချင်းဆွေးနွေးပါ။
           </p>
 
@@ -650,7 +617,6 @@ const COURSES = [
 
 ];
 
-
 // ======================================================
 // STATE
 // ======================================================
@@ -665,7 +631,6 @@ function createDefaultState() {
     },
 
     currentCourseId: "sales",
-
     currentLessonIndex: 0,
 
     completedLessons: [],
@@ -707,9 +672,7 @@ function createDefaultState() {
 
 }
 
-
 let state = loadState();
-
 
 // ======================================================
 // STORAGE
@@ -719,23 +682,18 @@ function loadState() {
 
   try {
 
-    const saved =
-      localStorage.getItem(STORAGE_KEY);
+    const saved = localStorage.getItem(STORAGE_KEY);
 
     if (!saved) {
       return createDefaultState();
     }
 
-    const parsed =
-      JSON.parse(saved);
-
-    const defaults =
-      createDefaultState();
+    const parsed = JSON.parse(saved);
+    const defaults = createDefaultState();
 
     return {
 
       ...defaults,
-
       ...parsed,
 
       user: {
@@ -777,17 +735,13 @@ function loadState() {
 
   } catch (error) {
 
-    console.error(
-      "Academy storage error:",
-      error
-    );
+    console.error("Storage Error:", error);
 
     return createDefaultState();
 
   }
 
 }
-
 
 function saveState() {
 
@@ -797,7 +751,6 @@ function saveState() {
   );
 
 }
-
 
 // ======================================================
 // HELPERS
@@ -813,27 +766,23 @@ function getTotalLessons() {
 
 }
 
-
 function getCompletedCount() {
 
   return state.completedLessons.length;
 
 }
 
-
 function getOverallProgress() {
 
-  const total =
-    getTotalLessons();
+  const total = getTotalLessons();
 
   if (!total) return 0;
 
   return Math.round(
-    (getCompletedCount() / total) * 100
+    getCompletedCount() / total * 100
   );
 
 }
-
 
 function getCourseProgress(courseId) {
 
@@ -853,11 +802,10 @@ function getCourseProgress(courseId) {
     ).length;
 
   return Math.round(
-    (completed / course.lessons.length) * 100
+    completed / course.lessons.length * 100
   );
 
 }
-
 
 function getCourseCompleted(courseId) {
 
@@ -877,7 +825,6 @@ function getCourseCompleted(courseId) {
 
 }
 
-
 function escapeHTML(value) {
 
   return String(value)
@@ -888,7 +835,6 @@ function escapeHTML(value) {
     .replaceAll("'", "&#039;");
 
 }
-
 
 // ======================================================
 // NAVIGATION
@@ -907,7 +853,6 @@ const pages = [
   "settings"
 ];
 
-
 function navigate(page) {
 
   if (!pages.includes(page)) return;
@@ -918,11 +863,12 @@ function navigate(page) {
       item.classList.remove("active")
     );
 
+  const targetPage =
+    document.getElementById(`page-${page}`);
 
-  document
-    .getElementById(`page-${page}`)
-    ?.classList.add("active");
-
+  if (targetPage) {
+    targetPage.classList.add("active");
+  }
 
   document
     .querySelectorAll(".nav-item")
@@ -934,7 +880,6 @@ function navigate(page) {
       );
 
     });
-
 
   const names = {
 
@@ -951,42 +896,23 @@ function navigate(page) {
 
   };
 
-
   const breadcrumb =
-    document.getElementById(
-      "breadcrumbCurrent"
-    );
+    document.getElementById("breadcrumbCurrent");
 
   if (breadcrumb) {
     breadcrumb.textContent =
       names[page] || page;
   }
 
-
-  if (page === "dashboard")
-    renderDashboard();
-
-  if (page === "courses")
-    renderCourses();
-
-  if (page === "lessons")
-    renderLessons();
-
-  if (page === "progress")
-    renderProgress();
-
-  if (page === "sales")
-    renderSales();
-
-  if (page === "calculator")
-    renderCalculator();
-
-  if (page === "reports")
-    renderReports();
-
+  if (page === "dashboard") renderDashboard();
+  if (page === "courses") renderCourses();
+  if (page === "lessons") renderLessons();
+  if (page === "progress") renderProgress();
+  if (page === "sales") renderSales();
+  if (page === "calculator") renderCalculator();
+  if (page === "reports") renderReports();
 
   closeSidebar();
-
 
   window.scrollTo({
     top: 0,
@@ -995,53 +921,37 @@ function navigate(page) {
 
 }
 
-
 // ======================================================
 // DASHBOARD
 // ======================================================
 
 function renderDashboard() {
 
-  const total =
-    getTotalLessons();
+  const total = getTotalLessons();
+  const completed = getCompletedCount();
+  const progress = getOverallProgress();
 
-  const completed =
-    getCompletedCount();
+  const statCourses =
+    document.getElementById("statCourses");
 
-  const progress =
-    getOverallProgress();
+  const statLessons =
+    document.getElementById("statLessons");
 
+  const statCompleted =
+    document.getElementById("statCompleted");
 
-  document.getElementById(
-    "statCourses"
-  ).textContent =
-    COURSES.length;
+  const statProgress =
+    document.getElementById("statProgress");
 
-
-  document.getElementById(
-    "statLessons"
-  ).textContent =
-    total;
-
-
-  document.getElementById(
-    "statCompleted"
-  ).textContent =
-    completed;
-
-
-  document.getElementById(
-    "statProgress"
-  ).textContent =
-    `${progress}%`;
-
+  if (statCourses) statCourses.textContent = COURSES.length;
+  if (statLessons) statLessons.textContent = total;
+  if (statCompleted) statCompleted.textContent = completed;
+  if (statProgress) statProgress.textContent = `${progress}%`;
 
   const course =
     COURSES.find(
-      item =>
-        item.id === state.currentCourseId
+      item => item.id === state.currentCourseId
     ) || COURSES[0];
-
 
   const courseProgress =
     getCourseProgress(course.id);
@@ -1049,36 +959,37 @@ function renderDashboard() {
   const courseCompleted =
     getCourseCompleted(course.id);
 
+  const title =
+    document.getElementById("dashboardCourseTitle");
 
-  document.getElementById(
-    "dashboardCourseTitle"
-  ).textContent =
-    course.title;
+  const description =
+    document.getElementById("dashboardCourseDescription");
 
+  const progressText =
+    document.getElementById("dashboardProgressText");
 
-  document.getElementById(
-    "dashboardCourseDescription"
-  ).textContent =
-    course.description;
+  const progressPercent =
+    document.getElementById("dashboardProgressPercent");
 
+  const progressBar =
+    document.getElementById("dashboardProgressBar");
 
-  document.getElementById(
-    "dashboardProgressText"
-  ).textContent =
-    `${courseCompleted} of ${course.lessons.length} lessons`;
+  if (title) title.textContent = course.title;
 
+  if (description)
+    description.textContent = course.description;
 
-  document.getElementById(
-    "dashboardProgressPercent"
-  ).textContent =
-    `${courseProgress}%`;
+  if (progressText)
+    progressText.textContent =
+      `${courseCompleted} of ${course.lessons.length} lessons`;
 
+  if (progressPercent)
+    progressPercent.textContent =
+      `${courseProgress}%`;
 
-  document.getElementById(
-    "dashboardProgressBar"
-  ).style.width =
-    `${courseProgress}%`;
-
+  if (progressBar)
+    progressBar.style.width =
+      `${courseProgress}%`;
 
   const goal =
     state.dailyGoal.target > 0
@@ -1092,31 +1003,30 @@ function renderDashboard() {
         )
       : 0;
 
+  const goalMinutes =
+    document.getElementById("goalMinutes");
 
-  document.getElementById(
-    "goalMinutes"
-  ).textContent =
-    `${state.dailyGoal.minutes} / ${state.dailyGoal.target} min`;
+  const goalPercent =
+    document.getElementById("goalPercent");
 
+  if (goalMinutes)
+    goalMinutes.textContent =
+      `${state.dailyGoal.minutes} / ${state.dailyGoal.target} min`;
 
-  document.getElementById(
-    "goalPercent"
-  ).textContent =
-    `${goal}%`;
-
+  if (goalPercent)
+    goalPercent.textContent =
+      `${goal}%`;
 
   renderActivity();
 
 }
 
-
 function renderActivity() {
 
   const container =
-    document.getElementById(
-      "activityList"
-    );
+    document.getElementById("activityList");
 
+  if (!container) return;
 
   if (!state.activity.length) {
 
@@ -1129,15 +1039,12 @@ function renderActivity() {
     `;
 
     return;
-
   }
-
 
   container.innerHTML =
     state.activity
       .slice(0, 5)
       .map(item => `
-
         <div class="activity-item">
 
           <div class="activity-icon">
@@ -1161,12 +1068,10 @@ function renderActivity() {
           </small>
 
         </div>
-
       `)
       .join("");
 
 }
-
 
 // ======================================================
 // COURSES
@@ -1175,60 +1080,47 @@ function renderActivity() {
 function renderCourses(filter = "all") {
 
   const container =
-    document.getElementById(
-      "coursesGrid"
-    );
+    document.getElementById("coursesGrid");
 
+  if (!container) return;
 
   const courses =
     filter === "all"
       ? COURSES
       : COURSES.filter(
-          course =>
-            course.category === filter
+          course => course.category === filter
         );
-
 
   container.innerHTML =
     courses.map(course => {
 
       const progress =
-        getCourseProgress(
-          course.id
-        );
+        getCourseProgress(course.id);
 
       const completed =
-        getCourseCompleted(
-          course.id
-        );
-
+        getCourseCompleted(course.id);
 
       return `
-
         <div class="course-card">
 
           <div class="course-card-top">
 
-            <div
-              class="course-icon ${course.color}"
-            >
+            <div class="course-icon ${course.color}">
               ${course.icon}
             </div>
 
-            <span
-              class="course-badge ${course.category}"
-            >
+            <span class="course-badge ${course.category}">
               ${course.category.toUpperCase()}
             </span>
 
           </div>
 
           <h2>
-            ${course.title}
+            ${escapeHTML(course.title)}
           </h2>
 
           <p>
-            ${course.description}
+            ${escapeHTML(course.description)}
           </p>
 
           <div class="course-meta">
@@ -1260,49 +1152,21 @@ function renderCourses(filter = "all") {
             </span>
 
             <button
+              type="button"
               class="secondary-btn open-course"
               data-course="${course.id}"
             >
-              ${
-                progress > 0
-                  ? "Continue"
-                  : "Start Course"
-              }
+              ${progress > 0 ? "Continue" : "Start Course"}
             </button>
 
           </div>
 
         </div>
-
       `;
 
     }).join("");
 
-
-  document
-    .querySelectorAll(".open-course")
-    .forEach(button => {
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          state.currentCourseId =
-            button.dataset.course;
-
-          state.currentLessonIndex = 0;
-
-          saveState();
-
-          navigate("lessons");
-
-        }
-      );
-
-    });
-
 }
-
 
 // ======================================================
 // LESSONS
@@ -1311,43 +1175,44 @@ function renderCourses(filter = "all") {
 function renderLessons() {
 
   const courseList =
-    document.getElementById(
-      "lessonCourseList"
-    );
+    document.getElementById("lessonCourseList");
 
   const content =
-    document.getElementById(
-      "lessonContent"
-    );
+    document.getElementById("lessonContent");
 
+  if (!courseList || !content) {
+    console.error(
+      "Lesson elements not found. Check index.html IDs."
+    );
+    return;
+  }
 
   courseList.innerHTML =
     COURSES.map(course => {
 
       const progress =
-        getCourseProgress(
-          course.id
-        );
+        getCourseProgress(course.id);
 
+      const active =
+        state.currentCourseId === course.id
+          ? "active"
+          : "";
 
       return `
-
         <button
-          class="lesson-course-item
-          ${state.currentCourseId === course.id ? "active" : ""}"
+          type="button"
+          class="lesson-course-item ${active}"
           data-course="${course.id}"
         >
 
-          <div
-            class="lesson-course-icon ${course.color}"
-          >
+          <div class="lesson-course-icon ${course.color}">
             ${course.icon}
           </div>
 
           <div class="lesson-course-info">
 
             <strong>
-              ${course.title}
+              ${escapeHTML(course.title)}
             </strong>
 
             <span>
@@ -1367,66 +1232,34 @@ function renderLessons() {
           </div>
 
         </button>
-
       `;
 
     }).join("");
 
-
-  document
-    .querySelectorAll(".lesson-course-item")
-    .forEach(button => {
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          state.currentCourseId =
-            button.dataset.course;
-
-          state.currentLessonIndex = 0;
-
-          saveState();
-
-          renderLessons();
-
-        }
-      );
-
-    });
-
-
   const course =
     COURSES.find(
-      item =>
-        item.id === state.currentCourseId
+      item => item.id === state.currentCourseId
     ) || COURSES[0];
 
+  let index =
+    Number(state.currentLessonIndex) || 0;
 
-  const index =
-    Math.min(
-      state.currentLessonIndex,
-      course.lessons.length - 1
-    );
+  if (index < 0) index = 0;
 
+  if (index >= course.lessons.length) {
+    index = course.lessons.length - 1;
+  }
 
-  state.currentLessonIndex =
-    index;
-
+  state.currentLessonIndex = index;
 
   const lesson =
     course.lessons[index];
 
-
   const lessonKey =
     `${course.id}-${index}`;
 
-
   const completed =
-    state.completedLessons.includes(
-      lessonKey
-    );
-
+    state.completedLessons.includes(lessonKey);
 
   content.innerHTML = `
 
@@ -1439,34 +1272,29 @@ function renderLessons() {
         </span>
 
         <h2>
-          ${lesson.title}
+          ${escapeHTML(lesson.title)}
         </h2>
 
         <p>
-          ${course.title}
+          ${escapeHTML(course.title)}
         </p>
 
       </div>
 
-      <span
-        class="course-badge ${course.category}"
-      >
+      <span class="course-badge ${course.category}">
         ${course.category.toUpperCase()}
       </span>
 
     </div>
 
-
     <div class="lesson-body">
 
-      <div
-        class="lesson-visual ${course.color}"
-      >
+      <div class="lesson-visual ${course.color}">
         ${course.icon}
       </div>
 
       <h3>
-        ${lesson.title}
+        ${escapeHTML(lesson.title)}
       </h3>
 
       <div class="lesson-text">
@@ -1475,10 +1303,10 @@ function renderLessons() {
 
     </div>
 
-
     <div class="lesson-footer">
 
       <button
+        type="button"
         class="secondary-btn"
         id="previousLessonBtn"
         ${index === 0 ? "disabled" : ""}
@@ -1487,6 +1315,7 @@ function renderLessons() {
       </button>
 
       <button
+        type="button"
         class="primary-btn"
         id="completeLessonBtn"
       >
@@ -1498,6 +1327,7 @@ function renderLessons() {
       </button>
 
       <button
+        type="button"
         class="secondary-btn"
         id="nextLessonBtn"
         ${
@@ -1510,79 +1340,76 @@ function renderLessons() {
       </button>
 
     </div>
-
   `;
 
+  // ----------------------------------------------------
+  // LESSON NAVIGATION
+  // ----------------------------------------------------
 
-  document
-    .getElementById(
-      "previousLessonBtn"
-    )
-    ?.addEventListener(
-      "click",
-      () => {
+  const previousBtn =
+    document.getElementById("previousLessonBtn");
 
-        if (index > 0) {
+  if (previousBtn) {
 
-          state.currentLessonIndex =
-            index - 1;
+    previousBtn.onclick = function () {
 
-          saveState();
+      if (state.currentLessonIndex > 0) {
 
-          renderLessons();
+        state.currentLessonIndex--;
 
-        }
+        saveState();
 
-      }
-    );
-
-
-  document
-    .getElementById(
-      "nextLessonBtn"
-    )
-    ?.addEventListener(
-      "click",
-      () => {
-
-        if (
-          index <
-          course.lessons.length - 1
-        ) {
-
-          state.currentLessonIndex =
-            index + 1;
-
-          saveState();
-
-          renderLessons();
-
-        }
+        renderLessons();
 
       }
-    );
 
+    };
 
-  document
-    .getElementById(
-      "completeLessonBtn"
-    )
-    ?.addEventListener(
-      "click",
-      () => {
+  }
 
-        completeLesson(
-          course.id,
-          index,
-          lesson.title,
-          course.title
-        );
+  const nextBtn =
+    document.getElementById("nextLessonBtn");
+
+  if (nextBtn) {
+
+    nextBtn.onclick = function () {
+
+      if (
+        state.currentLessonIndex <
+        course.lessons.length - 1
+      ) {
+
+        state.currentLessonIndex++;
+
+        saveState();
+
+        renderLessons();
 
       }
-    );
+
+    };
+
+  }
+
+  const completeBtn =
+    document.getElementById("completeLessonBtn");
+
+  if (completeBtn) {
+
+    completeBtn.onclick = function () {
+
+      completeLesson(
+        course.id,
+        state.currentLessonIndex,
+        lesson.title,
+        course.title
+      );
+
+    };
+
+  }
 
 }
-
 
 // ======================================================
 // COMPLETE LESSON
@@ -1598,13 +1425,9 @@ function completeLesson(
   const key =
     `${courseId}-${index}`;
 
-
-  if (
-    !state.completedLessons.includes(key)
-  ) {
+  if (!state.completedLessons.includes(key)) {
 
     state.completedLessons.push(key);
-
 
     state.dailyGoal.minutes =
       Math.min(
@@ -1612,28 +1435,19 @@ function completeLesson(
         state.dailyGoal.minutes + 15
       );
 
-
     state.activity.unshift({
 
       title: lessonTitle,
-
       course: courseTitle,
-
       time: "Just now"
 
     });
 
-
     state.activity =
       state.activity.slice(0, 10);
 
-
     state.streak =
-      Math.max(
-        1,
-        state.streak
-      );
-
+      Math.max(1, state.streak);
 
     saveState();
 
@@ -1641,8 +1455,13 @@ function completeLesson(
       "သင်ခန်းစာ ပြီးဆုံးပါပြီ ✓"
     );
 
-  }
+  } else {
 
+    showToast(
+      "ဒီသင်ခန်းစာကို ပြီးဆုံးပြီးသားပါ။"
+    );
+
+  }
 
   renderLessons();
   renderDashboard();
@@ -1650,7 +1469,6 @@ function completeLesson(
   renderReports();
 
 }
-
 
 // ======================================================
 // PROGRESS
@@ -1667,67 +1485,50 @@ function renderProgress() {
   const total =
     getTotalLessons();
 
+  const overall =
+    document.getElementById("overallProgress");
 
-  document.getElementById(
-    "overallProgress"
-  ).textContent =
-    `${progress}%`;
+  const completedEl =
+    document.getElementById("progressCompleted");
 
+  const remainingEl =
+    document.getElementById("progressRemaining");
 
-  document.getElementById(
-    "progressCompleted"
-  ).textContent =
-    completed;
+  const streakEl =
+    document.getElementById("progressStreak");
 
-
-  document.getElementById(
-    "progressRemaining"
-  ).textContent =
-    total - completed;
-
-
-  document.getElementById(
-    "progressStreak"
-  ).textContent =
-    state.streak;
-
+  if (overall) overall.textContent = `${progress}%`;
+  if (completedEl) completedEl.textContent = completed;
+  if (remainingEl) remainingEl.textContent = total - completed;
+  if (streakEl) streakEl.textContent = state.streak;
 
   const container =
-    document.getElementById(
-      "courseProgressList"
-    );
+    document.getElementById("courseProgressList");
 
+  if (!container) return;
 
   container.innerHTML =
     COURSES.map(course => {
 
       const p =
-        getCourseProgress(
-          course.id
-        );
+        getCourseProgress(course.id);
 
       const completedCourse =
-        getCourseCompleted(
-          course.id
-        );
-
+        getCourseCompleted(course.id);
 
       return `
-
         <div class="course-progress-row">
 
           <div class="course-progress-name">
 
-            <div
-              class="small-icon ${course.color}"
-            >
+            <div class="small-icon ${course.color}">
               ${course.icon}
             </div>
 
             <div>
 
               <strong>
-                ${course.title}
+                ${escapeHTML(course.title)}
               </strong>
 
               <span>
@@ -1742,9 +1543,7 @@ function renderProgress() {
           <div class="course-progress-bar">
 
             <div>
-              <span
-                style="width:${p}%"
-              ></span>
+              <span style="width:${p}%"></span>
             </div>
 
           </div>
@@ -1754,16 +1553,14 @@ function renderProgress() {
           </strong>
 
         </div>
-
       `;
 
     }).join("");
 
 }
 
-
 // ======================================================
-// SALES MANAGER
+// SALES
 // ======================================================
 
 function renderSales() {
@@ -1774,99 +1571,68 @@ function renderSales() {
   const actual =
     Number(state.sales.actual) || 0;
 
-
   const achievement =
     target > 0
-      ? Math.round(
-          actual / target * 100
-        )
+      ? Math.round(actual / target * 100)
       : 0;
 
-
   const gap =
-    Math.max(
-      target - actual,
-      0
-    );
+    Math.max(target - actual, 0);
 
+  const targetEl =
+    document.getElementById("salesTargetDisplay");
 
-  document.getElementById(
-    "salesTargetDisplay"
-  ).textContent =
-    target;
+  const actualEl =
+    document.getElementById("salesActualDisplay");
 
+  const achievementEl =
+    document.getElementById("salesAchievementDisplay");
 
-  document.getElementById(
-    "salesActualDisplay"
-  ).textContent =
-    actual;
+  const gapEl =
+    document.getElementById("salesGapDisplay");
 
+  if (targetEl) targetEl.textContent = target;
+  if (actualEl) actualEl.textContent = actual;
+  if (achievementEl) achievementEl.textContent = `${achievement}%`;
+  if (gapEl) gapEl.textContent = gap;
 
-  document.getElementById(
-    "salesAchievementDisplay"
-  ).textContent =
-    `${achievement}%`;
+  const targetInput =
+    document.getElementById("salesTargetInput");
 
+  const actualInput =
+    document.getElementById("salesActualInput");
 
-  document.getElementById(
-    "salesGapDisplay"
-  ).textContent =
-    gap;
-
-
-  document.getElementById(
-    "salesTargetInput"
-  ).value =
-    target;
-
-
-  document.getElementById(
-    "salesActualInput"
-  ).value =
-    actual;
-
+  if (targetInput) targetInput.value = target;
+  if (actualInput) actualInput.value = actual;
 
   renderSalesChart();
   renderPriorities();
 
 }
 
-
 function renderSalesChart() {
 
   const container =
-    document.getElementById(
-      "salesChart"
-    );
+    document.getElementById("salesChart");
 
+  if (!container) return;
 
   const history =
-    Array.isArray(
-      state.sales.history
-    )
+    Array.isArray(state.sales.history)
       ? state.sales.history
       : [];
 
-
   const max =
-    Math.max(
-      ...history,
-      100
-    );
-
+    Math.max(...history, 100);
 
   container.innerHTML =
     history.map(
       (value, index) => {
 
         const height =
-          Math.round(
-            value / max * 100
-          );
-
+          Math.round(value / max * 100);
 
         return `
-
           <div class="chart-bar-group">
 
             <span class="chart-value">
@@ -1883,7 +1649,6 @@ function renderSalesChart() {
             </small>
 
           </div>
-
         `;
 
       }
@@ -1891,14 +1656,12 @@ function renderSalesChart() {
 
 }
 
-
 function renderPriorities() {
 
   const container =
-    document.getElementById(
-      "priorityList"
-    );
+    document.getElementById("priorityList");
 
+  if (!container) return;
 
   if (!state.sales.priorities.length) {
 
@@ -1914,11 +1677,9 @@ function renderPriorities() {
 
   }
 
-
   container.innerHTML =
     state.sales.priorities.map(
       (item, index) => `
-
         <div class="priority-item">
 
           <div class="priority-number">
@@ -1930,6 +1691,7 @@ function renderPriorities() {
           </span>
 
           <button
+            type="button"
             class="priority-delete"
             data-index="${index}"
           >
@@ -1937,129 +1699,90 @@ function renderPriorities() {
           </button>
 
         </div>
-
       `
     ).join("");
 
-
-  document
-    .querySelectorAll(".priority-delete")
-    .forEach(button => {
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          state.sales.priorities.splice(
-            Number(button.dataset.index),
-            1
-          );
-
-          saveState();
-
-          renderPriorities();
-
-          showToast(
-            "Priority ဖျက်ပြီးပါပြီ။"
-          );
-
-        }
-      );
-
-    });
-
 }
 
-
 // ======================================================
-// PRICING CALCULATOR
+// CALCULATOR
 // ======================================================
 
 function calculatePrice() {
 
-  const product =
-    document.getElementById(
-      "productName"
-    ).value.trim() ||
-    "Product";
+  const productInput =
+    document.getElementById("productName");
 
+  const costInput =
+    document.getElementById("productCost");
+
+  const marginInput =
+    document.getElementById("productMargin");
+
+  if (!productInput || !costInput || !marginInput) {
+    return;
+  }
+
+  const product =
+    productInput.value.trim() || "Product";
 
   const cost =
-    Number(
-      document.getElementById(
-        "productCost"
-      ).value
-    ) || 0;
-
+    Number(costInput.value) || 0;
 
   const margin =
     Math.max(
       0,
       Math.min(
         99.99,
-        Number(
-          document.getElementById(
-            "productMargin"
-          ).value
-        ) || 0
+        Number(marginInput.value) || 0
       )
     );
 
-
   const price =
-    cost /
-    (1 - margin / 100);
-
+    cost / (1 - margin / 100);
 
   const profit =
     price - cost;
 
-
   state.calculator = {
-
     product,
-
     cost,
-
     margin
-
   };
-
 
   saveState();
 
+  const resultProduct =
+    document.getElementById("resultProduct");
 
-  document.getElementById(
-    "resultProduct"
-  ).textContent =
-    product;
+  const resultPrice =
+    document.getElementById("resultPrice");
 
+  const resultCost =
+    document.getElementById("resultCost");
 
-  document.getElementById(
-    "resultPrice"
-  ).textContent =
-    formatMoney(price);
+  const resultProfit =
+    document.getElementById("resultProfit");
 
+  const resultMargin =
+    document.getElementById("resultMargin");
 
-  document.getElementById(
-    "resultCost"
-  ).textContent =
-    formatMoney(cost);
+  if (resultProduct)
+    resultProduct.textContent = product;
 
+  if (resultPrice)
+    resultPrice.textContent = formatMoney(price);
 
-  document.getElementById(
-    "resultProfit"
-  ).textContent =
-    formatMoney(profit);
+  if (resultCost)
+    resultCost.textContent = formatMoney(cost);
 
+  if (resultProfit)
+    resultProfit.textContent = formatMoney(profit);
 
-  document.getElementById(
-    "resultMargin"
-  ).textContent =
-    `${margin}%`;
+  if (resultMargin)
+    resultMargin.textContent = `${margin}%`;
 
 }
-
 
 function formatMoney(number) {
 
@@ -2069,35 +1792,28 @@ function formatMoney(number) {
 
 }
 
-
 function renderCalculator() {
 
-  const data =
-    state.calculator;
+  const data = state.calculator;
 
+  const product =
+    document.getElementById("productName");
 
-  document.getElementById(
-    "productName"
-  ).value =
-    data.product;
+  const cost =
+    document.getElementById("productCost");
 
+  const margin =
+    document.getElementById("productMargin");
 
-  document.getElementById(
-    "productCost"
-  ).value =
-    data.cost;
+  if (!product || !cost || !margin) return;
 
-
-  document.getElementById(
-    "productMargin"
-  ).value =
-    data.margin;
-
+  product.value = data.product;
+  cost.value = data.cost;
+  margin.value = data.margin;
 
   calculatePrice();
 
 }
-
 
 // ======================================================
 // REPORTS
@@ -2111,42 +1827,46 @@ function renderReports() {
   const completed =
     getCompletedCount();
 
+  const reportCourses =
+    document.getElementById("reportCourses");
 
-  document.getElementById(
-    "reportCourses"
-  ).textContent =
-    COURSES.length;
+  const reportLessons =
+    document.getElementById("reportLessons");
 
+  const reportCompleted =
+    document.getElementById("reportCompleted");
 
-  document.getElementById(
-    "reportLessons"
-  ).textContent =
-    total;
+  const reportStreak =
+    document.getElementById("reportStreak");
 
+  const reportSalesTarget =
+    document.getElementById("reportSalesTarget");
 
-  document.getElementById(
-    "reportCompleted"
-  ).textContent =
-    completed;
+  const reportSalesActual =
+    document.getElementById("reportSalesActual");
 
+  const reportSalesAchievement =
+    document.getElementById("reportSalesAchievement");
 
-  document.getElementById(
-    "reportStreak"
-  ).textContent =
-    state.streak;
+  if (reportCourses)
+    reportCourses.textContent = COURSES.length;
 
+  if (reportLessons)
+    reportLessons.textContent = total;
 
-  document.getElementById(
-    "reportSalesTarget"
-  ).textContent =
-    state.sales.target;
+  if (reportCompleted)
+    reportCompleted.textContent = completed;
 
+  if (reportStreak)
+    reportStreak.textContent = state.streak;
 
-  document.getElementById(
-    "reportSalesActual"
-  ).textContent =
-    state.sales.actual;
+  if (reportSalesTarget)
+    reportSalesTarget.textContent =
+      state.sales.target;
 
+  if (reportSalesActual)
+    reportSalesActual.textContent =
+      state.sales.actual;
 
   const achievement =
     state.sales.target > 0
@@ -2157,26 +1877,20 @@ function renderReports() {
         )
       : 0;
 
-
-  document.getElementById(
-    "reportSalesAchievement"
-  ).textContent =
-    `${achievement}%`;
+  if (reportSalesAchievement)
+    reportSalesAchievement.textContent =
+      `${achievement}%`;
 
 }
 
-
 // ======================================================
-// AI BUSINESS COACH
+// AI COACH
 // ======================================================
 
 function getAIResponse(question) {
 
   const q =
-    question
-      .toLowerCase()
-      .trim();
-
+    question.toLowerCase().trim();
 
   if (
     q.includes("team") ||
@@ -2196,14 +1910,13 @@ function getAIResponse(question) {
       </p>
 
       <p>
-        ပြီးရင် Gap ဖြစ်ရတဲ့ Root Cause ကို
+        Gap ဖြစ်ရတဲ့ Root Cause ကို
         လူ၊ Skill၊ Customer၊ နယ်မြေနဲ့ Execution
         အပိုင်းခွဲပြီး လေ့လာပါ။
       </p>
 
       <p>
-        နောက်ဆုံးမှာ တိကျတဲ့ Action Plan ချမှတ်ပြီး
-        အပတ်စဉ် Follow-up လုပ်ပါ။
+        Action Plan ချမှတ်ပြီး အပတ်စဉ် Follow-up လုပ်ပါ။
         Micromanagement မလုပ်ဘဲ Coaching နဲ့ Empowerment
         ကို အသုံးပြုပါ။
       </p>
@@ -2211,15 +1924,13 @@ function getAIResponse(question) {
 
   }
 
-
   if (
     q.includes("customer") ||
-    q.includes("ဖောက်သည်") ||
-    q.includes("retention")
+    q.includes("ဖောက်သည်")
   ) {
 
     return `
-      <strong>Customer Retention တိုးတက်စေရန်</strong>
+      <strong>Customer Growth တိုးတက်စေရန်</strong>
 
       <p>
         Customer တွေကို Value နဲ့ Potential အလိုက် ခွဲခြားပါ။
@@ -2231,13 +1942,12 @@ function getAIResponse(question) {
       </p>
 
       <p>
-        ပုံမှန် Visit Plan၊ Follow-up Plan နဲ့
+        Visit Plan၊ Follow-up Plan နဲ့
         Customer Development Plan တည်ဆောက်ပါ။
       </p>
     `;
 
   }
-
 
   if (
     q.includes("sales") ||
@@ -2259,14 +1969,12 @@ function getAIResponse(question) {
       </p>
 
       <p>
-        နောက်ဆုံးမှာ People၊ Market နဲ့ Execution ဆိုတဲ့
-        ဦးစားပေးအချက် ၃ ခုအပေါ် Action Plan ချပြီး
-        အပတ်စဉ် Review ပြုလုပ်ပါ။
+        People၊ Market နဲ့ Execution သုံးခုအပေါ်
+        Action Plan ချပြီး အပတ်စဉ် Review ပြုလုပ်ပါ။
       </p>
     `;
 
   }
-
 
   if (
     q.includes("pricing") ||
@@ -2278,19 +1986,17 @@ function getAIResponse(question) {
       <strong>Pricing Strategy</strong>
 
       <p>
-        စျေးနှုန်းသတ်မှတ်တဲ့အခါ Cost တစ်ခုတည်းကို မကြည့်ဘဲ
-        Customer Value၊ Competitor Price နဲ့ Desired Margin
-        ကို တွဲပြီး စဉ်းစားပါ။
+        Cost တစ်ခုတည်းကို မကြည့်ဘဲ Customer Value၊
+        Competitor Price နဲ့ Desired Margin ကို တွဲပြီး စဉ်းစားပါ။
       </p>
 
       <p>
         Margin မလုံလောက်ရင် ရောင်းအားတက်နေသော်လည်း
-        Profit ကျဆင်းနိုင်တာကို သတိထားပါ။
+        Profit ကျဆင်းနိုင်ပါတယ်။
       </p>
     `;
 
   }
-
 
   return `
     <strong>Business Manager အနေနဲ့</strong>
@@ -2302,36 +2008,25 @@ function getAIResponse(question) {
     </p>
 
     <p>
-      လက်ရှိရလဒ်ကို တိုင်းတာပါ။
-      အကြီးမားဆုံး Gap ကို ရှာပါ။
-      Root Cause ကို သတ်မှတ်ပါ။
-      ပြီးရင် လက်တွေ့လုပ်နိုင်တဲ့ Action Plan တစ်ခု ချမှတ်ပါ။
-    </p>
-
-    <p>
-      ရလဒ်ကို ပုံမှန် Review လုပ်ပြီး Data အပေါ်မူတည်ပြီး
-      Plan ကို ပြန်လည်ပြင်ဆင်ပါ။
+      ရလဒ်ကို တိုင်းတာပါ။ အကြီးမားဆုံး Gap ကို ရှာပါ။
+      Root Cause ကို သတ်မှတ်ပြီး Action Plan ချမှတ်ပါ။
     </p>
   `;
 
 }
 
-
 function sendAIMessage(question) {
 
   if (!question.trim()) return;
 
-
   const container =
-    document.getElementById(
-      "chatMessages"
-    );
+    document.getElementById("chatMessages");
 
+  if (!container) return;
 
   container.insertAdjacentHTML(
     "beforeend",
     `
-
       <div class="chat-message user">
 
         <div class="message-avatar">
@@ -2349,59 +2044,48 @@ function sendAIMessage(question) {
         </div>
 
       </div>
-
     `
   );
-
 
   const answer =
     getAIResponse(question);
 
+  setTimeout(() => {
 
-  setTimeout(
-    () => {
+    container.insertAdjacentHTML(
+      "beforeend",
+      `
+        <div class="chat-message assistant">
 
-      container.insertAdjacentHTML(
-        "beforeend",
-        `
+          <div class="message-avatar">
+            AI
+          </div>
 
-          <div class="chat-message assistant">
+          <div class="message-content">
 
-            <div class="message-avatar">
-              AI
-            </div>
+            <strong>
+              Business Coach
+            </strong>
 
-            <div class="message-content">
-
-              <strong>
-                Business Coach
-              </strong>
-
-              <div>
-                ${answer}
-              </div>
-
+            <div>
+              ${answer}
             </div>
 
           </div>
 
-        `
-      );
+        </div>
+      `
+    );
 
+    container.scrollTop =
+      container.scrollHeight;
 
-      container.scrollTop =
-        container.scrollHeight;
-
-    },
-    350
-  );
-
+  }, 350);
 
   container.scrollTop =
     container.scrollHeight;
 
 }
-
 
 // ======================================================
 // AI TOOLS
@@ -2425,29 +2109,21 @@ function openAITool(tool) {
 
   };
 
-
   navigate("ai-coach");
 
-
   const input =
-    document.getElementById(
-      "chatInput"
-    );
+    document.getElementById("chatInput");
 
+  if (!input) return;
 
   input.value =
     messages[tool] || "";
 
-
-  sendAIMessage(
-    input.value
-  );
-
+  sendAIMessage(input.value);
 
   input.value = "";
 
 }
-
 
 // ======================================================
 // SEARCH
@@ -2456,37 +2132,22 @@ function openAITool(tool) {
 function performSearch(query) {
 
   const text =
-    query
-      .trim()
-      .toLowerCase();
-
+    query.trim().toLowerCase();
 
   if (!text) return;
-
 
   const course =
     COURSES.find(course =>
 
-      course.title
-        .toLowerCase()
-        .includes(text)
-
-      ||
-
-      course.description
-        .toLowerCase()
-        .includes(text)
+      course.title.toLowerCase().includes(text) ||
+      course.description.toLowerCase().includes(text)
 
     );
 
-
   if (course) {
 
-    state.currentCourseId =
-      course.id;
-
-    state.currentLessonIndex =
-      0;
+    state.currentCourseId = course.id;
+    state.currentLessonIndex = 0;
 
     saveState();
 
@@ -2496,40 +2157,27 @@ function performSearch(query) {
 
   }
 
-
   for (const course of COURSES) {
 
     const index =
-      course.lessons.findIndex(
-        lesson => {
+      course.lessons.findIndex(lesson => {
 
-          const plainContent =
-            lesson.content
-              .replace(
-                /<[^>]*>/g,
-                ""
-              )
-              .toLowerCase();
+        const plainContent =
+          lesson.content
+            .replace(/<[^>]*>/g, "")
+            .toLowerCase();
 
-          return (
-            lesson.title
-              .toLowerCase()
-              .includes(text)
-            ||
-            plainContent.includes(text)
-          );
+        return (
+          lesson.title.toLowerCase().includes(text) ||
+          plainContent.includes(text)
+        );
 
-        }
-      );
-
+      });
 
     if (index !== -1) {
 
-      state.currentCourseId =
-        course.id;
-
-      state.currentLessonIndex =
-        index;
+      state.currentCourseId = course.id;
+      state.currentLessonIndex = index;
 
       saveState();
 
@@ -2541,13 +2189,11 @@ function performSearch(query) {
 
   }
 
-
   showToast(
     "သင်တန်း သို့မဟုတ် သင်ခန်းစာ မတွေ့ပါ။"
   );
 
 }
-
 
 // ======================================================
 // SIDEBAR
@@ -2557,29 +2203,25 @@ function openSidebar() {
 
   document
     .getElementById("sidebar")
-    .classList.add("open");
-
+    ?.classList.add("open");
 
   document
     .getElementById("sidebarOverlay")
-    .classList.add("show");
+    ?.classList.add("show");
 
 }
-
 
 function closeSidebar() {
 
   document
     .getElementById("sidebar")
-    .classList.remove("open");
-
+    ?.classList.remove("open");
 
   document
     .getElementById("sidebarOverlay")
-    .classList.remove("show");
+    ?.classList.remove("show");
 
 }
-
 
 // ======================================================
 // TOAST
@@ -2588,31 +2230,24 @@ function closeSidebar() {
 function showToast(message) {
 
   const toast =
-    document.getElementById(
-      "toast"
-    );
+    document.getElementById("toast");
 
+  const toastMessage =
+    document.getElementById("toastMessage");
 
-  document.getElementById(
-    "toastMessage"
-  ).textContent =
-    message;
+  if (!toast || !toastMessage) return;
 
+  toastMessage.textContent = message;
 
   toast.classList.add("show");
 
+  setTimeout(() => {
 
-  setTimeout(
-    () => {
+    toast.classList.remove("show");
 
-      toast.classList.remove("show");
-
-    },
-    2500
-  );
+  }, 2500);
 
 }
-
 
 // ======================================================
 // MODAL
@@ -2621,545 +2256,683 @@ function showToast(message) {
 function closeModal() {
 
   document
-    .getElementById(
-      "modalOverlay"
-    )
-    .classList.remove("show");
+    .getElementById("modalOverlay")
+    ?.classList.remove("show");
 
 }
 
-
 // ======================================================
-// EVENT LISTENERS
-// ======================================================
-
-document.addEventListener(
-  "click",
-  event => {
-
-    const nav =
-      event.target.closest(
-        ".nav-item"
-      );
-
-
-    if (nav) {
-
-      navigate(
-        nav.dataset.page
-      );
-
-      return;
-
-    }
-
-
-    const go =
-      event.target.closest(
-        "[data-go]"
-      );
-
-
-    if (go) {
-
-      navigate(
-        go.dataset.go
-      );
-
-      return;
-
-    }
-
-
-    const recommendation =
-      event.target.closest(
-        ".recommendation-item"
-      );
-
-
-    if (recommendation) {
-
-      state.currentCourseId =
-        recommendation.dataset.course;
-
-      state.currentLessonIndex =
-        0;
-
-      saveState();
-
-      navigate("lessons");
-
-    }
-
-  }
-);
-
-
-// ======================================================
-// COURSE FILTERS
+// INITIALIZE EVENTS
+// IMPORTANT FIX
 // ======================================================
 
-document
-  .querySelectorAll(".filter-tab")
-  .forEach(button => {
+function initializeApp() {
 
-    button.addEventListener(
-      "click",
-      () => {
+  // ----------------------------------------------------
+  // GLOBAL CLICK
+  // ----------------------------------------------------
 
-        document
-          .querySelectorAll(".filter-tab")
-          .forEach(item =>
-            item.classList.remove(
-              "active"
-            )
-          );
-
-
-        button.classList.add(
-          "active"
-        );
-
-
-        renderCourses(
-          button.dataset.filter
-        );
-
-      }
-    );
-
-  });
-
-
-// ======================================================
-// CONTINUE LEARNING
-// ======================================================
-
-document
-  .getElementById(
-    "continueLearningBtn"
-  )
-  .addEventListener(
+  document.addEventListener(
     "click",
-    () => {
+    event => {
 
-      navigate("lessons");
+      // Navigation
+      const nav =
+        event.target.closest(".nav-item");
 
-    }
-  );
+      if (nav) {
 
+        event.preventDefault();
 
-// ======================================================
-// SALES UPDATE
-// ======================================================
-
-document
-  .getElementById(
-    "updateSalesBtn"
-  )
-  .addEventListener(
-    "click",
-    () => {
-
-      state.sales.target =
-        Number(
-          document.getElementById(
-            "salesTargetInput"
-          ).value
-        ) || 0;
-
-
-      state.sales.actual =
-        Number(
-          document.getElementById(
-            "salesActualInput"
-          ).value
-        ) || 0;
-
-
-      state.sales.history.push(
-        state.sales.actual
-      );
-
-
-      state.sales.history =
-        state.sales.history.slice(-7);
-
-
-      saveState();
-
-      renderSales();
-
-      renderReports();
-
-      showToast(
-        "Sales performance updated."
-      );
-
-    }
-  );
-
-
-// ======================================================
-// ADD PRIORITY
-// ======================================================
-
-document
-  .getElementById(
-    "addPriorityBtn"
-  )
-  .addEventListener(
-    "click",
-    () => {
-
-      const input =
-        document.getElementById(
-          "priorityInput"
-        );
-
-
-      const value =
-        input.value.trim();
-
-
-      if (!value) {
-
-        showToast(
-          "Priority ထည့်ပေးပါ။"
+        navigate(
+          nav.dataset.page
         );
 
         return;
 
       }
 
+      // Data Go
+      const go =
+        event.target.closest("[data-go]");
 
-      state.sales.priorities.push(
-        value
-      );
+      if (go) {
 
+        event.preventDefault();
 
-      input.value = "";
-
-
-      saveState();
-
-      renderPriorities();
-
-      showToast(
-        "Priority ထည့်ပြီးပါပြီ။"
-      );
-
-    }
-  );
-
-
-// ======================================================
-// CALCULATOR
-// ======================================================
-
-document
-  .getElementById(
-    "calculateBtn"
-  )
-  .addEventListener(
-    "click",
-    calculatePrice
-  );
-
-
-// ======================================================
-// AI CHAT
-// ======================================================
-
-document
-  .getElementById(
-    "sendChatBtn"
-  )
-  .addEventListener(
-    "click",
-    () => {
-
-      const input =
-        document.getElementById(
-          "chatInput"
+        navigate(
+          go.dataset.go
         );
 
+        return;
 
-      sendAIMessage(
-        input.value
-      );
+      }
 
+      // Course Start / Continue
+      const openCourse =
+        event.target.closest(".open-course");
 
-      input.value = "";
+      if (openCourse) {
 
-    }
-  );
+        event.preventDefault();
 
+        const courseId =
+          openCourse.dataset.course;
 
-document
-  .getElementById(
-    "chatInput"
-  )
-  .addEventListener(
-    "keydown",
-    event => {
-
-      if (
-        event.key === "Enter"
-      ) {
-
-        document
-          .getElementById(
-            "sendChatBtn"
+        if (
+          COURSES.some(
+            course => course.id === courseId
           )
-          .click();
+        ) {
+
+          state.currentCourseId =
+            courseId;
+
+          state.currentLessonIndex = 0;
+
+          saveState();
+
+          navigate("lessons");
+
+        }
+
+        return;
+
+      }
+
+      // ------------------------------------------------
+      // LESSON COURSE BUTTON
+      // ------------------------------------------------
+
+      const lessonCourse =
+        event.target.closest(
+          ".lesson-course-item"
+        );
+
+      if (lessonCourse) {
+
+        event.preventDefault();
+
+        const courseId =
+          lessonCourse.dataset.course;
+
+        const course =
+          COURSES.find(
+            item => item.id === courseId
+          );
+
+        if (!course) return;
+
+        state.currentCourseId =
+          courseId;
+
+        state.currentLessonIndex = 0;
+
+        saveState();
+
+        renderLessons();
+
+        return;
+
+      }
+
+      // ------------------------------------------------
+      // RECOMMENDATION
+      // ------------------------------------------------
+
+      const recommendation =
+        event.target.closest(
+          ".recommendation-item"
+        );
+
+      if (recommendation) {
+
+        event.preventDefault();
+
+        const courseId =
+          recommendation.dataset.course;
+
+        if (!courseId) return;
+
+        state.currentCourseId =
+          courseId;
+
+        state.currentLessonIndex = 0;
+
+        saveState();
+
+        navigate("lessons");
+
+        return;
+
+      }
+
+      // ------------------------------------------------
+      // PRIORITY DELETE
+      // ------------------------------------------------
+
+      const deletePriority =
+        event.target.closest(
+          ".priority-delete"
+        );
+
+      if (deletePriority) {
+
+        const index =
+          Number(deletePriority.dataset.index);
+
+        state.sales.priorities.splice(
+          index,
+          1
+        );
+
+        saveState();
+
+        renderPriorities();
+
+        showToast(
+          "Priority ဖျက်ပြီးပါပြီ။"
+        );
 
       }
 
     }
   );
 
+  // ----------------------------------------------------
+  // COURSE FILTER
+  // ----------------------------------------------------
 
-// ======================================================
-// AI QUICK QUESTIONS
-// ======================================================
+  document
+    .querySelectorAll(".filter-tab")
+    .forEach(button => {
 
-document
-  .querySelectorAll(".ai-question")
-  .forEach(button => {
+      button.addEventListener(
+        "click",
+        () => {
 
-    button.addEventListener(
+          document
+            .querySelectorAll(".filter-tab")
+            .forEach(item =>
+              item.classList.remove("active")
+            );
+
+          button.classList.add("active");
+
+          renderCourses(
+            button.dataset.filter
+          );
+
+        }
+      );
+
+    });
+
+  // ----------------------------------------------------
+  // CONTINUE LEARNING
+  // ----------------------------------------------------
+
+  const continueBtn =
+    document.getElementById(
+      "continueLearningBtn"
+    );
+
+  if (continueBtn) {
+
+    continueBtn.addEventListener(
+      "click",
+      () => {
+
+        navigate("lessons");
+
+      }
+    );
+
+  }
+
+  // ----------------------------------------------------
+  // SALES UPDATE
+  // ----------------------------------------------------
+
+  const updateSalesBtn =
+    document.getElementById(
+      "updateSalesBtn"
+    );
+
+  if (updateSalesBtn) {
+
+    updateSalesBtn.addEventListener(
+      "click",
+      () => {
+
+        const targetInput =
+          document.getElementById(
+            "salesTargetInput"
+          );
+
+        const actualInput =
+          document.getElementById(
+            "salesActualInput"
+          );
+
+        state.sales.target =
+          Number(
+            targetInput?.value
+          ) || 0;
+
+        state.sales.actual =
+          Number(
+            actualInput?.value
+          ) || 0;
+
+        state.sales.history.push(
+          state.sales.actual
+        );
+
+        state.sales.history =
+          state.sales.history.slice(-7);
+
+        saveState();
+
+        renderSales();
+        renderReports();
+
+        showToast(
+          "Sales performance updated."
+        );
+
+      }
+    );
+
+  }
+
+  // ----------------------------------------------------
+  // ADD PRIORITY
+  // ----------------------------------------------------
+
+  const addPriorityBtn =
+    document.getElementById(
+      "addPriorityBtn"
+    );
+
+  if (addPriorityBtn) {
+
+    addPriorityBtn.addEventListener(
       "click",
       () => {
 
         const input =
           document.getElementById(
-            "chatInput"
+            "priorityInput"
           );
 
+        const value =
+          input?.value.trim();
 
-        input.value =
-          button.textContent.trim();
+        if (!value) {
 
+          showToast(
+            "Priority ထည့်ပေးပါ။"
+          );
 
-        document
-          .getElementById(
-            "sendChatBtn"
-          )
-          .click();
+          return;
+
+        }
+
+        state.sales.priorities.push(
+          value
+        );
+
+        input.value = "";
+
+        saveState();
+
+        renderPriorities();
+
+        showToast(
+          "Priority ထည့်ပြီးပါပြီ။"
+        );
 
       }
     );
 
-  });
+  }
 
+  // ----------------------------------------------------
+  // CALCULATOR
+  // ----------------------------------------------------
 
-// ======================================================
-// AI TOOLS
-// ======================================================
+  const calculateBtn =
+    document.getElementById(
+      "calculateBtn"
+    );
 
-document
-  .querySelectorAll(".ai-tool-card")
-  .forEach(button => {
+  if (calculateBtn) {
 
-    button.addEventListener(
+    calculateBtn.addEventListener(
+      "click",
+      calculatePrice
+    );
+
+  }
+
+  // ----------------------------------------------------
+  // AI CHAT
+  // ----------------------------------------------------
+
+  const sendChatBtn =
+    document.getElementById(
+      "sendChatBtn"
+    );
+
+  const chatInput =
+    document.getElementById(
+      "chatInput"
+    );
+
+  if (sendChatBtn && chatInput) {
+
+    sendChatBtn.addEventListener(
       "click",
       () => {
 
-        openAITool(
-          button.dataset.tool
+        sendAIMessage(
+          chatInput.value
+        );
+
+        chatInput.value = "";
+
+      }
+    );
+
+    chatInput.addEventListener(
+      "keydown",
+      event => {
+
+        if (event.key === "Enter") {
+
+          event.preventDefault();
+
+          sendChatBtn.click();
+
+        }
+
+      }
+    );
+
+  }
+
+  // ----------------------------------------------------
+  // AI QUICK QUESTIONS
+  // ----------------------------------------------------
+
+  document
+    .querySelectorAll(".ai-question")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          const input =
+            document.getElementById(
+              "chatInput"
+            );
+
+          const send =
+            document.getElementById(
+              "sendChatBtn"
+            );
+
+          if (!input || !send) return;
+
+          input.value =
+            button.textContent.trim();
+
+          send.click();
+
+        }
+      );
+
+    });
+
+  // ----------------------------------------------------
+  // AI TOOLS
+  // ----------------------------------------------------
+
+  document
+    .querySelectorAll(".ai-tool-card")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          openAITool(
+            button.dataset.tool
+          );
+
+        }
+      );
+
+    });
+
+  // ----------------------------------------------------
+  // SEARCH
+  // ----------------------------------------------------
+
+  const search =
+    document.getElementById(
+      "globalSearch"
+    );
+
+  if (search) {
+
+    search.addEventListener(
+      "keydown",
+      event => {
+
+        if (event.key === "Enter") {
+
+          performSearch(
+            event.target.value
+          );
+
+        }
+
+      }
+    );
+
+  }
+
+  // ----------------------------------------------------
+  // MOBILE SIDEBAR
+  // ----------------------------------------------------
+
+  const mobileMenu =
+    document.getElementById(
+      "mobileMenu"
+    );
+
+  if (mobileMenu) {
+
+    mobileMenu.addEventListener(
+      "click",
+      openSidebar
+    );
+
+  }
+
+  const overlay =
+    document.getElementById(
+      "sidebarOverlay"
+    );
+
+  if (overlay) {
+
+    overlay.addEventListener(
+      "click",
+      closeSidebar
+    );
+
+  }
+
+  // ----------------------------------------------------
+  // SETTINGS
+  // ----------------------------------------------------
+
+  const reminder =
+    document.getElementById(
+      "reminderToggle"
+    );
+
+  if (reminder) {
+
+    reminder.addEventListener(
+      "change",
+      event => {
+
+        state.settings.reminder =
+          event.target.checked;
+
+        saveState();
+
+      }
+    );
+
+  }
+
+  const tracking =
+    document.getElementById(
+      "trackingToggle"
+    );
+
+  if (tracking) {
+
+    tracking.addEventListener(
+      "change",
+      event => {
+
+        state.settings.tracking =
+          event.target.checked;
+
+        saveState();
+
+      }
+    );
+
+  }
+
+  // ----------------------------------------------------
+  // RESET
+  // ----------------------------------------------------
+
+  const resetBtn =
+    document.getElementById(
+      "resetDataBtn"
+    );
+
+  if (resetBtn) {
+
+    resetBtn.addEventListener(
+      "click",
+      () => {
+
+        const confirmed =
+          confirm(
+            "Aung Business Academy ရဲ့ Learning Progress အားလုံးကို Reset လုပ်မှာ သေချာပါသလား?"
+          );
+
+        if (!confirmed) return;
+
+        localStorage.removeItem(
+          STORAGE_KEY
+        );
+
+        state =
+          createDefaultState();
+
+        saveState();
+
+        renderAll();
+
+        showToast(
+          "Academy Data အားလုံး Reset ပြီးပါပြီ။"
         );
 
       }
     );
 
-  });
+  }
 
+  // ----------------------------------------------------
+  // NOTIFICATION
+  // ----------------------------------------------------
 
-// ======================================================
-// SEARCH
-// ======================================================
+  const notification =
+    document.getElementById(
+      "notificationBtn"
+    );
 
-document
-  .getElementById(
-    "globalSearch"
-  )
-  .addEventListener(
-    "keydown",
-    event => {
+  if (notification) {
 
-      if (
-        event.key === "Enter"
-      ) {
+    notification.addEventListener(
+      "click",
+      () => {
 
-        performSearch(
-          event.target.value
+        showToast(
+          "လက်ရှိ Notification မရှိသေးပါ။"
         );
 
       }
+    );
 
-    }
-  );
+  }
 
+  // ----------------------------------------------------
+  // MODAL
+  // ----------------------------------------------------
 
-// ======================================================
-// MOBILE SIDEBAR
-// ======================================================
+  const modalClose =
+    document.getElementById(
+      "modalClose"
+    );
 
-document
-  .getElementById(
-    "mobileMenu"
-  )
-  .addEventListener(
-    "click",
-    openSidebar
-  );
+  if (modalClose) {
 
+    modalClose.addEventListener(
+      "click",
+      closeModal
+    );
 
-document
-  .getElementById(
-    "sidebarOverlay"
-  )
-  .addEventListener(
-    "click",
-    closeSidebar
-  );
+  }
 
+  const modalOverlay =
+    document.getElementById(
+      "modalOverlay"
+    );
 
-// ======================================================
-// SETTINGS
-// ======================================================
+  if (modalOverlay) {
 
-document
-  .getElementById(
-    "reminderToggle"
-  )
-  .addEventListener(
-    "change",
-    event => {
+    modalOverlay.addEventListener(
+      "click",
+      event => {
 
-      state.settings.reminder =
-        event.target.checked;
+        if (
+          event.target.id ===
+          "modalOverlay"
+        ) {
 
-      saveState();
+          closeModal();
 
-    }
-  );
-
-
-document
-  .getElementById(
-    "trackingToggle"
-  )
-  .addEventListener(
-    "change",
-    event => {
-
-      state.settings.tracking =
-        event.target.checked;
-
-      saveState();
-
-    }
-  );
-
-
-// ======================================================
-// RESET DATA
-// ======================================================
-
-document
-  .getElementById(
-    "resetDataBtn"
-  )
-  .addEventListener(
-    "click",
-    () => {
-
-      const confirmReset =
-        confirm(
-          "Aung Business Academy ရဲ့ Learning Progress အားလုံးကို Reset လုပ်မှာ သေချာပါသလား?"
-        );
-
-
-      if (!confirmReset) return;
-
-
-      localStorage.removeItem(
-        STORAGE_KEY
-      );
-
-
-      state =
-        createDefaultState();
-
-
-      saveState();
-
-      renderAll();
-
-      showToast(
-        "Academy Data အားလုံး Reset ပြီးပါပြီ။"
-      );
-
-    }
-  );
-
-
-// ======================================================
-// NOTIFICATION
-// ======================================================
-
-document
-  .getElementById(
-    "notificationBtn"
-  )
-  .addEventListener(
-    "click",
-    () => {
-
-      showToast(
-        "လက်ရှိ Notification မရှိသေးပါ။"
-      );
-
-    }
-  );
-
-
-// ======================================================
-// MODAL
-// ======================================================
-
-document
-  .getElementById(
-    "modalClose"
-  )
-  .addEventListener(
-    "click",
-    closeModal
-  );
-
-
-document
-  .getElementById(
-    "modalOverlay"
-  )
-  .addEventListener(
-    "click",
-    event => {
-
-      if (
-        event.target.id ===
-        "modalOverlay"
-      ) {
-
-        closeModal();
+        }
 
       }
+    );
 
-    }
-  );
+  }
 
+}
 
 // ======================================================
 // RENDER ALL
@@ -3168,19 +2941,12 @@ document
 function renderAll() {
 
   renderDashboard();
-
   renderCourses();
-
   renderLessons();
-
   renderProgress();
-
   renderSales();
-
   renderCalculator();
-
   renderReports();
-
 
   const reminder =
     document.getElementById(
@@ -3192,12 +2958,10 @@ function renderAll() {
       "trackingToggle"
     );
 
-
   if (reminder) {
     reminder.checked =
       state.settings.reminder;
   }
-
 
   if (tracking) {
     tracking.checked =
@@ -3206,20 +2970,41 @@ function renderAll() {
 
 }
 
-
 // ======================================================
 // INIT
 // ======================================================
 
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
+function initAcademy() {
 
-    renderAll();
+  console.log(
+    "Aung Business Academy V8 initialized."
+  );
 
-  }
-);
+  initializeApp();
 
+  renderAll();
+
+}
+
+// ======================================================
+// DOM READY
+// ======================================================
+
+if (
+  document.readyState ===
+  "loading"
+) {
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    initAcademy
+  );
+
+} else {
+
+  initAcademy();
+
+}
 
 // ======================================================
 // GLOBAL API
@@ -3227,13 +3012,17 @@ document.addEventListener(
 
 window.AungAcademy = {
 
-  state,
+  get state() {
+    return state;
+  },
 
   courses: COURSES,
 
   navigate,
 
   renderAll,
+
+  renderLessons,
 
   completeLesson,
 
@@ -3244,4 +3033,3 @@ window.AungAcademy = {
   getTotalLessons
 
 };
-```

@@ -1,7 +1,7 @@
 // ============================================================
 // AUNG BUSINESS ACADEMY
-// APP.JS V5
-// DASHBOARD + SIDEBAR + LESSONS + TOOLS + AI + PREMIUM
+// APP.JS V6
+// FULL BUSINESS ACADEMY
 // ============================================================
 
 (function () {
@@ -26,9 +26,17 @@
   const TRIAL_KEY =
     "aung_business_academy_trial";
 
+  const NOTES_KEY =
+    "aung_business_academy_notes";
+
+  const PLAN_KEY =
+    "aung_business_academy_plan";
+
+  const KPI_KEY =
+    "aung_business_academy_kpi";
 
   // ============================================================
-  // LESSONS
+  // LESSON DATABASE
   // ============================================================
 
   const lessons = [
@@ -38,8 +46,10 @@
       title: "Business Fundamentals",
       category: "Business",
       level: "Beginner",
-      description: "Understand the basic principles of business.",
-      content: "Business starts with solving customer problems and creating value."
+      description:
+        "Understand the basic principles of business.",
+      content:
+        "Business starts with solving customer problems and creating value."
     },
 
     {
@@ -47,8 +57,10 @@
       title: "Business Model",
       category: "Business",
       level: "Beginner",
-      description: "Learn how a business creates revenue.",
-      content: "A business model explains customers, value, channels, revenue and costs."
+      description:
+        "Learn how a business creates revenue.",
+      content:
+        "A business model explains customers, value, channels, revenue and costs."
     },
 
     {
@@ -56,8 +68,10 @@
       title: "Market Research",
       category: "Marketing",
       level: "Beginner",
-      description: "Learn how to understand your market.",
-      content: "Market research helps you understand customers, competitors and demand."
+      description:
+        "Learn how to understand your market.",
+      content:
+        "Market research helps you understand customers, competitors and demand."
     },
 
     {
@@ -65,8 +79,10 @@
       title: "Customer Finding",
       category: "Customer Finding",
       level: "Beginner",
-      description: "Learn practical customer acquisition.",
-      content: "Find customers by understanding their needs, problems and buying behavior."
+      description:
+        "Learn practical customer acquisition.",
+      content:
+        "Find customers by understanding their needs, problems and buying behavior."
     },
 
     {
@@ -74,8 +90,10 @@
       title: "Marketing Fundamentals",
       category: "Marketing",
       level: "Beginner",
-      description: "Understand the foundation of marketing.",
-      content: "Marketing connects the right product with the right customer."
+      description:
+        "Understand the foundation of marketing.",
+      content:
+        "Marketing connects the right product with the right customer."
     },
 
     {
@@ -83,8 +101,10 @@
       title: "Digital Marketing",
       category: "Digital Marketing",
       level: "Intermediate",
-      description: "Learn digital channels for business growth.",
-      content: "Digital marketing includes social media, search, content and online advertising."
+      description:
+        "Learn digital channels for business growth.",
+      content:
+        "Digital marketing includes social media, search, content and online advertising."
     },
 
     {
@@ -92,8 +112,10 @@
       title: "Content Marketing",
       category: "Content Marketing",
       level: "Intermediate",
-      description: "Create content that attracts customers.",
-      content: "Useful content builds trust and attracts potential customers."
+      description:
+        "Create content that attracts customers.",
+      content:
+        "Useful content builds trust and attracts potential customers."
     },
 
     {
@@ -101,8 +123,10 @@
       title: "Sales Fundamentals",
       category: "Sales",
       level: "Beginner",
-      description: "Learn the fundamentals of professional selling.",
-      content: "Sales is the process of understanding customer needs and presenting value."
+      description:
+        "Learn the fundamentals of professional selling.",
+      content:
+        "Sales is the process of understanding customer needs and presenting value."
     },
 
     {
@@ -110,8 +134,10 @@
       title: "Sales Strategy",
       category: "Sales Strategy",
       level: "Intermediate",
-      description: "Build a practical sales strategy.",
-      content: "A sales strategy defines target customers, channels, activities and targets."
+      description:
+        "Build a practical sales strategy.",
+      content:
+        "A sales strategy defines target customers, channels, activities and targets."
     },
 
     {
@@ -119,8 +145,10 @@
       title: "Negotiation Skills",
       category: "Negotiation",
       level: "Intermediate",
-      description: "Improve your negotiation skills.",
-      content: "Good negotiation creates value while protecting your business interests."
+      description:
+        "Improve your negotiation skills.",
+      content:
+        "Good negotiation creates value while protecting your business interests."
     },
 
     {
@@ -128,8 +156,10 @@
       title: "Sales Management",
       category: "Sales Management",
       level: "Advanced",
-      description: "Manage sales teams and performance.",
-      content: "Sales managers focus on targets, people, execution, coaching and performance."
+      description:
+        "Manage sales teams and performance.",
+      content:
+        "Sales managers focus on targets, people, execution, coaching and performance."
     },
 
     {
@@ -137,8 +167,10 @@
       title: "Leadership Fundamentals",
       category: "Leadership",
       level: "Beginner",
-      description: "Understand effective leadership.",
-      content: "Leadership means setting direction, developing people and taking responsibility."
+      description:
+        "Understand effective leadership.",
+      content:
+        "Leadership means setting direction, developing people and taking responsibility."
     },
 
     {
@@ -146,8 +178,10 @@
       title: "Strategic Thinking",
       category: "Strategy",
       level: "Advanced",
-      description: "Think strategically about business.",
-      content: "Strategic thinking connects long-term goals with practical actions."
+      description:
+        "Think strategically about business.",
+      content:
+        "Strategic thinking connects long-term goals with practical actions."
     },
 
     {
@@ -155,8 +189,10 @@
       title: "Decision Making",
       category: "Leadership",
       level: "Intermediate",
-      description: "Make better business decisions.",
-      content: "Good decisions require facts, alternatives, risks and clear priorities."
+      description:
+        "Make better business decisions.",
+      content:
+        "Good decisions require facts, alternatives, risks and clear priorities."
     },
 
     {
@@ -164,8 +200,10 @@
       title: "Team Leadership",
       category: "Leadership",
       level: "Intermediate",
-      description: "Build and lead strong teams.",
-      content: "Strong teams need clear expectations, ownership, coaching and feedback."
+      description:
+        "Build and lead strong teams.",
+      content:
+        "Strong teams need clear expectations, ownership, coaching and feedback."
     },
 
     {
@@ -173,8 +211,10 @@
       title: "Brand Fundamentals",
       category: "Branding",
       level: "Beginner",
-      description: "Understand the fundamentals of branding.",
-      content: "A brand represents the experience and value customers associate with a business."
+      description:
+        "Understand the fundamentals of branding.",
+      content:
+        "A brand represents the experience and value customers associate with a business."
     },
 
     {
@@ -182,8 +222,10 @@
       title: "Brand Positioning",
       category: "Branding",
       level: "Intermediate",
-      description: "Position your business in the market.",
-      content: "Positioning defines why customers should choose your brand."
+      description:
+        "Position your business in the market.",
+      content:
+        "Positioning defines why customers should choose your brand."
     },
 
     {
@@ -191,8 +233,10 @@
       title: "People Management",
       category: "Management",
       level: "Intermediate",
-      description: "Manage people effectively.",
-      content: "People management includes expectations, communication, coaching and accountability."
+      description:
+        "Manage people effectively.",
+      content:
+        "People management includes expectations, communication, coaching and accountability."
     },
 
     {
@@ -200,8 +244,10 @@
       title: "Recruitment",
       category: "Recruitment",
       level: "Intermediate",
-      description: "Learn practical recruitment principles.",
-      content: "Good recruitment starts with clear roles, requirements and selection criteria."
+      description:
+        "Learn practical recruitment principles.",
+      content:
+        "Good recruitment starts with clear roles, requirements and selection criteria."
     },
 
     {
@@ -209,8 +255,10 @@
       title: "Performance Management",
       category: "Performance Management",
       level: "Advanced",
-      description: "Improve team performance.",
-      content: "Performance management requires targets, reviews, feedback and development."
+      description:
+        "Improve team performance.",
+      content:
+        "Performance management requires targets, reviews, feedback and development."
     },
 
     {
@@ -218,8 +266,10 @@
       title: "Coaching",
       category: "Coaching",
       level: "Advanced",
-      description: "Develop people through coaching.",
-      content: "Effective coaching helps employees identify gaps and improve their capability."
+      description:
+        "Develop people through coaching.",
+      content:
+        "Effective coaching helps employees identify gaps and improve capability."
     },
 
     {
@@ -227,8 +277,10 @@
       title: "Revenue Management",
       category: "Revenue Management",
       level: "Intermediate",
-      description: "Understand business revenue.",
-      content: "Revenue is the money generated from selling products or services."
+      description:
+        "Understand business revenue.",
+      content:
+        "Revenue is the money generated from selling products or services."
     },
 
     {
@@ -236,8 +288,10 @@
       title: "Profit & Loss",
       category: "Finance",
       level: "Intermediate",
-      description: "Understand profit and loss.",
-      content: "Profit is revenue minus the costs required to operate the business."
+      description:
+        "Understand profit and loss.",
+      content:
+        "Profit is revenue minus the costs required to operate the business."
     },
 
     {
@@ -245,8 +299,10 @@
       title: "Cash Flow",
       category: "Finance",
       level: "Intermediate",
-      description: "Manage business cash flow.",
-      content: "Cash flow measures money coming into and leaving a business."
+      description:
+        "Manage business cash flow.",
+      content:
+        "Cash flow measures money coming into and leaving a business."
     },
 
     {
@@ -254,8 +310,10 @@
       title: "Financial Analysis",
       category: "Finance",
       level: "Advanced",
-      description: "Analyze business financial performance.",
-      content: "Financial analysis helps identify profitability, efficiency and financial risks."
+      description:
+        "Analyze business financial performance.",
+      content:
+        "Financial analysis helps identify profitability, efficiency and financial risks."
     },
 
     {
@@ -263,8 +321,10 @@
       title: "Time Management",
       category: "Productivity",
       level: "Beginner",
-      description: "Improve your use of time.",
-      content: "Prioritize important activities and protect focused working time."
+      description:
+        "Improve your use of time.",
+      content:
+        "Prioritize important activities and protect focused working time."
     },
 
     {
@@ -272,8 +332,10 @@
       title: "Goal Setting",
       category: "Productivity",
       level: "Beginner",
-      description: "Set measurable business goals.",
-      content: "Effective goals should be clear, measurable and connected to business priorities."
+      description:
+        "Set measurable business goals.",
+      content:
+        "Effective goals should be clear, measurable and connected to business priorities."
     },
 
     {
@@ -281,8 +343,10 @@
       title: "Daily Planning",
       category: "Productivity",
       level: "Beginner",
-      description: "Plan your day effectively.",
-      content: "Daily planning converts important goals into specific actions."
+      description:
+        "Plan your day effectively.",
+      content:
+        "Daily planning converts important goals into specific actions."
     },
 
     {
@@ -290,8 +354,10 @@
       title: "Business Growth Strategy",
       category: "Strategy",
       level: "Advanced",
-      description: "Create a growth strategy.",
-      content: "Growth can come from more customers, higher frequency, new products or new markets."
+      description:
+        "Create a growth strategy.",
+      content:
+        "Growth can come from more customers, higher frequency, new products or new markets."
     },
 
     {
@@ -299,15 +365,16 @@
       title: "Business Execution",
       category: "Business",
       level: "Advanced",
-      description: "Turn strategy into execution.",
-      content: "Execution requires clear priorities, ownership, measurement and consistent follow-up."
+      description:
+        "Turn strategy into execution.",
+      content:
+        "Execution requires clear priorities, ownership, measurement and consistent follow-up."
     }
 
   ];
 
-
   // ============================================================
-  // BASIC HELPERS
+  // HELPER FUNCTIONS
   // ============================================================
 
   function $(id) {
@@ -325,6 +392,68 @@
 
   }
 
+  function safeJSON(key, fallback) {
+
+    try {
+
+      const raw = localStorage.getItem(key);
+
+      if (!raw) {
+        return fallback;
+      }
+
+      return JSON.parse(raw);
+
+    } catch (error) {
+
+      return fallback;
+
+    }
+
+  }
+
+  function saveJSON(key, value) {
+
+    localStorage.setItem(
+      key,
+      JSON.stringify(value)
+    );
+
+  }
+
+  function numberValue(id) {
+
+    const element = $(id);
+
+    if (!element) {
+      return 0;
+    }
+
+    const value = Number(element.value);
+
+    return Number.isFinite(value)
+      ? value
+      : 0;
+
+  }
+
+  function formatNumber(value, decimals = 0) {
+
+    return Number(value || 0).toLocaleString(
+      "en-US",
+      {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      }
+    );
+
+  }
+
+  function formatMoney(value) {
+
+    return formatNumber(value) + " Ks";
+
+  }
 
   // ============================================================
   // USER
@@ -332,31 +461,12 @@
 
   function getUser() {
 
-    try {
-      return JSON.parse(
-        localStorage.getItem(USER_KEY)
-      );
-    } catch {
-      return null;
-    }
-
-  }
-
-
-  function saveUser(user) {
-
-    localStorage.setItem(
+    return safeJSON(
       USER_KEY,
-      JSON.stringify(user)
+      null
     );
 
   }
-
-
-  function isLoggedIn() {
-    return !!getUser();
-  }
-
 
   function getUserName() {
 
@@ -366,38 +476,20 @@
 
   }
 
+  function saveUser(user) {
 
-  // ============================================================
-  // LOGIN
-  // ============================================================
-
-  function showLoginScreen() {
-
-    showModal(`
-      <div class="academy-modal">
-
-        <h2>Welcome to Aung Business Academy</h2>
-
-        <p>Enter your name to start learning.</p>
-
-        <input
-          id="loginName"
-          class="tool-input"
-          type="text"
-          placeholder="Your name"
-        >
-
-        <button
-          class="primary-button"
-          onclick="handleLogin()">
-          Continue →
-        </button>
-
-      </div>
-    `);
+    saveJSON(
+      USER_KEY,
+      user
+    );
 
   }
 
+  function isLoggedIn() {
+
+    return !!getUser();
+
+  }
 
   function handleLogin() {
 
@@ -417,20 +509,64 @@
     }
 
     saveUser({
+
       name: name,
-      createdAt: new Date().toISOString()
+
+      createdAt:
+        new Date().toISOString(),
+
+      lastActive:
+        new Date().toISOString()
+
     });
 
     closeModal();
 
-    updateUserUI();
+    updateDashboard();
 
     showToast(
-      "Welcome, " + name + "!"
+      "Welcome to Aung Business Academy! 🎉"
     );
 
   }
 
+  function showLoginScreen() {
+
+    showModal(`
+
+      <div class="academy-modal">
+
+        <div class="quick-icon">
+          🎓
+        </div>
+
+        <h2>
+          Welcome to Aung Business Academy
+        </h2>
+
+        <p>
+          Learn Business. Build Business. Grow Business.
+        </p>
+
+        <input
+          id="loginName"
+          class="tool-input"
+          type="text"
+          placeholder="Enter your name"
+        >
+
+        <button
+          class="primary-button"
+          onclick="handleLogin()"
+        >
+          Start Academy →
+        </button>
+
+      </div>
+
+    `);
+
+  }
 
   // ============================================================
   // PROGRESS
@@ -438,143 +574,156 @@
 
   function getCompletedLessons() {
 
-    try {
-
-      return JSON.parse(
-        localStorage.getItem(COMPLETED_KEY)
-      ) || [];
-
-    } catch {
-
-      return [];
-
-    }
-
-  }
-
-
-  function saveCompletedLessons(list) {
-
-    localStorage.setItem(
+    return safeJSON(
       COMPLETED_KEY,
-      JSON.stringify(list)
+      []
     );
 
   }
 
+  function saveCompletedLessons(list) {
 
-  function isCompleted(id) {
+    saveJSON(
+      COMPLETED_KEY,
+      [...new Set(list.map(Number))]
+    );
+
+  }
+
+  function isLessonCompleted(id) {
 
     return getCompletedLessons()
-      .includes(id);
+      .includes(Number(id));
 
   }
 
-
-  // ============================================================
-  // USER UI
-  // ============================================================
-
-  function updateUserUI() {
-
-    const user = getUser();
-
-    const name =
-      user?.name || "Aung";
-
-    document
-      .querySelectorAll(".profile strong")
-      .forEach(el => {
-        el.textContent = name;
-      });
-
-    updateDashboard();
-
-  }
-
-
-  function updateDashboard() {
-
-    const count =
-      $("lessonCount");
-
-    const progress =
-      $("progress");
-
-    if (count) {
-      count.textContent =
-        lessons.length;
-    }
+  function getProgress() {
 
     const completed =
       getCompletedLessons().length;
 
-    const percent =
-      Math.round(
-        (completed / lessons.length) * 100
-      );
-
-    if (progress) {
-      progress.textContent =
-        percent + "%";
-    }
+    return Math.round(
+      completed / lessons.length * 100
+    );
 
   }
 
+  // ============================================================
+  // DASHBOARD
+  // ============================================================
 
-  // ============================================================
-  // DASHBOARD FIX
-  // ============================================================
+  function updateDashboard() {
+
+    const completed =
+      getCompletedLessons().length;
+
+    const progress =
+      getProgress();
+
+    document
+      .querySelectorAll("[data-stat='completed']")
+      .forEach(element => {
+
+        element.textContent =
+          completed;
+
+      });
+
+    document
+      .querySelectorAll("[data-stat='total']")
+      .forEach(element => {
+
+        element.textContent =
+          lessons.length;
+
+      });
+
+    document
+      .querySelectorAll("[data-stat='progress']")
+      .forEach(element => {
+
+        element.textContent =
+          progress + "%";
+
+      });
+
+    document
+      .querySelectorAll("[data-progress-bar]")
+      .forEach(element => {
+
+        element.style.width =
+          progress + "%";
+
+      });
+
+    document
+      .querySelectorAll("[data-user-name]")
+      .forEach(element => {
+
+        element.textContent =
+          getUserName();
+
+      });
+
+    const nextLesson =
+      lessons.find(
+        lesson =>
+          !isLessonCompleted(lesson.id)
+      );
+
+    document
+      .querySelectorAll("[data-next-lesson]")
+      .forEach(element => {
+
+        element.textContent =
+          nextLesson
+            ? nextLesson.title
+            : "All Lessons Completed 🎉";
+
+      });
+
+  }
 
   function goDashboard() {
 
     closeModal();
 
-    document
-      .querySelectorAll(".nav-item")
-      .forEach(item =>
-        item.classList.remove("active")
-      );
+    closeSidebarMobile();
 
-    const dashboard =
-      document.querySelector(
-        '.nav-item[onclick="goDashboard()"]'
-      );
+    setPage(
+      "Dashboard",
+      "Learn Business. Build Business. Grow Business."
+    );
 
-    if (dashboard) {
-      dashboard.classList.add("active");
-    }
-
-    const title =
-      $("pageTitle");
-
-    const subtitle =
-      $("pageSubtitle");
-
-    if (title) {
-      title.textContent =
-        "Dashboard";
-    }
-
-    if (subtitle) {
-      subtitle.textContent =
-        "Learn Business. Build Business. Grow Business.";
-    }
+    updateDashboard();
 
     window.scrollTo({
       top: 0,
       behavior: "smooth"
     });
 
-    showToast(
-      "Dashboard"
-    );
+  }
+
+  function setPage(title, subtitle) {
+
+    if ($("pageTitle")) {
+
+      $("pageTitle").textContent =
+        title;
+
+    }
+
+    if ($("pageSubtitle")) {
+
+      $("pageSubtitle").textContent =
+        subtitle;
+
+    }
 
   }
 
-
   // ============================================================
-  // SIDEBAR FIX
+  // SIDEBAR
   // ============================================================
 
   function toggleSidebar() {
@@ -582,7 +731,9 @@
     const sidebar =
       document.querySelector(".sidebar");
 
-    if (!sidebar) return;
+    if (!sidebar) {
+      return;
+    }
 
     sidebar.classList.toggle(
       "mobile-open"
@@ -590,42 +741,29 @@
 
   }
 
-
-  function toggleMenu(menuId) {
-
-    const menu =
-      $(menuId);
-
-    if (!menu) return;
-
-    document
-      .querySelectorAll(".submenu")
-      .forEach(item => {
-
-        if (item !== menu) {
-          item.classList.remove("open");
-        }
-
-      });
-
-    menu.classList.toggle("open");
-
-  }
-
-
   function closeSidebarMobile() {
 
-    const sidebar =
-      document.querySelector(".sidebar");
-
-    if (sidebar) {
-      sidebar.classList.remove(
+    document
+      .querySelector(".sidebar")
+      ?.classList.remove(
         "mobile-open"
       );
-    }
 
   }
 
+  function toggleMenu(id) {
+
+    const menu = $(id);
+
+    if (!menu) {
+      return;
+    }
+
+    menu.classList.toggle(
+      "open"
+    );
+
+  }
 
   // ============================================================
   // MODAL
@@ -639,7 +777,15 @@
     const body =
       $("modalBody");
 
-    if (!modal || !body) return;
+    if (!modal || !body) {
+
+      console.warn(
+        "appModal / modalBody not found."
+      );
+
+      return;
+
+    }
 
     body.innerHTML =
       html;
@@ -652,13 +798,14 @@
 
   }
 
-
   function closeModal() {
 
     const modal =
       $("appModal");
 
-    if (!modal) return;
+    if (!modal) {
+      return;
+    }
 
     modal.style.display =
       "none";
@@ -668,31 +815,18 @@
 
   }
 
+  function closeModalOutside(event) {
 
-  // ============================================================
-  // PAGE TITLE
-  // ============================================================
+    if (
+      event.target &&
+      event.target.id === "appModal"
+    ) {
 
-  function setPage(title, subtitle) {
+      closeModal();
 
-    const titleEl =
-      $("pageTitle");
-
-    const subtitleEl =
-      $("pageSubtitle");
-
-    if (titleEl) {
-      titleEl.textContent =
-        title;
-    }
-
-    if (subtitleEl) {
-      subtitleEl.textContent =
-        subtitle;
     }
 
   }
-
 
   // ============================================================
   // LESSONS
@@ -704,343 +838,109 @@
 
     setPage(
       "Business Lessons",
-      "Learn practical business skills step by step."
+      "30 practical lessons from Beginner to Advanced."
     );
 
     const categories = [
+
       "All",
       "Business",
       "Marketing",
+      "Customer Finding",
+      "Digital Marketing",
+      "Content Marketing",
       "Sales",
+      "Sales Strategy",
+      "Negotiation",
+      "Sales Management",
       "Leadership",
       "Strategy",
       "Branding",
       "Management",
+      "Recruitment",
+      "Performance Management",
+      "Coaching",
+      "Revenue Management",
       "Finance",
       "Productivity"
+
     ];
 
-    let html = `
+    showModal(`
 
       <div class="lesson-page">
 
-        <h2>📚 Business Lessons</h2>
+        <h2>
+          📚 Business Academy
+        </h2>
 
         <p>
-          30 practical lessons from beginner to advanced.
+          Complete all 30 lessons and build your business capability.
         </p>
+
+        <div class="academy-stats">
+
+          <div>
+            <strong>
+              ${getCompletedLessons().length}
+            </strong>
+            <span>
+              Completed
+            </span>
+          </div>
+
+          <div>
+            <strong>
+              ${lessons.length}
+            </strong>
+            <span>
+              Total
+            </span>
+          </div>
+
+          <div>
+            <strong>
+              ${getProgress()}%
+            </strong>
+            <span>
+              Progress
+            </span>
+          </div>
+
+        </div>
 
         <div class="lesson-filters">
 
-    `;
+          ${categories
+            .map(
+              (category, index) => `
 
-    categories.forEach((category, index) => {
+                <button
+                  class="lesson-filter ${
+                    index === 0
+                      ? "active"
+                      : ""
+                  }"
+                  onclick="filterLessons(
+                    '${escapeHTML(category)}',
+                    this
+                  )"
+                >
+                  ${escapeHTML(category)}
+                </button>
 
-      html += `
-        <button
-          class="lesson-filter ${index === 0 ? "active" : ""}"
-          onclick="filterLessons('${category}')">
+              `
+            )
+            .join("")}
 
-          ${category}
-
-        </button>
-      `;
-
-    });
-
-    html += `
         </div>
 
         <div
           id="lessonList"
-          class="quick-grid">
+          class="quick-grid"
+        >
 
-    `;
-
-    lessons.forEach(lesson => {
-
-      html +=
-        createLessonCard(lesson);
-
-    });
-
-    html += `
-        </div>
-
-      </div>
-    `;
-
-    showModal(html);
-
-  }
-
-
-  function createLessonCard(lesson) {
-
-    const completed =
-      isCompleted(lesson.id);
-
-    return `
-
-      <div class="quick-card">
-
-        <div class="quick-icon">
-          ${completed ? "✅" : "📘"}
-        </div>
-
-        <div>
-
-          <small>
-            ${escapeHTML(lesson.category)}
-          </small>
-
-          <h3>
-            ${escapeHTML(lesson.title)}
-          </h3>
-
-          <p>
-            ${escapeHTML(lesson.description)}
-          </p>
-
-          <button
-            class="primary-button"
-            onclick="openLesson(${lesson.id})">
-
-            ${completed ? "Review Lesson" : "Start Lesson"} →
-
-          </button>
-
-        </div>
-
-      </div>
-
-    `;
-
-  }
-
-
-  function filterLessons(category) {
-
-    const list =
-      $("lessonList");
-
-    if (!list) return;
-
-    const filtered =
-      category === "All"
-        ? lessons
-        : lessons.filter(
-            lesson =>
-              lesson.category === category
-          );
-
-    list.innerHTML =
-      filtered
-        .map(createLessonCard)
-        .join("");
-
-  }
-
-
-  function openLesson(id) {
-
-    const lesson =
-      lessons.find(
-        item => item.id === Number(id)
-      );
-
-    if (!lesson) return;
-
-    showLesson(lesson);
-
-  }
-
-
-  function showLesson(lesson) {
-
-    const completed =
-      isCompleted(lesson.id);
-
-    showModal(`
-
-      <div class="lesson-detail">
-
-        <span class="welcome-label">
-          ${escapeHTML(lesson.level)}
-        </span>
-
-        <h2>
-          Lesson ${lesson.id}: 
-          ${escapeHTML(lesson.title)}
-        </h2>
-
-        <p>
-          ${escapeHTML(lesson.description)}
-        </p>
-
-        <div class="result-box">
-
-          <h3>Key Learning</h3>
-
-          <p>
-            ${escapeHTML(lesson.content)}
-          </p>
-
-        </div>
-
-        <button
-          class="primary-button"
-          onclick="markLessonComplete(${lesson.id})">
-
-          ${completed
-            ? "✓ Completed"
-            : "Mark as Complete"}
-
-        </button>
-
-        <button
-          class="secondary-button"
-          onclick="openLessons()">
-
-          ← Back to Lessons
-
-        </button>
-
-      </div>
-
-    `);
-
-  }
-
-
-  function markLessonComplete(id) {
-
-    const list =
-      getCompletedLessons();
-
-    if (!list.includes(Number(id))) {
-
-      list.push(Number(id));
-
-      saveCompletedLessons(list);
-
-    }
-
-    updateDashboard();
-
-    showToast(
-      "Lesson completed! 🎉"
-    );
-
-    const lesson =
-      lessons.find(
-        item => item.id === Number(id)
-      );
-
-    if (lesson) {
-      showLesson(lesson);
-    }
-
-  }
-
-
-  function continueLearning() {
-
-    const completed =
-      getCompletedLessons();
-
-    const next =
-      lessons.find(
-        lesson =>
-          !completed.includes(
-            lesson.id
-          )
-      );
-
-    if (next) {
-
-      openLesson(next.id);
-
-    } else {
-
-      showToast(
-        "All lessons completed! 🎉"
-      );
-
-    }
-
-  }
-
-
-  // ============================================================
-  // CATEGORY
-  // ============================================================
-
-  function openCategory(category) {
-
-    closeSidebarMobile();
-
-    const normalized =
-      String(category)
-        .toLowerCase();
-
-    const results =
-      lessons.filter(
-        lesson =>
-          lesson.category
-            .toLowerCase()
-            .includes(normalized) ||
-          normalized.includes(
-            lesson.category.toLowerCase()
-          )
-      );
-
-    if (!results.length) {
-
-      showModal(`
-
-        <div class="lesson-detail">
-
-          <h2>
-            📚 ${escapeHTML(category)}
-          </h2>
-
-          <p>
-            More lessons for this category
-            are coming soon.
-          </p>
-
-          <button
-            class="primary-button"
-            onclick="openLessons()">
-
-            View All Lessons →
-
-          </button>
-
-        </div>
-
-      `);
-
-      return;
-
-    }
-
-    showModal(`
-
-      <div class="lesson-page">
-
-        <h2>
-          ${escapeHTML(category)}
-        </h2>
-
-        <p>
-          ${results.length} lesson(s) available.
-        </p>
-
-        <div class="quick-grid">
-
-          ${results
+          ${lessons
             .map(createLessonCard)
             .join("")}
 
@@ -1052,6 +952,465 @@
 
   }
 
+  function createLessonCard(lesson) {
+
+    const completed =
+      isLessonCompleted(
+        lesson.id
+      );
+
+    return `
+
+      <div class="quick-card lesson-card">
+
+        <div class="quick-icon">
+
+          ${
+            completed
+              ? "✅"
+              : "📘"
+          }
+
+        </div>
+
+        <div>
+
+          <small>
+            ${escapeHTML(lesson.category)}
+            •
+            ${escapeHTML(lesson.level)}
+          </small>
+
+          <h3>
+            Lesson ${lesson.id}:
+            ${escapeHTML(lesson.title)}
+          </h3>
+
+          <p>
+            ${escapeHTML(lesson.description)}
+          </p>
+
+          <button
+            class="primary-button"
+            onclick="openLesson(${lesson.id})"
+          >
+
+            ${
+              completed
+                ? "Review Lesson"
+                : "Start Lesson"
+            }
+
+            →
+
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+  function filterLessons(
+    category,
+    button
+  ) {
+
+    const list =
+      $("lessonList");
+
+    if (!list) {
+      return;
+    }
+
+    document
+      .querySelectorAll(
+        ".lesson-filter"
+      )
+      .forEach(
+        element =>
+          element.classList.remove(
+            "active"
+          )
+      );
+
+    button?.classList.add(
+      "active"
+    );
+
+    const filtered =
+      category === "All"
+        ? lessons
+        : lessons.filter(
+            lesson =>
+              lesson.category ===
+              category
+          );
+
+    list.innerHTML =
+      filtered.length
+        ? filtered
+            .map(createLessonCard)
+            .join("")
+        : `
+
+          <div class="result-box">
+
+            <h3>
+              No lessons found
+            </h3>
+
+            <p>
+              More lessons will be added.
+            </p>
+
+          </div>
+
+        `;
+
+  }
+
+  function openLesson(id) {
+
+    const lesson =
+      lessons.find(
+        item =>
+          item.id === Number(id)
+      );
+
+    if (!lesson) {
+      return;
+    }
+
+    showLesson(
+      lesson
+    );
+
+  }
+
+  function showLesson(lesson) {
+
+    const completed =
+      isLessonCompleted(
+        lesson.id
+      );
+
+    const previous =
+      lessons.find(
+        lessonItem =>
+          lessonItem.id ===
+          lesson.id - 1
+      );
+
+    const next =
+      lessons.find(
+        lessonItem =>
+          lessonItem.id ===
+          lesson.id + 1
+      );
+
+    const progress =
+      Math.round(
+        lesson.id /
+        lessons.length *
+        100
+      );
+
+    showModal(`
+
+      <div class="lesson-detail">
+
+        <span class="welcome-label">
+          ${escapeHTML(lesson.level)}
+        </span>
+
+        <h2>
+          Lesson ${lesson.id}
+          —
+          ${escapeHTML(lesson.title)}
+        </h2>
+
+        <p>
+          ${escapeHTML(lesson.description)}
+        </p>
+
+        <div
+          class="result-box"
+        >
+
+          <h3>
+            🎯 Key Learning
+          </h3>
+
+          <p>
+            ${escapeHTML(lesson.content)}
+          </p>
+
+        </div>
+
+        <div
+          class="result-box"
+        >
+
+          <h3>
+            💼 Business Application
+          </h3>
+
+          <p>
+            Think about how you can apply
+            this lesson to your real business.
+          </p>
+
+        </div>
+
+        <div
+          class="result-box"
+        >
+
+          <h3>
+            📊 Academy Progress
+          </h3>
+
+          <div
+            style="
+              background:#eee;
+              border-radius:20px;
+              overflow:hidden;
+              height:10px;
+            "
+          >
+
+            <div
+              style="
+                width:${progress}%;
+                height:100%;
+                background:currentColor;
+              "
+            ></div>
+
+          </div>
+
+          <p>
+            Lesson ${lesson.id}
+            of
+            ${lessons.length}
+          </p>
+
+        </div>
+
+        <button
+          class="primary-button"
+          onclick="markLessonComplete(${lesson.id})"
+        >
+
+          ${
+            completed
+              ? "✓ Completed"
+              : "Mark as Complete"
+          }
+
+        </button>
+
+        <div
+          style="
+            display:flex;
+            gap:8px;
+            flex-wrap:wrap;
+            margin-top:12px;
+          "
+        >
+
+          ${
+            previous
+              ? `
+                <button
+                  class="secondary-button"
+                  onclick="openLesson(${previous.id})"
+                >
+                  ← Previous
+                </button>
+              `
+              : ""
+          }
+
+          ${
+            next
+              ? `
+                <button
+                  class="secondary-button"
+                  onclick="openLesson(${next.id})"
+                >
+                  Next →
+                </button>
+              `
+              : ""
+          }
+
+          <button
+            class="secondary-button"
+            onclick="openLessons()"
+          >
+            All Lessons
+          </button>
+
+        </div>
+
+      </div>
+
+    `);
+
+  }
+
+  function markLessonComplete(id) {
+
+    const completed =
+      getCompletedLessons();
+
+    const lessonId =
+      Number(id);
+
+    if (
+      !completed.includes(
+        lessonId
+      )
+    ) {
+
+      completed.push(
+        lessonId
+      );
+
+      saveCompletedLessons(
+        completed
+      );
+
+      showToast(
+        "Lesson completed! 🎉"
+      );
+
+    } else {
+
+      showToast(
+        "Lesson already completed."
+      );
+
+    }
+
+    updateDashboard();
+
+    const lesson =
+      lessons.find(
+        item =>
+          item.id ===
+          lessonId
+      );
+
+    if (lesson) {
+
+      showLesson(
+        lesson
+      );
+
+    }
+
+  }
+
+  function continueLearning() {
+
+    const nextLesson =
+      lessons.find(
+        lesson =>
+          !isLessonCompleted(
+            lesson.id
+          )
+      );
+
+    if (!nextLesson) {
+
+      showToast(
+        "🏆 Congratulations! All lessons completed."
+      );
+
+      return;
+
+    }
+
+    openLesson(
+      nextLesson.id
+    );
+
+  }
+
+  // ============================================================
+  // TOOL UI HELPERS
+  // ============================================================
+
+  function inputField(
+    id,
+    label,
+    placeholder
+  ) {
+
+    return `
+
+      <label
+        style="
+          display:block;
+          margin:12px 0 6px;
+          font-weight:600;
+        "
+      >
+
+        ${escapeHTML(label)}
+
+      </label>
+
+      <input
+        id="${escapeHTML(id)}"
+        class="tool-input"
+        type="number"
+        placeholder="${escapeHTML(
+          placeholder
+        )}"
+      >
+
+    `;
+
+  }
+
+  function resultBox(id) {
+
+    return `
+
+      <div
+        id="${escapeHTML(id)}"
+        class="result-box"
+        style="margin-top:18px;"
+      >
+      </div>
+
+    `;
+
+  }
+
+  function toolButton(
+    text,
+    action
+  ) {
+
+    return `
+
+      <button
+        class="primary-button"
+        onclick="${action}"
+      >
+        ${escapeHTML(text)}
+      </button>
+
+    `;
+
+  }
 
   // ============================================================
   // BUSINESS TOOLS
@@ -1063,17 +1422,19 @@
 
     setPage(
       "Business Tools",
-      "Practical calculators for your business."
+      "Professional calculators for business decisions."
     );
 
     showModal(`
 
-      <div class="lesson-page">
+      <div>
 
-        <h2>🛠️ Business Tools</h2>
+        <h2>
+          🛠️ Business Tools
+        </h2>
 
         <p>
-          Calculate important business numbers quickly.
+          Calculate, analyze and make better business decisions.
         </p>
 
         <div class="quick-grid">
@@ -1081,29 +1442,71 @@
           ${toolCard(
             "💰",
             "Profit Calculator",
-            "Calculate revenue, cost and profit.",
+            "Revenue, cost, profit and margin.",
             "openProfitCalculator()"
           )}
 
           ${toolCard(
             "🏷️",
             "Pricing Calculator",
-            "Calculate selling price and margin.",
+            "Calculate selling price from cost and target margin.",
             "openPricingCalculator()"
           )}
 
           ${toolCard(
             "⚖️",
             "Break-Even Calculator",
-            "Find your break-even sales level.",
+            "Calculate the sales volume needed to break even.",
             "openBreakEvenCalculator()"
           )}
 
           ${toolCard(
             "🎯",
-            "Sales Target",
-            "Calculate required sales.",
+            "Sales Target Calculator",
+            "Calculate required orders to reach target.",
             "openSalesTargetCalculator()"
+          )}
+
+          ${toolCard(
+            "📈",
+            "Growth Calculator",
+            "Measure business growth.",
+            "openGrowthCalculator()"
+          )}
+
+          ${toolCard(
+            "💵",
+            "ROI Calculator",
+            "Measure return on investment.",
+            "openROICalculator()"
+          )}
+
+          ${toolCard(
+            "👥",
+            "Commission Calculator",
+            "Calculate sales team incentives.",
+            "openCommissionCalculator()"
+          )}
+
+          ${toolCard(
+            "📦",
+            "Inventory Calculator",
+            "Estimate stock value and turnover.",
+            "openInventoryCalculator()"
+          )}
+
+          ${toolCard(
+            "📊",
+            "Sales KPI Dashboard",
+            "Track target, achievement and gap.",
+            "openKPIDashboard()"
+          )}
+
+          ${toolCard(
+            "💸",
+            "Cash Flow Planner",
+            "Plan inflow, outflow and closing cash.",
+            "openCashFlowPlanner()"
           )}
 
         </div>
@@ -1113,7 +1516,6 @@
     `);
 
   }
-
 
   function toolCard(
     icon,
@@ -1126,7 +1528,8 @@
 
       <div
         class="quick-card"
-        onclick="${action}">
+        onclick="${action}"
+      >
 
         <div class="quick-icon">
           ${icon}
@@ -1135,16 +1538,15 @@
         <div>
 
           <h3>
-            ${title}
+            ${escapeHTML(title)}
           </h3>
 
           <p>
-            ${description}
+            ${escapeHTML(description)}
           </p>
 
           <span>
             Open Tool →
-
           </span>
 
         </div>
@@ -1155,85 +1557,8 @@
 
   }
 
-
-  function inputField(
-    id,
-    label,
-    placeholder
-  ) {
-
-    return `
-
-      <label style="
-        display:block;
-        margin:12px 0 6px;
-        font-weight:600;
-      ">
-
-        ${label}
-
-      </label>
-
-      <input
-        id="${id}"
-        class="tool-input"
-        type="number"
-        placeholder="${placeholder}"
-      >
-
-    `;
-
-  }
-
-
-  function calculateButton(
-    text,
-    action
-  ) {
-
-    return `
-
-      <button
-        class="primary-button"
-        onclick="${action}">
-
-        ${text}
-
-      </button>
-
-    `;
-
-  }
-
-
-  function resultBox(
-    id
-  ) {
-
-    return `
-
-      <div
-        id="${id}"
-        class="result-box"
-        style="margin-top:18px;">
-
-      </div>
-
-    `;
-
-  }
-
-
-  function formatNumber(number) {
-
-    return Number(number || 0)
-      .toLocaleString("en-US");
-
-  }
-
-
   // ============================================================
-  // PROFIT
+  // PROFIT CALCULATOR
   // ============================================================
 
   function openProfitCalculator() {
@@ -1242,21 +1567,23 @@
 
       <div>
 
-        <h2>💰 Profit Calculator</h2>
+        <h2>
+          💰 Profit Calculator
+        </h2>
 
         ${inputField(
           "revenue",
           "Revenue",
-          "1000000"
+          "10000000"
         )}
 
         ${inputField(
           "cost",
           "Total Cost",
-          "700000"
+          "7000000"
         )}
 
-        ${calculateButton(
+        ${toolButton(
           "Calculate Profit",
           "calculateProfit()"
         )}
@@ -1271,32 +1598,27 @@
 
   }
 
-
   function calculateProfit() {
 
     const revenue =
-      Number($("revenue")?.value || 0);
+      numberValue("revenue");
 
     const cost =
-      Number($("cost")?.value || 0);
+      numberValue("cost");
 
     const profit =
       revenue - cost;
 
     const margin =
       revenue > 0
-        ? (profit / revenue) * 100
+        ? profit / revenue * 100
         : 0;
 
-    const result =
-      $("profitResult");
-
-    if (!result) return;
-
-    result.innerHTML = `
+    $("profitResult").innerHTML = `
 
       <h3>
-        Profit: ${formatNumber(profit)} Ks
+        Profit:
+        ${formatMoney(profit)}
       </h3>
 
       <p>
@@ -1304,13 +1626,20 @@
         ${margin.toFixed(2)}%
       </p>
 
+      <p>
+        ${
+          profit >= 0
+            ? "✅ Business is profitable."
+            : "⚠️ Business is currently losing money."
+        }
+      </p>
+
     `;
 
   }
 
-
   // ============================================================
-  // PRICING
+  // PRICING CALCULATOR
   // ============================================================
 
   function openPricingCalculator() {
@@ -1319,7 +1648,9 @@
 
       <div>
 
-        <h2>🏷️ Pricing Calculator</h2>
+        <h2>
+          🏷️ Pricing Calculator
+        </h2>
 
         ${inputField(
           "unitCost",
@@ -1333,7 +1664,7 @@
           "30"
         )}
 
-        ${calculateButton(
+        ${toolButton(
           "Calculate Price",
           "calculatePrice()"
         )}
@@ -1348,19 +1679,22 @@
 
   }
 
-
   function calculatePrice() {
 
     const cost =
-      Number($("unitCost")?.value || 0);
+      numberValue("unitCost");
 
     const margin =
-      Number($("margin")?.value || 0);
+      numberValue("margin");
 
-    if (margin >= 100) {
+    if (
+      cost <= 0 ||
+      margin < 0 ||
+      margin >= 100
+    ) {
 
       showToast(
-        "Margin must be below 100%."
+        "Enter valid cost and margin."
       );
 
       return;
@@ -1368,24 +1702,31 @@
     }
 
     const price =
-      cost / (1 - margin / 100);
+      cost /
+      (1 - margin / 100);
 
-    const result =
-      $("priceResult");
-
-    if (!result) return;
-
-    result.innerHTML = `
+    $("priceResult").innerHTML = `
 
       <h3>
         Recommended Price:
-        ${formatNumber(price)} Ks
+        ${formatMoney(price)}
       </h3>
+
+      <p>
+        Gross Profit / Unit:
+        ${formatMoney(
+          price - cost
+        )}
+      </p>
+
+      <p>
+        Target Margin:
+        ${margin.toFixed(2)}%
+      </p>
 
     `;
 
   }
-
 
   // ============================================================
   // BREAK EVEN
@@ -1397,7 +1738,9 @@
 
       <div>
 
-        <h2>⚖️ Break-Even Calculator</h2>
+        <h2>
+          ⚖️ Break-Even Calculator
+        </h2>
 
         ${inputField(
           "fixedCost",
@@ -1417,7 +1760,7 @@
           "6000"
         )}
 
-        ${calculateButton(
+        ${toolButton(
           "Calculate Break-Even",
           "calculateBreakEven()"
         )}
@@ -1432,22 +1775,25 @@
 
   }
 
-
   function calculateBreakEven() {
 
     const fixed =
-      Number($("fixedCost")?.value || 0);
+      numberValue("fixedCost");
 
     const price =
-      Number($("sellingPrice")?.value || 0);
+      numberValue("sellingPrice");
 
     const variable =
-      Number($("variableCost")?.value || 0);
+      numberValue("variableCost");
 
     const contribution =
       price - variable;
 
-    if (contribution <= 0) {
+    if (
+      fixed < 0 ||
+      price <= 0 ||
+      contribution <= 0
+    ) {
 
       showToast(
         "Selling price must be higher than variable cost."
@@ -1458,32 +1804,35 @@
     }
 
     const units =
-      fixed / contribution;
+      Math.ceil(
+        fixed /
+        contribution
+      );
 
-    const result =
-      $("breakEvenResult");
+    const sales =
+      units * price;
 
-    if (!result) return;
-
-    result.innerHTML = `
+    $("breakEvenResult").innerHTML = `
 
       <h3>
         Break-Even:
-        ${Math.ceil(units).toLocaleString()}
+        ${formatNumber(units)}
         units
       </h3>
 
       <p>
         Break-Even Sales:
-        ${formatNumber(
-          Math.ceil(units) * price
-        )} Ks
+        ${formatMoney(sales)}
+      </p>
+
+      <p>
+        Contribution / Unit:
+        ${formatMoney(contribution)}
       </p>
 
     `;
 
   }
-
 
   // ============================================================
   // SALES TARGET
@@ -1495,7 +1844,9 @@
 
       <div>
 
-        <h2>🎯 Sales Target Calculator</h2>
+        <h2>
+          🎯 Sales Target Calculator
+        </h2>
 
         ${inputField(
           "targetRevenue",
@@ -1509,7 +1860,7 @@
           "50000"
         )}
 
-        ${calculateButton(
+        ${toolButton(
           "Calculate Sales Target",
           "calculateSalesTarget()"
         )}
@@ -1524,19 +1875,25 @@
 
   }
 
-
   function calculateSalesTarget() {
 
     const target =
-      Number($("targetRevenue")?.value || 0);
+      numberValue(
+        "targetRevenue"
+      );
 
     const average =
-      Number($("averageOrder")?.value || 0);
+      numberValue(
+        "averageOrder"
+      );
 
-    if (average <= 0) {
+    if (
+      target <= 0 ||
+      average <= 0
+    ) {
 
       showToast(
-        "Enter a valid average order value."
+        "Enter valid target and average order."
       );
 
       return;
@@ -1544,29 +1901,697 @@
     }
 
     const orders =
-      Math.ceil(target / average);
+      Math.ceil(
+        target /
+        average
+      );
 
-    const result =
-      $("salesTargetResult");
-
-    if (!result) return;
-
-    result.innerHTML = `
+    $("salesTargetResult").innerHTML = `
 
       <h3>
         Required Orders:
-        ${orders.toLocaleString()}
+        ${formatNumber(orders)}
       </h3>
 
       <p>
         Target Revenue:
-        ${formatNumber(target)} Ks
+        ${formatMoney(target)}
+      </p>
+
+      <p>
+        Average Order:
+        ${formatMoney(average)}
       </p>
 
     `;
 
   }
 
+  // ============================================================
+  // GROWTH CALCULATOR
+  // ============================================================
+
+  function openGrowthCalculator() {
+
+    showModal(`
+
+      <div>
+
+        <h2>
+          📈 Growth Calculator
+        </h2>
+
+        ${inputField(
+          "previousRevenue",
+          "Previous Revenue",
+          "10000000"
+        )}
+
+        ${inputField(
+          "currentRevenue",
+          "Current Revenue",
+          "12500000"
+        )}
+
+        ${inputField(
+          "growthTarget",
+          "Target Growth %",
+          "20"
+        )}
+
+        ${toolButton(
+          "Calculate Growth",
+          "calculateGrowth()"
+        )}
+
+        ${resultBox(
+          "growthResult"
+        )}
+
+      </div>
+
+    `);
+
+  }
+
+  function calculateGrowth() {
+
+    const previous =
+      numberValue(
+        "previousRevenue"
+      );
+
+    const current =
+      numberValue(
+        "currentRevenue"
+      );
+
+    const target =
+      numberValue(
+        "growthTarget"
+      );
+
+    if (previous <= 0) {
+
+      showToast(
+        "Previous revenue must be greater than zero."
+      );
+
+      return;
+
+    }
+
+    const growth =
+      (
+        current -
+        previous
+      ) /
+      previous *
+      100;
+
+    const targetRevenue =
+      previous *
+      (
+        1 +
+        target / 100
+      );
+
+    $("growthResult").innerHTML = `
+
+      <h3>
+        Actual Growth:
+        ${growth.toFixed(2)}%
+      </h3>
+
+      <p>
+        Target Revenue:
+        ${formatMoney(
+          targetRevenue
+        )}
+      </p>
+
+      <p>
+        ${
+          growth >= target
+            ? "🎉 Growth target achieved."
+            : "📌 Additional growth is required."
+        }
+      </p>
+
+    `;
+
+  }
+
+  // ============================================================
+  // ROI CALCULATOR
+  // ============================================================
+
+  function openROICalculator() {
+
+    showModal(`
+
+      <div>
+
+        <h2>
+          💵 ROI Calculator
+        </h2>
+
+        ${inputField(
+          "roiInvestment",
+          "Investment",
+          "5000000"
+        )}
+
+        ${inputField(
+          "roiReturn",
+          "Returned Value",
+          "7500000"
+        )}
+
+        ${toolButton(
+          "Calculate ROI",
+          "calculateROI()"
+        )}
+
+        ${resultBox(
+          "roiResult"
+        )}
+
+      </div>
+
+    `);
+
+  }
+
+  function calculateROI() {
+
+    const investment =
+      numberValue(
+        "roiInvestment"
+      );
+
+    const returned =
+      numberValue(
+        "roiReturn"
+      );
+
+    if (investment <= 0) {
+
+      showToast(
+        "Investment must be greater than zero."
+      );
+
+      return;
+
+    }
+
+    const profit =
+      returned -
+      investment;
+
+    const roi =
+      profit /
+      investment *
+      100;
+
+    $("roiResult").innerHTML = `
+
+      <h3>
+        ROI:
+        ${roi.toFixed(2)}%
+      </h3>
+
+      <p>
+        Net Return:
+        ${formatMoney(profit)}
+      </p>
+
+      <p>
+        Returned Value:
+        ${formatMoney(returned)}
+      </p>
+
+    `;
+
+  }
+
+  // ============================================================
+  // COMMISSION CALCULATOR
+  // ============================================================
+
+  function openCommissionCalculator() {
+
+    showModal(`
+
+      <div>
+
+        <h2>
+          👥 Sales Commission Calculator
+        </h2>
+
+        ${inputField(
+          "commissionSales",
+          "Sales Achievement",
+          "10000000"
+        )}
+
+        ${inputField(
+          "commissionRate",
+          "Commission Rate %",
+          "2"
+        )}
+
+        ${inputField(
+          "commissionBonus",
+          "Bonus / Incentive",
+          "100000"
+        )}
+
+        ${toolButton(
+          "Calculate Commission",
+          "calculateCommission()"
+        )}
+
+        ${resultBox(
+          "commissionResult"
+        )}
+
+      </div>
+
+    `);
+
+  }
+
+  function calculateCommission() {
+
+    const sales =
+      numberValue(
+        "commissionSales"
+      );
+
+    const rate =
+      numberValue(
+        "commissionRate"
+      );
+
+    const bonus =
+      numberValue(
+        "commissionBonus"
+      );
+
+    const commission =
+      sales *
+      rate /
+      100;
+
+    const total =
+      commission +
+      bonus;
+
+    $("commissionResult").innerHTML = `
+
+      <h3>
+        Commission:
+        ${formatMoney(
+          commission
+        )}
+      </h3>
+
+      <p>
+        Bonus:
+        ${formatMoney(
+          bonus
+        )}
+      </p>
+
+      <p>
+        <strong>
+          Total Incentive:
+          ${formatMoney(
+            total
+          )}
+        </strong>
+      </p>
+
+    `;
+
+  }
+
+  // ============================================================
+  // INVENTORY
+  // ============================================================
+
+  function openInventoryCalculator() {
+
+    showModal(`
+
+      <div>
+
+        <h2>
+          📦 Inventory Calculator
+        </h2>
+
+        ${inputField(
+          "inventoryUnits",
+          "Units in Stock",
+          "1000"
+        )}
+
+        ${inputField(
+          "inventoryCost",
+          "Cost / Unit",
+          "5000"
+        )}
+
+        ${inputField(
+          "inventoryCOGS",
+          "Annual COGS",
+          "50000000"
+        )}
+
+        ${inputField(
+          "inventoryAverage",
+          "Average Inventory Value",
+          "10000000"
+        )}
+
+        ${toolButton(
+          "Calculate Inventory",
+          "calculateInventory()"
+        )}
+
+        ${resultBox(
+          "inventoryResult"
+        )}
+
+      </div>
+
+    `);
+
+  }
+
+  function calculateInventory() {
+
+    const units =
+      numberValue(
+        "inventoryUnits"
+      );
+
+    const cost =
+      numberValue(
+        "inventoryCost"
+      );
+
+    const cogs =
+      numberValue(
+        "inventoryCOGS"
+      );
+
+    const average =
+      numberValue(
+        "inventoryAverage"
+      );
+
+    const value =
+      units * cost;
+
+    const turnover =
+      average > 0
+        ? cogs / average
+        : 0;
+
+    $("inventoryResult").innerHTML = `
+
+      <h3>
+        Current Stock Value:
+        ${formatMoney(value)}
+      </h3>
+
+      <p>
+        Inventory Turnover:
+        ${turnover.toFixed(2)}x
+      </p>
+
+      <p>
+        Stock turnover indicates how quickly inventory moves.
+      </p>
+
+    `;
+
+  }
+
+  // ============================================================
+  // CASH FLOW
+  // ============================================================
+
+  function openCashFlowPlanner() {
+
+    showModal(`
+
+      <div>
+
+        <h2>
+          💸 Cash Flow Planner
+        </h2>
+
+        ${inputField(
+          "openingCash",
+          "Opening Cash",
+          "5000000"
+        )}
+
+        ${inputField(
+          "cashInflow",
+          "Expected Cash Inflow",
+          "10000000"
+        )}
+
+        ${inputField(
+          "cashOutflow",
+          "Expected Cash Outflow",
+          "7000000"
+        )}
+
+        ${toolButton(
+          "Calculate Cash Flow",
+          "calculateCashFlow()"
+        )}
+
+        ${resultBox(
+          "cashFlowResult"
+        )}
+
+      </div>
+
+    `);
+
+  }
+
+  function calculateCashFlow() {
+
+    const opening =
+      numberValue(
+        "openingCash"
+      );
+
+    const inflow =
+      numberValue(
+        "cashInflow"
+      );
+
+    const outflow =
+      numberValue(
+        "cashOutflow"
+      );
+
+    const closing =
+      opening +
+      inflow -
+      outflow;
+
+    $("cashFlowResult").innerHTML = `
+
+      <h3>
+        Closing Cash:
+        ${formatMoney(
+          closing
+        )}
+      </h3>
+
+      <p>
+        Net Cash Flow:
+        ${formatMoney(
+          inflow -
+          outflow
+        )}
+      </p>
+
+      <p>
+        ${
+          closing >= 0
+            ? "✅ Positive closing cash."
+            : "⚠️ Cash shortfall. Review expenses and collections."
+        }
+      </p>
+
+    `;
+
+  }
+
+  // ============================================================
+  // SALES KPI DASHBOARD
+  // ============================================================
+
+  function openKPIDashboard() {
+
+    const saved =
+      safeJSON(
+        KPI_KEY,
+        {
+          target: 10000000,
+          achievement: 7500000,
+          customers: 100,
+          orders: 250
+        }
+      );
+
+    showModal(`
+
+      <div>
+
+        <h2>
+          📊 Sales KPI Dashboard
+        </h2>
+
+        ${inputField(
+          "kpiTarget",
+          "Sales Target",
+          saved.target
+        )}
+
+        ${inputField(
+          "kpiAchievement",
+          "Sales Achievement",
+          saved.achievement
+        )}
+
+        ${inputField(
+          "kpiCustomers",
+          "Active Customers",
+          saved.customers
+        )}
+
+        ${inputField(
+          "kpiOrders",
+          "Orders",
+          saved.orders
+        )}
+
+        ${toolButton(
+          "Analyze KPI",
+          "calculateKPI()"
+        )}
+
+        ${resultBox(
+          "kpiResult"
+        )}
+
+      </div>
+
+    `);
+
+    calculateKPI();
+
+  }
+
+  function calculateKPI() {
+
+    const target =
+      numberValue(
+        "kpiTarget"
+      );
+
+    const achievement =
+      numberValue(
+        "kpiAchievement"
+      );
+
+    const customers =
+      numberValue(
+        "kpiCustomers"
+      );
+
+    const orders =
+      numberValue(
+        "kpiOrders"
+      );
+
+    saveJSON(
+      KPI_KEY,
+      {
+        target,
+        achievement,
+        customers,
+        orders
+      }
+    );
+
+    const achievementPct =
+      target > 0
+        ? achievement /
+          target *
+          100
+        : 0;
+
+    const gap =
+      target -
+      achievement;
+
+    const avgOrder =
+      orders > 0
+        ? achievement /
+          orders
+        : 0;
+
+    const avgCustomer =
+      customers > 0
+        ? achievement /
+          customers
+        : 0;
+
+    $("kpiResult").innerHTML = `
+
+      <h3>
+        Achievement:
+        ${achievementPct.toFixed(1)}%
+      </h3>
+
+      <p>
+        Target Gap:
+        ${formatMoney(gap)}
+      </p>
+
+      <p>
+        Average Order Value:
+        ${formatMoney(avgOrder)}
+      </p>
+
+      <p>
+        Revenue / Customer:
+        ${formatMoney(avgCustomer)}
+      </p>
+
+      <p>
+        ${
+          achievementPct >= 100
+            ? "🏆 Target achieved."
+            : "📌 Focus on the gap and build an action plan."
+        }
+      </p>
+
+    `;
+
+  }
 
   // ============================================================
   // AI BUSINESS COACH
@@ -1578,32 +2603,99 @@
 
     setPage(
       "AI Business Coach",
-      "Get practical AI-powered business guidance."
+      "Your AI advisor for Business, Sales, Marketing, Finance and Leadership."
     );
 
     showModal(`
 
       <div class="ai-page">
 
-        <h2>🤖 AI Business Coach</h2>
+        <h2>
+          🤖 AI Business Coach
+        </h2>
 
         <p>
-          Ask me anything about business, sales,
-          marketing or management.
+          Ask anything about your business.
         </p>
+
+        <div class="ai-quick-grid">
+
+          <button
+            class="secondary-button"
+            onclick="askAIQuick(
+              'How can I increase sales in my business?'
+            )"
+          >
+            📈 Increase Sales
+          </button>
+
+          <button
+            class="secondary-button"
+            onclick="askAIQuick(
+              'Create a sales action plan for my team.'
+            )"
+          >
+            🎯 Sales Plan
+          </button>
+
+          <button
+            class="secondary-button"
+            onclick="askAIQuick(
+              'How can I improve team performance?'
+            )"
+          >
+            👥 Team Performance
+          </button>
+
+          <button
+            class="secondary-button"
+            onclick="askAIQuick(
+              'Create a marketing strategy for my business.'
+            )"
+          >
+            📣 Marketing
+          </button>
+
+          <button
+            class="secondary-button"
+            onclick="askAIQuick(
+              'Create a business growth strategy.'
+            )"
+          >
+            🚀 Growth
+          </button>
+
+          <button
+            class="secondary-button"
+            onclick="askAIQuick(
+              'How should I manage business cash flow and profit?'
+            )"
+          >
+            💰 Finance
+          </button>
+
+        </div>
 
         <div
           id="aiChat"
-          class="result-box"
+          class="result-box ai-chat"
           style="
-            min-height:180px;
-            max-height:320px;
+            min-height:200px;
+            max-height:400px;
             overflow-y:auto;
-          ">
+          "
+        >
 
           <div>
-            <strong>AI Coach:</strong>
-            Hello! How can I help your business today?
+
+            <strong>
+              AI Coach:
+            </strong>
+
+            Hello
+            ${escapeHTML(getUserName())}!
+            What business challenge can I help you solve?
+
           </div>
 
         </div>
@@ -1613,45 +2705,36 @@
           class="tool-input"
           rows="4"
           placeholder="Ask your business question..."
-          style="width:100%; margin-top:12px;"
         ></textarea>
 
         <button
           class="primary-button"
-          onclick="sendAIMessage()">
-
+          onclick="sendAIMessage()"
+        >
           Send to AI →
-
         </button>
 
-        <div style="margin-top:12px;">
-
-          <button
-            class="secondary-button"
-            onclick="askAIQuick('How can I increase my sales?')">
-
-            Increase Sales
-
-          </button>
-
-          <button
-            class="secondary-button"
-            onclick="askAIQuick('How can I improve my team performance?')">
-
-            Team Performance
-
-          </button>
-
-        </div>
+        <button
+          class="secondary-button"
+          onclick="clearAIChat()"
+        >
+          Clear Chat
+        </button>
 
       </div>
 
     `);
 
+    setTimeout(
+      () => $("aiInput")?.focus(),
+      200
+    );
+
   }
 
-
-  async function sendAIMessage(message) {
+  async function sendAIMessage(
+    message
+  ) {
 
     const input =
       $("aiInput");
@@ -1691,20 +2774,44 @@
           AI_API_URL,
           {
             method: "POST",
+
             headers: {
               "Content-Type":
                 "application/json"
             },
+
             body: JSON.stringify({
-              message: text
+
+              message:
+
+                "You are the AI Business Coach inside Aung Business Academy. " +
+
+                "Provide practical, actionable business advice. " +
+
+                "Cover sales, marketing, finance, leadership, strategy, " +
+                "operations, customers and business growth when relevant. " +
+
+                "Use simple language. " +
+
+                "When useful, provide KPIs, calculations, action plans and priorities. " +
+
+                "If the user speaks Burmese, answer in Burmese. " +
+
+                "User question: " +
+
+                text
+
             })
+
           }
         );
 
       if (!response.ok) {
+
         throw new Error(
-          "AI server error"
+          "AI request failed"
         );
+
       }
 
       const data =
@@ -1729,22 +2836,26 @@
 
       appendAIMessage(
         "AI Coach",
-        "AI connection is temporarily unavailable. Please try again."
+        "AI connection is temporarily unavailable. Please check your backend/API connection and try again."
+      );
+
+      console.error(
+        error
       );
 
     }
 
   }
 
-
-  function askAIQuick(question) {
+  function askAIQuick(
+    question
+  ) {
 
     sendAIMessage(
       question
     );
 
   }
-
 
   function appendAIMessage(
     sender,
@@ -1754,60 +2865,84 @@
     const chat =
       $("aiChat");
 
-    if (!chat) return;
+    if (!chat) {
+      return;
+    }
 
     const div =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     div.style.margin =
-      "10px 0";
+      "12px 0";
 
     div.innerHTML = `
+
       <strong>
         ${escapeHTML(sender)}:
       </strong>
 
-      <span>
+      <span
+        style="white-space:pre-wrap;"
+      >
         ${escapeHTML(message)}
       </span>
+
     `;
 
-    chat.appendChild(div);
+    chat.appendChild(
+      div
+    );
 
     chat.scrollTop =
       chat.scrollHeight;
 
   }
 
-
   function removeLastAIMessage() {
 
     const chat =
       $("aiChat");
 
-    if (!chat) return;
+    if (
+      chat &&
+      chat.lastElementChild
+    ) {
 
-    if (chat.lastElementChild) {
       chat.removeChild(
         chat.lastElementChild
       );
+
     }
 
   }
 
-
-  function scrollAIChat() {
+  function clearAIChat() {
 
     const chat =
       $("aiChat");
 
-    if (chat) {
-      chat.scrollTop =
-        chat.scrollHeight;
+    if (!chat) {
+      return;
     }
 
-  }
+    chat.innerHTML = `
 
+      <div>
+
+        <strong>
+          AI Coach:
+        </strong>
+
+        Chat cleared.
+        How can I help?
+
+      </div>
+
+    `;
+
+  }
 
   async function checkAIHealth() {
 
@@ -1815,10 +2950,7 @@
 
       const response =
         await fetch(
-          API_BASE_URL,
-          {
-            method: "GET"
-          }
+          API_BASE_URL
         );
 
       return response.ok;
@@ -1830,137 +2962,6 @@
     }
 
   }
-
-
-  // ============================================================
-  // PREMIUM
-  // ============================================================
-
-  function getTrialInfo() {
-
-    try {
-
-      return JSON.parse(
-        localStorage.getItem(
-          TRIAL_KEY
-        )
-      );
-
-    } catch {
-
-      return null;
-
-    }
-
-  }
-
-
-  function startTrial() {
-
-    const existing =
-      getTrialInfo();
-
-    if (existing) {
-
-      showToast(
-        "Your trial has already started."
-      );
-
-      return;
-
-    }
-
-    const start =
-      Date.now();
-
-    localStorage.setItem(
-      TRIAL_KEY,
-      JSON.stringify({
-        start: start,
-        days: 7
-      })
-    );
-
-    showToast(
-      "7-Day Premium Trial Started! 🎉"
-    );
-
-    openPremium();
-
-  }
-
-
-  function getTrialDaysRemaining() {
-
-    const trial =
-      getTrialInfo();
-
-    if (!trial) {
-      return 0;
-    }
-
-    const elapsed =
-      Date.now() -
-      trial.start;
-
-    const days =
-      Math.ceil(
-        trial.days -
-        elapsed /
-          (1000 * 60 * 60 * 24)
-      );
-
-    return Math.max(
-      0,
-      days
-    );
-
-  }
-
-
-  function openPremium() {
-
-    showModal(`
-
-      <div>
-
-        <h2>👑 Premium Academy</h2>
-
-        <p>
-          Unlock advanced business learning
-          and premium tools.
-        </p>
-
-        <div class="result-box">
-
-          <h3>Premium Features</h3>
-
-          <p>✓ Advanced Business Lessons</p>
-          <p>✓ Advanced Business Tools</p>
-          <p>✓ AI Business Coach</p>
-          <p>✓ Business Planning</p>
-          <p>✓ Growth Strategy</p>
-
-        </div>
-
-        <h3>
-          7-Day Free Trial
-        </h3>
-
-        <button
-          class="primary-button"
-          onclick="startTrial()">
-
-          Start Free Trial →
-
-        </button>
-
-      </div>
-
-    `);
-
-  }
-
 
   // ============================================================
   // BUSINESS PLAN
@@ -1974,81 +2975,112 @@
 
     return `
 
-      <label style="
-        display:block;
-        margin:12px 0 6px;
-        font-weight:600;
-      ">
-        ${label}
+      <label
+        style="
+          display:block;
+          margin:12px 0 6px;
+          font-weight:600;
+        "
+      >
+
+        ${escapeHTML(label)}
+
       </label>
 
       <input
-        id="${id}"
+        id="${escapeHTML(id)}"
         class="tool-input"
         type="text"
-        placeholder="${placeholder}"
+        placeholder="${escapeHTML(
+          placeholder
+        )}"
       >
 
     `;
 
   }
 
-
   function openBusinessPlan() {
 
     closeSidebarMobile();
 
     setPage(
-      "Business Plan",
-      "Build a practical business plan step by step."
+      "AI Business Plan",
+      "Build a practical business plan with AI."
     );
+
+    const saved =
+      safeJSON(
+        PLAN_KEY,
+        {}
+      );
 
     showModal(`
 
       <div>
 
-        <h2>📋 Business Plan</h2>
+        <h2>
+          📋 AI Business Plan Generator
+        </h2>
 
         <p>
-          Enter your basic business information.
+          Enter your business information and let AI build your plan.
         </p>
 
         ${textInput(
           "businessName",
           "Business Name",
-          "Aung Business"
+          saved.name ||
+          "My Business"
         )}
 
         ${textInput(
           "businessType",
           "Business Type",
+          saved.type ||
           "Food / Retail / Service"
         )}
 
         ${textInput(
           "targetCustomer",
           "Target Customer",
+          saved.customer ||
           "Who are your customers?"
         )}
 
         ${textInput(
           "budget",
           "Starting Budget",
+          saved.budget ||
           "5000000"
         )}
 
         ${textInput(
           "goal",
           "Business Goal",
+          saved.goal ||
           "Monthly profit target"
+        )}
+
+        ${textInput(
+          "location",
+          "Market / Location",
+          saved.location ||
+          "Yangon"
+        )}
+
+        ${textInput(
+          "strength",
+          "Competitive Advantage",
+          saved.strength ||
+          "What makes your business different?"
         )}
 
         <button
           class="primary-button"
-          onclick="generateBusinessPlan()">
-
-          Generate Plan →
-
+          onclick="generateBusinessPlan()"
+        >
+          🤖 Generate AI Business Plan →
         </button>
 
         ${resultBox(
@@ -2061,75 +3093,656 @@
 
   }
 
+  async function generateBusinessPlan() {
 
-  function generateBusinessPlan() {
+    const data = {
 
-    const name =
-      $("businessName")?.value ||
-      "My Business";
+      name:
+        $("businessName")
+          ?.value.trim() ||
+        "My Business",
 
-    const type =
-      $("businessType")?.value ||
-      "Business";
+      type:
+        $("businessType")
+          ?.value.trim() ||
+        "Business",
 
-    const customer =
-      $("targetCustomer")?.value ||
-      "Target Customers";
+      customer:
+        $("targetCustomer")
+          ?.value.trim() ||
+        "Target Customers",
 
-    const budget =
-      $("budget")?.value ||
-      "Not specified";
+      budget:
+        $("budget")
+          ?.value.trim() ||
+        "Not specified",
 
-    const goal =
-      $("goal")?.value ||
-      "Business growth";
+      goal:
+        $("goal")
+          ?.value.trim() ||
+        "Business growth",
+
+      location:
+        $("location")
+          ?.value.trim() ||
+        "Myanmar",
+
+      strength:
+        $("strength")
+          ?.value.trim() ||
+        "Customer value"
+
+    };
+
+    saveJSON(
+      PLAN_KEY,
+      data
+    );
 
     const result =
       $("businessPlanResult");
 
-    if (!result) return;
+    if (!result) {
+      return;
+    }
 
     result.innerHTML = `
 
       <h3>
-        ${escapeHTML(name)}
+        🤖 AI is building your business plan...
       </h3>
 
       <p>
-        <strong>Business Type:</strong>
-        ${escapeHTML(type)}
+        Please wait.
       </p>
-
-      <p>
-        <strong>Target Customer:</strong>
-        ${escapeHTML(customer)}
-      </p>
-
-      <p>
-        <strong>Starting Budget:</strong>
-        ${escapeHTML(budget)}
-      </p>
-
-      <p>
-        <strong>Main Goal:</strong>
-        ${escapeHTML(goal)}
-      </p>
-
-      <hr>
-
-      <h4>Action Plan</h4>
-
-      <p>1. Research your target market.</p>
-      <p>2. Define your product and value proposition.</p>
-      <p>3. Calculate pricing and profit margin.</p>
-      <p>4. Build a customer acquisition plan.</p>
-      <p>5. Set monthly sales targets.</p>
-      <p>6. Track cash flow and profitability.</p>
 
     `;
 
+    const prompt = `
+
+You are a professional business consultant.
+
+Create a practical business plan for this business.
+
+Business Name:
+${data.name}
+
+Business Type:
+${data.type}
+
+Target Customer:
+${data.customer}
+
+Starting Budget:
+${data.budget}
+
+Business Goal:
+${data.goal}
+
+Market / Location:
+${data.location}
+
+Competitive Advantage:
+${data.strength}
+
+Create the following:
+
+1. Executive Summary
+2. Target Customer
+3. Customer Problem
+4. Value Proposition
+5. Product / Service Strategy
+6. Pricing Strategy
+7. Marketing Strategy
+8. Sales Strategy
+9. Distribution Strategy
+10. Operations Plan
+11. Team Plan
+12. Monthly Revenue Target
+13. Monthly Profit Target
+14. Key Business KPIs
+15. Risks and Solutions
+16. 30-Day Action Plan
+17. 90-Day Growth Plan
+
+Make the plan practical and easy to execute.
+Use simple language.
+If the user is in Myanmar, consider Myanmar market realities.
+
+`;
+
+    try {
+
+      const response =
+        await fetch(
+          AI_API_URL,
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+
+            body:
+              JSON.stringify({
+                message: prompt
+              })
+
+          }
+        );
+
+      if (!response.ok) {
+        throw new Error(
+          "AI request failed"
+        );
+      }
+
+      const json =
+        await response.json();
+
+      const answer =
+        json.reply ||
+        json.response ||
+        json.message;
+
+      if (!answer) {
+        throw new Error(
+          "Empty AI response"
+        );
+      }
+
+      result.innerHTML = `
+
+        <h3>
+          🚀
+          ${escapeHTML(
+            data.name
+          )}
+        </h3>
+
+        <div
+          style="white-space:pre-wrap;"
+        >
+          ${escapeHTML(
+            answer
+          )}
+        </div>
+
+        <hr>
+
+        <p>
+          ✅ Business plan saved on this device.
+        </p>
+
+      `;
+
+    } catch (error) {
+
+      console.error(
+        error
+      );
+
+      result.innerHTML = `
+
+        <h3>
+          📋 Business Plan
+        </h3>
+
+        <p>
+          <strong>
+            Business:
+          </strong>
+          ${escapeHTML(
+            data.name
+          )}
+        </p>
+
+        <p>
+          <strong>
+            Type:
+          </strong>
+          ${escapeHTML(
+            data.type
+          )}
+        </p>
+
+        <p>
+          <strong>
+            Customer:
+          </strong>
+          ${escapeHTML(
+            data.customer
+          )}
+        </p>
+
+        <p>
+          <strong>
+            Budget:
+          </strong>
+          ${escapeHTML(
+            data.budget
+          )}
+        </p>
+
+        <p>
+          <strong>
+            Goal:
+          </strong>
+          ${escapeHTML(
+            data.goal
+          )}
+        </p>
+
+        <hr>
+
+        <h3>
+          30-Day Action Plan
+        </h3>
+
+        <p>
+          1. Research customers and competitors.
+        </p>
+
+        <p>
+          2. Define your product and value proposition.
+        </p>
+
+        <p>
+          3. Set pricing and profit targets.
+        </p>
+
+        <p>
+          4. Build customer acquisition channels.
+        </p>
+
+        <p>
+          5. Set weekly sales KPIs.
+        </p>
+
+        <p>
+          6. Track cash flow and profitability.
+        </p>
+
+        <p>
+          7. Review results and improve execution.
+        </p>
+
+        <p>
+          ⚠️ AI server is currently unavailable.
+        </p>
+
+      `;
+
+    }
+
   }
 
+  // ============================================================
+  // BUSINESS NOTES
+  // ============================================================
+
+  function getNotes() {
+
+    return safeJSON(
+      NOTES_KEY,
+      []
+    );
+
+  }
+
+  function saveNotes(
+    notes
+  ) {
+
+    saveJSON(
+      NOTES_KEY,
+      notes
+    );
+
+  }
+
+  function openNotes() {
+
+    const notes =
+      getNotes();
+
+    showModal(`
+
+      <div>
+
+        <h2>
+          📝 My Business Notes
+        </h2>
+
+        <p>
+          Save business ideas, customer insights and action plans.
+        </p>
+
+        <textarea
+          id="newNote"
+          class="tool-input"
+          rows="5"
+          placeholder="Write your business note..."
+        ></textarea>
+
+        <button
+          class="primary-button"
+          onclick="saveNewNote()"
+        >
+          Save Note
+        </button>
+
+        <div
+          style="margin-top:20px;"
+        >
+
+          ${
+            notes.length
+
+              ? notes
+                  .map(
+                    (note, index) => `
+
+                      <div class="result-box">
+
+                        <small>
+                          ${escapeHTML(
+                            note.date
+                          )}
+                        </small>
+
+                        <p
+                          style="white-space:pre-wrap;"
+                        >
+                          ${escapeHTML(
+                            note.text
+                          )}
+                        </p>
+
+                        <button
+                          class="secondary-button"
+                          onclick="deleteNote(${index})"
+                        >
+                          Delete
+                        </button>
+
+                      </div>
+
+                    `
+                  )
+                  .join("")
+
+              : `
+
+                <div class="result-box">
+
+                  <p>
+                    No notes yet.
+                  </p>
+
+                </div>
+
+              `
+          }
+
+        </div>
+
+      </div>
+
+    `);
+
+  }
+
+  function saveNewNote() {
+
+    const input =
+      $("newNote");
+
+    const text =
+      input?.value.trim();
+
+    if (!text) {
+
+      showToast(
+        "Write something first."
+      );
+
+      return;
+
+    }
+
+    const notes =
+      getNotes();
+
+    notes.unshift({
+
+      date:
+        new Date()
+          .toLocaleString(),
+
+      text: text
+
+    });
+
+    saveNotes(
+      notes
+    );
+
+    showToast(
+      "Note saved successfully."
+    );
+
+    openNotes();
+
+  }
+
+  function deleteNote(
+    index
+  ) {
+
+    const notes =
+      getNotes();
+
+    notes.splice(
+      Number(index),
+      1
+    );
+
+    saveNotes(
+      notes
+    );
+
+    openNotes();
+
+  }
+
+  // ============================================================
+  // PREMIUM
+  // ============================================================
+
+  function getTrial() {
+
+    return safeJSON(
+      TRIAL_KEY,
+      null
+    );
+
+  }
+
+  function startTrial() {
+
+    const existing =
+      getTrial();
+
+    if (existing) {
+
+      showToast(
+        "Your trial has already started."
+      );
+
+      return;
+
+    }
+
+    saveJSON(
+      TRIAL_KEY,
+      {
+        start: Date.now(),
+        days: 7
+      }
+    );
+
+    showToast(
+      "🎉 7-Day Premium Trial Started!"
+    );
+
+    openPremium();
+
+  }
+
+  function getTrialDaysRemaining() {
+
+    const trial =
+      getTrial();
+
+    if (!trial) {
+      return 0;
+    }
+
+    const elapsed =
+      Date.now() -
+      trial.start;
+
+    const remaining =
+      Math.ceil(
+        trial.days -
+        elapsed /
+        86400000
+      );
+
+    return Math.max(
+      0,
+      remaining
+    );
+
+  }
+
+  function isPremiumActive() {
+
+    return (
+      getTrialDaysRemaining() >
+      0
+    );
+
+  }
+
+  function openPremium() {
+
+    const active =
+      isPremiumActive();
+
+    showModal(`
+
+      <div>
+
+        <h2>
+          👑 Full Business Academy
+        </h2>
+
+        <p>
+          Your complete business learning and management system.
+        </p>
+
+        <div
+          class="result-box"
+        >
+
+          <h3>
+            Premium Features
+          </h3>
+
+          <p>
+            ✓ 30 Business Lessons
+          </p>
+
+          <p>
+            ✓ AI Business Coach
+          </p>
+
+          <p>
+            ✓ AI Business Plan
+          </p>
+
+          <p>
+            ✓ Sales KPI Dashboard
+          </p>
+
+          <p>
+            ✓ Finance Tools
+          </p>
+
+          <p>
+            ✓ Sales Tools
+          </p>
+
+          <p>
+            ✓ Business Notes
+          </p>
+
+          <p>
+            ✓ Leadership Training
+          </p>
+
+          <p>
+            ✓ Business Growth Strategy
+          </p>
+
+        </div>
+
+        <div
+          class="result-box"
+        >
+
+          <h3>
+            ${
+              active
+                ? "🟢 Trial Active"
+                : "7-Day Free Trial"
+            }
+          </h3>
+
+          <p>
+            ${
+              active
+                ? getTrialDaysRemaining() +
+                  " day(s) remaining."
+                : "Start your free trial on this device."
+            }
+          </p>
+
+        </div>
+
+        ${
+          !getTrial()
+            ? `
+
+              <button
+                class="primary-button"
+                onclick="startTrial()"
+              >
+                Start 7-Day Free Trial →
+              </button>
+
+            `
+            : ""
+        }
+
+      </div>
+
+    `);
+
+  }
 
   // ============================================================
   // PROFILE
@@ -2137,82 +3750,218 @@
 
   function openProfile() {
 
-    const user =
-      getUser();
-
-    const name =
-      user?.name ||
-      "Aung";
-
     const completed =
       getCompletedLessons().length;
 
     const progress =
-      Math.round(
-        completed /
-        lessons.length *
-        100
+      getProgress();
+
+    const notes =
+      getNotes().length;
+
+    showModal(`
+
+      <div>
+
+        <h2>
+          👤 My Profile
+        </h2>
+
+        <div
+          class="result-box"
+        >
+
+          <h3>
+            ${escapeHTML(
+              getUserName()
+            )}
+          </h3>
+
+          <p>
+            Business Academy Learner
+          </p>
+
+          <p>
+            Lessons:
+            ${completed}
+            /
+            ${lessons.length}
+          </p>
+
+          <p>
+            Progress:
+            ${progress}%
+          </p>
+
+          <p>
+            Notes:
+            ${notes}
+          </p>
+
+          <p>
+            Premium:
+            ${
+              isPremiumActive()
+                ? getTrialDaysRemaining() +
+                  " day(s) remaining"
+                : "Not Active"
+            }
+          </p>
+
+        </div>
+
+        <button
+          class="primary-button"
+          onclick="openNotes()"
+        >
+          📝 My Notes
+        </button>
+
+        <button
+          class="secondary-button"
+          onclick="changeUserName()"
+        >
+          Change Name
+        </button>
+
+      </div>
+
+    `);
+
+  }
+
+  function changeUserName() {
+
+    showModal(`
+
+      <div>
+
+        <h2>
+          👤 Change Name
+        </h2>
+
+        ${textInput(
+          "newUserName",
+          "Your Name",
+          getUserName()
+        )}
+
+        <button
+          class="primary-button"
+          onclick="saveNewUserName()"
+        >
+          Save Name
+        </button>
+
+      </div>
+
+    `);
+
+  }
+
+  function saveNewUserName() {
+
+    const name =
+      $("newUserName")
+        ?.value.trim();
+
+    if (!name) {
+
+      showToast(
+        "Enter a name."
+      );
+
+      return;
+
+    }
+
+    const user =
+      getUser() || {};
+
+    user.name =
+      name;
+
+    user.lastActive =
+      new Date().toISOString();
+
+    saveUser(
+      user
+    );
+
+    closeModal();
+
+    updateDashboard();
+
+    showToast(
+      "Name updated."
+    );
+
+  }
+
+  // ============================================================
+  // NOTIFICATIONS
+  // ============================================================
+
+  function showNotification() {
+
+    const nextLesson =
+      lessons.find(
+        lesson =>
+          !isLessonCompleted(
+            lesson.id
+          )
       );
 
     showModal(`
 
       <div>
 
-        <h2>👤 My Profile</h2>
+        <h2>
+          🔔 Academy Notifications
+        </h2>
 
-        <div class="result-box">
-
-          <h3>
-            ${escapeHTML(name)}
-          </h3>
-
-          <p>
-            Business Learner
-          </p>
-
-          <p>
-            Lessons Completed:
-            ${completed}/${lessons.length}
-          </p>
-
-          <p>
-            Learning Progress:
-            ${progress}%
-          </p>
-
-        </div>
-
-      </div>
-
-    `);
-
-  }
-
-
-  // ============================================================
-  // NOTIFICATION
-  // ============================================================
-
-  function showNotification() {
-
-    showModal(`
-
-      <div>
-
-        <h2>🔔 Notifications</h2>
-
-        <div class="result-box">
+        <div
+          class="result-box"
+        >
 
           <p>
             🎓 Keep learning every day.
           </p>
 
           <p>
-            📚 30 business lessons are available.
+            📚
+            ${lessons.length}
+            business lessons available.
+          </p>
+
+          <p>
+            📊 Current Progress:
+            ${getProgress()}%
           </p>
 
           <p>
             🤖 AI Business Coach is ready.
+          </p>
+
+          <p>
+            🛠️ Business Tools are ready.
+          </p>
+
+          <p>
+            📝 Save your next business action.
+          </p>
+
+          <p>
+
+            ${
+              nextLesson
+                ? "➡️ Next Lesson: " +
+                  escapeHTML(
+                    nextLesson.title
+                  )
+                : "🏆 All Lessons Completed!"
+            }
+
           </p>
 
         </div>
@@ -2223,6 +3972,119 @@
 
   }
 
+  // ============================================================
+  // SETTINGS
+  // ============================================================
+
+  function openSettings() {
+
+    showModal(`
+
+      <div>
+
+        <h2>
+          ⚙️ Academy Settings
+        </h2>
+
+        <div
+          class="result-box"
+        >
+
+          <h3>
+            Account
+          </h3>
+
+          <p>
+            User:
+            <strong>
+              ${escapeHTML(
+                getUserName()
+              )}
+            </strong>
+          </p>
+
+        </div>
+
+        <button
+          class="primary-button"
+          onclick="resetLearningProgress()"
+        >
+          Reset Learning Progress
+        </button>
+
+        <button
+          class="secondary-button"
+          onclick="clearAcademyData()"
+        >
+          Clear Academy Data
+        </button>
+
+      </div>
+
+    `);
+
+  }
+
+  function resetLearningProgress() {
+
+    const confirmed =
+      confirm(
+        "Reset all completed lessons?"
+      );
+
+    if (!confirmed) {
+      return;
+    }
+
+    localStorage.removeItem(
+      COMPLETED_KEY
+    );
+
+    updateDashboard();
+
+    showToast(
+      "Learning progress reset."
+    );
+
+    openSettings();
+
+  }
+
+  function clearAcademyData() {
+
+    const confirmed =
+      confirm(
+        "Clear notes, plans, KPI data, trial and progress?"
+      );
+
+    if (!confirmed) {
+      return;
+    }
+
+    [
+
+      COMPLETED_KEY,
+      NOTES_KEY,
+      PLAN_KEY,
+      KPI_KEY,
+      TRIAL_KEY
+
+    ].forEach(
+      key =>
+        localStorage.removeItem(
+          key
+        )
+    );
+
+    updateDashboard();
+
+    showToast(
+      "Academy data cleared."
+    );
+
+    openSettings();
+
+  }
 
   // ============================================================
   // LOGOUT
@@ -2233,6 +4095,8 @@
     localStorage.removeItem(
       USER_KEY
     );
+
+    closeModal();
 
     showToast(
       "Logged out."
@@ -2245,12 +4109,13 @@
 
   }
 
-
   // ============================================================
   // TOAST
   // ============================================================
 
-  function showToast(message) {
+  function showToast(
+    message
+  ) {
 
     let toast =
       $("academyToast");
@@ -2265,35 +4130,48 @@
       toast.id =
         "academyToast";
 
-      toast.style.position =
-        "fixed";
+      Object.assign(
+        toast.style,
+        {
 
-      toast.style.bottom =
-        "25px";
+          position:
+            "fixed",
 
-      toast.style.left =
-        "50%";
+          bottom:
+            "25px",
 
-      toast.style.transform =
-        "translateX(-50%)";
+          left:
+            "50%",
 
-      toast.style.padding =
-        "12px 20px";
+          transform:
+            "translateX(-50%)",
 
-      toast.style.borderRadius =
-        "10px";
+          padding:
+            "12px 20px",
 
-      toast.style.background =
-        "#111827";
+          borderRadius:
+            "10px",
 
-      toast.style.color =
-        "#fff";
+          background:
+            "#111827",
 
-      toast.style.zIndex =
-        "99999";
+          color:
+            "#ffffff",
 
-      toast.style.fontSize =
-        "14px";
+          zIndex:
+            "99999",
+
+          fontSize:
+            "14px",
+
+          maxWidth:
+            "90%",
+
+          boxShadow:
+            "0 10px 30px rgba(0,0,0,.2)"
+
+        }
+      );
 
       document.body.appendChild(
         toast
@@ -2314,14 +4192,50 @@
     toast._timer =
       setTimeout(
         () => {
+
           toast.style.display =
             "none";
+
         },
         2500
       );
 
   }
 
+  // ============================================================
+  // KEYBOARD
+  // ============================================================
+
+  document.addEventListener(
+    "keydown",
+    function (event) {
+
+      if (
+        event.key ===
+        "Escape"
+      ) {
+
+        closeModal();
+
+      }
+
+      if (
+        (event.ctrlKey ||
+          event.metaKey) &&
+        event.key ===
+        "Enter"
+      ) {
+
+        if ($("aiInput")) {
+
+          sendAIMessage();
+
+        }
+
+      }
+
+    }
+  );
 
   // ============================================================
   // INIT
@@ -2329,19 +4243,38 @@
 
   function init() {
 
-    updateUserUI();
+    updateDashboard();
 
-    // Dashboard is the default page.
     setPage(
       "Dashboard",
       "Learn Business. Build Business. Grow Business."
     );
 
+    const modal =
+      $("appModal");
+
+    if (modal) {
+
+      modal.addEventListener(
+        "click",
+        closeModalOutside
+      );
+
+    }
+
+    if (!isLoggedIn()) {
+
+      setTimeout(
+        showLoginScreen,
+        300
+      );
+
+    }
+
   }
 
-
   // ============================================================
-  // GLOBAL EXPORTS
+  // GLOBAL FUNCTIONS
   // ============================================================
 
   window.goDashboard =
@@ -2349,6 +4282,9 @@
 
   window.toggleSidebar =
     toggleSidebar;
+
+  window.closeSidebarMobile =
+    closeSidebarMobile;
 
   window.toggleMenu =
     toggleMenu;
@@ -2364,9 +4300,6 @@
 
   window.filterLessons =
     filterLessons;
-
-  window.openCategory =
-    openCategory;
 
   window.markLessonComplete =
     markLessonComplete;
@@ -2401,6 +4334,42 @@
   window.calculateSalesTarget =
     calculateSalesTarget;
 
+  window.openGrowthCalculator =
+    openGrowthCalculator;
+
+  window.calculateGrowth =
+    calculateGrowth;
+
+  window.openROICalculator =
+    openROICalculator;
+
+  window.calculateROI =
+    calculateROI;
+
+  window.openCommissionCalculator =
+    openCommissionCalculator;
+
+  window.calculateCommission =
+    calculateCommission;
+
+  window.openInventoryCalculator =
+    openInventoryCalculator;
+
+  window.calculateInventory =
+    calculateInventory;
+
+  window.openCashFlowPlanner =
+    openCashFlowPlanner;
+
+  window.calculateCashFlow =
+    calculateCashFlow;
+
+  window.openKPIDashboard =
+    openKPIDashboard;
+
+  window.calculateKPI =
+    calculateKPI;
+
   window.openAI =
     openAI;
 
@@ -2410,14 +4379,11 @@
   window.askAIQuick =
     askAIQuick;
 
+  window.clearAIChat =
+    clearAIChat;
+
   window.checkAIHealth =
     checkAIHealth;
-
-  window.openPremium =
-    openPremium;
-
-  window.startTrial =
-    startTrial;
 
   window.openBusinessPlan =
     openBusinessPlan;
@@ -2425,11 +4391,41 @@
   window.generateBusinessPlan =
     generateBusinessPlan;
 
+  window.openNotes =
+    openNotes;
+
+  window.saveNewNote =
+    saveNewNote;
+
+  window.deleteNote =
+    deleteNote;
+
+  window.openPremium =
+    openPremium;
+
+  window.startTrial =
+    startTrial;
+
   window.openProfile =
     openProfile;
 
+  window.changeUserName =
+    changeUserName;
+
+  window.saveNewUserName =
+    saveNewUserName;
+
   window.showNotification =
     showNotification;
+
+  window.openSettings =
+    openSettings;
+
+  window.resetLearningProgress =
+    resetLearningProgress;
+
+  window.clearAcademyData =
+    clearAcademyData;
 
   window.logoutUser =
     logoutUser;
@@ -2440,9 +4436,11 @@
   window.handleLogin =
     handleLogin;
 
+  window.showToast =
+    showToast;
 
   // ============================================================
-  // START
+  // START APP
   // ============================================================
 
   if (

@@ -1,8 +1,8 @@
 /* =========================================================
    AUNG BUSINESS ACADEMY V8
-   PREMIUM SYSTEM V2
-   Course 1 = FREE
-   Course 2-13 = PREMIUM
+   PREMIUM SYSTEM V3
+   Mobile + Laptop
+   Student Payment + Admin Dashboard
    ========================================================= */
 
 (function () {
@@ -14,72 +14,61 @@
 
   const PLANS = {
     monthly: {
-      name: "Monthly Premium",
+      name: "Monthly",
       price: 30000,
       days: 30
     },
-
     yearly: {
-      name: "Yearly Premium",
+      name: "Yearly",
       price: 250000,
       days: 365
     }
   };
 
+  /*
+   * IMPORTANT:
+   * Replace these with your real payment information.
+   */
   const DEFAULT_PAYMENT = {
-    kpayNumber: "09XXXXXXXXX",
-    kpayName: "Aung Business Academy",
-    bankName: "KBZ Bank",
-    bankAccount: "XXXXXXXXXX",
-    bankAccountName: "Aung Business Academy",
-    monthlyPrice: 30000,
-    yearlyPrice: 250000
+    kpay: {
+      number: "09XXXXXXXXX",
+      name: "Aung Business Academy"
+    },
+
+    bank: {
+      bankName: "KBZ Bank",
+      accountNumber: "XXXXXXXXXX",
+      accountName: "Aung Business Academy"
+    }
   };
 
-  let selectedPlan = "monthly";
-  let selectedPayment = "kpay";
-
   /* =========================================================
-     STATE
+     BASIC HELPERS
      ========================================================= */
 
   function getState() {
     try {
-      const data = localStorage.getItem(STORAGE_KEY);
+      const saved = localStorage.getItem(STORAGE_KEY);
 
-      if (!data) {
-        return null;
+      if (!saved) {
+        return {};
       }
 
-      return JSON.parse(data);
-
+      return JSON.parse(saved);
     } catch (error) {
-      console.error("Premium State Error:", error);
-      return null;
+      console.error("Premium state error:", error);
+      return {};
     }
   }
 
   function saveState(state) {
-    try {
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(state)
-      );
-    } catch (error) {
-      console.error("Premium Save Error:", error);
-    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }
 
-  function ensurePremiumState() {
-
-    let state = getState();
-
-    if (!state) {
-      return null;
-    }
+  function ensureState() {
+    const state = getState();
 
     if (!state.premium) {
-
       state.premium = {
         status: "free",
         plan: null,
@@ -90,22 +79,16 @@
         paymentScreenshot: "",
         submittedAt: null
       };
-
     }
 
     if (!state.account) {
-
       state.account = {
         role: "student"
       };
-
     }
 
     if (!state.paymentSettings) {
-
-      state.paymentSettings =
-        DEFAULT_PAYMENT;
-
+      state.paymentSettings = DEFAULT_PAYMENT;
     }
 
     saveState(state);
@@ -113,117 +96,38 @@
     return state;
   }
 
-  /* =========================================================
-     PREMIUM STATUS
-     ========================================================= */
+  function updateState(callback) {
+    const state = ensureState();
 
-  function isPremiumActive() {
+    callback(state);
 
-    const state =
-      ensurePremiumState();
+    saveState(state);
 
-    if (!state || !state.premium) {
-      return false;
-    }
-
-    if (
-      state.premium.status !==
-      "active"
-    ) {
-      return false;
-    }
-
-    if (!state.premium.expiryAt) {
-      return false;
-    }
-
-    const expiry =
-      new Date(
-        state.premium.expiryAt
-      ).getTime();
-
-    if (
-      Date.now() >= expiry
-    ) {
-
-      state.premium.status =
-        "expired";
-
-      saveState(state);
-
-      return false;
-    }
-
-    return true;
+    return state;
   }
 
-  function isAdmin() {
-
-    const state =
-      ensurePremiumState();
-
-    return !!(
-      state &&
-      state.account &&
-      state.account.role === "admin"
-    );
+  function formatMoney(number) {
+    return Number(number || 0).toLocaleString("en-US") + " Ks";
   }
 
-  function isCourseUnlocked(index) {
+  function formatDate(timestamp) {
+    if (!timestamp) return "-";
 
-    if (
-      index === FREE_COURSE_INDEX
-    ) {
-      return true;
+    const date = new Date(timestamp);
+
+    if (Number.isNaN(date.getTime())) {
+      return "-";
     }
 
-    return isPremiumActive();
+    return date.toLocaleDateString("en-GB", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    });
   }
-
-  function getStatusText() {
-
-    const state =
-      ensurePremiumState();
-
-    if (!state) {
-      return "Free";
-    }
-
-    switch (
-      state.premium.status
-    ) {
-
-      case "active":
-        return "Premium Active";
-
-      case "pending":
-        return "Payment Pending";
-
-      case "rejected":
-        return "Payment Rejected";
-
-      case "expired":
-        return "Premium Expired";
-
-      default:
-        return "Free Plan";
-    }
-  }
-
-  /* =========================================================
-     HELPERS
-     ========================================================= */
 
   function escapeHTML(value) {
-
-    if (
-      value === null ||
-      value === undefined
-    ) {
-      return "";
-    }
-
-    return String(value)
+    return String(value || "")
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
@@ -231,39 +135,1254 @@
       .replace(/'/g, "&#039;");
   }
 
-  function money(value) {
+  /* =========================================================
+     PREMIUM STATUS
+     ========================================================= */
 
-    return Number(value || 0)
-      .toLocaleString("en-US") +
-      " Ks";
+  function isPremiumActive() {
+    const state = ensureState();
 
+    if (state.premium.status !== "active") {
+      return false;
+    }
+
+    if (!state.premium.expiryAt) {
+      return false;
+    }
+
+    const now = Date.now();
+
+    if (now >= Number(state.premium.expiryAt)) {
+      state.premium.status = "expired";
+      saveState(state);
+      return false;
+    }
+
+    return true;
   }
 
-  function formatDate(value) {
+  function getPremiumStatus() {
+    const state = ensureState();
 
-    if (!value) {
-      return "-";
+    if (isPremiumActive()) {
+      return {
+        status: "active",
+        plan: state.premium.plan,
+        expiryAt: state.premium.expiryAt
+      };
     }
 
-    const date =
-      new Date(value);
+    return {
+      status: state.premium.status || "free",
+      plan: state.premium.plan || null,
+      expiryAt: state.premium.expiryAt || null
+    };
+  }
+
+  /* =========================================================
+     COURSE DETECTION
+     Course 1 = FREE
+     Course 2-13 = PREMIUM
+     ========================================================= */
+
+  function getCourseCards() {
+    return Array.from(
+      document.querySelectorAll(
+        "#coursesGrid .course-card, #coursesGrid > div"
+      )
+    );
+  }
+
+  function getCourseIndex(card, index) {
+    const dataIndex = card.getAttribute("data-course-index");
+
+    if (dataIndex !== null) {
+      const parsed = parseInt(dataIndex, 10);
+
+      if (!Number.isNaN(parsed)) {
+        return parsed;
+      }
+    }
+
+    return index;
+  }
+
+  function isCoursePremium(index) {
+    return index > FREE_COURSE_INDEX;
+  }
+
+  function isCourseLocked(index) {
+    return isCoursePremium(index) && !isPremiumActive();
+  }
+
+  /* =========================================================
+     BADGES
+     ========================================================= */
+
+  function addBadge(card, index) {
+    if (!card) return;
+
+    const oldBadge = card.querySelector(".aba-premium-badge");
+
+    if (oldBadge) {
+      oldBadge.remove();
+    }
+
+    const badge = document.createElement("div");
+
+    badge.className = "aba-premium-badge";
+
+    if (index === FREE_COURSE_INDEX) {
+      badge.innerHTML = "✓ FREE";
+      badge.classList.add("free");
+    } else if (isPremiumActive()) {
+      badge.innerHTML = "✓ PREMIUM";
+      badge.classList.add("active");
+    } else {
+      badge.innerHTML = "👑 PREMIUM";
+      badge.classList.add("premium");
+    }
+
+    card.style.position = "relative";
+    card.appendChild(badge);
+  }
+
+  /* =========================================================
+     COURSE CARD UI
+     ========================================================= */
+
+  function updateCourseCards() {
+    const cards = getCourseCards();
+
+    cards.forEach(function (card, index) {
+      const courseIndex = getCourseIndex(card, index);
+
+      addBadge(card, courseIndex);
+
+      const buttons = Array.from(
+        card.querySelectorAll("button, .btn, a")
+      );
+
+      const premium = isCoursePremium(courseIndex);
+      const locked = isCourseLocked(courseIndex);
+
+      if (!premium) {
+        return;
+      }
+
+      buttons.forEach(function (button) {
+        if (
+          button.classList.contains("aba-premium-ignore") ||
+          button.closest(".aba-premium-modal") ||
+          button.closest(".aba-admin-panel")
+        ) {
+          return;
+        }
+
+        if (locked) {
+          button.dataset.originalText =
+            button.dataset.originalText ||
+            button.textContent.trim();
+
+          button.textContent = "🔒 Unlock Course";
+
+          button.classList.add("aba-premium-locked");
+
+          button.onclick = function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            openPremiumModal(courseIndex);
+
+            return false;
+          };
+        } else {
+          button.classList.remove("aba-premium-locked");
+
+          if (button.dataset.originalText) {
+            button.textContent = button.dataset.originalText;
+          }
+
+          button.onclick = null;
+        }
+      });
+    });
+  }
+
+  /* =========================================================
+     PREMIUM MODAL
+     ========================================================= */
+
+  function createPremiumModal() {
+    if (document.getElementById("abaPremiumModal")) {
+      return;
+    }
+
+    const overlay = document.createElement("div");
+
+    overlay.id = "abaPremiumModal";
+
+    overlay.innerHTML = `
+      <div class="aba-modal-box">
+
+        <button class="aba-close-btn" id="abaPremiumClose">
+          ×
+        </button>
+
+        <div class="aba-modal-header">
+          <div class="aba-crown">👑</div>
+
+          <h2>Unlock Premium Courses</h2>
+
+          <p>
+            Course 2 – Course 13 ကို အသုံးပြုရန် Premium Plan ရွေးချယ်ပါ။
+          </p>
+        </div>
+
+        <div class="aba-plan-grid">
+
+          <button
+            type="button"
+            class="aba-plan-card selected"
+            data-plan="monthly"
+          >
+            <div class="aba-plan-title">
+              Monthly
+            </div>
+
+            <div class="aba-plan-price">
+              30,000 Ks
+            </div>
+
+            <div class="aba-plan-duration">
+              30 Days
+            </div>
+          </button>
+
+          <button
+            type="button"
+            class="aba-plan-card"
+            data-plan="yearly"
+          >
+            <div class="aba-plan-title">
+              Yearly
+            </div>
+
+            <div class="aba-plan-price">
+              250,000 Ks
+            </div>
+
+            <div class="aba-plan-duration">
+              365 Days
+            </div>
+
+            <div class="aba-save">
+              SAVE
+            </div>
+          </button>
+
+        </div>
+
+        <div class="aba-payment-method">
+
+          <h3>Payment Method</h3>
+
+          <div class="aba-payment-buttons">
+
+            <button
+              type="button"
+              class="aba-payment-btn selected"
+              data-method="kpay"
+            >
+              📱 KPay
+            </button>
+
+            <button
+              type="button"
+              class="aba-payment-btn"
+              data-method="bank"
+            >
+              🏦 Bank Transfer
+            </button>
+
+          </div>
+
+        </div>
+
+        <div
+          id="abaPaymentInfo"
+          class="aba-payment-info"
+        ></div>
+
+        <div class="aba-form">
+
+          <label>
+            Transaction Reference
+          </label>
+
+          <input
+            type="text"
+            id="abaTransactionRef"
+            placeholder="ဥပမာ - KPAY123456"
+          />
+
+          <label>
+            Payment Screenshot
+          </label>
+
+          <input
+            type="file"
+            id="abaPaymentScreenshot"
+            accept="image/*"
+          />
+
+          <div class="aba-file-note">
+            Payment screenshot ကို Admin စစ်ဆေးရန် တင်ပါ။
+          </div>
+
+          <button
+            type="button"
+            id="abaSubmitPayment"
+            class="aba-submit-btn"
+          >
+            Submit Payment
+          </button>
+
+        </div>
+
+        <div
+          id="abaPaymentMessage"
+          class="aba-message"
+        ></div>
+
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    document
+      .getElementById("abaPremiumClose")
+      .addEventListener("click", closePremiumModal);
+
+    overlay.addEventListener("click", function (event) {
+      if (event.target === overlay) {
+        closePremiumModal();
+      }
+    });
+
+    document
+      .querySelectorAll(".aba-plan-card")
+      .forEach(function (button) {
+        button.addEventListener("click", function () {
+          document
+            .querySelectorAll(".aba-plan-card")
+            .forEach(function (item) {
+              item.classList.remove("selected");
+            });
+
+          button.classList.add("selected");
+
+          updatePaymentInfo();
+        });
+      });
+
+    document
+      .querySelectorAll(".aba-payment-btn")
+      .forEach(function (button) {
+        button.addEventListener("click", function () {
+          document
+            .querySelectorAll(".aba-payment-btn")
+            .forEach(function (item) {
+              item.classList.remove("selected");
+            });
+
+          button.classList.add("selected");
+
+          updatePaymentInfo();
+        });
+      });
+
+    document
+      .getElementById("abaSubmitPayment")
+      .addEventListener("click", submitPayment);
+
+    updatePaymentInfo();
+  }
+
+  function getSelectedPlan() {
+    const selected = document.querySelector(
+      ".aba-plan-card.selected"
+    );
+
+    return selected
+      ? selected.dataset.plan
+      : "monthly";
+  }
+
+  function getSelectedPaymentMethod() {
+    const selected = document.querySelector(
+      ".aba-payment-btn.selected"
+    );
+
+    return selected
+      ? selected.dataset.method
+      : "kpay";
+  }
+
+  function updatePaymentInfo() {
+    const container =
+      document.getElementById("abaPaymentInfo");
+
+    if (!container) return;
+
+    const method = getSelectedPaymentMethod();
+    const plan = getSelectedPlan();
+
+    const paymentSettings =
+      ensureState().paymentSettings || DEFAULT_PAYMENT;
+
+    const selectedPlan = PLANS[plan];
+
+    let html = `
+      <div class="aba-payment-plan">
+        <strong>${selectedPlan.name} Plan</strong>
+        <span>${formatMoney(selectedPlan.price)}</span>
+      </div>
+    `;
+
+    if (method === "kpay") {
+      html += `
+        <div class="aba-payment-row">
+          <span>KPay Number</span>
+          <strong>
+            ${escapeHTML(paymentSettings.kpay.number)}
+          </strong>
+        </div>
+
+        <div class="aba-payment-row">
+          <span>Account Name</span>
+          <strong>
+            ${escapeHTML(paymentSettings.kpay.name)}
+          </strong>
+        </div>
+      `;
+    }
+
+    if (method === "bank") {
+      html += `
+        <div class="aba-payment-row">
+          <span>Bank</span>
+          <strong>
+            ${escapeHTML(paymentSettings.bank.bankName)}
+          </strong>
+        </div>
+
+        <div class="aba-payment-row">
+          <span>Account Number</span>
+          <strong>
+            ${escapeHTML(paymentSettings.bank.accountNumber)}
+          </strong>
+        </div>
+
+        <div class="aba-payment-row">
+          <span>Account Name</span>
+          <strong>
+            ${escapeHTML(paymentSettings.bank.accountName)}
+          </strong>
+        </div>
+      `;
+    }
+
+    container.innerHTML = html;
+  }
+
+  function openPremiumModal(courseIndex) {
+    createPremiumModal();
+
+    const modal = document.getElementById("abaPremiumModal");
+
+    if (!modal) return;
+
+    modal.classList.add("show");
+
+    modal.dataset.courseIndex = courseIndex;
+
+    const state = ensureState();
+
+    const message =
+      document.getElementById("abaPaymentMessage");
+
+    if (state.premium.status === "pending") {
+      message.innerHTML = `
+        <div class="aba-pending-message">
+          ⏳ Your payment is pending Admin approval.
+        </div>
+      `;
+    } else {
+      message.innerHTML = "";
+    }
+  }
+
+  function closePremiumModal() {
+    const modal =
+      document.getElementById("abaPremiumModal");
+
+    if (modal) {
+      modal.classList.remove("show");
+    }
+  }
+
+  /* =========================================================
+     PAYMENT SUBMISSION
+     ========================================================= */
+
+  function submitPayment() {
+    const plan = getSelectedPlan();
+
+    const method = getSelectedPaymentMethod();
+
+    const refInput =
+      document.getElementById("abaTransactionRef");
+
+    const screenshotInput =
+      document.getElementById("abaPaymentScreenshot");
+
+    const message =
+      document.getElementById("abaPaymentMessage");
+
+    const transactionRef =
+      refInput.value.trim();
+
+    if (!transactionRef) {
+      message.innerHTML = `
+        <div class="aba-error-message">
+          ❌ Transaction Reference ထည့်ပေးပါ။
+        </div>
+      `;
+
+      return;
+    }
+
+    if (!screenshotInput.files.length) {
+      message.innerHTML = `
+        <div class="aba-error-message">
+          ❌ Payment Screenshot တင်ပေးပါ။
+        </div>
+      `;
+
+      return;
+    }
+
+    const screenshot =
+      screenshotInput.files[0];
+
+    updateState(function (state) {
+      state.premium.status = "pending";
+      state.premium.plan = plan;
+      state.premium.paymentMethod = method;
+      state.premium.transactionRef = transactionRef;
+      state.premium.paymentScreenshot = screenshot.name;
+      state.premium.submittedAt = Date.now();
+    });
+
+    message.innerHTML = `
+      <div class="aba-success-message">
+        ✅ Payment တင်ပြီးပါပြီ။<br>
+        Admin Approval ကို စောင့်ပေးပါ။
+      </div>
+    `;
+
+    updateDashboard();
+
+    setTimeout(function () {
+      closePremiumModal();
+
+      showToast(
+        "Payment Pending — Admin Approval ကို စောင့်ပါ။"
+      );
+    }, 1500);
+  }
+
+  /* =========================================================
+     ADMIN PANEL
+     ========================================================= */
+
+  function createAdminPanel() {
+    if (document.getElementById("abaAdminPanel")) {
+      return;
+    }
+
+    const panel = document.createElement("div");
+
+    panel.id = "abaAdminPanel";
+
+    panel.innerHTML = `
+      <div class="aba-admin-overlay">
+
+        <div class="aba-admin-box">
+
+          <button
+            type="button"
+            class="aba-close-btn"
+            id="abaAdminClose"
+          >
+            ×
+          </button>
+
+          <div class="aba-admin-header">
+
+            <div class="aba-admin-icon">
+              👨‍💼
+            </div>
+
+            <div>
+              <h2>
+                Premium Admin Dashboard
+              </h2>
+
+              <p>
+                Payment Approval Management
+              </p>
+            </div>
+
+          </div>
+
+          <div
+            id="abaAdminStats"
+            class="aba-admin-stats"
+          ></div>
+
+          <div
+            id="abaAdminPayments"
+            class="aba-admin-payments"
+          ></div>
+
+          <div class="aba-admin-actions">
+
+            <button
+              type="button"
+              id="abaStudentMode"
+              class="aba-secondary-btn"
+            >
+              Student Mode
+            </button>
+
+            <button
+              type="button"
+              id="abaResetPremium"
+              class="aba-danger-btn"
+            >
+              Reset Premium
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+    `;
+
+    document.body.appendChild(panel);
+
+    document
+      .getElementById("abaAdminClose")
+      .addEventListener("click", closeAdminPanel);
+
+    document
+      .getElementById("abaStudentMode")
+      .addEventListener("click", function () {
+        setStudentMode();
+      });
+
+    document
+      .getElementById("abaResetPremium")
+      .addEventListener("click", function () {
+        resetPremium();
+      });
+
+    renderAdminPanel();
+  }
+
+  function openAdminPanel() {
+    createAdminPanel();
+
+    const panel =
+      document.getElementById("abaAdminPanel");
+
+    panel.classList.add("show");
+
+    renderAdminPanel();
+  }
+
+  function closeAdminPanel() {
+    const panel =
+      document.getElementById("abaAdminPanel");
+
+    if (panel) {
+      panel.classList.remove("show");
+    }
+  }
+
+  function renderAdminPanel() {
+    const state = ensureState();
+
+    const stats =
+      document.getElementById("abaAdminStats");
+
+    const payments =
+      document.getElementById("abaAdminPayments");
+
+    if (!stats || !payments) {
+      return;
+    }
+
+    const premium = state.premium;
+
+    let statusText = "Free";
+
+    if (premium.status === "pending") {
+      statusText = "Pending";
+    }
+
+    if (premium.status === "active") {
+      statusText = "Active";
+    }
+
+    if (premium.status === "rejected") {
+      statusText = "Rejected";
+    }
+
+    if (premium.status === "expired") {
+      statusText = "Expired";
+    }
+
+    stats.innerHTML = `
+      <div class="aba-stat-card">
+        <span>Status</span>
+        <strong>${statusText}</strong>
+      </div>
+
+      <div class="aba-stat-card">
+        <span>Plan</span>
+        <strong>
+          ${premium.plan
+            ? escapeHTML(PLANS[premium.plan]?.name || premium.plan)
+            : "-"}
+        </strong>
+      </div>
+
+      <div class="aba-stat-card">
+        <span>Payment</span>
+        <strong>
+          ${premium.paymentMethod
+            ? escapeHTML(premium.paymentMethod)
+            : "-"}
+        </strong>
+      </div>
+
+      <div class="aba-stat-card">
+        <span>Expiry</span>
+        <strong>
+          ${formatDate(premium.expiryAt)}
+        </strong>
+      </div>
+    `;
+
+    if (premium.status !== "pending") {
+      payments.innerHTML = `
+        <div class="aba-empty-admin">
+          <div class="aba-empty-icon">
+            📭
+          </div>
+
+          <h3>
+            No Pending Payment
+          </h3>
+
+          <p>
+            Student က Payment တင်လိုက်တဲ့အခါ ဒီနေရာမှာ ပြပါမယ်။
+          </p>
+        </div>
+      `;
+
+      return;
+    }
+
+    const plan =
+      PLANS[premium.plan] || PLANS.monthly;
+
+    payments.innerHTML = `
+      <div class="aba-payment-review">
+
+        <div class="aba-review-title">
+          <span>🔔 New Payment Request</span>
+
+          <span class="aba-pending-tag">
+            PENDING
+          </span>
+        </div>
+
+        <div class="aba-review-grid">
+
+          <div class="aba-review-item">
+            <span>Plan</span>
+            <strong>
+              ${escapeHTML(plan.name)}
+            </strong>
+          </div>
+
+          <div class="aba-review-item">
+            <span>Amount</span>
+            <strong>
+              ${formatMoney(plan.price)}
+            </strong>
+          </div>
+
+          <div class="aba-review-item">
+            <span>Payment Method</span>
+            <strong>
+              ${escapeHTML(premium.paymentMethod)}
+            </strong>
+          </div>
+
+          <div class="aba-review-item">
+            <span>Transaction Ref</span>
+            <strong>
+              ${escapeHTML(premium.transactionRef)}
+            </strong>
+          </div>
+
+          <div class="aba-review-item">
+            <span>Screenshot</span>
+            <strong>
+              ${escapeHTML(premium.paymentScreenshot)}
+            </strong>
+          </div>
+
+          <div class="aba-review-item">
+            <span>Submitted</span>
+            <strong>
+              ${formatDate(premium.submittedAt)}
+            </strong>
+          </div>
+
+        </div>
+
+        <div class="aba-review-warning">
+          ⚠️ Payment ကို အမှန်တကယ် စစ်ဆေးပြီးမှ Approve နှိပ်ပါ။
+        </div>
+
+        <div class="aba-review-buttons">
+
+          <button
+            type="button"
+            class="aba-approve-btn"
+            id="abaApprovePayment"
+          >
+            ✓ Approve Payment
+          </button>
+
+          <button
+            type="button"
+            class="aba-reject-btn"
+            id="abaRejectPayment"
+          >
+            ✕ Reject
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+    document
+      .getElementById("abaApprovePayment")
+      .addEventListener("click", approvePayment);
+
+    document
+      .getElementById("abaRejectPayment")
+      .addEventListener("click", rejectPayment);
+  }
+
+  /* =========================================================
+     ADMIN APPROVE
+     ========================================================= */
+
+  function approvePayment() {
+    const state = ensureState();
+
+    if (state.premium.status !== "pending") {
+      showToast("Pending Payment မရှိပါ။");
+      return;
+    }
+
+    const plan =
+      PLANS[state.premium.plan] || PLANS.monthly;
+
+    const startAt = Date.now();
+
+    const expiryAt =
+      startAt +
+      plan.days *
+        24 *
+        60 *
+        60 *
+        1000;
+
+    updateState(function (newState) {
+      newState.premium.status = "active";
+      newState.premium.startAt = startAt;
+      newState.premium.expiryAt = expiryAt;
+    });
+
+    renderAdminPanel();
+
+    updateCourseCards();
+
+    updateLessonLock();
+
+    updateDashboard();
+
+    showToast(
+      "✅ Payment Approved — Premium Unlocked!"
+    );
+  }
+
+  /* =========================================================
+     ADMIN REJECT
+     ========================================================= */
+
+  function rejectPayment() {
+    const confirmReject =
+      window.confirm(
+        "ဒီ Payment ကို Reject လုပ်မှာ သေချာပါသလား?"
+      );
+
+    if (!confirmReject) {
+      return;
+    }
+
+    updateState(function (state) {
+      state.premium.status = "rejected";
+    });
+
+    renderAdminPanel();
+
+    updateCourseCards();
+
+    updateDashboard();
+
+    showToast(
+      "Payment Rejected"
+    );
+  }
+
+  /* =========================================================
+     ADMIN / STUDENT MODE
+     ========================================================= */
+
+  function setAdminMode() {
+    updateState(function (state) {
+      state.account.role = "admin";
+    });
+
+    showToast(
+      "Admin Mode Activated"
+    );
+
+    openAdminPanel();
+  }
+
+  function setStudentMode() {
+    updateState(function (state) {
+      state.account.role = "student";
+    });
+
+    closeAdminPanel();
+
+    showToast(
+      "Student Mode"
+    );
+
+    updateDashboard();
+  }
+
+  function isAdmin() {
+    return ensureState().account.role === "admin";
+  }
+
+  /* =========================================================
+     RESET PREMIUM
+     ========================================================= */
+
+  function resetPremium() {
+    const confirmReset =
+      window.confirm(
+        "Premium status ကို Reset လုပ်မှာ သေချာပါသလား?"
+      );
+
+    if (!confirmReset) {
+      return;
+    }
+
+    updateState(function (state) {
+      state.premium = {
+        status: "free",
+        plan: null,
+        startAt: null,
+        expiryAt: null,
+        paymentMethod: null,
+        transactionRef: "",
+        paymentScreenshot: "",
+        submittedAt: null
+      };
+    });
+
+    renderAdminPanel();
+
+    updateCourseCards();
+
+    updateLessonLock();
+
+    updateDashboard();
+
+    showToast(
+      "Premium Reset ပြီးပါပြီ။"
+    );
+  }
+
+  /* =========================================================
+     LESSON LOCK
+     ========================================================= */
+
+  function updateLessonLock() {
+    const lessonContent =
+      document.getElementById("lessonContent");
+
+    if (!lessonContent) {
+      return;
+    }
+
+    /*
+     * Existing lesson system may expose current course.
+     */
+
+    let currentCourseIndex = null;
 
     if (
-      Number.isNaN(
-        date.getTime()
-      )
+      window.AungAcademy &&
+      window.AungAcademy.state
     ) {
-      return "-";
+      const academyState =
+        window.AungAcademy.state;
+
+      if (
+        typeof academyState.currentCourseIndex ===
+        "number"
+      ) {
+        currentCourseIndex =
+          academyState.currentCourseIndex;
+      }
+
+      if (
+        typeof academyState.currentCourse ===
+        "number"
+      ) {
+        currentCourseIndex =
+          academyState.currentCourse;
+      }
     }
 
-    return date.toLocaleDateString(
-      "en-GB",
-      {
-        day: "2-digit",
-        month: "short",
-        year: "numeric"
-      }
+    if (
+      currentCourseIndex !== null &&
+      isCourseLocked(currentCourseIndex)
+    ) {
+      lessonContent.innerHTML = `
+        <div class="aba-lesson-lock">
+
+          <div class="aba-big-lock">
+            🔒
+          </div>
+
+          <h2>
+            Premium Course
+          </h2>
+
+          <p>
+            ဒီ Course ကို လေ့လာရန် Premium Membership လိုအပ်ပါတယ်။
+          </p>
+
+          <button
+            type="button"
+            class="aba-unlock-large"
+            onclick="AungPremium.open()"
+          >
+            👑 Unlock Premium
+          </button>
+
+        </div>
+      `;
+    }
+  }
+
+  /* =========================================================
+     DASHBOARD PREMIUM CARD
+     ========================================================= */
+
+  function updateDashboard() {
+    let dashboard =
+      document.getElementById("dashboard");
+
+    if (!dashboard) {
+      return;
+    }
+
+    let card =
+      document.getElementById(
+        "abaDashboardPremiumCard"
+      );
+
+    if (!card) {
+      card = document.createElement("div");
+
+      card.id =
+        "abaDashboardPremiumCard";
+
+      dashboard.prepend(card);
+    }
+
+    const state = ensureState();
+
+    let status = "FREE";
+    let statusClass = "free";
+
+    if (state.premium.status === "pending") {
+      status = "PAYMENT PENDING";
+      statusClass = "pending";
+    }
+
+    if (isPremiumActive()) {
+      status = "PREMIUM ACTIVE";
+      statusClass = "active";
+    }
+
+    if (state.premium.status === "rejected") {
+      status = "PAYMENT REJECTED";
+      statusClass = "rejected";
+    }
+
+    if (state.premium.status === "expired") {
+      status = "PREMIUM EXPIRED";
+      statusClass = "expired";
+    }
+
+    card.className =
+      "aba-dashboard-premium-card";
+
+    card.innerHTML = `
+      <div class="aba-dashboard-premium-icon">
+        👑
+      </div>
+
+      <div class="aba-dashboard-premium-info">
+
+        <div class="aba-dashboard-premium-label">
+          Premium Membership
+        </div>
+
+        <div class="aba-dashboard-premium-status ${statusClass}">
+          ${status}
+        </div>
+
+        ${
+          state.premium.expiryAt
+            ? `
+              <div class="aba-dashboard-premium-expiry">
+                Expiry: ${formatDate(
+                  state.premium.expiryAt
+                )}
+              </div>
+            `
+            : ""
+        }
+
+      </div>
+
+      <div class="aba-dashboard-premium-action">
+
+        ${
+          isAdmin()
+            ? `
+              <button
+                type="button"
+                onclick="AungPremium.status()"
+                class="aba-admin-open-btn"
+              >
+                👨‍💼 Admin Dashboard
+              </button>
+            `
+            : state.premium.status === "pending"
+              ? `
+                <button
+                  type="button"
+                  onclick="AungPremium.status()"
+                  class="aba-pending-open-btn"
+                >
+                  ⏳ Payment Status
+                </button>
+              `
+              : isPremiumActive()
+                ? `
+                  <span class="aba-active-label">
+                    ✓ All Courses Unlocked
+                  </span>
+                `
+                : `
+                  <button
+                    type="button"
+                    onclick="AungPremium.open()"
+                    class="aba-upgrade-btn"
+                  >
+                    👑 Upgrade Premium
+                  </button>
+                `
+        }
+
+      </div>
+    `;
+  }
+
+  /* =========================================================
+     TOAST
+     ========================================================= */
+
+  function showToast(message) {
+    let toast =
+      document.getElementById(
+        "abaPremiumToast"
+      );
+
+    if (!toast) {
+      toast = document.createElement("div");
+
+      toast.id =
+        "abaPremiumToast";
+
+      document.body.appendChild(toast);
+    }
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    clearTimeout(
+      window.__abaToastTimer
     );
+
+    window.__abaToastTimer =
+      setTimeout(function () {
+        toast.classList.remove("show");
+      }, 3500);
   }
 
   /* =========================================================
@@ -271,7 +1390,6 @@
      ========================================================= */
 
   function injectCSS() {
-
     if (
       document.getElementById(
         "abaPremiumCSS"
@@ -288,310 +1406,982 @@
 
     style.textContent = `
 
-      .aba-premium-badge {
-        display:inline-flex;
-        align-items:center;
-        gap:5px;
-        padding:5px 11px;
-        border-radius:999px;
-        font-size:12px;
-        font-weight:800;
-        margin-left:8px;
-      }
-
-      .aba-free-badge {
-        background:#dcfce7;
-        color:#166534;
-        border:1px solid #86efac;
-      }
+      /* ================================
+         BADGES
+         ================================ */
 
       .aba-premium-badge {
-        background:#fef3c7;
-        color:#92400e;
-        border:1px solid #fcd34d;
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        z-index: 20;
+
+        padding: 7px 12px;
+
+        border-radius: 999px;
+
+        font-size: 12px;
+        font-weight: 800;
+
+        box-shadow:
+          0 4px 12px rgba(0,0,0,.12);
       }
 
-      .aba-locked-course {
-        position:relative;
+      .aba-premium-badge.free {
+        background: #e8f8ee;
+        color: #198754;
       }
 
-      .aba-lock-label {
-        display:block;
-        margin-top:10px;
-        color:#92400e;
-        font-size:13px;
-        font-weight:700;
+      .aba-premium-badge.premium {
+        background: #fff3cd;
+        color: #946200;
       }
 
-      .aba-premium-modal-overlay {
-        position:fixed;
-        inset:0;
-        background:rgba(15,23,42,.72);
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        padding:20px;
-        z-index:999999;
+      .aba-premium-badge.active {
+        background: #e8f8ee;
+        color: #198754;
       }
 
-      .aba-premium-modal {
-        width:min(650px,100%);
-        max-height:92vh;
-        overflow:auto;
-        background:#fff;
-        border-radius:22px;
-        padding:28px;
-        position:relative;
-        box-shadow:0 25px 80px rgba(0,0,0,.3);
+      .aba-premium-locked {
+        opacity: .9 !important;
+        cursor: pointer !important;
       }
 
-      .aba-premium-close {
-        position:absolute;
-        top:12px;
-        right:15px;
-        width:40px;
-        height:40px;
-        border:0;
-        border-radius:50%;
-        background:#f3f4f6;
-        font-size:25px;
-        cursor:pointer;
+
+      /* ================================
+         PREMIUM MODAL
+         ================================ */
+
+      #abaPremiumModal {
+        position: fixed;
+        inset: 0;
+
+        background:
+          rgba(0,0,0,.65);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 20px;
+
+        z-index: 999999;
+
+        opacity: 0;
+        visibility: hidden;
+
+        transition: .25s;
       }
 
-      .aba-premium-header {
-        text-align:center;
-        margin-bottom:25px;
+      #abaPremiumModal.show {
+        opacity: 1;
+        visibility: visible;
       }
 
-      .aba-premium-crown {
-        font-size:48px;
+      .aba-modal-box {
+        width: 100%;
+        max-width: 620px;
+
+        max-height: 92vh;
+        overflow-y: auto;
+
+        background: white;
+
+        border-radius: 20px;
+
+        padding: 28px;
+
+        position: relative;
+
+        box-shadow:
+          0 25px 80px rgba(0,0,0,.25);
       }
 
-      .aba-premium-header h2 {
-        margin:5px 0 8px;
+      .aba-close-btn {
+        position: absolute;
+        right: 15px;
+        top: 12px;
+
+        width: 38px;
+        height: 38px;
+
+        border: none;
+
+        border-radius: 50%;
+
+        background: #f1f3f5;
+
+        font-size: 25px;
+
+        cursor: pointer;
       }
 
-      .aba-premium-header p {
-        color:#6b7280;
-        margin:0;
+      .aba-modal-header {
+        text-align: center;
+        padding: 10px 20px 20px;
       }
+
+      .aba-crown {
+        font-size: 45px;
+        margin-bottom: 5px;
+      }
+
+      .aba-modal-header h2 {
+        margin: 0 0 8px;
+        font-size: 25px;
+      }
+
+      .aba-modal-header p {
+        margin: 0;
+        color: #666;
+        line-height: 1.6;
+      }
+
+
+      /* ================================
+         PLANS
+         ================================ */
 
       .aba-plan-grid {
-        display:grid;
-        grid-template-columns:1fr 1fr;
-        gap:15px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+
+        margin: 10px 0 22px;
       }
 
-      .aba-plan {
-        border:2px solid #e5e7eb;
-        border-radius:15px;
-        padding:18px;
-        cursor:pointer;
-        transition:.2s;
+      .aba-plan-card {
+        position: relative;
+
+        border: 2px solid #ddd;
+
+        background: white;
+
+        border-radius: 15px;
+
+        padding: 18px;
+
+        cursor: pointer;
+
+        text-align: left;
+
+        transition: .2s;
       }
 
-      .aba-plan:hover {
-        border-color:#2563eb;
+      .aba-plan-card.selected {
+        border-color: #6c5ce7;
+
+        background: #f7f5ff;
+
+        box-shadow:
+          0 6px 20px rgba(108,92,231,.12);
       }
 
-      .aba-plan.selected {
-        border-color:#2563eb;
-        background:#eff6ff;
-      }
-
-      .aba-plan h3 {
-        margin:0 0 8px;
+      .aba-plan-title {
+        font-weight: 800;
+        font-size: 17px;
       }
 
       .aba-plan-price {
-        color:#1d4ed8;
-        font-size:24px;
-        font-weight:800;
+        font-size: 25px;
+        font-weight: 900;
+
+        margin-top: 8px;
       }
 
-      .aba-plan small {
-        color:#6b7280;
+      .aba-plan-duration {
+        color: #777;
+        margin-top: 3px;
       }
 
-      .aba-payment-box {
-        margin-top:20px;
-        padding:18px;
-        background:#f8fafc;
-        border:1px solid #e5e7eb;
-        border-radius:15px;
+      .aba-save {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+
+        font-size: 10px;
+        font-weight: 800;
+
+        padding: 4px 7px;
+
+        border-radius: 5px;
+
+        background: #198754;
+        color: white;
       }
 
-      .aba-payment-methods {
-        display:grid;
-        grid-template-columns:1fr 1fr;
-        gap:10px;
-        margin:12px 0;
+
+      /* ================================
+         PAYMENT METHOD
+         ================================ */
+
+      .aba-payment-method h3 {
+        margin: 0 0 10px;
+        font-size: 16px;
       }
 
-      .aba-payment-method {
-        padding:12px;
-        background:#fff;
-        border:1px solid #d1d5db;
-        border-radius:10px;
-        cursor:pointer;
-        font-weight:700;
+      .aba-payment-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        gap: 10px;
       }
 
-      .aba-payment-method.selected {
-        border-color:#2563eb;
-        background:#eff6ff;
-        color:#1d4ed8;
+      .aba-payment-btn {
+        border: 2px solid #ddd;
+
+        background: white;
+
+        padding: 12px;
+
+        border-radius: 10px;
+
+        font-weight: 700;
+
+        cursor: pointer;
       }
 
-      .aba-payment-details {
-        background:#fff;
-        border:1px dashed #cbd5e1;
-        padding:15px;
-        border-radius:12px;
-        margin-bottom:15px;
+      .aba-payment-btn.selected {
+        border-color: #6c5ce7;
+        background: #f7f5ff;
       }
 
-      .aba-payment-details div {
-        margin:6px 0;
+
+      /* ================================
+         PAYMENT INFO
+         ================================ */
+
+      .aba-payment-info {
+        margin: 18px 0;
+
+        background: #f7f8fa;
+
+        border-radius: 14px;
+
+        padding: 16px;
       }
 
-      .aba-input {
-        width:100%;
-        box-sizing:border-box;
-        padding:12px;
-        border:1px solid #d1d5db;
-        border-radius:10px;
-        margin-top:6px;
-        font-size:14px;
+      .aba-payment-plan {
+        display: flex;
+        justify-content: space-between;
+
+        padding-bottom: 12px;
+        margin-bottom: 12px;
+
+        border-bottom: 1px solid #ddd;
       }
 
-      .aba-submit {
-        width:100%;
-        padding:14px;
-        border:0;
-        border-radius:11px;
-        background:#2563eb;
-        color:#fff;
-        font-size:16px;
-        font-weight:800;
-        cursor:pointer;
-        margin-top:18px;
+      .aba-payment-row {
+        display: flex;
+        justify-content: space-between;
+
+        gap: 15px;
+
+        padding: 7px 0;
       }
 
-      .aba-lock-screen {
-        text-align:center;
-        padding:55px 25px;
-        background:#f8fafc;
-        border:1px solid #e5e7eb;
-        border-radius:18px;
+      .aba-payment-row span {
+        color: #777;
       }
 
-      .aba-lock-icon {
-        font-size:60px;
+      .aba-payment-row strong {
+        text-align: right;
       }
 
-      .aba-lock-screen h2 {
-        margin:10px 0;
+
+      /* ================================
+         FORM
+         ================================ */
+
+      .aba-form label {
+        display: block;
+
+        margin: 14px 0 6px;
+
+        font-size: 14px;
+
+        font-weight: 700;
       }
 
-      .aba-lock-screen p {
-        color:#6b7280;
+      .aba-form input {
+        width: 100%;
+
+        padding: 13px;
+
+        border: 1px solid #d9d9d9;
+
+        border-radius: 9px;
+
+        font-size: 15px;
+
+        outline: none;
       }
 
-      .aba-unlock-btn {
-        padding:13px 22px;
-        background:#2563eb;
-        color:#fff;
-        border:0;
-        border-radius:11px;
-        font-weight:800;
-        cursor:pointer;
+      .aba-form input:focus {
+        border-color: #6c5ce7;
       }
 
-      .aba-status-box {
-        background:linear-gradient(
-          135deg,
-          #111827,
-          #1d4ed8
-        );
-        color:#fff;
-        border-radius:18px;
-        padding:22px;
-        margin-bottom:20px;
+      .aba-file-note {
+        font-size: 12px;
+        color: #777;
+
+        margin-top: 5px;
       }
 
-      .aba-status-grid {
-        display:grid;
-        grid-template-columns:
-          repeat(3,1fr);
-        gap:10px;
-        margin-top:15px;
+      .aba-submit-btn {
+        width: 100%;
+
+        margin-top: 20px;
+
+        padding: 14px;
+
+        border: none;
+
+        border-radius: 10px;
+
+        background: #6c5ce7;
+
+        color: white;
+
+        font-weight: 800;
+
+        font-size: 16px;
+
+        cursor: pointer;
       }
 
-      .aba-status-item {
-        background:rgba(
-          255,255,255,.1
-        );
-        padding:12px;
-        border-radius:10px;
+      .aba-submit-btn:hover {
+        opacity: .9;
       }
 
-      .aba-status-item span {
-        display:block;
-        font-size:11px;
-        opacity:.7;
-        margin-bottom:4px;
+      .aba-message {
+        margin-top: 15px;
+        text-align: center;
       }
 
-      .aba-status-item strong {
-        font-size:14px;
+      .aba-success-message {
+        background: #e8f8ee;
+        color: #198754;
+
+        padding: 12px;
+        border-radius: 10px;
+
+        line-height: 1.7;
+      }
+
+      .aba-error-message {
+        background: #fdecec;
+        color: #c62828;
+
+        padding: 12px;
+        border-radius: 10px;
+      }
+
+      .aba-pending-message {
+        background: #fff8df;
+        color: #946200;
+
+        padding: 12px;
+        border-radius: 10px;
+      }
+
+
+      /* ================================
+         ADMIN PANEL
+         ================================ */
+
+      #abaAdminPanel {
+        position: fixed;
+        inset: 0;
+
+        z-index: 1000000;
+
+        opacity: 0;
+        visibility: hidden;
+
+        transition: .25s;
+      }
+
+      #abaAdminPanel.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .aba-admin-overlay {
+        position: absolute;
+        inset: 0;
+
+        background: rgba(0,0,0,.68);
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        padding: 20px;
       }
 
       .aba-admin-box {
-        margin-top:20px;
-        padding:18px;
-        border-radius:15px;
-        background:#fff7ed;
-        border:1px solid #fed7aa;
+        width: 100%;
+        max-width: 900px;
+
+        max-height: 92vh;
+
+        overflow-y: auto;
+
+        background: white;
+
+        border-radius: 20px;
+
+        padding: 28px;
+
+        position: relative;
       }
 
-      .aba-admin-buttons {
-        display:flex;
-        gap:10px;
-        margin-top:15px;
+      .aba-admin-header {
+        display: flex;
+
+        align-items: center;
+
+        gap: 15px;
+
+        margin-bottom: 20px;
       }
 
-      .aba-admin-buttons button {
-        padding:11px 18px;
-        border:0;
-        border-radius:10px;
-        font-weight:800;
-        cursor:pointer;
+      .aba-admin-icon {
+        width: 55px;
+        height: 55px;
+
+        border-radius: 15px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #f0edff;
+
+        font-size: 27px;
       }
 
-      .aba-approve {
-        background:#16a34a;
-        color:#fff;
+      .aba-admin-header h2 {
+        margin: 0 0 4px;
       }
 
-      .aba-reject {
-        background:#dc2626;
-        color:#fff;
+      .aba-admin-header p {
+        margin: 0;
+        color: #777;
       }
 
-      @media(max-width:600px) {
 
-        .aba-plan-grid,
-        .aba-payment-methods {
-          grid-template-columns:1fr;
+      /* ================================
+         ADMIN STATS
+         ================================ */
+
+      .aba-admin-stats {
+        display: grid;
+
+        grid-template-columns:
+          repeat(4, 1fr);
+
+        gap: 12px;
+
+        margin-bottom: 20px;
+      }
+
+      .aba-stat-card {
+        padding: 15px;
+
+        background: #f7f8fa;
+
+        border-radius: 12px;
+      }
+
+      .aba-stat-card span {
+        display: block;
+
+        color: #777;
+
+        font-size: 12px;
+
+        margin-bottom: 5px;
+      }
+
+      .aba-stat-card strong {
+        font-size: 15px;
+      }
+
+
+      /* ================================
+         REVIEW
+         ================================ */
+
+      .aba-payment-review {
+        border: 1px solid #e2e2e2;
+
+        border-radius: 15px;
+
+        padding: 18px;
+      }
+
+      .aba-review-title {
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        font-weight: 800;
+
+        margin-bottom: 18px;
+      }
+
+      .aba-pending-tag {
+        background: #fff1bd;
+
+        color: #8a6500;
+
+        padding: 5px 9px;
+
+        border-radius: 999px;
+
+        font-size: 11px;
+      }
+
+      .aba-review-grid {
+        display: grid;
+
+        grid-template-columns:
+          repeat(2, 1fr);
+
+        gap: 12px;
+      }
+
+      .aba-review-item {
+        background: #f7f8fa;
+
+        border-radius: 10px;
+
+        padding: 12px;
+      }
+
+      .aba-review-item span {
+        display: block;
+
+        color: #777;
+
+        font-size: 12px;
+
+        margin-bottom: 5px;
+      }
+
+      .aba-review-item strong {
+        word-break: break-word;
+      }
+
+      .aba-review-warning {
+        margin-top: 15px;
+
+        background: #fff8df;
+
+        color: #806000;
+
+        padding: 12px;
+
+        border-radius: 10px;
+
+        font-size: 13px;
+      }
+
+      .aba-review-buttons {
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        gap: 10px;
+
+        margin-top: 15px;
+      }
+
+      .aba-approve-btn,
+      .aba-reject-btn {
+        border: none;
+
+        padding: 13px;
+
+        border-radius: 10px;
+
+        font-weight: 800;
+
+        cursor: pointer;
+      }
+
+      .aba-approve-btn {
+        background: #198754;
+        color: white;
+      }
+
+      .aba-reject-btn {
+        background: #dc3545;
+        color: white;
+      }
+
+
+      /* ================================
+         ADMIN ACTIONS
+         ================================ */
+
+      .aba-admin-actions {
+        display: flex;
+
+        justify-content: flex-end;
+
+        gap: 10px;
+
+        margin-top: 20px;
+      }
+
+      .aba-secondary-btn,
+      .aba-danger-btn {
+        border: none;
+
+        padding: 11px 16px;
+
+        border-radius: 9px;
+
+        font-weight: 700;
+
+        cursor: pointer;
+      }
+
+      .aba-secondary-btn {
+        background: #eef0f3;
+      }
+
+      .aba-danger-btn {
+        background: #fdecec;
+        color: #c62828;
+      }
+
+      .aba-empty-admin {
+        text-align: center;
+
+        padding: 45px 20px;
+
+        background: #f7f8fa;
+
+        border-radius: 15px;
+      }
+
+      .aba-empty-icon {
+        font-size: 40px;
+
+        margin-bottom: 10px;
+      }
+
+      .aba-empty-admin h3 {
+        margin: 0 0 8px;
+      }
+
+      .aba-empty-admin p {
+        margin: 0;
+
+        color: #777;
+      }
+
+
+      /* ================================
+         DASHBOARD CARD
+         ================================ */
+
+      .aba-dashboard-premium-card {
+        display: flex;
+
+        align-items: center;
+
+        gap: 15px;
+
+        padding: 18px;
+
+        margin-bottom: 18px;
+
+        background: white;
+
+        border: 1px solid #e5e5e5;
+
+        border-radius: 15px;
+
+        box-shadow:
+          0 5px 18px rgba(0,0,0,.05);
+      }
+
+      .aba-dashboard-premium-icon {
+        width: 52px;
+        height: 52px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        background: #fff3cd;
+
+        border-radius: 14px;
+
+        font-size: 25px;
+      }
+
+      .aba-dashboard-premium-info {
+        flex: 1;
+      }
+
+      .aba-dashboard-premium-label {
+        font-weight: 800;
+      }
+
+      .aba-dashboard-premium-status {
+        margin-top: 3px;
+
+        font-size: 13px;
+
+        font-weight: 800;
+      }
+
+      .aba-dashboard-premium-status.free {
+        color: #777;
+      }
+
+      .aba-dashboard-premium-status.pending {
+        color: #946200;
+      }
+
+      .aba-dashboard-premium-status.active {
+        color: #198754;
+      }
+
+      .aba-dashboard-premium-status.rejected,
+      .aba-dashboard-premium-status.expired {
+        color: #dc3545;
+      }
+
+      .aba-dashboard-premium-expiry {
+        margin-top: 3px;
+
+        color: #777;
+
+        font-size: 12px;
+      }
+
+      .aba-upgrade-btn,
+      .aba-admin-open-btn,
+      .aba-pending-open-btn {
+        border: none;
+
+        padding: 10px 14px;
+
+        border-radius: 9px;
+
+        cursor: pointer;
+
+        font-weight: 800;
+      }
+
+      .aba-upgrade-btn {
+        background: #6c5ce7;
+        color: white;
+      }
+
+      .aba-admin-open-btn {
+        background: #222;
+        color: white;
+      }
+
+      .aba-pending-open-btn {
+        background: #fff3cd;
+        color: #7a5a00;
+      }
+
+      .aba-active-label {
+        color: #198754;
+
+        font-weight: 800;
+
+        font-size: 13px;
+      }
+
+
+      /* ================================
+         LESSON LOCK
+         ================================ */
+
+      .aba-lesson-lock {
+        min-height: 400px;
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+
+        justify-content: center;
+
+        text-align: center;
+
+        padding: 30px;
+      }
+
+      .aba-big-lock {
+        font-size: 65px;
+
+        margin-bottom: 15px;
+      }
+
+      .aba-lesson-lock h2 {
+        margin: 0 0 8px;
+      }
+
+      .aba-lesson-lock p {
+        color: #777;
+
+        max-width: 500px;
+
+        line-height: 1.7;
+      }
+
+      .aba-unlock-large {
+        margin-top: 15px;
+
+        border: none;
+
+        padding: 13px 22px;
+
+        border-radius: 10px;
+
+        background: #6c5ce7;
+
+        color: white;
+
+        font-weight: 800;
+
+        cursor: pointer;
+      }
+
+
+      /* ================================
+         TOAST
+         ================================ */
+
+      #abaPremiumToast {
+        position: fixed;
+
+        left: 50%;
+
+        bottom: 25px;
+
+        transform:
+          translate(-50%, 30px);
+
+        opacity: 0;
+
+        visibility: hidden;
+
+        z-index: 2000000;
+
+        background: #222;
+
+        color: white;
+
+        padding: 13px 18px;
+
+        border-radius: 10px;
+
+        box-shadow:
+          0 10px 30px rgba(0,0,0,.2);
+
+        transition: .25s;
+
+        max-width: 90%;
+
+        text-align: center;
+
+        font-size: 14px;
+      }
+
+      #abaPremiumToast.show {
+        opacity: 1;
+
+        visibility: visible;
+
+        transform:
+          translate(-50%, 0);
+      }
+
+
+      /* ================================
+         MOBILE
+         ================================ */
+
+      @media (max-width: 700px) {
+
+        .aba-modal-box,
+        .aba-admin-box {
+          padding: 20px;
+
+          border-radius: 16px;
+
+          max-height: 94vh;
         }
 
-        .aba-status-grid {
-          grid-template-columns:1fr;
+        .aba-plan-grid {
+          grid-template-columns: 1fr;
         }
 
-        .aba-premium-modal {
-          padding:20px;
+        .aba-payment-buttons {
+          grid-template-columns: 1fr;
+        }
+
+        .aba-admin-stats {
+          grid-template-columns:
+            repeat(2, 1fr);
+        }
+
+        .aba-review-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .aba-review-buttons {
+          grid-template-columns: 1fr;
+        }
+
+        .aba-admin-actions {
+          flex-direction: column;
+        }
+
+        .aba-secondary-btn,
+        .aba-danger-btn {
+          width: 100%;
+        }
+
+        .aba-dashboard-premium-card {
+          align-items: flex-start;
+
+          flex-wrap: wrap;
+        }
+
+        .aba-dashboard-premium-action {
+          width: 100%;
+        }
+
+        .aba-dashboard-premium-action button {
+          width: 100%;
+        }
+
+        .aba-payment-row {
+          flex-direction: column;
+
+          gap: 3px;
+        }
+
+        .aba-payment-row strong {
+          text-align: left;
         }
 
       }
@@ -602,1722 +2392,178 @@
   }
 
   /* =========================================================
-     GET COURSE CARDS
-     
-     IMPORTANT:
-     We identify courses by their ORDER.
-     Course 1 = FREE
-     Course 2-13 = PREMIUM
+     ADMIN BUTTON
+     Adds Admin Dashboard button to Settings page area
      ========================================================= */
 
-  function getCourseCards() {
-
-    const grid =
-      document.getElementById(
-        "coursesGrid"
-      );
-
-    if (!grid) {
-      return [];
-    }
-
-    return Array.from(
-      grid.children
-    ).filter(function (element) {
-
-      return (
-        element.nodeType === 1
-      );
-
-    });
-
-  }
-
-  /* =========================================================
-     FIND START COURSE BUTTON
-     ========================================================= */
-
-  function getCourseButton(card) {
-
-    if (!card) {
-      return null;
-    }
-
-    return (
-      card.querySelector(
-        ".open-course"
-      ) ||
-      card.querySelector(
-        "button"
-      )
-    );
-
-  }
-
-  /* =========================================================
-     COURSE CARDS
-     ========================================================= */
-
-  function renderCoursePremium() {
-
-    const cards =
-      getCourseCards();
-
-    if (!cards.length) {
-      return;
-    }
-
-    cards.forEach(
-      function (card, index) {
-
-        const button =
-          getCourseButton(card);
-
-        const isFree =
-          index ===
-          FREE_COURSE_INDEX;
-
-        const unlocked =
-          isFree ||
-          isPremiumActive();
-
-        card.classList.add(
-          "aba-premium-course"
-        );
-
-        if (!unlocked) {
-
-          card.classList.add(
-            "aba-locked-course"
-          );
-
-        } else {
-
-          card.classList.remove(
-            "aba-locked-course"
-          );
-
-        }
-
-        /* Remove previous ABA badges */
-
-        card.querySelectorAll(
-          ".aba-premium-badge"
-        ).forEach(
-          function (badge) {
-            badge.remove();
-          }
-        );
-
-        /* Create badge */
-
-        const badge =
-          document.createElement(
-            "span"
-          );
-
-        if (isFree) {
-
-          badge.className =
-            "aba-premium-badge aba-free-badge";
-
-          badge.textContent =
-            "✓ FREE";
-
-        } else if (unlocked) {
-
-          badge.className =
-            "aba-premium-badge";
-
-          badge.textContent =
-            "👑 PREMIUM";
-
-        } else {
-
-          badge.className =
-            "aba-premium-badge";
-
-          badge.textContent =
-            "🔒 PREMIUM";
-
-        }
-
-        /* Put badge near course title */
-
-        const title =
-          card.querySelector(
-            "h2"
-          );
-
-        if (title) {
-
-          title.appendChild(
-            badge
-          );
-
-        } else {
-
-          card.prepend(
-            badge
-          );
-
-        }
-
-        /* Change button */
-
-        if (button) {
-
-          if (
-            isFree
-          ) {
-
-            button.textContent =
-              index === 0
-                ? "Continue"
-                : button.textContent;
-
-          } else if (
-            unlocked
-          ) {
-
-            button.textContent =
-              "👑 Open Premium";
-
-          } else {
-
-            button.textContent =
-              "🔒 Unlock Course";
-
-          }
-
-        }
-
-      }
-    );
-
-  }
-
-  /* =========================================================
-     LESSON LIST
-     ========================================================= */
-
-  function renderLessonPremium() {
-
-    const list =
-      document.getElementById(
-        "lessonCourseList"
-      );
-
-    if (!list) {
-      return;
-    }
-
-    const items =
-      Array.from(
-        list.children
-      ).filter(function (element) {
-
-        return (
-          element.nodeType === 1
-        );
-
-      });
-
-    items.forEach(
-      function (item, index) {
-
-        item
-          .querySelectorAll(
-            ".aba-premium-badge"
-          )
-          .forEach(
-            function (badge) {
-              badge.remove();
-            }
-          );
-
-        const badge =
-          document.createElement(
-            "span"
-          );
-
-        if (
-          index ===
-          FREE_COURSE_INDEX
-        ) {
-
-          badge.className =
-            "aba-premium-badge aba-free-badge";
-
-          badge.textContent =
-            "✓ FREE";
-
-        } else if (
-          isPremiumActive()
-        ) {
-
-          badge.className =
-            "aba-premium-badge";
-
-          badge.textContent =
-            "👑 PREMIUM";
-
-        } else {
-
-          badge.className =
-            "aba-premium-badge";
-
-          badge.textContent =
-            "🔒 PREMIUM";
-
-        }
-
-        item.appendChild(
-          badge
-        );
-
-      }
-    );
-
-  }
-
-  /* =========================================================
-     MODAL CLOSE
-     ========================================================= */
-
-  function closeModal() {
-
-    const modal =
-      document.getElementById(
-        "abaPremiumModal"
-      );
-
-    if (modal) {
-      modal.remove();
-    }
-
-  }
-
-  /* =========================================================
-     OPEN PREMIUM MODAL
-     ========================================================= */
-
-  function openPremiumModal() {
-
-    closeModal();
-
-    selectedPlan =
-      "monthly";
-
-    selectedPayment =
-      "kpay";
-
-    const overlay =
-      document.createElement(
-        "div"
-      );
-
-    overlay.id =
-      "abaPremiumModal";
-
-    overlay.className =
-      "aba-premium-modal-overlay";
-
-    overlay.innerHTML = `
-
-      <div class="aba-premium-modal">
-
-        <button
-          class="aba-premium-close"
-          id="abaPremiumClose"
-          type="button"
-        >
-          ×
-        </button>
-
-        <div class="
-          aba-premium-header
-        ">
-
-          <div class="
-            aba-premium-crown
-          ">
-            👑
-          </div>
-
-          <h2>
-            Premium Membership
-          </h2>
-
-          <p>
-            Course 2 မှ Course 13 အထိ
-            Premium Courses အားလုံးကို
-            လေ့လာနိုင်ပါမယ်။
-          </p>
-
-        </div>
-
-        <div class="aba-plan-grid">
-
-          <div
-            class="
-              aba-plan
-              selected
-            "
-            data-plan="monthly"
-          >
-
-            <h3>
-              Monthly
-            </h3>
-
-            <div class="
-              aba-plan-price
-            ">
-              30,000 Ks
-            </div>
-
-            <small>
-              30 Days
-            </small>
-
-          </div>
-
-          <div
-            class="aba-plan"
-            data-plan="yearly"
-          >
-
-            <h3>
-              Yearly
-            </h3>
-
-            <div class="
-              aba-plan-price
-            ">
-              250,000 Ks
-            </div>
-
-            <small>
-              365 Days
-            </small>
-
-          </div>
-
-        </div>
-
-        <div class="
-          aba-payment-box
-        ">
-
-          <h3>
-            Payment Method
-          </h3>
-
-          <div class="
-            aba-payment-methods
-          ">
-
-            <button
-              type="button"
-              class="
-                aba-payment-method
-                selected
-              "
-              data-payment="kpay"
-            >
-              📱 KPay
-            </button>
-
-            <button
-              type="button"
-              class="
-                aba-payment-method
-              "
-              data-payment="bank"
-            >
-              🏦 Bank Transfer
-            </button>
-
-          </div>
-
-          <div
-            id="abaPaymentDetails"
-            class="
-              aba-payment-details
-            "
-          ></div>
-
-          <label>
-            Transaction Reference
-
-            <input
-              id="abaTransactionRef"
-              class="aba-input"
-              type="text"
-              placeholder="
-                KPay Transaction ID / Bank Reference
-              "
-            >
-
-          </label>
-
-          <label style="
-            display:block;
-            margin-top:15px;
-          ">
-
-            Payment Screenshot
-
-            <input
-              id="abaPaymentScreenshot"
-              class="aba-input"
-              type="file"
-              accept="image/*"
-            >
-
-          </label>
-
-          <button
-            id="abaSubmitPayment"
-            class="aba-submit"
-            type="button"
-          >
-            Submit Payment
-          </button>
-
-        </div>
-
-      </div>
-
-    `;
-
-    document.body.appendChild(
-      overlay
-    );
-
-    updatePaymentDetails();
-
-    /* Close */
-
-    document
-      .getElementById(
-        "abaPremiumClose"
-      )
-      .onclick =
-      closeModal;
-
-    /* Plans */
-
-    overlay
-      .querySelectorAll(
-        ".aba-plan"
-      )
-      .forEach(
-        function (plan) {
-
-          plan.onclick =
-            function () {
-
-              selectedPlan =
-                plan.dataset.plan;
-
-              overlay
-                .querySelectorAll(
-                  ".aba-plan"
-                )
-                .forEach(
-                  function (p) {
-                    p.classList.remove(
-                      "selected"
-                    );
-                  }
-                );
-
-              plan.classList.add(
-                "selected"
-              );
-
-              updatePaymentDetails();
-
-            };
-
-        }
-      );
-
-    /* Payment */
-
-    overlay
-      .querySelectorAll(
-        ".aba-payment-method"
-      )
-      .forEach(
-        function (method) {
-
-          method.onclick =
-            function () {
-
-              selectedPayment =
-                method.dataset.payment;
-
-              overlay
-                .querySelectorAll(
-                  ".aba-payment-method"
-                )
-                .forEach(
-                  function (m) {
-                    m.classList.remove(
-                      "selected"
-                    );
-                  }
-                );
-
-              method.classList.add(
-                "selected"
-              );
-
-              updatePaymentDetails();
-
-            };
-
-        }
-      );
-
-    /* Submit */
-
-    document
-      .getElementById(
-        "abaSubmitPayment"
-      )
-      .onclick =
-      submitPayment;
-
-  }
-
-  /* =========================================================
-     PAYMENT DETAILS
-     ========================================================= */
-
-  function updatePaymentDetails() {
-
-    const box =
-      document.getElementById(
-        "abaPaymentDetails"
-      );
-
-    if (!box) {
-      return;
-    }
-
-    const state =
-      ensurePremiumState();
-
-    const payment =
-      state.paymentSettings ||
-      DEFAULT_PAYMENT;
-
-    const price =
-      PLANS[selectedPlan].price;
-
-    if (
-      selectedPayment ===
-      "kpay"
-    ) {
-
-      box.innerHTML = `
-
-        <strong>
-          📱 KPay
-        </strong>
-
-        <div>
-          KPay Number:
-          <strong>
-            ${escapeHTML(
-              payment.kpayNumber
-            )}
-          </strong>
-        </div>
-
-        <div>
-          Account Name:
-          <strong>
-            ${escapeHTML(
-              payment.kpayName
-            )}
-          </strong>
-        </div>
-
-        <div>
-          Amount:
-          <strong>
-            ${money(price)}
-          </strong>
-        </div>
-
-      `;
-
-    } else {
-
-      box.innerHTML = `
-
-        <strong>
-          🏦 Bank Transfer
-        </strong>
-
-        <div>
-          Bank:
-          <strong>
-            ${escapeHTML(
-              payment.bankName
-            )}
-          </strong>
-        </div>
-
-        <div>
-          Account Number:
-          <strong>
-            ${escapeHTML(
-              payment.bankAccount
-            )}
-          </strong>
-        </div>
-
-        <div>
-          Account Name:
-          <strong>
-            ${escapeHTML(
-              payment.bankAccountName
-            )}
-          </strong>
-        </div>
-
-        <div>
-          Amount:
-          <strong>
-            ${money(price)}
-          </strong>
-        </div>
-
-      `;
-
-    }
-
-  }
-
-  /* =========================================================
-     SUBMIT PAYMENT
-     ========================================================= */
-
-  function submitPayment() {
-
-    const state =
-      ensurePremiumState();
-
-    if (!state) {
-      alert(
-        "Account data မတွေ့ပါ။"
-      );
-      return;
-    }
-
-    const ref =
-      document.getElementById(
-        "abaTransactionRef"
-      );
-
-    const screenshot =
-      document.getElementById(
-        "abaPaymentScreenshot"
-      );
-
-    const transactionRef =
-      ref
-        ? ref.value.trim()
-        : "";
-
-    if (!transactionRef) {
-
-      alert(
-        "Transaction Reference ထည့်ပေးပါ။"
-      );
-
-      return;
-    }
-
-    let screenshotName = "";
-
-    if (
-      screenshot &&
-      screenshot.files &&
-      screenshot.files.length
-    ) {
-
-      screenshotName =
-        screenshot.files[0].name;
-
-    }
-
-    state.premium = {
-
-      status:
-        "pending",
-
-      plan:
-        selectedPlan,
-
-      startAt:
-        null,
-
-      expiryAt:
-        null,
-
-      paymentMethod:
-        selectedPayment,
-
-      transactionRef:
-        transactionRef,
-
-      paymentScreenshot:
-        screenshotName,
-
-      submittedAt:
-        new Date().toISOString()
-
-    };
-
-    saveState(state);
-
-    closeModal();
-
-    alert(
-      "Payment submitted successfully.\n\nAdmin approval ကို စောင့်ပေးပါ။"
-    );
-
-    refresh();
-
-  }
-
-  /* =========================================================
-     PROTECT COURSE CLICK
-     ========================================================= */
-
-  function setupClickProtection() {
-
-    document.addEventListener(
-      "click",
-      function (event) {
-
-        const button =
-          event.target.closest(
-            ".open-course"
-          );
-
-        if (!button) {
-          return;
-        }
-
-        const cards =
-          getCourseCards();
-
-        const card =
-          button.closest(
-            ".course-card"
-          );
-
-        if (!card) {
-          return;
-        }
-
-        const index =
-          cards.indexOf(card);
-
-        if (
-          index < 0
-        ) {
-          return;
-        }
-
-        if (
-          !isCourseUnlocked(
-            index
-          )
-        ) {
-
-          event.preventDefault();
-
-          event.stopPropagation();
-
-          event.stopImmediatePropagation();
-
-          openPremiumModal();
-
-          return false;
-
-        }
-
-      },
-      true
-    );
-
-  }
-
-  /* =========================================================
-     PROTECT LESSON PAGE
-     ========================================================= */
-
-  function protectLessonPage() {
-
-    if (!window.AungAcademy) {
-      return;
-    }
-
-    const academy =
-      window.AungAcademy;
-
-    const state =
-      academy.state;
-
-    if (!state) {
-      return;
-    }
-
-    const courses =
-      academy.courses || [];
-
-    const courseIndex =
-      courses.findIndex(
-        function (course) {
-          return (
-            course.id ===
-            state.currentCourseId
-          );
-        }
-      );
-
-    if (
-      courseIndex < 0
-    ) {
+  function addAdminAccessButton() {
+    if (!isAdmin()) {
       return;
     }
 
     if (
-      isCourseUnlocked(
-        courseIndex
+      document.getElementById(
+        "abaAdminAccessButton"
       )
     ) {
       return;
     }
-
-    const content =
-      document.getElementById(
-        "lessonContent"
-      );
-
-    if (!content) {
-      return;
-    }
-
-    const course =
-      courses[courseIndex];
-
-    content.innerHTML = `
-
-      <div class="
-        aba-lock-screen
-      ">
-
-        <div class="
-          aba-lock-icon
-        ">
-          🔒
-        </div>
-
-        <h2>
-          Premium Course
-        </h2>
-
-        <p>
-          <strong>
-            ${escapeHTML(
-              course.title ||
-              "Premium Course"
-            )}
-          </strong>
-          ကို လေ့လာရန်
-          Premium Membership
-          လိုအပ်ပါတယ်။
-        </p>
-
-        <p>
-          Monthly 30,000 Ks
-          /
-          Yearly 250,000 Ks
-        </p>
-
-        <button
-          id="abaUnlockLesson"
-          class="
-            aba-unlock-btn
-          "
-          type="button"
-        >
-          👑 Unlock Premium
-        </button>
-
-      </div>
-
-    `;
 
     const button =
-      document.getElementById(
-        "abaUnlockLesson"
-      );
+      document.createElement("button");
 
-    if (button) {
+    button.id =
+      "abaAdminAccessButton";
 
-      button.onclick =
-        openPremiumModal;
+    button.type = "button";
 
-    }
+    button.innerHTML =
+      "👨‍💼 Premium Admin Dashboard";
 
-  }
+    button.style.cssText = `
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 99990;
 
-  /* =========================================================
-     ADMIN APPROVE
-     ========================================================= */
+      border: none;
+      border-radius: 12px;
 
-  function approvePremium() {
+      padding: 12px 16px;
 
-    if (!isAdmin()) {
+      background: #222;
+      color: white;
 
-      alert(
-        "Admin access မရှိပါ။"
-      );
+      font-weight: 800;
 
-      return;
-    }
+      cursor: pointer;
 
-    const state =
-      ensurePremiumState();
-
-    if (
-      !state ||
-      state.premium.status !==
-      "pending"
-    ) {
-
-      alert(
-        "Pending Payment မရှိပါ။"
-      );
-
-      return;
-    }
-
-    const plan =
-      PLANS[
-        state.premium.plan
-      ]
-      ? state.premium.plan
-      : "monthly";
-
-    const start =
-      new Date();
-
-    const expiry =
-      new Date();
-
-    expiry.setDate(
-      expiry.getDate() +
-      PLANS[plan].days
-    );
-
-    state.premium.status =
-      "active";
-
-    state.premium.startAt =
-      start.toISOString();
-
-    state.premium.expiryAt =
-      expiry.toISOString();
-
-    saveState(state);
-
-    alert(
-      "Premium Approved Successfully!"
-    );
-
-    closeModal();
-
-    refresh();
-
-  }
-
-  /* =========================================================
-     ADMIN REJECT
-     ========================================================= */
-
-  function rejectPremium() {
-
-    if (!isAdmin()) {
-
-      alert(
-        "Admin access မရှိပါ။"
-      );
-
-      return;
-    }
-
-    const state =
-      ensurePremiumState();
-
-    if (!state) {
-      return;
-    }
-
-    state.premium.status =
-      "rejected";
-
-    saveState(state);
-
-    alert(
-      "Payment Rejected."
-    );
-
-    closeModal();
-
-    refresh();
-
-  }
-
-  /* =========================================================
-     STATUS MODAL
-     ========================================================= */
-
-  function openStatusModal() {
-
-    const state =
-      ensurePremiumState();
-
-    if (!state) {
-      return;
-    }
-
-    const premium =
-      state.premium;
-
-    closeModal();
-
-    const overlay =
-      document.createElement(
-        "div"
-      );
-
-    overlay.id =
-      "abaPremiumModal";
-
-    overlay.className =
-      "aba-premium-modal-overlay";
-
-    let adminHTML = "";
-
-    if (
-      isAdmin() &&
-      premium.status ===
-      "pending"
-    ) {
-
-      adminHTML = `
-
-        <div class="
-          aba-admin-box
-        ">
-
-          <h3>
-            👨‍💼 Admin Payment Review
-          </h3>
-
-          <p>
-            Plan:
-            <strong>
-              ${escapeHTML(
-                premium.plan
-              )}
-            </strong>
-          </p>
-
-          <p>
-            Payment:
-            <strong>
-              ${escapeHTML(
-                premium.paymentMethod
-              )}
-            </strong>
-          </p>
-
-          <p>
-            Transaction:
-            <strong>
-              ${escapeHTML(
-                premium.transactionRef
-              )}
-            </strong>
-          </p>
-
-          <p>
-            Screenshot:
-            <strong>
-              ${escapeHTML(
-                premium.paymentScreenshot ||
-                "Not uploaded"
-              )}
-            </strong>
-          </p>
-
-          <div class="
-            aba-admin-buttons
-          ">
-
-            <button
-              id="abaApprove"
-              class="
-                aba-approve
-              "
-            >
-              ✓ Approve
-            </button>
-
-            <button
-              id="abaReject"
-              class="
-                aba-reject
-              "
-            >
-              ✕ Reject
-            </button>
-
-          </div>
-
-        </div>
-
-      `;
-
-    }
-
-    overlay.innerHTML = `
-
-      <div class="
-        aba-premium-modal
-      ">
-
-        <button
-          id="abaPremiumClose"
-          class="
-            aba-premium-close
-          "
-        >
-          ×
-        </button>
-
-        <div class="
-          aba-premium-header
-        ">
-
-          <div class="
-            aba-premium-crown
-          ">
-            👑
-          </div>
-
-          <h2>
-            Premium Status
-          </h2>
-
-          <p>
-            ${getStatusText()}
-          </p>
-
-        </div>
-
-        <div class="
-          aba-status-box
-        ">
-
-          <h3>
-            Aung Business Academy
-          </h3>
-
-          <div class="
-            aba-status-grid
-          ">
-
-            <div class="
-              aba-status-item
-            ">
-
-              <span>
-                Status
-              </span>
-
-              <strong>
-                ${getStatusText()}
-              </strong>
-
-            </div>
-
-            <div class="
-              aba-status-item
-            ">
-
-              <span>
-                Plan
-              </span>
-
-              <strong>
-                ${
-                  premium.plan ||
-                  "Free"
-                }
-              </strong>
-
-            </div>
-
-            <div class="
-              aba-status-item
-            ">
-
-              <span>
-                Expiry
-              </span>
-
-              <strong>
-                ${formatDate(
-                  premium.expiryAt
-                )}
-              </strong>
-
-            </div>
-
-          </div>
-
-        </div>
-
-        ${adminHTML}
-
-        ${
-          premium.status !==
-          "active"
-            ? `
-              <button
-                id="abaBuyAgain"
-                class="aba-submit"
-              >
-                👑 Get Premium
-              </button>
-            `
-            : ""
-        }
-
-      </div>
-
+      box-shadow:
+        0 8px 25px rgba(0,0,0,.2);
     `;
 
-    document.body.appendChild(
-      overlay
+    button.addEventListener(
+      "click",
+      openAdminPanel
     );
 
-    document
-      .getElementById(
-        "abaPremiumClose"
-      )
-      .onclick =
-      closeModal;
-
-    const approve =
-      document.getElementById(
-        "abaApprove"
-      );
-
-    if (approve) {
-      approve.onclick =
-        approvePremium;
-    }
-
-    const reject =
-      document.getElementById(
-        "abaReject"
-      );
-
-    if (reject) {
-      reject.onclick =
-        rejectPremium;
-    }
-
-    const buy =
-      document.getElementById(
-        "abaBuyAgain"
-      );
-
-    if (buy) {
-
-      buy.onclick =
-        function () {
-
-          closeModal();
-
-          openPremiumModal();
-
-        };
-
-    }
-
-  }
-
-  /* =========================================================
-     DASHBOARD PREMIUM CARD
-     ========================================================= */
-
-  function addDashboardCard() {
-
-    const dashboard =
-      document.getElementById(
-        "dashboard"
-      );
-
-    if (!dashboard) {
-      return;
-    }
-
-    let card =
-      document.getElementById(
-        "abaDashboardPremium"
-      );
-
-    if (!card) {
-
-      card =
-        document.createElement(
-          "div"
-        );
-
-      card.id =
-        "abaDashboardPremium";
-
-      card.className =
-        "aba-status-box";
-
-      dashboard.prepend(
-        card
-      );
-
-    }
-
-    const state =
-      ensurePremiumState();
-
-    if (!state) {
-      return;
-    }
-
-    const premium =
-      state.premium;
-
-    card.innerHTML = `
-
-      <h3>
-        👑 Premium Membership
-      </h3>
-
-      <p>
-        Status:
-        <strong>
-          ${getStatusText()}
-        </strong>
-      </p>
-
-      <p>
-        ${
-          premium.expiryAt
-            ? "Expiry: " +
-              formatDate(
-                premium.expiryAt
-              )
-            : "Course 01 is FREE. Course 02-13 require Premium."
-        }
-      </p>
-
-      <button
-        id="abaDashboardPremiumButton"
-        style="
-          margin-top:12px;
-          padding:10px 16px;
-          border:0;
-          border-radius:10px;
-          background:#f59e0b;
-          color:#fff;
-          font-weight:800;
-          cursor:pointer;
-        "
-      >
-        ${
-          premium.status ===
-          "active"
-            ? "👑 Premium Status"
-            : "👑 Get Premium"
-        }
-      </button>
-
-    `;
-
-    document
-      .getElementById(
-        "abaDashboardPremiumButton"
-      )
-      .onclick =
-      function () {
-
-        if (
-          premium.status ===
-          "active" ||
-          premium.status ===
-          "pending"
-        ) {
-
-          openStatusModal();
-
-        } else {
-
-          openPremiumModal();
-
-        }
-
-      };
-
-  }
-
-  /* =========================================================
-     REFRESH
-     ========================================================= */
-
-  function refresh() {
-
-    ensurePremiumState();
-
-    renderCoursePremium();
-
-    renderLessonPremium();
-
-    protectLessonPage();
-
-    addDashboardCard();
-
-  }
-
-  /* =========================================================
-     ADMIN DEMO
-     ========================================================= */
-
-  function createPublicAPI() {
-
-    window.AungPremium = {
-
-      open:
-        openPremiumModal,
-
-      status:
-        openStatusModal,
-
-      approve:
-        approvePremium,
-
-      reject:
-        rejectPremium,
-
-      refresh:
-        refresh,
-
-      isActive:
-        isPremiumActive,
-
-      setAdmin:
-        function () {
-
-          const state =
-            ensurePremiumState();
-
-          if (!state) {
-            return;
-          }
-
-          state.account = {
-            role: "admin"
-          };
-
-          saveState(state);
-
-          alert(
-            "Admin Demo Mode ON"
-          );
-
-          refresh();
-
-        },
-
-      setStudent:
-        function () {
-
-          const state =
-            ensurePremiumState();
-
-          if (!state) {
-            return;
-          }
-
-          state.account = {
-            role: "student"
-          };
-
-          saveState(state);
-
-          alert(
-            "Student Mode ON"
-          );
-
-          refresh();
-
-        },
-
-      resetPremium:
-        function () {
-
-          const state =
-            ensurePremiumState();
-
-          if (!state) {
-            return;
-          }
-
-          state.premium = {
-
-            status:
-              "free",
-
-            plan:
-              null,
-
-            startAt:
-              null,
-
-            expiryAt:
-              null,
-
-            paymentMethod:
-              null,
-
-            transactionRef:
-              "",
-
-            paymentScreenshot:
-              "",
-
-            submittedAt:
-              null
-
-          };
-
-          saveState(state);
-
-          alert(
-            "Premium Reset"
-          );
-
-          refresh();
-
-        }
-
-    };
-
-  }
-
-  /* =========================================================
-     OBSERVE DOM
-     ========================================================= */
-
-  function setupObserver() {
-
-    const observer =
-      new MutationObserver(
-        function () {
-
-          setTimeout(
-            refresh,
-            50
-          );
-
-        }
-      );
-
-    observer.observe(
-      document.body,
-      {
-        childList:true,
-        subtree:true
-      }
-    );
-
+    document.body.appendChild(button);
   }
 
   /* =========================================================
      INITIALIZE
      ========================================================= */
 
-  function init() {
+  function refresh() {
+    ensureState();
 
+    updateCourseCards();
+
+    updateLessonLock();
+
+    updateDashboard();
+
+    addAdminAccessButton();
+  }
+
+  function init() {
     injectCSS();
 
-    ensurePremiumState();
+    createPremiumModal();
 
-    createPublicAPI();
+    createAdminPanel();
 
-    setupClickProtection();
+    refresh();
 
-    setTimeout(
-      refresh,
-      500
-    );
+    setTimeout(refresh, 500);
 
-    setTimeout(
-      refresh,
-      1500
-    );
+    setTimeout(refresh, 1500);
 
-    setTimeout(
-      refresh,
-      3000
-    );
-
-    setupObserver();
-
-    console.log(
-      "Aung Business Academy Premium V2 Loaded"
-    );
-
+    setTimeout(refresh, 3000);
   }
+
+  /* =========================================================
+     OBSERVER
+     Helps when existing app re-renders Courses
+     ========================================================= */
+
+  let observerTimer = null;
+
+  function startObserver() {
+    const observer =
+      new MutationObserver(function () {
+        clearTimeout(observerTimer);
+
+        observerTimer =
+          setTimeout(function () {
+            refresh();
+          }, 250);
+      });
+
+    observer.observe(
+      document.body,
+      {
+        childList: true,
+        subtree: true
+      }
+    );
+  }
+
+  /* =========================================================
+     PUBLIC API
+     ========================================================= */
+
+  window.AungPremium = {
+
+    open: function () {
+      openPremiumModal(1);
+    },
+
+    status: function () {
+      if (isAdmin()) {
+        openAdminPanel();
+      } else {
+        openPremiumModal(1);
+      }
+    },
+
+    refresh: refresh,
+
+    isActive: isPremiumActive,
+
+    getStatus: getPremiumStatus,
+
+    setAdmin: setAdminMode,
+
+    setStudent: setStudentMode,
+
+    approve: approvePayment,
+
+    reject: rejectPayment,
+
+    resetPremium: resetPremium,
+
+    openAdmin: openAdminPanel
+  };
+
+  /* =========================================================
+     START
+     ========================================================= */
 
   if (
     document.readyState ===
     "loading"
   ) {
-
     document.addEventListener(
       "DOMContentLoaded",
-      init
+      function () {
+        init();
+        startObserver();
+      }
     );
-
   } else {
-
     init();
-
+    startObserver();
   }
 
 })();

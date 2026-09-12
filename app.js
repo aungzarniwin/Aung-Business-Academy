@@ -1,7 +1,7 @@
 // ======================================================
 // AUNG BUSINESS ACADEMY V8
-// BUSINESS + SALES + MARKETING + LEADERSHIP
-// PROFESSIONAL LESSON SYSTEM
+// COMPLETE PROFESSIONAL BUSINESS ACADEMY
+// 13 COURSES + EXISTING LESSONS PRESERVED
 // Myanmar Lesson Edition
 // ======================================================
 
@@ -14,7 +14,7 @@ const STORAGE_KEY = "aungBusinessAcademyV8";
 const COURSES = [
 
   // ====================================================
-  // SALES MANAGEMENT
+  // 01. SALES MANAGEMENT
   // ====================================================
 
   {
@@ -23,7 +23,6 @@ const COURSES = [
     category: "sales",
     icon: "↗",
     color: "blue",
-
     description:
       "အရောင်းရည်မှန်းချက်၊ အရောင်းအဖွဲ့၊ နယ်မြေစီမံခန့်ခွဲမှုနှင့် လုပ်ဆောင်ရည်ကို ထိရောက်စွာ စီမံခန့်ခွဲနိုင်ရန် လေ့လာပါ။",
 
@@ -31,7 +30,6 @@ const COURSES = [
 
       {
         title: "အရောင်းရည်မှန်းချက် စီမံခြင်း",
-
         content: `
           <p>
             အရောင်းရည်မှန်းချက်ဆိုတာ ကုမ္ပဏီက သတ်မှတ်ပေးထားတဲ့
@@ -40,7 +38,6 @@ const COURSES = [
           </p>
 
           <h4>အဓိကအချက်များ</h4>
-
           <ul>
             <li>လစဉ် Target ကို အပတ်စဉ်နှင့် နေ့စဉ် Target အဖြစ် ခွဲခြားပါ။</li>
             <li>Salesperson တစ်ဦးချင်းစီ၏ စွမ်းဆောင်ရည်အလိုက် Target ခွဲဝေပါ။</li>
@@ -50,7 +47,6 @@ const COURSES = [
           </ul>
 
           <h4>လက်တွေ့လုပ်ဆောင်ရန်</h4>
-
           <p>
             လစဉ် Target ကို ယူပြီး အပတ်စဉ် Target၊
             Salesperson တစ်ဦးချင်း Target နှင့်
@@ -69,7 +65,6 @@ const COURSES = [
 
       {
         title: "အရောင်းအဖွဲ့ကို Coaching ပေးခြင်း",
-
         content: `
           <p>
             Sales Manager တစ်ယောက်အတွက် Coaching ဆိုတာ
@@ -78,7 +73,6 @@ const COURSES = [
           </p>
 
           <h4>အဓိကအချက်များ</h4>
-
           <ul>
             <li>Salesperson ရဲ့ Result ကို အရင်စစ်ဆေးပါ။</li>
             <li>Field မှာ Customer နဲ့ ဘယ်လိုဆက်ဆံနေသလဲ လေ့လာပါ။</li>
@@ -88,7 +82,6 @@ const COURSES = [
           </ul>
 
           <h4>လက်တွေ့လုပ်ဆောင်ရန်</h4>
-
           <p>
             Underperforming Salesperson တစ်ဦးကို ရွေးပြီး
             သူ့ရဲ့ Target၊ Actual၊ Customer Coverage နဲ့
@@ -108,7 +101,6 @@ const COURSES = [
 
       {
         title: "အရောင်းနယ်မြေ စီမံခန့်ခွဲခြင်း",
-
         content: `
           <p>
             Territory Management ဆိုတာ အရောင်းနယ်မြေအလိုက်
@@ -117,7 +109,6 @@ const COURSES = [
           </p>
 
           <h4>အဓိကအချက်များ</h4>
-
           <ul>
             <li>နယ်မြေတစ်ခုချင်းစီရဲ့ Sales Potential ကို သုံးသပ်ပါ။</li>
             <li>Customer များကို အရေးပါမှုအလိုက် ခွဲခြားပါ။</li>
@@ -128,7 +119,6 @@ const COURSES = [
           </ul>
 
           <h4>လက်တွေ့လုပ်ဆောင်ရန်</h4>
-
           <p>
             မိမိတာဝန်ယူရတဲ့ နယ်မြေကို Customer Potential အလိုက်
             A, B, C အုပ်စုခွဲပြီး Visit Frequency သတ်မှတ်ပါ။
@@ -146,7 +136,6 @@ const COURSES = [
 
       {
         title: "လုပ်ဆောင်ရည် သုံးသပ်ခြင်း",
-
         content: `
           <p>
             Performance Review ဆိုတာ Target နဲ့ Actual ကို
@@ -155,7 +144,6 @@ const COURSES = [
           </p>
 
           <h4>စစ်ဆေးသင့်တဲ့ KPI များ</h4>
-
           <ul>
             <li>Sales Volume</li>
             <li>Revenue</li>
@@ -167,7 +155,6 @@ const COURSES = [
           </ul>
 
           <h4>လက်တွေ့လုပ်ဆောင်ရန်</h4>
-
           <p>
             Target မပြည့်တဲ့ Salesperson တစ်ဦးကို ရွေးပြီး
             လူ၊ Customer၊ Product၊ နယ်မြေနှင့် Execution
@@ -188,7 +175,7 @@ const COURSES = [
   },
 
   // ====================================================
-  // BUSINESS FOUNDATION
+  // 02. BUSINESS FOUNDATION
   // ====================================================
 
   {
@@ -205,7 +192,6 @@ const COURSES = [
 
       {
         title: "စီးပွားရေး အခြေခံသဘောတရားများ",
-
         content: `
           <p>
             စီးပွားရေးတစ်ခု အောင်မြင်ဖို့ Customer၊ Product၊
@@ -214,7 +200,6 @@ const COURSES = [
           </p>
 
           <h4>အဓိကအချက်များ</h4>
-
           <ul>
             <li>Customer ဘယ်သူလဲဆိုတာ သိရမယ်။</li>
             <li>Customer အတွက် ဘာတန်ဖိုးပေးနိုင်လဲ သိရမယ်။</li>
@@ -224,7 +209,6 @@ const COURSES = [
           </ul>
 
           <h4>လက်တွေ့လုပ်ဆောင်ရန်</h4>
-
           <p>
             Customer → Product → Sales → Revenue →
             Cost → Profit ဆိုတဲ့ လုပ်ငန်းစီးကြောင်းကို
@@ -243,7 +227,6 @@ const COURSES = [
 
       {
         title: "ဖောက်သည်နှင့် တန်ဖိုးဖန်တီးခြင်း",
-
         content: `
           <p>
             Customer တွေဟာ Product ကိုပဲ ဝယ်တာမဟုတ်ပါဘူး။
@@ -252,7 +235,6 @@ const COURSES = [
           </p>
 
           <h4>အဓိကအချက်များ</h4>
-
           <ul>
             <li>Customer လိုအပ်ချက်ကို နားထောင်ပါ။</li>
             <li>Customer ရဲ့ အဓိကပြဿနာကို ရှာပါ။</li>
@@ -263,7 +245,6 @@ const COURSES = [
           </ul>
 
           <h4>လက်တွေ့လုပ်ဆောင်ရန်</h4>
-
           <p>
             အဓိက Customer ၅ ယောက်ကို ရွေးပြီး
             သူတို့ရဲ့ အကြီးမားဆုံး Business Problem ကို ရေးပါ။
@@ -281,7 +262,6 @@ const COURSES = [
 
       {
         title: "အမြတ်နှင့် ငွေကြေးလည်ပတ်မှု",
-
         content: `
           <p>
             Revenue များတာနဲ့ Business က အမြတ်များတယ်လို့ မဆိုနိုင်ပါဘူး။
@@ -290,7 +270,6 @@ const COURSES = [
           </p>
 
           <h4>အဓိကအချက်များ</h4>
-
           <ul>
             <li>Revenue နဲ့ Profit ကို ခွဲခြားနားလည်ပါ။</li>
             <li>Gross Margin ကို စောင့်ကြည့်ပါ။</li>
@@ -301,7 +280,6 @@ const COURSES = [
           </ul>
 
           <h4>လက်တွေ့လုပ်ဆောင်ရန်</h4>
-
           <p>
             မိမိလုပ်ငန်းရဲ့ လစဉ် Revenue၊ Cost၊ Profit နဲ့
             Receivable ကို စာရင်းချပြီး ဘယ်နေရာမှာ
@@ -322,7 +300,7 @@ const COURSES = [
   },
 
   // ====================================================
-  // MARKETING
+  // 03. MARKETING
   // ====================================================
 
   {
@@ -339,7 +317,6 @@ const COURSES = [
 
       {
         title: "Marketing အခြေခံများ",
-
         content: `
           <p>
             Marketing ဆိုတာ Product ကို ကြော်ငြာရုံတင်မဟုတ်ပါဘူး။
@@ -349,7 +326,6 @@ const COURSES = [
           </p>
 
           <h4>အဓိကအချက်များ</h4>
-
           <ul>
             <li>Target Customer ကို သတ်မှတ်ပါ။</li>
             <li>Market ကို လေ့လာပါ။</li>
@@ -359,7 +335,6 @@ const COURSES = [
           </ul>
 
           <h4>လက်တွေ့လုပ်ဆောင်ရန်</h4>
-
           <p>
             မိမိ Product တစ်ခုကို ရွေးပြီး
             ဘယ်သူအတွက်လဲ၊ ဘာပြဿနာကို ဖြေရှင်းပေးလဲ၊
@@ -378,7 +353,6 @@ const COURSES = [
 
       {
         title: "Digital ဖြင့် လုပ်ငန်းတိုးတက်စေခြင်း",
-
         content: `
           <p>
             Digital Channel များကို အသုံးပြုပြီး Customer Awareness၊
@@ -387,7 +361,6 @@ const COURSES = [
           </p>
 
           <h4>အဓိကအချက်များ</h4>
-
           <ul>
             <li>Customer ဘယ် Digital Channel ကို အသုံးများလဲ သိပါ။</li>
             <li>အသုံးဝင်တဲ့ Content ဖန်တီးပါ။</li>
@@ -398,7 +371,6 @@ const COURSES = [
           </ul>
 
           <h4>လက်တွေ့လုပ်ဆောင်ရန်</h4>
-
           <p>
             Customer အုပ်စုတစ်ခုကို ရွေးပြီး တစ်ပတ်စာ Content
             အစီအစဉ်တစ်ခု ဆွဲပါ။ Content → Lead →
@@ -417,7 +389,6 @@ const COURSES = [
 
       {
         title: "Marketing Campaign တိုင်းတာခြင်း",
-
         content: `
           <p>
             Campaign တစ်ခုအောင်မြင်တယ် မအောင်မြင်ဘူးဆိုတာ
@@ -425,7 +396,6 @@ const COURSES = [
           </p>
 
           <h4>စောင့်ကြည့်သင့်တဲ့ KPI များ</h4>
-
           <ul>
             <li>Reach</li>
             <li>Engagement</li>
@@ -437,11 +407,9 @@ const COURSES = [
           </ul>
 
           <h4>လက်တွေ့လုပ်ဆောင်ရန်</h4>
-
           <p>
             Campaign တစ်ခုအတွက် Objective တစ်ခုသတ်မှတ်ပြီး
-            KPI ၃ ခုမှ ၅ ခုအထိ ရွေးပါ။ Campaign ပြီးတဲ့အခါ
-            ရလဒ်ကို အရင် Campaign နဲ့ နှိုင်းယှဉ်ပါ။
+            KPI ၃ ခုမှ ၅ ခုအထိ ရွေးပါ။
           </p>
 
           <div class="lesson-tip">
@@ -458,7 +426,7 @@ const COURSES = [
   },
 
   // ====================================================
-  // LEADERSHIP
+  // 04. LEADERSHIP
   // ====================================================
 
   {
@@ -475,7 +443,6 @@ const COURSES = [
 
       {
         title: "ခေါင်းဆောင်မှု အခြေခံများ",
-
         content: `
           <p>
             Leadership ဆိုတာ ရာထူးရှိခြင်းတစ်ခုတည်း မဟုတ်ပါဘူး။
@@ -484,7 +451,6 @@ const COURSES = [
           </p>
 
           <h4>အဓိကအချက်များ</h4>
-
           <ul>
             <li>Team အတွက် ရည်မှန်းချက်ရှင်းလင်းစွာ သတ်မှတ်ပါ။</li>
             <li>Expectation ကို အစကတည်းက ရှင်းပြပါ။</li>
@@ -493,14 +459,6 @@ const COURSES = [
             <li>Data နဲ့ Fact ကို အသုံးပြုပါ။</li>
             <li>ကိုယ်တိုင် စံနမူနာကောင်း ပြပါ။</li>
           </ul>
-
-          <h4>လက်တွေ့လုပ်ဆောင်ရန်</h4>
-
-          <p>
-            မိမိအဖွဲ့အတွက် ဘာရလဒ်ကို ရချင်တာလဲ၊
-            ဘယ်သူက ဘာတာဝန်ယူမလဲ၊ ဘယ်အချိန်မှာ Review လုပ်မလဲ
-            ဆိုတာ ရှင်းလင်းစွာ သတ်မှတ်ပါ။
-          </p>
 
           <div class="lesson-tip">
             <strong>Manager Tip</strong>
@@ -514,7 +472,6 @@ const COURSES = [
 
       {
         title: "Coaching နှင့် လုပ်ပိုင်ခွင့်ပေးခြင်း",
-
         content: `
           <p>
             ကောင်းမွန်တဲ့ Manager တစ်ယောက်ဟာ အရာအားလုံးကို
@@ -523,7 +480,6 @@ const COURSES = [
           </p>
 
           <h4>အဓိကအချက်များ</h4>
-
           <ul>
             <li>အလုပ်အားလုံးကို ကိုယ်တိုင် မလုပ်ပါနဲ့။</li>
             <li>Team Member ရဲ့ အားသာချက်ကို သိပါ။</li>
@@ -532,14 +488,6 @@ const COURSES = [
             <li>Result အတွက် Accountability ထားပါ။</li>
             <li>Feedback နဲ့ Coaching ကို ပုံမှန်ပေးပါ။</li>
           </ul>
-
-          <h4>လက်တွေ့လုပ်ဆောင်ရန်</h4>
-
-          <p>
-            လက်ရှိကိုယ်တိုင်လုပ်နေတဲ့ အလုပ်တစ်ခုကို ရွေးပြီး
-            Team Member တစ်ဦးထံ လွှဲအပ်ပါ။
-            ရည်မှန်းချက်၊ အချိန်ကာလနဲ့ Expected Result ကို ရှင်းပြပါ။
-          </p>
 
           <div class="lesson-tip">
             <strong>Manager Tip</strong>
@@ -553,7 +501,6 @@ const COURSES = [
 
       {
         title: "လုပ်ဆောင်ရည် စီမံခန့်ခွဲခြင်း",
-
         content: `
           <p>
             Performance Management ဆိုတာ တစ်နှစ်တစ်ခါ Review လုပ်တာမဟုတ်ပါဘူး။
@@ -562,7 +509,6 @@ const COURSES = [
           </p>
 
           <h4>အဓိကအချက်များ</h4>
-
           <ul>
             <li>KPI ကို ရှင်းလင်းစွာ သတ်မှတ်ပါ။</li>
             <li>Target နဲ့ Actual ကို ပုံမှန်စစ်ပါ။</li>
@@ -571,13 +517,6 @@ const COURSES = [
             <li>Development Plan ချမှတ်ပါ။</li>
             <li>ကောင်းမွန်တဲ့ Performance ကို Recognition ပေးပါ။</li>
           </ul>
-
-          <h4>လက်တွေ့လုပ်ဆောင်ရန်</h4>
-
-          <p>
-            Team Member တစ်ဦးချင်းစီအတွက် KPI ၃ ခုမှ ၅ ခု
-            သတ်မှတ်ပြီး အပတ်စဉ် Review ပြုလုပ်ပါ။
-          </p>
 
           <div class="lesson-tip">
             <strong>Manager Tip</strong>
@@ -591,7 +530,6 @@ const COURSES = [
 
       {
         title: "အဖွဲ့အား တက်ကြွစေခြင်း",
-
         content: `
           <p>
             Team Motivation ဆိုတာ လစာနဲ့ Bonus ပေးရုံနဲ့ မပြီးပါဘူး။
@@ -600,7 +538,6 @@ const COURSES = [
           </p>
 
           <h4>အဓိကအချက်များ</h4>
-
           <ul>
             <li>Team ရဲ့ ရည်မှန်းချက်ကို ရှင်းလင်းစွာ ပြောပြပါ။</li>
             <li>ကောင်းမွန်တဲ့ Performance ကို အသိအမှတ်ပြုပါ။</li>
@@ -610,20 +547,887 @@ const COURSES = [
             <li>တစ်ဦးချင်းစီရဲ့ Motivation Driver ကို နားလည်ပါ။</li>
           </ul>
 
-          <h4>လက်တွေ့လုပ်ဆောင်ရန်</h4>
-
-          <p>
-            Team Member တစ်ဦးချင်းစီအတွက်
-            သူ့ကို ဘာက အလုပ်ပိုကောင်းအောင် လှုံ့ဆော်ပေးနိုင်သလဲ
-            ဆိုတာ သိအောင် တစ်ဦးချင်းဆွေးနွေးပါ။
-          </p>
-
           <div class="lesson-tip">
             <strong>Manager Tip</strong>
             <span>
               Motivation ရှိတဲ့ Team တစ်ခုအတွက်
               Clarity၊ Fairness နဲ့ Recognition သုံးခုကို အမြဲထိန်းထားပါ။
             </span>
+          </div>
+        `
+      }
+
+    ]
+  },
+
+  // ====================================================
+  // 05. FINANCE MANAGEMENT
+  // ====================================================
+
+  {
+    id: "finance",
+    title: "Finance Management",
+    category: "finance",
+    icon: "₿",
+    color: "teal",
+
+    description:
+      "Manager တစ်ယောက်အနေနဲ့ Revenue၊ Cost၊ Profit၊ Margin၊ Budget နှင့် Cash Flow ကို နားလည်စီမံနိုင်ရန် လေ့လာပါ။",
+
+    lessons: [
+
+      {
+        title: "Revenue နှင့် Profit Management",
+        content: `
+          <p>
+            Business Manager တစ်ယောက်အနေနဲ့ ရောင်းအားတက်တာနဲ့
+            အမြတ်တက်တာ မတူကြောင်း နားလည်ထားရပါမယ်။
+          </p>
+          <h4>အဓိကအချက်များ</h4>
+          <ul>
+            <li>Revenue ကို မှန်ကန်စွာတွက်ချက်ပါ။</li>
+            <li>Cost of Goods ကို စောင့်ကြည့်ပါ။</li>
+            <li>Gross Profit နှင့် Net Profit ကို ခွဲခြားပါ။</li>
+            <li>Margin ကျဆင်းရတဲ့ အကြောင်းရင်းရှာပါ။</li>
+            <li>Profitability အပေါ် Product Mix သက်ရောက်မှုကို ကြည့်ပါ။</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>Sales Volume တိုးဖို့သာမက Profit Quality ကိုပါ စီမံပါ။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Budget နှင့် Cost Control",
+        content: `
+          <p>
+            Budget ဆိုတာ ငွေသုံးစွဲဖို့ စာရင်းရေးထားခြင်းသာမက
+            Business Priority အလိုက် Resource ခွဲဝေပေးတဲ့ Management Tool ဖြစ်ပါတယ်။
+          </p>
+          <h4>အဓိကအချက်များ</h4>
+          <ul>
+            <li>Fixed Cost နှင့် Variable Cost ခွဲပါ။</li>
+            <li>Monthly Budget သတ်မှတ်ပါ။</li>
+            <li>Actual Spending ကို Budget နှင့် နှိုင်းယှဉ်ပါ။</li>
+            <li>မလိုအပ်တဲ့ Cost များကို လျှော့ချပါ။</li>
+            <li>Cost Reduction က Customer Value ကို မထိခိုက်စေဖို့ သတိထားပါ။</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>ကုန်ကျစရိတ်လျှော့တာထက် Value မဖန်တီးတဲ့ Cost ကို လျှော့ပါ။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Cash Flow Management",
+        content: `
+          <p>
+            Profit ရှိပေမယ့် Cash မရှိနိုင်ပါတယ်။
+            ဒါကြောင့် Cash Inflow၊ Cash Outflow နှင့် Receivable ကို
+            Manager တစ်ယောက်က စောင့်ကြည့်ရပါမယ်။
+          </p>
+          <h4>အဓိကအချက်များ</h4>
+          <ul>
+            <li>Customer Collection ကို စီမံပါ။</li>
+            <li>Receivable Aging ကို စစ်ပါ။</li>
+            <li>Supplier Payment ကို စီမံပါ။</li>
+            <li>Stock မှာ ငွေပိတ်မနေစေပါနဲ့။</li>
+            <li>Cash Forecast ပြုလုပ်ပါ။</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>Cash Flow မကောင်းရင် Profit ရှိနေသော်လည်း Business အခက်အခဲဖြစ်နိုင်ပါတယ်။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Financial KPI နှင့် Management Report",
+        content: `
+          <p>
+            Manager တစ်ယောက်အတွက် Financial Report ကို Accountant အလုပ်အဖြစ်သာ
+            မမြင်ဘဲ Decision Making အတွက် အသုံးချရပါမယ်။
+          </p>
+          <h4>စောင့်ကြည့်ရန်</h4>
+          <ul>
+            <li>Revenue Growth</li>
+            <li>Gross Margin</li>
+            <li>Operating Cost</li>
+            <li>Net Profit</li>
+            <li>Receivable</li>
+            <li>Cash Flow</li>
+            <li>Budget vs Actual</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>Financial KPI တစ်ခုချင်းစီက ဘယ် Management Decision ကို သက်ရောက်သလဲ စဉ်းစားပါ။</span>
+          </div>
+        `
+      }
+
+    ]
+  },
+
+  // ====================================================
+  // 06. HR MANAGEMENT
+  // ====================================================
+
+  {
+    id: "hr",
+    title: "HR Management",
+    category: "hr",
+    icon: "♟",
+    color: "pink",
+
+    description:
+      "Recruitment၊ Training၊ Performance Management၊ Employee Engagement နှင့် Talent Development ကို လေ့လာပါ။",
+
+    lessons: [
+
+      {
+        title: "Recruitment နှင့် Talent Selection",
+        content: `
+          <p>
+            လူမှန်နေရာမှန် ရွေးချယ်ခြင်းက Team Performance အတွက် အခြေခံဖြစ်ပါတယ်။
+          </p>
+          <h4>အဓိကအချက်များ</h4>
+          <ul>
+            <li>Job Description ကို ရှင်းလင်းစွာ သတ်မှတ်ပါ။</li>
+            <li>Competency နဲ့ Experience ကို သတ်မှတ်ပါ။</li>
+            <li>Interview ကို Structured ဖြစ်အောင်လုပ်ပါ။</li>
+            <li>Technical Skill နဲ့ Attitude နှစ်ခုလုံးစစ်ပါ။</li>
+            <li>Role Fit ကို အကဲဖြတ်ပါ။</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>လူတစ်ယောက်ကို CV ကောင်းလို့သာ မရွေးဘဲ Role Fit နဲ့ Potential ကိုပါ ကြည့်ပါ။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Training နှင့် Employee Development",
+        content: `
+          <p>
+            Training ရဲ့ ရည်ရွယ်ချက်က သင်တန်းတက်ပြီး Certificate ရဖို့မဟုတ်ဘဲ
+            အလုပ်လုပ်ဆောင်ရည် တိုးတက်စေဖို့ ဖြစ်ပါတယ်။
+          </p>
+          <h4>အဓိကအချက်များ</h4>
+          <ul>
+            <li>Skill Gap ရှာပါ။</li>
+            <li>Training Need Analysis ပြုလုပ်ပါ။</li>
+            <li>Practical Training ထည့်ပါ။</li>
+            <li>Coaching နဲ့ Follow-up ပြုလုပ်ပါ။</li>
+            <li>Training Result ကို KPI နဲ့ တိုင်းတာပါ။</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>Training ပြီးတာနဲ့ မပြီးပါဘူး။ Field မှာ အသုံးချနိုင်မှုကို စစ်ပါ။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Employee Performance Management",
+        content: `
+          <p>
+            Employee Performance Management မှာ Expectation၊ KPI၊ Review၊
+            Feedback နှင့် Development Plan တို့ကို ဆက်စပ်စီမံရပါတယ်။
+          </p>
+          <h4>အဓိကအချက်များ</h4>
+          <ul>
+            <li>KPI ကို measurable ဖြစ်အောင် သတ်မှတ်ပါ။</li>
+            <li>Regular One-on-One Review ပြုလုပ်ပါ။</li>
+            <li>Performance Gap ကို စောစီးစွာ ရှာပါ။</li>
+            <li>Improvement Plan ပြုလုပ်ပါ။</li>
+            <li>Good Performance ကို Recognition ပေးပါ။</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>Annual Review ထက် Continuous Feedback က ပိုထိရောက်ပါတယ်။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Employee Engagement နှင့် Retention",
+        content: `
+          <p>
+            Employee Retention က Salary တစ်ခုတည်းပေါ် မူတည်တာမဟုတ်ပါဘူး။
+            Leadership၊ Growth၊ Recognition၊ Fairness နဲ့ Work Environment က အရေးကြီးပါတယ်။
+          </p>
+          <h4>အဓိကအချက်များ</h4>
+          <ul>
+            <li>Employee Feedback နားထောင်ပါ။</li>
+            <li>Career Growth Path ရှင်းပြပါ။</li>
+            <li>Recognition System ထားပါ။</li>
+            <li>Manager-Employee Trust တည်ဆောက်ပါ။</li>
+            <li>High Performer များကို ထိန်းသိမ်းပါ။</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>လူတွေကို ထိန်းသိမ်းချင်ရင် သူတို့ရဲ့ အနာဂတ်တိုးတက်မှုကို ပြသပေးပါ။</span>
+          </div>
+        `
+      }
+
+    ]
+  },
+
+  // ====================================================
+  // 07. STRATEGIC MANAGEMENT
+  // ====================================================
+
+  {
+    id: "strategy",
+    title: "Strategic Management",
+    category: "strategy",
+    icon: "◇",
+    color: "indigo",
+
+    description:
+      "Business Strategy၊ SWOT၊ Competitive Strategy၊ Market Opportunity နှင့် Strategic Decision Making ကို လေ့လာပါ။",
+
+    lessons: [
+
+      {
+        title: "Business Strategy အခြေခံ",
+        content: `
+          <p>
+            Strategy ဆိုတာ လုပ်စရာအလုပ်တွေစာရင်းမဟုတ်ဘဲ
+            ဘယ်နေရာမှာ ယှဉ်ပြိုင်မလဲ၊ ဘယ်လိုအနိုင်ရမလဲဆိုတာ သတ်မှတ်ခြင်းဖြစ်ပါတယ်။
+          </p>
+          <ul>
+            <li>Vision နှင့် Mission သတ်မှတ်ပါ။</li>
+            <li>Target Market ရွေးပါ။</li>
+            <li>Competitive Advantage သတ်မှတ်ပါ။</li>
+            <li>Strategic Priorities သတ်မှတ်ပါ။</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>Strategy က Focus ကို ဖန်တီးပေးပါတယ်။ အရာအားလုံးကို တစ်ပြိုင်နက် မလုပ်ပါနဲ့။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "SWOT နှင့် Market Analysis",
+        content: `
+          <p>
+            Market Strategy ချမှတ်ရာမှာ မိမိရဲ့ Strength၊ Weakness၊
+            Opportunity နဲ့ Threat ကို နားလည်ရပါမယ်။
+          </p>
+          <ul>
+            <li>Strengths ကို ရှာပါ။</li>
+            <li>Weaknesses ကို သတ်မှတ်ပါ။</li>
+            <li>Market Opportunities ကို ရှာပါ။</li>
+            <li>Competitor Threats ကို သုံးသပ်ပါ။</li>
+            <li>SWOT ကို Action Plan အဖြစ် ပြောင်းပါ။</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>SWOT ကို စာရင်းရေးရုံနဲ့ မပြီးဘဲ SO, WO, ST, WT Strategy ထုတ်ပါ။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Competitive Strategy",
+        content: `
+          <p>
+            Competitor ကို သိရုံနဲ့ မလုံလောက်ပါဘူး။
+            Customer က ဘာကြောင့် မိမိကို ရွေးသင့်သလဲဆိုတဲ့
+            Competitive Advantage ကို တည်ဆောက်ရပါမယ်။
+          </p>
+          <ul>
+            <li>Competitor Product ကို နှိုင်းယှဉ်ပါ။</li>
+            <li>Price Positioning ကို စစ်ပါ။</li>
+            <li>Distribution Strength ကို ကြည့်ပါ။</li>
+            <li>Brand Strength ကို သုံးသပ်ပါ။</li>
+            <li>Customer Experience ကို တိုးတက်စေပါ။</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>ပြိုင်ဘက်ကို copy မလုပ်ဘဲ Customer အတွက် ပိုကောင်းတဲ့ Value တည်ဆောက်ပါ။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Strategic Decision Making",
+        content: `
+          <p>
+            Manager တစ်ယောက်ရဲ့ အရေးကြီးဆုံးတာဝန်တစ်ခုက
+            Data နဲ့ Risk ကို သုံးသပ်ပြီး အချိန်မှန် Decision ချမှတ်နိုင်ခြင်း ဖြစ်ပါတယ်။
+          </p>
+          <ul>
+            <li>Problem ကို ရှင်းလင်းစွာ သတ်မှတ်ပါ။</li>
+            <li>Data စုဆောင်းပါ။</li>
+            <li>Alternative များ ပြုလုပ်ပါ။</li>
+            <li>Risk နဲ့ Benefit ကို နှိုင်းယှဉ်ပါ။</li>
+            <li>Decision ပြီးရင် Result ကို Review လုပ်ပါ။</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>Decision မချခင် Data ကြည့်ပါ။ Decision ချပြီးရင် Result ကြည့်ပါ။</span>
+          </div>
+        `
+      }
+
+    ]
+  },
+
+  // ====================================================
+  // 08. CUSTOMER & KEY ACCOUNT
+  // ====================================================
+
+  {
+    id: "keyaccount",
+    title: "Customer & Key Account Management",
+    category: "customer",
+    icon: "◎",
+    color: "cyan",
+
+    description:
+      "Key Customer များကို စနစ်တကျ စီမံပြီး ရောင်းအား၊ Relationship နှင့် Long-term Business Value တိုးတက်အောင် လေ့လာပါ။",
+
+    lessons: [
+
+      {
+        title: "Customer Segmentation",
+        content: `
+          <p>Customer အားလုံးကို တူညီစွာ မစီမံသင့်ပါဘူး။ Potential နှင့် Value အလိုက် Segment ခွဲရပါမယ်။</p>
+          <ul>
+            <li>A/B/C Customer Classification</li>
+            <li>Sales Potential</li>
+            <li>Profitability</li>
+            <li>Growth Opportunity</li>
+            <li>Strategic Importance</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>High-value Customer တွေကို Resource ပိုမိုအာရုံစိုက်ပါ။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Key Account Planning",
+        content: `
+          <p>Key Account Plan ဆိုတာ Customer တစ်ဦးချင်းစီအတွက် Growth Opportunity နဲ့ Action Plan တည်ဆောက်ခြင်းဖြစ်ပါတယ်။</p>
+          <ul>
+            <li>Customer Business Profile</li>
+            <li>Current Sales</li>
+            <li>Potential Sales</li>
+            <li>Decision Makers</li>
+            <li>Competitor Position</li>
+            <li>Growth Action Plan</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>Customer ကို Order ရဖို့သာ မတွေ့ဘဲ Customer Business ကို တိုးတက်အောင် ကူညီပါ။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Customer Relationship Management",
+        content: `
+          <p>ရေရှည် Customer Relationship က Trust၊ Consistency၊ Communication နဲ့ Problem Solving ပေါ်မှာ တည်ဆောက်ထားတာပါ။</p>
+          <ul>
+            <li>Regular Customer Visit</li>
+            <li>Business Review</li>
+            <li>Complaint Resolution</li>
+            <li>Follow-up</li>
+            <li>Relationship Mapping</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>Customer ပြဿနာကို မြန်မြန်ဖြေရှင်းနိုင်ခြင်းက Relationship ကို ပိုခိုင်မာစေပါတယ်။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Customer Growth Strategy",
+        content: `
+          <p>Customer Growth ကို New Customer ရှာခြင်းတစ်ခုတည်းနဲ့ မစဉ်းစားဘဲ Existing Customer မှာ Share of Wallet တိုးဖို့လည်း စဉ်းစားပါ။</p>
+          <ul>
+            <li>Cross-selling</li>
+            <li>Upselling</li>
+            <li>New Product Introduction</li>
+            <li>Volume Growth</li>
+            <li>Customer Retention</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>ရှိပြီးသား Customer ကို တိုးတက်စေခြင်းက Customer အသစ်ရှာခြင်းထက် ပိုထိရောက်နိုင်ပါတယ်။</span>
+          </div>
+        `
+      }
+
+    ]
+  },
+
+  // ====================================================
+  // 09. DISTRIBUTION & SUPPLY CHAIN
+  // ====================================================
+
+  {
+    id: "distribution",
+    title: "Distribution & Supply Chain",
+    category: "distribution",
+    icon: "▣",
+    color: "lime",
+
+    description:
+      "Distributor Management၊ Route-to-Market၊ Inventory နှင့် Supply Chain Execution ကို လေ့လာပါ။",
+
+    lessons: [
+
+      {
+        title: "Distributor Management",
+        content: `
+          <p>Distributor က Sales Channel တစ်ခုသာမက Market Execution Partner တစ်ခုဖြစ်ပါတယ်။</p>
+          <ul>
+            <li>Distributor Sales Target</li>
+            <li>Stock Level</li>
+            <li>Collection</li>
+            <li>Coverage</li>
+            <li>Team Productivity</li>
+            <li>Business Review</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>Distributor ကို Order ယူတဲ့ Partner အဖြစ်မဟုတ်ဘဲ Growth Partner အဖြစ် စီမံပါ။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Route-to-Market Strategy",
+        content: `
+          <p>Product ကို Customer ထံ အချိန်မှန်၊ နေရာမှန်နဲ့ ထိရောက်တဲ့ Cost ဖြင့် ရောက်ရှိစေဖို့ Route-to-Market Strategy လိုအပ်ပါတယ်။</p>
+          <ul>
+            <li>Direct Distribution</li>
+            <li>Indirect Distribution</li>
+            <li>Wholesaler</li>
+            <li>Retail</li>
+            <li>Modern Trade</li>
+            <li>Digital / Online Channel</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>Channel တစ်ခုချင်းစီရဲ့ Cost နဲ့ Potential ကို နှိုင်းယှဉ်ပြီး Resource ခွဲပါ။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Inventory Management",
+        content: `
+          <p>Stock မလုံလောက်ရင် Sales ဆုံးရှုံးနိုင်ပြီး Stock များလွန်းရင် Cash ပိတ်နိုင်ပါတယ်။</p>
+          <ul>
+            <li>Stock Cover</li>
+            <li>Fast / Slow Moving Products</li>
+            <li>Reorder Level</li>
+            <li>Stock Aging</li>
+            <li>Inventory Accuracy</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>Stock ကို Volume အဖြစ်သာ မကြည့်ဘဲ Cash အဖြစ်လည်း ကြည့်ပါ။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Supply Chain Performance",
+        content: `
+          <p>Supply Chain က Sales Result ကို တိုက်ရိုက်သက်ရောက်နိုင်ပါတယ်။ Availability မရှိရင် Demand ရှိလည်း Sales မဖြစ်နိုင်ပါဘူး။</p>
+          <ul>
+            <li>Forecasting</li>
+            <li>Availability</li>
+            <li>Order Fulfillment</li>
+            <li>Delivery Performance</li>
+            <li>Stock Accuracy</li>
+            <li>Cost Efficiency</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>Sales၊ Supply Chain နဲ့ Finance သုံးခုကို ချိတ်ဆက်စီမံပါ။</span>
+          </div>
+        `
+      }
+
+    ]
+  },
+
+  // ====================================================
+  // 10. DATA & KPI
+  // ====================================================
+
+  {
+    id: "data",
+    title: "Data & KPI Management",
+    category: "data",
+    icon: "▥",
+    color: "violet",
+
+    description:
+      "Business Data၊ KPI Dashboard၊ Performance Analysis နှင့် Data-driven Decision Making ကို လေ့လာပါ။",
+
+    lessons: [
+
+      {
+        title: "KPI အခြေခံများ",
+        content: `
+          <p>KPI ဆိုတာ Business Result ကို တိုင်းတာနိုင်တဲ့ အဓိက Performance Indicator ဖြစ်ပါတယ်။</p>
+          <ul>
+            <li>Sales KPI</li>
+            <li>Revenue KPI</li>
+            <li>Distribution KPI</li>
+            <li>Productivity KPI</li>
+            <li>Customer KPI</li>
+            <li>Financial KPI</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>KPI များလွန်းရင် Focus ပျောက်နိုင်ပါတယ်။ အရေးကြီးဆုံး KPI ကို ရွေးပါ။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Sales Data Analysis",
+        content: `
+          <p>Sales Data ကို ကြည့်တဲ့အခါ Number ကိုသာ မကြည့်ဘဲ Trend၊ Gap နဲ့ Root Cause ကို ရှာရပါမယ်။</p>
+          <ul>
+            <li>Target vs Actual</li>
+            <li>Growth vs Previous Period</li>
+            <li>Product Performance</li>
+            <li>Territory Performance</li>
+            <li>Customer Performance</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>Data က ဘာဖြစ်နေတယ်ဆိုတာ ပြောပေးပြီး Analysis က ဘာကြောင့်ဖြစ်တယ်ဆိုတာ ရှာပေးပါတယ်။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Dashboard နှင့် Management Report",
+        content: `
+          <p>ကောင်းမွန်တဲ့ Dashboard က Manager ကို အရေးကြီးတဲ့ Information ကို မြန်မြန်မြင်နိုင်စေပါတယ်။</p>
+          <ul>
+            <li>Sales Summary</li>
+            <li>Target Achievement</li>
+            <li>Top / Bottom Performance</li>
+            <li>Trend</li>
+            <li>Key Issues</li>
+            <li>Action Plan</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>Dashboard ကို လှဖို့ထက် Decision ချနိုင်ဖို့ တည်ဆောက်ပါ။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Data-driven Decision Making",
+        content: `
+          <p>Data-driven Management ဆိုတာ ခံစားချက်ထက် Evidence ကို အခြေခံပြီး ဆုံးဖြတ်ခြင်းဖြစ်ပါတယ်။</p>
+          <ul>
+            <li>Fact စုဆောင်းပါ။</li>
+            <li>Trend ရှာပါ။</li>
+            <li>Gap သတ်မှတ်ပါ။</li>
+            <li>Root Cause ရှာပါ။</li>
+            <li>Action Plan ချပါ။</li>
+            <li>Result ကို ပြန်တိုင်းပါ။</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>Data ကို Report အဖြစ်မထားဘဲ Action အဖြစ် ပြောင်းလဲပါ။</span>
+          </div>
+        `
+      }
+
+    ]
+  },
+
+  // ====================================================
+  // 11. NEGOTIATION & COMMUNICATION
+  // ====================================================
+
+  {
+    id: "negotiation",
+    title: "Negotiation & Communication",
+    category: "communication",
+    icon: "↔",
+    color: "red",
+
+    description:
+      "Business Communication၊ Negotiation၊ Presentation နှင့် Conflict Management Skills ကို လေ့လာပါ။",
+
+    lessons: [
+
+      {
+        title: "Business Communication",
+        content: `
+          <p>Manager တစ်ယောက်အတွက် Communication က Information ပေးခြင်းထက် နားလည်မှုနဲ့ Action ဖြစ်အောင် ဆောင်ရွက်ပေးနိုင်ခြင်း ဖြစ်ပါတယ်။</p>
+          <ul>
+            <li>Clear Message</li>
+            <li>Active Listening</li>
+            <li>Right Channel</li>
+            <li>Feedback</li>
+            <li>Follow-up</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>ပြောပြီးပြီလို့ မယူဆပါနဲ့။ တစ်ဖက်လူ နားလည်ပြီး Action လုပ်နိုင်ပြီလား စစ်ပါ။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Negotiation Skills",
+        content: `
+          <p>Negotiation က ကိုယ့်ဘက်က အမြဲအနိုင်ရဖို့မဟုတ်ဘဲ နှစ်ဖက်လုံးအတွက် အကျိုးရှိတဲ့ သဘောတူညီချက် ရှာဖို့ဖြစ်ပါတယ်။</p>
+          <ul>
+            <li>Prepare Before Negotiation</li>
+            <li>Understand Customer Need</li>
+            <li>Know Your Minimum Position</li>
+            <li>Focus on Value</li>
+            <li>Build Win-Win Agreement</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>Price တစ်ခုတည်းနဲ့ Negotiation မလုပ်ဘဲ Value၊ Service နဲ့ Terms ကိုပါ အသုံးပြုပါ။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Presentation Skills",
+        content: `
+          <p>Business Presentation က Information အများကြီးပြောခြင်းထက် Decision Maker နားလည်ပြီး ဆုံးဖြတ်နိုင်အောင် တင်ပြခြင်း ဖြစ်ပါတယ်။</p>
+          <ul>
+            <li>Clear Objective</li>
+            <li>Simple Structure</li>
+            <li>Relevant Data</li>
+            <li>Key Message</li>
+            <li>Clear Recommendation</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>Presentation တစ်ခုမှာ “ဘာဖြစ်နေသလဲ၊ ဘာကြောင့်လဲ၊ ဘာလုပ်သင့်လဲ” သုံးခုရှင်းရပါမယ်။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Conflict Management",
+        content: `
+          <p>Conflict ကို ရှောင်တာထက် Root Cause ကို ရှာပြီး Professional ဖြစ်အောင် ဖြေရှင်းနိုင်ရပါမယ်။</p>
+          <ul>
+            <li>Listen to Both Sides</li>
+            <li>Separate Fact from Emotion</li>
+            <li>Identify Root Cause</li>
+            <li>Agree on Solution</li>
+            <li>Follow-up</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>လူကို မတိုက်ခိုက်ဘဲ ပြဿနာကို ဖြေရှင်းပါ။</span>
+          </div>
+        `
+      }
+
+    ]
+  },
+
+  // ====================================================
+  // 12. DIGITAL BUSINESS & AI
+  // ====================================================
+
+  {
+    id: "digital",
+    title: "Digital Business & AI",
+    category: "digital",
+    icon: "AI",
+    color: "cyan",
+
+    description:
+      "Digital Business၊ AI Tools၊ Automation နှင့် AI-assisted Management ကို လက်တွေ့အသုံးချနိုင်ရန် လေ့လာပါ။",
+
+    lessons: [
+
+      {
+        title: "Digital Business အခြေခံ",
+        content: `
+          <p>Digital Business ဆိုတာ Technology သုံးရုံမဟုတ်ဘဲ Customer Experience နဲ့ Business Process ကို Digital ဖြင့် ပိုကောင်းအောင် ပြောင်းလဲခြင်းဖြစ်ပါတယ်။</p>
+          <ul>
+            <li>Digital Customer Journey</li>
+            <li>Online Sales</li>
+            <li>Digital Marketing</li>
+            <li>Customer Data</li>
+            <li>Automation</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>Technology ကို သုံးဖို့သုံးတာမဟုတ်ဘဲ Time၊ Cost နဲ့ Customer Experience တိုးတက်ဖို့ သုံးပါ။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "AI for Business Managers",
+        content: `
+          <p>AI ကို Manager တစ်ယောက်အနေနဲ့ Analysis၊ Planning၊ Communication နဲ့ Productivity မြှင့်တင်ရာမှာ အသုံးချနိုင်ပါတယ်။</p>
+          <ul>
+            <li>Report Summarization</li>
+            <li>Business Analysis</li>
+            <li>Action Plan</li>
+            <li>Meeting Preparation</li>
+            <li>Content Creation</li>
+            <li>Idea Generation</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>AI က Manager ကို အစားထိုးဖို့ထက် Manager ရဲ့ Thinking Speed နဲ့ Productivity ကို မြှင့်တင်ဖို့ အသုံးချပါ။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "AI ဖြင့် Sales နှင့် Marketing တိုးတက်စေခြင်း",
+        content: `
+          <p>AI ကို Sales Forecast၊ Customer Analysis၊ Content Creation နဲ့ Campaign Planning တွေမှာ အသုံးချနိုင်ပါတယ်။</p>
+          <ul>
+            <li>Customer Segmentation</li>
+            <li>Sales Analysis</li>
+            <li>Content Ideas</li>
+            <li>Campaign Planning</li>
+            <li>Customer Response Drafting</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>AI Output ကို အမြဲစစ်ဆေးပြီး Business Context နဲ့ ကိုက်ညီအောင် ပြန်လည်ဆုံးဖြတ်ပါ။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Business Automation",
+        content: `
+          <p>Automation က ထပ်ခါတလဲလဲလုပ်ရတဲ့ အလုပ်တွေကို System နဲ့ Tool တွေသုံးပြီး အချိန်လျှော့ချနိုင်စေပါတယ်။</p>
+          <ul>
+            <li>Automated Reports</li>
+            <li>Customer Follow-up</li>
+            <li>Data Collection</li>
+            <li>Reminder Systems</li>
+            <li>Workflow Automation</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>အချိန်အများဆုံးစားတဲ့ Repetitive Task ကို အရင် Automation လုပ်ပါ။</span>
+          </div>
+        `
+      }
+
+    ]
+  },
+
+  // ====================================================
+  // 13. ENTREPRENEURSHIP
+  // ====================================================
+
+  {
+    id: "entrepreneurship",
+    title: "Entrepreneurship",
+    category: "entrepreneurship",
+    icon: "◆",
+    color: "yellow",
+
+    description:
+      "Business Idea၊ Business Model၊ Pricing၊ Startup Finance နှင့် Growth Strategy ကို လေ့လာပါ။",
+
+    lessons: [
+
+      {
+        title: "Business Idea နှင့် Opportunity",
+        content: `
+          <p>ကောင်းမွန်တဲ့ Business Idea ဆိုတာ Product ရှိတာထက် Customer Problem ကို ဖြေရှင်းပေးနိုင်တဲ့ Opportunity ဖြစ်ပါတယ်။</p>
+          <ul>
+            <li>Customer Problem ရှာပါ။</li>
+            <li>Market Size သုံးသပ်ပါ။</li>
+            <li>Existing Solutions လေ့လာပါ။</li>
+            <li>Demand ရှိမရှိ စမ်းသပ်ပါ။</li>
+            <li>Unique Value သတ်မှတ်ပါ။</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>ကိုယ်ကြိုက်တဲ့ Product ထက် Customer လိုချင်တဲ့ Solution ကို အရင်ရှာပါ။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Business Model",
+        content: `
+          <p>Business Model က Customer ထံ Value ပေးပြီး Revenue ဘယ်လိုရမလဲဆိုတာ ရှင်းလင်းစေပါတယ်။</p>
+          <ul>
+            <li>Target Customer</li>
+            <li>Value Proposition</li>
+            <li>Revenue Stream</li>
+            <li>Cost Structure</li>
+            <li>Distribution Channel</li>
+            <li>Key Resources</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>ရောင်းအားရနိုင်တာနဲ့ Business Model ကောင်းတာ မတူပါဘူး။ Profitability ကိုပါ စဉ်းစားပါ။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Pricing နှင့် Profitability",
+        content: `
+          <p>Pricing က Cost ပေါ်မှာသာ မတည်ဘဲ Customer Value၊ Competitor Position နဲ့ Desired Profit Margin ပေါ်မှာလည်း မူတည်ပါတယ်။</p>
+          <ul>
+            <li>Cost-based Pricing</li>
+            <li>Value-based Pricing</li>
+            <li>Competitor Pricing</li>
+            <li>Gross Margin</li>
+            <li>Discount Control</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>Discount ပေးတိုင်း Sales တိုးနိုင်ပေမယ့် Profit ကျနိုင်တာကို သတိထားပါ။</span>
+          </div>
+        `
+      },
+
+      {
+        title: "Business Growth Strategy",
+        content: `
+          <p>Business Growth အတွက် Customer အသစ်ရှာခြင်း၊ Existing Customer တိုးခြင်း၊ Product တိုးခြင်းနဲ့ Market ချဲ့ခြင်းတို့ကို စနစ်တကျ စီမံနိုင်ရပါမယ်။</p>
+          <ul>
+            <li>Customer Acquisition</li>
+            <li>Customer Retention</li>
+            <li>Product Expansion</li>
+            <li>Market Expansion</li>
+            <li>Partnership</li>
+            <li>Operational Scale</li>
+          </ul>
+          <div class="lesson-tip">
+            <strong>Manager Tip</strong>
+            <span>Growth မလုပ်ခင် Unit Economics နဲ့ Cash Flow ခိုင်မာမှုကို အရင်စစ်ပါ။</span>
           </div>
         `
       }
@@ -755,10 +1559,7 @@ function loadState() {
 
   } catch (error) {
 
-    console.error(
-      "Storage Error:",
-      error
-    );
+    console.error("Storage Error:", error);
 
     return createDefaultState();
 
@@ -948,9 +1749,7 @@ function navigate(page) {
   document
     .querySelectorAll(".page")
     .forEach(item => {
-
       item.classList.remove("active");
-
     });
 
   const targetPage =
@@ -959,11 +1758,7 @@ function navigate(page) {
     );
 
   if (targetPage) {
-
-    targetPage.classList.add(
-      "active"
-    );
-
+    targetPage.classList.add("active");
   }
 
   document
@@ -998,10 +1793,8 @@ function navigate(page) {
     );
 
   if (breadcrumb) {
-
     breadcrumb.textContent =
       names[page] || page;
-
   }
 
   if (page === "dashboard")
@@ -1050,24 +1843,16 @@ function renderDashboard() {
     getOverallProgress();
 
   const statCourses =
-    document.getElementById(
-      "statCourses"
-    );
+    document.getElementById("statCourses");
 
   const statLessons =
-    document.getElementById(
-      "statLessons"
-    );
+    document.getElementById("statLessons");
 
   const statCompleted =
-    document.getElementById(
-      "statCompleted"
-    );
+    document.getElementById("statCompleted");
 
   const statProgress =
-    document.getElementById(
-      "statProgress"
-    );
+    document.getElementById("statProgress");
 
   if (statCourses)
     statCourses.textContent =
@@ -1089,14 +1874,10 @@ function renderDashboard() {
     getCurrentCourse();
 
   const courseProgress =
-    getCourseProgress(
-      course.id
-    );
+    getCourseProgress(course.id);
 
   const courseCompleted =
-    getCourseCompleted(
-      course.id
-    );
+    getCourseCompleted(course.id);
 
   const title =
     document.getElementById(
@@ -1156,14 +1937,10 @@ function renderDashboard() {
       : 0;
 
   const goalMinutes =
-    document.getElementById(
-      "goalMinutes"
-    );
+    document.getElementById("goalMinutes");
 
   const goalPercent =
-    document.getElementById(
-      "goalPercent"
-    );
+    document.getElementById("goalPercent");
 
   if (goalMinutes)
     goalMinutes.textContent =
@@ -1261,14 +2038,10 @@ function renderCourses(
     courses.map(course => {
 
       const progress =
-        getCourseProgress(
-          course.id
-        );
+        getCourseProgress(course.id);
 
       const completed =
-        getCourseCompleted(
-          course.id
-        );
+        getCourseCompleted(course.id);
 
       return `
 
@@ -1281,7 +2054,7 @@ function renderCourses(
             </div>
 
             <span class="course-badge ${course.category}">
-              ${course.category.toUpperCase()}
+              ${escapeHTML(course.category.toUpperCase())}
             </span>
 
           </div>
@@ -1370,26 +2143,17 @@ function renderLessons() {
 
   }
 
-  // ----------------------------------------------------
-  // COURSE LIST
-  // ----------------------------------------------------
-
   courseList.innerHTML =
     COURSES.map(course => {
 
       const progress =
-        getCourseProgress(
-          course.id
-        );
+        getCourseProgress(course.id);
 
       const completed =
-        getCourseCompleted(
-          course.id
-        );
+        getCourseCompleted(course.id);
 
       const active =
-        state.currentCourseId ===
-        course.id
+        state.currentCourseId === course.id
           ? "active"
           : "";
 
@@ -1417,11 +2181,9 @@ function renderLessons() {
             </span>
 
             <div class="mini-progress">
-
               <div
                 style="width:${progress}%"
               ></div>
-
             </div>
 
           </div>
@@ -1431,10 +2193,6 @@ function renderLessons() {
       `;
 
     }).join("");
-
-  // ----------------------------------------------------
-  // CURRENT LESSON
-  // ----------------------------------------------------
 
   const current =
     getCurrentLesson();
@@ -1484,7 +2242,7 @@ function renderLessons() {
       </div>
 
       <span class="course-badge ${course.category}">
-        ${course.category.toUpperCase()}
+        ${escapeHTML(course.category.toUpperCase())}
       </span>
 
     </div>
@@ -1510,7 +2268,6 @@ function renderLessons() {
       <button
         type="button"
         class="secondary-btn"
-        id="previousLessonBtn"
         data-lesson-action="previous"
         ${isFirst ? "disabled" : ""}
       >
@@ -1520,7 +2277,6 @@ function renderLessons() {
       <button
         type="button"
         class="primary-btn"
-        id="completeLessonBtn"
         data-lesson-action="complete"
       >
         ${
@@ -1533,7 +2289,6 @@ function renderLessons() {
       <button
         type="button"
         class="secondary-btn"
-        id="nextLessonBtn"
         data-lesson-action="next"
         ${isLast ? "disabled" : ""}
       >
@@ -1555,9 +2310,7 @@ function previousLesson() {
   const course =
     getCurrentCourse();
 
-  if (
-    state.currentLessonIndex <= 0
-  ) {
+  if (state.currentLessonIndex <= 0) {
 
     showToast(
       "ဒါက ပထမဆုံး Lesson ဖြစ်ပါတယ်။"
@@ -1626,15 +2379,11 @@ function completeLesson(
     `${courseId}-${index}`;
 
   const alreadyCompleted =
-    state.completedLessons.includes(
-      key
-    );
+    state.completedLessons.includes(key);
 
   if (!alreadyCompleted) {
 
-    state.completedLessons.push(
-      key
-    );
+    state.completedLessons.push(key);
 
     state.dailyGoal.minutes =
       Math.min(
@@ -1747,14 +2496,10 @@ function renderProgress() {
     COURSES.map(course => {
 
       const p =
-        getCourseProgress(
-          course.id
-        );
+        getCourseProgress(course.id);
 
       const completedCourse =
-        getCourseCompleted(
-          course.id
-        );
+        getCourseCompleted(course.id);
 
       return `
 
@@ -1851,20 +2596,17 @@ function renderSales() {
     );
 
   if (targetEl)
-    targetEl.textContent =
-      target;
+    targetEl.textContent = target;
 
   if (actualEl)
-    actualEl.textContent =
-      actual;
+    actualEl.textContent = actual;
 
   if (achievementEl)
     achievementEl.textContent =
       `${achievement}%`;
 
   if (gapEl)
-    gapEl.textContent =
-      gap;
+    gapEl.textContent = gap;
 
   const targetInput =
     document.getElementById(
@@ -1877,12 +2619,10 @@ function renderSales() {
     );
 
   if (targetInput)
-    targetInput.value =
-      target;
+    targetInput.value = target;
 
   if (actualInput)
-    actualInput.value =
-      actual;
+    actualInput.value = actual;
 
   renderSalesChart();
   renderPriorities();
@@ -1899,9 +2639,7 @@ function renderSalesChart() {
   if (!container) return;
 
   const history =
-    Array.isArray(
-      state.sales.history
-    )
+    Array.isArray(state.sales.history)
       ? state.sales.history
       : [];
 
@@ -1914,10 +2652,7 @@ function renderSalesChart() {
   }
 
   const max =
-    Math.max(
-      ...history,
-      100
-    );
+    Math.max(...history, 100);
 
   container.innerHTML =
     history.map(
@@ -1968,21 +2703,11 @@ function renderPriorities() {
   if (!state.sales.priorities.length) {
 
     container.innerHTML = `
-
       <div class="empty-state">
-
         <div>🎯</div>
-
-        <strong>
-          No priority
-        </strong>
-
-        <span>
-          Add your next execution priority.
-        </span>
-
+        <strong>No priority</strong>
+        <span>Add your next execution priority.</span>
       </div>
-
     `;
 
     return;
@@ -2052,26 +2777,20 @@ function calculatePrice() {
     "Product";
 
   const cost =
-    Number(
-      costInput.value
-    ) || 0;
+    Number(costInput.value) || 0;
 
   const margin =
     Math.max(
       0,
       Math.min(
         99.99,
-        Number(
-          marginInput.value
-        ) || 0
+        Number(marginInput.value) || 0
       )
     );
 
   const price =
-    margin >= 100
-      ? 0
-      : cost /
-        (1 - margin / 100);
+    cost /
+    (1 - margin / 100);
 
   const profit =
     price - cost;
@@ -2285,28 +3004,21 @@ function getAIResponse(question) {
   ) {
 
     return `
-
-      <strong>
-        အဖွဲ့လုပ်ဆောင်ရည် မြှင့်တင်ရန်
-      </strong>
-
+      <strong>အဖွဲ့လုပ်ဆောင်ရည် မြှင့်တင်ရန်</strong>
       <p>
         ပထမဆုံး Target နဲ့ Actual ကို နှိုင်းယှဉ်ပြီး
         Performance Gap ကို ရှာပါ။
       </p>
-
       <p>
         Gap ဖြစ်ရတဲ့ Root Cause ကို
         လူ၊ Skill၊ Customer၊ နယ်မြေနဲ့ Execution
         အပိုင်းခွဲပြီး လေ့လာပါ။
       </p>
-
       <p>
         Action Plan ချမှတ်ပြီး အပတ်စဉ် Follow-up လုပ်ပါ။
         Micromanagement မလုပ်ဘဲ Coaching နဲ့ Empowerment
         ကို အသုံးပြုပါ။
       </p>
-
     `;
 
   }
@@ -2317,25 +3029,18 @@ function getAIResponse(question) {
   ) {
 
     return `
-
-      <strong>
-        Customer Growth တိုးတက်စေရန်
-      </strong>
-
+      <strong>Customer Growth တိုးတက်စေရန်</strong>
       <p>
         Customer တွေကို Value နဲ့ Potential အလိုက် ခွဲခြားပါ။
       </p>
-
       <p>
         အဓိက Customer တွေရဲ့ လိုအပ်ချက်၊ Complaint၊
         ဝယ်ယူမှုပုံစံနဲ့ Business Problem ကို နားလည်ပါ။
       </p>
-
       <p>
         Visit Plan၊ Follow-up Plan နဲ့
         Customer Development Plan တည်ဆောက်ပါ။
       </p>
-
     `;
 
   }
@@ -2348,25 +3053,74 @@ function getAIResponse(question) {
   ) {
 
     return `
-
-      <strong>
-        Sales Target တိုးတက်စေရန်
-      </strong>
-
+      <strong>Sales Target တိုးတက်စေရန်</strong>
       <p>
         လစဉ် Target ကို အပတ်စဉ်နဲ့ နေ့စဉ် Target အဖြစ် ခွဲပါ။
       </p>
-
       <p>
         Sales Gap ကို Salesperson၊ Territory၊ Product နဲ့
         Customer အလိုက် ခွဲခြမ်းစိတ်ဖြာပါ။
       </p>
-
       <p>
         People၊ Market နဲ့ Execution သုံးခုအပေါ်
         Action Plan ချပြီး အပတ်စဉ် Review ပြုလုပ်ပါ။
       </p>
+    `;
 
+  }
+
+  if (
+    q.includes("finance") ||
+    q.includes("profit") ||
+    q.includes("အမြတ်") ||
+    q.includes("ငွေကြေး")
+  ) {
+
+    return `
+      <strong>Finance Management</strong>
+      <p>
+        Revenue၊ Cost၊ Profit၊ Margin နဲ့ Cash Flow ကို
+        တစ်ခုချင်းစီ ခွဲပြီး စောင့်ကြည့်ပါ။
+      </p>
+      <p>
+        Budget vs Actual ကို ပုံမှန်နှိုင်းယှဉ်ပြီး
+        မလိုအပ်တဲ့ Cost နဲ့ Cash Leakage ကို ရှာပါ။
+      </p>
+    `;
+
+  }
+
+  if (
+    q.includes("hr") ||
+    q.includes("employee") ||
+    q.includes("ဝန်ထမ်း")
+  ) {
+
+    return `
+      <strong>HR Management</strong>
+      <p>
+        လူမှန်နေရာမှန်၊ Clear KPI၊ Coaching၊
+        Recognition နဲ့ Career Development ကို အဓိကထားပါ။
+      </p>
+    `;
+
+  }
+
+  if (
+    q.includes("strategy") ||
+    q.includes("မဟာဗျူဟာ")
+  ) {
+
+    return `
+      <strong>Strategic Management</strong>
+      <p>
+        Market၊ Customer၊ Competitor နဲ့
+        Company Capability ကို အရင်သုံးသပ်ပါ။
+      </p>
+      <p>
+        ပြီးရင် Strategic Priority ၃ ခုလောက် သတ်မှတ်ပြီး
+        Measurable Action Plan ပြုလုပ်ပါ။
+      </p>
     `;
 
   }
@@ -2378,42 +3132,30 @@ function getAIResponse(question) {
   ) {
 
     return `
-
-      <strong>
-        Pricing Strategy
-      </strong>
-
+      <strong>Pricing Strategy</strong>
       <p>
         Cost တစ်ခုတည်းကို မကြည့်ဘဲ Customer Value၊
         Competitor Price နဲ့ Desired Margin ကို တွဲပြီး စဉ်းစားပါ။
       </p>
-
       <p>
         Margin မလုံလောက်ရင် ရောင်းအားတက်နေသော်လည်း
         Profit ကျဆင်းနိုင်ပါတယ်။
       </p>
-
     `;
 
   }
 
   return `
-
-    <strong>
-      Business Manager အနေနဲ့
-    </strong>
-
+    <strong>Business Manager အနေနဲ့</strong>
     <p>
       ပြဿနာတစ်ခုကို ဖြေရှင်းတဲ့အခါ
       <strong>လူ၊ နံပါတ်နဲ့ လက်တွေ့အကောင်အထည်ဖော်မှု</strong>
       သုံးခုကို အရင်ကြည့်ပါ။
     </p>
-
     <p>
       ရလဒ်ကို တိုင်းတာပါ။ အကြီးမားဆုံး Gap ကို ရှာပါ။
       Root Cause ကို သတ်မှတ်ပြီး Action Plan ချမှတ်ပါ။
     </p>
-
   `;
 
 }
@@ -2432,27 +3174,15 @@ function sendAIMessage(question) {
   container.insertAdjacentHTML(
     "beforeend",
     `
-
       <div class="chat-message user">
-
         <div class="message-avatar">
           AZ
         </div>
-
         <div class="message-content">
-
-          <strong>
-            You
-          </strong>
-
-          <p>
-            ${escapeHTML(question)}
-          </p>
-
+          <strong>You</strong>
+          <p>${escapeHTML(question)}</p>
         </div>
-
       </div>
-
     `
   );
 
@@ -2464,27 +3194,15 @@ function sendAIMessage(question) {
     container.insertAdjacentHTML(
       "beforeend",
       `
-
         <div class="chat-message assistant">
-
           <div class="message-avatar">
             AI
           </div>
-
           <div class="message-content">
-
-            <strong>
-              Business Coach
-            </strong>
-
-            <div>
-              ${answer}
-            </div>
-
+            <strong>Business Coach</strong>
+            <div>${answer}</div>
           </div>
-
         </div>
-
       `
     );
 
@@ -2553,15 +3271,9 @@ function performSearch(query) {
 
   const course =
     COURSES.find(course =>
-
-      course.title
-        .toLowerCase()
-        .includes(text) ||
-
-      course.description
-        .toLowerCase()
-        .includes(text)
-
+      course.title.toLowerCase().includes(text) ||
+      course.description.toLowerCase().includes(text) ||
+      course.category.toLowerCase().includes(text)
     );
 
   if (course) {
@@ -2580,9 +3292,7 @@ function performSearch(query) {
 
   }
 
-  for (
-    const course of COURSES
-  ) {
+  for (const course of COURSES) {
 
     const index =
       course.lessons.findIndex(
@@ -2590,22 +3300,14 @@ function performSearch(query) {
 
           const plainContent =
             lesson.content
-              .replace(
-                /<[^>]*>/g,
-                ""
-              )
+              .replace(/<[^>]*>/g, "")
               .toLowerCase();
 
           return (
-
             lesson.title
               .toLowerCase()
               .includes(text) ||
-
-            plainContent.includes(
-              text
-            )
-
+            plainContent.includes(text)
           );
 
         }
@@ -2670,14 +3372,10 @@ function closeSidebar() {
 function showToast(message) {
 
   const toast =
-    document.getElementById(
-      "toast"
-    );
+    document.getElementById("toast");
 
   const toastMessage =
-    document.getElementById(
-      "toastMessage"
-    );
+    document.getElementById("toastMessage");
 
   if (!toast || !toastMessage)
     return;
@@ -2685,21 +3383,13 @@ function showToast(message) {
   toastMessage.textContent =
     message;
 
-  toast.classList.add(
-    "show"
-  );
+  toast.classList.add("show");
 
-  clearTimeout(
-    showToast.timer
-  );
+  clearTimeout(showToast.timer);
 
   showToast.timer =
     setTimeout(() => {
-
-      toast.classList.remove(
-        "show"
-      );
-
+      toast.classList.remove("show");
     }, 2500);
 
 }
@@ -2711,37 +3401,25 @@ function showToast(message) {
 function closeModal() {
 
   document
-    .getElementById(
-      "modalOverlay"
-    )
-    ?.classList.remove(
-      "show"
-    );
+    .getElementById("modalOverlay")
+    ?.classList.remove("show");
 
 }
 
 // ======================================================
-// LESSON ACTION HANDLER
+// LESSON ACTION
 // ======================================================
 
-function handleLessonAction(
-  action
-) {
+function handleLessonAction(action) {
 
   if (action === "previous") {
-
     previousLesson();
-
     return;
-
   }
 
   if (action === "next") {
-
     nextLesson();
-
     return;
-
   }
 
   if (action === "complete") {
@@ -2764,7 +3442,15 @@ function handleLessonAction(
 // INITIALIZE EVENTS
 // ======================================================
 
+let academyInitialized = false;
+
 function initializeApp() {
+
+  if (academyInitialized) {
+    return;
+  }
+
+  academyInitialized = true;
 
   // ----------------------------------------------------
   // GLOBAL CLICK DELEGATION
@@ -2774,14 +3460,16 @@ function initializeApp() {
     "click",
     event => {
 
-      // ------------------------------------------------
-      // NAVIGATION
-      // ------------------------------------------------
+      const target =
+        event.target;
 
+      if (!(target instanceof Element)) {
+        return;
+      }
+
+      // NAVIGATION
       const nav =
-        event.target.closest(
-          ".nav-item"
-        );
+        target.closest(".nav-item");
 
       if (nav) {
 
@@ -2795,14 +3483,9 @@ function initializeApp() {
 
       }
 
-      // ------------------------------------------------
       // DATA GO
-      // ------------------------------------------------
-
       const go =
-        event.target.closest(
-          "[data-go]"
-        );
+        target.closest("[data-go]");
 
       if (go) {
 
@@ -2816,14 +3499,9 @@ function initializeApp() {
 
       }
 
-      // ------------------------------------------------
-      // COURSE START / CONTINUE
-      // ------------------------------------------------
-
+      // COURSE
       const openCourse =
-        event.target.closest(
-          ".open-course"
-        );
+        target.closest(".open-course");
 
       if (openCourse) {
 
@@ -2854,12 +3532,9 @@ function initializeApp() {
 
       }
 
-      // ------------------------------------------------
       // LESSON COURSE
-      // ------------------------------------------------
-
       const lessonCourse =
-        event.target.closest(
+        target.closest(
           ".lesson-course-item"
         );
 
@@ -2892,12 +3567,9 @@ function initializeApp() {
 
       }
 
-      // ------------------------------------------------
-      // LESSON PREVIOUS / NEXT / COMPLETE
-      // ------------------------------------------------
-
+      // LESSON ACTION
       const lessonAction =
-        event.target.closest(
+        target.closest(
           "[data-lesson-action]"
         );
 
@@ -2905,9 +3577,7 @@ function initializeApp() {
 
         event.preventDefault();
 
-        if (
-          lessonAction.disabled
-        ) {
+        if (lessonAction.disabled) {
           return;
         }
 
@@ -2919,12 +3589,9 @@ function initializeApp() {
 
       }
 
-      // ------------------------------------------------
       // RECOMMENDATION
-      // ------------------------------------------------
-
       const recommendation =
-        event.target.closest(
+        target.closest(
           ".recommendation-item"
         );
 
@@ -2934,8 +3601,6 @@ function initializeApp() {
 
         const courseId =
           recommendation.dataset.course;
-
-        if (!courseId) return;
 
         const course =
           COURSES.find(
@@ -2959,12 +3624,9 @@ function initializeApp() {
 
       }
 
-      // ------------------------------------------------
       // PRIORITY DELETE
-      // ------------------------------------------------
-
       const deletePriority =
-        event.target.closest(
+        target.closest(
           ".priority-delete"
         );
 
@@ -3003,14 +3665,9 @@ function initializeApp() {
 
       }
 
-      // ------------------------------------------------
       // AI QUESTIONS
-      // ------------------------------------------------
-
       const aiQuestion =
-        event.target.closest(
-          ".ai-question"
-        );
+        target.closest(".ai-question");
 
       if (aiQuestion) {
 
@@ -3036,12 +3693,9 @@ function initializeApp() {
 
       }
 
-      // ------------------------------------------------
       // AI TOOLS
-      // ------------------------------------------------
-
       const aiTool =
-        event.target.closest(
+        target.closest(
           ".ai-tool-card"
         );
 
@@ -3050,8 +3704,6 @@ function initializeApp() {
         openAITool(
           aiTool.dataset.tool
         );
-
-        return;
 
       }
 
@@ -3063,9 +3715,7 @@ function initializeApp() {
   // ----------------------------------------------------
 
   document
-    .querySelectorAll(
-      ".filter-tab"
-    )
+    .querySelectorAll(".filter-tab")
     .forEach(button => {
 
       button.addEventListener(
@@ -3073,9 +3723,7 @@ function initializeApp() {
         () => {
 
           document
-            .querySelectorAll(
-              ".filter-tab"
-            )
+            .querySelectorAll(".filter-tab")
             .forEach(item =>
               item.classList.remove(
                 "active"
@@ -3108,11 +3756,7 @@ function initializeApp() {
 
     continueBtn.addEventListener(
       "click",
-      () => {
-
-        navigate("lessons");
-
-      }
+      () => navigate("lessons")
     );
 
   }
@@ -3272,12 +3916,9 @@ function initializeApp() {
         if (!value.trim())
           return;
 
-        sendAIMessage(
-          value
-        );
+        sendAIMessage(value);
 
-        chatInput.value =
-          "";
+        chatInput.value = "";
 
       }
     );
@@ -3286,10 +3927,7 @@ function initializeApp() {
       "keydown",
       event => {
 
-        if (
-          event.key ===
-          "Enter"
-        ) {
+        if (event.key === "Enter") {
 
           event.preventDefault();
 
@@ -3317,10 +3955,7 @@ function initializeApp() {
       "keydown",
       event => {
 
-        if (
-          event.key ===
-          "Enter"
-        ) {
+        if (event.key === "Enter") {
 
           performSearch(
             event.target.value
@@ -3343,12 +3978,10 @@ function initializeApp() {
     );
 
   if (mobileMenu) {
-
     mobileMenu.addEventListener(
       "click",
       openSidebar
     );
-
   }
 
   const overlay =
@@ -3357,12 +3990,10 @@ function initializeApp() {
     );
 
   if (overlay) {
-
     overlay.addEventListener(
       "click",
       closeSidebar
     );
-
   }
 
   // ----------------------------------------------------
@@ -3580,6 +4211,14 @@ function initAcademy() {
 
   console.log(
     "Aung Business Academy V8 initialized."
+  );
+
+  console.log(
+    `Courses: ${COURSES.length}`
+  );
+
+  console.log(
+    `Lessons: ${getTotalLessons()}`
   );
 
   initializeApp();

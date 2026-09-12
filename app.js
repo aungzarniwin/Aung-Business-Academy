@@ -1437,535 +1437,6 @@ const COURSES = [
 
 ];
 
-
-// ======================================================
-// V8.1 LEARNING SYSTEM
-// ======================================================
-
-const ACADEMY_VERSION = "8.1";
-
-const ACHIEVEMENTS = [
-  {
-    id: "first-lesson",
-    title: "First Step",
-    description: "Complete your first lesson.",
-    icon: "🎯"
-  },
-  {
-    id: "five-lessons",
-    title: "Getting Started",
-    description: "Complete 5 lessons.",
-    icon: "📚"
-  },
-  {
-    id: "ten-lessons",
-    title: "Learning Builder",
-    description: "Complete 10 lessons.",
-    icon: "🏆"
-  },
-  {
-    id: "first-course",
-    title: "Course Finisher",
-    description: "Complete your first course.",
-    icon: "🎓"
-  },
-  {
-    id: "seven-day-streak",
-    title: "7 Day Streak",
-    description: "Learn for 7 consecutive days.",
-    icon: "🔥"
-  },
-  {
-    id: "thirty-day-streak",
-    title: "30 Day Streak",
-    description: "Learn for 30 consecutive days.",
-    icon: "⚡"
-  },
-  {
-    id: "halfway",
-    title: "Halfway There",
-    description: "Reach 50% overall progress.",
-    icon: "🚀"
-  },
-  {
-    id: "academy-complete",
-    title: "Academy Graduate",
-    description: "Complete every lesson in the academy.",
-    icon: "👑"
-  }
-];
-
-// Premium is metadata-driven so the original 13 course records remain untouched.
-// Existing data can opt in with course.premium === true or lesson.premium === true.
-function isPremiumCourse(course) {
-  return !!(course && course.premium === true);
-}
-
-function isPremiumLesson(course, index) {
-  const lesson = course?.lessons?.[index];
-  return !!(
-    isPremiumCourse(course) ||
-    (lesson && lesson.premium === true)
-  );
-}
-
-function hasPremiumAccess() {
-  return !!(
-    state &&
-    (
-      state.isPremium === true ||
-      state.premium?.isPremium === true ||
-      state.subscription === "premium"
-    )
-  );
-}
-
-function canAccessLesson(course, index) {
-  return !isPremiumLesson(course, index) || hasPremiumAccess();
-}
-
-function getDateKey(date = new Date()) {
-  const d = new Date(date);
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
-}
-
-function getDateDiffInDays(fromKey, toKey) {
-  if (!fromKey || !toKey) return null;
-
-  const from = new Date(`${fromKey}T00:00:00`);
-  const to = new Date(`${toKey}T00:00:00`);
-
-  if (Number.isNaN(from.getTime()) || Number.isNaN(to.getTime())) {
-    return null;
-  }
-
-  return Math.round((to - from) / 86400000);
-}
-
-function recordLearningDay() {
-  const today = getDateKey();
-
-  if (!state.learning) {
-    state.learning = {
-      lastActivityDate: null,
-      longestStreak: Number(state.streak) || 0,
-      activityDates: []
-    };
-  }
-
-  if (!Array.isArray(state.learning.activityDates)) {
-    state.learning.activityDates = [];
-  }
-
-  const last = state.learning.lastActivityDate;
-
-  if (last !== today) {
-    const diff = getDateDiffInDays(last, today);
-
-    if (diff === 1) {
-      state.streak = Math.max(1, Number(state.streak) || 0) + 1;
-    } else if (diff === 0) {
-      // Same day: do not increase the streak twice.
-      state.streak = Math.max(1, Number(state.streak) || 1);
-    } else {
-      state.streak = 1;
-    }
-
-    state.learning.lastActivityDate = today;
-
-    if (!state.learning.activityDates.includes(today)) {
-      state.learning.activityDates.push(today);
-    }
-
-    state.learning.activityDates =
-      state.learning.activityDates.slice(-366);
-
-    state.learning.longestStreak = Math.max(
-      Number(state.learning.longestStreak) || 0,
-      Number(state.streak) || 0
-    );
-  } else {
-    state.streak = Math.max(1, Number(state.streak) || 1);
-  }
-}
-
-function getNextIncompleteLesson(courseId) {
-  const course = COURSES.find(item => item.id === courseId);
-  if (!course) return 0;
-
-  const index = course.lessons.findIndex(
-    (_, lessonIndex) =>
-      !state.completedLessons.includes(`${courseId}-${lessonIndex}`)
-  );
-
-  return index >= 0 ? index : 0;
-}
-
-function getContinueLearningTarget() {
-  // Prefer the last active course/lesson when it still has unfinished work.
-  const savedCourseId =
-    state.learning?.lastCourseId || state.currentCourseId;
-
-  const savedCourse =
-    COURSES.find(course => course.id === savedCourseId);
-
-  if (savedCourse) {
-    const savedIndex = Number(
-      state.learning?.lastLessonIndex ??
-      state.currentLessonIndex ??
-      0
-    );
-
-    const safeIndex = Math.max(
-      0,
-      Math.min(
-        Number.isFinite(savedIndex) ? savedIndex : 0,
-        savedCourse.lessons.length - 1
-      )
-    );
-
-    if (
-      !state.completedLessons.includes(
-        `${savedCourse.id}-${safeIndex}`
-      )
-    ) {
-      return {
-        courseId: savedCourse.id,
-        lessonIndex: safeIndex
-      };
-    }
-
-    const nextIndex = getNextIncompleteLesson(savedCourse.id);
-
-    if (
-      savedCourse.lessons.length &&
-      !state.completedLessons.includes(
-        `${savedCourse.id}-${nextIndex}`
-      )
-    ) {
-      return {
-        courseId: savedCourse.id,
-        lessonIndex: nextIndex
-      };
-    }
-  }
-
-  // Otherwise find the first unfinished lesson in the academy.
-  for (const course of COURSES) {
-    const index = getNextIncompleteLesson(course.id);
-
-    if (
-      course.lessons.length &&
-      !state.completedLessons.includes(
-        `${course.id}-${index}`
-      )
-    ) {
-      return {
-        courseId: course.id,
-        lessonIndex: index
-      };
-    }
-  }
-
-  return {
-    courseId: COURSES[0]?.id || null,
-    lessonIndex: 0
-  };
-}
-
-function openCourseAtProgress(courseId, requestedIndex = null) {
-  const course = COURSES.find(item => item.id === courseId);
-
-  if (!course) return false;
-
-  let index =
-    requestedIndex === null
-      ? getNextIncompleteLesson(courseId)
-      : Number(requestedIndex);
-
-  if (!Number.isFinite(index)) {
-    index = 0;
-  }
-
-  index = Math.max(
-    0,
-    Math.min(index, course.lessons.length - 1)
-  );
-
-  if (!canAccessLesson(course, index)) {
-    showPremiumLock(course, index);
-    return false;
-  }
-
-  state.currentCourseId = courseId;
-  state.currentLessonIndex = index;
-
-  state.learning = state.learning || {};
-  state.learning.lastCourseId = courseId;
-  state.learning.lastLessonIndex = index;
-
-  saveState();
-  navigate("lessons");
-
-  return true;
-}
-
-function getCourseCompletionCount() {
-  return COURSES.filter(
-    course =>
-      getCourseProgress(course.id) === 100
-  ).length;
-}
-
-function isAchievementUnlocked(id) {
-  return Array.isArray(state.achievements) &&
-    state.achievements.some(item => item.id === id);
-}
-
-function unlockAchievement(id) {
-  const achievement =
-    ACHIEVEMENTS.find(item => item.id === id);
-
-  if (!achievement || isAchievementUnlocked(id)) {
-    return false;
-  }
-
-  state.achievements.push({
-    id: achievement.id,
-    title: achievement.title,
-    description: achievement.description,
-    icon: achievement.icon,
-    unlockedAt: new Date().toISOString()
-  });
-
-  showToast(
-    `${achievement.icon} Achievement: ${achievement.title}`
-  );
-
-  return true;
-}
-
-function checkAchievements() {
-  if (!Array.isArray(state.achievements)) {
-    state.achievements = [];
-  }
-
-  const completed = getCompletedCount();
-  const progress = getOverallProgress();
-
-  if (completed >= 1) {
-    unlockAchievement("first-lesson");
-  }
-
-  if (completed >= 5) {
-    unlockAchievement("five-lessons");
-  }
-
-  if (completed >= 10) {
-    unlockAchievement("ten-lessons");
-  }
-
-  if (getCourseCompletionCount() >= 1) {
-    unlockAchievement("first-course");
-  }
-
-  if (Number(state.streak) >= 7) {
-    unlockAchievement("seven-day-streak");
-  }
-
-  if (Number(state.streak) >= 30) {
-    unlockAchievement("thirty-day-streak");
-  }
-
-  if (progress >= 50) {
-    unlockAchievement("halfway");
-  }
-
-  if (progress >= 100) {
-    unlockAchievement("academy-complete");
-  }
-}
-
-function getQuizForLesson(courseId, lessonIndex) {
-  const course = COURSES.find(item => item.id === courseId);
-  const lesson = course?.lessons?.[lessonIndex];
-
-  return lesson?.quiz || course?.quiz || null;
-}
-
-function getQuizResultKey(courseId, lessonIndex) {
-  return `${courseId}-${lessonIndex}`;
-}
-
-function submitQuiz(courseId, lessonIndex, answers) {
-  const quiz = getQuizForLesson(courseId, lessonIndex);
-
-  if (!quiz || !Array.isArray(quiz.questions) || !quiz.questions.length) {
-    return {
-      available: false,
-      message: "ဒီ Lesson အတွက် Quiz မထည့်ရသေးပါ။"
-    };
-  }
-
-  const normalizedAnswers = Array.isArray(answers) ? answers : [];
-  let correct = 0;
-
-  quiz.questions.forEach((question, index) => {
-    const answer = normalizedAnswers[index];
-    const expected = question.answer;
-
-    if (
-      answer !== undefined &&
-      String(answer).toLowerCase() === String(expected).toLowerCase()
-    ) {
-      correct++;
-    }
-  });
-
-  const score = Math.round(
-    correct / quiz.questions.length * 100
-  );
-
-  const passingScore =
-    Number(quiz.passingScore) || 70;
-
-  const passed = score >= passingScore;
-
-  state.quizResults = state.quizResults || {};
-  state.quizResults[
-    getQuizResultKey(courseId, lessonIndex)
-  ] = {
-    score,
-    correct,
-    total: quiz.questions.length,
-    passed,
-    completedAt: new Date().toISOString()
-  };
-
-  saveState();
-
-  return {
-    available: true,
-    score,
-    correct,
-    total: quiz.questions.length,
-    passingScore,
-    passed
-  };
-}
-
-function getQuizResult(courseId, lessonIndex) {
-  return (
-    state.quizResults?.[
-      getQuizResultKey(courseId, lessonIndex)
-    ] || null
-  );
-}
-
-function isCourseCertificateEligible(courseId) {
-  const course = COURSES.find(item => item.id === courseId);
-
-  if (!course || getCourseProgress(courseId) < 100) {
-    return false;
-  }
-
-  // If quizzes exist, every available quiz must be passed.
-  const quizLessons = course.lessons
-    .map((lesson, index) => ({
-      lesson,
-      index,
-      quiz: getQuizForLesson(courseId, index)
-    }))
-    .filter(item =>
-      item.quiz &&
-      Array.isArray(item.quiz.questions) &&
-      item.quiz.questions.length
-    );
-
-  return quizLessons.every(item =>
-    state.quizResults?.[
-      getQuizResultKey(courseId, item.index)
-    ]?.passed === true
-  );
-}
-
-function issueCertificate(courseId) {
-  const course = COURSES.find(item => item.id === courseId);
-
-  if (!course) {
-    return null;
-  }
-
-  if (!isCourseCertificateEligible(courseId)) {
-    return null;
-  }
-
-  state.certificates = Array.isArray(state.certificates)
-    ? state.certificates
-    : [];
-
-  const existing = state.certificates.find(
-    item => item.courseId === courseId
-  );
-
-  if (existing) {
-    return existing;
-  }
-
-  const certificate = {
-    id:
-      `CERT-${courseId.toUpperCase()}-${Date.now()}`,
-    courseId,
-    courseTitle: course.title,
-    issuedAt: new Date().toISOString(),
-    status: "issued"
-  };
-
-  state.certificates.push(certificate);
-  saveState();
-
-  return certificate;
-}
-
-function getAchievementSummary() {
-  return {
-    unlocked: Array.isArray(state.achievements)
-      ? state.achievements.length
-      : 0,
-    total: ACHIEVEMENTS.length,
-    items: ACHIEVEMENTS.map(item => ({
-      ...item,
-      unlocked: isAchievementUnlocked(item.id)
-    }))
-  };
-}
-
-function showPremiumLock(course, index) {
-  const lesson = course?.lessons?.[index];
-  const lessonTitle = lesson?.title || "Premium Lesson";
-
-  showModal(
-    "Premium Lesson 🔒",
-    `"${escapeHTML(lessonTitle)}" သည် Premium Content ဖြစ်ပါတယ်။ Premium Access ရရှိပြီးမှ ဆက်လက်လေ့လာနိုင်ပါမယ်။`,
-    "Continue"
-  );
-}
-
-function syncLearningPointer() {
-  if (!state.learning) {
-    state.learning = {};
-  }
-
-  state.learning.lastCourseId =
-    state.currentCourseId;
-
-  state.learning.lastLessonIndex =
-    Number(state.currentLessonIndex) || 0;
-}
-
 // ======================================================
 // STATE
 // ======================================================
@@ -1973,8 +1444,6 @@ function syncLearningPointer() {
 function createDefaultState() {
 
   return {
-
-    version: 81,
 
     user: {
       name: "Aung Zar Ni Win",
@@ -1987,29 +1456,6 @@ function createDefaultState() {
     completedLessons: [],
 
     streak: 0,
-
-    learning: {
-      lastActivityDate: null,
-      longestStreak: 0,
-      activityDates: [],
-      lastCourseId: "sales",
-      lastLessonIndex: 0
-    },
-
-    achievements: [],
-
-    quizResults: {},
-
-    certificates: [],
-
-    // Premium-ready account state.
-    // Keep false until a real subscription/payment flow is connected.
-    isPremium: false,
-
-    premium: {
-      isPremium: false,
-      plan: "free"
-    },
 
     dailyGoal: {
       target: 30,
@@ -2069,7 +1515,7 @@ function loadState() {
     const defaults =
       createDefaultState();
 
-    const merged = {
+    return {
 
       ...defaults,
       ...parsed,
@@ -2099,16 +1545,6 @@ function loadState() {
         ...(parsed.calculator || {})
       },
 
-      learning: {
-        ...defaults.learning,
-        ...(parsed.learning || {})
-      },
-
-      premium: {
-        ...defaults.premium,
-        ...(parsed.premium || {})
-      },
-
       completedLessons:
         Array.isArray(parsed.completedLessons)
           ? parsed.completedLessons
@@ -2117,54 +1553,9 @@ function loadState() {
       activity:
         Array.isArray(parsed.activity)
           ? parsed.activity
-          : [],
-
-      achievements:
-        Array.isArray(parsed.achievements)
-          ? parsed.achievements
-          : [],
-
-      quizResults:
-        parsed.quizResults &&
-        typeof parsed.quizResults === "object"
-          ? parsed.quizResults
-          : {},
-
-      certificates:
-        Array.isArray(parsed.certificates)
-          ? parsed.certificates
           : []
 
     };
-
-    // Backward compatibility with V8.0 streak data.
-    merged.streak =
-      Number.isFinite(Number(merged.streak))
-        ? Number(merged.streak)
-        : 0;
-
-    merged.currentLessonIndex =
-      Number.isFinite(Number(merged.currentLessonIndex))
-        ? Number(merged.currentLessonIndex)
-        : 0;
-
-    if (!merged.learning.lastCourseId) {
-      merged.learning.lastCourseId =
-        merged.currentCourseId || defaults.currentCourseId;
-    }
-
-    if (
-      !Number.isFinite(
-        Number(merged.learning.lastLessonIndex)
-      )
-    ) {
-      merged.learning.lastLessonIndex =
-        merged.currentLessonIndex;
-    }
-
-    merged.version = 81;
-
-    return merged;
 
   } catch (error) {
 
@@ -2212,11 +1603,7 @@ function getTotalLessons() {
 
 function getCompletedCount() {
 
-  return new Set(
-    Array.isArray(state.completedLessons)
-      ? state.completedLessons
-      : []
-  ).size;
+  return state.completedLessons.length;
 
 }
 
@@ -2327,8 +1714,6 @@ function getCurrentLesson() {
 
   state.currentLessonIndex =
     index;
-
-  syncLearningPointer();
 
   return {
     course,
@@ -2485,13 +1870,8 @@ function renderDashboard() {
     statProgress.textContent =
       `${progress}%`;
 
-  const continueTarget =
-    getContinueLearningTarget();
-
   const course =
-    COURSES.find(
-      item => item.id === continueTarget.courseId
-    ) || getCurrentCourse();
+    getCurrentCourse();
 
   const courseProgress =
     getCourseProgress(course.id);
@@ -2616,9 +1996,9 @@ function renderActivity() {
 
             <span>
               ${escapeHTML(item.course)}
-            </span>
+            </span>      
 
-          </div>
+  </div>
 
           <small>
             ${escapeHTML(item.time)}
@@ -2663,20 +2043,9 @@ function renderCourses(
       const completed =
         getCourseCompleted(course.id);
 
-      const locked =
-        isPremiumCourse(course) &&
-        !hasPremiumAccess();
-
-      const actionLabel =
-        locked
-          ? "🔒 Premium"
-          : progress > 0
-            ? "Continue"
-            : "Start Course";
-
       return `
 
-        <div class="course-card ${locked ? "premium-locked" : ""}">
+        <div class="course-card">
 
           <div class="course-card-top">
 
@@ -2730,9 +2099,12 @@ function renderCourses(
               type="button"
               class="secondary-btn open-course"
               data-course="${course.id}"
-              ${locked ? 'data-premium-lock="true"' : ""}
             >
-              ${actionLabel}
+              ${
+                progress > 0
+                  ? "Continue"
+                  : "Start Course"
+              }
             </button>
 
           </div>
@@ -2785,15 +2157,11 @@ function renderLessons() {
           ? "active"
           : "";
 
-      const locked =
-        isPremiumCourse(course) &&
-        !hasPremiumAccess();
-
       return `
 
         <button
           type="button"
-          class="lesson-course-item ${active} ${locked ? "premium-locked" : ""}"
+          class="lesson-course-item ${active}"
           data-course="${course.id}"
         >
 
@@ -2805,7 +2173,6 @@ function renderLessons() {
 
             <strong>
               ${escapeHTML(course.title)}
-              ${locked ? " 🔒" : ""}
             </strong>
 
             <span>
@@ -2847,96 +2214,12 @@ function renderLessons() {
       lessonKey
     );
 
-  const locked =
-    !canAccessLesson(course, index);
-
   const isFirst =
     index === 0;
 
   const isLast =
     index ===
     course.lessons.length - 1;
-
-  if (locked) {
-
-    content.innerHTML = `
-
-      <div class="lesson-content-header">
-
-        <div>
-
-          <span class="lesson-number">
-            LESSON ${index + 1}
-          </span>
-
-          <h2>
-            ${escapeHTML(lesson.title)}
-          </h2>
-
-          <p>
-            ${escapeHTML(course.title)}
-          </p>
-
-        </div>
-
-        <span class="course-badge ${course.category}">
-          ${escapeHTML(course.category.toUpperCase())}
-        </span>
-
-      </div>
-
-      <div class="lesson-body premium-lock-card">
-
-        <div class="lesson-visual ${course.color}">
-          🔒
-        </div>
-
-        <h3>
-          Premium Content
-        </h3>
-
-        <div class="lesson-text">
-          <p>
-            ဒီသင်ခန်းစာကို လေ့လာရန် Premium Access လိုအပ်ပါတယ်။
-          </p>
-        </div>
-
-        <button
-          type="button"
-          class="primary-btn"
-          data-premium-action="open"
-        >
-          Unlock Premium →
-        </button>
-
-      </div>
-
-      <div class="lesson-footer">
-
-        <button
-          type="button"
-          class="secondary-btn"
-          data-lesson-action="previous"
-          ${isFirst ? "disabled" : ""}
-        >
-          ← Previous
-        </button>
-
-        <button
-          type="button"
-          class="secondary-btn"
-          data-lesson-action="next"
-          ${isLast ? "disabled" : ""}
-        >
-          Next →
-        </button>
-
-      </div>
-
-    `;
-
-    return;
-  }
 
   content.innerHTML = `
 
@@ -2977,17 +2260,6 @@ function renderLessons() {
       <div class="lesson-text">
         ${lesson.content}
       </div>
-
-      ${
-        getQuizForLesson(course.id, index)
-          ? `
-            <div class="lesson-quiz-ready" data-quiz-course="${course.id}" data-quiz-index="${index}">
-              <strong>📝 Quiz Ready</strong>
-              <span>Quiz structure is available for this lesson.</span>
-            </div>
-          `
-          : ""
-      }
 
     </div>
 
@@ -3048,18 +2320,8 @@ function previousLesson() {
 
   }
 
-  const nextIndex =
-    state.currentLessonIndex - 1;
+  state.currentLessonIndex--;
 
-  if (!canAccessLesson(course, nextIndex)) {
-    showPremiumLock(course, nextIndex);
-    return;
-  }
-
-  state.currentLessonIndex =
-    nextIndex;
-
-  syncLearningPointer();
   saveState();
 
   renderLessons();
@@ -3089,18 +2351,8 @@ function nextLesson() {
 
   }
 
-  const nextIndex =
-    state.currentLessonIndex + 1;
+  state.currentLessonIndex++;
 
-  if (!canAccessLesson(course, nextIndex)) {
-    showPremiumLock(course, nextIndex);
-    return;
-  }
-
-  state.currentLessonIndex =
-    nextIndex;
-
-  syncLearningPointer();
   saveState();
 
   renderLessons();
@@ -3122,18 +2374,6 @@ function completeLesson(
   lessonTitle,
   courseTitle
 ) {
-
-  const course =
-    COURSES.find(
-      item => item.id === courseId
-    );
-
-  if (!course) return;
-
-  if (!canAccessLesson(course, index)) {
-    showPremiumLock(course, index);
-    return;
-  }
 
   const key =
     `${courseId}-${index}`;
@@ -3167,25 +2407,17 @@ function completeLesson(
     state.activity =
       state.activity.slice(0, 10);
 
-    // Real consecutive-day streak.
-    recordLearningDay();
-
-    // Remember where the learner is.
-    state.currentCourseId = courseId;
-    state.currentLessonIndex = index;
-    syncLearningPointer();
-
-    checkAchievements();
+    state.streak =
+      Math.max(
+        1,
+        state.streak
+      );
 
     saveState();
 
     showToast(
       "သင်ခန်းစာ ပြီးဆုံးပါပြီ ✓"
     );
-
-    if (getCourseProgress(courseId) === 100) {
-      issueCertificate(courseId);
-    }
 
   } else {
 
@@ -3253,8 +2485,6 @@ function renderProgress() {
     streakEl.textContent =
       state.streak;
 
-  renderAchievementPanel();
-
   const container =
     document.getElementById(
       "courseProgressList"
@@ -3315,49 +2545,6 @@ function renderProgress() {
       `;
 
     }).join("");
-
-}
-
-// ======================================================
-// ACHIEVEMENTS
-// ======================================================
-
-function renderAchievementPanel() {
-
-  const containers = [
-    document.getElementById("achievementList"),
-    document.getElementById("achievementsList")
-  ].filter(Boolean);
-
-  if (!containers.length) return;
-
-  const summary = getAchievementSummary();
-
-  containers.forEach(container => {
-
-    container.innerHTML =
-      summary.items.map(item => `
-
-        <div class="achievement-item ${item.unlocked ? "unlocked" : "locked"}">
-
-          <div class="achievement-icon">
-            ${item.unlocked ? item.icon : "🔒"}
-          </div>
-
-          <div class="achievement-content">
-            <strong>
-              ${escapeHTML(item.title)}
-            </strong>
-            <span>
-              ${escapeHTML(item.description)}
-            </span>
-          </div>
-
-        </div>
-
-      `).join("");
-
-  });
 
 }
 
@@ -4331,15 +3518,15 @@ function initializeApp() {
 
         if (!course) return;
 
-        if (
-          openCourse.dataset.premiumLock === "true" &&
-          !hasPremiumAccess()
-        ) {
-          showPremiumLock(course, 0);
-          return;
-        }
+        state.currentCourseId =
+          courseId;
 
-        openCourseAtProgress(courseId);
+        state.currentLessonIndex =
+          0;
+
+        saveState();
+
+        navigate("lessons");
 
         return;
 
@@ -4366,29 +3553,15 @@ function initializeApp() {
 
         if (!course) return;
 
-        if (isPremiumCourse(course) && !hasPremiumAccess()) {
-          showPremiumLock(course, 0);
-          return;
-        }
+        state.currentCourseId =
+          courseId;
 
-        openCourseAtProgress(courseId);
+        state.currentLessonIndex =
+          0;
 
-        return;
+        saveState();
 
-      }
-
-      // PREMIUM ACTION
-      const premiumAction =
-        target.closest("[data-premium-action]");
-
-      if (premiumAction) {
-
-        event.preventDefault();
-
-        showPremiumLock(
-          getCurrentCourse(),
-          state.currentLessonIndex
-        );
+        renderLessons();
 
         return;
 
@@ -4437,7 +3610,15 @@ function initializeApp() {
 
         if (!course) return;
 
-        openCourseAtProgress(courseId);
+        state.currentCourseId =
+          courseId;
+
+        state.currentLessonIndex =
+          0;
+
+        saveState();
+
+        navigate("lessons");
 
         return;
 
@@ -4575,19 +3756,7 @@ function initializeApp() {
 
     continueBtn.addEventListener(
       "click",
-      () => {
-
-        const target =
-          getContinueLearningTarget();
-
-        if (!target.courseId) return;
-
-        openCourseAtProgress(
-          target.courseId,
-          target.lessonIndex
-        );
-
-      }
+      () => navigate("lessons")
     );
 
   }
@@ -5004,7 +4173,6 @@ function renderAll() {
   renderCalculator();
 
   renderReports();
-  renderAchievementPanel();
 
   const reminder =
     document.getElementById(
@@ -5041,18 +4209,8 @@ function initAcademy() {
   state =
     loadState();
 
-  // Migrate/normalize V8.0 data without changing the 13-course content.
-  if (!Array.isArray(state.achievements)) state.achievements = [];
-  if (!state.learning) state.learning = createDefaultState().learning;
-  if (!state.quizResults) state.quizResults = {};
-  if (!Array.isArray(state.certificates)) state.certificates = [];
-  if (!state.premium) state.premium = { isPremium: false, plan: "free" };
-  state.version = 81;
-  syncLearningPointer();
-  saveState();
-
   console.log(
-    `Aung Business Academy V${ACADEMY_VERSION} initialized.`
+    "Aung Business Academy V8 initialized."
   );
 
   console.log(
@@ -5121,20 +4279,6 @@ window.AungAcademy = {
 
   getCourseProgress,
 
-  getTotalLessons,
-
-  getContinueLearningTarget,
-  openCourseAtProgress,
-  checkAchievements,
-  getAchievementSummary,
-  ACHIEVEMENTS,
-  hasPremiumAccess,
-  isPremiumCourse,
-  isPremiumLesson,
-  getQuizForLesson,
-  submitQuiz,
-  getQuizResult,
-  isCourseCertificateEligible,
-  issueCertificate
+  getTotalLessons
 
 };

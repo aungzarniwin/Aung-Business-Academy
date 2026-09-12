@@ -19,8 +19,13 @@ const SUPABASE_TABLE =
 
 const SUPABASE_BUCKET =
   "payment-screenshots";
-  const FREE_COURSE_INDEX = 0;
 
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
+
+const FREE_COURSE_INDEX = 0;
   const PLANS = {
     monthly: {
       name: "Monthly",
@@ -642,7 +647,168 @@ const DEFAULT_PAYMENT = {
      PAYMENT SUBMISSION
      ========================================================= */
 
-  function submitPayment() {
+  async function submitPayment() {
+  const plan = getSelectedPlan();
+  const method = getSelectedPaymentMethod();
+
+  const refInput =
+    document.getElementById("abaTransactionRef");
+
+  const screenshotInput =
+    document.getElementById("abaPaymentScreenshot");
+
+  const message =
+    document.getElementById("abaPaymentMessage");
+
+  const transactionRef =
+    refInput.value.trim();
+
+  if (!transactionRef) {
+    message.innerHTML = `
+      <div class="aba-error-message">
+        ❌ Transaction Reference ထည့်ပေးပါ။
+      </div>
+    `;
+    return;
+  }
+
+  if (!screenshotInput.files.length) {
+    message.innerHTML = `
+      <div class="aba-error-message">
+        ❌ Payment Screenshot တင်ပေးပါ။
+      </div>
+    `;
+    return;
+  }
+
+  const screenshot = screenshotInput.files[0];
+
+  if (!screenshot.type.startsWith("image/")) {
+    message.innerHTML = `
+      <div class="aba-error-message">
+        ❌ Image file ပဲ တင်ပေးပါ။
+      </div>
+    `;
+    return;
+  }
+
+  try {
+    message.innerHTML = `
+      <div class="aba-pending-message">
+        ⏳ Screenshot Upload လုပ်နေပါတယ်...
+      </div>
+    `;
+
+    let clientId =
+      localStorage.getItem("abaClientId");
+
+    if (!clientId) {
+      clientId = crypto.randomUUID();
+
+      localStorage.setItem(
+        "abaClientId",
+        clientId
+      );
+    }
+
+    const safeName =
+      screenshot.name.replace(
+        /[^a-zA-Z0-9._-]/g,
+        "_"
+      );
+
+    const filePath =
+      clientId +
+      "/" +
+      Date.now() +
+      "-" +
+      safeName;
+
+    const { error: uploadError } =
+      await supabaseClient
+        .storage
+        .from(SUPABASE_BUCKET)
+        .upload(
+          filePath,
+          screenshot,
+          {
+            upsert: false,
+            contentType: screenshot.type
+          }
+        );
+
+    if (uploadError) {
+      throw uploadError;
+    }
+
+    message.innerHTML = `
+      <div class="aba-pending-message">
+        ⏳ Payment information သိမ်းနေပါတယ်...
+      </div>
+    `;
+
+    const { error: insertError } =
+      await supabaseClient
+        .from(SUPABASE_TABLE)
+        .insert({
+          "user-id": clientId,
+          plan: plan,
+          "payment method": method,
+          transaction_ref: transactionRef,
+          screenshot_url: filePath,
+          status: "pending"
+        });
+
+    if (insertError) {
+      throw insertError;
+    }
+
+    updateState(function (state) {
+      state.premium.status = "pending";
+      state.premium.plan = plan;
+      state.premium.paymentMethod = method;
+      state.premium.transactionRef =
+        transactionRef;
+
+      state.premium.paymentScreenshot =
+        filePath;
+
+      state.premium.submittedAt =
+        Date.now();
+    });
+
+    message.innerHTML = `
+      <div class="aba-success-message">
+        ✅ Payment တင်ပြီးပါပြီ။<br>
+        Screenshot ကို Admin စစ်ဆေးနိုင်ပါပြီ။<br>
+        Admin Approval ကို စောင့်ပေးပါ။
+      </div>
+    `;
+
+    updateDashboard();
+
+    setTimeout(function () {
+      closePremiumModal();
+
+      showToast(
+        "Payment Submitted — Admin Approval ကို စောင့်ပါ။"
+      );
+    }, 1500);
+
+  } catch (error) {
+    console.error(
+      "Payment upload error:",
+      error
+    );
+
+    message.innerHTML = `
+      <div class="aba-error-message">
+        ❌ Payment Upload မအောင်မြင်ပါ။<br>
+        ${escapeHTML(error.message)}
+      </div>
+    `;
+  }
+}
     const plan = getSelectedPlan();
 
     const method = getSelectedPaymentMethod();
@@ -931,11 +1097,12 @@ const DEFAULT_PAYMENT = {
         <div class="aba-review-grid">
 
           <div class="aba-review-item">
-            <span>Plan</span>
-            <strong>
-              ${escapeHTML(plan.name)}
-            </strong>
-          </div>
+  <span>Screenshot</span>
+
+  <div id="abaScreenshotPreview">
+    <span>Loading screenshot...</span>
+  </div>
+</div>
 
           <div class="aba-review-item">
             <span>Amount</span>

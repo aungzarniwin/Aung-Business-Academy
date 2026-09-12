@@ -1,6 +1,7 @@
 // ======================================================
 // AUNG BUSINESS ACADEMY V8
 // APP.JS — FULL VERSION
+// PREMIUM COURSE FIXED VERSION
 // ======================================================
 
 "use strict";
@@ -19,7 +20,7 @@ const STORAGE_KEY =
 const COURSES = [
 
   // ====================================================
-  // COURSE 1
+  // COURSE 1 — FREE
   // ====================================================
 
   {
@@ -31,6 +32,8 @@ const COURSES = [
 
     description:
       "Master sales planning, team coaching, territory management and performance management.",
+
+    premium: false,
 
     lessons: [
 
@@ -113,7 +116,7 @@ const COURSES = [
   },
 
   // ====================================================
-  // COURSE 2
+  // COURSE 2 — PREMIUM
   // ====================================================
 
   {
@@ -122,6 +125,8 @@ const COURSES = [
     category: "leadership",
     color: "purple",
     icon: "★",
+
+    premium: true,
 
     description:
       "Build strong leadership, coaching, communication and team management skills.",
@@ -191,7 +196,7 @@ const COURSES = [
   },
 
   // ====================================================
-  // COURSE 3
+  // COURSE 3 — PREMIUM
   // ====================================================
 
   {
@@ -200,6 +205,8 @@ const COURSES = [
     category: "business",
     color: "green",
     icon: "◆",
+
+    premium: true,
 
     description:
       "Learn practical business strategy, market analysis, customer growth and competitive advantage.",
@@ -254,7 +261,7 @@ const COURSES = [
   },
 
   // ====================================================
-  // COURSE 4
+  // COURSE 4 — PREMIUM
   // ====================================================
 
   {
@@ -263,6 +270,8 @@ const COURSES = [
     category: "finance",
     color: "orange",
     icon: "▣",
+
+    premium: true,
 
     description:
       "Understand revenue, cost, profit, margin, cash flow and practical business finance.",
@@ -353,33 +362,21 @@ function createDefaultState() {
     },
 
     sales: {
-
       target: 0,
-
       actual: 0,
-
       history: [],
-
       priorities: []
-
     },
 
     calculator: {
-
       product: "",
-
       cost: 0,
-
       margin: 20
-
     },
 
     settings: {
-
       reminder: true,
-
       tracking: true
-
     }
 
   };
@@ -392,8 +389,7 @@ function createDefaultState() {
 
 function getTodayKey() {
 
-  const date =
-    new Date();
+  const date = new Date();
 
   return [
     date.getFullYear(),
@@ -413,8 +409,7 @@ function getTodayKey() {
 
 function getYesterdayKey() {
 
-  const date =
-    new Date();
+  const date = new Date();
 
   date.setDate(
     date.getDate() - 1
@@ -555,6 +550,268 @@ function loadState() {
 }
 
 // ======================================================
+// PREMIUM HELPERS
+// ======================================================
+
+function isPremiumCourse(course) {
+
+  if (!course) return false;
+
+  return course.premium === true;
+
+}
+
+// ======================================================
+// CHECK PREMIUM ACCESS
+// ======================================================
+
+function hasPremiumAccess() {
+
+  try {
+
+    // ----------------------------------------------
+    // External premium.js
+    // ----------------------------------------------
+
+    if (
+      window.AungPremium
+    ) {
+
+      if (
+        typeof window.AungPremium.hasAccess ===
+        "function"
+      ) {
+
+        return !!window.AungPremium.hasAccess();
+
+      }
+
+      if (
+        typeof window.AungPremium.isPremiumActive ===
+        "function"
+      ) {
+
+        return !!window.AungPremium.isPremiumActive();
+
+      }
+
+      if (
+        typeof window.AungPremium.getStatus ===
+        "function"
+      ) {
+
+        const status =
+          window.AungPremium.getStatus();
+
+        if (
+          status === "approved" ||
+          status === "active" ||
+          status === "premium"
+        ) {
+
+          return true;
+
+        }
+
+      }
+
+    }
+
+  } catch (error) {
+
+    console.warn(
+      "Premium access check failed:",
+      error
+    );
+
+  }
+
+  // ----------------------------------------------
+  // Local trial fallback
+  // ----------------------------------------------
+
+  try {
+
+    const trial =
+      localStorage.getItem(
+        "aung_business_academy_trial"
+      );
+
+    if (trial) {
+
+      const data =
+        JSON.parse(trial);
+
+      if (
+        data &&
+        data.start &&
+        data.days
+      ) {
+
+        const elapsed =
+          Date.now() -
+          Number(data.start);
+
+        const duration =
+          Number(data.days) *
+          86400000;
+
+        if (
+          elapsed <
+          duration
+        ) {
+
+          return true;
+
+        }
+
+      }
+
+    }
+
+  } catch (error) {
+
+    console.warn(
+      "Trial check failed:",
+      error
+    );
+
+  }
+
+  return false;
+
+}
+
+// ======================================================
+// OPEN PREMIUM
+// ======================================================
+
+function openPremiumAccess() {
+
+  try {
+
+    if (
+      window.AungPremium
+    ) {
+
+      if (
+        typeof window.AungPremium.openPremiumModal ===
+        "function"
+      ) {
+
+        window.AungPremium.openPremiumModal();
+
+        return;
+
+      }
+
+      if (
+        typeof window.AungPremium.openPremium ===
+        "function"
+      ) {
+
+        window.AungPremium.openPremium();
+
+        return;
+
+      }
+
+    }
+
+  } catch (error) {
+
+    console.warn(
+      "External Premium modal failed:",
+      error
+    );
+
+  }
+
+  // ----------------------------------------------
+  // Fallback Modal
+  // ----------------------------------------------
+
+  showModal(`
+
+    <div>
+
+      <div style="
+        text-align:center;
+        margin-bottom:20px;
+      ">
+
+        <div style="
+          font-size:48px;
+          margin-bottom:10px;
+        ">
+          👑
+        </div>
+
+        <h2>
+          Premium Course
+        </h2>
+
+        <p>
+          ဒီ Course ကိုလေ့လာရန်
+          Premium Access လိုအပ်ပါတယ်။
+        </p>
+
+      </div>
+
+      <div class="result-box">
+
+        <h3>
+          Premium Features
+        </h3>
+
+        <p>
+          ✓ Advanced Business Lessons
+        </p>
+
+        <p>
+          ✓ Leadership Training
+        </p>
+
+        <p>
+          ✓ Business Strategy
+        </p>
+
+        <p>
+          ✓ Business Finance
+        </p>
+
+        <p>
+          ✓ Professional Business Tools
+        </p>
+
+        <p>
+          ✓ AI Business Coach
+        </p>
+
+      </div>
+
+      <div style="
+        text-align:center;
+        margin-top:20px;
+      ">
+
+        <button
+          type="button"
+          class="primary-btn"
+          onclick="closeModal()"
+        >
+          Close
+        </button>
+
+      </div>
+
+    </div>
+
+  `);
+
+}
+
+// ======================================================
 // COURSE HELPERS
 // ======================================================
 
@@ -563,7 +820,7 @@ function getCourseById(courseId) {
   return COURSES.find(
     course =>
       course.id === courseId
-  ) || COURSES[0];
+  ) || null;
 
 }
 
@@ -637,7 +894,8 @@ function getTotalLessons() {
 
   return COURSES.reduce(
     (total, course) =>
-      total + course.lessons.length,
+      total +
+      course.lessons.length,
     0
   );
 
@@ -655,19 +913,20 @@ function getCompletedCount() {
 
 function getCourseCompleted(courseId) {
 
-  return COURSES
-    .find(
-      course =>
-        course.id === courseId
-    )
-    ?.lessons
-    .filter(
-      (_, index) =>
-        state.completedLessons.includes(
-          `${courseId}-${index}`
-        )
-    )
-    .length || 0;
+  const course =
+    COURSES.find(
+      item =>
+        item.id === courseId
+    );
+
+  if (!course) return 0;
+
+  return course.lessons.filter(
+    (_, index) =>
+      state.completedLessons.includes(
+        `${courseId}-${index}`
+      )
+  ).length;
 
 }
 
@@ -686,7 +945,9 @@ function getCourseProgress(courseId) {
   }
 
   const completed =
-    getCourseCompleted(courseId);
+    getCourseCompleted(
+      courseId
+    );
 
   return Math.round(
     completed /
@@ -750,18 +1011,6 @@ function getContinueLearning() {
 
   }
 
-  if (
-    index >= course.lessons.length
-  ) {
-
-    index =
-      course.lessons.length - 1;
-
-  }
-
-  // Current lesson already completed?
-  // Find next incomplete lesson.
-
   while (
     index <
       course.lessons.length &&
@@ -774,7 +1023,6 @@ function getContinueLearning() {
 
   }
 
-  // Course completed.
   if (
     index >= course.lessons.length
   ) {
@@ -853,43 +1101,57 @@ function navigate(page) {
 
   closeSidebar();
 
-  if (target === "dashboard") {
+  if (
+    target === "dashboard"
+  ) {
 
     renderDashboard();
 
   }
 
-  if (target === "courses") {
+  if (
+    target === "courses"
+  ) {
 
     renderCourses();
 
   }
 
-  if (target === "lessons") {
+  if (
+    target === "lessons"
+  ) {
 
     renderLessons();
 
   }
 
-  if (target === "progress") {
+  if (
+    target === "progress"
+  ) {
 
     renderProgress();
 
   }
 
-  if (target === "sales") {
+  if (
+    target === "sales"
+  ) {
 
     renderSales();
 
   }
 
-  if (target === "calculator") {
+  if (
+    target === "calculator"
+  ) {
 
     renderCalculator();
 
   }
 
-  if (target === "reports") {
+  if (
+    target === "reports"
+  ) {
 
     renderReports();
 
@@ -937,83 +1199,57 @@ function renderDashboard() {
       "dashboardProgress"
     );
 
-  if (coursesCount) {
-
+  if (coursesCount)
     coursesCount.textContent =
       COURSES.length;
 
-  }
-
-  if (lessonCount) {
-
+  if (lessonCount)
     lessonCount.textContent =
       total;
 
-  }
-
-  if (completedEl) {
-
+  if (completedEl)
     completedEl.textContent =
       completed;
 
-  }
-
-  if (progressEl) {
-
+  if (progressEl)
     progressEl.textContent =
       `${progress}%`;
-
-  }
-
-  // Alternative IDs used by some layouts
 
   const courseStat =
     document.getElementById(
       "courseCount"
     );
 
-  if (courseStat) {
-
+  if (courseStat)
     courseStat.textContent =
       COURSES.length;
-
-  }
 
   const lessonStat =
     document.getElementById(
       "lessonCount"
     );
 
-  if (lessonStat) {
-
+  if (lessonStat)
     lessonStat.textContent =
       total;
-
-  }
 
   const completeStat =
     document.getElementById(
       "completedCount"
     );
 
-  if (completeStat) {
-
+  if (completeStat)
     completeStat.textContent =
       completed;
-
-  }
 
   const overallStat =
     document.getElementById(
       "overallProgress"
     );
 
-  if (overallStat) {
-
+  if (overallStat)
     overallStat.textContent =
       `${progress}%`;
-
-  }
 
   renderContinueLearning();
 
@@ -1037,16 +1273,9 @@ function renderContinueLearning() {
   if (!data) return;
 
   const {
-
     course,
-
-    index,
-
-    lesson
-
+    index
   } = data;
-
-  // Common dashboard IDs
 
   const title =
     document.getElementById(
@@ -1073,52 +1302,35 @@ function renderContinueLearning() {
       course.id
     );
 
-  if (title) {
-
+  if (title)
     title.textContent =
       course.title;
 
-  }
-
-  if (description) {
-
+  if (description)
     description.textContent =
       course.description;
 
-  }
-
-  if (progress) {
-
+  if (progress)
     progress.textContent =
       `${completed} of ${course.lessons.length} lessons`;
-
-  }
 
   const progressPercent =
     document.getElementById(
       "continueProgressPercent"
     );
 
-  if (progressPercent) {
-
+  if (progressPercent)
     progressPercent.textContent =
       `${percentage}%`;
-
-  }
 
   const progressFill =
     document.getElementById(
       "continueProgressFill"
     );
 
-  if (progressFill) {
-
+  if (progressFill)
     progressFill.style.width =
       `${percentage}%`;
-
-  }
-
-  // Dashboard card button
 
   const button =
     document.getElementById(
@@ -1200,26 +1412,17 @@ function renderDailyGoal() {
       "dailyGoalFill"
     );
 
-  if (percentEl) {
-
+  if (percentEl)
     percentEl.textContent =
       `${percentage}%`;
 
-  }
-
-  if (minutesEl) {
-
+  if (minutesEl)
     minutesEl.textContent =
       `${minutes} / ${target} min`;
 
-  }
-
-  if (fillEl) {
-
+  if (fillEl)
     fillEl.style.width =
       `${percentage}%`;
-
-  }
 
 }
 
@@ -1310,8 +1513,7 @@ function renderRecommendations() {
   if (!container) return;
 
   const recommendations =
-    COURSES
-      .slice(0, 3);
+    COURSES.slice(0, 3);
 
   container.innerHTML =
     recommendations
@@ -1386,22 +1588,45 @@ function renderCourses(
             course.id
           );
 
+        const premium =
+          isPremiumCourse(
+            course
+          );
+
+        const access =
+          hasPremiumAccess();
+
+        const locked =
+          premium &&
+          !access;
+
         return `
 
-          <div class="course-card">
+          <div
+            class="course-card ${
+              locked
+                ? "premium-locked"
+                : ""
+            }"
+          >
 
             <div class="course-card-top">
 
-              <div class="course-icon ${course.color}">
+              <div
+                class="course-icon ${course.color}"
+              >
                 ${course.icon}
               </div>
 
               <span
                 class="course-badge ${course.category}"
               >
-                ${escapeHTML(
-                  course.category.toUpperCase()
-                )}
+                ${premium
+                  ? "👑 PREMIUM"
+                  : escapeHTML(
+                      course.category.toUpperCase()
+                    )
+                }
               </span>
 
             </div>
@@ -1438,8 +1663,10 @@ function renderCourses(
             <div class="course-card-footer">
 
               <span>
+
                 ${completed}/${course.lessons.length}
                 completed
+
               </span>
 
               <button
@@ -1447,11 +1674,15 @@ function renderCourses(
                 class="secondary-btn open-course"
                 data-course="${course.id}"
               >
+
                 ${
-                  progress > 0
-                    ? "Continue"
-                    : "Start Course"
+                  locked
+                    ? "🔒 Unlock Premium"
+                    : progress > 0
+                      ? "Continue"
+                      : "Start Course"
                 }
+
               </button>
 
             </div>
@@ -1514,6 +1745,15 @@ function renderLessons() {
             ? "active"
             : "";
 
+        const premium =
+          isPremiumCourse(
+            course
+          );
+
+        const locked =
+          premium &&
+          !hasPremiumAccess();
+
         return `
 
           <button
@@ -1531,12 +1771,31 @@ function renderLessons() {
             <div class="lesson-course-info">
 
               <strong>
-                ${escapeHTML(course.title)}
+
+                ${
+                  locked
+                    ? "🔒 "
+                    : ""
+                }
+
+                ${escapeHTML(
+                  course.title
+                )}
+
               </strong>
 
               <span>
+
+                ${
+                  premium
+                    ? "👑 Premium"
+                    : "FREE"
+                }
+
+                •
                 ${completed}/${course.lessons.length}
                 completed
+
               </span>
 
               <div class="mini-progress">
@@ -1585,6 +1844,59 @@ function renderLessons() {
   const lesson =
     current.lesson;
 
+  // ----------------------------------------------
+  // Premium lock
+  // ----------------------------------------------
+
+  if (
+    isPremiumCourse(course) &&
+    !hasPremiumAccess()
+  ) {
+
+    content.innerHTML = `
+
+      <div
+        class="empty-state"
+        style="
+          text-align:center;
+          padding:50px 20px;
+        "
+      >
+
+        <div
+          style="
+            font-size:56px;
+            margin-bottom:15px;
+          "
+        >
+          🔒
+        </div>
+
+        <h2>
+          ${escapeHTML(course.title)}
+        </h2>
+
+        <p>
+          ဒီ Course ကိုလေ့လာရန်
+          Premium Access လိုအပ်ပါတယ်။
+        </p>
+
+        <button
+          type="button"
+          class="primary-btn"
+          onclick="openPremiumAccess()"
+        >
+          👑 Unlock Premium
+        </button>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
   const lessonKey =
     `${course.id}-${index}`;
 
@@ -1623,9 +1935,13 @@ function renderLessons() {
       <span
         class="course-badge ${course.category}"
       >
-        ${escapeHTML(
-          course.category.toUpperCase()
-        )}
+        ${
+          isPremiumCourse(course)
+            ? "👑 PREMIUM"
+            : escapeHTML(
+                course.category.toUpperCase()
+              )
+        }
       </span>
 
     </div>
@@ -1687,7 +2003,7 @@ function renderLessons() {
 }
 
 // ======================================================
-// SELECT COURSE
+// OPEN COURSE
 // ======================================================
 
 function openCourse(courseId) {
@@ -1705,10 +2021,23 @@ function openCourse(courseId) {
 
   }
 
+  // ====================================================
+  // PREMIUM GATE
+  // ====================================================
+
+  if (
+    isPremiumCourse(course) &&
+    !hasPremiumAccess()
+  ) {
+
+    openPremiumAccess();
+
+    return;
+
+  }
+
   state.currentCourseId =
     course.id;
-
-  // Find first incomplete lesson
 
   let index = 0;
 
@@ -1833,7 +2162,8 @@ function updateLearningStreak() {
     getYesterdayKey();
 
   if (
-    state.lastLearningDate === today
+    state.lastLearningDate ===
+    today
   ) {
 
     return;
@@ -1841,7 +2171,8 @@ function updateLearningStreak() {
   }
 
   if (
-    state.lastLearningDate === yesterday
+    state.lastLearningDate ===
+    yesterday
   ) {
 
     state.streak =
@@ -1872,6 +2203,25 @@ function completeLesson(
   courseTitle
 ) {
 
+  const course =
+    getCourseById(courseId);
+
+  // ----------------------------------------------
+  // Premium protection
+  // ----------------------------------------------
+
+  if (
+    course &&
+    isPremiumCourse(course) &&
+    !hasPremiumAccess()
+  ) {
+
+    openPremiumAccess();
+
+    return;
+
+  }
+
   const key =
     `${courseId}-${index}`;
 
@@ -1886,22 +2236,15 @@ function completeLesson(
       key
     );
 
-    // ----------------------------------------------
-    // Learning date
-    // ----------------------------------------------
-
     state.lessonDates[key] =
       Date.now();
-
-    // ----------------------------------------------
-    // Daily goal
-    // ----------------------------------------------
 
     const today =
       getTodayKey();
 
     if (
-      state.dailyGoal.date !== today
+      state.dailyGoal.date !==
+      today
     ) {
 
       state.dailyGoal.date =
@@ -1922,15 +2265,7 @@ function completeLesson(
         ) + 15
       );
 
-    // ----------------------------------------------
-    // Streak
-    // ----------------------------------------------
-
     updateLearningStreak();
-
-    // ----------------------------------------------
-    // Activity
-    // ----------------------------------------------
 
     state.activity.unshift({
 
@@ -1959,13 +2294,6 @@ function completeLesson(
     showToast(
       "သင်ခန်းစာ ပြီးဆုံးပါပြီ ✓"
     );
-
-    // ----------------------------------------------
-    // Move current lesson to next lesson
-    // ----------------------------------------------
-
-    const course =
-      getCourseById(courseId);
 
     if (
       course &&
@@ -1998,6 +2326,12 @@ function completeLesson(
   renderProgress();
 
   renderReports();
+
+  // IMPORTANT:
+  // Course 1 ပြီးသွားလို့ Premium courses
+  // မပျောက်စေရန် Courses ကို ပြန် Render လုပ်ပါ။
+
+  renderCourses();
 
 }
 
@@ -2088,7 +2422,17 @@ function renderProgress() {
               <div>
 
                 <strong>
-                  ${escapeHTML(course.title)}
+
+                  ${
+                    isPremiumCourse(course)
+                      ? "👑 "
+                      : ""
+                  }
+
+                  ${escapeHTML(
+                    course.title
+                  )}
+
                 </strong>
 
                 <span>
@@ -2412,10 +2756,8 @@ function calculatePrice() {
     );
 
   const price =
-    margin >= 100
-      ? 0
-      : cost /
-        (1 - margin / 100);
+    cost /
+    (1 - margin / 100);
 
   const profit =
     price - cost;
@@ -2423,9 +2765,7 @@ function calculatePrice() {
   state.calculator = {
 
     product,
-
     cost,
-
     margin
 
   };
@@ -3063,6 +3403,17 @@ function performSearch(query) {
 
     if (index !== -1) {
 
+      if (
+        isPremiumCourse(course) &&
+        !hasPremiumAccess()
+      ) {
+
+        openPremiumAccess();
+
+        return;
+
+      }
+
       state.currentCourseId =
         course.id;
 
@@ -3181,6 +3532,40 @@ function showToast(message) {
 // ======================================================
 // MODAL
 // ======================================================
+
+function showModal(content) {
+
+  const overlay =
+    document.getElementById(
+      "modalOverlay"
+    );
+
+  const body =
+    document.getElementById(
+      "modalBody"
+    );
+
+  if (
+    !overlay ||
+    !body
+  ) {
+
+    console.warn(
+      "Modal elements not found."
+    );
+
+    return;
+
+  }
+
+  body.innerHTML =
+    content;
+
+  overlay.classList.add(
+    "show"
+  );
+
+}
 
 function closeModal() {
 
@@ -3358,6 +3743,21 @@ function initializeApp() {
           showToast(
             "Course မတွေ့ပါ။"
           );
+
+          return;
+
+        }
+
+        // --------------------------------------------
+        // Premium protection
+        // --------------------------------------------
+
+        if (
+          isPremiumCourse(data.course) &&
+          !hasPremiumAccess()
+        ) {
+
+          openPremiumAccess();
 
           return;
 
@@ -3658,6 +4058,17 @@ function initializeApp() {
           showToast(
             "Course မတွေ့ပါ။"
           );
+
+          return;
+
+        }
+
+        if (
+          isPremiumCourse(data.course) &&
+          !hasPremiumAccess()
+        ) {
+
+          openPremiumAccess();
 
           return;
 
@@ -4215,6 +4626,10 @@ function initAcademy() {
     `Lessons: ${getTotalLessons()}`
   );
 
+  console.log(
+    "Premium Course Lock: ACTIVE"
+  );
+
   initializeApp();
 
   renderAll();
@@ -4316,6 +4731,28 @@ window.AungAcademy = {
 
   getTotalLessons,
 
-  getCompletedCount
+  getCompletedCount,
+
+  isPremiumCourse,
+
+  hasPremiumAccess,
+
+  openPremiumAccess
 
 };
+
+// ======================================================
+// GLOBAL PREMIUM HELPERS
+// ======================================================
+
+window.isPremiumCourse =
+  isPremiumCourse;
+
+window.hasPremiumAccess =
+  hasPremiumAccess;
+
+window.openPremiumAccess =
+  openPremiumAccess;
+
+window.closeModal =
+  closeModal;

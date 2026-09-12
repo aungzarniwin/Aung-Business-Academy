@@ -1,4462 +1,3996 @@
-// ============================================================
-// AUNG BUSINESS ACADEMY
-// APP.JS V6
-// FULL BUSINESS ACADEMY
-// ============================================================
+/* =========================================================
+   AUNG BUSINESS ACADEMY V6
+   APP.JS - FULL VERSION
+   ========================================================= */
 
-(function () {
-  "use strict";
+"use strict";
 
-  // ============================================================
-  // CONFIG
-  // ============================================================
+/* =========================================================
+   APP STATE
+========================================================= */
 
-  const API_BASE_URL =
-    "https://aung-business-academy.onrender.com";
+const APP_VERSION = "6.0";
 
-  const AI_API_URL =
-    API_BASE_URL + "/api/ai";
+const STORAGE_KEY = "aungBusinessAcademyV6";
 
-  const USER_KEY =
-    "aung_business_academy_user";
-
-  const COMPLETED_KEY =
-    "aung_business_academy_completed";
-
-  const TRIAL_KEY =
-    "aung_business_academy_trial";
-
-  const NOTES_KEY =
-    "aung_business_academy_notes";
-
-  const PLAN_KEY =
-    "aung_business_academy_plan";
-
-  const KPI_KEY =
-    "aung_business_academy_kpi";
-
-  // ============================================================
-  // LESSON DATABASE
-  // ============================================================
-
-  const lessons = [
-
-    {
-      id: 1,
-      title: "Business Fundamentals",
-      category: "Business",
-      level: "Beginner",
-      description:
-        "Understand the basic principles of business.",
-      content:
-        "Business starts with solving customer problems and creating value."
+const defaultState = {
+    user: {
+        name: "Aung Zar Ni Win",
+        role: "Business Manager",
+        email: ""
     },
 
-    {
-      id: 2,
-      title: "Business Model",
-      category: "Business",
-      level: "Beginner",
-      description:
-        "Learn how a business creates revenue.",
-      content:
-        "A business model explains customers, value, channels, revenue and costs."
+    currentPage: "dashboard",
+
+    streak: 7,
+
+    dailyGoal: {
+        completed: 0,
+        target: 1
     },
 
-    {
-      id: 3,
-      title: "Market Research",
-      category: "Marketing",
-      level: "Beginner",
-      description:
-        "Learn how to understand your market.",
-      content:
-        "Market research helps you understand customers, competitors and demand."
+    courses: [
+        {
+            id: "youtube-beginner",
+            title: "YouTube Beginner",
+            category: "youtube",
+            categoryLabel: "YOUTUBE BUSINESS",
+            description:
+                "Learn the fundamentals and build your YouTube foundation.",
+            icon: "fa-brands fa-youtube",
+            color: "red",
+            progress: 0,
+            lessons: [
+                {
+                    id: "yt-01",
+                    title: "YouTube Fundamentals",
+                    duration: "12 min",
+                    completed: false,
+                    content:
+                        "Learn how YouTube works, how channels grow and how to build a strong foundation."
+                },
+                {
+                    id: "yt-02",
+                    title: "Choosing Your Niche",
+                    duration: "15 min",
+                    completed: false,
+                    content:
+                        "Learn how to select a profitable and sustainable YouTube niche."
+                },
+                {
+                    id: "yt-03",
+                    title: "Channel Setup",
+                    duration: "18 min",
+                    completed: false,
+                    content:
+                        "Set up your channel name, description, branding and basic settings."
+                },
+                {
+                    id: "yt-04",
+                    title: "Titles & Thumbnails",
+                    duration: "20 min",
+                    completed: false,
+                    content:
+                        "Learn how to create stronger titles and thumbnails to improve CTR."
+                },
+                {
+                    id: "yt-05",
+                    title: "Watch Time & Retention",
+                    duration: "22 min",
+                    completed: false,
+                    content:
+                        "Understand audience retention and practical ways to increase watch time."
+                }
+            ]
+        },
+
+        {
+            id: "sales-manager",
+            title: "Sales Management Mastery",
+            category: "sales",
+            categoryLabel: "SALES MANAGEMENT",
+            description:
+                "Build strong sales execution, coaching and performance management skills.",
+            icon: "fa-solid fa-bullseye",
+            color: "blue",
+            progress: 0,
+            lessons: [
+                {
+                    id: "sales-01",
+                    title: "Sales Target Planning",
+                    duration: "18 min",
+                    completed: false,
+                    content:
+                        "Learn how to convert business targets into practical field execution."
+                },
+                {
+                    id: "sales-02",
+                    title: "Territory Management",
+                    duration: "20 min",
+                    completed: false,
+                    content:
+                        "Learn territory planning, customer coverage and route-to-market execution."
+                },
+                {
+                    id: "sales-03",
+                    title: "Team Coaching",
+                    duration: "22 min",
+                    completed: false,
+                    content:
+                        "Build a coaching and empowerment culture while maintaining accountability."
+                },
+                {
+                    id: "sales-04",
+                    title: "Performance Review",
+                    duration: "18 min",
+                    completed: false,
+                    content:
+                        "Use KPIs, gap analysis and action plans to improve sales performance."
+                }
+            ]
+        },
+
+        {
+            id: "business-foundation",
+            title: "Business Foundation",
+            category: "business",
+            categoryLabel: "BUSINESS",
+            description:
+                "Understand core business principles, profitability and decision making.",
+            icon: "fa-solid fa-building",
+            color: "purple",
+            progress: 0,
+            lessons: [
+                {
+                    id: "biz-01",
+                    title: "Business Fundamentals",
+                    duration: "15 min",
+                    completed: false,
+                    content:
+                        "Understand revenue, cost, profit, customers and business models."
+                },
+                {
+                    id: "biz-02",
+                    title: "Profit & Margin",
+                    duration: "20 min",
+                    completed: false,
+                    content:
+                        "Understand gross profit, margin and pricing decisions."
+                },
+                {
+                    id: "biz-03",
+                    title: "Business Decision Making",
+                    duration: "17 min",
+                    completed: false,
+                    content:
+                        "Use numbers and practical analysis to make better business decisions."
+                }
+            ]
+        },
+
+        {
+            id: "marketing-growth",
+            title: "Marketing & Growth",
+            category: "marketing",
+            categoryLabel: "MARKETING",
+            description:
+                "Learn practical marketing strategies for customer and business growth.",
+            icon: "fa-solid fa-bullhorn",
+            color: "orange",
+            progress: 0,
+            lessons: [
+                {
+                    id: "mkt-01",
+                    title: "Marketing Fundamentals",
+                    duration: "15 min",
+                    completed: false,
+                    content:
+                        "Understand customers, positioning, value propositions and marketing fundamentals."
+                },
+                {
+                    id: "mkt-02",
+                    title: "Customer Acquisition",
+                    duration: "19 min",
+                    completed: false,
+                    content:
+                        "Learn practical ways to attract, convert and retain customers."
+                },
+                {
+                    id: "mkt-03",
+                    title: "Growth Strategy",
+                    duration: "21 min",
+                    completed: false,
+                    content:
+                        "Build a practical growth strategy using customers, channels and execution."
+                }
+            ]
+        }
+    ],
+
+    sales: {
+        monthlyTarget: 100000000,
+        actualSales: 72000000,
+        priorities: [
+            "Review sales target achievement",
+            "Identify underperforming territories",
+            "Coach sales team",
+            "Visit top customers"
+        ]
     },
 
-    {
-      id: 4,
-      title: "Customer Finding",
-      category: "Customer Finding",
-      level: "Beginner",
-      description:
-        "Learn practical customer acquisition.",
-      content:
-        "Find customers by understanding their needs, problems and buying behavior."
-    },
+    activity: [
+        {
+            icon: "fa-solid fa-user",
+            title: "Welcome to Aung Business Academy",
+            description: "Your V6 academy dashboard is ready.",
+            time: "Today"
+        },
+        {
+            icon: "fa-solid fa-graduation-cap",
+            title: "Learning journey started",
+            description: "You can now begin your first course.",
+            time: "Today"
+        }
+    ],
 
-    {
-      id: 5,
-      title: "Marketing Fundamentals",
-      category: "Marketing",
-      level: "Beginner",
-      description:
-        "Understand the foundation of marketing.",
-      content:
-        "Marketing connects the right product with the right customer."
-    },
-
-    {
-      id: 6,
-      title: "Digital Marketing",
-      category: "Digital Marketing",
-      level: "Intermediate",
-      description:
-        "Learn digital channels for business growth.",
-      content:
-        "Digital marketing includes social media, search, content and online advertising."
-    },
-
-    {
-      id: 7,
-      title: "Content Marketing",
-      category: "Content Marketing",
-      level: "Intermediate",
-      description:
-        "Create content that attracts customers.",
-      content:
-        "Useful content builds trust and attracts potential customers."
-    },
-
-    {
-      id: 8,
-      title: "Sales Fundamentals",
-      category: "Sales",
-      level: "Beginner",
-      description:
-        "Learn the fundamentals of professional selling.",
-      content:
-        "Sales is the process of understanding customer needs and presenting value."
-    },
-
-    {
-      id: 9,
-      title: "Sales Strategy",
-      category: "Sales Strategy",
-      level: "Intermediate",
-      description:
-        "Build a practical sales strategy.",
-      content:
-        "A sales strategy defines target customers, channels, activities and targets."
-    },
-
-    {
-      id: 10,
-      title: "Negotiation Skills",
-      category: "Negotiation",
-      level: "Intermediate",
-      description:
-        "Improve your negotiation skills.",
-      content:
-        "Good negotiation creates value while protecting your business interests."
-    },
-
-    {
-      id: 11,
-      title: "Sales Management",
-      category: "Sales Management",
-      level: "Advanced",
-      description:
-        "Manage sales teams and performance.",
-      content:
-        "Sales managers focus on targets, people, execution, coaching and performance."
-    },
-
-    {
-      id: 12,
-      title: "Leadership Fundamentals",
-      category: "Leadership",
-      level: "Beginner",
-      description:
-        "Understand effective leadership.",
-      content:
-        "Leadership means setting direction, developing people and taking responsibility."
-    },
-
-    {
-      id: 13,
-      title: "Strategic Thinking",
-      category: "Strategy",
-      level: "Advanced",
-      description:
-        "Think strategically about business.",
-      content:
-        "Strategic thinking connects long-term goals with practical actions."
-    },
-
-    {
-      id: 14,
-      title: "Decision Making",
-      category: "Leadership",
-      level: "Intermediate",
-      description:
-        "Make better business decisions.",
-      content:
-        "Good decisions require facts, alternatives, risks and clear priorities."
-    },
-
-    {
-      id: 15,
-      title: "Team Leadership",
-      category: "Leadership",
-      level: "Intermediate",
-      description:
-        "Build and lead strong teams.",
-      content:
-        "Strong teams need clear expectations, ownership, coaching and feedback."
-    },
-
-    {
-      id: 16,
-      title: "Brand Fundamentals",
-      category: "Branding",
-      level: "Beginner",
-      description:
-        "Understand the fundamentals of branding.",
-      content:
-        "A brand represents the experience and value customers associate with a business."
-    },
-
-    {
-      id: 17,
-      title: "Brand Positioning",
-      category: "Branding",
-      level: "Intermediate",
-      description:
-        "Position your business in the market.",
-      content:
-        "Positioning defines why customers should choose your brand."
-    },
-
-    {
-      id: 18,
-      title: "People Management",
-      category: "Management",
-      level: "Intermediate",
-      description:
-        "Manage people effectively.",
-      content:
-        "People management includes expectations, communication, coaching and accountability."
-    },
-
-    {
-      id: 19,
-      title: "Recruitment",
-      category: "Recruitment",
-      level: "Intermediate",
-      description:
-        "Learn practical recruitment principles.",
-      content:
-        "Good recruitment starts with clear roles, requirements and selection criteria."
-    },
-
-    {
-      id: 20,
-      title: "Performance Management",
-      category: "Performance Management",
-      level: "Advanced",
-      description:
-        "Improve team performance.",
-      content:
-        "Performance management requires targets, reviews, feedback and development."
-    },
-
-    {
-      id: 21,
-      title: "Coaching",
-      category: "Coaching",
-      level: "Advanced",
-      description:
-        "Develop people through coaching.",
-      content:
-        "Effective coaching helps employees identify gaps and improve capability."
-    },
-
-    {
-      id: 22,
-      title: "Revenue Management",
-      category: "Revenue Management",
-      level: "Intermediate",
-      description:
-        "Understand business revenue.",
-      content:
-        "Revenue is the money generated from selling products or services."
-    },
-
-    {
-      id: 23,
-      title: "Profit & Loss",
-      category: "Finance",
-      level: "Intermediate",
-      description:
-        "Understand profit and loss.",
-      content:
-        "Profit is revenue minus the costs required to operate the business."
-    },
-
-    {
-      id: 24,
-      title: "Cash Flow",
-      category: "Finance",
-      level: "Intermediate",
-      description:
-        "Manage business cash flow.",
-      content:
-        "Cash flow measures money coming into and leaving a business."
-    },
-
-    {
-      id: 25,
-      title: "Financial Analysis",
-      category: "Finance",
-      level: "Advanced",
-      description:
-        "Analyze business financial performance.",
-      content:
-        "Financial analysis helps identify profitability, efficiency and financial risks."
-    },
-
-    {
-      id: 26,
-      title: "Time Management",
-      category: "Productivity",
-      level: "Beginner",
-      description:
-        "Improve your use of time.",
-      content:
-        "Prioritize important activities and protect focused working time."
-    },
-
-    {
-      id: 27,
-      title: "Goal Setting",
-      category: "Productivity",
-      level: "Beginner",
-      description:
-        "Set measurable business goals.",
-      content:
-        "Effective goals should be clear, measurable and connected to business priorities."
-    },
-
-    {
-      id: 28,
-      title: "Daily Planning",
-      category: "Productivity",
-      level: "Beginner",
-      description:
-        "Plan your day effectively.",
-      content:
-        "Daily planning converts important goals into specific actions."
-    },
-
-    {
-      id: 29,
-      title: "Business Growth Strategy",
-      category: "Strategy",
-      level: "Advanced",
-      description:
-        "Create a growth strategy.",
-      content:
-        "Growth can come from more customers, higher frequency, new products or new markets."
-    },
-
-    {
-      id: 30,
-      title: "Business Execution",
-      category: "Business",
-      level: "Advanced",
-      description:
-        "Turn strategy into execution.",
-      content:
-        "Execution requires clear priorities, ownership, measurement and consistent follow-up."
+    settings: {
+        notifications: true,
+        learningReminder: true,
+        autoSave: true
     }
+};
 
-  ];
 
-  // ============================================================
-  // HELPER FUNCTIONS
-  // ============================================================
+/* =========================================================
+   STATE
+========================================================= */
 
-  function $(id) {
-    return document.getElementById(id);
-  }
+let state = loadState();
 
-  function escapeHTML(value) {
+let selectedCourseId = null;
+let selectedLessonId = null;
 
-    return String(value ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
 
-  }
+/* =========================================================
+   DOM HELPER
+========================================================= */
 
-  function safeJSON(key, fallback) {
+function $(selector) {
+    return document.querySelector(selector);
+}
+
+function $$(selector) {
+    return document.querySelectorAll(selector);
+}
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+function loadState() {
 
     try {
 
-      const raw = localStorage.getItem(key);
+        const saved = localStorage.getItem(STORAGE_KEY);
 
-      if (!raw) {
-        return fallback;
-      }
+        if (!saved) {
+            return structuredClone(defaultState);
+        }
 
-      return JSON.parse(raw);
+        const parsed = JSON.parse(saved);
+
+        return mergeState(
+            structuredClone(defaultState),
+            parsed
+        );
 
     } catch (error) {
 
-      return fallback;
+        console.error("State loading error:", error);
 
+        return structuredClone(defaultState);
     }
+}
 
-  }
 
-  function saveJSON(key, value) {
+function mergeState(base, saved) {
 
-    localStorage.setItem(
-      key,
-      JSON.stringify(value)
-    );
+    return {
+        ...base,
+        ...saved,
 
-  }
+        user: {
+            ...base.user,
+            ...(saved.user || {})
+        },
 
-  function numberValue(id) {
+        dailyGoal: {
+            ...base.dailyGoal,
+            ...(saved.dailyGoal || {})
+        },
 
-    const element = $(id);
+        sales: {
+            ...base.sales,
+            ...(saved.sales || {})
+        },
 
-    if (!element) {
-      return 0;
+        settings: {
+            ...base.settings,
+            ...(saved.settings || {})
+        },
+
+        courses: saved.courses || base.courses,
+
+        activity: saved.activity || base.activity
+    };
+}
+
+
+function saveState() {
+
+    try {
+
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(state)
+        );
+
+    } catch (error) {
+
+        console.error("State saving error:", error);
     }
+}
 
-    const value = Number(element.value);
 
-    return Number.isFinite(value)
-      ? value
-      : 0;
+/* =========================================================
+   INITIALIZATION
+========================================================= */
 
-  }
+document.addEventListener("DOMContentLoaded", () => {
 
-  function formatNumber(value, decimals = 0) {
+    initializeApp();
 
-    return Number(value || 0).toLocaleString(
-      "en-US",
-      {
-        minimumFractionDigits: decimals,
-        maximumFractionDigits: decimals
-      }
+});
+
+
+function initializeApp() {
+
+    updateCourseProgress();
+
+    bindNavigation();
+
+    bindDashboardEvents();
+
+    bindCourseEvents();
+
+    bindLessonEvents();
+
+    bindSalesEvents();
+
+    bindCalculator();
+
+    bindAIEvents();
+
+    bindSettingsEvents();
+
+    bindGlobalSearch();
+
+    bindModal();
+
+    bindMobileSidebar();
+
+    updateUserUI();
+
+    renderDashboard();
+
+    showPage(state.currentPage);
+
+    console.log(
+        `Aung Business Academy V${APP_VERSION} initialized.`
     );
+}
 
-  }
 
-  function formatMoney(value) {
+/* =========================================================
+   NAVIGATION
+========================================================= */
 
-    return formatNumber(value) + " Ks";
+function bindNavigation() {
 
-  }
+    $$(".nav-item").forEach(button => {
 
-  // ============================================================
-  // USER
-  // ============================================================
+        button.addEventListener("click", () => {
 
-  function getUser() {
+            const page = button.dataset.page;
 
-    return safeJSON(
-      USER_KEY,
-      null
-    );
-
-  }
-
-  function getUserName() {
-
-    const user = getUser();
-
-    return user?.name || "Aung";
-
-  }
-
-  function saveUser(user) {
-
-    saveJSON(
-      USER_KEY,
-      user
-    );
-
-  }
-
-  function isLoggedIn() {
-
-    return !!getUser();
-
-  }
-
-  function handleLogin() {
-
-    const input = $("loginName");
-
-    const name =
-      input?.value.trim();
-
-    if (!name) {
-
-      showToast(
-        "Please enter your name."
-      );
-
-      return;
-
-    }
-
-    saveUser({
-
-      name: name,
-
-      createdAt:
-        new Date().toISOString(),
-
-      lastActive:
-        new Date().toISOString()
-
-    });
-
-    closeModal();
-
-    updateDashboard();
-
-    showToast(
-      "Welcome to Aung Business Academy! 🎉"
-    );
-
-  }
-
-  function showLoginScreen() {
-
-    showModal(`
-
-      <div class="academy-modal">
-
-        <div class="quick-icon">
-          🎓
-        </div>
-
-        <h2>
-          Welcome to Aung Business Academy
-        </h2>
-
-        <p>
-          Learn Business. Build Business. Grow Business.
-        </p>
-
-        <input
-          id="loginName"
-          class="tool-input"
-          type="text"
-          placeholder="Enter your name"
-        >
-
-        <button
-          class="primary-button"
-          onclick="handleLogin()"
-        >
-          Start Academy →
-        </button>
-
-      </div>
-
-    `);
-
-  }
-
-  // ============================================================
-  // PROGRESS
-  // ============================================================
-
-  function getCompletedLessons() {
-
-    return safeJSON(
-      COMPLETED_KEY,
-      []
-    );
-
-  }
-
-  function saveCompletedLessons(list) {
-
-    saveJSON(
-      COMPLETED_KEY,
-      [...new Set(list.map(Number))]
-    );
-
-  }
-
-  function isLessonCompleted(id) {
-
-    return getCompletedLessons()
-      .includes(Number(id));
-
-  }
-
-  function getProgress() {
-
-    const completed =
-      getCompletedLessons().length;
-
-    return Math.round(
-      completed / lessons.length * 100
-    );
-
-  }
-
-  // ============================================================
-  // DASHBOARD
-  // ============================================================
-
-  function updateDashboard() {
-
-    const completed =
-      getCompletedLessons().length;
-
-    const progress =
-      getProgress();
-
-    document
-      .querySelectorAll("[data-stat='completed']")
-      .forEach(element => {
-
-        element.textContent =
-          completed;
-
-      });
-
-    document
-      .querySelectorAll("[data-stat='total']")
-      .forEach(element => {
-
-        element.textContent =
-          lessons.length;
-
-      });
-
-    document
-      .querySelectorAll("[data-stat='progress']")
-      .forEach(element => {
-
-        element.textContent =
-          progress + "%";
-
-      });
-
-    document
-      .querySelectorAll("[data-progress-bar]")
-      .forEach(element => {
-
-        element.style.width =
-          progress + "%";
-
-      });
-
-    document
-      .querySelectorAll("[data-user-name]")
-      .forEach(element => {
-
-        element.textContent =
-          getUserName();
-
-      });
-
-    const nextLesson =
-      lessons.find(
-        lesson =>
-          !isLessonCompleted(lesson.id)
-      );
-
-    document
-      .querySelectorAll("[data-next-lesson]")
-      .forEach(element => {
-
-        element.textContent =
-          nextLesson
-            ? nextLesson.title
-            : "All Lessons Completed 🎉";
-
-      });
-
-  }
-
-  function goDashboard() {
-
-    closeModal();
-
-    closeSidebarMobile();
-
-    setPage(
-      "Dashboard",
-      "Learn Business. Build Business. Grow Business."
-    );
-
-    updateDashboard();
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-
-  }
-
-  function setPage(title, subtitle) {
-
-    if ($("pageTitle")) {
-
-      $("pageTitle").textContent =
-        title;
-
-    }
-
-    if ($("pageSubtitle")) {
-
-      $("pageSubtitle").textContent =
-        subtitle;
-
-    }
-
-  }
-
-  // ============================================================
-  // SIDEBAR
-  // ============================================================
-
-  function toggleSidebar() {
-
-    const sidebar =
-      document.querySelector(".sidebar");
-
-    if (!sidebar) {
-      return;
-    }
-
-    sidebar.classList.toggle(
-      "mobile-open"
-    );
-
-  }
-
-  function closeSidebarMobile() {
-
-    document
-      .querySelector(".sidebar")
-      ?.classList.remove(
-        "mobile-open"
-      );
-
-  }
-
-  function toggleMenu(id) {
-
-    const menu = $(id);
-
-    if (!menu) {
-      return;
-    }
-
-    menu.classList.toggle(
-      "open"
-    );
-
-  }
-
-  // ============================================================
-  // MODAL
-  // ============================================================
-
-  function showModal(html) {
-
-    const modal =
-      $("appModal");
-
-    const body =
-      $("modalBody");
-
-    if (!modal || !body) {
-
-      console.warn(
-        "appModal / modalBody not found."
-      );
-
-      return;
-
-    }
-
-    body.innerHTML =
-      html;
-
-    modal.style.display =
-      "flex";
-
-    document.body.style.overflow =
-      "hidden";
-
-  }
-
-  function closeModal() {
-
-    const modal =
-      $("appModal");
-
-    if (!modal) {
-      return;
-    }
-
-    modal.style.display =
-      "none";
-
-    document.body.style.overflow =
-      "";
-
-  }
-
-  function closeModalOutside(event) {
-
-    if (
-      event.target &&
-      event.target.id === "appModal"
-    ) {
-
-      closeModal();
-
-    }
-
-  }
-
-  // ============================================================
-  // LESSONS
-  // ============================================================
-
-  function openLessons() {
-
-    closeSidebarMobile();
-
-    setPage(
-      "Business Lessons",
-      "30 practical lessons from Beginner to Advanced."
-    );
-
-    const categories = [
-
-      "All",
-      "Business",
-      "Marketing",
-      "Customer Finding",
-      "Digital Marketing",
-      "Content Marketing",
-      "Sales",
-      "Sales Strategy",
-      "Negotiation",
-      "Sales Management",
-      "Leadership",
-      "Strategy",
-      "Branding",
-      "Management",
-      "Recruitment",
-      "Performance Management",
-      "Coaching",
-      "Revenue Management",
-      "Finance",
-      "Productivity"
-
-    ];
-
-    showModal(`
-
-      <div class="lesson-page">
-
-        <h2>
-          📚 Business Academy
-        </h2>
-
-        <p>
-          Complete all 30 lessons and build your business capability.
-        </p>
-
-        <div class="academy-stats">
-
-          <div>
-            <strong>
-              ${getCompletedLessons().length}
-            </strong>
-            <span>
-              Completed
-            </span>
-          </div>
-
-          <div>
-            <strong>
-              ${lessons.length}
-            </strong>
-            <span>
-              Total
-            </span>
-          </div>
-
-          <div>
-            <strong>
-              ${getProgress()}%
-            </strong>
-            <span>
-              Progress
-            </span>
-          </div>
-
-        </div>
-
-        <div class="lesson-filters">
-
-          ${categories
-            .map(
-              (category, index) => `
-
-                <button
-                  class="lesson-filter ${
-                    index === 0
-                      ? "active"
-                      : ""
-                  }"
-                  onclick="filterLessons(
-                    '${escapeHTML(category)}',
-                    this
-                  )"
-                >
-                  ${escapeHTML(category)}
-                </button>
-
-              `
-            )
-            .join("")}
-
-        </div>
-
-        <div
-          id="lessonList"
-          class="quick-grid"
-        >
-
-          ${lessons
-            .map(createLessonCard)
-            .join("")}
-
-        </div>
-
-      </div>
-
-    `);
-
-  }
-
-  function createLessonCard(lesson) {
-
-    const completed =
-      isLessonCompleted(
-        lesson.id
-      );
-
-    return `
-
-      <div class="quick-card lesson-card">
-
-        <div class="quick-icon">
-
-          ${
-            completed
-              ? "✅"
-              : "📘"
-          }
-
-        </div>
-
-        <div>
-
-          <small>
-            ${escapeHTML(lesson.category)}
-            •
-            ${escapeHTML(lesson.level)}
-          </small>
-
-          <h3>
-            Lesson ${lesson.id}:
-            ${escapeHTML(lesson.title)}
-          </h3>
-
-          <p>
-            ${escapeHTML(lesson.description)}
-          </p>
-
-          <button
-            class="primary-button"
-            onclick="openLesson(${lesson.id})"
-          >
-
-            ${
-              completed
-                ? "Review Lesson"
-                : "Start Lesson"
+            if (page) {
+                showPage(page);
             }
 
-            →
+            closeMobileSidebar();
 
-          </button>
+        });
 
-        </div>
+    });
 
-      </div>
 
-    `;
+    $$("[data-page]").forEach(element => {
 
-  }
+        if (
+            !element.classList.contains("nav-item")
+        ) {
 
-  function filterLessons(
-    category,
-    button
-  ) {
+            element.addEventListener("click", () => {
 
-    const list =
-      $("lessonList");
+                const page = element.dataset.page;
 
-    if (!list) {
-      return;
-    }
+                if (page) {
+                    showPage(page);
+                }
 
-    document
-      .querySelectorAll(
-        ".lesson-filter"
-      )
-      .forEach(
-        element =>
-          element.classList.remove(
-            "active"
-          )
-      );
+            });
 
-    button?.classList.add(
-      "active"
-    );
-
-    const filtered =
-      category === "All"
-        ? lessons
-        : lessons.filter(
-            lesson =>
-              lesson.category ===
-              category
-          );
-
-    list.innerHTML =
-      filtered.length
-        ? filtered
-            .map(createLessonCard)
-            .join("")
-        : `
-
-          <div class="result-box">
-
-            <h3>
-              No lessons found
-            </h3>
-
-            <p>
-              More lessons will be added.
-            </p>
-
-          </div>
-
-        `;
-
-  }
-
-  function openLesson(id) {
-
-    const lesson =
-      lessons.find(
-        item =>
-          item.id === Number(id)
-      );
-
-    if (!lesson) {
-      return;
-    }
-
-    showLesson(
-      lesson
-    );
-
-  }
-
-  function showLesson(lesson) {
-
-    const completed =
-      isLessonCompleted(
-        lesson.id
-      );
-
-    const previous =
-      lessons.find(
-        lessonItem =>
-          lessonItem.id ===
-          lesson.id - 1
-      );
-
-    const next =
-      lessons.find(
-        lessonItem =>
-          lessonItem.id ===
-          lesson.id + 1
-      );
-
-    const progress =
-      Math.round(
-        lesson.id /
-        lessons.length *
-        100
-      );
-
-    showModal(`
-
-      <div class="lesson-detail">
-
-        <span class="welcome-label">
-          ${escapeHTML(lesson.level)}
-        </span>
-
-        <h2>
-          Lesson ${lesson.id}
-          —
-          ${escapeHTML(lesson.title)}
-        </h2>
-
-        <p>
-          ${escapeHTML(lesson.description)}
-        </p>
-
-        <div
-          class="result-box"
-        >
-
-          <h3>
-            🎯 Key Learning
-          </h3>
-
-          <p>
-            ${escapeHTML(lesson.content)}
-          </p>
-
-        </div>
-
-        <div
-          class="result-box"
-        >
-
-          <h3>
-            💼 Business Application
-          </h3>
-
-          <p>
-            Think about how you can apply
-            this lesson to your real business.
-          </p>
-
-        </div>
-
-        <div
-          class="result-box"
-        >
-
-          <h3>
-            📊 Academy Progress
-          </h3>
-
-          <div
-            style="
-              background:#eee;
-              border-radius:20px;
-              overflow:hidden;
-              height:10px;
-            "
-          >
-
-            <div
-              style="
-                width:${progress}%;
-                height:100%;
-                background:currentColor;
-              "
-            ></div>
-
-          </div>
-
-          <p>
-            Lesson ${lesson.id}
-            of
-            ${lessons.length}
-          </p>
-
-        </div>
-
-        <button
-          class="primary-button"
-          onclick="markLessonComplete(${lesson.id})"
-        >
-
-          ${
-            completed
-              ? "✓ Completed"
-              : "Mark as Complete"
-          }
-
-        </button>
-
-        <div
-          style="
-            display:flex;
-            gap:8px;
-            flex-wrap:wrap;
-            margin-top:12px;
-          "
-        >
-
-          ${
-            previous
-              ? `
-                <button
-                  class="secondary-button"
-                  onclick="openLesson(${previous.id})"
-                >
-                  ← Previous
-                </button>
-              `
-              : ""
-          }
-
-          ${
-            next
-              ? `
-                <button
-                  class="secondary-button"
-                  onclick="openLesson(${next.id})"
-                >
-                  Next →
-                </button>
-              `
-              : ""
-          }
-
-          <button
-            class="secondary-button"
-            onclick="openLessons()"
-          >
-            All Lessons
-          </button>
-
-        </div>
-
-      </div>
-
-    `);
-
-  }
-
-  function markLessonComplete(id) {
-
-    const completed =
-      getCompletedLessons();
-
-    const lessonId =
-      Number(id);
-
-    if (
-      !completed.includes(
-        lessonId
-      )
-    ) {
-
-      completed.push(
-        lessonId
-      );
-
-      saveCompletedLessons(
-        completed
-      );
-
-      showToast(
-        "Lesson completed! 🎉"
-      );
-
-    } else {
-
-      showToast(
-        "Lesson already completed."
-      );
-
-    }
-
-    updateDashboard();
-
-    const lesson =
-      lessons.find(
-        item =>
-          item.id ===
-          lessonId
-      );
-
-    if (lesson) {
-
-      showLesson(
-        lesson
-      );
-
-    }
-
-  }
-
-  function continueLearning() {
-
-    const nextLesson =
-      lessons.find(
-        lesson =>
-          !isLessonCompleted(
-            lesson.id
-          )
-      );
-
-    if (!nextLesson) {
-
-      showToast(
-        "🏆 Congratulations! All lessons completed."
-      );
-
-      return;
-
-    }
-
-    openLesson(
-      nextLesson.id
-    );
-
-  }
-
-  // ============================================================
-  // TOOL UI HELPERS
-  // ============================================================
-
-  function inputField(
-    id,
-    label,
-    placeholder
-  ) {
-
-    return `
-
-      <label
-        style="
-          display:block;
-          margin:12px 0 6px;
-          font-weight:600;
-        "
-      >
-
-        ${escapeHTML(label)}
-
-      </label>
-
-      <input
-        id="${escapeHTML(id)}"
-        class="tool-input"
-        type="number"
-        placeholder="${escapeHTML(
-          placeholder
-        )}"
-      >
-
-    `;
-
-  }
-
-  function resultBox(id) {
-
-    return `
-
-      <div
-        id="${escapeHTML(id)}"
-        class="result-box"
-        style="margin-top:18px;"
-      >
-      </div>
-
-    `;
-
-  }
-
-  function toolButton(
-    text,
-    action
-  ) {
-
-    return `
-
-      <button
-        class="primary-button"
-        onclick="${action}"
-      >
-        ${escapeHTML(text)}
-      </button>
-
-    `;
-
-  }
-
-  // ============================================================
-  // BUSINESS TOOLS
-  // ============================================================
-
-  function openTools() {
-
-    closeSidebarMobile();
-
-    setPage(
-      "Business Tools",
-      "Professional calculators for business decisions."
-    );
-
-    showModal(`
-
-      <div>
-
-        <h2>
-          🛠️ Business Tools
-        </h2>
-
-        <p>
-          Calculate, analyze and make better business decisions.
-        </p>
-
-        <div class="quick-grid">
-
-          ${toolCard(
-            "💰",
-            "Profit Calculator",
-            "Revenue, cost, profit and margin.",
-            "openProfitCalculator()"
-          )}
-
-          ${toolCard(
-            "🏷️",
-            "Pricing Calculator",
-            "Calculate selling price from cost and target margin.",
-            "openPricingCalculator()"
-          )}
-
-          ${toolCard(
-            "⚖️",
-            "Break-Even Calculator",
-            "Calculate the sales volume needed to break even.",
-            "openBreakEvenCalculator()"
-          )}
-
-          ${toolCard(
-            "🎯",
-            "Sales Target Calculator",
-            "Calculate required orders to reach target.",
-            "openSalesTargetCalculator()"
-          )}
-
-          ${toolCard(
-            "📈",
-            "Growth Calculator",
-            "Measure business growth.",
-            "openGrowthCalculator()"
-          )}
-
-          ${toolCard(
-            "💵",
-            "ROI Calculator",
-            "Measure return on investment.",
-            "openROICalculator()"
-          )}
-
-          ${toolCard(
-            "👥",
-            "Commission Calculator",
-            "Calculate sales team incentives.",
-            "openCommissionCalculator()"
-          )}
-
-          ${toolCard(
-            "📦",
-            "Inventory Calculator",
-            "Estimate stock value and turnover.",
-            "openInventoryCalculator()"
-          )}
-
-          ${toolCard(
-            "📊",
-            "Sales KPI Dashboard",
-            "Track target, achievement and gap.",
-            "openKPIDashboard()"
-          )}
-
-          ${toolCard(
-            "💸",
-            "Cash Flow Planner",
-            "Plan inflow, outflow and closing cash.",
-            "openCashFlowPlanner()"
-          )}
-
-        </div>
-
-      </div>
-
-    `);
-
-  }
-
-  function toolCard(
-    icon,
-    title,
-    description,
-    action
-  ) {
-
-    return `
-
-      <div
-        class="quick-card"
-        onclick="${action}"
-      >
-
-        <div class="quick-icon">
-          ${icon}
-        </div>
-
-        <div>
-
-          <h3>
-            ${escapeHTML(title)}
-          </h3>
-
-          <p>
-            ${escapeHTML(description)}
-          </p>
-
-          <span>
-            Open Tool →
-          </span>
-
-        </div>
-
-      </div>
-
-    `;
-
-  }
-
-  // ============================================================
-  // PROFIT CALCULATOR
-  // ============================================================
-
-  function openProfitCalculator() {
-
-    showModal(`
-
-      <div>
-
-        <h2>
-          💰 Profit Calculator
-        </h2>
-
-        ${inputField(
-          "revenue",
-          "Revenue",
-          "10000000"
-        )}
-
-        ${inputField(
-          "cost",
-          "Total Cost",
-          "7000000"
-        )}
-
-        ${toolButton(
-          "Calculate Profit",
-          "calculateProfit()"
-        )}
-
-        ${resultBox(
-          "profitResult"
-        )}
-
-      </div>
-
-    `);
-
-  }
-
-  function calculateProfit() {
-
-    const revenue =
-      numberValue("revenue");
-
-    const cost =
-      numberValue("cost");
-
-    const profit =
-      revenue - cost;
-
-    const margin =
-      revenue > 0
-        ? profit / revenue * 100
-        : 0;
-
-    $("profitResult").innerHTML = `
-
-      <h3>
-        Profit:
-        ${formatMoney(profit)}
-      </h3>
-
-      <p>
-        Profit Margin:
-        ${margin.toFixed(2)}%
-      </p>
-
-      <p>
-        ${
-          profit >= 0
-            ? "✅ Business is profitable."
-            : "⚠️ Business is currently losing money."
         }
-      </p>
 
-    `;
+    });
 
-  }
+}
 
-  // ============================================================
-  // PRICING CALCULATOR
-  // ============================================================
 
-  function openPricingCalculator() {
+function showPage(page) {
 
-    showModal(`
-
-      <div>
-
-        <h2>
-          🏷️ Pricing Calculator
-        </h2>
-
-        ${inputField(
-          "unitCost",
-          "Unit Cost",
-          "5000"
-        )}
-
-        ${inputField(
-          "margin",
-          "Target Margin %",
-          "30"
-        )}
-
-        ${toolButton(
-          "Calculate Price",
-          "calculatePrice()"
-        )}
-
-        ${resultBox(
-          "priceResult"
-        )}
-
-      </div>
-
-    `);
-
-  }
-
-  function calculatePrice() {
-
-    const cost =
-      numberValue("unitCost");
-
-    const margin =
-      numberValue("margin");
-
-    if (
-      cost <= 0 ||
-      margin < 0 ||
-      margin >= 100
-    ) {
-
-      showToast(
-        "Enter valid cost and margin."
-      );
-
-      return;
-
-    }
-
-    const price =
-      cost /
-      (1 - margin / 100);
-
-    $("priceResult").innerHTML = `
-
-      <h3>
-        Recommended Price:
-        ${formatMoney(price)}
-      </h3>
-
-      <p>
-        Gross Profit / Unit:
-        ${formatMoney(
-          price - cost
-        )}
-      </p>
-
-      <p>
-        Target Margin:
-        ${margin.toFixed(2)}%
-      </p>
-
-    `;
-
-  }
-
-  // ============================================================
-  // BREAK EVEN
-  // ============================================================
-
-  function openBreakEvenCalculator() {
-
-    showModal(`
-
-      <div>
-
-        <h2>
-          ⚖️ Break-Even Calculator
-        </h2>
-
-        ${inputField(
-          "fixedCost",
-          "Fixed Cost",
-          "1000000"
-        )}
-
-        ${inputField(
-          "sellingPrice",
-          "Selling Price / Unit",
-          "10000"
-        )}
-
-        ${inputField(
-          "variableCost",
-          "Variable Cost / Unit",
-          "6000"
-        )}
-
-        ${toolButton(
-          "Calculate Break-Even",
-          "calculateBreakEven()"
-        )}
-
-        ${resultBox(
-          "breakEvenResult"
-        )}
-
-      </div>
-
-    `);
-
-  }
-
-  function calculateBreakEven() {
-
-    const fixed =
-      numberValue("fixedCost");
-
-    const price =
-      numberValue("sellingPrice");
-
-    const variable =
-      numberValue("variableCost");
-
-    const contribution =
-      price - variable;
-
-    if (
-      fixed < 0 ||
-      price <= 0 ||
-      contribution <= 0
-    ) {
-
-      showToast(
-        "Selling price must be higher than variable cost."
-      );
-
-      return;
-
-    }
-
-    const units =
-      Math.ceil(
-        fixed /
-        contribution
-      );
-
-    const sales =
-      units * price;
-
-    $("breakEvenResult").innerHTML = `
-
-      <h3>
-        Break-Even:
-        ${formatNumber(units)}
-        units
-      </h3>
-
-      <p>
-        Break-Even Sales:
-        ${formatMoney(sales)}
-      </p>
-
-      <p>
-        Contribution / Unit:
-        ${formatMoney(contribution)}
-      </p>
-
-    `;
-
-  }
-
-  // ============================================================
-  // SALES TARGET
-  // ============================================================
-
-  function openSalesTargetCalculator() {
-
-    showModal(`
-
-      <div>
-
-        <h2>
-          🎯 Sales Target Calculator
-        </h2>
-
-        ${inputField(
-          "targetRevenue",
-          "Target Revenue",
-          "10000000"
-        )}
-
-        ${inputField(
-          "averageOrder",
-          "Average Order Value",
-          "50000"
-        )}
-
-        ${toolButton(
-          "Calculate Sales Target",
-          "calculateSalesTarget()"
-        )}
-
-        ${resultBox(
-          "salesTargetResult"
-        )}
-
-      </div>
-
-    `);
-
-  }
-
-  function calculateSalesTarget() {
-
-    const target =
-      numberValue(
-        "targetRevenue"
-      );
-
-    const average =
-      numberValue(
-        "averageOrder"
-      );
-
-    if (
-      target <= 0 ||
-      average <= 0
-    ) {
-
-      showToast(
-        "Enter valid target and average order."
-      );
-
-      return;
-
-    }
-
-    const orders =
-      Math.ceil(
-        target /
-        average
-      );
-
-    $("salesTargetResult").innerHTML = `
-
-      <h3>
-        Required Orders:
-        ${formatNumber(orders)}
-      </h3>
-
-      <p>
-        Target Revenue:
-        ${formatMoney(target)}
-      </p>
-
-      <p>
-        Average Order:
-        ${formatMoney(average)}
-      </p>
-
-    `;
-
-  }
-
-  // ============================================================
-  // GROWTH CALCULATOR
-  // ============================================================
-
-  function openGrowthCalculator() {
-
-    showModal(`
-
-      <div>
-
-        <h2>
-          📈 Growth Calculator
-        </h2>
-
-        ${inputField(
-          "previousRevenue",
-          "Previous Revenue",
-          "10000000"
-        )}
-
-        ${inputField(
-          "currentRevenue",
-          "Current Revenue",
-          "12500000"
-        )}
-
-        ${inputField(
-          "growthTarget",
-          "Target Growth %",
-          "20"
-        )}
-
-        ${toolButton(
-          "Calculate Growth",
-          "calculateGrowth()"
-        )}
-
-        ${resultBox(
-          "growthResult"
-        )}
-
-      </div>
-
-    `);
-
-  }
-
-  function calculateGrowth() {
-
-    const previous =
-      numberValue(
-        "previousRevenue"
-      );
-
-    const current =
-      numberValue(
-        "currentRevenue"
-      );
-
-    const target =
-      numberValue(
-        "growthTarget"
-      );
-
-    if (previous <= 0) {
-
-      showToast(
-        "Previous revenue must be greater than zero."
-      );
-
-      return;
-
-    }
-
-    const growth =
-      (
-        current -
-        previous
-      ) /
-      previous *
-      100;
-
-    const targetRevenue =
-      previous *
-      (
-        1 +
-        target / 100
-      );
-
-    $("growthResult").innerHTML = `
-
-      <h3>
-        Actual Growth:
-        ${growth.toFixed(2)}%
-      </h3>
-
-      <p>
-        Target Revenue:
-        ${formatMoney(
-          targetRevenue
-        )}
-      </p>
-
-      <p>
-        ${
-          growth >= target
-            ? "🎉 Growth target achieved."
-            : "📌 Additional growth is required."
-        }
-      </p>
-
-    `;
-
-  }
-
-  // ============================================================
-  // ROI CALCULATOR
-  // ============================================================
-
-  function openROICalculator() {
-
-    showModal(`
-
-      <div>
-
-        <h2>
-          💵 ROI Calculator
-        </h2>
-
-        ${inputField(
-          "roiInvestment",
-          "Investment",
-          "5000000"
-        )}
-
-        ${inputField(
-          "roiReturn",
-          "Returned Value",
-          "7500000"
-        )}
-
-        ${toolButton(
-          "Calculate ROI",
-          "calculateROI()"
-        )}
-
-        ${resultBox(
-          "roiResult"
-        )}
-
-      </div>
-
-    `);
-
-  }
-
-  function calculateROI() {
-
-    const investment =
-      numberValue(
-        "roiInvestment"
-      );
-
-    const returned =
-      numberValue(
-        "roiReturn"
-      );
-
-    if (investment <= 0) {
-
-      showToast(
-        "Investment must be greater than zero."
-      );
-
-      return;
-
-    }
-
-    const profit =
-      returned -
-      investment;
-
-    const roi =
-      profit /
-      investment *
-      100;
-
-    $("roiResult").innerHTML = `
-
-      <h3>
-        ROI:
-        ${roi.toFixed(2)}%
-      </h3>
-
-      <p>
-        Net Return:
-        ${formatMoney(profit)}
-      </p>
-
-      <p>
-        Returned Value:
-        ${formatMoney(returned)}
-      </p>
-
-    `;
-
-  }
-
-  // ============================================================
-  // COMMISSION CALCULATOR
-  // ============================================================
-
-  function openCommissionCalculator() {
-
-    showModal(`
-
-      <div>
-
-        <h2>
-          👥 Sales Commission Calculator
-        </h2>
-
-        ${inputField(
-          "commissionSales",
-          "Sales Achievement",
-          "10000000"
-        )}
-
-        ${inputField(
-          "commissionRate",
-          "Commission Rate %",
-          "2"
-        )}
-
-        ${inputField(
-          "commissionBonus",
-          "Bonus / Incentive",
-          "100000"
-        )}
-
-        ${toolButton(
-          "Calculate Commission",
-          "calculateCommission()"
-        )}
-
-        ${resultBox(
-          "commissionResult"
-        )}
-
-      </div>
-
-    `);
-
-  }
-
-  function calculateCommission() {
-
-    const sales =
-      numberValue(
-        "commissionSales"
-      );
-
-    const rate =
-      numberValue(
-        "commissionRate"
-      );
-
-    const bonus =
-      numberValue(
-        "commissionBonus"
-      );
-
-    const commission =
-      sales *
-      rate /
-      100;
-
-    const total =
-      commission +
-      bonus;
-
-    $("commissionResult").innerHTML = `
-
-      <h3>
-        Commission:
-        ${formatMoney(
-          commission
-        )}
-      </h3>
-
-      <p>
-        Bonus:
-        ${formatMoney(
-          bonus
-        )}
-      </p>
-
-      <p>
-        <strong>
-          Total Incentive:
-          ${formatMoney(
-            total
-          )}
-        </strong>
-      </p>
-
-    `;
-
-  }
-
-  // ============================================================
-  // INVENTORY
-  // ============================================================
-
-  function openInventoryCalculator() {
-
-    showModal(`
-
-      <div>
-
-        <h2>
-          📦 Inventory Calculator
-        </h2>
-
-        ${inputField(
-          "inventoryUnits",
-          "Units in Stock",
-          "1000"
-        )}
-
-        ${inputField(
-          "inventoryCost",
-          "Cost / Unit",
-          "5000"
-        )}
-
-        ${inputField(
-          "inventoryCOGS",
-          "Annual COGS",
-          "50000000"
-        )}
-
-        ${inputField(
-          "inventoryAverage",
-          "Average Inventory Value",
-          "10000000"
-        )}
-
-        ${toolButton(
-          "Calculate Inventory",
-          "calculateInventory()"
-        )}
-
-        ${resultBox(
-          "inventoryResult"
-        )}
-
-      </div>
-
-    `);
-
-  }
-
-  function calculateInventory() {
-
-    const units =
-      numberValue(
-        "inventoryUnits"
-      );
-
-    const cost =
-      numberValue(
-        "inventoryCost"
-      );
-
-    const cogs =
-      numberValue(
-        "inventoryCOGS"
-      );
-
-    const average =
-      numberValue(
-        "inventoryAverage"
-      );
-
-    const value =
-      units * cost;
-
-    const turnover =
-      average > 0
-        ? cogs / average
-        : 0;
-
-    $("inventoryResult").innerHTML = `
-
-      <h3>
-        Current Stock Value:
-        ${formatMoney(value)}
-      </h3>
-
-      <p>
-        Inventory Turnover:
-        ${turnover.toFixed(2)}x
-      </p>
-
-      <p>
-        Stock turnover indicates how quickly inventory moves.
-      </p>
-
-    `;
-
-  }
-
-  // ============================================================
-  // CASH FLOW
-  // ============================================================
-
-  function openCashFlowPlanner() {
-
-    showModal(`
-
-      <div>
-
-        <h2>
-          💸 Cash Flow Planner
-        </h2>
-
-        ${inputField(
-          "openingCash",
-          "Opening Cash",
-          "5000000"
-        )}
-
-        ${inputField(
-          "cashInflow",
-          "Expected Cash Inflow",
-          "10000000"
-        )}
-
-        ${inputField(
-          "cashOutflow",
-          "Expected Cash Outflow",
-          "7000000"
-        )}
-
-        ${toolButton(
-          "Calculate Cash Flow",
-          "calculateCashFlow()"
-        )}
-
-        ${resultBox(
-          "cashFlowResult"
-        )}
-
-      </div>
-
-    `);
-
-  }
-
-  function calculateCashFlow() {
-
-    const opening =
-      numberValue(
-        "openingCash"
-      );
-
-    const inflow =
-      numberValue(
-        "cashInflow"
-      );
-
-    const outflow =
-      numberValue(
-        "cashOutflow"
-      );
-
-    const closing =
-      opening +
-      inflow -
-      outflow;
-
-    $("cashFlowResult").innerHTML = `
-
-      <h3>
-        Closing Cash:
-        ${formatMoney(
-          closing
-        )}
-      </h3>
-
-      <p>
-        Net Cash Flow:
-        ${formatMoney(
-          inflow -
-          outflow
-        )}
-      </p>
-
-      <p>
-        ${
-          closing >= 0
-            ? "✅ Positive closing cash."
-            : "⚠️ Cash shortfall. Review expenses and collections."
-        }
-      </p>
-
-    `;
-
-  }
-
-  // ============================================================
-  // SALES KPI DASHBOARD
-  // ============================================================
-
-  function openKPIDashboard() {
-
-    const saved =
-      safeJSON(
-        KPI_KEY,
-        {
-          target: 10000000,
-          achievement: 7500000,
-          customers: 100,
-          orders: 250
-        }
-      );
-
-    showModal(`
-
-      <div>
-
-        <h2>
-          📊 Sales KPI Dashboard
-        </h2>
-
-        ${inputField(
-          "kpiTarget",
-          "Sales Target",
-          saved.target
-        )}
-
-        ${inputField(
-          "kpiAchievement",
-          "Sales Achievement",
-          saved.achievement
-        )}
-
-        ${inputField(
-          "kpiCustomers",
-          "Active Customers",
-          saved.customers
-        )}
-
-        ${inputField(
-          "kpiOrders",
-          "Orders",
-          saved.orders
-        )}
-
-        ${toolButton(
-          "Analyze KPI",
-          "calculateKPI()"
-        )}
-
-        ${resultBox(
-          "kpiResult"
-        )}
-
-      </div>
-
-    `);
-
-    calculateKPI();
-
-  }
-
-  function calculateKPI() {
-
-    const target =
-      numberValue(
-        "kpiTarget"
-      );
-
-    const achievement =
-      numberValue(
-        "kpiAchievement"
-      );
-
-    const customers =
-      numberValue(
-        "kpiCustomers"
-      );
-
-    const orders =
-      numberValue(
-        "kpiOrders"
-      );
-
-    saveJSON(
-      KPI_KEY,
-      {
-        target,
-        achievement,
-        customers,
-        orders
-      }
+    const validPage = document.querySelector(
+        `[data-page-content="${page}"]`
     );
 
-    const achievementPct =
-      target > 0
-        ? achievement /
-          target *
-          100
-        : 0;
-
-    const gap =
-      target -
-      achievement;
-
-    const avgOrder =
-      orders > 0
-        ? achievement /
-          orders
-        : 0;
-
-    const avgCustomer =
-      customers > 0
-        ? achievement /
-          customers
-        : 0;
-
-    $("kpiResult").innerHTML = `
-
-      <h3>
-        Achievement:
-        ${achievementPct.toFixed(1)}%
-      </h3>
-
-      <p>
-        Target Gap:
-        ${formatMoney(gap)}
-      </p>
-
-      <p>
-        Average Order Value:
-        ${formatMoney(avgOrder)}
-      </p>
-
-      <p>
-        Revenue / Customer:
-        ${formatMoney(avgCustomer)}
-      </p>
-
-      <p>
-        ${
-          achievementPct >= 100
-            ? "🏆 Target achieved."
-            : "📌 Focus on the gap and build an action plan."
-        }
-      </p>
-
-    `;
-
-  }
-
-  // ============================================================
-  // AI BUSINESS COACH
-  // ============================================================
-
-  function openAI() {
-
-    closeSidebarMobile();
-
-    setPage(
-      "AI Business Coach",
-      "Your AI advisor for Business, Sales, Marketing, Finance and Leadership."
-    );
-
-    showModal(`
-
-      <div class="ai-page">
-
-        <h2>
-          🤖 AI Business Coach
-        </h2>
-
-        <p>
-          Ask anything about your business.
-        </p>
-
-        <div class="ai-quick-grid">
-
-          <button
-            class="secondary-button"
-            onclick="askAIQuick(
-              'How can I increase sales in my business?'
-            )"
-          >
-            📈 Increase Sales
-          </button>
-
-          <button
-            class="secondary-button"
-            onclick="askAIQuick(
-              'Create a sales action plan for my team.'
-            )"
-          >
-            🎯 Sales Plan
-          </button>
-
-          <button
-            class="secondary-button"
-            onclick="askAIQuick(
-              'How can I improve team performance?'
-            )"
-          >
-            👥 Team Performance
-          </button>
-
-          <button
-            class="secondary-button"
-            onclick="askAIQuick(
-              'Create a marketing strategy for my business.'
-            )"
-          >
-            📣 Marketing
-          </button>
-
-          <button
-            class="secondary-button"
-            onclick="askAIQuick(
-              'Create a business growth strategy.'
-            )"
-          >
-            🚀 Growth
-          </button>
-
-          <button
-            class="secondary-button"
-            onclick="askAIQuick(
-              'How should I manage business cash flow and profit?'
-            )"
-          >
-            💰 Finance
-          </button>
-
-        </div>
-
-        <div
-          id="aiChat"
-          class="result-box ai-chat"
-          style="
-            min-height:200px;
-            max-height:400px;
-            overflow-y:auto;
-          "
-        >
-
-          <div>
-
-            <strong>
-              AI Coach:
-            </strong>
-
-            Hello
-            ${escapeHTML(getUserName())}!
-            What business challenge can I help you solve?
-
-          </div>
-
-        </div>
-
-        <textarea
-          id="aiInput"
-          class="tool-input"
-          rows="4"
-          placeholder="Ask your business question..."
-        ></textarea>
-
-        <button
-          class="primary-button"
-          onclick="sendAIMessage()"
-        >
-          Send to AI →
-        </button>
-
-        <button
-          class="secondary-button"
-          onclick="clearAIChat()"
-        >
-          Clear Chat
-        </button>
-
-      </div>
-
-    `);
-
-    setTimeout(
-      () => $("aiInput")?.focus(),
-      200
-    );
-
-  }
-
-  async function sendAIMessage(
-    message
-  ) {
-
-    const input =
-      $("aiInput");
-
-    const text =
-      message ||
-      input?.value.trim();
-
-    if (!text) {
-
-      showToast(
-        "Please enter a question."
-      );
-
-      return;
-
+    if (!validPage) {
+        page = "dashboard";
     }
 
-    appendAIMessage(
-      "You",
-      text
+    state.currentPage = page;
+
+    saveState();
+
+    $$(".page").forEach(section => {
+
+        section.classList.remove("active");
+
+    });
+
+    const target = document.querySelector(
+        `[data-page-content="${page}"]`
     );
 
-    if (input) {
-      input.value = "";
+    if (target) {
+        target.classList.add("active");
     }
 
-    appendAIMessage(
-      "AI Coach",
-      "Thinking..."
-    );
 
-    try {
+    $$(".nav-item").forEach(item => {
 
-      const response =
-        await fetch(
-          AI_API_URL,
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json"
-            },
-
-            body: JSON.stringify({
-
-              message:
-
-                "You are the AI Business Coach inside Aung Business Academy. " +
-
-                "Provide practical, actionable business advice. " +
-
-                "Cover sales, marketing, finance, leadership, strategy, " +
-                "operations, customers and business growth when relevant. " +
-
-                "Use simple language. " +
-
-                "When useful, provide KPIs, calculations, action plans and priorities. " +
-
-                "If the user speaks Burmese, answer in Burmese. " +
-
-                "User question: " +
-
-                text
-
-            })
-
-          }
+        item.classList.toggle(
+            "active",
+            item.dataset.page === page
         );
 
-      if (!response.ok) {
+    });
 
-        throw new Error(
-          "AI request failed"
-        );
 
-      }
+    updateBreadcrumb(page);
 
-      const data =
-        await response.json();
 
-      const answer =
-        data.reply ||
-        data.response ||
-        data.message ||
-        "No response received.";
+    switch (page) {
 
-      removeLastAIMessage();
+        case "dashboard":
+            renderDashboard();
+            break;
 
-      appendAIMessage(
-        "AI Coach",
-        answer
-      );
+        case "courses":
+            renderCourses();
+            break;
 
-    } catch (error) {
+        case "lessons":
+            renderLessons();
+            break;
 
-      removeLastAIMessage();
+        case "progress":
+            renderProgress();
+            break;
 
-      appendAIMessage(
-        "AI Coach",
-        "AI connection is temporarily unavailable. Please check your backend/API connection and try again."
-      );
+        case "sales":
+            renderSales();
+            break;
 
-      console.error(
-        error
-      );
+        case "calculator":
+            break;
 
+        case "reports":
+            renderReports();
+            break;
+
+        case "ai-coach":
+            break;
+
+        case "ai-tools":
+            break;
+
+        case "settings":
+            renderSettings();
+            break;
     }
 
-  }
-
-  function askAIQuick(
-    question
-  ) {
-
-    sendAIMessage(
-      question
-    );
-
-  }
-
-  function appendAIMessage(
-    sender,
-    message
-  ) {
-
-    const chat =
-      $("aiChat");
-
-    if (!chat) {
-      return;
-    }
-
-    const div =
-      document.createElement(
-        "div"
-      );
-
-    div.style.margin =
-      "12px 0";
-
-    div.innerHTML = `
-
-      <strong>
-        ${escapeHTML(sender)}:
-      </strong>
-
-      <span
-        style="white-space:pre-wrap;"
-      >
-        ${escapeHTML(message)}
-      </span>
-
-    `;
-
-    chat.appendChild(
-      div
-    );
-
-    chat.scrollTop =
-      chat.scrollHeight;
-
-  }
-
-  function removeLastAIMessage() {
-
-    const chat =
-      $("aiChat");
-
-    if (
-      chat &&
-      chat.lastElementChild
-    ) {
-
-      chat.removeChild(
-        chat.lastElementChild
-      );
-
-    }
-
-  }
-
-  function clearAIChat() {
-
-    const chat =
-      $("aiChat");
-
-    if (!chat) {
-      return;
-    }
-
-    chat.innerHTML = `
-
-      <div>
-
-        <strong>
-          AI Coach:
-        </strong>
-
-        Chat cleared.
-        How can I help?
-
-      </div>
-
-    `;
-
-  }
-
-  async function checkAIHealth() {
-
-    try {
-
-      const response =
-        await fetch(
-          API_BASE_URL
-        );
-
-      return response.ok;
-
-    } catch {
-
-      return false;
-
-    }
-
-  }
-
-  // ============================================================
-  // BUSINESS PLAN
-  // ============================================================
-
-  function textInput(
-    id,
-    label,
-    placeholder
-  ) {
-
-    return `
-
-      <label
-        style="
-          display:block;
-          margin:12px 0 6px;
-          font-weight:600;
-        "
-      >
-
-        ${escapeHTML(label)}
-
-      </label>
-
-      <input
-        id="${escapeHTML(id)}"
-        class="tool-input"
-        type="text"
-        placeholder="${escapeHTML(
-          placeholder
-        )}"
-      >
-
-    `;
-
-  }
-
-  function openBusinessPlan() {
-
-    closeSidebarMobile();
-
-    setPage(
-      "AI Business Plan",
-      "Build a practical business plan with AI."
-    );
-
-    const saved =
-      safeJSON(
-        PLAN_KEY,
-        {}
-      );
-
-    showModal(`
-
-      <div>
-
-        <h2>
-          📋 AI Business Plan Generator
-        </h2>
-
-        <p>
-          Enter your business information and let AI build your plan.
-        </p>
-
-        ${textInput(
-          "businessName",
-          "Business Name",
-          saved.name ||
-          "My Business"
-        )}
-
-        ${textInput(
-          "businessType",
-          "Business Type",
-          saved.type ||
-          "Food / Retail / Service"
-        )}
-
-        ${textInput(
-          "targetCustomer",
-          "Target Customer",
-          saved.customer ||
-          "Who are your customers?"
-        )}
-
-        ${textInput(
-          "budget",
-          "Starting Budget",
-          saved.budget ||
-          "5000000"
-        )}
-
-        ${textInput(
-          "goal",
-          "Business Goal",
-          saved.goal ||
-          "Monthly profit target"
-        )}
-
-        ${textInput(
-          "location",
-          "Market / Location",
-          saved.location ||
-          "Yangon"
-        )}
-
-        ${textInput(
-          "strength",
-          "Competitive Advantage",
-          saved.strength ||
-          "What makes your business different?"
-        )}
-
-        <button
-          class="primary-button"
-          onclick="generateBusinessPlan()"
-        >
-          🤖 Generate AI Business Plan →
-        </button>
-
-        ${resultBox(
-          "businessPlanResult"
-        )}
-
-      </div>
-
-    `);
-
-  }
-
-  async function generateBusinessPlan() {
-
-    const data = {
-
-      name:
-        $("businessName")
-          ?.value.trim() ||
-        "My Business",
-
-      type:
-        $("businessType")
-          ?.value.trim() ||
-        "Business",
-
-      customer:
-        $("targetCustomer")
-          ?.value.trim() ||
-        "Target Customers",
-
-      budget:
-        $("budget")
-          ?.value.trim() ||
-        "Not specified",
-
-      goal:
-        $("goal")
-          ?.value.trim() ||
-        "Business growth",
-
-      location:
-        $("location")
-          ?.value.trim() ||
-        "Myanmar",
-
-      strength:
-        $("strength")
-          ?.value.trim() ||
-        "Customer value"
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+function updateBreadcrumb(page) {
+
+    const names = {
+
+        dashboard: "Dashboard",
+        courses: "My Courses",
+        lessons: "Lessons",
+        progress: "My Progress",
+        sales: "Sales Manager",
+        calculator: "Pricing Calculator",
+        reports: "Reports",
+        "ai-coach": "AI Business Coach",
+        "ai-tools": "AI Tools",
+        settings: "Settings"
 
     };
 
-    saveJSON(
-      PLAN_KEY,
-      data
-    );
+    const current = $("#breadcrumbCurrent");
 
-    const result =
-      $("businessPlanResult");
-
-    if (!result) {
-      return;
+    if (current) {
+        current.textContent =
+            names[page] || "Dashboard";
     }
+}
 
-    result.innerHTML = `
 
-      <h3>
-        🤖 AI is building your business plan...
-      </h3>
+/* =========================================================
+   USER UI
+========================================================= */
 
-      <p>
-        Please wait.
-      </p>
+function updateUserUI() {
 
-    `;
+    const name =
+        state.user.name || "Aung Zar Ni Win";
 
-    const prompt = `
+    const role =
+        state.user.role || "Business Manager";
 
-You are a professional business consultant.
+    const firstName =
+        name.split(" ")[0] || "Aung";
 
-Create a practical business plan for this business.
 
-Business Name:
-${data.name}
+    const ids = [
 
-Business Type:
-${data.type}
+        "#sidebarUserName",
+        "#topbarUserName",
+        "#settingsName"
 
-Target Customer:
-${data.customer}
+    ];
 
-Starting Budget:
-${data.budget}
+    ids.forEach(selector => {
 
-Business Goal:
-${data.goal}
+        const element = $(selector);
 
-Market / Location:
-${data.location}
-
-Competitive Advantage:
-${data.strength}
-
-Create the following:
-
-1. Executive Summary
-2. Target Customer
-3. Customer Problem
-4. Value Proposition
-5. Product / Service Strategy
-6. Pricing Strategy
-7. Marketing Strategy
-8. Sales Strategy
-9. Distribution Strategy
-10. Operations Plan
-11. Team Plan
-12. Monthly Revenue Target
-13. Monthly Profit Target
-14. Key Business KPIs
-15. Risks and Solutions
-16. 30-Day Action Plan
-17. 90-Day Growth Plan
-
-Make the plan practical and easy to execute.
-Use simple language.
-If the user is in Myanmar, consider Myanmar market realities.
-
-`;
-
-    try {
-
-      const response =
-        await fetch(
-          AI_API_URL,
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json"
-            },
-
-            body:
-              JSON.stringify({
-                message: prompt
-              })
-
-          }
-        );
-
-      if (!response.ok) {
-        throw new Error(
-          "AI request failed"
-        );
-      }
-
-      const json =
-        await response.json();
-
-      const answer =
-        json.reply ||
-        json.response ||
-        json.message;
-
-      if (!answer) {
-        throw new Error(
-          "Empty AI response"
-        );
-      }
-
-      result.innerHTML = `
-
-        <h3>
-          🚀
-          ${escapeHTML(
-            data.name
-          )}
-        </h3>
-
-        <div
-          style="white-space:pre-wrap;"
-        >
-          ${escapeHTML(
-            answer
-          )}
-        </div>
-
-        <hr>
-
-        <p>
-          ✅ Business plan saved on this device.
-        </p>
-
-      `;
-
-    } catch (error) {
-
-      console.error(
-        error
-      );
-
-      result.innerHTML = `
-
-        <h3>
-          📋 Business Plan
-        </h3>
-
-        <p>
-          <strong>
-            Business:
-          </strong>
-          ${escapeHTML(
-            data.name
-          )}
-        </p>
-
-        <p>
-          <strong>
-            Type:
-          </strong>
-          ${escapeHTML(
-            data.type
-          )}
-        </p>
-
-        <p>
-          <strong>
-            Customer:
-          </strong>
-          ${escapeHTML(
-            data.customer
-          )}
-        </p>
-
-        <p>
-          <strong>
-            Budget:
-          </strong>
-          ${escapeHTML(
-            data.budget
-          )}
-        </p>
-
-        <p>
-          <strong>
-            Goal:
-          </strong>
-          ${escapeHTML(
-            data.goal
-          )}
-        </p>
-
-        <hr>
-
-        <h3>
-          30-Day Action Plan
-        </h3>
-
-        <p>
-          1. Research customers and competitors.
-        </p>
-
-        <p>
-          2. Define your product and value proposition.
-        </p>
-
-        <p>
-          3. Set pricing and profit targets.
-        </p>
-
-        <p>
-          4. Build customer acquisition channels.
-        </p>
-
-        <p>
-          5. Set weekly sales KPIs.
-        </p>
-
-        <p>
-          6. Track cash flow and profitability.
-        </p>
-
-        <p>
-          7. Review results and improve execution.
-        </p>
-
-        <p>
-          ⚠️ AI server is currently unavailable.
-        </p>
-
-      `;
-
-    }
-
-  }
-
-  // ============================================================
-  // BUSINESS NOTES
-  // ============================================================
-
-  function getNotes() {
-
-    return safeJSON(
-      NOTES_KEY,
-      []
-    );
-
-  }
-
-  function saveNotes(
-    notes
-  ) {
-
-    saveJSON(
-      NOTES_KEY,
-      notes
-    );
-
-  }
-
-  function openNotes() {
-
-    const notes =
-      getNotes();
-
-    showModal(`
-
-      <div>
-
-        <h2>
-          📝 My Business Notes
-        </h2>
-
-        <p>
-          Save business ideas, customer insights and action plans.
-        </p>
-
-        <textarea
-          id="newNote"
-          class="tool-input"
-          rows="5"
-          placeholder="Write your business note..."
-        ></textarea>
-
-        <button
-          class="primary-button"
-          onclick="saveNewNote()"
-        >
-          Save Note
-        </button>
-
-        <div
-          style="margin-top:20px;"
-        >
-
-          ${
-            notes.length
-
-              ? notes
-                  .map(
-                    (note, index) => `
-
-                      <div class="result-box">
-
-                        <small>
-                          ${escapeHTML(
-                            note.date
-                          )}
-                        </small>
-
-                        <p
-                          style="white-space:pre-wrap;"
-                        >
-                          ${escapeHTML(
-                            note.text
-                          )}
-                        </p>
-
-                        <button
-                          class="secondary-button"
-                          onclick="deleteNote(${index})"
-                        >
-                          Delete
-                        </button>
-
-                      </div>
-
-                    `
-                  )
-                  .join("")
-
-              : `
-
-                <div class="result-box">
-
-                  <p>
-                    No notes yet.
-                  </p>
-
-                </div>
-
-              `
-          }
-
-        </div>
-
-      </div>
-
-    `);
-
-  }
-
-  function saveNewNote() {
-
-    const input =
-      $("newNote");
-
-    const text =
-      input?.value.trim();
-
-    if (!text) {
-
-      showToast(
-        "Write something first."
-      );
-
-      return;
-
-    }
-
-    const notes =
-      getNotes();
-
-    notes.unshift({
-
-      date:
-        new Date()
-          .toLocaleString(),
-
-      text: text
+        if (element) {
+            element.value !== undefined
+                ? element.value = name
+                : element.textContent = name;
+        }
 
     });
 
-    saveNotes(
-      notes
-    );
 
-    showToast(
-      "Note saved successfully."
-    );
+    const sidebarRole =
+        $("#sidebarUserRole");
 
-    openNotes();
-
-  }
-
-  function deleteNote(
-    index
-  ) {
-
-    const notes =
-      getNotes();
-
-    notes.splice(
-      Number(index),
-      1
-    );
-
-    saveNotes(
-      notes
-    );
-
-    openNotes();
-
-  }
-
-  // ============================================================
-  // PREMIUM
-  // ============================================================
-
-  function getTrial() {
-
-    return safeJSON(
-      TRIAL_KEY,
-      null
-    );
-
-  }
-
-  function startTrial() {
-
-    const existing =
-      getTrial();
-
-    if (existing) {
-
-      showToast(
-        "Your trial has already started."
-      );
-
-      return;
-
+    if (sidebarRole) {
+        sidebarRole.textContent = role;
     }
 
-    saveJSON(
-      TRIAL_KEY,
-      {
-        start: Date.now(),
-        days: 7
-      }
-    );
 
-    showToast(
-      "🎉 7-Day Premium Trial Started!"
-    );
+    const settingsRole =
+        $("#settingsRole");
 
-    openPremium();
-
-  }
-
-  function getTrialDaysRemaining() {
-
-    const trial =
-      getTrial();
-
-    if (!trial) {
-      return 0;
+    if (settingsRole) {
+        settingsRole.value = role;
     }
 
-    const elapsed =
-      Date.now() -
-      trial.start;
 
-    const remaining =
-      Math.ceil(
-        trial.days -
-        elapsed /
-        86400000
-      );
+    const welcome =
+        $("#welcomeUserName");
 
-    return Math.max(
-      0,
-      remaining
-    );
+    if (welcome) {
+        welcome.textContent = firstName;
+    }
 
-  }
 
-  function isPremiumActive() {
+    const settingsEmail =
+        $("#settingsEmail");
 
-    return (
-      getTrialDaysRemaining() >
-      0
-    );
+    if (
+        settingsEmail &&
+        state.user.email
+    ) {
+        settingsEmail.value =
+            state.user.email;
+    }
+}
 
-  }
 
-  function openPremium() {
+/* =========================================================
+   DASHBOARD
+========================================================= */
 
-    const active =
-      isPremiumActive();
+function renderDashboard() {
 
-    showModal(`
+    updateCourseProgress();
 
-      <div>
+    const totalCourses =
+        state.courses.length;
 
-        <h2>
-          👑 Full Business Academy
-        </h2>
+    const totalLessons =
+        getTotalLessons();
 
-        <p>
-          Your complete business learning and management system.
-        </p>
-
-        <div
-          class="result-box"
-        >
-
-          <h3>
-            Premium Features
-          </h3>
-
-          <p>
-            ✓ 30 Business Lessons
-          </p>
-
-          <p>
-            ✓ AI Business Coach
-          </p>
-
-          <p>
-            ✓ AI Business Plan
-          </p>
-
-          <p>
-            ✓ Sales KPI Dashboard
-          </p>
-
-          <p>
-            ✓ Finance Tools
-          </p>
-
-          <p>
-            ✓ Sales Tools
-          </p>
-
-          <p>
-            ✓ Business Notes
-          </p>
-
-          <p>
-            ✓ Leadership Training
-          </p>
-
-          <p>
-            ✓ Business Growth Strategy
-          </p>
-
-        </div>
-
-        <div
-          class="result-box"
-        >
-
-          <h3>
-            ${
-              active
-                ? "🟢 Trial Active"
-                : "7-Day Free Trial"
-            }
-          </h3>
-
-          <p>
-            ${
-              active
-                ? getTrialDaysRemaining() +
-                  " day(s) remaining."
-                : "Start your free trial on this device."
-            }
-          </p>
-
-        </div>
-
-        ${
-          !getTrial()
-            ? `
-
-              <button
-                class="primary-button"
-                onclick="startTrial()"
-              >
-                Start 7-Day Free Trial →
-              </button>
-
-            `
-            : ""
-        }
-
-      </div>
-
-    `);
-
-  }
-
-  // ============================================================
-  // PROFILE
-  // ============================================================
-
-  function openProfile() {
-
-    const completed =
-      getCompletedLessons().length;
+    const completedLessons =
+        getCompletedLessons();
 
     const progress =
-      getProgress();
+        getOverallProgress();
 
-    const notes =
-      getNotes().length;
 
-    showModal(`
-
-      <div>
-
-        <h2>
-          👤 My Profile
-        </h2>
-
-        <div
-          class="result-box"
-        >
-
-          <h3>
-            ${escapeHTML(
-              getUserName()
-            )}
-          </h3>
-
-          <p>
-            Business Academy Learner
-          </p>
-
-          <p>
-            Lessons:
-            ${completed}
-            /
-            ${lessons.length}
-          </p>
-
-          <p>
-            Progress:
-            ${progress}%
-          </p>
-
-          <p>
-            Notes:
-            ${notes}
-          </p>
-
-          <p>
-            Premium:
-            ${
-              isPremiumActive()
-                ? getTrialDaysRemaining() +
-                  " day(s) remaining"
-                : "Not Active"
-            }
-          </p>
-
-        </div>
-
-        <button
-          class="primary-button"
-          onclick="openNotes()"
-        >
-          📝 My Notes
-        </button>
-
-        <button
-          class="secondary-button"
-          onclick="changeUserName()"
-        >
-          Change Name
-        </button>
-
-      </div>
-
-    `);
-
-  }
-
-  function changeUserName() {
-
-    showModal(`
-
-      <div>
-
-        <h2>
-          👤 Change Name
-        </h2>
-
-        ${textInput(
-          "newUserName",
-          "Your Name",
-          getUserName()
-        )}
-
-        <button
-          class="primary-button"
-          onclick="saveNewUserName()"
-        >
-          Save Name
-        </button>
-
-      </div>
-
-    `);
-
-  }
-
-  function saveNewUserName() {
-
-    const name =
-      $("newUserName")
-        ?.value.trim();
-
-    if (!name) {
-
-      showToast(
-        "Enter a name."
-      );
-
-      return;
-
-    }
-
-    const user =
-      getUser() || {};
-
-    user.name =
-      name;
-
-    user.lastActive =
-      new Date().toISOString();
-
-    saveUser(
-      user
+    setText(
+        "#dashboardCourseCount",
+        totalCourses
     );
 
-    closeModal();
-
-    updateDashboard();
-
-    showToast(
-      "Name updated."
+    setText(
+        "#dashboardLessonCount",
+        totalLessons
     );
 
-  }
-
-  // ============================================================
-  // NOTIFICATIONS
-  // ============================================================
-
-  function showNotification() {
-
-    const nextLesson =
-      lessons.find(
-        lesson =>
-          !isLessonCompleted(
-            lesson.id
-          )
-      );
-
-    showModal(`
-
-      <div>
-
-        <h2>
-          🔔 Academy Notifications
-        </h2>
-
-        <div
-          class="result-box"
-        >
-
-          <p>
-            🎓 Keep learning every day.
-          </p>
-
-          <p>
-            📚
-            ${lessons.length}
-            business lessons available.
-          </p>
-
-          <p>
-            📊 Current Progress:
-            ${getProgress()}%
-          </p>
-
-          <p>
-            🤖 AI Business Coach is ready.
-          </p>
-
-          <p>
-            🛠️ Business Tools are ready.
-          </p>
-
-          <p>
-            📝 Save your next business action.
-          </p>
-
-          <p>
-
-            ${
-              nextLesson
-                ? "➡️ Next Lesson: " +
-                  escapeHTML(
-                    nextLesson.title
-                  )
-                : "🏆 All Lessons Completed!"
-            }
-
-          </p>
-
-        </div>
-
-      </div>
-
-    `);
-
-  }
-
-  // ============================================================
-  // SETTINGS
-  // ============================================================
-
-  function openSettings() {
-
-    showModal(`
-
-      <div>
-
-        <h2>
-          ⚙️ Academy Settings
-        </h2>
-
-        <div
-          class="result-box"
-        >
-
-          <h3>
-            Account
-          </h3>
-
-          <p>
-            User:
-            <strong>
-              ${escapeHTML(
-                getUserName()
-              )}
-            </strong>
-          </p>
-
-        </div>
-
-        <button
-          class="primary-button"
-          onclick="resetLearningProgress()"
-        >
-          Reset Learning Progress
-        </button>
-
-        <button
-          class="secondary-button"
-          onclick="clearAcademyData()"
-        >
-          Clear Academy Data
-        </button>
-
-      </div>
-
-    `);
-
-  }
-
-  function resetLearningProgress() {
-
-    const confirmed =
-      confirm(
-        "Reset all completed lessons?"
-      );
-
-    if (!confirmed) {
-      return;
-    }
-
-    localStorage.removeItem(
-      COMPLETED_KEY
+    setText(
+        "#completedLessonText",
+        `${completedLessons} lessons`
     );
 
-    updateDashboard();
-
-    showToast(
-      "Learning progress reset."
+    setText(
+        "#dashboardProgress",
+        progress
     );
 
-    openSettings();
-
-  }
-
-  function clearAcademyData() {
-
-    const confirmed =
-      confirm(
-        "Clear notes, plans, KPI data, trial and progress?"
-      );
-
-    if (!confirmed) {
-      return;
-    }
-
-    [
-
-      COMPLETED_KEY,
-      NOTES_KEY,
-      PLAN_KEY,
-      KPI_KEY,
-      TRIAL_KEY
-
-    ].forEach(
-      key =>
-        localStorage.removeItem(
-          key
-        )
+    setWidth(
+        "#dashboardProgressBar",
+        progress
     );
 
-    updateDashboard();
-
-    showToast(
-      "Academy data cleared."
+    setText(
+        "#dashboardStreak",
+        state.streak
     );
 
-    openSettings();
 
-  }
+    const currentCourse =
+        getCurrentCourse();
 
-  // ============================================================
-  // LOGOUT
-  // ============================================================
+    if (currentCourse) {
 
-  function logoutUser() {
-
-    localStorage.removeItem(
-      USER_KEY
-    );
-
-    closeModal();
-
-    showToast(
-      "Logged out."
-    );
-
-    setTimeout(
-      showLoginScreen,
-      500
-    );
-
-  }
-
-  // ============================================================
-  // TOAST
-  // ============================================================
-
-  function showToast(
-    message
-  ) {
-
-    let toast =
-      $("academyToast");
-
-    if (!toast) {
-
-      toast =
-        document.createElement(
-          "div"
+        setText(
+            "#currentCourseTitle",
+            currentCourse.title
         );
 
-      toast.id =
-        "academyToast";
+        setText(
+            "#currentCourseDescription",
+            currentCourse.description
+        );
 
-      Object.assign(
-        toast.style,
-        {
+        setText(
+            "#currentCourseProgress",
+            `${currentCourse.progress}%`
+        );
 
-          position:
-            "fixed",
+        setText(
+            "#currentCourseLesson",
+            `${getCompletedCourseLessons(currentCourse)} / ${currentCourse.lessons.length} Lessons`
+        );
 
-          bottom:
-            "25px",
+        setWidth(
+            "#currentCourseProgressBar",
+            currentCourse.progress
+        );
 
-          left:
-            "50%",
+        const icon =
+            document.querySelector(
+                ".course-cover-icon"
+            );
 
-          transform:
-            "translateX(-50%)",
+        if (icon) {
 
-          padding:
-            "12px 20px",
-
-          borderRadius:
-            "10px",
-
-          background:
-            "#111827",
-
-          color:
-            "#ffffff",
-
-          zIndex:
-            "99999",
-
-          fontSize:
-            "14px",
-
-          maxWidth:
-            "90%",
-
-          boxShadow:
-            "0 10px 30px rgba(0,0,0,.2)"
-
+            icon.innerHTML =
+                `<i class="${currentCourse.icon}"></i>`;
         }
-      );
-
-      document.body.appendChild(
-        toast
-      );
 
     }
 
-    toast.textContent =
-      message;
 
-    toast.style.display =
-      "block";
+    renderRecentActivity();
 
-    clearTimeout(
-      toast._timer
+    renderRecommendations();
+
+    renderDailyGoal();
+
+    updateCourseBadge();
+}
+
+
+function getCurrentCourse() {
+
+    const inProgress =
+        state.courses.find(
+            course =>
+                course.progress > 0 &&
+                course.progress < 100
+        );
+
+    return (
+        inProgress ||
+        state.courses.find(
+            course => course.progress === 0
+        ) ||
+        state.courses[0]
+    );
+}
+
+
+function renderRecentActivity() {
+
+    const container =
+        $("#recentActivityList");
+
+    if (!container) return;
+
+    if (!state.activity.length) {
+
+        container.innerHTML = `
+            <div class="empty-state compact">
+                <p>No recent activity yet.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        state.activity
+            .slice(0, 5)
+            .map(item => `
+
+                <div class="activity-item">
+
+                    <div class="activity-icon">
+                        <i class="${item.icon}"></i>
+                    </div>
+
+                    <div class="activity-content">
+
+                        <strong>
+                            ${escapeHTML(item.title)}
+                        </strong>
+
+                        <span>
+                            ${escapeHTML(item.description)}
+                        </span>
+
+                    </div>
+
+                    <time>
+                        ${escapeHTML(item.time)}
+                    </time>
+
+                </div>
+
+            `)
+            .join("");
+}
+
+
+function renderRecommendations() {
+
+    const container =
+        $("#recommendationList");
+
+    if (!container) return;
+
+    const recommendations =
+        state.courses
+            .filter(course => course.progress < 100)
+            .slice(0, 3);
+
+
+    if (!recommendations.length) {
+
+        container.innerHTML = `
+            <div class="empty-state compact">
+                <p>All courses completed 🎉</p>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        recommendations
+            .map(course => `
+
+                <button
+                    class="recommendation-item"
+                    data-course-id="${course.id}"
+                    type="button"
+                >
+
+                    <div class="recommendation-icon ${course.color}">
+                        <i class="${course.icon}"></i>
+                    </div>
+
+                    <div class="recommendation-content">
+
+                        <strong>
+                            ${escapeHTML(course.title)}
+                        </strong>
+
+                        <span>
+                            ${course.progress}% complete
+                        </span>
+
+                    </div>
+
+                    <i class="fa-solid fa-chevron-right"></i>
+
+                </button>
+
+            `)
+            .join("");
+
+
+    $$(".recommendation-item").forEach(item => {
+
+        item.addEventListener("click", () => {
+
+            const course =
+                state.courses.find(
+                    c =>
+                        c.id === item.dataset.courseId
+                );
+
+            if (course) {
+                openCourse(course.id);
+            }
+
+        });
+
+    });
+}
+
+
+function renderDailyGoal() {
+
+    const completed =
+        state.dailyGoal.completed;
+
+    const target =
+        state.dailyGoal.target || 1;
+
+    const percent =
+        Math.min(
+            100,
+            Math.round(
+                (completed / target) * 100
+            )
+        );
+
+
+    setText(
+        "#dailyGoalPercent",
+        `${percent}%`
     );
 
-    toast._timer =
-      setTimeout(
-        () => {
+    setText(
+        "#dailyGoalTitle",
+        percent >= 100
+            ? "Daily goal completed!"
+            : "Today's learning goal"
+    );
 
-          toast.style.display =
-            "none";
+    setText(
+        "#dailyGoalText",
+        percent >= 100
+            ? "Excellent work. Keep your momentum going."
+            : `${completed} of ${target} lesson completed today.`
+    );
+
+
+    const circle =
+        $("#dailyGoalCircle");
+
+    if (circle) {
+
+        circle.style.background =
+            `conic-gradient(
+                var(--primary, #2563eb)
+                ${percent * 3.6}deg,
+                #e5e7eb ${percent * 3.6}deg
+            )`;
+    }
+}
+
+
+function updateCourseBadge() {
+
+    setText(
+        "#courseCountBadge",
+        state.courses.length
+    );
+}
+
+
+/* =========================================================
+   COURSE FUNCTIONS
+========================================================= */
+
+function bindCourseEvents() {
+
+    const filters =
+        $$(".filter-btn");
+
+    filters.forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                filters.forEach(
+                    item =>
+                        item.classList.remove("active")
+                );
+
+                button.classList.add("active");
+
+                renderCourses(
+                    button.dataset.courseFilter
+                );
+
+            }
+        );
+
+    });
+
+
+    const viewAll =
+        $("#viewAllCoursesBtn");
+
+    if (viewAll) {
+
+        viewAll.addEventListener(
+            "click",
+            () => showPage("courses")
+        );
+    }
+
+
+    const resume =
+        $("#resumeCourseBtn");
+
+    if (resume) {
+
+        resume.addEventListener(
+            "click",
+            () => {
+
+                const course =
+                    getCurrentCourse();
+
+                if (course) {
+                    openCourse(course.id);
+                }
+
+            }
+        );
+    }
+
+
+    const continueBtn =
+        $("#continueLearningBtn");
+
+    if (continueBtn) {
+
+        continueBtn.addEventListener(
+            "click",
+            () => {
+
+                const course =
+                    getCurrentCourse();
+
+                if (course) {
+                    openCourse(course.id);
+                }
+
+            }
+        );
+    }
+
+
+    const goalBtn =
+        $("#dailyGoalBtn");
+
+    if (goalBtn) {
+
+        goalBtn.addEventListener(
+            "click",
+            () => {
+
+                const course =
+                    getCurrentCourse();
+
+                if (course) {
+                    openCourse(course.id);
+                }
+
+            }
+        );
+    }
+
+
+    const courseSearch =
+        $("#courseSearchBtn");
+
+    if (courseSearch) {
+
+        courseSearch.addEventListener(
+            "click",
+            () => {
+
+                showPage("courses");
+
+                setTimeout(() => {
+
+                    const search =
+                        $("#globalSearch");
+
+                    if (search) {
+                        search.focus();
+                    }
+
+                }, 100);
+
+            }
+        );
+    }
+}
+
+
+function renderCourses(filter = "all") {
+
+    const grid =
+        $("#coursesGrid");
+
+    if (!grid) return;
+
+
+    const courses =
+        filter === "all"
+            ? state.courses
+            : state.courses.filter(
+                course =>
+                    course.category === filter
+            );
+
+
+    if (!courses.length) {
+
+        grid.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fa-solid fa-book"></i>
+                </div>
+                <h3>No courses found</h3>
+                <p>Try another category.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    grid.innerHTML =
+        courses
+            .map(course => `
+
+                <article
+                    class="course-card"
+                    data-course-id="${course.id}"
+                >
+
+                    <div class="course-card-cover ${course.color}">
+
+                        <div class="course-card-icon">
+                            <i class="${course.icon}"></i>
+                        </div>
+
+                        <span class="course-category-badge">
+                            ${escapeHTML(course.categoryLabel)}
+                        </span>
+
+                    </div>
+
+
+                    <div class="course-card-body">
+
+                        <h3>
+                            ${escapeHTML(course.title)}
+                        </h3>
+
+                        <p>
+                            ${escapeHTML(course.description)}
+                        </p>
+
+
+                        <div class="course-card-meta">
+
+                            <span>
+                                <i class="fa-solid fa-book-open"></i>
+                                ${course.lessons.length} Lessons
+                            </span>
+
+                            <span>
+                                ${course.progress}%
+                            </span>
+
+                        </div>
+
+
+                        <div class="progress-track">
+
+                            <div
+                                class="progress-fill"
+                                style="width:${course.progress}%"
+                            ></div>
+
+                        </div>
+
+
+                        <button
+                            class="btn btn-secondary btn-small course-open-btn"
+                            data-course-id="${course.id}"
+                            type="button"
+                        >
+
+                            ${
+                                course.progress >= 100
+                                    ? "Review Course"
+                                    : course.progress > 0
+                                        ? "Continue Course"
+                                        : "Start Course"
+                            }
+
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+            `)
+            .join("");
+
+
+    $$(".course-open-btn").forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                openCourse(
+                    button.dataset.courseId
+                );
+
+            }
+        );
+
+    });
+}
+
+
+function openCourse(courseId) {
+
+    selectedCourseId = courseId;
+
+    const course =
+        state.courses.find(
+            item => item.id === courseId
+        );
+
+    if (!course) return;
+
+    selectedLessonId =
+        course.lessons.find(
+            lesson => !lesson.completed
+        )?.id ||
+        course.lessons[0]?.id ||
+        null;
+
+
+    showPage("lessons");
+
+    renderLessons();
+
+    if (selectedLessonId) {
+        renderLessonContent(
+            course,
+            selectedLessonId
+        );
+    }
+}
+
+
+/* =========================================================
+   LESSONS
+========================================================= */
+
+function bindLessonEvents() {
+
+    const sidebar =
+        $("#lessonSidebar");
+
+    if (!sidebar) return;
+}
+
+
+function renderLessons() {
+
+    const sidebar =
+        $("#lessonSidebar");
+
+    if (!sidebar) return;
+
+
+    const course =
+        state.courses.find(
+            item => item.id === selectedCourseId
+        ) || getCurrentCourse();
+
+
+    if (!course) {
+
+        sidebar.innerHTML = `
+            <div class="empty-state compact">
+                <p>No course selected.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    selectedCourseId = course.id;
+
+
+    sidebar.innerHTML = `
+
+        <div class="lesson-course-header">
+
+            <div class="lesson-course-icon ${course.color}">
+                <i class="${course.icon}"></i>
+            </div>
+
+            <div>
+
+                <strong>
+                    ${escapeHTML(course.title)}
+                </strong>
+
+                <span>
+                    ${course.progress}% complete
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="lesson-course-progress">
+
+            <div class="progress-track">
+
+                <div
+                    class="progress-fill"
+                    style="width:${course.progress}%"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <div class="lesson-list">
+
+            ${course.lessons
+                .map((lesson, index) => `
+
+                    <button
+                        class="lesson-item ${
+                            lesson.id === selectedLessonId
+                                ? "active"
+                                : ""
+                        }"
+                        data-lesson-id="${lesson.id}"
+                        type="button"
+                    >
+
+                        <span class="lesson-number">
+
+                            ${
+                                lesson.completed
+                                    ? `<i class="fa-solid fa-check"></i>`
+                                    : index + 1
+                            }
+
+                        </span>
+
+                        <span class="lesson-info">
+
+                            <strong>
+                                ${escapeHTML(lesson.title)}
+                            </strong>
+
+                            <small>
+                                ${escapeHTML(lesson.duration)}
+                            </small>
+
+                        </span>
+
+                    </button>
+
+                `)
+                .join("")}
+
+        </div>
+    `;
+
+
+    $$(".lesson-item").forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                selectedLessonId =
+                    button.dataset.lessonId;
+
+                renderLessons();
+
+                renderLessonContent(
+                    course,
+                    selectedLessonId
+                );
+
+            }
+        );
+
+    });
+}
+
+
+function renderLessonContent(course, lessonId) {
+
+    const container =
+        $("#lessonContent");
+
+    if (!container) return;
+
+
+    const lesson =
+        course.lessons.find(
+            item => item.id === lessonId
+        );
+
+    if (!lesson) return;
+
+
+    const nextLesson =
+        getNextLesson(course, lesson.id);
+
+
+    container.innerHTML = `
+
+        <div class="lesson-view">
+
+            <div class="lesson-view-header">
+
+                <span class="card-eyebrow">
+                    ${escapeHTML(course.categoryLabel)}
+                </span>
+
+                <h2>
+                    ${escapeHTML(lesson.title)}
+                </h2>
+
+                <div class="lesson-meta">
+
+                    <span>
+                        <i class="fa-regular fa-clock"></i>
+                        ${escapeHTML(lesson.duration)}
+                    </span>
+
+                    ${
+                        lesson.completed
+                            ? `
+                                <span class="lesson-completed">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                    Completed
+                                </span>
+                            `
+                            : ""
+                    }
+
+                </div>
+
+            </div>
+
+
+            <div class="lesson-body">
+
+                <div class="lesson-content-text">
+
+                    <p>
+                        ${escapeHTML(lesson.content)}
+                    </p>
+
+
+                    <h3>
+                        Key Takeaways
+                    </h3>
+
+                    <ul>
+
+                        <li>
+                            Understand the core concept.
+                        </li>
+
+                        <li>
+                            Apply the concept to your business.
+                        </li>
+
+                        <li>
+                            Measure the result and improve execution.
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <div class="lesson-action-panel">
+
+                    <div class="lesson-action-icon">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+
+                    <strong>
+                        Practical Action
+                    </strong>
+
+                    <p>
+                        Apply this lesson to one real business situation today.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="lesson-footer">
+
+                <button
+                    class="btn ${
+                        lesson.completed
+                            ? "btn-secondary"
+                            : "btn-primary"
+                    }"
+                    id="completeLessonBtn"
+                    type="button"
+                >
+
+                    <i class="fa-solid ${
+                        lesson.completed
+                            ? "fa-rotate-left"
+                            : "fa-check"
+                    }"></i>
+
+                    ${
+                        lesson.completed
+                            ? "Mark as Incomplete"
+                            : "Mark as Complete"
+                    }
+
+                </button>
+
+
+                ${
+                    nextLesson
+                        ? `
+                            <button
+                                class="btn btn-secondary"
+                                id="nextLessonBtn"
+                                type="button"
+                            >
+
+                                Next Lesson
+
+                                <i class="fa-solid fa-arrow-right"></i>
+
+                            </button>
+                        `
+                        : `
+                            <button
+                                class="btn btn-primary"
+                                id="finishCourseBtn"
+                                type="button"
+                            >
+
+                                Finish Course
+
+                                <i class="fa-solid fa-trophy"></i>
+
+                            </button>
+                        `
+                }
+
+            </div>
+
+        </div>
+    `;
+
+
+    const completeBtn =
+        $("#completeLessonBtn");
+
+    if (completeBtn) {
+
+        completeBtn.addEventListener(
+            "click",
+            () => {
+
+                toggleLessonCompletion(
+                    course.id,
+                    lesson.id
+                );
+
+            }
+        );
+    }
+
+
+    const nextBtn =
+        $("#nextLessonBtn");
+
+    if (nextBtn && nextLesson) {
+
+        nextBtn.addEventListener(
+            "click",
+            () => {
+
+                selectedLessonId =
+                    nextLesson.id;
+
+                renderLessons();
+
+                renderLessonContent(
+                    course,
+                    selectedLessonId
+                );
+
+            }
+        );
+    }
+
+
+    const finishBtn =
+        $("#finishCourseBtn");
+
+    if (finishBtn) {
+
+        finishBtn.addEventListener(
+            "click",
+            () => {
+
+                showToast(
+                    "Course completed! Great work.",
+                    "success"
+                );
+
+                addActivity(
+                    "fa-solid fa-trophy",
+                    "Course completed",
+                    course.title
+                );
+
+                renderDashboard();
+
+            }
+        );
+    }
+}
+
+
+function toggleLessonCompletion(
+    courseId,
+    lessonId
+) {
+
+    const course =
+        state.courses.find(
+            item => item.id === courseId
+        );
+
+    if (!course) return;
+
+
+    const lesson =
+        course.lessons.find(
+            item => item.id === lessonId
+        );
+
+    if (!lesson) return;
+
+
+    lesson.completed =
+        !lesson.completed;
+
+
+    updateCourseProgress();
+
+
+    if (lesson.completed) {
+
+        state.dailyGoal.completed =
+            Math.min(
+                state.dailyGoal.target,
+                state.dailyGoal.completed + 1
+            );
+
+        addActivity(
+            "fa-solid fa-check",
+            "Lesson completed",
+            lesson.title
+        );
+
+        showToast(
+            "Lesson completed successfully.",
+            "success"
+        );
+
+    } else {
+
+        state.dailyGoal.completed =
+            Math.max(
+                0,
+                state.dailyGoal.completed - 1
+            );
+
+        showToast(
+            "Lesson marked as incomplete.",
+            "info"
+        );
+    }
+
+
+    saveState();
+
+    renderLessons();
+
+    renderLessonContent(
+        course,
+        lesson.id
+    );
+
+    renderDashboard();
+
+    renderProgress();
+}
+
+
+function getNextLesson(course, lessonId) {
+
+    const index =
+        course.lessons.findIndex(
+            lesson => lesson.id === lessonId
+        );
+
+    if (
+        index === -1 ||
+        index >= course.lessons.length - 1
+    ) {
+        return null;
+    }
+
+    return course.lessons[index + 1];
+}
+
+
+/* =========================================================
+   COURSE PROGRESS
+========================================================= */
+
+function updateCourseProgress() {
+
+    state.courses.forEach(course => {
+
+        const total =
+            course.lessons.length;
+
+        const completed =
+            course.lessons.filter(
+                lesson => lesson.completed
+            ).length;
+
+
+        course.progress =
+            total === 0
+                ? 0
+                : Math.round(
+                    (completed / total) * 100
+                );
+
+    });
+
+    saveState();
+}
+
+
+function getCompletedCourseLessons(course) {
+
+    return course.lessons.filter(
+        lesson => lesson.completed
+    ).length;
+}
+
+
+function getTotalLessons() {
+
+    return state.courses.reduce(
+        (total, course) =>
+            total + course.lessons.length,
+        0
+    );
+}
+
+
+function getCompletedLessons() {
+
+    return state.courses.reduce(
+        (total, course) =>
+            total +
+            getCompletedCourseLessons(course),
+        0
+    );
+}
+
+
+function getOverallProgress() {
+
+    const total =
+        getTotalLessons();
+
+    const completed =
+        getCompletedLessons();
+
+    if (!total) return 0;
+
+    return Math.round(
+        (completed / total) * 100
+    );
+}
+
+
+/* =========================================================
+   PROGRESS PAGE
+========================================================= */
+
+function renderProgress() {
+
+    const progress =
+        getOverallProgress();
+
+    const completed =
+        getCompletedLessons();
+
+
+    setText(
+        "#progressOverall",
+        progress
+    );
+
+    setWidth(
+        "#progressOverallBar",
+        progress
+    );
+
+    setText(
+        "#progressCompletedLessons",
+        completed
+    );
+
+    setText(
+        "#progressStreak",
+        state.streak
+    );
+
+
+    const container =
+        $("#progressCourseList");
+
+    if (!container) return;
+
+
+    container.innerHTML =
+        state.courses
+            .map(course => `
+
+                <div class="progress-course-item">
+
+                    <div class="progress-course-info">
+
+                        <div class="progress-course-icon ${course.color}">
+                            <i class="${course.icon}"></i>
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                ${escapeHTML(course.title)}
+                            </strong>
+
+                            <span>
+                                ${getCompletedCourseLessons(course)}
+                                / ${course.lessons.length}
+                                lessons
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="progress-course-bar">
+
+                        <div class="progress-track">
+
+                            <div
+                                class="progress-fill"
+                                style="width:${course.progress}%"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <strong class="progress-percent">
+                        ${course.progress}%
+                    </strong>
+
+                </div>
+
+            `)
+            .join("");
+}
+
+
+/* =========================================================
+   SALES MANAGER
+========================================================= */
+
+function bindSalesEvents() {
+
+    const addTarget =
+        $("#salesAddTargetBtn");
+
+    if (addTarget) {
+
+        addTarget.addEventListener(
+            "click",
+            () => {
+
+                openModal(
+                    "Add Sales Target",
+                    `
+                        <form id="targetForm" class="business-form">
+
+                            <div class="form-group">
+
+                                <label>
+                                    Monthly Target
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="newSalesTarget"
+                                    value="${state.sales.monthlyTarget}"
+                                    min="0"
+                                >
+
+                            </div>
+
+                            <button
+                                class="btn btn-primary"
+                                type="submit"
+                            >
+                                Save Target
+                            </button>
+
+                        </form>
+                    `
+                );
+
+
+                const form =
+                    $("#targetForm");
+
+                if (form) {
+
+                    form.addEventListener(
+                        "submit",
+                        event => {
+
+                            event.preventDefault();
+
+                            const value =
+                                Number(
+                                    $("#newSalesTarget").value
+                                );
+
+                            if (
+                                !Number.isFinite(value) ||
+                                value < 0
+                            ) {
+                                showToast(
+                                    "Please enter a valid target.",
+                                    "error"
+                                );
+
+                                return;
+                            }
+
+                            state.sales.monthlyTarget =
+                                value;
+
+                            saveState();
+
+                            closeModal();
+
+                            renderSales();
+
+                            showToast(
+                                "Sales target updated.",
+                                "success"
+                            );
+
+                        }
+                    );
+
+                }
+
+            }
+        );
+    }
+}
+
+
+function renderSales() {
+
+    const target =
+        Number(
+            state.sales.monthlyTarget
+        ) || 0;
+
+    const actual =
+        Number(
+            state.sales.actualSales
+        ) || 0;
+
+    const achievement =
+        target === 0
+            ? 0
+            : Math.round(
+                (actual / target) * 100
+            );
+
+    const gap =
+        Math.max(
+            0,
+            target - actual
+        );
+
+
+    setText(
+        "#salesMonthlyTarget",
+        formatCurrency(target)
+    );
+
+    setText(
+        "#salesActual",
+        formatCurrency(actual)
+    );
+
+    setText(
+        "#salesAchievement",
+        achievement
+    );
+
+    setText(
+        "#salesGap",
+        formatCurrency(gap)
+    );
+
+
+    const list =
+        $("#salesPriorityList");
+
+    if (!list) return;
+
+
+    list.innerHTML =
+        state.sales.priorities
+            .map(
+                (item, index) => `
+
+                    <div class="priority-item">
+
+                        <span class="priority-number">
+                            ${index + 1}
+                        </span>
+
+                        <span>
+                            ${escapeHTML(item)}
+                        </span>
+
+                        <i class="fa-solid fa-chevron-right"></i>
+
+                    </div>
+
+                `
+            )
+            .join("");
+}
+
+
+/* =========================================================
+   PRICING CALCULATOR
+========================================================= */
+
+function bindCalculator() {
+
+    const form =
+        $("#pricingCalculatorForm");
+
+    if (!form) return;
+
+
+    form.addEventListener(
+        "submit",
+        event => {
+
+            event.preventDefault();
+
+            calculatePrice();
+
+        }
+    );
+}
+
+
+function calculatePrice() {
+
+    const cost =
+        Number(
+            $("#costPrice")?.value
+        ) || 0;
+
+    const margin =
+        Number(
+            $("#targetMargin")?.value
+        ) || 0;
+
+    const discount =
+        Number(
+            $("#discountPercent")?.value
+        ) || 0;
+
+
+    if (cost <= 0) {
+
+        showToast(
+            "Please enter a valid cost price.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if (
+        margin < 0 ||
+        margin >= 100
+    ) {
+
+        showToast(
+            "Target margin must be between 0 and 99.9%.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if (
+        discount < 0 ||
+        discount >= 100
+    ) {
+
+        showToast(
+            "Discount must be between 0 and 99.9%.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const recommendedPrice =
+        cost /
+        (1 - margin / 100);
+
+
+    const netPrice =
+        recommendedPrice *
+        (1 - discount / 100);
+
+
+    const profit =
+        netPrice - cost;
+
+
+    const calculatedMargin =
+        netPrice === 0
+            ? 0
+            : (profit / netPrice) * 100;
+
+
+    setText(
+        "#recommendedPrice",
+        formatCurrency(recommendedPrice)
+    );
+
+    setText(
+        "#calculatedProfit",
+        formatCurrency(profit)
+    );
+
+    setText(
+        "#calculatedMargin",
+        `${calculatedMargin.toFixed(1)}%`
+    );
+
+    setText(
+        "#netSellingPrice",
+        formatCurrency(netPrice)
+    );
+
+
+    showToast(
+        "Pricing calculation completed.",
+        "success"
+    );
+}
+
+
+/* =========================================================
+   REPORTS
+========================================================= */
+
+function renderReports() {
+
+    const container =
+        $("#reportsGrid");
+
+    if (!container) return;
+
+
+    const progress =
+        getOverallProgress();
+
+    const completed =
+        getCompletedLessons();
+
+    const total =
+        getTotalLessons();
+
+    const achievement =
+        state.sales.monthlyTarget === 0
+            ? 0
+            : Math.round(
+                state.sales.actualSales /
+                state.sales.monthlyTarget *
+                100
+            );
+
+
+    container.innerHTML = `
+
+        <div class="report-card">
+
+            <div class="report-icon blue">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+
+            <span>
+                Learning Progress
+            </span>
+
+            <strong>
+                ${progress}%
+            </strong>
+
+            <small>
+                ${completed} of ${total} lessons completed
+            </small>
+
+        </div>
+
+
+        <div class="report-card">
+
+            <div class="report-icon green">
+                <i class="fa-solid fa-bullseye"></i>
+            </div>
+
+            <span>
+                Sales Achievement
+            </span>
+
+            <strong>
+                ${achievement}%
+            </strong>
+
+            <small>
+                Current monthly performance
+            </small>
+
+        </div>
+
+
+        <div class="report-card">
+
+            <div class="report-icon orange">
+                <i class="fa-solid fa-fire"></i>
+            </div>
+
+            <span>
+                Learning Streak
+            </span>
+
+            <strong>
+                ${state.streak} days
+            </strong>
+
+            <small>
+                Maintain your consistency
+            </small>
+
+        </div>
+
+
+        <div class="report-card">
+
+            <div class="report-icon purple">
+                <i class="fa-solid fa-book"></i>
+            </div>
+
+            <span>
+                Courses
+            </span>
+
+            <strong>
+                ${state.courses.length}
+            </strong>
+
+            <small>
+                Available learning programs
+            </small>
+
+        </div>
+
+    `;
+}
+
+
+const exportReportButton =
+    $("#exportReportBtn");
+
+if (exportReportButton) {
+
+    exportReportButton.addEventListener(
+        "click",
+        exportReport
+    );
+}
+
+
+function exportReport() {
+
+    const report = {
+
+        generatedAt:
+            new Date().toISOString(),
+
+        user:
+            state.user,
+
+        learning: {
+
+            courses:
+                state.courses.length,
+
+            lessons:
+                getTotalLessons(),
+
+            completedLessons:
+                getCompletedLessons(),
+
+            progress:
+                getOverallProgress(),
+
+            streak:
+                state.streak
 
         },
-        2500
-      );
 
-  }
+        sales:
+            state.sales
 
-  // ============================================================
-  // KEYBOARD
-  // ============================================================
+    };
 
-  document.addEventListener(
-    "keydown",
-    function (event) {
 
-      if (
-        event.key ===
-        "Escape"
-      ) {
+    const blob =
+        new Blob(
+            [
+                JSON.stringify(
+                    report,
+                    null,
+                    2
+                )
+            ],
+            {
+                type:
+                    "application/json"
+            }
+        );
 
-        closeModal();
 
-      }
+    const url =
+        URL.createObjectURL(blob);
 
-      if (
-        (event.ctrlKey ||
-          event.metaKey) &&
-        event.key ===
-        "Enter"
-      ) {
+    const link =
+        document.createElement("a");
 
-        if ($("aiInput")) {
+    link.href = url;
 
-          sendAIMessage();
+    link.download =
+        "aung-business-academy-report.json";
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+    URL.revokeObjectURL(url);
+
+
+    showToast(
+        "Report exported successfully.",
+        "success"
+    );
+}
+
+
+/* =========================================================
+   AI COACH
+========================================================= */
+
+function bindAIEvents() {
+
+    const form =
+        $("#aiChatForm");
+
+    if (form) {
+
+        form.addEventListener(
+            "submit",
+            event => {
+
+                event.preventDefault();
+
+                sendAIMessage();
+
+            }
+        );
+
+    }
+
+
+    const input =
+        $("#aiChatInput");
+
+    if (input) {
+
+        input.addEventListener(
+            "keydown",
+            event => {
+
+                if (
+                    event.key === "Enter" &&
+                    !event.shiftKey
+                ) {
+
+                    event.preventDefault();
+
+                    sendAIMessage();
+
+                }
+
+            }
+        );
+
+    }
+
+
+    $$(".ai-prompt").forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const prompt =
+                    button.dataset.prompt;
+
+                if (input) {
+                    input.value = prompt;
+                }
+
+                sendAIMessage();
+
+            }
+        );
+
+    });
+
+
+    $$(".ai-tool-card").forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const tool =
+                    button.dataset.aiTool;
+
+                openAITool(tool);
+
+            }
+        );
+
+    });
+}
+
+
+function sendAIMessage() {
+
+    const input =
+        $("#aiChatInput");
+
+    const messages =
+        $("#aiChatMessages");
+
+    if (!input || !messages) return;
+
+
+    const text =
+        input.value.trim();
+
+    if (!text) return;
+
+
+    addAIMessage(
+        "user",
+        text
+    );
+
+    input.value = "";
+
+
+    setTimeout(() => {
+
+        const response =
+            generateAIResponse(text);
+
+        addAIMessage(
+            "assistant",
+            response
+        );
+
+    }, 500);
+}
+
+
+function addAIMessage(
+    role,
+    text
+) {
+
+    const messages =
+        $("#aiChatMessages");
+
+    if (!messages) return;
+
+
+    const isUser =
+        role === "user";
+
+
+    const wrapper =
+        document.createElement("div");
+
+    wrapper.className =
+        `ai-message ${role}`;
+
+
+    wrapper.innerHTML = `
+
+        <div class="message-avatar">
+            ${isUser ? "A" : "AI"}
+        </div>
+
+        <div class="message-bubble">
+
+            ${formatAIText(text)}
+
+        </div>
+
+    `;
+
+
+    messages.appendChild(wrapper);
+
+    messages.scrollTop =
+        messages.scrollHeight;
+}
+
+
+function generateAIResponse(question) {
+
+    const q =
+        question.toLowerCase();
+
+
+    if (
+        q.includes("sales") ||
+        q.includes("target") ||
+        q.includes("achievement")
+    ) {
+
+        return `
+            <strong>Sales Recommendation</strong>
+
+            <p>
+                Start with a gap analysis. Compare target vs actual,
+                identify the biggest territory or customer gaps,
+                then create a focused action plan.
+            </p>
+
+            <ul>
+                <li>Review target achievement by territory.</li>
+                <li>Identify top 20% customers and growth opportunities.</li>
+                <li>Coach underperforming salespeople.</li>
+                <li>Set weekly execution KPIs.</li>
+            </ul>
+        `;
+    }
+
+
+    if (
+        q.includes("coach") ||
+        q.includes("underperform")
+    ) {
+
+        return `
+            <strong>Coaching Framework</strong>
+
+            <p>
+                Use a coaching approach instead of immediately applying pressure.
+            </p>
+
+            <ol>
+                <li>Understand the performance gap.</li>
+                <li>Identify the root cause.</li>
+                <li>Agree on a clear action plan.</li>
+                <li>Set measurable expectations.</li>
+                <li>Review progress regularly.</li>
+            </ol>
+        `;
+    }
+
+
+    if (
+        q.includes("customer") ||
+        q.includes("distribution")
+    ) {
+
+        return `
+            <strong>Customer & Distribution Strategy</strong>
+
+            <p>
+                Segment customers by value and growth potential.
+                Then prioritize coverage, availability and execution.
+            </p>
+
+            <ul>
+                <li>Classify customers by sales value.</li>
+                <li>Improve numeric distribution.</li>
+                <li>Focus on availability and visibility.</li>
+                <li>Build customer-specific action plans.</li>
+            </ul>
+        `;
+    }
+
+
+    if (
+        q.includes("marketing")
+    ) {
+
+        return `
+            <strong>Marketing Recommendation</strong>
+
+            <p>
+                Start with customer needs and a clear value proposition.
+                Then choose the right channel and measure conversion.
+            </p>
+        `;
+    }
+
+
+    return `
+        <strong>Business Coach</strong>
+
+        <p>
+            A practical approach is to define the objective,
+            analyze the current gap, identify the root cause,
+            create an action plan and measure the result.
+        </p>
+
+        <p>
+            For a stronger recommendation, structure the problem around
+            <strong>People, Numbers and Execution.</strong>
+        </p>
+    `;
+}
+
+
+function formatAIText(text) {
+
+    if (
+        text.includes("<strong>") ||
+        text.includes("<p>")
+    ) {
+        return text;
+    }
+
+    return escapeHTML(text)
+        .replace(
+            /\n/g,
+            "<br>"
+        );
+}
+
+
+/* =========================================================
+   AI TOOLS
+========================================================= */
+
+function openAITool(tool) {
+
+    const titles = {
+
+        "sales-plan":
+            "Sales Plan Generator",
+
+        "customer-plan":
+            "Customer Plan",
+
+        marketing:
+            "Marketing Ideas",
+
+        swot:
+            "SWOT Analysis",
+
+        interview:
+            "Interview Coach",
+
+        email:
+            "Business Email Writer"
+
+    };
+
+
+    const prompts = {
+
+        "sales-plan":
+            "Create a practical monthly sales action plan.",
+
+        "customer-plan":
+            "Create a customer development plan.",
+
+        marketing:
+            "Generate practical marketing ideas.",
+
+        swot:
+            "Create a SWOT analysis for my business.",
+
+        interview:
+            "Help me prepare for a Sales Manager interview.",
+
+        email:
+            "Write a professional business email."
+
+    };
+
+
+    openModal(
+        titles[tool] || "AI Tool",
+        `
+
+            <div class="ai-tool-modal">
+
+                <p>
+                    ${prompts[tool] || "Use AI to improve your business decisions."}
+                </p>
+
+                <textarea
+                    id="aiToolInput"
+                    class="ai-tool-textarea"
+                    rows="5"
+                    placeholder="Add your business context..."
+                ></textarea>
+
+                <button
+                    class="btn btn-primary full-width"
+                    id="runAIToolBtn"
+                    type="button"
+                >
+
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                    Generate with AI
+
+                </button>
+
+                <div
+                    id="aiToolResult"
+                    class="ai-tool-result"
+                ></div>
+
+            </div>
+
+        `
+    );
+
+
+    const button =
+        $("#runAIToolBtn");
+
+    if (button) {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const input =
+                    $("#aiToolInput")?.value.trim();
+
+                const result =
+                    $("#aiToolResult");
+
+                if (!result) return;
+
+
+                result.innerHTML = `
+
+                    <strong>
+                        AI Business Recommendation
+                    </strong>
+
+                    <p>
+                        Based on your request, start by defining the objective,
+                        current situation, target result and key constraints.
+                        Then create a measurable action plan with owners and deadlines.
+                    </p>
+
+                    <ul>
+
+                        <li>
+                            Define the business objective.
+                        </li>
+
+                        <li>
+                            Analyze the current performance gap.
+                        </li>
+
+                        <li>
+                            Identify the root cause.
+                        </li>
+
+                        <li>
+                            Create 3–5 practical actions.
+                        </li>
+
+                        <li>
+                            Review KPI performance weekly.
+                        </li>
+
+                    </ul>
+
+                    ${
+                        input
+                            ? `<p><strong>Your context:</strong> ${escapeHTML(input)}</p>`
+                            : ""
+                    }
+
+                `;
+
+            }
+        );
+    }
+}
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+function bindSettingsEvents() {
+
+    const form =
+        $("#profileForm");
+
+    if (form) {
+
+        form.addEventListener(
+            "submit",
+            event => {
+
+                event.preventDefault();
+
+                state.user.name =
+                    $("#settingsName")?.value.trim() ||
+                    "Aung Zar Ni Win";
+
+                state.user.role =
+                    $("#settingsRole")?.value.trim() ||
+                    "Business Manager";
+
+                state.user.email =
+                    $("#settingsEmail")?.value.trim() ||
+                    "";
+
+                saveState();
+
+                updateUserUI();
+
+                showToast(
+                    "Profile saved successfully.",
+                    "success"
+                );
+
+            }
+        );
+
+    }
+
+
+    bindSettingToggle(
+        "#notificationSetting",
+        "notifications"
+    );
+
+    bindSettingToggle(
+        "#learningReminderSetting",
+        "learningReminder"
+    );
+
+    bindSettingToggle(
+        "#autoSaveSetting",
+        "autoSave"
+    );
+}
+
+
+function bindSettingToggle(
+    selector,
+    key
+) {
+
+    const element =
+        $(selector);
+
+    if (!element) return;
+
+
+    element.checked =
+        Boolean(
+            state.settings[key]
+        );
+
+
+    element.addEventListener(
+        "change",
+        () => {
+
+            state.settings[key] =
+                element.checked;
+
+            saveState();
+
+            showToast(
+                "Setting updated.",
+                "success"
+            );
 
         }
+    );
+}
 
-      }
 
+function renderSettings() {
+
+    updateUserUI();
+
+    const notification =
+        $("#notificationSetting");
+
+    if (notification) {
+        notification.checked =
+            state.settings.notifications;
     }
-  );
 
-  // ============================================================
-  // INIT
-  // ============================================================
 
-  function init() {
+    const reminder =
+        $("#learningReminderSetting");
 
-    updateDashboard();
+    if (reminder) {
+        reminder.checked =
+            state.settings.learningReminder;
+    }
 
-    setPage(
-      "Dashboard",
-      "Learn Business. Build Business. Grow Business."
+
+    const autoSave =
+        $("#autoSaveSetting");
+
+    if (autoSave) {
+        autoSave.checked =
+            state.settings.autoSave;
+    }
+}
+
+
+/* =========================================================
+   GLOBAL SEARCH
+========================================================= */
+
+function bindGlobalSearch() {
+
+    const search =
+        $("#globalSearch");
+
+    if (!search) return;
+
+
+    search.addEventListener(
+        "input",
+        () => {
+
+            const query =
+                search.value.trim().toLowerCase();
+
+            if (!query) return;
+
+
+            if (
+                state.currentPage === "courses"
+            ) {
+
+                searchCourses(query);
+
+            }
+
+        }
     );
 
-    const modal =
-      $("appModal");
-
-    if (modal) {
-
-      modal.addEventListener(
-        "click",
-        closeModalOutside
-      );
-
-    }
-
-    if (!isLoggedIn()) {
-
-      setTimeout(
-        showLoginScreen,
-        300
-      );
-
-    }
-
-  }
-
-  // ============================================================
-  // GLOBAL FUNCTIONS
-  // ============================================================
-
-  window.goDashboard =
-    goDashboard;
-
-  window.toggleSidebar =
-    toggleSidebar;
-
-  window.closeSidebarMobile =
-    closeSidebarMobile;
-
-  window.toggleMenu =
-    toggleMenu;
-
-  window.openLessons =
-    openLessons;
-
-  window.openLesson =
-    openLesson;
-
-  window.showLesson =
-    showLesson;
-
-  window.filterLessons =
-    filterLessons;
-
-  window.markLessonComplete =
-    markLessonComplete;
-
-  window.continueLearning =
-    continueLearning;
-
-  window.openTools =
-    openTools;
-
-  window.openProfitCalculator =
-    openProfitCalculator;
-
-  window.calculateProfit =
-    calculateProfit;
-
-  window.openPricingCalculator =
-    openPricingCalculator;
-
-  window.calculatePrice =
-    calculatePrice;
-
-  window.openBreakEvenCalculator =
-    openBreakEvenCalculator;
-
-  window.calculateBreakEven =
-    calculateBreakEven;
-
-  window.openSalesTargetCalculator =
-    openSalesTargetCalculator;
-
-  window.calculateSalesTarget =
-    calculateSalesTarget;
-
-  window.openGrowthCalculator =
-    openGrowthCalculator;
-
-  window.calculateGrowth =
-    calculateGrowth;
-
-  window.openROICalculator =
-    openROICalculator;
-
-  window.calculateROI =
-    calculateROI;
-
-  window.openCommissionCalculator =
-    openCommissionCalculator;
-
-  window.calculateCommission =
-    calculateCommission;
-
-  window.openInventoryCalculator =
-    openInventoryCalculator;
-
-  window.calculateInventory =
-    calculateInventory;
-
-  window.openCashFlowPlanner =
-    openCashFlowPlanner;
-
-  window.calculateCashFlow =
-    calculateCashFlow;
-
-  window.openKPIDashboard =
-    openKPIDashboard;
-
-  window.calculateKPI =
-    calculateKPI;
-
-  window.openAI =
-    openAI;
-
-  window.sendAIMessage =
-    sendAIMessage;
-
-  window.askAIQuick =
-    askAIQuick;
-
-  window.clearAIChat =
-    clearAIChat;
-
-  window.checkAIHealth =
-    checkAIHealth;
-
-  window.openBusinessPlan =
-    openBusinessPlan;
-
-  window.generateBusinessPlan =
-    generateBusinessPlan;
-
-  window.openNotes =
-    openNotes;
-
-  window.saveNewNote =
-    saveNewNote;
-
-  window.deleteNote =
-    deleteNote;
-
-  window.openPremium =
-    openPremium;
-
-  window.startTrial =
-    startTrial;
-
-  window.openProfile =
-    openProfile;
-
-  window.changeUserName =
-    changeUserName;
-
-  window.saveNewUserName =
-    saveNewUserName;
-
-  window.showNotification =
-    showNotification;
-
-  window.openSettings =
-    openSettings;
-
-  window.resetLearningProgress =
-    resetLearningProgress;
-
-  window.clearAcademyData =
-    clearAcademyData;
-
-  window.logoutUser =
-    logoutUser;
-
-  window.closeModal =
-    closeModal;
-
-  window.handleLogin =
-    handleLogin;
-
-  window.showToast =
-    showToast;
-
-  // ============================================================
-  // START APP
-  // ============================================================
-
-  if (
-    document.readyState ===
-    "loading"
-  ) {
 
     document.addEventListener(
-      "DOMContentLoaded",
-      init
+        "keydown",
+        event => {
+
+            if (
+                event.key === "/" &&
+                document.activeElement.tagName !== "INPUT" &&
+                document.activeElement.tagName !== "TEXTAREA"
+            ) {
+
+                event.preventDefault();
+
+                search.focus();
+
+            }
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                search.blur();
+
+            }
+
+        }
+    );
+}
+
+
+function searchCourses(query) {
+
+    const grid =
+        $("#coursesGrid");
+
+    if (!grid) return;
+
+
+    const results =
+        state.courses.filter(
+            course => {
+
+                return (
+                    course.title
+                        .toLowerCase()
+                        .includes(query) ||
+
+                    course.description
+                        .toLowerCase()
+                        .includes(query) ||
+
+                    course.category
+                        .toLowerCase()
+                        .includes(query)
+                );
+
+            }
+        );
+
+
+    grid.innerHTML =
+        results
+            .map(course => `
+
+                <article class="course-card">
+
+                    <div class="course-card-cover ${course.color}">
+
+                        <div class="course-card-icon">
+                            <i class="${course.icon}"></i>
+                        </div>
+
+                        <span class="course-category-badge">
+                            ${escapeHTML(course.categoryLabel)}
+                        </span>
+
+                    </div>
+
+
+                    <div class="course-card-body">
+
+                        <h3>
+                            ${escapeHTML(course.title)}
+                        </h3>
+
+                        <p>
+                            ${escapeHTML(course.description)}
+                        </p>
+
+                        <div class="progress-track">
+
+                            <div
+                                class="progress-fill"
+                                style="width:${course.progress}%"
+                            ></div>
+
+                        </div>
+
+                        <button
+                            class="btn btn-secondary btn-small course-open-btn"
+                            data-course-id="${course.id}"
+                            type="button"
+                        >
+
+                            Open Course
+
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+            `)
+            .join("");
+
+
+    $$(".course-open-btn").forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                openCourse(
+                    button.dataset.courseId
+                );
+
+            }
+        );
+
+    });
+}
+
+
+/* =========================================================
+   MOBILE SIDEBAR
+========================================================= */
+
+function bindMobileSidebar() {
+
+    const button =
+        $("#mobileMenuBtn");
+
+    const overlay =
+        $("#sidebarOverlay");
+
+    const sidebar =
+        $("#sidebar");
+
+
+    if (button) {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                sidebar?.classList.add("open");
+
+                overlay?.classList.add("show");
+
+            }
+        );
+
+    }
+
+
+    if (overlay) {
+
+        overlay.addEventListener(
+            "click",
+            closeMobileSidebar
+        );
+
+    }
+}
+
+
+function closeMobileSidebar() {
+
+    $("#sidebar")?.classList.remove(
+        "open"
     );
 
-  } else {
+    $("#sidebarOverlay")?.classList.remove(
+        "show"
+    );
+}
 
-    init();
 
-  }
+/* =========================================================
+   MODAL
+========================================================= */
 
-})();
+function bindModal() {
+
+    const close =
+        $("#modalCloseBtn");
+
+    const overlay =
+        $("#modalOverlay");
+
+
+    if (close) {
+
+        close.addEventListener(
+            "click",
+            closeModal
+        );
+
+    }
+
+
+    if (overlay) {
+
+        overlay.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target === overlay
+                ) {
+
+                    closeModal();
+
+                }
+
+            }
+        );
+
+    }
+
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                closeModal();
+
+            }
+
+        }
+    );
+}
+
+
+function openModal(
+    title,
+    body,
+    footer = ""
+) {
+
+    const overlay =
+        $("#modalOverlay");
+
+    const titleElement =
+        $("#modalTitle");
+
+    const bodyElement =
+        $("#modalBody");
+
+    const footerElement =
+        $("#modalFooter");
+
+
+    if (!overlay) return;
+
+
+    if (titleElement) {
+        titleElement.textContent =
+            title;
+    }
+
+    if (bodyElement) {
+        bodyElement.innerHTML =
+            body;
+    }
+
+    if (footerElement) {
+        footerElement.innerHTML =
+            footer;
+    }
+
+
+    overlay.classList.add(
+        "show"
+    );
+
+    document.body.classList.add(
+        "modal-open"
+    );
+}
+
+
+function closeModal() {
+
+    const overlay =
+        $("#modalOverlay");
+
+    if (!overlay) return;
+
+
+    overlay.classList.remove(
+        "show"
+    );
+
+    document.body.classList.remove(
+        "modal-open"
+    );
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(
+    message,
+    type = "info"
+) {
+
+    const container =
+        $("#toastContainer");
+
+    if (!container) return;
+
+
+    const toast =
+        document.createElement("div");
+
+    toast.className =
+        `toast ${type}`;
+
+
+    let icon =
+        "fa-solid fa-circle-info";
+
+    if (type === "success") {
+        icon =
+            "fa-solid fa-circle-check";
+    }
+
+    if (type === "error") {
+        icon =
+            "fa-solid fa-circle-exclamation";
+    }
+
+
+    toast.innerHTML = `
+
+        <div class="toast-icon">
+            <i class="${icon}"></i>
+        </div>
+
+        <div class="toast-message">
+            ${escapeHTML(message)}
+        </div>
+
+        <button
+            class="toast-close"
+            type="button"
+        >
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+    `;
+
+
+    container.appendChild(toast);
+
+
+    const close =
+        toast.querySelector(
+            ".toast-close"
+        );
+
+    if (close) {
+
+        close.addEventListener(
+            "click",
+            () => toast.remove()
+        );
+
+    }
+
+
+    setTimeout(
+        () => {
+
+            toast.classList.add(
+                "hide"
+            );
+
+            setTimeout(
+                () => toast.remove(),
+                300
+            );
+
+        },
+        3500
+    );
+}
+
+
+/* =========================================================
+   ACTIVITY
+========================================================= */
+
+function addActivity(
+    icon,
+    title,
+    description
+) {
+
+    state.activity.unshift({
+
+        icon,
+        title,
+        description,
+        time: "Just now"
+
+    });
+
+
+    state.activity =
+        state.activity.slice(
+            0,
+            20
+        );
+
+
+    saveState();
+
+    renderRecentActivity();
+}
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function setText(
+    selector,
+    value
+) {
+
+    const element =
+        $(selector);
+
+    if (element) {
+        element.textContent =
+            value;
+    }
+}
+
+
+function setWidth(
+    selector,
+    value
+) {
+
+    const element =
+        $(selector);
+
+    if (element) {
+
+        element.style.width =
+            `${Math.max(
+                0,
+                Math.min(
+                    100,
+                    Number(value) || 0
+                )
+            )}%`;
+
+    }
+}
+
+
+function formatCurrency(value) {
+
+    const number =
+        Number(value) || 0;
+
+    return (
+        "Ks " +
+        Math.round(number)
+            .toLocaleString("en-US")
+    );
+}
+
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+}
+
+
+/* =========================================================
+   PROFILE MENU
+========================================================= */
+
+const profileMenu =
+    $("#profileMenuBtn");
+
+if (profileMenu) {
+
+    profileMenu.addEventListener(
+        "click",
+        () => {
+
+            openModal(
+                "Profile",
+                `
+
+                    <div class="profile-modal">
+
+                        <div class="profile-modal-avatar">
+                            A
+                        </div>
+
+                        <h3>
+                            ${escapeHTML(state.user.name)}
+                        </h3>
+
+                        <p>
+                            ${escapeHTML(state.user.role)}
+                        </p>
+
+                        <button
+                            class="btn btn-primary full-width"
+                            id="profileSettingsBtn"
+                            type="button"
+                        >
+
+                            Open Settings
+
+                        </button>
+
+                    </div>
+
+                `
+            );
+
+
+            const button =
+                $("#profileSettingsBtn");
+
+            if (button) {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        closeModal();
+
+                        showPage("settings");
+
+                    }
+                );
+
+            }
+
+        }
+    );
+}
+
+
+/* =========================================================
+   TOPBAR USER
+========================================================= */
+
+const topbarUser =
+    $("#topbarUserBtn");
+
+if (topbarUser) {
+
+    topbarUser.addEventListener(
+        "click",
+        () => {
+
+            openModal(
+                "Account",
+                `
+
+                    <div class="profile-modal">
+
+                        <div class="profile-modal-avatar">
+                            A
+                        </div>
+
+                        <h3>
+                            ${escapeHTML(state.user.name)}
+                        </h3>
+
+                        <p>
+                            ${escapeHTML(state.user.role)}
+                        </p>
+
+                    </div>
+
+                `
+            );
+
+        }
+    );
+}
+
+
+/* =========================================================
+   NOTIFICATION
+========================================================= */
+
+const notificationButton =
+    $("#notificationBtn");
+
+if (notificationButton) {
+
+    notificationButton.addEventListener(
+        "click",
+        () => {
+
+            openModal(
+                "Notifications",
+                `
+
+                    <div class="notification-modal">
+
+                        <div class="notification-row">
+
+                            <div class="notification-icon">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Keep learning
+                                </strong>
+
+                                <p>
+                                    Complete one lesson today to maintain your momentum.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="notification-row">
+
+                            <div class="notification-icon">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Business progress
+                                </strong>
+
+                                <p>
+                                    Review your sales performance and action priorities.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                `
+            );
+
+
+            const dot =
+                $("#notificationDot");
+
+            if (dot) {
+                dot.style.display =
+                    "none";
+            }
+
+        }
+    );
+}
+
+
+/* =========================================================
+   REFRESH RECOMMENDATIONS
+========================================================= */
+
+const refreshRecommendations =
+    $("#refreshRecommendationsBtn");
+
+if (refreshRecommendations) {
+
+    refreshRecommendations.addEventListener(
+        "click",
+        () => {
+
+            renderRecommendations();
+
+            showToast(
+                "Recommendations refreshed.",
+                "success"
+            );
+
+        }
+    );
+}
+
+
+/* =========================================================
+   QUICK ACTION
+========================================================= */
+
+const quickAction =
+    $("#quickActionBtn");
+
+if (quickAction) {
+
+    quickAction.addEventListener(
+        "click",
+        () => {
+
+            openModal(
+                "Quick Action",
+                `
+
+                    <div class="quick-action-modal">
+
+                        <button
+                            class="quick-modal-action"
+                            data-action-page="courses"
+                            type="button"
+                        >
+
+                            <i class="fa-solid fa-graduation-cap"></i>
+
+                            <span>
+                                Start Learning
+                            </span>
+
+                        </button>
+
+
+                        <button
+                            class="quick-modal-action"
+                            data-action-page="sales"
+                            type="button"
+                        >
+
+                            <i class="fa-solid fa-bullseye"></i>
+
+                            <span>
+                                Sales Manager
+                            </span>
+
+                        </button>
+
+
+                        <button
+                            class="quick-modal-action"
+                            data-action-page="calculator"
+                            type="button"
+                        >
+
+                            <i class="fa-solid fa-calculator"></i>
+
+                            <span>
+                                Pricing Calculator
+                            </span>
+
+                        </button>
+
+
+                        <button
+                            class="quick-modal-action"
+                            data-action-page="ai-coach"
+                            type="button"
+                        >
+
+                            <i class="fa-solid fa-robot"></i>
+
+                            <span>
+                                Ask AI Coach
+                            </span>
+
+                        </button>
+
+                    </div>
+
+                `
+            );
+
+
+            $$(".quick-modal-action").forEach(
+                button => {
+
+                    button.addEventListener(
+                        "click",
+                        () => {
+
+                            closeModal();
+
+                            showPage(
+                                button.dataset.actionPage
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+        }
+    );
+}
+
+
+/* =========================================================
+   ACTIVITY BUTTON
+========================================================= */
+
+const activityButton =
+    $("#viewActivityBtn");
+
+if (activityButton) {
+
+    activityButton.addEventListener(
+        "click",
+        () => {
+
+            openModal(
+                "Recent Activity",
+                `
+
+                    <div class="activity-list">
+
+                        ${
+                            state.activity
+                                .map(
+                                    item => `
+
+                                        <div class="activity-item">
+
+                                            <div class="activity-icon">
+                                                <i class="${item.icon}"></i>
+                                            </div>
+
+                                            <div class="activity-content">
+
+                                                <strong>
+                                                    ${escapeHTML(item.title)}
+                                                </strong>
+
+                                                <span>
+                                                    ${escapeHTML(item.description)}
+                                                </span>
+
+                                            </div>
+
+                                            <time>
+                                                ${escapeHTML(item.time)}
+                                            </time>
+
+                                        </div>
+
+                                    `
+                                )
+                                .join("")
+                        }
+
+                    </div>
+
+                `
+            );
+
+        }
+    );
+}
+
+
+/* =========================================================
+   GLOBAL WINDOW API
+========================================================= */
+
+window.AungAcademy = {
+
+    state,
+
+    showPage,
+
+    openCourse,
+
+    calculatePrice,
+
+    renderDashboard,
+
+    renderCourses,
+
+    renderProgress,
+
+    renderSales,
+
+    renderReports,
+
+    resetData() {
+
+        localStorage.removeItem(
+            STORAGE_KEY
+        );
+
+        location.reload();
+
+    }
+
+};
+
+
+/* =========================================================
+   FINAL INITIAL DATA
+========================================================= */
+
+updateCourseProgress();

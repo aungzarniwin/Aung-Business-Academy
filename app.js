@@ -1,6 +1,7 @@
+```javascript
 // ======================================================
 // AUNG BUSINESS ACADEMY V8
-// APP.JS — CLEAN FULL VERSION
+// APP.JS — STABLE FULL VERSION
 // ======================================================
 
 "use strict";
@@ -11,15 +12,24 @@
 
 const STORAGE_KEY = "aungBusinessAcademyV8";
 
+const VALID_PAGES = [
+  "dashboard",
+  "courses",
+  "lessons",
+  "progress",
+  "sales",
+  "calculator",
+  "reports",
+  "ai-coach",
+  "ai-tools",
+  "settings"
+];
+
 // ======================================================
 // COURSES
 // ======================================================
 
 const COURSES = [
-
-  // ====================================================
-  // COURSE 1 — FREE
-  // ====================================================
 
   {
     id: "sales-management",
@@ -28,12 +38,9 @@ const COURSES = [
     color: "blue",
     icon: "↗",
     premium: false,
-
     description:
       "Master sales planning, team coaching, territory management and performance management.",
-
     lessons: [
-
       {
         title: "Sales Management Fundamentals",
         content: `
@@ -58,7 +65,6 @@ const COURSES = [
           </ul>
         `
       },
-
       {
         title: "Target Planning",
         content: `
@@ -75,7 +81,6 @@ const COURSES = [
           </p>
         `
       },
-
       {
         title: "Sales Execution",
         content: `
@@ -92,7 +97,6 @@ const COURSES = [
           </p>
         `
       },
-
       {
         title: "Sales Team Coaching",
         content: `
@@ -108,13 +112,8 @@ const COURSES = [
           </p>
         `
       }
-
     ]
   },
-
-  // ====================================================
-  // COURSE 2 — PREMIUM
-  // ====================================================
 
   {
     id: "leadership",
@@ -123,12 +122,9 @@ const COURSES = [
     color: "purple",
     icon: "★",
     premium: true,
-
     description:
       "Build strong leadership, coaching, communication and team management skills.",
-
     lessons: [
-
       {
         title: "Leadership Fundamentals",
         content: `
@@ -139,7 +135,6 @@ const COURSES = [
           </p>
         `
       },
-
       {
         title: "Coaching & Empowerment",
         content: `
@@ -155,7 +150,6 @@ const COURSES = [
           </p>
         `
       },
-
       {
         title: "Performance Management",
         content: `
@@ -170,7 +164,6 @@ const COURSES = [
           </p>
         `
       },
-
       {
         title: "Communication Skills",
         content: `
@@ -187,13 +180,8 @@ const COURSES = [
           </ul>
         `
       }
-
     ]
   },
-
-  // ====================================================
-  // COURSE 3 — PREMIUM
-  // ====================================================
 
   {
     id: "business-strategy",
@@ -202,12 +190,9 @@ const COURSES = [
     color: "green",
     icon: "◆",
     premium: true,
-
     description:
       "Learn practical business strategy, market analysis, customer growth and competitive advantage.",
-
     lessons: [
-
       {
         title: "Business Strategy Fundamentals",
         content: `
@@ -218,7 +203,6 @@ const COURSES = [
           </p>
         `
       },
-
       {
         title: "Market Analysis",
         content: `
@@ -233,7 +217,6 @@ const COURSES = [
           </p>
         `
       },
-
       {
         title: "Customer Growth Strategy",
         content: `
@@ -251,13 +234,8 @@ const COURSES = [
           </ul>
         `
       }
-
     ]
   },
-
-  // ====================================================
-  // COURSE 4 — PREMIUM
-  // ====================================================
 
   {
     id: "business-finance",
@@ -266,12 +244,9 @@ const COURSES = [
     color: "orange",
     icon: "▣",
     premium: true,
-
     description:
       "Understand revenue, cost, profit, margin, cash flow and practical business finance.",
-
     lessons: [
-
       {
         title: "Finance Fundamentals",
         content: `
@@ -282,7 +257,6 @@ const COURSES = [
           </p>
         `
       },
-
       {
         title: "Profit & Margin",
         content: `
@@ -292,12 +266,10 @@ const COURSES = [
           </p>
 
           <p>
-            Gross Profit =
-            Revenue − Cost
+            Gross Profit = Revenue − Cost
           </p>
         `
       },
-
       {
         title: "Cash Flow Management",
         content: `
@@ -312,7 +284,6 @@ const COURSES = [
           </p>
         `
       }
-
     ]
   }
 
@@ -330,7 +301,6 @@ let academyInitialized = false;
 // ======================================================
 
 function getTodayKey() {
-
   const date = new Date();
 
   return [
@@ -338,13 +308,10 @@ function getTodayKey() {
     String(date.getMonth() + 1).padStart(2, "0"),
     String(date.getDate()).padStart(2, "0")
   ].join("-");
-
 }
 
 function getYesterdayKey() {
-
   const date = new Date();
-
   date.setDate(date.getDate() - 1);
 
   return [
@@ -352,7 +319,6 @@ function getYesterdayKey() {
     String(date.getMonth() + 1).padStart(2, "0"),
     String(date.getDate()).padStart(2, "0")
   ].join("-");
-
 }
 
 // ======================================================
@@ -360,24 +326,16 @@ function getYesterdayKey() {
 // ======================================================
 
 function createDefaultState() {
-
   return {
-
     currentPage: "dashboard",
-
-    currentCourseId:
-      COURSES[0]?.id || null,
-
+    currentCourseId: COURSES[0]?.id || null,
     currentLessonIndex: 0,
 
     completedLessons: [],
-
     lessonDates: {},
-
     activity: [],
 
     streak: 0,
-
     lastLearningDate: null,
 
     dailyGoal: {
@@ -403,9 +361,7 @@ function createDefaultState() {
       reminder: true,
       tracking: true
     }
-
   };
-
 }
 
 // ======================================================
@@ -413,48 +369,29 @@ function createDefaultState() {
 // ======================================================
 
 function saveState() {
-
   try {
-
     localStorage.setItem(
       STORAGE_KEY,
       JSON.stringify(state)
     );
-
   } catch (error) {
-
-    console.error(
-      "Save state error:",
-      error
-    );
-
+    console.error("Save state error:", error);
   }
-
 }
 
 function loadState() {
-
   try {
-
-    const saved =
-      localStorage.getItem(STORAGE_KEY);
+    const saved = localStorage.getItem(STORAGE_KEY);
 
     if (!saved) {
-
       return createDefaultState();
-
     }
 
-    const parsed =
-      JSON.parse(saved);
+    const parsed = JSON.parse(saved);
+    const defaults = createDefaultState();
 
-    const defaults =
-      createDefaultState();
-
-    return {
-
+    const merged = {
       ...defaults,
-
       ...parsed,
 
       dailyGoal: {
@@ -475,34 +412,58 @@ function loadState() {
       settings: {
         ...defaults.settings,
         ...(parsed.settings || {})
-      },
-
-      completedLessons:
-        Array.isArray(parsed.completedLessons)
-          ? parsed.completedLessons
-          : [],
-
-      lessonDates:
-        parsed.lessonDates || {},
-
-      activity:
-        Array.isArray(parsed.activity)
-          ? parsed.activity
-          : []
-
+      }
     };
 
+    merged.completedLessons =
+      Array.isArray(parsed.completedLessons)
+        ? parsed.completedLessons
+        : [];
+
+    merged.lessonDates =
+      parsed.lessonDates &&
+      typeof parsed.lessonDates === "object"
+        ? parsed.lessonDates
+        : {};
+
+    merged.activity =
+      Array.isArray(parsed.activity)
+        ? parsed.activity
+        : [];
+
+    merged.sales.history =
+      Array.isArray(merged.sales.history)
+        ? merged.sales.history
+        : [];
+
+    merged.sales.priorities =
+      Array.isArray(merged.sales.priorities)
+        ? merged.sales.priorities
+        : [];
+
+    // IMPORTANT: validate saved page
+    if (!VALID_PAGES.includes(merged.currentPage)) {
+      merged.currentPage = "dashboard";
+    }
+
+    // IMPORTANT: validate course
+    if (
+      !COURSES.some(
+        course => course.id === merged.currentCourseId
+      )
+    ) {
+      merged.currentCourseId =
+        COURSES[0]?.id || null;
+
+      merged.currentLessonIndex = 0;
+    }
+
+    return merged;
+
   } catch (error) {
-
-    console.error(
-      "Load state error:",
-      error
-    );
-
+    console.error("Load state error:", error);
     return createDefaultState();
-
   }
-
 }
 
 // ======================================================
@@ -510,14 +471,12 @@ function loadState() {
 // ======================================================
 
 function escapeHTML(value) {
-
   return String(value ?? "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
-
 }
 
 // ======================================================
@@ -525,46 +484,29 @@ function escapeHTML(value) {
 // ======================================================
 
 function isPremiumCourse(course) {
-
-  if (!course) return false;
-
-  return course.premium === true;
-
+  return !!course && course.premium === true;
 }
 
 function hasPremiumAccess() {
 
-  // ----------------------------------------------------
-  // External premium.js
-  // ----------------------------------------------------
-
   try {
-
     if (window.AungPremium) {
 
       if (
-        typeof window.AungPremium.hasAccess ===
-        "function"
+        typeof window.AungPremium.hasAccess === "function"
       ) {
-
         return !!window.AungPremium.hasAccess();
-
       }
 
       if (
-        typeof window.AungPremium.isPremiumActive ===
-        "function"
+        typeof window.AungPremium.isPremiumActive === "function"
       ) {
-
         return !!window.AungPremium.isPremiumActive();
-
       }
 
       if (
-        typeof window.AungPremium.getStatus ===
-        "function"
+        typeof window.AungPremium.getStatus === "function"
       ) {
-
         const status =
           window.AungPremium.getStatus();
 
@@ -573,28 +515,15 @@ function hasPremiumAccess() {
           status === "active" ||
           status === "premium"
         ) {
-
           return true;
-
         }
-
       }
-
     }
-
   } catch (error) {
-
-    console.warn(
-      "Premium access check failed:",
-      error
-    );
-
+    console.warn("Premium access check failed:", error);
   }
 
-  // ----------------------------------------------------
   // Trial fallback
-  // ----------------------------------------------------
-
   try {
 
     const trial =
@@ -604,8 +533,7 @@ function hasPremiumAccess() {
 
     if (trial) {
 
-      const data =
-        JSON.parse(trial);
+      const data = JSON.parse(trial);
 
       if (
         data &&
@@ -614,36 +542,22 @@ function hasPremiumAccess() {
       ) {
 
         const elapsed =
-          Date.now() -
-          Number(data.start);
+          Date.now() - Number(data.start);
 
         const duration =
-          Number(data.days) *
-          86400000;
+          Number(data.days) * 86400000;
 
-        if (
-          elapsed < duration
-        ) {
-
+        if (elapsed < duration) {
           return true;
-
         }
-
       }
-
     }
 
   } catch (error) {
-
-    console.warn(
-      "Trial check failed:",
-      error
-    );
-
+    console.warn("Trial check failed:", error);
   }
 
   return false;
-
 }
 
 // ======================================================
@@ -661,7 +575,6 @@ function openPremiumAccess() {
     ) {
 
       window.AungPremium.openPremiumModal();
-
       return;
 
     }
@@ -673,58 +586,19 @@ function openPremiumAccess() {
     ) {
 
       window.AungPremium.openPremium();
-
       return;
 
     }
 
   } catch (error) {
-
-    console.warn(
-      "Premium modal error:",
-      error
-    );
-
+    console.warn("Premium modal error:", error);
   }
 
-  // ----------------------------------------------------
-  // Built-in fallback modal
-  // Uses the existing index.html modal structure
-  // ----------------------------------------------------
-
-  const overlay =
-    document.getElementById("modalOverlay");
-
-  const title =
-    document.getElementById("modalTitle");
-
-  const text =
-    document.getElementById("modalText");
-
-  const action =
-    document.getElementById("modalAction");
-
-  if (!overlay) {
-
-    showToast(
-      "Premium Access လိုအပ်ပါတယ်။"
-    );
-
-    return;
-
-  }
-
-  if (title) {
-
-    title.textContent =
-      "👑 Premium Access";
-
-  }
-
-  if (text) {
-
-    text.innerHTML = `
+  showModal(
+    "👑 Premium Access",
+    `
       <strong>Premium Course ဖြစ်ပါတယ်။</strong>
+
       <br><br>
 
       Course 2 — Leadership Excellence<br>
@@ -735,22 +609,10 @@ function openPremiumAccess() {
 
       Premium Access ရရှိပြီးမှ
       ဒီ Course များကို လေ့လာနိုင်ပါမယ်။
-    `;
-
-  }
-
-  if (action) {
-
-    action.textContent =
-      "Close";
-
-    action.onclick =
-      closeModal;
-
-  }
-
-  overlay.classList.add("show");
-
+    `,
+    "Close",
+    closeModal
+  );
 }
 
 // ======================================================
@@ -758,74 +620,52 @@ function openPremiumAccess() {
 // ======================================================
 
 function getCourseById(courseId) {
-
-  return COURSES.find(
-    course =>
-      course.id === courseId
-  ) || null;
-
+  return (
+    COURSES.find(
+      course => course.id === courseId
+    ) || null
+  );
 }
 
 function getCurrentCourse() {
-
   if (!state) return null;
 
   return getCourseById(
     state.currentCourseId
   );
-
 }
 
 function getCurrentLesson() {
 
-  const course =
-    getCurrentCourse();
+  const course = getCurrentCourse();
 
   if (!course) {
-
     return {
       course: null,
       index: 0,
       lesson: null
     };
-
   }
 
   let index =
     Number(state.currentLessonIndex);
 
-  if (
-    !Number.isInteger(index) ||
-    index < 0
-  ) {
-
+  if (!Number.isInteger(index) || index < 0) {
     index = 0;
-
   }
 
-  if (
-    index >= course.lessons.length
-  ) {
-
-    index =
-      course.lessons.length - 1;
-
+  if (index >= course.lessons.length) {
+    index = course.lessons.length - 1;
   }
 
   state.currentLessonIndex =
     Math.max(0, index);
 
   return {
-
     course,
-
     index,
-
-    lesson:
-      course.lessons[index]
-
+    lesson: course.lessons[index]
   };
-
 }
 
 // ======================================================
@@ -833,23 +673,17 @@ function getCurrentLesson() {
 // ======================================================
 
 function getTotalLessons() {
-
   return COURSES.reduce(
     (total, course) =>
       total + course.lessons.length,
     0
   );
-
 }
 
 function getCompletedCount() {
-
-  return Array.isArray(
-    state?.completedLessons
-  )
+  return Array.isArray(state?.completedLessons)
     ? state.completedLessons.length
     : 0;
-
 }
 
 function getCourseCompleted(courseId) {
@@ -857,7 +691,7 @@ function getCourseCompleted(courseId) {
   const course =
     getCourseById(courseId);
 
-  if (!course) return 0;
+  if (!course || !state) return 0;
 
   return course.lessons.filter(
     (_, index) =>
@@ -865,7 +699,6 @@ function getCourseCompleted(courseId) {
         `${courseId}-${index}`
       )
   ).length;
-
 }
 
 function getCourseProgress(courseId) {
@@ -875,22 +708,17 @@ function getCourseProgress(courseId) {
 
   if (
     !course ||
-    !course.lessons.length
+    !course.lessons.length ||
+    !state
   ) {
-
     return 0;
-
   }
 
-  const completed =
-    getCourseCompleted(courseId);
-
   return Math.round(
-    completed /
+    getCourseCompleted(courseId) /
     course.lessons.length *
     100
   );
-
 }
 
 function getOverallProgress() {
@@ -905,7 +733,6 @@ function getOverallProgress() {
     total *
     100
   );
-
 }
 
 // ======================================================
@@ -919,12 +746,10 @@ function getContinueLearning() {
 
   if (!course) {
 
-    course =
-      COURSES[0];
+    course = COURSES[0];
 
     state.currentCourseId =
       course?.id || null;
-
   }
 
   if (!course) return null;
@@ -932,18 +757,9 @@ function getContinueLearning() {
   let index =
     Number(state.currentLessonIndex);
 
-  if (
-    !Number.isInteger(index) ||
-    index < 0
-  ) {
-
+  if (!Number.isInteger(index) || index < 0) {
     index = 0;
-
   }
-
-  // ----------------------------------------------------
-  // Find next lesson in current course
-  // ----------------------------------------------------
 
   while (
     index < course.lessons.length &&
@@ -951,41 +767,24 @@ function getContinueLearning() {
       `${course.id}-${index}`
     )
   ) {
-
     index++;
-
   }
 
-  if (
-    index < course.lessons.length
-  ) {
+  if (index < course.lessons.length) {
 
     return {
-
       course,
-
       index,
-
-      lesson:
-        course.lessons[index],
-
+      lesson: course.lessons[index],
       locked:
         isPremiumCourse(course) &&
         !hasPremiumAccess()
-
     };
-
   }
-
-  // ----------------------------------------------------
-  // Current course complete
-  // Find next incomplete course
-  // ----------------------------------------------------
 
   const currentIndex =
     COURSES.findIndex(
-      item =>
-        item.id === course.id
+      item => item.id === course.id
     );
 
   for (
@@ -1005,31 +804,21 @@ function getContinueLearning() {
           )
       );
 
-    if (
-      nextLessonIndex !== -1
-    ) {
+    if (nextLessonIndex !== -1) {
 
       return {
-
         course: nextCourse,
-
         index: nextLessonIndex,
-
         lesson:
           nextCourse.lessons[nextLessonIndex],
-
         locked:
           isPremiumCourse(nextCourse) &&
           !hasPremiumAccess()
-
       };
-
     }
-
   }
 
   return null;
-
 }
 
 // ======================================================
@@ -1038,48 +827,47 @@ function getContinueLearning() {
 
 function navigate(page) {
 
-  if (!page) return;
-
   const target =
-    String(page);
+    VALID_PAGES.includes(String(page))
+      ? String(page)
+      : "dashboard";
 
-  // ----------------------------------------------------
-  // Hide all pages
-  // ----------------------------------------------------
+  const pages =
+    document.querySelectorAll(".page");
 
-  document
-    .querySelectorAll(".page")
-    .forEach(section => {
-
-      section.classList.remove(
-        "active"
-      );
-
-    });
-
-  // ----------------------------------------------------
-  // IMPORTANT:
-  // HTML uses page-dashboard,
-  // page-courses, page-lessons, etc.
-  // ----------------------------------------------------
+  pages.forEach(section => {
+    section.classList.remove("active");
+  });
 
   const pageElement =
     document.getElementById(
       `page-${target}`
     );
 
-  if (pageElement) {
+  // IMPORTANT FALLBACK
+  // Never allow the application to have
+  // zero active pages.
+  if (!pageElement) {
 
-    pageElement.classList.add(
-      "active"
-    );
+    const dashboard =
+      document.getElementById(
+        "page-dashboard"
+      );
+
+    if (dashboard) {
+      dashboard.classList.add("active");
+    }
+
+    state.currentPage = "dashboard";
+    saveState();
+
+    return;
 
   }
 
-  // ----------------------------------------------------
-  // Sidebar active
-  // ----------------------------------------------------
+  pageElement.classList.add("active");
 
+  // Sidebar
   document
     .querySelectorAll(".nav-item")
     .forEach(item => {
@@ -1091,10 +879,7 @@ function navigate(page) {
 
     });
 
-  // ----------------------------------------------------
   // Breadcrumb
-  // ----------------------------------------------------
-
   const breadcrumb =
     document.getElementById(
       "breadcrumbCurrent"
@@ -1107,37 +892,20 @@ function navigate(page) {
         `.nav-item[data-page="${target}"]`
       );
 
-    if (navItem) {
-
-      breadcrumb.textContent =
-        navItem
-          .textContent
-          .trim();
-
-    } else {
-
-      breadcrumb.textContent =
-        target
-          .replace(/-/g, " ")
-          .replace(/\b\w/g, letter =>
-            letter.toUpperCase()
-          );
-
-    }
-
+    breadcrumb.textContent =
+      navItem
+        ? navItem.textContent.trim()
+        : target
+            .replace(/-/g, " ")
+            .replace(/\b\w/g, c => c.toUpperCase());
   }
 
-  state.currentPage =
-    target;
-
+  state.currentPage = target;
   saveState();
 
   closeSidebar();
 
-  // ----------------------------------------------------
-  // Render page
-  // ----------------------------------------------------
-
+  // Render
   switch (target) {
 
     case "dashboard":
@@ -1168,23 +936,19 @@ function navigate(page) {
       renderReports();
       break;
 
-    case "ai-coach":
-      break;
-
-    case "ai-tools":
-      break;
-
     case "settings":
       renderSettings();
       break;
 
+    case "ai-coach":
+    case "ai-tools":
+      break;
   }
 
   window.scrollTo({
     top: 0,
     behavior: "smooth"
   });
-
 }
 
 // ======================================================
@@ -1193,79 +957,44 @@ function navigate(page) {
 
 function renderDashboard() {
 
-  const total =
-    getTotalLessons();
-
-  const completed =
-    getCompletedCount();
-
-  const progress =
-    getOverallProgress();
-
-  // ----------------------------------------------------
-  // Correct IDs from index.html
-  // ----------------------------------------------------
+  if (!state) return;
 
   const statCourses =
-    document.getElementById(
-      "statCourses"
-    );
+    document.getElementById("statCourses");
 
   const statLessons =
-    document.getElementById(
-      "statLessons"
-    );
+    document.getElementById("statLessons");
 
   const statCompleted =
-    document.getElementById(
-      "statCompleted"
-    );
+    document.getElementById("statCompleted");
 
   const statProgress =
-    document.getElementById(
-      "statProgress"
-    );
+    document.getElementById("statProgress");
 
-  if (statCourses) {
-
+  if (statCourses)
     statCourses.textContent =
       COURSES.length;
 
-  }
-
-  if (statLessons) {
-
+  if (statLessons)
     statLessons.textContent =
-      total;
+      getTotalLessons();
 
-  }
-
-  if (statCompleted) {
-
+  if (statCompleted)
     statCompleted.textContent =
-      completed;
+      getCompletedCount();
 
-  }
-
-  if (statProgress) {
-
+  if (statProgress)
     statProgress.textContent =
-      `${progress}%`;
-
-  }
+      `${getOverallProgress()}%`;
 
   renderContinueLearning();
-
   renderDailyGoal();
-
   renderActivity();
-
   renderRecommendations();
-
 }
 
 // ======================================================
-// CONTINUE LEARNING UI
+// CONTINUE LEARNING
 // ======================================================
 
 function renderContinueLearning() {
@@ -1282,18 +1011,10 @@ function renderContinueLearning() {
   } = data;
 
   const completed =
-    getCourseCompleted(
-      course.id
-    );
+    getCourseCompleted(course.id);
 
   const percentage =
-    getCourseProgress(
-      course.id
-    );
-
-  // ----------------------------------------------------
-  // Current dashboard IDs
-  // ----------------------------------------------------
+    getCourseProgress(course.id);
 
   const title =
     document.getElementById(
@@ -1325,40 +1046,25 @@ function renderContinueLearning() {
       "continueLearningBtn"
     );
 
-  if (title) {
-
+  if (title)
     title.textContent =
       course.title;
 
-  }
-
-  if (description) {
-
+  if (description)
     description.textContent =
       course.description;
 
-  }
-
-  if (progressText) {
-
+  if (progressText)
     progressText.textContent =
       `${completed} of ${course.lessons.length} lessons`;
 
-  }
-
-  if (progressPercent) {
-
+  if (progressPercent)
     progressPercent.textContent =
       `${percentage}%`;
 
-  }
-
-  if (progressBar) {
-
+  if (progressBar)
     progressBar.style.width =
       `${percentage}%`;
-
-  }
 
   if (button) {
 
@@ -1376,12 +1082,8 @@ function renderContinueLearning() {
       String(index);
 
     button.dataset.locked =
-      locked
-        ? "true"
-        : "false";
-
+      String(locked);
   }
-
 }
 
 // ======================================================
@@ -1397,43 +1099,30 @@ function renderDailyGoal() {
       target: 30,
       date: getTodayKey()
     };
-
   }
 
   const today =
     getTodayKey();
 
-  if (
-    state.dailyGoal.date !== today
-  ) {
+  if (state.dailyGoal.date !== today) {
 
-    state.dailyGoal.date =
-      today;
-
-    state.dailyGoal.minutes =
-      0;
+    state.dailyGoal.date = today;
+    state.dailyGoal.minutes = 0;
 
     saveState();
-
   }
 
   const minutes =
-    Number(
-      state.dailyGoal.minutes
-    ) || 0;
+    Number(state.dailyGoal.minutes) || 0;
 
   const target =
-    Number(
-      state.dailyGoal.target
-    ) || 30;
+    Number(state.dailyGoal.target) || 30;
 
   const percentage =
     Math.min(
       100,
       Math.round(
-        minutes /
-        target *
-        100
+        minutes / target * 100
       )
     );
 
@@ -1447,20 +1136,13 @@ function renderDailyGoal() {
       "goalMinutes"
     );
 
-  if (percentEl) {
-
+  if (percentEl)
     percentEl.textContent =
       `${percentage}%`;
 
-  }
-
-  if (minutesEl) {
-
+  if (minutesEl)
     minutesEl.textContent =
       `${minutes} / ${target} min`;
-
-  }
-
 }
 
 // ======================================================
@@ -1476,37 +1158,23 @@ function renderActivity() {
 
   if (!container) return;
 
-  if (
-    !state.activity.length
-  ) {
+  if (!state.activity.length) {
 
     container.innerHTML = `
-
       <div class="empty-state">
-
         <div>📚</div>
-
-        <strong>
-          No activity yet
-        </strong>
-
-        <span>
-          Start your first lesson.
-        </span>
-
+        <strong>No activity yet</strong>
+        <span>Start your first lesson.</span>
       </div>
-
     `;
 
     return;
-
   }
 
   container.innerHTML =
     state.activity
       .slice(0, 5)
       .map(item => `
-
         <div class="activity-item">
 
           <div class="activity-icon">
@@ -1530,10 +1198,8 @@ function renderActivity() {
           </small>
 
         </div>
-
       `)
       .join("");
-
 }
 
 // ======================================================
@@ -1547,37 +1213,30 @@ function renderRecommendations() {
       ".recommendation-item"
     );
 
-  if (!items.length) return;
-
   items.forEach(item => {
 
-    const courseKey =
+    const key =
       item.dataset.course;
 
-    // Existing HTML uses category values.
     const course =
       COURSES.find(
         c =>
-          c.category === courseKey ||
-          c.id === courseKey
+          c.category === key ||
+          c.id === key
       );
 
-    if (!course) return;
-
-    item.dataset.course =
-      course.id;
-
+    if (course) {
+      item.dataset.course =
+        course.id;
+    }
   });
-
 }
 
 // ======================================================
 // COURSES
 // ======================================================
 
-function renderCourses(
-  filter = "all"
-) {
+function renderCourses(filter = "all") {
 
   const container =
     document.getElementById(
@@ -1599,14 +1258,10 @@ function renderCourses(
       .map(course => {
 
         const progress =
-          getCourseProgress(
-            course.id
-          );
+          getCourseProgress(course.id);
 
         const completed =
-          getCourseCompleted(
-            course.id
-          );
+          getCourseCompleted(course.id);
 
         const premium =
           isPremiumCourse(course);
@@ -1616,26 +1271,15 @@ function renderCourses(
           !hasPremiumAccess();
 
         return `
-
-          <div
-            class="course-card ${
-              locked
-                ? "premium-locked"
-                : ""
-            }"
-          >
+          <div class="course-card ${locked ? "premium-locked" : ""}">
 
             <div class="course-card-top">
 
-              <div
-                class="course-icon ${course.color}"
-              >
+              <div class="course-icon ${course.color}">
                 ${course.icon}
               </div>
 
-              <span
-                class="course-badge ${course.category}"
-              >
+              <span class="course-badge ${course.category}">
                 ${
                   premium
                     ? "👑 PREMIUM"
@@ -1679,10 +1323,8 @@ function renderCourses(
             <div class="course-card-footer">
 
               <span>
-
                 ${completed}/${course.lessons.length}
                 completed
-
               </span>
 
               <button
@@ -1692,7 +1334,6 @@ function renderCourses(
                 data-premium="${premium}"
                 data-locked="${locked}"
               >
-
                 ${
                   locked
                     ? "🔒 Unlock Premium"
@@ -1700,18 +1341,14 @@ function renderCourses(
                       ? "Continue"
                       : "Start Course"
                 }
-
               </button>
 
             </div>
 
           </div>
-
         `;
-
       })
       .join("");
-
 }
 
 // ======================================================
@@ -1730,36 +1367,20 @@ function renderLessons() {
       "lessonContent"
     );
 
-  if (
-    !courseList ||
-    !content
-  ) {
-
-    return;
-
-  }
-
-  // ----------------------------------------------------
-  // Course list
-  // ----------------------------------------------------
+  if (!courseList || !content) return;
 
   courseList.innerHTML =
     COURSES
       .map(course => {
 
         const progress =
-          getCourseProgress(
-            course.id
-          );
+          getCourseProgress(course.id);
 
         const completed =
-          getCourseCompleted(
-            course.id
-          );
+          getCourseCompleted(course.id);
 
         const active =
-          state.currentCourseId ===
-          course.id
+          state.currentCourseId === course.id
             ? "active"
             : "";
 
@@ -1771,7 +1392,6 @@ function renderLessons() {
           !hasPremiumAccess();
 
         return `
-
           <button
             type="button"
             class="lesson-course-item ${active}"
@@ -1787,78 +1407,41 @@ function renderLessons() {
             <div class="lesson-course-info">
 
               <strong>
-
-                ${
-                  locked
-                    ? "🔒 "
-                    : ""
-                }
-
-                ${escapeHTML(
-                  course.title
-                )}
-
+                ${locked ? "🔒 " : ""}
+                ${escapeHTML(course.title)}
               </strong>
 
               <span>
-
-                ${
-                  premium
-                    ? "👑 Premium"
-                    : "FREE"
-                }
-
+                ${premium ? "👑 Premium" : "FREE"}
                 •
                 ${completed}/${course.lessons.length}
                 completed
-
               </span>
 
               <div class="mini-progress">
-
-                <div
-                  style="width:${progress}%"
-                ></div>
-
+                <div style="width:${progress}%"></div>
               </div>
 
             </div>
 
           </button>
-
         `;
-
       })
       .join("");
-
-  // ----------------------------------------------------
-  // Current lesson
-  // ----------------------------------------------------
 
   const current =
     getCurrentLesson();
 
-  if (
-    !current.course ||
-    !current.lesson
-  ) {
+  if (!current.course || !current.lesson) {
 
     content.innerHTML = `
-
       <div class="empty-state">
-
         <div>📚</div>
-
-        <strong>
-          Lesson မရှိပါ။
-        </strong>
-
+        <strong>Lesson မရှိပါ။</strong>
       </div>
-
     `;
 
     return;
-
   }
 
   const course =
@@ -1870,30 +1453,19 @@ function renderLessons() {
   const lesson =
     current.lesson;
 
-  // ----------------------------------------------------
-  // Premium lock
-  // ----------------------------------------------------
-
   if (
     isPremiumCourse(course) &&
     !hasPremiumAccess()
   ) {
 
     content.innerHTML = `
-
       <div
         class="empty-state"
-        style="
-          text-align:center;
-          padding:50px 20px;
-        "
+        style="text-align:center;padding:50px 20px;"
       >
 
         <div
-          style="
-            font-size:56px;
-            margin-bottom:15px;
-          "
+          style="font-size:56px;margin-bottom:15px;"
         >
           🔒
         </div>
@@ -1920,30 +1492,17 @@ function renderLessons() {
         </button>
 
       </div>
-
     `;
 
-    const premiumButton =
-      document.getElementById(
-        "lessonPremiumButton"
-      );
-
-    if (premiumButton) {
-
-      premiumButton.addEventListener(
+    document
+      .getElementById("lessonPremiumButton")
+      ?.addEventListener(
         "click",
         openPremiumAccess
       );
 
-    }
-
     return;
-
   }
-
-  // ----------------------------------------------------
-  // Lesson content
-  // ----------------------------------------------------
 
   const lessonKey =
     `${course.id}-${index}`;
@@ -1957,11 +1516,9 @@ function renderLessons() {
     index === 0;
 
   const isLast =
-    index ===
-    course.lessons.length - 1;
+    index === course.lessons.length - 1;
 
   content.innerHTML = `
-
     <div class="lesson-content-header">
 
       <div>
@@ -1980,9 +1537,7 @@ function renderLessons() {
 
       </div>
 
-      <span
-        class="course-badge ${course.category}"
-      >
+      <span class="course-badge ${course.category}">
         ${
           isPremiumCourse(course)
             ? "👑 PREMIUM"
@@ -1996,9 +1551,7 @@ function renderLessons() {
 
     <div class="lesson-body">
 
-      <div
-        class="lesson-visual ${course.color}"
-      >
+      <div class="lesson-visual ${course.color}">
         ${course.icon}
       </div>
 
@@ -2045,9 +1598,7 @@ function renderLessons() {
       </button>
 
     </div>
-
   `;
-
 }
 
 // ======================================================
@@ -2061,17 +1612,9 @@ function openCourse(courseId) {
 
   if (!course) {
 
-    showToast(
-      "Course မတွေ့ပါ။"
-    );
-
+    showToast("Course မတွေ့ပါ။");
     return;
-
   }
-
-  // ----------------------------------------------------
-  // Premium Gate
-  // ----------------------------------------------------
 
   if (
     isPremiumCourse(course) &&
@@ -2079,9 +1622,7 @@ function openCourse(courseId) {
   ) {
 
     openPremiumAccess();
-
     return;
-
   }
 
   state.currentCourseId =
@@ -2095,18 +1636,11 @@ function openCourse(courseId) {
       `${course.id}-${index}`
     )
   ) {
-
     index++;
-
   }
 
-  if (
-    index >= course.lessons.length
-  ) {
-
-    index =
-      course.lessons.length - 1;
-
+  if (index >= course.lessons.length) {
+    index = course.lessons.length - 1;
   }
 
   state.currentLessonIndex =
@@ -2115,11 +1649,10 @@ function openCourse(courseId) {
   saveState();
 
   navigate("lessons");
-
 }
 
 // ======================================================
-// PREVIOUS LESSON
+// PREVIOUS
 // ======================================================
 
 function previousLesson() {
@@ -2129,33 +1662,28 @@ function previousLesson() {
 
   if (!course) return;
 
-  if (
-    state.currentLessonIndex <= 0
-  ) {
+  if (state.currentLessonIndex <= 0) {
 
     showToast(
       "ဒါက ပထမဆုံး Lesson ဖြစ်ပါတယ်။"
     );
 
     return;
-
   }
 
   state.currentLessonIndex--;
 
   saveState();
-
   renderLessons();
 
   window.scrollTo({
     top: 0,
     behavior: "smooth"
   });
-
 }
 
 // ======================================================
-// NEXT LESSON
+// NEXT
 // ======================================================
 
 function nextLesson() {
@@ -2175,20 +1703,17 @@ function nextLesson() {
     );
 
     return;
-
   }
 
   state.currentLessonIndex++;
 
   saveState();
-
   renderLessons();
 
   window.scrollTo({
     top: 0,
     behavior: "smooth"
   });
-
 }
 
 // ======================================================
@@ -2203,17 +1728,11 @@ function updateLearningStreak() {
   const yesterday =
     getYesterdayKey();
 
-  if (
-    state.lastLearningDate === today
-  ) {
-
+  if (state.lastLearningDate === today) {
     return;
-
   }
 
-  if (
-    state.lastLearningDate === yesterday
-  ) {
+  if (state.lastLearningDate === yesterday) {
 
     state.streak =
       Math.max(
@@ -2224,12 +1743,10 @@ function updateLearningStreak() {
   } else {
 
     state.streak = 1;
-
   }
 
   state.lastLearningDate =
     today;
-
 }
 
 // ======================================================
@@ -2248,19 +1765,13 @@ function completeLesson(
 
   if (!course) return;
 
-  // ----------------------------------------------------
-  // Premium protection
-  // ----------------------------------------------------
-
   if (
     isPremiumCourse(course) &&
     !hasPremiumAccess()
   ) {
 
     openPremiumAccess();
-
     return;
-
   }
 
   const key =
@@ -2275,7 +1786,6 @@ function completeLesson(
     );
 
     return;
-
   }
 
   state.completedLessons.push(key);
@@ -2286,16 +1796,13 @@ function completeLesson(
   const today =
     getTodayKey();
 
-  if (
-    state.dailyGoal.date !== today
-  ) {
+  if (state.dailyGoal.date !== today) {
 
     state.dailyGoal.date =
       today;
 
     state.dailyGoal.minutes =
       0;
-
   }
 
   state.dailyGoal.minutes =
@@ -2307,27 +1814,14 @@ function completeLesson(
   updateLearningStreak();
 
   state.activity.unshift({
-
-    title:
-      lessonTitle,
-
-    course:
-      courseTitle,
-
-    time:
-      "Just now",
-
-    timestamp:
-      Date.now()
-
+    title: lessonTitle,
+    course: courseTitle,
+    time: "Just now",
+    timestamp: Date.now()
   });
 
   state.activity =
     state.activity.slice(0, 10);
-
-  // ----------------------------------------------------
-  // Move to next lesson
-  // ----------------------------------------------------
 
   if (
     index <
@@ -2342,15 +1836,9 @@ function completeLesson(
 
   } else {
 
-    // --------------------------------------------------
-    // Course completed
-    // Move Continue Learning to next course
-    // --------------------------------------------------
-
     const courseIndex =
       COURSES.findIndex(
-        item =>
-          item.id === course.id
+        item => item.id === course.id
       );
 
     const nextCourse =
@@ -2363,9 +1851,7 @@ function completeLesson(
 
       state.currentLessonIndex =
         0;
-
     }
-
   }
 
   saveState();
@@ -2375,15 +1861,10 @@ function completeLesson(
   );
 
   renderDashboard();
-
   renderCourses();
-
   renderLessons();
-
   renderProgress();
-
   renderReports();
-
 }
 
 // ======================================================
@@ -2421,36 +1902,21 @@ function renderProgress() {
       "progressStreak"
     );
 
-  if (overall) {
-
+  if (overall)
     overall.textContent =
       `${progress}%`;
 
-  }
-
-  if (completedEl) {
-
+  if (completedEl)
     completedEl.textContent =
       completed;
 
-  }
-
-  if (remainingEl) {
-
+  if (remainingEl)
     remainingEl.textContent =
-      Math.max(
-        total - completed,
-        0
-      );
+      Math.max(total - completed, 0);
 
-  }
-
-  if (streakEl) {
-
+  if (streakEl)
     streakEl.textContent =
       state.streak;
-
-  }
 
   const container =
     document.getElementById(
@@ -2464,17 +1930,12 @@ function renderProgress() {
       .map(course => {
 
         const p =
-          getCourseProgress(
-            course.id
-          );
+          getCourseProgress(course.id);
 
         const completedCourse =
-          getCourseCompleted(
-            course.id
-          );
+          getCourseCompleted(course.id);
 
         return `
-
           <div class="course-progress-row">
 
             <div class="course-progress-name">
@@ -2488,17 +1949,12 @@ function renderProgress() {
               <div>
 
                 <strong>
-
                   ${
                     isPremiumCourse(course)
                       ? "👑 "
                       : ""
                   }
-
-                  ${escapeHTML(
-                    course.title
-                  )}
-
+                  ${escapeHTML(course.title)}
                 </strong>
 
                 <span>
@@ -2511,15 +1967,11 @@ function renderProgress() {
             </div>
 
             <div class="course-progress-bar">
-
               <div>
-
                 <span
                   style="width:${p}%"
                 ></span>
-
               </div>
-
             </div>
 
             <strong>
@@ -2527,12 +1979,9 @@ function renderProgress() {
             </strong>
 
           </div>
-
         `;
-
       })
       .join("");
-
 }
 
 // ======================================================
@@ -2549,18 +1998,11 @@ function renderSales() {
 
   const achievement =
     target > 0
-      ? Math.round(
-          actual /
-          target *
-          100
-        )
+      ? Math.round(actual / target * 100)
       : 0;
 
   const gap =
-    Math.max(
-      target - actual,
-      0
-    );
+    Math.max(target - actual, 0);
 
   const targetEl =
     document.getElementById(
@@ -2612,9 +2054,7 @@ function renderSales() {
     actualInput.value = actual;
 
   renderSalesChart();
-
   renderPriorities();
-
 }
 
 // ======================================================
@@ -2631,64 +2071,48 @@ function renderSalesChart() {
   if (!container) return;
 
   const history =
-    Array.isArray(
-      state.sales.history
-    )
+    Array.isArray(state.sales.history)
       ? state.sales.history
       : [];
 
   if (!history.length) {
 
-    container.innerHTML =
-      "";
-
+    container.innerHTML = "";
     return;
-
   }
 
   const max =
-    Math.max(
-      ...history,
-      100
-    );
+    Math.max(...history, 100);
 
   container.innerHTML =
     history
-      .map(
-        (value, index) => {
+      .map((value, index) => {
 
-          const height =
-            Math.round(
-              value /
-              max *
-              100
-            );
+        const height =
+          Math.round(
+            value / max * 100
+          );
 
-          return `
+        return `
+          <div class="chart-bar-group">
 
-            <div class="chart-bar-group">
+            <span class="chart-value">
+              ${value}
+            </span>
 
-              <span class="chart-value">
-                ${value}
-              </span>
+            <div
+              class="chart-bar"
+              style="height:${height}%"
+            ></div>
 
-              <div
-                class="chart-bar"
-                style="height:${height}%"
-              ></div>
+            <small>
+              M${index + 1}
+            </small>
 
-              <small>
-                M${index + 1}
-              </small>
-
-            </div>
-
-          `;
-
-        }
-      )
+          </div>
+        `;
+      })
       .join("");
-
 }
 
 // ======================================================
@@ -2704,37 +2128,25 @@ function renderPriorities() {
 
   if (!container) return;
 
-  if (
-    !state.sales.priorities.length
-  ) {
+  if (!state.sales.priorities.length) {
 
     container.innerHTML = `
-
       <div class="empty-state">
-
         <div>🎯</div>
-
-        <strong>
-          No priority
-        </strong>
-
+        <strong>No priority</strong>
         <span>
           Add your next execution priority.
         </span>
-
       </div>
-
     `;
 
     return;
-
   }
 
   container.innerHTML =
     state.sales.priorities
       .map(
         (item, index) => `
-
           <div class="priority-item">
 
             <div class="priority-number">
@@ -2754,11 +2166,9 @@ function renderPriorities() {
             </button>
 
           </div>
-
         `
       )
       .join("");
-
 }
 
 // ======================================================
@@ -2787,9 +2197,7 @@ function calculatePrice() {
     !costInput ||
     !marginInput
   ) {
-
     return;
-
   }
 
   const product =
@@ -2812,20 +2220,15 @@ function calculatePrice() {
     );
 
   const price =
-    cost /
-    (1 - margin / 100);
+    cost / (1 - margin / 100);
 
   const profit =
     price - cost;
 
   state.calculator = {
-
     product,
-
     cost,
-
     margin
-
   };
 
   saveState();
@@ -2856,8 +2259,7 @@ function calculatePrice() {
     );
 
   if (resultProduct)
-    resultProduct.textContent =
-      product;
+    resultProduct.textContent = product;
 
   if (resultPrice)
     resultPrice.textContent =
@@ -2874,7 +2276,6 @@ function calculatePrice() {
   if (resultMargin)
     resultMargin.textContent =
       `${margin}%`;
-
 }
 
 // ======================================================
@@ -2886,11 +2287,10 @@ function formatMoney(number) {
   return `${Math.round(
     Number(number) || 0
   ).toLocaleString()} Ks`;
-
 }
 
 // ======================================================
-// RENDER CALCULATOR
+// CALCULATOR RENDER
 // ======================================================
 
 function renderCalculator() {
@@ -2913,27 +2313,15 @@ function renderCalculator() {
       "productMargin"
     );
 
-  if (
-    !product ||
-    !cost ||
-    !margin
-  ) {
-
+  if (!product || !cost || !margin) {
     return;
-
   }
 
-  product.value =
-    data.product;
-
-  cost.value =
-    data.cost;
-
-  margin.value =
-    data.margin;
+  product.value = data.product;
+  cost.value = data.cost;
+  margin.value = data.margin;
 
   calculatePrice();
-
 }
 
 // ======================================================
@@ -2941,12 +2329,6 @@ function renderCalculator() {
 // ======================================================
 
 function renderReports() {
-
-  const total =
-    getTotalLessons();
-
-  const completed =
-    getCompletedCount();
 
   const reportCourses =
     document.getElementById(
@@ -2974,11 +2356,11 @@ function renderReports() {
 
   if (reportLessons)
     reportLessons.textContent =
-      total;
+      getTotalLessons();
 
   if (reportCompleted)
     reportCompleted.textContent =
-      completed;
+      getCompletedCount();
 
   if (reportStreak)
     reportStreak.textContent =
@@ -3019,7 +2401,6 @@ function renderReports() {
   if (reportSalesAchievement)
     reportSalesAchievement.textContent =
       `${achievement}%`;
-
 }
 
 // ======================================================
@@ -3038,20 +2419,13 @@ function renderSettings() {
       "trackingToggle"
     );
 
-  if (reminder) {
-
+  if (reminder)
     reminder.checked =
       !!state.settings.reminder;
 
-  }
-
-  if (tracking) {
-
+  if (tracking)
     tracking.checked =
       !!state.settings.tracking;
-
-  }
-
 }
 
 // ======================================================
@@ -3061,9 +2435,7 @@ function renderSettings() {
 function getAIResponse(question) {
 
   const q =
-    question
-      .toLowerCase()
-      .trim();
+    question.toLowerCase().trim();
 
   if (
     q.includes("team") ||
@@ -3075,7 +2447,6 @@ function getAIResponse(question) {
   ) {
 
     return `
-
       <strong>
         အဖွဲ့လုပ်ဆောင်ရည် မြှင့်တင်ရန်
       </strong>
@@ -3097,9 +2468,7 @@ function getAIResponse(question) {
         Micromanagement မလုပ်ဘဲ
         Coaching နဲ့ Empowerment ကို အသုံးပြုပါ။
       </p>
-
     `;
-
   }
 
   if (
@@ -3108,7 +2477,6 @@ function getAIResponse(question) {
   ) {
 
     return `
-
       <strong>
         Customer Growth တိုးတက်စေရန်
       </strong>
@@ -3128,9 +2496,7 @@ function getAIResponse(question) {
         Visit Plan, Follow-up Plan နဲ့
         Customer Development Plan တည်ဆောက်ပါ။
       </p>
-
     `;
-
   }
 
   if (
@@ -3141,7 +2507,6 @@ function getAIResponse(question) {
   ) {
 
     return `
-
       <strong>
         Sales Target တိုးတက်စေရန်
       </strong>
@@ -3162,9 +2527,7 @@ function getAIResponse(question) {
         သုံးခုအပေါ် Action Plan ချပြီး
         အပတ်စဉ် Review ပြုလုပ်ပါ။
       </p>
-
     `;
-
   }
 
   if (
@@ -3175,7 +2538,6 @@ function getAIResponse(question) {
   ) {
 
     return `
-
       <strong>
         Finance Management
       </strong>
@@ -3189,9 +2551,7 @@ function getAIResponse(question) {
         Budget vs Actual ကို ပုံမှန်
         နှိုင်းယှဉ်ပြီး Cost Leakage ကို ရှာပါ။
       </p>
-
     `;
-
   }
 
   if (
@@ -3201,7 +2561,6 @@ function getAIResponse(question) {
   ) {
 
     return `
-
       <strong>
         HR Management
       </strong>
@@ -3211,9 +2570,7 @@ function getAIResponse(question) {
         Coaching, Recognition နဲ့
         Career Development ကို အဓိကထားပါ။
       </p>
-
     `;
-
   }
 
   if (
@@ -3222,7 +2579,6 @@ function getAIResponse(question) {
   ) {
 
     return `
-
       <strong>
         Strategic Management
       </strong>
@@ -3236,9 +2592,7 @@ function getAIResponse(question) {
         Strategic Priority ၃ ခုခန့် သတ်မှတ်ပြီး
         Measurable Action Plan ပြုလုပ်ပါ။
       </p>
-
     `;
-
   }
 
   if (
@@ -3248,7 +2602,6 @@ function getAIResponse(question) {
   ) {
 
     return `
-
       <strong>
         Pricing Strategy
       </strong>
@@ -3263,22 +2616,17 @@ function getAIResponse(question) {
         Margin မလုံလောက်ရင်
         Sales တက်နေသော်လည်း Profit ကျနိုင်ပါတယ်။
       </p>
-
     `;
-
   }
 
   return `
-
     <strong>
       Business Manager အနေနဲ့
     </strong>
 
     <p>
       ပြဿနာတစ်ခုကို ဖြေရှင်းတဲ့အခါ
-      <strong>
-        လူ၊ နံပါတ်နဲ့ Execution
-      </strong>
+      <strong>လူ၊ နံပါတ်နဲ့ Execution</strong>
       သုံးခုကို အရင်ကြည့်ပါ။
     </p>
 
@@ -3288,13 +2636,11 @@ function getAIResponse(question) {
       Root Cause သတ်မှတ်ပြီး
       Action Plan ချမှတ်ပါ။
     </p>
-
   `;
-
 }
 
 // ======================================================
-// SEND AI MESSAGE
+// AI MESSAGE
 // ======================================================
 
 function sendAIMessage(question) {
@@ -3311,7 +2657,6 @@ function sendAIMessage(question) {
   container.insertAdjacentHTML(
     "beforeend",
     `
-
       <div class="chat-message user">
 
         <div class="message-avatar">
@@ -3331,7 +2676,6 @@ function sendAIMessage(question) {
         </div>
 
       </div>
-
     `
   );
 
@@ -3343,7 +2687,6 @@ function sendAIMessage(question) {
     container.insertAdjacentHTML(
       "beforeend",
       `
-
         <div class="chat-message assistant">
 
           <div class="message-avatar">
@@ -3363,7 +2706,6 @@ function sendAIMessage(question) {
           </div>
 
         </div>
-
       `
     );
 
@@ -3374,7 +2716,6 @@ function sendAIMessage(question) {
 
   container.scrollTop =
     container.scrollHeight;
-
 }
 
 // ======================================================
@@ -3396,7 +2737,6 @@ function openAITool(tool) {
 
     business:
       "လုပ်ငန်းတိုးတက်ဖို့ လက်တွေ့အသုံးချနိုင်တဲ့ Business Growth Strategy တစ်ခုရေးပေးပါ။"
-
   };
 
   navigate("ai-coach");
@@ -3411,12 +2751,9 @@ function openAITool(tool) {
   input.value =
     messages[tool] || "";
 
-  sendAIMessage(
-    input.value
-  );
+  sendAIMessage(input.value);
 
   input.value = "";
-
 }
 
 // ======================================================
@@ -3426,62 +2763,39 @@ function openAITool(tool) {
 function performSearch(query) {
 
   const text =
-    query
-      .trim()
-      .toLowerCase();
+    query.trim().toLowerCase();
 
   if (!text) return;
 
   const course =
     COURSES.find(
       course =>
-        course.title
-          .toLowerCase()
-          .includes(text) ||
-
-        course.description
-          .toLowerCase()
-          .includes(text) ||
-
-        course.category
-          .toLowerCase()
-          .includes(text)
+        course.title.toLowerCase().includes(text) ||
+        course.description.toLowerCase().includes(text) ||
+        course.category.toLowerCase().includes(text)
     );
 
   if (course) {
 
     openCourse(course.id);
-
     return;
-
   }
 
-  for (
-    const course of COURSES
-  ) {
+  for (const course of COURSES) {
 
     const index =
-      course.lessons.findIndex(
-        lesson => {
+      course.lessons.findIndex(lesson => {
 
-          const plainContent =
-            lesson.content
-              .replace(
-                /<[^>]*>/g,
-                ""
-              )
-              .toLowerCase();
+        const plainContent =
+          lesson.content
+            .replace(/<[^>]*>/g, "")
+            .toLowerCase();
 
-          return (
-            lesson.title
-              .toLowerCase()
-              .includes(text) ||
-
-            plainContent.includes(text)
-          );
-
-        }
-      );
+        return (
+          lesson.title.toLowerCase().includes(text) ||
+          plainContent.includes(text)
+        );
+      });
 
     if (index !== -1) {
 
@@ -3491,9 +2805,7 @@ function performSearch(query) {
       ) {
 
         openPremiumAccess();
-
         return;
-
       }
 
       state.currentCourseId =
@@ -3507,15 +2819,12 @@ function performSearch(query) {
       navigate("lessons");
 
       return;
-
     }
-
   }
 
   showToast(
     "သင်တန်း သို့မဟုတ် သင်ခန်းစာ မတွေ့ပါ။"
   );
-
 }
 
 // ======================================================
@@ -3531,7 +2840,6 @@ function openSidebar() {
   document
     .getElementById("sidebarOverlay")
     ?.classList.add("show");
-
 }
 
 function closeSidebar() {
@@ -3543,7 +2851,6 @@ function closeSidebar() {
   document
     .getElementById("sidebarOverlay")
     ?.classList.remove("show");
-
 }
 
 // ======================================================
@@ -3553,42 +2860,24 @@ function closeSidebar() {
 function showToast(message) {
 
   const toast =
-    document.getElementById(
-      "toast"
-    );
+    document.getElementById("toast");
 
   const toastMessage =
-    document.getElementById(
-      "toastMessage"
-    );
+    document.getElementById("toastMessage");
 
-  if (
-    !toast ||
-    !toastMessage
-  ) {
-
-    return;
-
-  }
+  if (!toast || !toastMessage) return;
 
   toastMessage.textContent =
     message;
 
   toast.classList.add("show");
 
-  clearTimeout(
-    showToast.timer
-  );
+  clearTimeout(showToast.timer);
 
   showToast.timer =
     setTimeout(() => {
-
-      toast.classList.remove(
-        "show"
-      );
-
+      toast.classList.remove("show");
     }, 2500);
-
 }
 
 // ======================================================
@@ -3598,11 +2887,8 @@ function showToast(message) {
 function closeModal() {
 
   document
-    .getElementById(
-      "modalOverlay"
-    )
+    .getElementById("modalOverlay")
     ?.classList.remove("show");
-
 }
 
 function showModal(
@@ -3634,19 +2920,11 @@ function showModal(
 
   if (!overlay) return;
 
-  if (modalTitle) {
+  if (modalTitle)
+    modalTitle.textContent = title;
 
-    modalTitle.textContent =
-      title;
-
-  }
-
-  if (modalText) {
-
-    modalText.innerHTML =
-      text;
-
-  }
+  if (modalText)
+    modalText.innerHTML = text;
 
   if (modalAction) {
 
@@ -3655,44 +2933,28 @@ function showModal(
 
     modalAction.onclick =
       callback;
-
   }
 
   overlay.classList.add("show");
-
 }
 
 // ======================================================
 // LESSON ACTION
 // ======================================================
 
-function handleLessonAction(
-  action
-) {
+function handleLessonAction(action) {
 
-  if (
-    action === "previous"
-  ) {
-
+  if (action === "previous") {
     previousLesson();
-
     return;
-
   }
 
-  if (
-    action === "next"
-  ) {
-
+  if (action === "next") {
     nextLesson();
-
     return;
-
   }
 
-  if (
-    action === "complete"
-  ) {
+  if (action === "complete") {
 
     const current =
       getCurrentLesson();
@@ -3701,25 +2963,16 @@ function handleLessonAction(
       !current.course ||
       !current.lesson
     ) {
-
       return;
-
     }
 
     completeLesson(
-
       current.course.id,
-
       current.index,
-
       current.lesson.title,
-
       current.course.title
-
     );
-
   }
-
 }
 
 // ======================================================
@@ -3729,8 +2982,6 @@ function handleLessonAction(
 function initializeApp() {
 
   if (academyInitialized) return;
-
-  academyInitialized = true;
 
   // ====================================================
   // GLOBAL CLICK
@@ -3743,22 +2994,13 @@ function initializeApp() {
       const target =
         event.target;
 
-      if (
-        !(target instanceof Element)
-      ) {
-
+      if (!(target instanceof Element)) {
         return;
-
       }
 
-      // ------------------------------------------------
       // NAVIGATION
-      // ------------------------------------------------
-
       const nav =
-        target.closest(
-          ".nav-item"
-        );
+        target.closest(".nav-item");
 
       if (nav) {
 
@@ -3769,17 +3011,11 @@ function initializeApp() {
         );
 
         return;
-
       }
 
-      // ------------------------------------------------
       // DATA GO
-      // ------------------------------------------------
-
       const go =
-        target.closest(
-          "[data-go]"
-        );
+        target.closest("[data-go]");
 
       if (go) {
 
@@ -3790,13 +3026,9 @@ function initializeApp() {
         );
 
         return;
-
       }
 
-      // ------------------------------------------------
-      // CONTINUE LEARNING
-      // ------------------------------------------------
-
+      // CONTINUE
       const continueButton =
         target.closest(
           "#continueLearningBtn"
@@ -3816,15 +3048,12 @@ function initializeApp() {
           );
 
           return;
-
         }
 
         if (data.locked) {
 
           openPremiumAccess();
-
           return;
-
         }
 
         state.currentCourseId =
@@ -3838,17 +3067,11 @@ function initializeApp() {
         navigate("lessons");
 
         return;
-
       }
 
-      // ------------------------------------------------
       // COURSE
-      // ------------------------------------------------
-
       const openCourseButton =
-        target.closest(
-          ".open-course"
-        );
+        target.closest(".open-course");
 
       if (openCourseButton) {
 
@@ -3859,13 +3082,9 @@ function initializeApp() {
         );
 
         return;
-
       }
 
-      // ------------------------------------------------
       // LESSON COURSE
-      // ------------------------------------------------
-
       const lessonCourse =
         target.closest(
           ".lesson-course-item"
@@ -3880,13 +3099,9 @@ function initializeApp() {
         );
 
         return;
-
       }
 
-      // ------------------------------------------------
       // LESSON ACTION
-      // ------------------------------------------------
-
       const lessonAction =
         target.closest(
           "[data-lesson-action]"
@@ -3896,12 +3111,8 @@ function initializeApp() {
 
         event.preventDefault();
 
-        if (
-          lessonAction.disabled
-        ) {
-
+        if (lessonAction.disabled) {
           return;
-
         }
 
         handleLessonAction(
@@ -3909,13 +3120,9 @@ function initializeApp() {
         );
 
         return;
-
       }
 
-      // ------------------------------------------------
       // RECOMMENDATION
-      // ------------------------------------------------
-
       const recommendation =
         target.closest(
           ".recommendation-item"
@@ -3931,19 +3138,13 @@ function initializeApp() {
           );
 
         if (course) {
-
           openCourse(course.id);
-
         }
 
         return;
-
       }
 
-      // ------------------------------------------------
       // PRIORITY DELETE
-      // ------------------------------------------------
-
       const deletePriority =
         target.closest(
           ".priority-delete"
@@ -3971,23 +3172,17 @@ function initializeApp() {
           );
 
           saveState();
-
           renderPriorities();
 
           showToast(
             "Priority ဖျက်ပြီးပါပြီ။"
           );
-
         }
 
         return;
-
       }
 
-      // ------------------------------------------------
       // AI QUESTIONS
-      // ------------------------------------------------
-
       const aiQuestion =
         target.closest(
           ".ai-question"
@@ -4011,19 +3206,13 @@ function initializeApp() {
           );
 
         if (send) {
-
           send.click();
-
         }
 
         return;
-
       }
 
-      // ------------------------------------------------
       // AI TOOLS
-      // ------------------------------------------------
-
       const aiTool =
         target.closest(
           ".ai-tool-card"
@@ -4038,9 +3227,7 @@ function initializeApp() {
         );
 
         return;
-
       }
-
     }
   );
 
@@ -4059,38 +3246,25 @@ function initializeApp() {
           document
             .querySelectorAll(".filter-tab")
             .forEach(item => {
-
-              item.classList.remove(
-                "active"
-              );
-
+              item.classList.remove("active");
             });
 
-          button.classList.add(
-            "active"
-          );
+          button.classList.add("active");
 
           renderCourses(
-            button.dataset.filter
+            button.dataset.filter || "all"
           );
-
         }
       );
-
     });
 
   // ====================================================
-  // SALES UPDATE
+  // SALES
   // ====================================================
 
-  const updateSalesBtn =
-    document.getElementById(
-      "updateSalesBtn"
-    );
-
-  if (updateSalesBtn) {
-
-    updateSalesBtn.addEventListener(
+  document
+    .getElementById("updateSalesBtn")
+    ?.addEventListener(
       "click",
       () => {
 
@@ -4105,14 +3279,10 @@ function initializeApp() {
           );
 
         state.sales.target =
-          Number(
-            targetInput?.value
-          ) || 0;
+          Number(targetInput?.value) || 0;
 
         state.sales.actual =
-          Number(
-            actualInput?.value
-          ) || 0;
+          Number(actualInput?.value) || 0;
 
         state.sales.history.push(
           state.sales.actual
@@ -4124,30 +3294,21 @@ function initializeApp() {
         saveState();
 
         renderSales();
-
         renderReports();
 
         showToast(
           "Sales performance updated."
         );
-
       }
     );
 
-  }
-
   // ====================================================
-  // ADD PRIORITY
+  // PRIORITY
   // ====================================================
 
-  const addPriorityBtn =
-    document.getElementById(
-      "addPriorityBtn"
-    );
-
-  if (addPriorityBtn) {
-
-    addPriorityBtn.addEventListener(
+  document
+    .getElementById("addPriorityBtn")
+    ?.addEventListener(
       "click",
       () => {
 
@@ -4166,45 +3327,31 @@ function initializeApp() {
           );
 
           return;
-
         }
 
-        state.sales.priorities.push(
-          value
-        );
+        state.sales.priorities.push(value);
 
         input.value = "";
 
         saveState();
-
         renderPriorities();
 
         showToast(
           "Priority ထည့်ပြီးပါပြီ။"
         );
-
       }
     );
-
-  }
 
   // ====================================================
   // CALCULATOR
   // ====================================================
 
-  const calculateBtn =
-    document.getElementById(
-      "calculateBtn"
-    );
-
-  if (calculateBtn) {
-
-    calculateBtn.addEventListener(
+  document
+    .getElementById("calculateBtn")
+    ?.addEventListener(
       "click",
       calculatePrice
     );
-
-  }
 
   // ====================================================
   // AI CHAT
@@ -4220,10 +3367,7 @@ function initializeApp() {
       "chatInput"
     );
 
-  if (
-    sendChatBtn &&
-    chatInput
-  ) {
+  if (sendChatBtn && chatInput) {
 
     sendChatBtn.addEventListener(
       "click",
@@ -4237,7 +3381,6 @@ function initializeApp() {
         sendAIMessage(value);
 
         chatInput.value = "";
-
       }
     );
 
@@ -4245,95 +3388,60 @@ function initializeApp() {
       "keydown",
       event => {
 
-        if (
-          event.key === "Enter"
-        ) {
+        if (event.key === "Enter") {
 
           event.preventDefault();
 
           sendChatBtn.click();
-
         }
-
       }
     );
-
   }
 
   // ====================================================
   // SEARCH
   // ====================================================
 
-  const search =
-    document.getElementById(
-      "globalSearch"
-    );
-
-  if (search) {
-
-    search.addEventListener(
+  document
+    .getElementById("globalSearch")
+    ?.addEventListener(
       "keydown",
       event => {
 
-        if (
-          event.key === "Enter"
-        ) {
+        if (event.key === "Enter") {
 
           performSearch(
             event.target.value
           );
-
         }
-
       }
     );
 
-  }
-
   // ====================================================
-  // MOBILE MENU
+  // MOBILE
   // ====================================================
 
-  const mobileMenu =
-    document.getElementById(
-      "mobileMenu"
-    );
-
-  if (mobileMenu) {
-
-    mobileMenu.addEventListener(
+  document
+    .getElementById("mobileMenu")
+    ?.addEventListener(
       "click",
       openSidebar
     );
 
-  }
-
-  const overlay =
-    document.getElementById(
-      "sidebarOverlay"
-    );
-
-  if (overlay) {
-
-    overlay.addEventListener(
+  document
+    .getElementById("sidebarOverlay")
+    ?.addEventListener(
       "click",
       closeSidebar
     );
-
-  }
 
   // ====================================================
   // SETTINGS
   // ====================================================
 
-  const reminder =
-    document.getElementById(
-      "reminderToggle"
-    );
-
-  if (reminder) {
-
-    reminder.addEventListener(
+  document
+    .getElementById("reminderToggle")
+    ?.addEventListener(
       "change",
       event => {
 
@@ -4341,20 +3449,12 @@ function initializeApp() {
           event.target.checked;
 
         saveState();
-
       }
     );
 
-  }
-
-  const tracking =
-    document.getElementById(
-      "trackingToggle"
-    );
-
-  if (tracking) {
-
-    tracking.addEventListener(
+  document
+    .getElementById("trackingToggle")
+    ?.addEventListener(
       "change",
       event => {
 
@@ -4362,24 +3462,16 @@ function initializeApp() {
           event.target.checked;
 
         saveState();
-
       }
     );
-
-  }
 
   // ====================================================
   // RESET
   // ====================================================
 
-  const resetBtn =
-    document.getElementById(
-      "resetDataBtn"
-    );
-
-  if (resetBtn) {
-
-    resetBtn.addEventListener(
+  document
+    .getElementById("resetDataBtn")
+    ?.addEventListener(
       "click",
       () => {
 
@@ -4400,82 +3492,58 @@ function initializeApp() {
         saveState();
 
         renderAll();
+        navigate("dashboard");
 
         showToast(
           "Academy Data အားလုံး Reset ပြီးပါပြီ။"
         );
-
       }
     );
-
-  }
 
   // ====================================================
   // NOTIFICATION
   // ====================================================
 
-  const notification =
-    document.getElementById(
-      "notificationBtn"
-    );
-
-  if (notification) {
-
-    notification.addEventListener(
+  document
+    .getElementById("notificationBtn")
+    ?.addEventListener(
       "click",
       () => {
 
         showToast(
           "လက်ရှိ Notification မရှိသေးပါ။"
         );
-
       }
     );
 
-  }
-
   // ====================================================
-  // MODAL CLOSE
+  // MODAL
   // ====================================================
 
-  const modalClose =
-    document.getElementById(
-      "modalClose"
-    );
-
-  if (modalClose) {
-
-    modalClose.addEventListener(
+  document
+    .getElementById("modalClose")
+    ?.addEventListener(
       "click",
       closeModal
     );
 
-  }
-
-  const modalOverlay =
-    document.getElementById(
-      "modalOverlay"
-    );
-
-  if (modalOverlay) {
-
-    modalOverlay.addEventListener(
+  document
+    .getElementById("modalOverlay")
+    ?.addEventListener(
       "click",
       event => {
 
         if (
-          event.target === modalOverlay
+          event.target ===
+          event.currentTarget
         ) {
-
           closeModal();
-
         }
-
       }
     );
 
-  }
-
+  // Mark initialized ONLY after events are ready
+  academyInitialized = true;
 }
 
 // ======================================================
@@ -4487,21 +3555,13 @@ function renderAll() {
   if (!state) return;
 
   renderDashboard();
-
   renderCourses();
-
   renderLessons();
-
   renderProgress();
-
   renderSales();
-
   renderCalculator();
-
   renderReports();
-
   renderSettings();
-
 }
 
 // ======================================================
@@ -4510,96 +3570,155 @@ function renderAll() {
 
 function initAcademy() {
 
-  if (academyInitialized) return;
+  if (academyInitialized && state) {
+    return;
+  }
 
-  state =
-    loadState();
+  try {
 
-  // ----------------------------------------------------
-  // Validate course
-  // ----------------------------------------------------
+    state =
+      loadState();
 
-  const validCourse =
-    COURSES.some(
-      course =>
-        course.id ===
-        state.currentCourseId
+    // --------------------------------------------------
+    // VALIDATE CURRENT COURSE
+    // --------------------------------------------------
+
+    if (
+      !COURSES.some(
+        course =>
+          course.id ===
+          state.currentCourseId
+      )
+    ) {
+
+      state.currentCourseId =
+        COURSES[0]?.id || null;
+
+      state.currentLessonIndex =
+        0;
+    }
+
+    // --------------------------------------------------
+    // VALIDATE CURRENT LESSON
+    // --------------------------------------------------
+
+    const currentCourse =
+      getCurrentCourse();
+
+    if (
+      currentCourse &&
+      (
+        !Number.isInteger(
+          Number(state.currentLessonIndex)
+        ) ||
+        state.currentLessonIndex < 0 ||
+        state.currentLessonIndex >=
+        currentCourse.lessons.length
+      )
+    ) {
+
+      state.currentLessonIndex = 0;
+    }
+
+    // --------------------------------------------------
+    // VALIDATE PAGE
+    // --------------------------------------------------
+
+    if (
+      !VALID_PAGES.includes(
+        state.currentPage
+      )
+    ) {
+
+      state.currentPage =
+        "dashboard";
+    }
+
+    saveState();
+
+    // --------------------------------------------------
+    // EVENTS FIRST
+    // --------------------------------------------------
+
+    initializeApp();
+
+    // --------------------------------------------------
+    // RENDER
+    // --------------------------------------------------
+
+    renderAll();
+
+    // --------------------------------------------------
+    // RESTORE PAGE SAFELY
+    // --------------------------------------------------
+
+    const savedPage =
+      VALID_PAGES.includes(
+        state.currentPage
+      )
+        ? state.currentPage
+        : "dashboard";
+
+    const pageElement =
+      document.getElementById(
+        `page-${savedPage}`
+      );
+
+    if (pageElement) {
+
+      navigate(savedPage);
+
+    } else {
+
+      navigate("dashboard");
+    }
+
+    console.log(
+      "Aung Business Academy V8 initialized."
     );
 
-  if (!validCourse) {
-
-    state.currentCourseId =
-      COURSES[0]?.id || null;
-
-    state.currentLessonIndex =
-      0;
-
-  }
-
-  // ----------------------------------------------------
-  // Validate lesson index
-  // ----------------------------------------------------
-
-  const currentCourse =
-    getCurrentCourse();
-
-  if (
-    currentCourse &&
-    (
-      state.currentLessonIndex < 0 ||
-      state.currentLessonIndex >=
-      currentCourse.lessons.length
-    )
-  ) {
-
-    state.currentLessonIndex = 0;
-
-  }
-
-  saveState();
-
-  initializeApp();
-
-  renderAll();
-
-  // ----------------------------------------------------
-  // Restore current page
-  // ----------------------------------------------------
-
-  const savedPage =
-    state.currentPage || "dashboard";
-
-  const pageElement =
-    document.getElementById(
-      `page-${savedPage}`
+    console.log(
+      `Courses: ${COURSES.length}`
     );
 
-  if (pageElement) {
+    console.log(
+      `Lessons: ${getTotalLessons()}`
+    );
 
-    navigate(savedPage);
+    console.log(
+      "Premium Course Lock: ACTIVE"
+    );
 
-  } else {
+  } catch (error) {
 
-    navigate("dashboard");
+    console.error(
+      "Aung Business Academy initialization failed:",
+      error
+    );
 
+    // Emergency fallback
+    state =
+      createDefaultState();
+
+    const dashboard =
+      document.getElementById(
+        "page-dashboard"
+      );
+
+    document
+      .querySelectorAll(".page")
+      .forEach(page => {
+        page.classList.remove("active");
+      });
+
+    if (dashboard) {
+      dashboard.classList.add("active");
+    }
+
+    try {
+      saveState();
+    } catch (_) {}
   }
-
-  console.log(
-    "Aung Business Academy V8 initialized."
-  );
-
-  console.log(
-    `Courses: ${COURSES.length}`
-  );
-
-  console.log(
-    `Lessons: ${getTotalLessons()}`
-  );
-
-  console.log(
-    "Premium Course Lock: ACTIVE"
-  );
-
 }
 
 // ======================================================
@@ -4613,15 +3732,12 @@ if (
   document.addEventListener(
     "DOMContentLoaded",
     initAcademy,
-    {
-      once: true
-    }
+    { once: true }
   );
 
 } else {
 
   initAcademy();
-
 }
 
 // ======================================================
@@ -4631,60 +3747,40 @@ if (
 window.AungAcademy = {
 
   get state() {
-
     return state;
-
   },
 
-  courses:
-    COURSES,
+  courses: COURSES,
 
   navigate,
-
   renderAll,
-
   renderDashboard,
-
   renderCourses,
-
   renderLessons,
-
   renderProgress,
-
   renderSales,
-
   renderReports,
-
   renderCalculator,
 
   completeLesson,
-
   previousLesson,
-
   nextLesson,
 
   openCourse,
 
   getCurrentCourse,
-
   getCurrentLesson,
-
   getContinueLearning,
 
   getOverallProgress,
-
   getCourseProgress,
 
   getTotalLessons,
-
   getCompletedCount,
 
   isPremiumCourse,
-
   hasPremiumAccess,
-
   openPremiumAccess
-
 };
 
 // ======================================================
@@ -4702,3 +3798,4 @@ window.openPremiumAccess =
 
 window.closeModal =
   closeModal;
+```

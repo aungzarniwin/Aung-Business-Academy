@@ -1,37 +1,66 @@
 /* =========================================================
    AUNG BUSINESS ACADEMY V8
-   PREMIUM SYSTEM V3
+   PREMIUM SYSTEM V4
    Mobile + Laptop
    Student Payment + Admin Dashboard
+   Supabase Payment + Screenshot Upload
    ========================================================= */
 
 (function () {
   "use strict";
 
+  /* =========================================================
+     SUPABASE CONFIG
+     ========================================================= */
+
   const STORAGE_KEY = "aungBusinessAcademyV8";
-const SUPABASE_URL =
-  "https://cubhlvttogntwxtqszbn.supabase.co";
 
-const SUPABASE_ANON_KEY =
-  "sb_publishable_KQHXLQIiLZ4_GOmPsEcZFA_8_pw9rl2";
-const SUPABASE_TABLE =
-  "premium_payments";
+  const SUPABASE_URL =
+    "https://cubhlvttogntwxtqszbn.supabase.co";
 
-const SUPABASE_BUCKET =
-  "payment-screenshots";
+  const SUPABASE_ANON_KEY =
+    "sb_publishable_KQHXLQIiLZ4_GOmPsEcZFA_8_pw9rl2";
 
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY
-);
+  const SUPABASE_TABLE =
+    "premium_payments";
 
-const FREE_COURSE_INDEX = 0;
+  const SUPABASE_BUCKET =
+    "payment-screenshots";
+
+  /* =========================================================
+     SUPABASE CLIENT CHECK
+     ========================================================= */
+
+  if (
+    !window.supabase ||
+    typeof window.supabase.createClient !== "function"
+  ) {
+    console.error(
+      "Supabase JS library မတွေ့ပါ။ index.html မှာ Supabase CDN ကို premium.js မတိုင်ခင် ထည့်ပါ။"
+    );
+
+    return;
+  }
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
+    );
+
+  const FREE_COURSE_INDEX = 0;
+
+  /* =========================================================
+     PREMIUM PLANS
+     ========================================================= */
+
   const PLANS = {
     monthly: {
       name: "Monthly",
       price: 30000,
       days: 30
     },
+
     yearly: {
       name: "Yearly",
       price: 250000,
@@ -39,43 +68,54 @@ const FREE_COURSE_INDEX = 0;
     }
   };
 
-  /*
-   * IMPORTANT:
-   * Replace these with your real payment information.
-   */
-const DEFAULT_PAYMENT = {
-  kpay: {
-    number: "0943016420",
-    name: "Aung Zar Ni Win"
-  },
+  /* =========================================================
+     PAYMENT SETTINGS
+     ========================================================= */
 
-  bank: {
-    bankName: "CB Bank",
-    accountNumber: "0174600900060763",
-    accountName: "Aung Zar Ni Win"
-  }
-};
+  const DEFAULT_PAYMENT = {
+    kpay: {
+      number: "0943016420",
+      name: "Aung Zar Ni Win"
+    },
+
+    bank: {
+      bankName: "CB Bank",
+      accountNumber: "0174600900060763",
+      accountName: "Aung Zar Ni Win"
+    }
+  };
+
   /* =========================================================
      BASIC HELPERS
      ========================================================= */
 
   function getState() {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
+      const saved =
+        localStorage.getItem(STORAGE_KEY);
 
       if (!saved) {
         return {};
       }
 
       return JSON.parse(saved);
+
     } catch (error) {
-      console.error("Premium state error:", error);
+
+      console.error(
+        "Premium state error:",
+        error
+      );
+
       return {};
     }
   }
 
   function saveState(state) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(state)
+    );
   }
 
   function ensureState() {
@@ -100,7 +140,12 @@ const DEFAULT_PAYMENT = {
       };
     }
 
-   state.paymentSettings = DEFAULT_PAYMENT;
+    if (!state.account.role) {
+      state.account.role = "student";
+    }
+
+    state.paymentSettings =
+      DEFAULT_PAYMENT;
 
     saveState(state);
 
@@ -118,23 +163,37 @@ const DEFAULT_PAYMENT = {
   }
 
   function formatMoney(number) {
-    return Number(number || 0).toLocaleString("en-US") + " Ks";
+    return (
+      Number(number || 0)
+        .toLocaleString("en-US") +
+      " Ks"
+    );
   }
 
   function formatDate(timestamp) {
-    if (!timestamp) return "-";
-
-    const date = new Date(timestamp);
-
-    if (Number.isNaN(date.getTime())) {
+    if (!timestamp) {
       return "-";
     }
 
-    return date.toLocaleDateString("en-GB", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit"
-    });
+    const date =
+      new Date(timestamp);
+
+    if (
+      Number.isNaN(
+        date.getTime()
+      )
+    ) {
+      return "-";
+    }
+
+    return date.toLocaleDateString(
+      "en-GB",
+      {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      }
+    );
   }
 
   function escapeHTML(value) {
@@ -147,25 +206,83 @@ const DEFAULT_PAYMENT = {
   }
 
   /* =========================================================
+     CLIENT ID
+     ========================================================= */
+
+  function getClientId() {
+
+    let clientId =
+      localStorage.getItem(
+        "abaClientId"
+      );
+
+    if (!clientId) {
+
+      if (
+        window.crypto &&
+        typeof crypto.randomUUID ===
+          "function"
+      ) {
+        clientId =
+          crypto.randomUUID();
+
+      } else {
+
+        clientId =
+          "client-" +
+          Date.now() +
+          "-" +
+          Math.random()
+            .toString(36)
+            .substring(2, 12);
+      }
+
+      localStorage.setItem(
+        "abaClientId",
+        clientId
+      );
+    }
+
+    return clientId;
+  }
+
+  /* =========================================================
      PREMIUM STATUS
      ========================================================= */
 
   function isPremiumActive() {
-    const state = ensureState();
 
-    if (state.premium.status !== "active") {
+    const state =
+      ensureState();
+
+    if (
+      state.premium.status !==
+      "active"
+    ) {
       return false;
     }
 
-    if (!state.premium.expiryAt) {
+    if (
+      !state.premium.expiryAt
+    ) {
       return false;
     }
 
-    const now = Date.now();
+    const now =
+      Date.now();
 
-    if (now >= Number(state.premium.expiryAt)) {
-      state.premium.status = "expired";
+    if (
+      now >=
+      Number(
+        state.premium.expiryAt
+      )
+    ) {
+
+      state.premium.status =
+        "expired";
+
       saveState(state);
+
       return false;
     }
 
@@ -173,20 +290,35 @@ const DEFAULT_PAYMENT = {
   }
 
   function getPremiumStatus() {
-    const state = ensureState();
 
-    if (isPremiumActive()) {
+    const state =
+      ensureState();
+
+    if (
+      isPremiumActive()
+    ) {
+
       return {
         status: "active",
-        plan: state.premium.plan,
-        expiryAt: state.premium.expiryAt
+        plan:
+          state.premium.plan,
+        expiryAt:
+          state.premium.expiryAt
       };
     }
 
     return {
-      status: state.premium.status || "free",
-      plan: state.premium.plan || null,
-      expiryAt: state.premium.expiryAt || null
+      status:
+        state.premium.status ||
+        "free",
+
+      plan:
+        state.premium.plan ||
+        null,
+
+      expiryAt:
+        state.premium.expiryAt ||
+        null
     };
   }
 
@@ -197,6 +329,7 @@ const DEFAULT_PAYMENT = {
      ========================================================= */
 
   function getCourseCards() {
+
     return Array.from(
       document.querySelectorAll(
         "#coursesGrid .course-card, #coursesGrid > div"
@@ -204,13 +337,29 @@ const DEFAULT_PAYMENT = {
     );
   }
 
-  function getCourseIndex(card, index) {
-    const dataIndex = card.getAttribute("data-course-index");
+  function getCourseIndex(
+    card,
+    index
+  ) {
 
-    if (dataIndex !== null) {
-      const parsed = parseInt(dataIndex, 10);
+    const dataIndex =
+      card.getAttribute(
+        "data-course-index"
+      );
 
-      if (!Number.isNaN(parsed)) {
+    if (
+      dataIndex !== null
+    ) {
+
+      const parsed =
+        parseInt(
+          dataIndex,
+          10
+        );
+
+      if (
+        !Number.isNaN(parsed)
+      ) {
         return parsed;
       }
     }
@@ -218,44 +367,94 @@ const DEFAULT_PAYMENT = {
     return index;
   }
 
-  function isCoursePremium(index) {
-    return index > FREE_COURSE_INDEX;
+  function isCoursePremium(
+    index
+  ) {
+    return (
+      index >
+      FREE_COURSE_INDEX
+    );
   }
 
-  function isCourseLocked(index) {
-    return isCoursePremium(index) && !isPremiumActive();
+  function isCourseLocked(
+    index
+  ) {
+
+    return (
+      isCoursePremium(index) &&
+      !isPremiumActive()
+    );
   }
 
   /* =========================================================
      BADGES
      ========================================================= */
 
-  function addBadge(card, index) {
-    if (!card) return;
+  function addBadge(
+    card,
+    index
+  ) {
 
-    const oldBadge = card.querySelector(".aba-premium-badge");
+    if (!card) {
+      return;
+    }
+
+    const oldBadge =
+      card.querySelector(
+        ".aba-premium-badge"
+      );
 
     if (oldBadge) {
       oldBadge.remove();
     }
 
-    const badge = document.createElement("div");
+    const badge =
+      document.createElement(
+        "div"
+      );
 
-    badge.className = "aba-premium-badge";
+    badge.className =
+      "aba-premium-badge";
 
-    if (index === FREE_COURSE_INDEX) {
-      badge.innerHTML = "✓ FREE";
-      badge.classList.add("free");
-    } else if (isPremiumActive()) {
-      badge.innerHTML = "✓ PREMIUM";
-      badge.classList.add("active");
+    if (
+      index ===
+      FREE_COURSE_INDEX
+    ) {
+
+      badge.innerHTML =
+        "✓ FREE";
+
+      badge.classList.add(
+        "free"
+      );
+
+    } else if (
+      isPremiumActive()
+    ) {
+
+      badge.innerHTML =
+        "✓ PREMIUM";
+
+      badge.classList.add(
+        "active"
+      );
+
     } else {
-      badge.innerHTML = "👑 PREMIUM";
-      badge.classList.add("premium");
+
+      badge.innerHTML =
+        "👑 PREMIUM";
+
+      badge.classList.add(
+        "premium"
+      );
     }
 
-    card.style.position = "relative";
-    card.appendChild(badge);
+    card.style.position =
+      "relative";
+
+    card.appendChild(
+      badge
+    );
   }
 
   /* =========================================================
@@ -263,61 +462,117 @@ const DEFAULT_PAYMENT = {
      ========================================================= */
 
   function updateCourseCards() {
-    const cards = getCourseCards();
 
-    cards.forEach(function (card, index) {
-      const courseIndex = getCourseIndex(card, index);
+    const cards =
+      getCourseCards();
 
-      addBadge(card, courseIndex);
+    cards.forEach(
+      function (
+        card,
+        index
+      ) {
 
-      const buttons = Array.from(
-        card.querySelectorAll("button, .btn, a")
-      );
+        const courseIndex =
+          getCourseIndex(
+            card,
+            index
+          );
 
-      const premium = isCoursePremium(courseIndex);
-      const locked = isCourseLocked(courseIndex);
+        addBadge(
+          card,
+          courseIndex
+        );
 
-      if (!premium) {
-        return;
-      }
+        const buttons =
+          Array.from(
+            card.querySelectorAll(
+              "button, .btn, a"
+            )
+          );
 
-      buttons.forEach(function (button) {
-        if (
-          button.classList.contains("aba-premium-ignore") ||
-          button.closest(".aba-premium-modal") ||
-          button.closest(".aba-admin-panel")
-        ) {
+        const premium =
+          isCoursePremium(
+            courseIndex
+          );
+
+        const locked =
+          isCourseLocked(
+            courseIndex
+          );
+
+        if (!premium) {
           return;
         }
 
-        if (locked) {
-          button.dataset.originalText =
-            button.dataset.originalText ||
-            button.textContent.trim();
+        buttons.forEach(
+          function (
+            button
+          ) {
 
-          button.textContent = "🔒 Unlock Course";
+            if (
+              button.classList.contains(
+                "aba-premium-ignore"
+              ) ||
+              button.closest(
+                ".aba-premium-modal"
+              ) ||
+              button.closest(
+                ".aba-admin-panel"
+              )
+            ) {
+              return;
+            }
 
-          button.classList.add("aba-premium-locked");
+            if (locked) {
 
-          button.onclick = function (event) {
-            event.preventDefault();
-            event.stopPropagation();
+              button.dataset.originalText =
+                button.dataset.originalText ||
+                button.textContent.trim();
 
-            openPremiumModal(courseIndex);
+              button.textContent =
+                "🔒 Unlock Course";
 
-            return false;
-          };
-        } else {
-          button.classList.remove("aba-premium-locked");
+              button.classList.add(
+                "aba-premium-locked"
+              );
 
-          if (button.dataset.originalText) {
-            button.textContent = button.dataset.originalText;
+              button.onclick =
+                function (
+                  event
+                ) {
+
+                  event.preventDefault();
+
+                  event.stopPropagation();
+
+                  openPremiumModal(
+                    courseIndex
+                  );
+
+                  return false;
+                };
+
+            } else {
+
+              button.classList.remove(
+                "aba-premium-locked"
+              );
+
+              if (
+                button.dataset.originalText
+              ) {
+
+                button.textContent =
+                  button.dataset.originalText;
+              }
+
+              button.onclick =
+                null;
+            }
           }
-
-          button.onclick = null;
-        }
-      });
-    });
+        );
+      }
+    );
   }
 
   /* =========================================================
@@ -325,29 +580,51 @@ const DEFAULT_PAYMENT = {
      ========================================================= */
 
   function createPremiumModal() {
-    if (document.getElementById("abaPremiumModal")) {
+
+    if (
+      document.getElementById(
+        "abaPremiumModal"
+      )
+    ) {
       return;
     }
 
-    const overlay = document.createElement("div");
+    const overlay =
+      document.createElement(
+        "div"
+      );
 
-    overlay.id = "abaPremiumModal";
+    overlay.id =
+      "abaPremiumModal";
 
     overlay.innerHTML = `
+
       <div class="aba-modal-box">
 
-        <button class="aba-close-btn" id="abaPremiumClose">
+        <button
+          class="aba-close-btn"
+          id="abaPremiumClose"
+          type="button"
+        >
           ×
         </button>
 
         <div class="aba-modal-header">
-          <div class="aba-crown">👑</div>
 
-          <h2>Unlock Premium Courses</h2>
+          <div class="aba-crown">
+            👑
+          </div>
+
+          <h2>
+            Unlock Premium Courses
+          </h2>
 
           <p>
-            Course 2 – Course 13 ကို အသုံးပြုရန် Premium Plan ရွေးချယ်ပါ။
+            Course 2 – Course 13 ကို
+            အသုံးပြုရန် Premium Plan
+            ရွေးချယ်ပါ။
           </p>
+
         </div>
 
         <div class="aba-plan-grid">
@@ -357,6 +634,7 @@ const DEFAULT_PAYMENT = {
             class="aba-plan-card selected"
             data-plan="monthly"
           >
+
             <div class="aba-plan-title">
               Monthly
             </div>
@@ -368,6 +646,7 @@ const DEFAULT_PAYMENT = {
             <div class="aba-plan-duration">
               30 Days
             </div>
+
           </button>
 
           <button
@@ -375,6 +654,7 @@ const DEFAULT_PAYMENT = {
             class="aba-plan-card"
             data-plan="yearly"
           >
+
             <div class="aba-plan-title">
               Yearly
             </div>
@@ -390,13 +670,16 @@ const DEFAULT_PAYMENT = {
             <div class="aba-save">
               SAVE
             </div>
+
           </button>
 
         </div>
 
         <div class="aba-payment-method">
 
-          <h3>Payment Method</h3>
+          <h3>
+            Payment Method
+          </h3>
 
           <div class="aba-payment-buttons">
 
@@ -435,6 +718,7 @@ const DEFAULT_PAYMENT = {
             type="text"
             id="abaTransactionRef"
             placeholder="ဥပမာ - KPAY123456"
+            autocomplete="off"
           />
 
           <label>
@@ -448,7 +732,8 @@ const DEFAULT_PAYMENT = {
           />
 
           <div class="aba-file-note">
-            Payment screenshot ကို Admin စစ်ဆေးရန် တင်ပါ။
+            Payment screenshot ကို
+            Admin စစ်ဆေးရန် တင်ပါ။
           </div>
 
           <button
@@ -469,61 +754,126 @@ const DEFAULT_PAYMENT = {
       </div>
     `;
 
-    document.body.appendChild(overlay);
+    document.body.appendChild(
+      overlay
+    );
 
     document
-      .getElementById("abaPremiumClose")
-      .addEventListener("click", closePremiumModal);
+      .getElementById(
+        "abaPremiumClose"
+      )
+      .addEventListener(
+        "click",
+        closePremiumModal
+      );
 
-    overlay.addEventListener("click", function (event) {
-      if (event.target === overlay) {
-        closePremiumModal();
+    overlay.addEventListener(
+      "click",
+      function (event) {
+
+        if (
+          event.target ===
+          overlay
+        ) {
+          closePremiumModal();
+        }
       }
-    });
+    );
 
     document
-      .querySelectorAll(".aba-plan-card")
-      .forEach(function (button) {
-        button.addEventListener("click", function () {
-          document
-            .querySelectorAll(".aba-plan-card")
-            .forEach(function (item) {
-              item.classList.remove("selected");
-            });
+      .querySelectorAll(
+        ".aba-plan-card"
+      )
+      .forEach(
+        function (
+          button
+        ) {
 
-          button.classList.add("selected");
+          button.addEventListener(
+            "click",
+            function () {
 
-          updatePaymentInfo();
-        });
-      });
+              document
+                .querySelectorAll(
+                  ".aba-plan-card"
+                )
+                .forEach(
+                  function (
+                    item
+                  ) {
+
+                    item.classList.remove(
+                      "selected"
+                    );
+                  }
+                );
+
+              button.classList.add(
+                "selected"
+              );
+
+              updatePaymentInfo();
+            }
+          );
+        }
+      );
 
     document
-      .querySelectorAll(".aba-payment-btn")
-      .forEach(function (button) {
-        button.addEventListener("click", function () {
-          document
-            .querySelectorAll(".aba-payment-btn")
-            .forEach(function (item) {
-              item.classList.remove("selected");
-            });
+      .querySelectorAll(
+        ".aba-payment-btn"
+      )
+      .forEach(
+        function (
+          button
+        ) {
 
-          button.classList.add("selected");
+          button.addEventListener(
+            "click",
+            function () {
 
-          updatePaymentInfo();
-        });
-      });
+              document
+                .querySelectorAll(
+                  ".aba-payment-btn"
+                )
+                .forEach(
+                  function (
+                    item
+                  ) {
+
+                    item.classList.remove(
+                      "selected"
+                    );
+                  }
+                );
+
+              button.classList.add(
+                "selected"
+              );
+
+              updatePaymentInfo();
+            }
+          );
+        }
+      );
 
     document
-      .getElementById("abaSubmitPayment")
-      .addEventListener("click", submitPayment);
+      .getElementById(
+        "abaSubmitPayment"
+      )
+      .addEventListener(
+        "click",
+        submitPayment
+      );
 
     updatePaymentInfo();
   }
 
   function getSelectedPlan() {
-    const selected = document.querySelector(
-      ".aba-plan-card.selected"
-    );
+
+    const selected =
+      document.querySelector(
+        ".aba-plan-card.selected"
+      );
 
     return selected
       ? selected.dataset.plan
@@ -531,9 +881,11 @@ const DEFAULT_PAYMENT = {
   }
 
   function getSelectedPaymentMethod() {
-    const selected = document.querySelector(
-      ".aba-payment-btn.selected"
-    );
+
+    const selected =
+      document.querySelector(
+        ".aba-payment-btn.selected"
+      );
 
     return selected
       ? selected.dataset.method
@@ -541,105 +893,211 @@ const DEFAULT_PAYMENT = {
   }
 
   function updatePaymentInfo() {
+
     const container =
-      document.getElementById("abaPaymentInfo");
+      document.getElementById(
+        "abaPaymentInfo"
+      );
 
-    if (!container) return;
+    if (!container) {
+      return;
+    }
 
-    const method = getSelectedPaymentMethod();
-    const plan = getSelectedPlan();
+    const method =
+      getSelectedPaymentMethod();
+
+    const plan =
+      getSelectedPlan();
 
     const paymentSettings =
-      ensureState().paymentSettings || DEFAULT_PAYMENT;
+      ensureState()
+        .paymentSettings ||
+      DEFAULT_PAYMENT;
 
-    const selectedPlan = PLANS[plan];
+    const selectedPlan =
+      PLANS[plan];
 
     let html = `
+
       <div class="aba-payment-plan">
-        <strong>${selectedPlan.name} Plan</strong>
-        <span>${formatMoney(selectedPlan.price)}</span>
+
+        <strong>
+          ${escapeHTML(
+            selectedPlan.name
+          )}
+          Plan
+        </strong>
+
+        <span>
+          ${formatMoney(
+            selectedPlan.price
+          )}
+        </span>
+
       </div>
     `;
 
-    if (method === "kpay") {
+    if (
+      method === "kpay"
+    ) {
+
       html += `
+
         <div class="aba-payment-row">
-          <span>KPay Number</span>
+
+          <span>
+            KPay Number
+          </span>
+
           <strong>
-            ${escapeHTML(paymentSettings.kpay.number)}
+            ${escapeHTML(
+              paymentSettings
+                .kpay.number
+            )}
           </strong>
+
         </div>
 
         <div class="aba-payment-row">
-          <span>Account Name</span>
+
+          <span>
+            Account Name
+          </span>
+
           <strong>
-            ${escapeHTML(paymentSettings.kpay.name)}
+            ${escapeHTML(
+              paymentSettings
+                .kpay.name
+            )}
           </strong>
+
         </div>
       `;
     }
 
-    if (method === "bank") {
+    if (
+      method === "bank"
+    ) {
+
       html += `
+
         <div class="aba-payment-row">
-          <span>Bank</span>
+
+          <span>
+            Bank
+          </span>
+
           <strong>
-            ${escapeHTML(paymentSettings.bank.bankName)}
+            ${escapeHTML(
+              paymentSettings
+                .bank.bankName
+            )}
           </strong>
+
         </div>
 
         <div class="aba-payment-row">
-          <span>Account Number</span>
+
+          <span>
+            Account Number
+          </span>
+
           <strong>
-            ${escapeHTML(paymentSettings.bank.accountNumber)}
+            ${escapeHTML(
+              paymentSettings
+                .bank.accountNumber
+            )}
           </strong>
+
         </div>
 
         <div class="aba-payment-row">
-          <span>Account Name</span>
+
+          <span>
+            Account Name
+          </span>
+
           <strong>
-            ${escapeHTML(paymentSettings.bank.accountName)}
+            ${escapeHTML(
+              paymentSettings
+                .bank.accountName
+            )}
           </strong>
+
         </div>
       `;
     }
 
-    container.innerHTML = html;
+    container.innerHTML =
+      html;
   }
 
-  function openPremiumModal(courseIndex) {
+  function openPremiumModal(
+    courseIndex
+  ) {
+
     createPremiumModal();
 
-    const modal = document.getElementById("abaPremiumModal");
+    const modal =
+      document.getElementById(
+        "abaPremiumModal"
+      );
 
-    if (!modal) return;
+    if (!modal) {
+      return;
+    }
 
-    modal.classList.add("show");
+    modal.classList.add(
+      "show"
+    );
 
-    modal.dataset.courseIndex = courseIndex;
+    modal.dataset.courseIndex =
+      courseIndex;
 
-    const state = ensureState();
+    const state =
+      ensureState();
 
     const message =
-      document.getElementById("abaPaymentMessage");
+      document.getElementById(
+        "abaPaymentMessage"
+      );
 
-    if (state.premium.status === "pending") {
+    if (
+      state.premium.status ===
+      "pending"
+    ) {
+
       message.innerHTML = `
+
         <div class="aba-pending-message">
-          ⏳ Your payment is pending Admin approval.
+
+          ⏳ Your payment is
+          pending Admin approval.
+
         </div>
       `;
+
     } else {
-      message.innerHTML = "";
+
+      message.innerHTML =
+        "";
     }
+
+    updatePaymentInfo();
   }
 
   function closePremiumModal() {
+
     const modal =
-      document.getElementById("abaPremiumModal");
+      document.getElementById(
+        "abaPremiumModal"
+      );
 
     if (modal) {
-      modal.classList.remove("show");
+
+      modal.classList.remove(
+        "show"
+      );
     }
   }
 
@@ -648,197 +1106,68 @@ const DEFAULT_PAYMENT = {
      ========================================================= */
 
   async function submitPayment() {
-  const plan = getSelectedPlan();
-  const method = getSelectedPaymentMethod();
 
-  const refInput =
-    document.getElementById("abaTransactionRef");
+    const plan =
+      getSelectedPlan();
 
-  const screenshotInput =
-    document.getElementById("abaPaymentScreenshot");
-
-  const message =
-    document.getElementById("abaPaymentMessage");
-
-  const transactionRef =
-    refInput.value.trim();
-
-  if (!transactionRef) {
-    message.innerHTML = `
-      <div class="aba-error-message">
-        ❌ Transaction Reference ထည့်ပေးပါ။
-      </div>
-    `;
-    return;
-  }
-
-  if (!screenshotInput.files.length) {
-    message.innerHTML = `
-      <div class="aba-error-message">
-        ❌ Payment Screenshot တင်ပေးပါ။
-      </div>
-    `;
-    return;
-  }
-
-  const screenshot = screenshotInput.files[0];
-
-  if (!screenshot.type.startsWith("image/")) {
-    message.innerHTML = `
-      <div class="aba-error-message">
-        ❌ Image file ပဲ တင်ပေးပါ။
-      </div>
-    `;
-    return;
-  }
-
-  try {
-    message.innerHTML = `
-      <div class="aba-pending-message">
-        ⏳ Screenshot Upload လုပ်နေပါတယ်...
-      </div>
-    `;
-
-    let clientId =
-      localStorage.getItem("abaClientId");
-
-    if (!clientId) {
-      clientId = crypto.randomUUID();
-
-      localStorage.setItem(
-        "abaClientId",
-        clientId
-      );
-    }
-
-    const safeName =
-      screenshot.name.replace(
-        /[^a-zA-Z0-9._-]/g,
-        "_"
-      );
-
-    const filePath =
-      clientId +
-      "/" +
-      Date.now() +
-      "-" +
-      safeName;
-
-    const { error: uploadError } =
-      await supabaseClient
-        .storage
-        .from(SUPABASE_BUCKET)
-        .upload(
-          filePath,
-          screenshot,
-          {
-            upsert: false,
-            contentType: screenshot.type
-          }
-        );
-
-    if (uploadError) {
-      throw uploadError;
-    }
-
-    message.innerHTML = `
-      <div class="aba-pending-message">
-        ⏳ Payment information သိမ်းနေပါတယ်...
-      </div>
-    `;
-
-    const { error: insertError } =
-      await supabaseClient
-        .from(SUPABASE_TABLE)
-        .insert({
-          "user-id": clientId,
-          plan: plan,
-          "payment method": method,
-          transaction_ref: transactionRef,
-          screenshot_url: filePath,
-          status: "pending"
-        });
-
-    if (insertError) {
-      throw insertError;
-    }
-
-    updateState(function (state) {
-      state.premium.status = "pending";
-      state.premium.plan = plan;
-      state.premium.paymentMethod = method;
-      state.premium.transactionRef =
-        transactionRef;
-
-      state.premium.paymentScreenshot =
-        filePath;
-
-      state.premium.submittedAt =
-        Date.now();
-    });
-
-    message.innerHTML = `
-      <div class="aba-success-message">
-        ✅ Payment တင်ပြီးပါပြီ။<br>
-        Screenshot ကို Admin စစ်ဆေးနိုင်ပါပြီ။<br>
-        Admin Approval ကို စောင့်ပေးပါ။
-      </div>
-    `;
-
-    updateDashboard();
-
-    setTimeout(function () {
-      closePremiumModal();
-
-      showToast(
-        "Payment Submitted — Admin Approval ကို စောင့်ပါ။"
-      );
-    }, 1500);
-
-  } catch (error) {
-    console.error(
-      "Payment upload error:",
-      error
-    );
-
-    message.innerHTML = `
-      <div class="aba-error-message">
-        ❌ Payment Upload မအောင်မြင်ပါ။<br>
-        ${escapeHTML(error.message)}
-      </div>
-    `;
-  }
-}
-    const plan = getSelectedPlan();
-
-    const method = getSelectedPaymentMethod();
+    const method =
+      getSelectedPaymentMethod();
 
     const refInput =
-      document.getElementById("abaTransactionRef");
+      document.getElementById(
+        "abaTransactionRef"
+      );
 
     const screenshotInput =
-      document.getElementById("abaPaymentScreenshot");
+      document.getElementById(
+        "abaPaymentScreenshot"
+      );
 
     const message =
-      document.getElementById("abaPaymentMessage");
+      document.getElementById(
+        "abaPaymentMessage"
+      );
+
+    if (
+      !refInput ||
+      !screenshotInput ||
+      !message
+    ) {
+      return;
+    }
 
     const transactionRef =
       refInput.value.trim();
 
     if (!transactionRef) {
+
       message.innerHTML = `
+
         <div class="aba-error-message">
-          ❌ Transaction Reference ထည့်ပေးပါ။
+
+          ❌ Transaction Reference
+          ထည့်ပေးပါ။
+
         </div>
       `;
+
+      refInput.focus();
 
       return;
     }
 
-    if (!screenshotInput.files.length) {
+    if (
+      !screenshotInput.files ||
+      !screenshotInput.files.length
+    ) {
+
       message.innerHTML = `
+
         <div class="aba-error-message">
-          ❌ Payment Screenshot တင်ပေးပါ။
+
+          ❌ Payment Screenshot
+          တင်ပေးပါ။
+
         </div>
       `;
 
@@ -848,31 +1177,287 @@ const DEFAULT_PAYMENT = {
     const screenshot =
       screenshotInput.files[0];
 
-    updateState(function (state) {
-      state.premium.status = "pending";
-      state.premium.plan = plan;
-      state.premium.paymentMethod = method;
-      state.premium.transactionRef = transactionRef;
-      state.premium.paymentScreenshot = screenshot.name;
-      state.premium.submittedAt = Date.now();
-    });
+    /* IMAGE CHECK */
 
-    message.innerHTML = `
-      <div class="aba-success-message">
-        ✅ Payment တင်ပြီးပါပြီ။<br>
-        Admin Approval ကို စောင့်ပေးပါ။
-      </div>
-    `;
+    if (
+      !screenshot.type.startsWith(
+        "image/"
+      )
+    ) {
 
-    updateDashboard();
+      message.innerHTML = `
 
-    setTimeout(function () {
-      closePremiumModal();
+        <div class="aba-error-message">
 
-      showToast(
-        "Payment Pending — Admin Approval ကို စောင့်ပါ။"
+          ❌ Image file ပဲ
+          တင်ပေးပါ။
+
+        </div>
+      `;
+
+      return;
+    }
+
+    /* FILE SIZE CHECK
+       Maximum = 10 MB
+    */
+
+    const maxSize =
+      10 * 1024 * 1024;
+
+    if (
+      screenshot.size >
+      maxSize
+    ) {
+
+      message.innerHTML = `
+
+        <div class="aba-error-message">
+
+          ❌ Screenshot size
+          10 MB ထက်မကျော်ရပါ။
+
+        </div>
+      `;
+
+      return;
+    }
+
+    /* PREVENT DOUBLE SUBMIT */
+
+    const submitButton =
+      document.getElementById(
+        "abaSubmitPayment"
       );
-    }, 1500);
+
+    if (
+      submitButton &&
+      submitButton.disabled
+    ) {
+      return;
+    }
+
+    if (submitButton) {
+
+      submitButton.disabled =
+        true;
+
+      submitButton.textContent =
+        "Uploading...";
+    }
+
+    try {
+
+      /* =====================================================
+         CLIENT ID
+         ===================================================== */
+
+      const clientId =
+        getClientId();
+
+      /* =====================================================
+         FILE NAME
+         ===================================================== */
+
+      const safeName =
+        screenshot.name.replace(
+          /[^a-zA-Z0-9._-]/g,
+          "_"
+        );
+
+      const filePath =
+        clientId +
+        "/" +
+        Date.now() +
+        "-" +
+        safeName;
+
+      /* =====================================================
+         UPLOAD SCREENSHOT
+         ===================================================== */
+
+      message.innerHTML = `
+
+        <div class="aba-pending-message">
+
+          ⏳ Screenshot Upload
+          လုပ်နေပါတယ်...
+
+        </div>
+      `;
+
+      const {
+        error: uploadError
+      } =
+        await supabaseClient
+          .storage
+          .from(
+            SUPABASE_BUCKET
+          )
+          .upload(
+            filePath,
+            screenshot,
+            {
+              upsert: false,
+              contentType:
+                screenshot.type
+            }
+          );
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      /* =====================================================
+         SAVE PAYMENT
+         ===================================================== */
+
+      message.innerHTML = `
+
+        <div class="aba-pending-message">
+
+          ⏳ Payment information
+          သိမ်းနေပါတယ်...
+
+        </div>
+      `;
+
+      const {
+        error: insertError
+      } =
+        await supabaseClient
+          .from(
+            SUPABASE_TABLE
+          )
+          .insert({
+            "user-id": clientId,
+
+            plan: plan,
+
+            "payment method":
+              method,
+
+            transaction_ref:
+              transactionRef,
+
+            screenshot_url:
+              filePath,
+
+            status:
+              "pending"
+          });
+
+      if (insertError) {
+        throw insertError;
+      }
+
+      /* =====================================================
+         SAVE LOCAL STATE
+         ===================================================== */
+
+      updateState(
+        function (
+          state
+        ) {
+
+          state.premium.status =
+            "pending";
+
+          state.premium.plan =
+            plan;
+
+          state.premium.paymentMethod =
+            method;
+
+          state.premium.transactionRef =
+            transactionRef;
+
+          state.premium.paymentScreenshot =
+            filePath;
+
+          state.premium.submittedAt =
+            Date.now();
+        }
+      );
+
+      /* =====================================================
+         SUCCESS
+         ===================================================== */
+
+      message.innerHTML = `
+
+        <div class="aba-success-message">
+
+          ✅ Payment တင်ပြီးပါပြီ။
+
+          <br>
+
+          Screenshot ကို
+          Admin စစ်ဆေးနိုင်ပါပြီ။
+
+          <br>
+
+          Admin Approval ကို
+          စောင့်ပေးပါ။
+
+        </div>
+      `;
+
+      updateDashboard();
+
+      setTimeout(
+        function () {
+
+          closePremiumModal();
+
+          showToast(
+            "Payment Submitted — Admin Approval ကို စောင့်ပါ။"
+          );
+
+        },
+        1500
+      );
+
+    } catch (error) {
+
+      console.error(
+        "Payment upload error:",
+        error
+      );
+
+      let errorMessage =
+        "Payment Upload မအောင်မြင်ပါ။";
+
+      if (
+        error &&
+        error.message
+      ) {
+        errorMessage =
+          error.message;
+      }
+
+      message.innerHTML = `
+
+        <div class="aba-error-message">
+
+          ❌ ${escapeHTML(
+            errorMessage
+          )}
+
+        </div>
+      `;
+
+    } finally {
+
+      if (submitButton) {
+
+        submitButton.disabled =
+          false;
+
+        submitButton.textContent =
+          "Submit Payment";
+      }
+    }
   }
 
   /* =========================================================
@@ -880,15 +1465,25 @@ const DEFAULT_PAYMENT = {
      ========================================================= */
 
   function createAdminPanel() {
-    if (document.getElementById("abaAdminPanel")) {
+
+    if (
+      document.getElementById(
+        "abaAdminPanel"
+      )
+    ) {
       return;
     }
 
-    const panel = document.createElement("div");
+    const panel =
+      document.createElement(
+        "div"
+      );
 
-    panel.id = "abaAdminPanel";
+    panel.id =
+      "abaAdminPanel";
 
     panel.innerHTML = `
+
       <div class="aba-admin-overlay">
 
         <div class="aba-admin-box">
@@ -908,6 +1503,7 @@ const DEFAULT_PAYMENT = {
             </div>
 
             <div>
+
               <h2>
                 Premium Admin Dashboard
               </h2>
@@ -915,6 +1511,7 @@ const DEFAULT_PAYMENT = {
               <p>
                 Payment Approval Management
               </p>
+
             </div>
 
           </div>
@@ -954,115 +1551,337 @@ const DEFAULT_PAYMENT = {
       </div>
     `;
 
-    document.body.appendChild(panel);
+    document.body.appendChild(
+      panel
+    );
 
     document
-      .getElementById("abaAdminClose")
-      .addEventListener("click", closeAdminPanel);
+      .getElementById(
+        "abaAdminClose"
+      )
+      .addEventListener(
+        "click",
+        closeAdminPanel
+      );
 
     document
-      .getElementById("abaStudentMode")
-      .addEventListener("click", function () {
-        setStudentMode();
-      });
+      .getElementById(
+        "abaStudentMode"
+      )
+      .addEventListener(
+        "click",
+        setStudentMode
+      );
 
     document
-      .getElementById("abaResetPremium")
-      .addEventListener("click", function () {
-        resetPremium();
-      });
+      .getElementById(
+        "abaResetPremium"
+      )
+      .addEventListener(
+        "click",
+        resetPremium
+      );
 
     renderAdminPanel();
   }
 
   function openAdminPanel() {
+
     createAdminPanel();
 
     const panel =
-      document.getElementById("abaAdminPanel");
+      document.getElementById(
+        "abaAdminPanel"
+      );
 
-    panel.classList.add("show");
+    if (!panel) {
+      return;
+    }
+
+    panel.classList.add(
+      "show"
+    );
 
     renderAdminPanel();
   }
 
   function closeAdminPanel() {
+
     const panel =
-      document.getElementById("abaAdminPanel");
+      document.getElementById(
+        "abaAdminPanel"
+      );
 
     if (panel) {
-      panel.classList.remove("show");
+
+      panel.classList.remove(
+        "show"
+      );
     }
   }
 
-  function renderAdminPanel() {
-    const state = ensureState();
+  /* =========================================================
+     ADMIN SCREENSHOT VIEW
+     ========================================================= */
 
-    const stats =
-      document.getElementById("abaAdminStats");
+  async function loadAdminScreenshot(
+    path
+  ) {
 
-    const payments =
-      document.getElementById("abaAdminPayments");
+    const container =
+      document.getElementById(
+        "abaScreenshotPreview"
+      );
 
-    if (!stats || !payments) {
+    if (
+      !container ||
+      !path
+    ) {
       return;
     }
 
-    const premium = state.premium;
+    container.innerHTML = `
 
-    let statusText = "Free";
+      <div class="aba-screenshot-loading">
 
-    if (premium.status === "pending") {
-      statusText = "Pending";
-    }
+        ⏳ Screenshot Loading...
 
-    if (premium.status === "active") {
-      statusText = "Active";
-    }
-
-    if (premium.status === "rejected") {
-      statusText = "Rejected";
-    }
-
-    if (premium.status === "expired") {
-      statusText = "Expired";
-    }
-
-    stats.innerHTML = `
-      <div class="aba-stat-card">
-        <span>Status</span>
-        <strong>${statusText}</strong>
-      </div>
-
-      <div class="aba-stat-card">
-        <span>Plan</span>
-        <strong>
-          ${premium.plan
-            ? escapeHTML(PLANS[premium.plan]?.name || premium.plan)
-            : "-"}
-        </strong>
-      </div>
-
-      <div class="aba-stat-card">
-        <span>Payment</span>
-        <strong>
-          ${premium.paymentMethod
-            ? escapeHTML(premium.paymentMethod)
-            : "-"}
-        </strong>
-      </div>
-
-      <div class="aba-stat-card">
-        <span>Expiry</span>
-        <strong>
-          ${formatDate(premium.expiryAt)}
-        </strong>
       </div>
     `;
 
-    if (premium.status !== "pending") {
+    try {
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .storage
+          .from(
+            SUPABASE_BUCKET
+          )
+          .createSignedUrl(
+            path,
+            3600
+          );
+
+      if (error) {
+        throw error;
+      }
+
+      if (
+        !data ||
+        !data.signedUrl
+      ) {
+
+        throw new Error(
+          "Screenshot URL မရပါ။"
+        );
+      }
+
+      const signedUrl =
+        data.signedUrl;
+
+      container.innerHTML = `
+
+        <div class="aba-screenshot-box">
+
+          <img
+            src="${escapeHTML(
+              signedUrl
+            )}"
+            alt="Payment Screenshot"
+            class="aba-payment-screenshot-preview"
+          />
+
+          <div class="aba-screenshot-actions">
+
+            <a
+              href="${escapeHTML(
+                signedUrl
+              )}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="aba-open-screenshot"
+            >
+              🔍 Open Full Screenshot
+            </a>
+
+          </div>
+
+        </div>
+      `;
+
+    } catch (error) {
+
+      console.error(
+        "Screenshot view error:",
+        error
+      );
+
+      container.innerHTML = `
+
+        <div class="aba-screenshot-error">
+
+          ❌ Screenshot ဖွင့်မရပါ။
+
+          <br>
+
+          <small>
+            Storage SELECT Policy ကို
+            စစ်ဆေးပါ။
+          </small>
+
+        </div>
+      `;
+    }
+  }
+
+  /* =========================================================
+     ADMIN PANEL RENDER
+     ========================================================= */
+
+  function renderAdminPanel() {
+
+    const state =
+      ensureState();
+
+    const stats =
+      document.getElementById(
+        "abaAdminStats"
+      );
+
+    const payments =
+      document.getElementById(
+        "abaAdminPayments"
+      );
+
+    if (
+      !stats ||
+      !payments
+    ) {
+      return;
+    }
+
+    const premium =
+      state.premium;
+
+    let statusText =
+      "Free";
+
+    if (
+      premium.status ===
+      "pending"
+    ) {
+      statusText =
+        "Pending";
+    }
+
+    if (
+      premium.status ===
+      "active"
+    ) {
+      statusText =
+        "Active";
+    }
+
+    if (
+      premium.status ===
+      "rejected"
+    ) {
+      statusText =
+        "Rejected";
+    }
+
+    if (
+      premium.status ===
+      "expired"
+    ) {
+      statusText =
+        "Expired";
+    }
+
+    stats.innerHTML = `
+
+      <div class="aba-stat-card">
+
+        <span>
+          Status
+        </span>
+
+        <strong>
+          ${statusText}
+        </strong>
+
+      </div>
+
+      <div class="aba-stat-card">
+
+        <span>
+          Plan
+        </span>
+
+        <strong>
+
+          ${
+            premium.plan
+              ? escapeHTML(
+                  PLANS[
+                    premium.plan
+                  ]?.name ||
+                    premium.plan
+                )
+              : "-"
+          }
+
+        </strong>
+
+      </div>
+
+      <div class="aba-stat-card">
+
+        <span>
+          Payment
+        </span>
+
+        <strong>
+
+          ${
+            premium.paymentMethod
+              ? escapeHTML(
+                  premium.paymentMethod
+                )
+              : "-"
+          }
+
+        </strong>
+
+      </div>
+
+      <div class="aba-stat-card">
+
+        <span>
+          Expiry
+        </span>
+
+        <strong>
+          ${formatDate(
+            premium.expiryAt
+          )}
+        </strong>
+
+      </div>
+    `;
+
+    if (
+      premium.status !==
+      "pending"
+    ) {
+
       payments.innerHTML = `
+
         <div class="aba-empty-admin">
+
           <div class="aba-empty-icon">
             📭
           </div>
@@ -1072,8 +1891,11 @@ const DEFAULT_PAYMENT = {
           </h3>
 
           <p>
-            Student က Payment တင်လိုက်တဲ့အခါ ဒီနေရာမှာ ပြပါမယ်။
+            Student က Payment
+            တင်လိုက်တဲ့အခါ
+            ဒီနေရာမှာ ပြပါမယ်။
           </p>
+
         </div>
       `;
 
@@ -1081,68 +1903,139 @@ const DEFAULT_PAYMENT = {
     }
 
     const plan =
-      PLANS[premium.plan] || PLANS.monthly;
+      PLANS[
+        premium.plan
+      ] ||
+      PLANS.monthly;
 
     payments.innerHTML = `
+
       <div class="aba-payment-review">
 
         <div class="aba-review-title">
-          <span>🔔 New Payment Request</span>
+
+          <span>
+            🔔 New Payment Request
+          </span>
 
           <span class="aba-pending-tag">
             PENDING
           </span>
+
         </div>
 
         <div class="aba-review-grid">
 
-          <div class="aba-review-item">
-  <span>Screenshot</span>
+          <!-- SCREENSHOT -->
 
-  <div id="abaScreenshotPreview">
-    <span>Loading screenshot...</span>
-  </div>
-</div>
+          <div
+            class="aba-review-item aba-review-screenshot-item"
+          >
 
-          <div class="aba-review-item">
-            <span>Amount</span>
-            <strong>
-              ${formatMoney(plan.price)}
-            </strong>
+            <span>
+              Payment Screenshot
+            </span>
+
+            <div
+              id="abaScreenshotPreview"
+            >
+
+              <span>
+                Loading screenshot...
+              </span>
+
+            </div>
+
           </div>
 
-          <div class="aba-review-item">
-            <span>Payment Method</span>
-            <strong>
-              ${escapeHTML(premium.paymentMethod)}
-            </strong>
-          </div>
+          <!-- AMOUNT -->
 
           <div class="aba-review-item">
-            <span>Transaction Ref</span>
+
+            <span>
+              Amount
+            </span>
+
             <strong>
-              ${escapeHTML(premium.transactionRef)}
+              ${formatMoney(
+                plan.price
+              )}
             </strong>
+
           </div>
 
-          <div class="aba-review-item">
-            <span>Screenshot</span>
-            <strong>
-              ${escapeHTML(premium.paymentScreenshot)}
-            </strong>
-          </div>
+          <!-- PAYMENT METHOD -->
 
           <div class="aba-review-item">
-            <span>Submitted</span>
+
+            <span>
+              Payment Method
+            </span>
+
             <strong>
-              ${formatDate(premium.submittedAt)}
+              ${escapeHTML(
+                premium.paymentMethod
+              )}
             </strong>
+
+          </div>
+
+          <!-- TRANSACTION REF -->
+
+          <div class="aba-review-item">
+
+            <span>
+              Transaction Ref
+            </span>
+
+            <strong>
+              ${escapeHTML(
+                premium.transactionRef
+              )}
+            </strong>
+
+          </div>
+
+          <!-- SUBMITTED -->
+
+          <div class="aba-review-item">
+
+            <span>
+              Submitted
+            </span>
+
+            <strong>
+              ${formatDate(
+                premium.submittedAt
+              )}
+            </strong>
+
+          </div>
+
+          <!-- PLAN -->
+
+          <div class="aba-review-item">
+
+            <span>
+              Plan
+            </span>
+
+            <strong>
+              ${escapeHTML(
+                plan.name
+              )}
+            </strong>
+
           </div>
 
         </div>
 
         <div class="aba-review-warning">
-          ⚠️ Payment ကို အမှန်တကယ် စစ်ဆေးပြီးမှ Approve နှိပ်ပါ။
+
+          ⚠️ Payment ကို
+          အမှန်တကယ် စစ်ဆေးပြီးမှ
+          Approve နှိပ်ပါ။
+
         </div>
 
         <div class="aba-review-buttons">
@@ -1168,13 +2061,37 @@ const DEFAULT_PAYMENT = {
       </div>
     `;
 
-    document
-      .getElementById("abaApprovePayment")
-      .addEventListener("click", approvePayment);
+    const approveButton =
+      document.getElementById(
+        "abaApprovePayment"
+      );
 
-    document
-      .getElementById("abaRejectPayment")
-      .addEventListener("click", rejectPayment);
+    const rejectButton =
+      document.getElementById(
+        "abaRejectPayment"
+      );
+
+    if (approveButton) {
+
+      approveButton.addEventListener(
+        "click",
+        approvePayment
+      );
+    }
+
+    if (rejectButton) {
+
+      rejectButton.addEventListener(
+        "click",
+        rejectPayment
+      );
+    }
+
+    /* LOAD SCREENSHOT */
+
+    loadAdminScreenshot(
+      premium.paymentScreenshot
+    );
   }
 
   /* =========================================================
@@ -1182,17 +2099,30 @@ const DEFAULT_PAYMENT = {
      ========================================================= */
 
   function approvePayment() {
-    const state = ensureState();
 
-    if (state.premium.status !== "pending") {
-      showToast("Pending Payment မရှိပါ။");
+    const state =
+      ensureState();
+
+    if (
+      state.premium.status !==
+      "pending"
+    ) {
+
+      showToast(
+        "Pending Payment မရှိပါ။"
+      );
+
       return;
     }
 
     const plan =
-      PLANS[state.premium.plan] || PLANS.monthly;
+      PLANS[
+        state.premium.plan
+      ] ||
+      PLANS.monthly;
 
-    const startAt = Date.now();
+    const startAt =
+      Date.now();
 
     const expiryAt =
       startAt +
@@ -1202,11 +2132,21 @@ const DEFAULT_PAYMENT = {
         60 *
         1000;
 
-    updateState(function (newState) {
-      newState.premium.status = "active";
-      newState.premium.startAt = startAt;
-      newState.premium.expiryAt = expiryAt;
-    });
+    updateState(
+      function (
+        newState
+      ) {
+
+        newState.premium.status =
+          "active";
+
+        newState.premium.startAt =
+          startAt;
+
+        newState.premium.expiryAt =
+          expiryAt;
+      }
+    );
 
     renderAdminPanel();
 
@@ -1226,6 +2166,7 @@ const DEFAULT_PAYMENT = {
      ========================================================= */
 
   function rejectPayment() {
+
     const confirmReject =
       window.confirm(
         "ဒီ Payment ကို Reject လုပ်မှာ သေချာပါသလား?"
@@ -1235,9 +2176,15 @@ const DEFAULT_PAYMENT = {
       return;
     }
 
-    updateState(function (state) {
-      state.premium.status = "rejected";
-    });
+    updateState(
+      function (
+        state
+      ) {
+
+        state.premium.status =
+          "rejected";
+      }
+    );
 
     renderAdminPanel();
 
@@ -1255,9 +2202,16 @@ const DEFAULT_PAYMENT = {
      ========================================================= */
 
   function setAdminMode() {
-    updateState(function (state) {
-      state.account.role = "admin";
-    });
+
+    updateState(
+      function (
+        state
+      ) {
+
+        state.account.role =
+          "admin";
+      }
+    );
 
     showToast(
       "Admin Mode Activated"
@@ -1267,9 +2221,16 @@ const DEFAULT_PAYMENT = {
   }
 
   function setStudentMode() {
-    updateState(function (state) {
-      state.account.role = "student";
-    });
+
+    updateState(
+      function (
+        state
+      ) {
+
+        state.account.role =
+          "student";
+      }
+    );
 
     closeAdminPanel();
 
@@ -1281,7 +2242,12 @@ const DEFAULT_PAYMENT = {
   }
 
   function isAdmin() {
-    return ensureState().account.role === "admin";
+
+    return (
+      ensureState()
+        .account.role ===
+      "admin"
+    );
   }
 
   /* =========================================================
@@ -1289,6 +2255,7 @@ const DEFAULT_PAYMENT = {
      ========================================================= */
 
   function resetPremium() {
+
     const confirmReset =
       window.confirm(
         "Premium status ကို Reset လုပ်မှာ သေချာပါသလား?"
@@ -1298,18 +2265,39 @@ const DEFAULT_PAYMENT = {
       return;
     }
 
-    updateState(function (state) {
-      state.premium = {
-        status: "free",
-        plan: null,
-        startAt: null,
-        expiryAt: null,
-        paymentMethod: null,
-        transactionRef: "",
-        paymentScreenshot: "",
-        submittedAt: null
-      };
-    });
+    updateState(
+      function (
+        state
+      ) {
+
+        state.premium = {
+
+          status:
+            "free",
+
+          plan:
+            null,
+
+          startAt:
+            null,
+
+          expiryAt:
+            null,
+
+          paymentMethod:
+            null,
+
+          transactionRef:
+            "",
+
+          paymentScreenshot:
+            "",
+
+          submittedAt:
+            null
+        };
+      }
+    );
 
     renderAdminPanel();
 
@@ -1329,23 +2317,24 @@ const DEFAULT_PAYMENT = {
      ========================================================= */
 
   function updateLessonLock() {
+
     const lessonContent =
-      document.getElementById("lessonContent");
+      document.getElementById(
+        "lessonContent"
+      );
 
     if (!lessonContent) {
       return;
     }
 
-    /*
-     * Existing lesson system may expose current course.
-     */
-
-    let currentCourseIndex = null;
+    let currentCourseIndex =
+      null;
 
     if (
       window.AungAcademy &&
       window.AungAcademy.state
     ) {
+
       const academyState =
         window.AungAcademy.state;
 
@@ -1353,6 +2342,7 @@ const DEFAULT_PAYMENT = {
         typeof academyState.currentCourseIndex ===
         "number"
       ) {
+
         currentCourseIndex =
           academyState.currentCourseIndex;
       }
@@ -1361,16 +2351,22 @@ const DEFAULT_PAYMENT = {
         typeof academyState.currentCourse ===
         "number"
       ) {
+
         currentCourseIndex =
           academyState.currentCourse;
       }
     }
 
     if (
-      currentCourseIndex !== null &&
-      isCourseLocked(currentCourseIndex)
+      currentCourseIndex !==
+        null &&
+      isCourseLocked(
+        currentCourseIndex
+      )
     ) {
+
       lessonContent.innerHTML = `
+
         <div class="aba-lesson-lock">
 
           <div class="aba-big-lock">
@@ -1382,7 +2378,9 @@ const DEFAULT_PAYMENT = {
           </h2>
 
           <p>
-            ဒီ Course ကို လေ့လာရန် Premium Membership လိုအပ်ပါတယ်။
+            ဒီ Course ကို
+            လေ့လာရန် Premium
+            Membership လိုအပ်ပါတယ်။
           </p>
 
           <button
@@ -1403,8 +2401,11 @@ const DEFAULT_PAYMENT = {
      ========================================================= */
 
   function updateDashboard() {
-    let dashboard =
-      document.getElementById("dashboard");
+
+    const dashboard =
+      document.getElementById(
+        "dashboard"
+      );
 
     if (!dashboard) {
       return;
@@ -1416,43 +2417,81 @@ const DEFAULT_PAYMENT = {
       );
 
     if (!card) {
-      card = document.createElement("div");
+
+      card =
+        document.createElement(
+          "div"
+        );
 
       card.id =
         "abaDashboardPremiumCard";
 
-      dashboard.prepend(card);
+      dashboard.prepend(
+        card
+      );
     }
 
-    const state = ensureState();
+    const state =
+      ensureState();
 
-    let status = "FREE";
-    let statusClass = "free";
+    let status =
+      "FREE";
 
-    if (state.premium.status === "pending") {
-      status = "PAYMENT PENDING";
-      statusClass = "pending";
+    let statusClass =
+      "free";
+
+    if (
+      state.premium.status ===
+      "pending"
+    ) {
+
+      status =
+        "PAYMENT PENDING";
+
+      statusClass =
+        "pending";
     }
 
-    if (isPremiumActive()) {
-      status = "PREMIUM ACTIVE";
-      statusClass = "active";
+    if (
+      isPremiumActive()
+    ) {
+
+      status =
+        "PREMIUM ACTIVE";
+
+      statusClass =
+        "active";
     }
 
-    if (state.premium.status === "rejected") {
-      status = "PAYMENT REJECTED";
-      statusClass = "rejected";
+    if (
+      state.premium.status ===
+      "rejected"
+    ) {
+
+      status =
+        "PAYMENT REJECTED";
+
+      statusClass =
+        "rejected";
     }
 
-    if (state.premium.status === "expired") {
-      status = "PREMIUM EXPIRED";
-      statusClass = "expired";
+    if (
+      state.premium.status ===
+      "expired"
+    ) {
+
+      status =
+        "PREMIUM EXPIRED";
+
+      statusClass =
+        "expired";
     }
 
     card.className =
       "aba-dashboard-premium-card";
 
     card.innerHTML = `
+
       <div class="aba-dashboard-premium-icon">
         👑
       </div>
@@ -1463,7 +2502,9 @@ const DEFAULT_PAYMENT = {
           Premium Membership
         </div>
 
-        <div class="aba-dashboard-premium-status ${statusClass}">
+        <div
+          class="aba-dashboard-premium-status ${statusClass}"
+        >
           ${status}
         </div>
 
@@ -1471,9 +2512,12 @@ const DEFAULT_PAYMENT = {
           state.premium.expiryAt
             ? `
               <div class="aba-dashboard-premium-expiry">
-                Expiry: ${formatDate(
+
+                Expiry:
+                ${formatDate(
                   state.premium.expiryAt
                 )}
+
               </div>
             `
             : ""
@@ -1494,7 +2538,9 @@ const DEFAULT_PAYMENT = {
                 👨‍💼 Admin Dashboard
               </button>
             `
-            : state.premium.status === "pending"
+            : state.premium.status ===
+              "pending"
+
               ? `
                 <button
                   type="button"
@@ -1504,12 +2550,15 @@ const DEFAULT_PAYMENT = {
                   ⏳ Payment Status
                 </button>
               `
+
               : isPremiumActive()
+
                 ? `
                   <span class="aba-active-label">
                     ✓ All Courses Unlocked
                   </span>
                 `
+
                 : `
                   <button
                     type="button"
@@ -1529,33 +2578,52 @@ const DEFAULT_PAYMENT = {
      TOAST
      ========================================================= */
 
-  function showToast(message) {
+  function showToast(
+    message
+  ) {
+
     let toast =
       document.getElementById(
         "abaPremiumToast"
       );
 
     if (!toast) {
-      toast = document.createElement("div");
+
+      toast =
+        document.createElement(
+          "div"
+        );
 
       toast.id =
         "abaPremiumToast";
 
-      document.body.appendChild(toast);
+      document.body.appendChild(
+        toast
+      );
     }
 
-    toast.textContent = message;
+    toast.textContent =
+      message;
 
-    toast.classList.add("show");
+    toast.classList.add(
+      "show"
+    );
 
     clearTimeout(
       window.__abaToastTimer
     );
 
     window.__abaToastTimer =
-      setTimeout(function () {
-        toast.classList.remove("show");
-      }, 3500);
+      setTimeout(
+        function () {
+
+          toast.classList.remove(
+            "show"
+          );
+
+        },
+        3500
+      );
   }
 
   /* =========================================================
@@ -1563,6 +2631,7 @@ const DEFAULT_PAYMENT = {
      ========================================================= */
 
   function injectCSS() {
+
     if (
       document.getElementById(
         "abaPremiumCSS"
@@ -1572,7 +2641,9 @@ const DEFAULT_PAYMENT = {
     }
 
     const style =
-      document.createElement("style");
+      document.createElement(
+        "style"
+      );
 
     style.id =
       "abaPremiumCSS";
@@ -1584,9 +2655,12 @@ const DEFAULT_PAYMENT = {
          ================================ */
 
       .aba-premium-badge {
+
         position: absolute;
+
         top: 12px;
         right: 12px;
+
         z-index: 20;
 
         padding: 7px 12px;
@@ -1594,30 +2668,48 @@ const DEFAULT_PAYMENT = {
         border-radius: 999px;
 
         font-size: 12px;
+
         font-weight: 800;
 
         box-shadow:
-          0 4px 12px rgba(0,0,0,.12);
+          0 4px 12px
+          rgba(0,0,0,.12);
       }
 
       .aba-premium-badge.free {
-        background: #e8f8ee;
-        color: #198754;
+
+        background:
+          #e8f8ee;
+
+        color:
+          #198754;
       }
 
       .aba-premium-badge.premium {
-        background: #fff3cd;
-        color: #946200;
+
+        background:
+          #fff3cd;
+
+        color:
+          #946200;
       }
 
       .aba-premium-badge.active {
-        background: #e8f8ee;
-        color: #198754;
+
+        background:
+          #e8f8ee;
+
+        color:
+          #198754;
       }
 
       .aba-premium-locked {
-        opacity: .9 !important;
-        cursor: pointer !important;
+
+        opacity:
+          .9 !important;
+
+        cursor:
+          pointer !important;
       }
 
 
@@ -1626,14 +2718,18 @@ const DEFAULT_PAYMENT = {
          ================================ */
 
       #abaPremiumModal {
+
         position: fixed;
+
         inset: 0;
 
         background:
           rgba(0,0,0,.65);
 
         display: flex;
+
         align-items: center;
+
         justify-content: center;
 
         padding: 20px;
@@ -1641,24 +2737,31 @@ const DEFAULT_PAYMENT = {
         z-index: 999999;
 
         opacity: 0;
+
         visibility: hidden;
 
         transition: .25s;
       }
 
       #abaPremiumModal.show {
+
         opacity: 1;
+
         visibility: visible;
       }
 
       .aba-modal-box {
+
         width: 100%;
+
         max-width: 620px;
 
         max-height: 92vh;
+
         overflow-y: auto;
 
-        background: white;
+        background:
+          white;
 
         border-radius: 20px;
 
@@ -1667,11 +2770,14 @@ const DEFAULT_PAYMENT = {
         position: relative;
 
         box-shadow:
-          0 25px 80px rgba(0,0,0,.25);
+          0 25px 80px
+          rgba(0,0,0,.25);
       }
 
       .aba-close-btn {
+
         position: absolute;
+
         right: 15px;
         top: 12px;
 
@@ -1682,7 +2788,8 @@ const DEFAULT_PAYMENT = {
 
         border-radius: 50%;
 
-        background: #f1f3f5;
+        background:
+          #f1f3f5;
 
         font-size: 25px;
 
@@ -1690,23 +2797,34 @@ const DEFAULT_PAYMENT = {
       }
 
       .aba-modal-header {
+
         text-align: center;
-        padding: 10px 20px 20px;
+
+        padding:
+          10px 20px 20px;
       }
 
       .aba-crown {
+
         font-size: 45px;
+
         margin-bottom: 5px;
       }
 
       .aba-modal-header h2 {
-        margin: 0 0 8px;
+
+        margin:
+          0 0 8px;
+
         font-size: 25px;
       }
 
       .aba-modal-header p {
+
         margin: 0;
+
         color: #666;
+
         line-height: 1.6;
       }
 
@@ -1716,19 +2834,27 @@ const DEFAULT_PAYMENT = {
          ================================ */
 
       .aba-plan-grid {
+
         display: grid;
-        grid-template-columns: 1fr 1fr;
+
+        grid-template-columns:
+          1fr 1fr;
+
         gap: 14px;
 
-        margin: 10px 0 22px;
+        margin:
+          10px 0 22px;
       }
 
       .aba-plan-card {
+
         position: relative;
 
-        border: 2px solid #ddd;
+        border:
+          2px solid #ddd;
 
-        background: white;
+        background:
+          white;
 
         border-radius: 15px;
 
@@ -1742,44 +2868,59 @@ const DEFAULT_PAYMENT = {
       }
 
       .aba-plan-card.selected {
-        border-color: #6c5ce7;
 
-        background: #f7f5ff;
+        border-color:
+          #6c5ce7;
+
+        background:
+          #f7f5ff;
 
         box-shadow:
-          0 6px 20px rgba(108,92,231,.12);
+          0 6px 20px
+          rgba(108,92,231,.12);
       }
 
       .aba-plan-title {
+
         font-weight: 800;
+
         font-size: 17px;
       }
 
       .aba-plan-price {
+
         font-size: 25px;
+
         font-weight: 900;
 
         margin-top: 8px;
       }
 
       .aba-plan-duration {
+
         color: #777;
+
         margin-top: 3px;
       }
 
       .aba-save {
+
         position: absolute;
+
         right: 10px;
         top: 10px;
 
         font-size: 10px;
+
         font-weight: 800;
 
         padding: 4px 7px;
 
         border-radius: 5px;
 
-        background: #198754;
+        background:
+          #198754;
+
         color: white;
       }
 
@@ -1789,21 +2930,30 @@ const DEFAULT_PAYMENT = {
          ================================ */
 
       .aba-payment-method h3 {
-        margin: 0 0 10px;
+
+        margin:
+          0 0 10px;
+
         font-size: 16px;
       }
 
       .aba-payment-buttons {
+
         display: grid;
-        grid-template-columns: 1fr 1fr;
+
+        grid-template-columns:
+          1fr 1fr;
 
         gap: 10px;
       }
 
       .aba-payment-btn {
-        border: 2px solid #ddd;
 
-        background: white;
+        border:
+          2px solid #ddd;
+
+        background:
+          white;
 
         padding: 12px;
 
@@ -1815,8 +2965,12 @@ const DEFAULT_PAYMENT = {
       }
 
       .aba-payment-btn.selected {
-        border-color: #6c5ce7;
-        background: #f7f5ff;
+
+        border-color:
+          #6c5ce7;
+
+        background:
+          #f7f5ff;
       }
 
 
@@ -1825,9 +2979,12 @@ const DEFAULT_PAYMENT = {
          ================================ */
 
       .aba-payment-info {
-        margin: 18px 0;
 
-        background: #f7f8fa;
+        margin:
+          18px 0;
+
+        background:
+          #f7f8fa;
 
         border-radius: 14px;
 
@@ -1835,18 +2992,26 @@ const DEFAULT_PAYMENT = {
       }
 
       .aba-payment-plan {
+
         display: flex;
-        justify-content: space-between;
+
+        justify-content:
+          space-between;
 
         padding-bottom: 12px;
+
         margin-bottom: 12px;
 
-        border-bottom: 1px solid #ddd;
+        border-bottom:
+          1px solid #ddd;
       }
 
       .aba-payment-row {
+
         display: flex;
-        justify-content: space-between;
+
+        justify-content:
+          space-between;
 
         gap: 15px;
 
@@ -1854,11 +3019,15 @@ const DEFAULT_PAYMENT = {
       }
 
       .aba-payment-row span {
-        color: #777;
+
+        color:
+          #777;
       }
 
       .aba-payment-row strong {
-        text-align: right;
+
+        text-align:
+          right;
       }
 
 
@@ -1867,9 +3036,11 @@ const DEFAULT_PAYMENT = {
          ================================ */
 
       .aba-form label {
+
         display: block;
 
-        margin: 14px 0 6px;
+        margin:
+          14px 0 6px;
 
         font-size: 14px;
 
@@ -1877,11 +3048,13 @@ const DEFAULT_PAYMENT = {
       }
 
       .aba-form input {
+
         width: 100%;
 
         padding: 13px;
 
-        border: 1px solid #d9d9d9;
+        border:
+          1px solid #d9d9d9;
 
         border-radius: 9px;
 
@@ -1891,17 +3064,23 @@ const DEFAULT_PAYMENT = {
       }
 
       .aba-form input:focus {
-        border-color: #6c5ce7;
+
+        border-color:
+          #6c5ce7;
       }
 
       .aba-file-note {
+
         font-size: 12px;
-        color: #777;
+
+        color:
+          #777;
 
         margin-top: 5px;
       }
 
       .aba-submit-btn {
+
         width: 100%;
 
         margin-top: 20px;
@@ -1912,7 +3091,8 @@ const DEFAULT_PAYMENT = {
 
         border-radius: 10px;
 
-        background: #6c5ce7;
+        background:
+          #6c5ce7;
 
         color: white;
 
@@ -1924,38 +3104,75 @@ const DEFAULT_PAYMENT = {
       }
 
       .aba-submit-btn:hover {
-        opacity: .9;
+
+        opacity:
+          .9;
+      }
+
+      .aba-submit-btn:disabled {
+
+        opacity:
+          .65;
+
+        cursor:
+          not-allowed;
       }
 
       .aba-message {
-        margin-top: 15px;
-        text-align: center;
+
+        margin-top:
+          15px;
+
+        text-align:
+          center;
       }
 
       .aba-success-message {
-        background: #e8f8ee;
-        color: #198754;
 
-        padding: 12px;
-        border-radius: 10px;
+        background:
+          #e8f8ee;
 
-        line-height: 1.7;
+        color:
+          #198754;
+
+        padding:
+          12px;
+
+        border-radius:
+          10px;
+
+        line-height:
+          1.7;
       }
 
       .aba-error-message {
-        background: #fdecec;
-        color: #c62828;
 
-        padding: 12px;
-        border-radius: 10px;
+        background:
+          #fdecec;
+
+        color:
+          #c62828;
+
+        padding:
+          12px;
+
+        border-radius:
+          10px;
       }
 
       .aba-pending-message {
-        background: #fff8df;
-        color: #946200;
 
-        padding: 12px;
-        border-radius: 10px;
+        background:
+          #fff8df;
+
+        color:
+          #946200;
+
+        padding:
+          12px;
+
+        border-radius:
+          10px;
       }
 
 
@@ -1964,44 +3181,63 @@ const DEFAULT_PAYMENT = {
          ================================ */
 
       #abaAdminPanel {
+
         position: fixed;
+
         inset: 0;
 
-        z-index: 1000000;
+        z-index:
+          1000000;
 
         opacity: 0;
-        visibility: hidden;
 
-        transition: .25s;
+        visibility:
+          hidden;
+
+        transition:
+          .25s;
       }
 
       #abaAdminPanel.show {
+
         opacity: 1;
-        visibility: visible;
+
+        visibility:
+          visible;
       }
 
       .aba-admin-overlay {
+
         position: absolute;
+
         inset: 0;
 
-        background: rgba(0,0,0,.68);
+        background:
+          rgba(0,0,0,.68);
 
         display: flex;
-        justify-content: center;
-        align-items: center;
+
+        justify-content:
+          center;
+
+        align-items:
+          center;
 
         padding: 20px;
       }
 
       .aba-admin-box {
+
         width: 100%;
+
         max-width: 900px;
 
         max-height: 92vh;
 
         overflow-y: auto;
 
-        background: white;
+        background:
+          white;
 
         border-radius: 20px;
 
@@ -2011,37 +3247,51 @@ const DEFAULT_PAYMENT = {
       }
 
       .aba-admin-header {
+
         display: flex;
 
         align-items: center;
 
         gap: 15px;
 
-        margin-bottom: 20px;
+        margin-bottom:
+          20px;
       }
 
       .aba-admin-icon {
+
         width: 55px;
         height: 55px;
 
-        border-radius: 15px;
+        border-radius:
+          15px;
 
         display: flex;
+
         align-items: center;
-        justify-content: center;
 
-        background: #f0edff;
+        justify-content:
+          center;
 
-        font-size: 27px;
+        background:
+          #f0edff;
+
+        font-size:
+          27px;
       }
 
       .aba-admin-header h2 {
-        margin: 0 0 4px;
+
+        margin:
+          0 0 4px;
       }
 
       .aba-admin-header p {
+
         margin: 0;
-        color: #777;
+
+        color:
+          #777;
       }
 
 
@@ -2050,6 +3300,7 @@ const DEFAULT_PAYMENT = {
          ================================ */
 
       .aba-admin-stats {
+
         display: grid;
 
         grid-template-columns:
@@ -2057,29 +3308,39 @@ const DEFAULT_PAYMENT = {
 
         gap: 12px;
 
-        margin-bottom: 20px;
+        margin-bottom:
+          20px;
       }
 
       .aba-stat-card {
+
         padding: 15px;
 
-        background: #f7f8fa;
+        background:
+          #f7f8fa;
 
-        border-radius: 12px;
+        border-radius:
+          12px;
       }
 
       .aba-stat-card span {
+
         display: block;
 
-        color: #777;
+        color:
+          #777;
 
-        font-size: 12px;
+        font-size:
+          12px;
 
-        margin-bottom: 5px;
+        margin-bottom:
+          5px;
       }
 
       .aba-stat-card strong {
-        font-size: 15px;
+
+        font-size:
+          15px;
       }
 
 
@@ -2088,113 +3349,281 @@ const DEFAULT_PAYMENT = {
          ================================ */
 
       .aba-payment-review {
-        border: 1px solid #e2e2e2;
 
-        border-radius: 15px;
+        border:
+          1px solid #e2e2e2;
 
-        padding: 18px;
+        border-radius:
+          15px;
+
+        padding:
+          18px;
       }
 
       .aba-review-title {
+
         display: flex;
 
-        justify-content: space-between;
+        justify-content:
+          space-between;
 
-        align-items: center;
+        align-items:
+          center;
 
-        font-weight: 800;
+        font-weight:
+          800;
 
-        margin-bottom: 18px;
+        margin-bottom:
+          18px;
       }
 
       .aba-pending-tag {
-        background: #fff1bd;
 
-        color: #8a6500;
+        background:
+          #fff1bd;
 
-        padding: 5px 9px;
+        color:
+          #8a6500;
 
-        border-radius: 999px;
+        padding:
+          5px 9px;
 
-        font-size: 11px;
+        border-radius:
+          999px;
+
+        font-size:
+          11px;
       }
 
       .aba-review-grid {
+
         display: grid;
 
         grid-template-columns:
           repeat(2, 1fr);
 
-        gap: 12px;
+        gap:
+          12px;
       }
 
       .aba-review-item {
-        background: #f7f8fa;
 
-        border-radius: 10px;
+        background:
+          #f7f8fa;
 
-        padding: 12px;
+        border-radius:
+          10px;
+
+        padding:
+          12px;
       }
 
       .aba-review-item span {
+
         display: block;
 
-        color: #777;
+        color:
+          #777;
 
-        font-size: 12px;
+        font-size:
+          12px;
 
-        margin-bottom: 5px;
+        margin-bottom:
+          5px;
       }
 
       .aba-review-item strong {
-        word-break: break-word;
+
+        word-break:
+          break-word;
       }
+
+
+      /* ================================
+         SCREENSHOT
+         ================================ */
+
+      .aba-review-screenshot-item {
+
+        grid-column:
+          1 / -1;
+      }
+
+      .aba-screenshot-box {
+
+        margin-top:
+          8px;
+      }
+
+      .aba-payment-screenshot-preview {
+
+        display: block;
+
+        width: 100%;
+
+        max-width:
+          480px;
+
+        max-height:
+          600px;
+
+        object-fit:
+          contain;
+
+        background:
+          white;
+
+        border:
+          1px solid #ddd;
+
+        border-radius:
+          12px;
+
+        padding:
+          5px;
+
+        box-shadow:
+          0 5px 20px
+          rgba(0,0,0,.08);
+      }
+
+      .aba-screenshot-actions {
+
+        margin-top:
+          10px;
+      }
+
+      .aba-open-screenshot {
+
+        display:
+          inline-block;
+
+        text-decoration:
+          none;
+
+        background:
+          #222;
+
+        color:
+          white;
+
+        padding:
+          9px 13px;
+
+        border-radius:
+          8px;
+
+        font-size:
+          13px;
+
+        font-weight:
+          700;
+      }
+
+      .aba-screenshot-loading {
+
+        padding:
+          10px;
+
+        color:
+          #946200;
+      }
+
+      .aba-screenshot-error {
+
+        padding:
+          10px;
+
+        color:
+          #c62828;
+
+        background:
+          #fdecec;
+
+        border-radius:
+          8px;
+      }
+
+
+      /* ================================
+         WARNING
+         ================================ */
 
       .aba-review-warning {
-        margin-top: 15px;
 
-        background: #fff8df;
+        margin-top:
+          15px;
 
-        color: #806000;
+        background:
+          #fff8df;
 
-        padding: 12px;
+        color:
+          #806000;
 
-        border-radius: 10px;
+        padding:
+          12px;
 
-        font-size: 13px;
+        border-radius:
+          10px;
+
+        font-size:
+          13px;
       }
 
+
+      /* ================================
+         REVIEW BUTTONS
+         ================================ */
+
       .aba-review-buttons {
+
         display: grid;
 
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns:
+          1fr 1fr;
 
-        gap: 10px;
+        gap:
+          10px;
 
-        margin-top: 15px;
+        margin-top:
+          15px;
       }
 
       .aba-approve-btn,
       .aba-reject-btn {
-        border: none;
 
-        padding: 13px;
+        border:
+          none;
 
-        border-radius: 10px;
+        padding:
+          13px;
 
-        font-weight: 800;
+        border-radius:
+          10px;
 
-        cursor: pointer;
+        font-weight:
+          800;
+
+        cursor:
+          pointer;
       }
 
       .aba-approve-btn {
-        background: #198754;
-        color: white;
+
+        background:
+          #198754;
+
+        color:
+          white;
       }
 
       .aba-reject-btn {
-        background: #dc3545;
-        color: white;
+
+        background:
+          #dc3545;
+
+        color:
+          white;
       }
 
 
@@ -2203,61 +3632,89 @@ const DEFAULT_PAYMENT = {
          ================================ */
 
       .aba-admin-actions {
+
         display: flex;
 
-        justify-content: flex-end;
+        justify-content:
+          flex-end;
 
-        gap: 10px;
+        gap:
+          10px;
 
-        margin-top: 20px;
+        margin-top:
+          20px;
       }
 
       .aba-secondary-btn,
       .aba-danger-btn {
-        border: none;
 
-        padding: 11px 16px;
+        border:
+          none;
 
-        border-radius: 9px;
+        padding:
+          11px 16px;
 
-        font-weight: 700;
+        border-radius:
+          9px;
 
-        cursor: pointer;
+        font-weight:
+          700;
+
+        cursor:
+          pointer;
       }
 
       .aba-secondary-btn {
-        background: #eef0f3;
+
+        background:
+          #eef0f3;
       }
 
       .aba-danger-btn {
-        background: #fdecec;
-        color: #c62828;
+
+        background:
+          #fdecec;
+
+        color:
+          #c62828;
       }
 
       .aba-empty-admin {
-        text-align: center;
 
-        padding: 45px 20px;
+        text-align:
+          center;
 
-        background: #f7f8fa;
+        padding:
+          45px 20px;
 
-        border-radius: 15px;
+        background:
+          #f7f8fa;
+
+        border-radius:
+          15px;
       }
 
       .aba-empty-icon {
-        font-size: 40px;
 
-        margin-bottom: 10px;
+        font-size:
+          40px;
+
+        margin-bottom:
+          10px;
       }
 
       .aba-empty-admin h3 {
-        margin: 0 0 8px;
+
+        margin:
+          0 0 8px;
       }
 
       .aba-empty-admin p {
+
         margin: 0;
 
-        color: #777;
+        color:
+          #777;
       }
 
 
@@ -2266,118 +3723,181 @@ const DEFAULT_PAYMENT = {
          ================================ */
 
       .aba-dashboard-premium-card {
-        display: flex;
 
-        align-items: center;
+        display:
+          flex;
 
-        gap: 15px;
+        align-items:
+          center;
 
-        padding: 18px;
+        gap:
+          15px;
 
-        margin-bottom: 18px;
+        padding:
+          18px;
 
-        background: white;
+        margin-bottom:
+          18px;
 
-        border: 1px solid #e5e5e5;
+        background:
+          white;
 
-        border-radius: 15px;
+        border:
+          1px solid #e5e5e5;
+
+        border-radius:
+          15px;
 
         box-shadow:
-          0 5px 18px rgba(0,0,0,.05);
+          0 5px 18px
+          rgba(0,0,0,.05);
       }
 
       .aba-dashboard-premium-icon {
-        width: 52px;
-        height: 52px;
 
-        display: flex;
+        width:
+          52px;
 
-        align-items: center;
-        justify-content: center;
+        height:
+          52px;
 
-        background: #fff3cd;
+        display:
+          flex;
 
-        border-radius: 14px;
+        align-items:
+          center;
 
-        font-size: 25px;
+        justify-content:
+          center;
+
+        background:
+          #fff3cd;
+
+        border-radius:
+          14px;
+
+        font-size:
+          25px;
       }
 
       .aba-dashboard-premium-info {
-        flex: 1;
+
+        flex:
+          1;
       }
 
       .aba-dashboard-premium-label {
-        font-weight: 800;
+
+        font-weight:
+          800;
       }
 
       .aba-dashboard-premium-status {
-        margin-top: 3px;
 
-        font-size: 13px;
+        margin-top:
+          3px;
 
-        font-weight: 800;
+        font-size:
+          13px;
+
+        font-weight:
+          800;
       }
 
       .aba-dashboard-premium-status.free {
-        color: #777;
+
+        color:
+          #777;
       }
 
       .aba-dashboard-premium-status.pending {
-        color: #946200;
+
+        color:
+          #946200;
       }
 
       .aba-dashboard-premium-status.active {
-        color: #198754;
+
+        color:
+          #198754;
       }
 
       .aba-dashboard-premium-status.rejected,
       .aba-dashboard-premium-status.expired {
-        color: #dc3545;
+
+        color:
+          #dc3545;
       }
 
       .aba-dashboard-premium-expiry {
-        margin-top: 3px;
 
-        color: #777;
+        margin-top:
+          3px;
 
-        font-size: 12px;
+        color:
+          #777;
+
+        font-size:
+          12px;
       }
 
       .aba-upgrade-btn,
       .aba-admin-open-btn,
       .aba-pending-open-btn {
-        border: none;
 
-        padding: 10px 14px;
+        border:
+          none;
 
-        border-radius: 9px;
+        padding:
+          10px 14px;
 
-        cursor: pointer;
+        border-radius:
+          9px;
 
-        font-weight: 800;
+        cursor:
+          pointer;
+
+        font-weight:
+          800;
       }
 
       .aba-upgrade-btn {
-        background: #6c5ce7;
-        color: white;
+
+        background:
+          #6c5ce7;
+
+        color:
+          white;
       }
 
       .aba-admin-open-btn {
-        background: #222;
-        color: white;
+
+        background:
+          #222;
+
+        color:
+          white;
       }
 
       .aba-pending-open-btn {
-        background: #fff3cd;
-        color: #7a5a00;
+
+        background:
+          #fff3cd;
+
+        color:
+          #7a5a00;
       }
 
       .aba-active-label {
-        color: #198754;
 
-        font-weight: 800;
+        color:
+          #198754;
 
-        font-size: 13px;
+        font-weight:
+          800;
+
+        font-size:
+          13px;
       }
 
 
@@ -2386,55 +3906,81 @@ const DEFAULT_PAYMENT = {
          ================================ */
 
       .aba-lesson-lock {
-        min-height: 400px;
 
-        display: flex;
+        min-height:
+          400px;
 
-        flex-direction: column;
+        display:
+          flex;
 
-        align-items: center;
+        flex-direction:
+          column;
 
-        justify-content: center;
+        align-items:
+          center;
 
-        text-align: center;
+        justify-content:
+          center;
 
-        padding: 30px;
+        text-align:
+          center;
+
+        padding:
+          30px;
       }
 
       .aba-big-lock {
-        font-size: 65px;
 
-        margin-bottom: 15px;
+        font-size:
+          65px;
+
+        margin-bottom:
+          15px;
       }
 
       .aba-lesson-lock h2 {
-        margin: 0 0 8px;
+
+        margin:
+          0 0 8px;
       }
 
       .aba-lesson-lock p {
-        color: #777;
 
-        max-width: 500px;
+        color:
+          #777;
 
-        line-height: 1.7;
+        max-width:
+          500px;
+
+        line-height:
+          1.7;
       }
 
       .aba-unlock-large {
-        margin-top: 15px;
 
-        border: none;
+        margin-top:
+          15px;
 
-        padding: 13px 22px;
+        border:
+          none;
 
-        border-radius: 10px;
+        padding:
+          13px 22px;
 
-        background: #6c5ce7;
+        border-radius:
+          10px;
 
-        color: white;
+        background:
+          #6c5ce7;
 
-        font-weight: 800;
+        color:
+          white;
 
-        cursor: pointer;
+        font-weight:
+          800;
+
+        cursor:
+          pointer;
       }
 
 
@@ -2443,45 +3989,64 @@ const DEFAULT_PAYMENT = {
          ================================ */
 
       #abaPremiumToast {
-        position: fixed;
 
-        left: 50%;
+        position:
+          fixed;
 
-        bottom: 25px;
+        left:
+          50%;
+
+        bottom:
+          25px;
 
         transform:
           translate(-50%, 30px);
 
-        opacity: 0;
+        opacity:
+          0;
 
-        visibility: hidden;
+        visibility:
+          hidden;
 
-        z-index: 2000000;
+        z-index:
+          2000000;
 
-        background: #222;
+        background:
+          #222;
 
-        color: white;
+        color:
+          white;
 
-        padding: 13px 18px;
+        padding:
+          13px 18px;
 
-        border-radius: 10px;
+        border-radius:
+          10px;
 
         box-shadow:
-          0 10px 30px rgba(0,0,0,.2);
+          0 10px 30px
+          rgba(0,0,0,.2);
 
-        transition: .25s;
+        transition:
+          .25s;
 
-        max-width: 90%;
+        max-width:
+          90%;
 
-        text-align: center;
+        text-align:
+          center;
 
-        font-size: 14px;
+        font-size:
+          14px;
       }
 
       #abaPremiumToast.show {
-        opacity: 1;
 
-        visibility: visible;
+        opacity:
+          1;
+
+        visibility:
+          visible;
 
         transform:
           translate(-50%, 0);
@@ -2496,80 +4061,122 @@ const DEFAULT_PAYMENT = {
 
         .aba-modal-box,
         .aba-admin-box {
-          padding: 20px;
 
-          border-radius: 16px;
+          padding:
+            20px;
 
-          max-height: 94vh;
+          border-radius:
+            16px;
+
+          max-height:
+            94vh;
         }
 
         .aba-plan-grid {
-          grid-template-columns: 1fr;
+
+          grid-template-columns:
+            1fr;
         }
 
         .aba-payment-buttons {
-          grid-template-columns: 1fr;
+
+          grid-template-columns:
+            1fr;
         }
 
         .aba-admin-stats {
+
           grid-template-columns:
             repeat(2, 1fr);
         }
 
         .aba-review-grid {
-          grid-template-columns: 1fr;
+
+          grid-template-columns:
+            1fr;
+        }
+
+        .aba-review-screenshot-item {
+
+          grid-column:
+            auto;
         }
 
         .aba-review-buttons {
-          grid-template-columns: 1fr;
+
+          grid-template-columns:
+            1fr;
         }
 
         .aba-admin-actions {
-          flex-direction: column;
+
+          flex-direction:
+            column;
         }
 
         .aba-secondary-btn,
         .aba-danger-btn {
-          width: 100%;
+
+          width:
+            100%;
         }
 
         .aba-dashboard-premium-card {
-          align-items: flex-start;
 
-          flex-wrap: wrap;
+          align-items:
+            flex-start;
+
+          flex-wrap:
+            wrap;
         }
 
         .aba-dashboard-premium-action {
-          width: 100%;
+
+          width:
+            100%;
         }
 
         .aba-dashboard-premium-action button {
-          width: 100%;
+
+          width:
+            100%;
         }
 
         .aba-payment-row {
-          flex-direction: column;
 
-          gap: 3px;
+          flex-direction:
+            column;
+
+          gap:
+            3px;
         }
 
         .aba-payment-row strong {
-          text-align: left;
+
+          text-align:
+            left;
         }
 
+        .aba-payment-screenshot-preview {
+
+          max-height:
+            450px;
+        }
       }
 
     `;
 
-    document.head.appendChild(style);
+    document.head.appendChild(
+      style
+    );
   }
 
   /* =========================================================
      ADMIN BUTTON
-     Adds Admin Dashboard button to Settings page area
      ========================================================= */
 
   function addAdminAccessButton() {
+
     if (!isAdmin()) {
       return;
     }
@@ -2583,36 +4190,50 @@ const DEFAULT_PAYMENT = {
     }
 
     const button =
-      document.createElement("button");
+      document.createElement(
+        "button"
+      );
 
     button.id =
       "abaAdminAccessButton";
 
-    button.type = "button";
+    button.type =
+      "button";
 
     button.innerHTML =
       "👨‍💼 Premium Admin Dashboard";
 
     button.style.cssText = `
+
       position: fixed;
+
       right: 18px;
+
       bottom: 18px;
+
       z-index: 99990;
 
       border: none;
+
       border-radius: 12px;
 
       padding: 12px 16px;
 
-      background: #222;
-      color: white;
+      background:
+        #222;
 
-      font-weight: 800;
+      color:
+        white;
 
-      cursor: pointer;
+      font-weight:
+        800;
+
+      cursor:
+        pointer;
 
       box-shadow:
-        0 8px 25px rgba(0,0,0,.2);
+        0 8px 25px
+        rgba(0,0,0,.2);
     `;
 
     button.addEventListener(
@@ -2620,14 +4241,17 @@ const DEFAULT_PAYMENT = {
       openAdminPanel
     );
 
-    document.body.appendChild(button);
+    document.body.appendChild(
+      button
+    );
   }
 
   /* =========================================================
-     INITIALIZE
+     REFRESH
      ========================================================= */
 
   function refresh() {
+
     ensureState();
 
     updateCourseCards();
@@ -2639,7 +4263,12 @@ const DEFAULT_PAYMENT = {
     addAdminAccessButton();
   }
 
+  /* =========================================================
+     INITIALIZE
+     ========================================================= */
+
   function init() {
+
     injectCSS();
 
     createPremiumModal();
@@ -2648,36 +4277,59 @@ const DEFAULT_PAYMENT = {
 
     refresh();
 
-    setTimeout(refresh, 500);
+    setTimeout(
+      refresh,
+      500
+    );
 
-    setTimeout(refresh, 1500);
+    setTimeout(
+      refresh,
+      1500
+    );
 
-    setTimeout(refresh, 3000);
+    setTimeout(
+      refresh,
+      3000
+    );
   }
 
   /* =========================================================
      OBSERVER
-     Helps when existing app re-renders Courses
      ========================================================= */
 
-  let observerTimer = null;
+  let observerTimer =
+    null;
 
   function startObserver() {
-    const observer =
-      new MutationObserver(function () {
-        clearTimeout(observerTimer);
 
-        observerTimer =
-          setTimeout(function () {
-            refresh();
-          }, 250);
-      });
+    const observer =
+      new MutationObserver(
+        function () {
+
+          clearTimeout(
+            observerTimer
+          );
+
+          observerTimer =
+            setTimeout(
+              function () {
+
+                refresh();
+
+              },
+              250
+            );
+        }
+      );
 
     observer.observe(
       document.body,
       {
-        childList: true,
-        subtree: true
+        childList:
+          true,
+
+        subtree:
+          true
       }
     );
   }
@@ -2688,35 +4340,55 @@ const DEFAULT_PAYMENT = {
 
   window.AungPremium = {
 
-    open: function () {
-      openPremiumModal(1);
-    },
+    open:
+      function () {
 
-    status: function () {
-      if (isAdmin()) {
-        openAdminPanel();
-      } else {
-        openPremiumModal(1);
-      }
-    },
+        openPremiumModal(
+          1
+        );
+      },
 
-    refresh: refresh,
+    status:
+      function () {
 
-    isActive: isPremiumActive,
+        if (isAdmin()) {
 
-    getStatus: getPremiumStatus,
+          openAdminPanel();
 
-    setAdmin: setAdminMode,
+        } else {
 
-    setStudent: setStudentMode,
+          openPremiumModal(
+            1
+          );
+        }
+      },
 
-    approve: approvePayment,
+    refresh:
+      refresh,
 
-    reject: rejectPayment,
+    isActive:
+      isPremiumActive,
 
-    resetPremium: resetPremium,
+    getStatus:
+      getPremiumStatus,
 
-    openAdmin: openAdminPanel
+    setAdmin:
+      setAdminMode,
+
+    setStudent:
+      setStudentMode,
+
+    approve:
+      approvePayment,
+
+    reject:
+      rejectPayment,
+
+    resetPremium:
+      resetPremium,
+
+    openAdmin:
+      openAdminPanel
   };
 
   /* =========================================================
@@ -2727,15 +4399,21 @@ const DEFAULT_PAYMENT = {
     document.readyState ===
     "loading"
   ) {
+
     document.addEventListener(
       "DOMContentLoaded",
       function () {
+
         init();
+
         startObserver();
       }
     );
+
   } else {
+
     init();
+
     startObserver();
   }
 

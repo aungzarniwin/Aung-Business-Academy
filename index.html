@@ -4,1524 +4,1073 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Aung Business Academy V7</title>
+  <title>Aung Business Academy</title>
 
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <div class="app">
+<div class="app">
 
-    <!-- ==========================================
-         SIDEBAR
-    =========================================== -->
-    <aside class="sidebar" id="sidebar">
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar" id="sidebar">
 
-      <div class="brand">
-        <div class="brand-logo">A</div>
+    <div class="brand">
+      <div class="brand-logo">A</div>
 
-        <div class="brand-text">
-          <strong>Aung</strong>
-          <span>Business Academy</span>
-        </div>
+      <div class="brand-text">
+        <strong>Aung</strong>
+        <span>Business Academy</span>
       </div>
+    </div>
 
-      <div class="user-mini">
-        <div class="user-avatar">A</div>
+    <div class="profile-mini">
+      <div class="profile-avatar">AZ</div>
 
-        <div>
-          <strong id="sidebarUserName">Aung Zar Ni Win</strong>
-          <span id="sidebarUserRole">Business Manager</span>
-        </div>
+      <div>
+        <strong>Aung Zar Ni Win</strong>
+        <span>Business Manager</span>
       </div>
+    </div>
 
-      <nav class="nav">
+    <nav class="sidebar-nav">
 
-        <div class="nav-section">
-          <span>MAIN</span>
-        </div>
+      <div class="nav-section">
+        <small>MAIN</small>
 
         <button class="nav-item active" data-page="dashboard">
-          <span class="nav-icon">▦</span>
+          <span>▦</span>
           <span>Dashboard</span>
         </button>
 
         <button class="nav-item" data-page="courses">
-          <span class="nav-icon">▣</span>
+          <span>▤</span>
           <span>My Courses</span>
         </button>
 
         <button class="nav-item" data-page="lessons">
-          <span class="nav-icon">▤</span>
+          <span>▣</span>
           <span>Lessons</span>
         </button>
 
         <button class="nav-item" data-page="progress">
-          <span class="nav-icon">◔</span>
+          <span>◔</span>
           <span>My Progress</span>
         </button>
+      </div>
 
-        <div class="nav-section">
-          <span>BUSINESS TOOLS</span>
-        </div>
+      <div class="nav-section">
+        <small>BUSINESS</small>
 
         <button class="nav-item" data-page="sales">
-          <span class="nav-icon">↗</span>
+          <span>↗</span>
           <span>Sales Manager</span>
         </button>
 
         <button class="nav-item" data-page="calculator">
-          <span class="nav-icon">▤</span>
+          <span>⌘</span>
           <span>Pricing Calculator</span>
         </button>
 
         <button class="nav-item" data-page="reports">
-          <span class="nav-icon">▥</span>
+          <span>▥</span>
           <span>Reports</span>
         </button>
+      </div>
 
-        <div class="nav-section">
-          <span>AI & SETTINGS</span>
-        </div>
+      <div class="nav-section">
+        <small>AI TOOLS</small>
 
         <button class="nav-item" data-page="ai-coach">
-          <span class="nav-icon">✦</span>
+          <span>✦</span>
           <span>AI Business Coach</span>
         </button>
 
         <button class="nav-item" data-page="ai-tools">
-          <span class="nav-icon">⚡</span>
+          <span>⚙</span>
           <span>AI Tools</span>
         </button>
-
-        <button class="nav-item" data-page="settings">
-          <span class="nav-icon">⚙</span>
-          <span>Settings</span>
-        </button>
-
-      </nav>
-
-      <div class="sidebar-footer">
-        <div class="sidebar-tip">
-          <span class="tip-icon">💡</span>
-          <div>
-            <strong>Keep Learning</strong>
-            <p>Small progress every day.</p>
-          </div>
-        </div>
       </div>
 
-    </aside>
+      <div class="nav-section">
+        <small>SYSTEM</small>
 
+        <button class="nav-item" data-page="settings">
+          <span>⚙</span>
+          <span>Settings</span>
+        </button>
+      </div>
 
-    <!-- ==========================================
-         MOBILE OVERLAY
-    =========================================== -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    </nav>
 
+    <div class="sidebar-footer">
+      <div class="academy-status">
+        <span class="status-dot"></span>
+        <div>
+          <strong>Academy Active</strong>
+          <small>V8.0 Professional</small>
+        </div>
+      </div>
+    </div>
 
-    <!-- ==========================================
-         MAIN
-    =========================================== -->
-    <main class="main">
+  </aside>
 
-      <!-- TOPBAR -->
-      <header class="topbar">
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-        <div class="topbar-left">
+  <!-- ================= MAIN ================= -->
 
-          <button class="mobile-menu" id="mobileMenu">
-            ☰
-          </button>
+  <main class="main">
 
-          <div class="breadcrumb">
-            <span>Aung Business Academy</span>
-            <b>/</b>
-            <strong id="breadcrumbCurrent">Dashboard</strong>
-          </div>
+    <!-- TOPBAR -->
+    <header class="topbar">
 
+      <button class="mobile-menu" id="mobileMenu">
+        ☰
+      </button>
+
+      <div class="breadcrumb">
+        <span>Aung Business Academy</span>
+        <b>/</b>
+        <strong id="breadcrumbCurrent">Dashboard</strong>
+      </div>
+
+      <div class="topbar-actions">
+
+        <div class="search-box">
+          <span>⌕</span>
+          <input
+            type="text"
+            id="globalSearch"
+            placeholder="Search courses or lessons..."
+          >
         </div>
 
+        <button class="icon-btn" id="notificationBtn">
+          🔔
+          <span class="notification-dot"></span>
+        </button>
 
-        <div class="topbar-actions">
+        <div class="top-user">
+          <div class="top-avatar">AZ</div>
 
-          <div class="search-box">
-            <span>⌕</span>
-            <input
-              type="text"
-              id="globalSearch"
-              placeholder="Search..."
-              autocomplete="off"
-            >
+          <div>
+            <strong>Aung Zar Ni Win</strong>
+            <span>Business Manager</span>
           </div>
-
-          <button class="icon-btn" id="notificationBtn" title="Notifications">
-            🔔
-            <span class="notification-dot"></span>
-          </button>
-
-          <button class="top-user" id="topUserBtn">
-            <div class="top-avatar">A</div>
-
-            <div class="top-user-info">
-              <strong id="topUserName">Aung Zar Ni Win</strong>
-              <span id="topUserRole">Business Manager</span>
-            </div>
-          </button>
-
         </div>
 
-      </header>
+      </div>
 
+    </header>
 
-      <!-- CONTENT -->
-      <div class="content">
+    <!-- ================= CONTENT ================= -->
 
+    <section class="content">
 
-        <!-- ======================================
-             DASHBOARD
-        ======================================= -->
-        <section class="page active" id="page-dashboard">
+      <!-- ================= DASHBOARD ================= -->
 
-          <div class="page-header">
+      <section class="page active" id="page-dashboard">
 
+        <div class="page-header">
+          <div>
+            <span class="eyebrow">BUSINESS ACADEMY</span>
+            <h1>Good morning, Aung 👋</h1>
+            <p>Build stronger sales, business and leadership skills.</p>
+          </div>
+
+          <button class="primary-btn" data-go="courses">
+            Explore Courses →
+          </button>
+        </div>
+
+        <div class="stats-grid">
+
+          <div class="stat-card">
+            <div class="stat-icon blue">▤</div>
             <div>
-              <span class="eyebrow">WELCOME BACK</span>
-
-              <h1>
-                Hello, <span id="dashboardUserName">Aung Zar Ni Win</span> 👋
-              </h1>
-
-              <p>
-                Continue learning and build your business skills.
-              </p>
+              <span>COURSES</span>
+              <strong id="statCourses">4</strong>
+              <small>Available courses</small>
             </div>
-
-            <div class="page-actions">
-              <button class="secondary-btn" data-action="continue-learning">
-                Continue Learning
-              </button>
-
-              <button class="primary-btn" data-action="view-courses">
-                View Courses
-              </button>
-            </div>
-
           </div>
 
-
-          <!-- STATS -->
-          <div class="stats-grid">
-
-            <div class="stat-card">
-              <div class="stat-icon blue">▣</div>
-
-              <div>
-                <span class="card-label">COURSES</span>
-                <strong id="statCourses">4</strong>
-                <small>Available courses</small>
-              </div>
-            </div>
-
-
-            <div class="stat-card">
-              <div class="stat-icon purple">▤</div>
-
-              <div>
-                <span class="card-label">LESSONS</span>
-                <strong id="statLessons">15</strong>
-                <small>Total lessons</small>
-              </div>
-            </div>
-
-
-            <div class="stat-card">
-              <div class="stat-icon green">◔</div>
-
-              <div>
-                <span class="card-label">PROGRESS</span>
-                <strong id="statProgress">0%</strong>
-                <small>Overall completion</small>
-              </div>
-            </div>
-
-
-            <div class="stat-card">
-              <div class="stat-icon orange">🔥</div>
-
-              <div>
-                <span class="card-label">STREAK</span>
-                <strong id="statStreak">0</strong>
-                <small>Learning days</small>
-              </div>
-            </div>
-
-          </div>
-
-
-          <!-- CURRENT COURSE + DAILY GOAL -->
-          <div class="dashboard-grid">
-
-            <div class="card current-course-card">
-
-              <div class="card-header">
-                <div>
-                  <span class="card-label">CURRENT COURSE</span>
-                  <h2 id="currentCourseTitle">YouTube Beginner</h2>
-                </div>
-
-                <span class="course-badge youtube">YouTube</span>
-              </div>
-
-              <p id="currentCourseDescription">
-                Learn the fundamentals of YouTube and build a strong channel foundation.
-              </p>
-
-              <div class="course-progress-info">
-                <span id="currentCourseProgressText">
-                  0% completed
-                </span>
-
-                <span id="currentCourseLessonText">
-                  0 / 5 Lessons
-                </span>
-              </div>
-
-              <div class="progress-bar">
-                <div
-                  class="progress-fill red-fill"
-                  id="currentCourseProgressBar"
-                  style="width:0%">
-                </div>
-              </div>
-
-              <div class="current-course-footer">
-
-                <span id="currentLessonName">
-                  YouTube Foundation
-                </span>
-
-                <button class="primary-btn small" data-action="continue-learning">
-                  Continue →
-                </button>
-
-              </div>
-
-            </div>
-
-
-            <div class="card daily-goal-card">
-
-              <div class="card-header">
-                <div>
-                  <span class="card-label">DAILY GOAL</span>
-                  <h2>Learning Goal</h2>
-                </div>
-
-                <span class="small-icon">🎯</span>
-              </div>
-
-              <div class="goal-area">
-
-                <div class="goal-circle">
-
-                  <div class="goal-inner">
-                    <strong id="goalPercent">0%</strong>
-                    <span>Today</span>
-                  </div>
-
-                </div>
-
-                <div class="goal-text">
-                  <strong id="goalMinutesText">0 / 30 min</strong>
-                  <p>Keep learning every day to build your streak.</p>
-                </div>
-
-              </div>
-
-              <button
-                class="secondary-btn full"
-                data-action="start-lesson"
-              >
-                Start Today's Lesson
-              </button>
-
-            </div>
-
-          </div>
-
-
-          <!-- ACTIVITY + RECOMMENDATIONS -->
-          <div class="two-column-grid">
-
-            <div class="card">
-
-              <div class="card-header">
-                <div>
-                  <span class="card-label">RECENT ACTIVITY</span>
-                  <h2>Your Activity</h2>
-                </div>
-              </div>
-
-              <div class="activity-list" id="activityList"></div>
-
-            </div>
-
-
-            <div class="card">
-
-              <div class="card-header">
-                <div>
-                  <span class="card-label">RECOMMENDED</span>
-                  <h2>Continue Growing</h2>
-                </div>
-              </div>
-
-              <div class="recommendation-list">
-
-                <div class="recommendation-item">
-                  <div class="recommend-icon blue">▶</div>
-
-                  <div>
-                    <strong>YouTube Growth</strong>
-                    <p>Improve titles, thumbnails and retention.</p>
-                  </div>
-                </div>
-
-
-                <div class="recommendation-item">
-                  <div class="recommend-icon purple">↗</div>
-
-                  <div>
-                    <strong>Sales Leadership</strong>
-                    <p>Develop your sales team and execution.</p>
-                  </div>
-                </div>
-
-
-                <div class="recommendation-item">
-                  <div class="recommend-icon orange">◆</div>
-
-                  <div>
-                    <strong>Business Foundation</strong>
-                    <p>Strengthen your business fundamentals.</p>
-                  </div>
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <!-- QUICK TOOLS -->
-          <div class="card quick-tools">
-
-            <div class="card-header">
-              <div>
-                <span class="card-label">QUICK TOOLS</span>
-                <h2>Business Tools</h2>
-              </div>
-            </div>
-
-            <div class="quick-tool-grid">
-
-              <button class="quick-tool" data-page-target="sales">
-                <span>↗</span>
-                <strong>Sales Manager</strong>
-                <small>Manage targets</small>
-              </button>
-
-              <button class="quick-tool" data-page-target="calculator">
-                <span>▤</span>
-                <strong>Pricing Calculator</strong>
-                <small>Calculate pricing</small>
-              </button>
-
-              <button class="quick-tool" data-page-target="reports">
-                <span>▥</span>
-                <strong>Reports</strong>
-                <small>View performance</small>
-              </button>
-
-              <button class="quick-tool" data-page-target="ai-coach">
-                <span>✦</span>
-                <strong>AI Coach</strong>
-                <small>Get business advice</small>
-              </button>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <!-- ======================================
-             COURSES
-        ======================================= -->
-        <section class="page" id="page-courses">
-
-          <div class="page-header">
-
+          <div class="stat-card">
+            <div class="stat-icon purple">▣</div>
             <div>
-              <span class="eyebrow">LEARNING</span>
-              <h1>My Courses</h1>
-              <p>Build practical skills for business and career growth.</p>
+              <span>LESSONS</span>
+              <strong id="statLessons">14</strong>
+              <small>Total lessons</small>
             </div>
-
           </div>
 
-          <div class="filter-tabs" id="courseFilters">
-
-            <button class="filter-tab active" data-filter="all">
-              All Courses
-            </button>
-
-            <button class="filter-tab" data-filter="youtube">
-              YouTube
-            </button>
-
-            <button class="filter-tab" data-filter="sales">
-              Sales
-            </button>
-
-            <button class="filter-tab" data-filter="business">
-              Business
-            </button>
-
-            <button class="filter-tab" data-filter="marketing">
-              Marketing
-            </button>
-
-          </div>
-
-          <div class="courses-grid" id="coursesGrid"></div>
-
-        </section>
-
-
-        <!-- ======================================
-             LESSONS
-        ======================================= -->
-        <section class="page" id="page-lessons">
-
-          <div class="page-header">
-
+          <div class="stat-card">
+            <div class="stat-icon green">✓</div>
             <div>
-              <span class="eyebrow">LEARNING</span>
-              <h1>Lessons</h1>
-              <p>Select a course and start your next lesson.</p>
-            </div>
-
-          </div>
-
-
-          <div class="lesson-layout">
-
-            <div class="card lesson-course-list">
-
-              <div class="card-header">
-                <div>
-                  <span class="card-label">COURSES</span>
-                  <h2>Your Courses</h2>
-                </div>
-              </div>
-
-              <div id="lessonCourseList"></div>
-
-            </div>
-
-
-            <div class="card lesson-content">
-
-              <div class="lesson-content-header">
-
-                <div>
-                  <span class="lesson-number" id="lessonNumber">
-                    LESSON 1
-                  </span>
-
-                  <h2 id="lessonTitle">
-                    YouTube Foundation
-                  </h2>
-
-                  <p id="lessonSubtitle">
-                    Understand the fundamentals of building a YouTube channel.
-                  </p>
-                </div>
-
-                <span class="course-badge youtube" id="lessonCategory">
-                  YouTube
-                </span>
-
-              </div>
-
-
-              <div class="lesson-body">
-
-                <div class="lesson-visual" id="lessonVisual">
-                  <span>▶</span>
-                </div>
-
-                <h3 id="lessonMainHeading">
-                  What You Will Learn
-                </h3>
-
-                <p id="lessonBodyText">
-                  Learn the key concepts and practical steps you need to build a strong foundation.
-                </p>
-
-                <ul id="lessonPoints"></ul>
-
-              </div>
-
-
-              <div class="lesson-footer">
-
-                <button
-                  class="secondary-btn"
-                  id="previousLessonBtn"
-                >
-                  ← Previous
-                </button>
-
-                <button
-                  class="primary-btn"
-                  id="completeLessonBtn"
-                >
-                  Mark Complete ✓
-                </button>
-
-                <button
-                  class="secondary-btn"
-                  id="nextLessonBtn"
-                >
-                  Next →
-                </button>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <!-- ======================================
-             PROGRESS
-        ======================================= -->
-        <section class="page" id="page-progress">
-
-          <div class="page-header">
-
-            <div>
-              <span class="eyebrow">PERFORMANCE</span>
-              <h1>My Progress</h1>
-              <p>Track your learning journey and completion rate.</p>
-            </div>
-
-          </div>
-
-
-          <div class="progress-overview">
-
-            <div class="card progress-score-card">
-
-              <span class="card-label">OVERALL PROGRESS</span>
-
-              <strong id="overallProgressScore">0%</strong>
-
-              <p>
-                Keep going. Every completed lesson moves you forward.
-              </p>
-
-              <div class="progress-bar">
-                <div
-                  class="progress-fill blue-fill"
-                  id="overallProgressBar"
-                  style="width:0%">
-                </div>
-              </div>
-
-            </div>
-
-
-            <div class="card progress-mini-card">
-
-              <span class="card-label">COMPLETED</span>
-              <strong id="completedLessonsCount">0</strong>
+              <span>COMPLETED</span>
+              <strong id="statCompleted">0</strong>
               <small>Lessons completed</small>
-
             </div>
-
-
-            <div class="card progress-mini-card">
-
-              <span class="card-label">REMAINING</span>
-              <strong id="remainingLessonsCount">15</strong>
-              <small>Lessons remaining</small>
-
-            </div>
-
-
-            <div class="card progress-mini-card">
-
-              <span class="card-label">STREAK</span>
-              <strong id="progressStreak">0</strong>
-              <small>Learning days</small>
-
-            </div>
-
           </div>
 
+          <div class="stat-card">
+            <div class="stat-icon orange">◔</div>
+            <div>
+              <span>PROGRESS</span>
+              <strong id="statProgress">0%</strong>
+              <small>Overall learning</small>
+            </div>
+          </div>
 
-          <div class="card">
+        </div>
+
+        <div class="dashboard-grid">
+
+          <!-- CURRENT COURSE -->
+
+          <div class="card current-course-card">
 
             <div class="card-header">
               <div>
-                <span class="card-label">COURSE PROGRESS</span>
-                <h2>Courses</h2>
+                <span class="card-label">CONTINUE LEARNING</span>
+                <h2 id="dashboardCourseTitle">
+                  Sales Management Mastery
+                </h2>
               </div>
+
+              <span class="course-badge sales">SALES</span>
             </div>
 
-            <div class="course-progress-list" id="courseProgressList"></div>
+            <p id="dashboardCourseDescription">
+              Master sales planning, team coaching, territory management
+              and performance management.
+            </p>
 
-          </div>
+            <div class="course-progress-info">
+              <span id="dashboardProgressText">
+                0 of 4 lessons
+              </span>
 
-        </section>
-
-
-        <!-- ======================================
-             SALES MANAGER
-        ======================================= -->
-        <section class="page" id="page-sales">
-
-          <div class="page-header">
-
-            <div>
-              <span class="eyebrow">BUSINESS TOOL</span>
-              <h1>Sales Manager</h1>
-              <p>Track sales targets, execution and priorities.</p>
+              <strong id="dashboardProgressPercent">
+                0%
+              </strong>
             </div>
 
-            <button class="primary-btn" id="saveSalesBtn">
-              Save Performance
+            <div class="progress-bar">
+              <div
+                class="progress-fill blue-fill"
+                id="dashboardProgressBar"
+                style="width:0%"
+              ></div>
+            </div>
+
+            <button class="primary-btn" id="continueLearningBtn">
+              Continue Learning →
             </button>
 
           </div>
 
+          <!-- DAILY GOAL -->
 
-          <div class="stats-grid">
+          <div class="card daily-goal-card">
 
-            <div class="stat-card">
-              <div class="stat-icon blue">🎯</div>
+            <div class="card-header">
               <div>
-                <span class="card-label">TARGET</span>
-                <strong id="salesTargetDisplay">0</strong>
-                <small>Monthly target</small>
+                <span class="card-label">DAILY GOAL</span>
+                <h2>Learning Target</h2>
               </div>
+
+              <span class="goal-icon">🎯</span>
             </div>
 
+            <div class="goal-circle">
 
-            <div class="stat-card">
-              <div class="stat-icon green">↗</div>
-              <div>
-                <span class="card-label">ACTUAL</span>
-                <strong id="salesActualDisplay">0</strong>
-                <small>Current actual</small>
+              <div class="goal-inner">
+                <strong id="goalPercent">0%</strong>
+                <span>Today</span>
               </div>
+
             </div>
 
-
-            <div class="stat-card">
-              <div class="stat-icon purple">◔</div>
-              <div>
-                <span class="card-label">ACHIEVEMENT</span>
-                <strong id="salesAchievementDisplay">0%</strong>
-                <small>Target achievement</small>
-              </div>
-            </div>
-
-
-            <div class="stat-card">
-              <div class="stat-icon orange">△</div>
-              <div>
-                <span class="card-label">GAP</span>
-                <strong id="salesGapDisplay">0</strong>
-                <small>Remaining target</small>
-              </div>
+            <div class="goal-text">
+              <strong id="goalMinutes">0 / 30 min</strong>
+              <span>Keep learning every day.</span>
             </div>
 
           </div>
 
+        </div>
 
-          <div class="two-column-grid">
+        <div class="two-column-grid">
 
-            <div class="card">
-
-              <div class="card-header">
-                <div>
-                  <span class="card-label">MONTHLY PERFORMANCE</span>
-                  <h2>Sales Overview</h2>
-                </div>
-              </div>
-
-              <div class="sales-chart" id="salesChart"></div>
-
-            </div>
-
-
-            <div class="card">
-
-              <div class="card-header">
-                <div>
-                  <span class="card-label">SALES INPUT</span>
-                  <h2>Performance</h2>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label>Monthly Target</label>
-
-                <input
-                  type="number"
-                  id="salesTargetInput"
-                  placeholder="Enter target"
-                >
-              </div>
-
-
-              <div class="form-group">
-                <label>Actual Sales</label>
-
-                <input
-                  type="number"
-                  id="salesActualInput"
-                  placeholder="Enter actual"
-                >
-              </div>
-
-            </div>
-
-          </div>
-
+          <!-- ACTIVITY -->
 
           <div class="card">
 
             <div class="card-header">
               <div>
-                <span class="card-label">PRIORITIES</span>
-                <h2>Today's Sales Priorities</h2>
+                <span class="card-label">RECENT ACTIVITY</span>
+                <h2>Learning Activity</h2>
               </div>
+            </div>
 
-              <button class="secondary-btn small" id="addPriorityBtn">
-                + Add
+            <div class="activity-list" id="activityList">
+              <div class="empty-state">
+                <div>📚</div>
+                <strong>No activity yet</strong>
+                <span>Start your first lesson.</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- RECOMMENDATIONS -->
+
+          <div class="card">
+
+            <div class="card-header">
+              <div>
+                <span class="card-label">RECOMMENDED</span>
+                <h2>Improve Your Skills</h2>
+              </div>
+            </div>
+
+            <div class="recommendation-list">
+
+              <button class="recommendation-item" data-course="sales">
+                <div class="recommend-icon blue">↗</div>
+                <div>
+                  <strong>Sales Management</strong>
+                  <span>Improve target & execution</span>
+                </div>
+                <b>→</b>
               </button>
+
+              <button class="recommendation-item" data-course="leadership">
+                <div class="recommend-icon purple">★</div>
+                <div>
+                  <strong>Leadership</strong>
+                  <span>Build high-performance teams</span>
+                </div>
+                <b>→</b>
+              </button>
+
+              <button class="recommendation-item" data-course="marketing">
+                <div class="recommend-icon green">◎</div>
+                <div>
+                  <strong>Marketing & Growth</strong>
+                  <span>Grow your market potential</span>
+                </div>
+                <b>→</b>
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ================= COURSES ================= -->
+
+      <section class="page" id="page-courses">
+
+        <div class="page-header">
+
+          <div>
+            <span class="eyebrow">LEARNING</span>
+            <h1>My Courses</h1>
+            <p>Build practical business and management skills.</p>
+          </div>
+
+        </div>
+
+        <div class="filter-tabs">
+
+          <button class="filter-tab active" data-filter="all">
+            All Courses
+          </button>
+
+          <button class="filter-tab" data-filter="sales">
+            Sales
+          </button>
+
+          <button class="filter-tab" data-filter="business">
+            Business
+          </button>
+
+          <button class="filter-tab" data-filter="marketing">
+            Marketing
+          </button>
+
+          <button class="filter-tab" data-filter="leadership">
+            Leadership
+          </button>
+
+        </div>
+
+        <div class="courses-grid" id="coursesGrid"></div>
+
+      </section>
+
+
+      <!-- ================= LESSONS ================= -->
+
+      <section class="page" id="page-lessons">
+
+        <div class="page-header">
+
+          <div>
+            <span class="eyebrow">LEARNING</span>
+            <h1>Lessons</h1>
+            <p>Select a course and continue learning.</p>
+          </div>
+
+        </div>
+
+        <div class="lesson-layout">
+
+          <div class="lesson-course-list" id="lessonCourseList"></div>
+
+          <div class="lesson-content" id="lessonContent"></div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ================= PROGRESS ================= -->
+
+      <section class="page" id="page-progress">
+
+        <div class="page-header">
+
+          <div>
+            <span class="eyebrow">YOUR PERFORMANCE</span>
+            <h1>My Progress</h1>
+            <p>Track your learning performance.</p>
+          </div>
+
+        </div>
+
+        <div class="progress-overview">
+
+          <div class="card progress-score-card">
+
+            <span class="card-label">OVERALL PROGRESS</span>
+
+            <div class="big-progress">
+              <strong id="overallProgress">0%</strong>
+            </div>
+
+            <p>Keep learning and complete your academy journey.</p>
+
+          </div>
+
+          <div class="card progress-mini-card">
+            <span>COMPLETED</span>
+            <strong id="progressCompleted">0</strong>
+            <small>Lessons</small>
+          </div>
+
+          <div class="card progress-mini-card">
+            <span>REMAINING</span>
+            <strong id="progressRemaining">14</strong>
+            <small>Lessons</small>
+          </div>
+
+          <div class="card progress-mini-card">
+            <span>STREAK</span>
+            <strong id="progressStreak">0</strong>
+            <small>Days</small>
+          </div>
+
+        </div>
+
+        <div class="card">
+
+          <div class="card-header">
+            <div>
+              <span class="card-label">COURSES</span>
+              <h2>Course Progress</h2>
+            </div>
+          </div>
+
+          <div class="course-progress-list" id="courseProgressList"></div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ================= SALES ================= -->
+
+      <section class="page" id="page-sales">
+
+        <div class="page-header">
+
+          <div>
+            <span class="eyebrow">BUSINESS MANAGEMENT</span>
+            <h1>Sales Manager</h1>
+            <p>Monitor targets, achievement and execution priorities.</p>
+          </div>
+
+        </div>
+
+        <div class="stats-grid">
+
+          <div class="stat-card">
+            <div class="stat-icon blue">🎯</div>
+            <div>
+              <span>TARGET</span>
+              <strong id="salesTargetDisplay">100</strong>
+              <small>Units / Month</small>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon green">✓</div>
+            <div>
+              <span>ACTUAL</span>
+              <strong id="salesActualDisplay">0</strong>
+              <small>Units / Month</small>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon purple">↗</div>
+            <div>
+              <span>ACHIEVEMENT</span>
+              <strong id="salesAchievementDisplay">0%</strong>
+              <small>Target achievement</small>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon orange">!</div>
+            <div>
+              <span>GAP</span>
+              <strong id="salesGapDisplay">100</strong>
+              <small>Units remaining</small>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="two-column-grid">
+
+          <div class="card">
+
+            <div class="card-header">
+              <div>
+                <span class="card-label">SALES PERFORMANCE</span>
+                <h2>Monthly Performance</h2>
+              </div>
+            </div>
+
+            <div class="sales-chart" id="salesChart"></div>
+
+          </div>
+
+          <div class="card">
+
+            <div class="card-header">
+              <div>
+                <span class="card-label">EXECUTION</span>
+                <h2>Priority Actions</h2>
+              </div>
             </div>
 
             <div class="priority-list" id="priorityList"></div>
 
-          </div>
+            <div class="priority-add">
+              <input
+                id="priorityInput"
+                type="text"
+                placeholder="Add priority..."
+              >
 
-        </section>
-
-
-        <!-- ======================================
-             PRICING CALCULATOR
-        ======================================= -->
-        <section class="page" id="page-calculator">
-
-          <div class="page-header">
-
-            <div>
-              <span class="eyebrow">BUSINESS TOOL</span>
-              <h1>Pricing Calculator</h1>
-              <p>Calculate selling price, margin and profit.</p>
+              <button class="primary-btn" id="addPriorityBtn">
+                Add
+              </button>
             </div>
 
           </div>
 
+        </div>
 
-          <div class="calculator-layout">
+        <div class="card sales-settings-card">
 
-            <div class="card calculator-form">
+          <div class="card-header">
+            <div>
+              <span class="card-label">SALES PLAN</span>
+              <h2>Update Monthly Target</h2>
+            </div>
+          </div>
 
-              <div class="card-header">
-                <div>
-                  <span class="card-label">INPUT</span>
-                  <h2>Product Details</h2>
+          <div class="inline-form">
+
+            <label>
+              Target
+              <input type="number" id="salesTargetInput" value="100">
+            </label>
+
+            <label>
+              Actual
+              <input type="number" id="salesActualInput" value="0">
+            </label>
+
+            <button class="primary-btn" id="updateSalesBtn">
+              Update Performance
+            </button>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ================= CALCULATOR ================= -->
+
+      <section class="page" id="page-calculator">
+
+        <div class="page-header">
+
+          <div>
+            <span class="eyebrow">BUSINESS TOOL</span>
+            <h1>Pricing Calculator</h1>
+            <p>Calculate selling price and profit margin.</p>
+          </div>
+
+        </div>
+
+        <div class="calculator-layout">
+
+          <div class="card calculator-form">
+
+            <div class="card-header">
+              <div>
+                <span class="card-label">INPUT</span>
+                <h2>Product Pricing</h2>
+              </div>
+            </div>
+
+            <label>
+              Product Name
+              <input id="productName" type="text" value="Product">
+            </label>
+
+            <label>
+              Cost
+              <input id="productCost" type="number" value="10000">
+            </label>
+
+            <label>
+              Desired Margin %
+              <input id="productMargin" type="number" value="20">
+            </label>
+
+            <button class="primary-btn" id="calculateBtn">
+              Calculate Price
+            </button>
+
+          </div>
+
+          <div class="card calculator-result">
+
+            <span class="card-label">RESULT</span>
+
+            <h2 id="resultProduct">Product</h2>
+
+            <div class="result-main">
+              <span>Recommended Selling Price</span>
+              <strong id="resultPrice">12,500 Ks</strong>
+            </div>
+
+            <div class="result-grid">
+
+              <div>
+                <span>Cost</span>
+                <strong id="resultCost">10,000 Ks</strong>
+              </div>
+
+              <div>
+                <span>Profit</span>
+                <strong id="resultProfit">2,500 Ks</strong>
+              </div>
+
+              <div>
+                <span>Margin</span>
+                <strong id="resultMargin">20%</strong>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ================= REPORTS ================= -->
+
+      <section class="page" id="page-reports">
+
+        <div class="page-header">
+
+          <div>
+            <span class="eyebrow">ANALYTICS</span>
+            <h1>Reports</h1>
+            <p>Review your academy and sales performance.</p>
+          </div>
+
+        </div>
+
+        <div class="report-grid">
+
+          <div class="card report-card">
+            <div class="report-icon blue">📚</div>
+            <span>COURSES</span>
+            <strong id="reportCourses">4</strong>
+            <small>Available courses</small>
+          </div>
+
+          <div class="card report-card">
+            <div class="report-icon purple">▣</div>
+            <span>LESSONS</span>
+            <strong id="reportLessons">14</strong>
+            <small>Total lessons</small>
+          </div>
+
+          <div class="card report-card">
+            <div class="report-icon green">✓</div>
+            <span>COMPLETED</span>
+            <strong id="reportCompleted">0</strong>
+            <small>Lessons completed</small>
+          </div>
+
+          <div class="card report-card">
+            <div class="report-icon orange">🔥</div>
+            <span>STREAK</span>
+            <strong id="reportStreak">0</strong>
+            <small>Learning days</small>
+          </div>
+
+        </div>
+
+        <div class="card">
+
+          <div class="card-header">
+            <div>
+              <span class="card-label">SALES SUMMARY</span>
+              <h2>Current Sales Performance</h2>
+            </div>
+          </div>
+
+          <div class="report-sales">
+
+            <div>
+              <span>Target</span>
+              <strong id="reportSalesTarget">100</strong>
+            </div>
+
+            <div>
+              <span>Actual</span>
+              <strong id="reportSalesActual">0</strong>
+            </div>
+
+            <div>
+              <span>Achievement</span>
+              <strong id="reportSalesAchievement">0%</strong>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ================= AI COACH ================= -->
+
+      <section class="page" id="page-ai-coach">
+
+        <div class="page-header">
+
+          <div>
+            <span class="eyebrow">AI BUSINESS COACH</span>
+            <h1>AI Business Coach</h1>
+            <p>Get practical ideas for sales and business management.</p>
+          </div>
+
+        </div>
+
+        <div class="ai-layout">
+
+          <div class="card ai-chat">
+
+            <div class="ai-chat-header">
+
+              <div class="ai-avatar">✦</div>
+
+              <div>
+                <strong>Aung Business Coach</strong>
+                <span>Business Strategy Assistant</span>
+              </div>
+
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+
+              <div class="chat-message assistant">
+
+                <div class="message-avatar">AI</div>
+
+                <div class="message-content">
+                  <strong>Business Coach</strong>
+                  <p>
+                    Hello Aung. I can help with sales management,
+                    team coaching, customer growth and business strategy.
+                  </p>
                 </div>
+
               </div>
 
+            </div>
 
-              <div class="form-group">
-                <label>Product / Item</label>
+            <div class="chat-input">
 
-                <input
-                  type="text"
-                  id="productNameInput"
-                  placeholder="e.g. Product A"
-                >
-              </div>
-
-
-              <div class="form-group">
-                <label>Cost Price</label>
-
-                <input
-                  type="number"
-                  id="costPriceInput"
-                  placeholder="0"
-                  min="0"
-                >
-              </div>
-
-
-              <div class="form-group">
-                <label>Target Margin (%)</label>
-
-                <input
-                  type="number"
-                  id="marginInput"
-                  placeholder="20"
-                  min="0"
-                  max="99"
-                >
-              </div>
-
-
-              <button
-                class="primary-btn full"
-                id="calculatePriceBtn"
+              <input
+                id="chatInput"
+                type="text"
+                placeholder="Ask your business question..."
               >
-                Calculate Price
+
+              <button id="sendChatBtn">
+                Send
               </button>
 
             </div>
 
+          </div>
 
-            <div class="card calculator-result">
+          <div class="card ai-suggestions">
 
-              <div class="card-header">
-                <div>
-                  <span class="card-label">RESULT</span>
-                  <h2>Pricing Summary</h2>
-                </div>
+            <div class="card-header">
+              <div>
+                <span class="card-label">QUICK QUESTIONS</span>
+                <h2>Ask Your Coach</h2>
               </div>
-
-
-              <div class="result-main">
-
-                <span>Recommended Selling Price</span>
-
-                <strong id="sellingPriceResult">
-                  0
-                </strong>
-
-              </div>
-
-
-              <div class="result-grid">
-
-                <div>
-                  <span>Cost</span>
-                  <strong id="resultCost">0</strong>
-                </div>
-
-                <div>
-                  <span>Profit</span>
-                  <strong id="resultProfit">0</strong>
-                </div>
-
-                <div>
-                  <span>Margin</span>
-                  <strong id="resultMargin">0%</strong>
-                </div>
-
-                <div>
-                  <span>Markup</span>
-                  <strong id="resultMarkup">0%</strong>
-                </div>
-
-              </div>
-
             </div>
+
+            <button class="ai-question">
+              How can I improve team sales performance?
+            </button>
+
+            <button class="ai-question">
+              How should I coach an underperforming salesperson?
+            </button>
+
+            <button class="ai-question">
+              How can I increase customer retention?
+            </button>
+
+            <button class="ai-question">
+              How should I build a monthly sales action plan?
+            </button>
 
           </div>
 
-        </section>
+        </div>
+
+      </section>
 
 
-        <!-- ======================================
-             REPORTS
-        ======================================= -->
-        <section class="page" id="page-reports">
+      <!-- ================= AI TOOLS ================= -->
 
-          <div class="page-header">
+      <section class="page" id="page-ai-tools">
 
-            <div>
-              <span class="eyebrow">ANALYTICS</span>
-              <h1>Reports</h1>
-              <p>Review learning and business performance.</p>
-            </div>
+        <div class="page-header">
 
+          <div>
+            <span class="eyebrow">PRODUCTIVITY</span>
+            <h1>AI Tools</h1>
+            <p>Practical AI tools for business managers.</p>
           </div>
 
+        </div>
 
-          <div class="report-grid">
+        <div class="ai-tools-grid">
 
-            <div class="card report-card">
+          <button class="card ai-tool-card" data-tool="sales">
+            <div class="ai-tool-icon blue">↗</div>
+            <h2>Sales Plan Generator</h2>
+            <p>Create a practical monthly sales action plan.</p>
+            <span>Open Tool →</span>
+          </button>
 
-              <div class="report-icon blue">▣</div>
+          <button class="card ai-tool-card" data-tool="customer">
+            <div class="ai-tool-icon green">◎</div>
+            <h2>Customer Strategy</h2>
+            <p>Develop customer growth and retention ideas.</p>
+            <span>Open Tool →</span>
+          </button>
 
-              <span class="card-label">LEARNING</span>
+          <button class="card ai-tool-card" data-tool="team">
+            <div class="ai-tool-icon purple">★</div>
+            <h2>Team Coaching</h2>
+            <p>Build coaching plans for salespeople.</p>
+            <span>Open Tool →</span>
+          </button>
 
-              <h2 id="reportLearningProgress">
-                0%
-              </h2>
+          <button class="card ai-tool-card" data-tool="business">
+            <div class="ai-tool-icon orange">◆</div>
+            <h2>Business Strategy</h2>
+            <p>Generate ideas for business growth.</p>
+            <span>Open Tool →</span>
+          </button>
 
-              <p>
-                Overall course completion
-              </p>
+        </div>
 
-            </div>
-
-
-            <div class="card report-card">
-
-              <div class="report-icon green">✓</div>
-
-              <span class="card-label">LESSONS</span>
-
-              <h2 id="reportCompletedLessons">
-                0
-              </h2>
-
-              <p>
-                Lessons completed
-              </p>
-
-            </div>
-
-
-            <div class="card report-card">
-
-              <div class="report-icon purple">🔥</div>
-
-              <span class="card-label">STREAK</span>
-
-              <h2 id="reportStreak">
-                0
-              </h2>
-
-              <p>
-                Current learning streak
-              </p>
-
-            </div>
+      </section>
 
 
-            <div class="card report-card">
+      <!-- ================= SETTINGS ================= -->
 
-              <div class="report-icon orange">↗</div>
+      <section class="page" id="page-settings">
 
-              <span class="card-label">SALES</span>
+        <div class="page-header">
 
-              <h2 id="reportSalesAchievement">
-                0%
-              </h2>
-
-              <p>
-                Sales target achievement
-              </p>
-
-            </div>
-
+          <div>
+            <span class="eyebrow">SYSTEM</span>
+            <h1>Settings</h1>
+            <p>Manage your academy preferences.</p>
           </div>
 
+        </div>
+
+        <div class="settings-layout">
 
           <div class="card">
 
             <div class="card-header">
               <div>
-                <span class="card-label">SUMMARY</span>
-                <h2>Performance Summary</h2>
+                <span class="card-label">PROFILE</span>
+                <h2>Account Information</h2>
               </div>
             </div>
 
-            <div id="reportSummary"></div>
+            <div class="profile-settings">
+
+              <div class="large-avatar">AZ</div>
+
+              <div>
+                <strong>Aung Zar Ni Win</strong>
+                <span>Business Manager</span>
+              </div>
+
+            </div>
 
           </div>
 
-        </section>
+          <div class="card">
 
+            <div class="card-header">
+              <div>
+                <span class="card-label">PREFERENCES</span>
+                <h2>Academy Settings</h2>
+              </div>
+            </div>
 
-        <!-- ======================================
-             AI BUSINESS COACH
-        ======================================= -->
-        <section class="page" id="page-ai-coach">
+            <div class="setting-row">
+              <div>
+                <strong>Daily Learning Reminder</strong>
+                <span>Stay consistent with your learning.</span>
+              </div>
 
-          <div class="page-header">
+              <label class="switch">
+                <input type="checkbox" id="reminderToggle" checked>
+                <span></span>
+              </label>
+            </div>
+
+            <div class="setting-row">
+              <div>
+                <strong>Activity Tracking</strong>
+                <span>Track your learning activity.</span>
+              </div>
+
+              <label class="switch">
+                <input type="checkbox" id="trackingToggle" checked>
+                <span></span>
+              </label>
+            </div>
+
+          </div>
+
+          <div class="card danger-zone">
 
             <div>
-              <span class="eyebrow">AI ASSISTANT</span>
-              <h1>AI Business Coach</h1>
-              <p>Get practical ideas for sales, marketing and business growth.</p>
+              <span class="card-label">DANGER ZONE</span>
+              <h2>Reset Academy Data</h2>
+              <p>Delete all lesson progress and activity data.</p>
             </div>
+
+            <button class="danger-btn" id="resetDataBtn">
+              Reset Data
+            </button>
 
           </div>
 
+        </div>
 
-          <div class="ai-layout">
+      </section>
 
-            <div class="card ai-chat">
+    </section>
 
-              <div class="ai-chat-header">
+  </main>
 
-                <div class="ai-avatar">
-                  ✦
-                </div>
+</div>
 
-                <div>
-                  <strong>Aung AI Coach</strong>
-                  <span>Business Assistant</span>
-                </div>
 
-              </div>
+<!-- ================= MODAL ================= -->
 
+<div class="modal-overlay" id="modalOverlay">
 
-              <div class="chat-messages" id="chatMessages">
+  <div class="modal">
 
-                <div class="chat-message assistant">
+    <button class="modal-close" id="modalClose">×</button>
 
-                  <div class="message-avatar">
-                    ✦
-                  </div>
+    <div class="modal-icon">✦</div>
 
-                  <div class="message-content">
-                    <p>
-                      Hello! I’m your AI Business Coach. Ask me about sales, leadership, marketing, pricing or business growth.
-                    </p>
-                  </div>
+    <h2 id="modalTitle">Business Academy</h2>
 
-                </div>
+    <p id="modalText">
+      Welcome to Aung Business Academy.
+    </p>
 
-              </div>
-
-
-              <div class="chat-input">
-
-                <input
-                  type="text"
-                  id="aiInput"
-                  placeholder="Ask your business question..."
-                  autocomplete="off"
-                >
-
-                <button
-                  class="primary-btn"
-                  id="sendAiBtn"
-                >
-                  Send
-                </button>
-
-              </div>
-
-            </div>
-
-
-            <div class="card ai-suggestions">
-
-              <div class="card-header">
-                <div>
-                  <span class="card-label">QUICK QUESTIONS</span>
-                  <h2>Try Asking</h2>
-                </div>
-              </div>
-
-
-              <button
-                class="ai-question"
-                data-question="How can I improve my sales team performance?"
-              >
-                How can I improve my sales team performance?
-              </button>
-
-
-              <button
-                class="ai-question"
-                data-question="How can I increase sales in a difficult market?"
-              >
-                How can I increase sales in a difficult market?
-              </button>
-
-
-              <button
-                class="ai-question"
-                data-question="How should a Sales Manager coach a weak performer?"
-              >
-                How should I coach a weak performer?
-              </button>
-
-
-              <button
-                class="ai-question"
-                data-question="How can I improve customer retention?"
-              >
-                How can I improve customer retention?
-              </button>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <!-- ======================================
-             AI TOOLS
-        ======================================= -->
-        <section class="page" id="page-ai-tools">
-
-          <div class="page-header">
-
-            <div>
-              <span class="eyebrow">AI PRODUCTIVITY</span>
-              <h1>AI Tools</h1>
-              <p>Practical AI tools for your daily business work.</p>
-            </div>
-
-          </div>
-
-
-          <div class="ai-tools-grid">
-
-            <div class="card ai-tool-card">
-
-              <div class="ai-tool-icon blue">
-                ✍
-              </div>
-
-              <h2>Sales Message Writer</h2>
-
-              <p>
-                Create professional customer and sales messages.
-              </p>
-
-              <button
-                class="secondary-btn full"
-                data-ai-tool="sales-message"
-              >
-                Open Tool
-              </button>
-
-            </div>
-
-
-            <div class="card ai-tool-card">
-
-              <div class="ai-tool-icon purple">
-                ◉
-              </div>
-
-              <h2>Marketing Ideas</h2>
-
-              <p>
-                Generate campaign and promotion ideas.
-              </p>
-
-              <button
-                class="secondary-btn full"
-                data-ai-tool="marketing"
-              >
-                Open Tool
-              </button>
-
-            </div>
-
-
-            <div class="card ai-tool-card">
-
-              <div class="ai-tool-icon green">
-                ▤
-              </div>
-
-              <h2>Report Assistant</h2>
-
-              <p>
-                Turn sales numbers into management insights.
-              </p>
-
-              <button
-                class="secondary-btn full"
-                data-ai-tool="report"
-              >
-                Open Tool
-              </button>
-
-            </div>
-
-
-            <div class="card ai-tool-card">
-
-              <div class="ai-tool-icon orange">
-                ✦
-              </div>
-
-              <h2>Business Ideas</h2>
-
-              <p>
-                Explore practical business growth opportunities.
-              </p>
-
-              <button
-                class="secondary-btn full"
-                data-ai-tool="business"
-              >
-                Open Tool
-              </button>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <!-- ======================================
-             SETTINGS
-        ======================================= -->
-        <section class="page" id="page-settings">
-
-          <div class="page-header">
-
-            <div>
-              <span class="eyebrow">SYSTEM</span>
-              <h1>Settings</h1>
-              <p>Manage your academy preferences.</p>
-            </div>
-
-          </div>
-
-
-          <div class="settings-layout">
-
-            <div class="card">
-
-              <div class="card-header">
-                <div>
-                  <span class="card-label">PROFILE</span>
-                  <h2>Account Information</h2>
-                </div>
-              </div>
-
-
-              <div class="form-group">
-
-                <label>Name</label>
-
-                <input
-                  type="text"
-                  id="settingsName"
-                  value="Aung Zar Ni Win"
-                >
-
-              </div>
-
-
-              <div class="form-group">
-
-                <label>Role</label>
-
-                <input
-                  type="text"
-                  id="settingsRole"
-                  value="Business Manager"
-                >
-
-              </div>
-
-
-              <button
-                class="primary-btn"
-                id="saveProfileBtn"
-              >
-                Save Profile
-              </button>
-
-            </div>
-
-
-            <div class="card">
-
-              <div class="card-header">
-                <div>
-                  <span class="card-label">PREFERENCES</span>
-                  <h2>Learning Settings</h2>
-                </div>
-              </div>
-
-
-              <div class="setting-row">
-
-                <div>
-                  <strong>Daily Learning Reminder</strong>
-                  <p>Keep your daily learning habit active.</p>
-                </div>
-
-                <label class="switch">
-
-                  <input
-                    type="checkbox"
-                    id="dailyReminderToggle"
-                    checked
-                  >
-
-                  <span></span>
-
-                </label>
-
-              </div>
-
-
-              <div class="setting-row">
-
-                <div>
-                  <strong>Auto Progress Tracking</strong>
-                  <p>Automatically update lesson progress.</p>
-                </div>
-
-                <label class="switch">
-
-                  <input
-                    type="checkbox"
-                    id="autoProgressToggle"
-                    checked
-                  >
-
-                  <span></span>
-
-                </label>
-
-              </div>
-
-
-              <div class="setting-row">
-
-                <div>
-                  <strong>Show Notifications</strong>
-                  <p>Receive academy notifications.</p>
-                </div>
-
-                <label class="switch">
-
-                  <input
-                    type="checkbox"
-                    id="notificationToggle"
-                    checked
-                  >
-
-                  <span></span>
-
-                </label>
-
-              </div>
-
-            </div>
-
-
-            <div class="card danger-zone">
-
-              <div class="card-header">
-
-                <div>
-                  <span class="card-label">DATA</span>
-                  <h2>Reset Academy</h2>
-                </div>
-
-              </div>
-
-              <p>
-                Reset learning progress, activity and academy settings.
-              </p>
-
-              <button
-                class="danger-btn"
-                id="resetAppBtn"
-              >
-                Reset All Data
-              </button>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-      </div>
-
-    </main>
+    <button class="primary-btn" id="modalAction">
+      Continue
+    </button>
 
   </div>
 
-
-  <!-- ==========================================
-       MODAL
-  =========================================== -->
-  <div class="modal-overlay" id="modalOverlay">
-
-    <div class="modal" id="modal">
-
-      <button
-        class="modal-close"
-        id="modalClose"
-      >
-        ×
-      </button>
-
-      <div class="modal-icon" id="modalIcon">
-        ✦
-      </div>
-
-      <h2 id="modalTitle">
-        Aung Business Academy
-      </h2>
-
-      <p id="modalMessage">
-        Welcome.
-      </p>
-
-      <div class="modal-actions" id="modalActions"></div>
-
-    </div>
-
-  </div>
+</div>
 
 
-  <!-- ==========================================
-       TOAST
-  =========================================== -->
-  <div class="toast" id="toast">
+<!-- ================= TOAST ================= -->
 
-    <span id="toastIcon">✓</span>
-
-    <div>
-      <strong id="toastTitle">Success</strong>
-      <p id="toastMessage">Action completed.</p>
-    </div>
-
-  </div>
+<div class="toast" id="toast">
+  <span>✓</span>
+  <strong id="toastMessage">Saved</strong>
+</div>
 
 
-  <!-- ==========================================
-       APP JS
-  =========================================== -->
-  <script src="app.js"></script>
+<script src="app.js"></script>
 
 </body>
 </html>

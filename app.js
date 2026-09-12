@@ -1,3227 +1,2265 @@
-/* =========================================================
-   AUNG BUSINESS ACADEMY
-   APP.JS V7
-   CLEAN PROFESSIONAL VERSION
-========================================================= */
+// ======================================================
+// AUNG BUSINESS ACADEMY V8
+// BUSINESS + SALES + MARKETING + LEADERSHIP
+// ======================================================
+
+const STORAGE_KEY = "aungBusinessAcademyV8";
 
 
-/* =========================================================
-   STORAGE
-========================================================= */
+// ======================================================
+// COURSE DATA
+// ======================================================
 
-const STORAGE_KEY = "aungBusinessAcademyV7";
+const COURSES = [
+
+  {
+    id: "sales",
+    title: "Sales Management Mastery",
+    category: "sales",
+    icon: "↗",
+    color: "blue",
+    description:
+      "Master sales planning, team coaching, territory management and performance management.",
+    lessons: [
+
+      {
+        title: "Sales Target Planning",
+        content:
+          "A strong Sales Manager converts company objectives into clear field targets. Start with historical performance, market potential, territory capacity and salesperson capability. Break monthly targets into weekly and daily execution plans."
+      },
+
+      {
+        title: "Team Coaching",
+        content:
+          "Effective coaching focuses on people, numbers and execution. Identify performance gaps, observe field behavior, provide practical feedback and agree on clear action plans. Coaching should develop ownership rather than create dependency."
+      },
+
+      {
+        title: "Territory Management",
+        content:
+          "Territory management means putting the right resources in the right market. Analyze outlet potential, customer coverage, distribution, competitor activity and sales productivity. Use territory priorities to improve market penetration."
+      },
+
+      {
+        title: "Performance Review",
+        content:
+          "A professional performance review should compare target versus actual, identify the reasons behind gaps and define corrective actions. Review KPIs regularly and use data to make decisions rather than assumptions."
+      }
+
+    ]
+  },
 
 
-/* =========================================================
-   COURSE DATA
-========================================================= */
+  {
+    id: "business",
+    title: "Business Foundation",
+    category: "business",
+    icon: "◆",
+    color: "green",
+    description:
+      "Understand the fundamentals of customers, value creation, profit and cash flow.",
+    lessons: [
 
-const DEFAULT_COURSES = [
-    {
-        id: "youtube",
-        title: "YouTube Beginner",
-        category: "youtube",
-        icon: "fa-brands fa-youtube",
-        color: "red",
-        description:
-            "Learn the fundamentals of YouTube and build a strong channel foundation.",
-        lessons: [
-            {
-                id: "yt-1",
-                title: "YouTube Foundation",
-                description: "Understand how YouTube works and how successful channels are built.",
-                content:
-                    "Start with the fundamentals. Understand your audience, niche, content format and the value you want to provide."
-            },
-            {
-                id: "yt-2",
-                title: "Channel Setup",
-                description: "Build a professional YouTube channel structure.",
-                content:
-                    "Set up your channel name, profile image, banner, description and basic channel settings."
-            },
-            {
-                id: "yt-3",
-                title: "Content Strategy",
-                description: "Create a practical content strategy for consistent growth.",
-                content:
-                    "Choose content pillars, create repeatable formats and plan videos around audience demand."
-            },
-            {
-                id: "yt-4",
-                title: "Thumbnail & Title",
-                description: "Improve CTR with better thumbnails and titles.",
-                content:
-                    "A strong thumbnail earns attention while a strong title creates curiosity. Both should clearly communicate the video's value."
-            },
-            {
-                id: "yt-5",
-                title: "Monetization Basics",
-                description: "Understand YouTube monetization and revenue fundamentals.",
-                content:
-                    "Learn the basic monetization model, RPM, CPM, watch time, audience geography and revenue optimization."
-            }
-        ]
-    },
+      {
+        title: "Business Fundamentals",
+        content:
+          "Every business needs customers, value, revenue and sustainable profit. Managers should understand how people, processes, products and financial performance connect to create business results."
+      },
 
-    {
-        id: "sales",
-        title: "Sales Management Mastery",
-        category: "sales",
-        icon: "fa-solid fa-chart-line",
-        color: "blue",
-        description:
-            "Develop practical sales management, team leadership and execution skills.",
-        lessons: [
-            {
-                id: "sales-1",
-                title: "Sales Target Planning",
-                description: "Convert sales targets into practical field execution.",
-                content:
-                    "Break the monthly target into weekly and daily targets. Identify the gap, prioritize opportunities and build an action plan."
-            },
-            {
-                id: "sales-2",
-                title: "Team Coaching",
-                description: "Build a high-performing sales team through coaching.",
-                content:
-                    "Use regular field coaching, performance reviews, feedback and clear expectations to develop your team."
-            },
-            {
-                id: "sales-3",
-                title: "Territory Management",
-                description: "Improve territory coverage and market execution.",
-                content:
-                    "Analyze territory potential, outlet coverage, distribution, customer segmentation and route productivity."
-            },
-            {
-                id: "sales-4",
-                title: "Performance Review",
-                description: "Manage KPIs and close performance gaps.",
-                content:
-                    "Review sales volume, revenue, distribution, productivity and achievement. Identify root causes and assign corrective actions."
-            }
-        ]
-    },
+      {
+        title: "Customer & Value",
+        content:
+          "Customers buy solutions, not simply products. Identify customer needs, pain points and buying behavior. A strong value proposition explains why customers should choose your product or service."
+      },
 
-    {
-        id: "business",
-        title: "Business Foundation",
-        category: "business",
-        icon: "fa-solid fa-briefcase",
-        color: "purple",
-        description:
-            "Understand the essential principles of building and managing a business.",
-        lessons: [
-            {
-                id: "business-1",
-                title: "Business Fundamentals",
-                description: "Understand the basic components of a successful business.",
-                content:
-                    "Every business needs a customer, a valuable offer, a delivery system and a sustainable financial model."
-            },
-            {
-                id: "business-2",
-                title: "Customer & Value",
-                description: "Understand customers and create meaningful value.",
-                content:
-                    "Identify customer needs, pain points and buying behavior. Build your offer around a real customer problem."
-            },
-            {
-                id: "business-3",
-                title: "Profit & Cash Flow",
-                description: "Understand the difference between sales, profit and cash flow.",
-                content:
-                    "Revenue is not profit. Track cost, gross margin, operating expenses and cash flow to understand the real health of a business."
-            }
-        ]
-    },
+      {
+        title: "Profit & Cash Flow",
+        content:
+          "Revenue alone does not guarantee a healthy business. Managers should understand gross profit, operating costs, margin, receivables and cash flow. Better decisions balance growth with profitability."
+      }
 
-    {
-        id: "marketing",
-        title: "Marketing & Growth",
-        category: "marketing",
-        icon: "fa-solid fa-bullhorn",
-        color: "orange",
-        description:
-            "Learn practical marketing strategies for customer acquisition and growth.",
-        lessons: [
-            {
-                id: "marketing-1",
-                title: "Marketing Basics",
-                description: "Understand positioning, audience and value proposition.",
-                content:
-                    "Good marketing starts with knowing exactly who you serve and why they should choose your product or service."
-            },
-            {
-                id: "marketing-2",
-                title: "Digital Growth",
-                description: "Use digital channels to attract and engage customers.",
-                content:
-                    "Build a consistent content strategy across relevant digital channels and measure engagement and conversion."
-            },
-            {
-                id: "marketing-3",
-                title: "Campaign Measurement",
-                description: "Measure campaign performance and optimize results.",
-                content:
-                    "Track reach, engagement, leads, conversion and return on investment. Improve campaigns based on data."
-            }
-        ]
-    }
+    ]
+  },
+
+
+  {
+    id: "marketing",
+    title: "Marketing & Growth",
+    category: "marketing",
+    icon: "◎",
+    color: "orange",
+    description:
+      "Learn customer-focused marketing, growth strategies and campaign measurement.",
+    lessons: [
+
+      {
+        title: "Marketing Basics",
+        content:
+          "Marketing starts with understanding the customer and market. Define your target customer, positioning, value proposition and competitive advantage before building campaigns."
+      },
+
+      {
+        title: "Digital Growth",
+        content:
+          "Digital channels can create awareness, engagement and customer acquisition. Choose channels based on customer behavior and business objectives rather than simply following trends."
+      },
+
+      {
+        title: "Campaign Measurement",
+        content:
+          "Measure marketing performance using clear KPIs. Track reach, engagement, leads, conversion, acquisition cost and revenue contribution. Use results to improve the next campaign."
+      }
+
+    ]
+  },
+
+
+  {
+    id: "leadership",
+    title: "Leadership & Team Management",
+    category: "leadership",
+    icon: "★",
+    color: "purple",
+    description:
+      "Develop leadership, coaching, accountability and high-performance team management.",
+    lessons: [
+
+      {
+        title: "Leadership Fundamentals",
+        content:
+          "Leadership means creating direction, clarity and accountability. Set clear expectations, communicate priorities and create an environment where people understand both responsibility and ownership."
+      },
+
+      {
+        title: "Coaching & Empowerment",
+        content:
+          "Great managers do not micromanage. They coach people to solve problems, make decisions and improve their capabilities. Empowerment works best when expectations and accountability are clear."
+      },
+
+      {
+        title: "Performance Management",
+        content:
+          "Performance management requires clear KPIs, regular reviews, constructive feedback and action plans. Address performance issues early and support employees with practical development plans."
+      },
+
+      {
+        title: "Team Motivation",
+        content:
+          "Motivation comes from meaningful goals, recognition, growth opportunities, fairness and trust. Understand individual drivers while keeping the team aligned around shared business objectives."
+      }
+
+    ]
+  }
+
 ];
 
 
-/* =========================================================
-   DEFAULT STATE
-========================================================= */
+// ======================================================
+// STATE
+// ======================================================
 
-const DEFAULT_STATE = {
+function createDefaultState() {
+
+  return {
+
     user: {
-        name: "Aung Zar Ni Win",
-        role: "Business Manager"
+      name: "Aung Zar Ni Win",
+      role: "Business Manager"
     },
+
+    currentCourseId: "sales",
+
+    currentLessonIndex: 0,
 
     completedLessons: [],
 
-    currentCourse: "youtube",
-
-    currentLesson: null,
-
     streak: 0,
 
-    dailyGoal: 1,
-
-    dailyCompleted: 0,
+    dailyGoal: {
+      target: 30,
+      minutes: 0
+    },
 
     sales: {
-        target: 10000000,
-        actual: 8200000,
-        priorities: [
-            "Review monthly sales achievement",
-            "Coach underperforming sales reps",
-            "Follow up key accounts"
-        ]
+      target: 100,
+      actual: 0,
+      priorities: [
+        "Review team sales performance",
+        "Visit priority customers",
+        "Follow up on sales gaps"
+      ],
+      history: [65, 72, 68, 80, 75, 88, 92]
     },
 
     settings: {
-        dailyGoalReminder: true,
-        notifications: true
+      reminder: true,
+      tracking: true
     },
 
-    activity: [
-        {
-            icon: "fa-solid fa-user-plus",
-            color: "blue",
-            title: "Welcome to Aung Business Academy",
-            text: "Your learning journey has started.",
-            time: "Just now"
-        }
-    ]
-};
+    activity: [],
 
+    calculator: {
+      product: "Product",
+      cost: 10000,
+      margin: 20
+    }
 
-/* =========================================================
-   STATE
-========================================================= */
-
-let state = loadState();
-
-
-/* =========================================================
-   DOM READY
-========================================================= */
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    initializeApp();
-
-});
-
-
-/* =========================================================
-   INITIALIZE APP
-========================================================= */
-
-function initializeApp() {
-
-    bindNavigation();
-
-    bindDashboardActions();
-
-    bindCourseActions();
-
-    bindLessonActions();
-
-    bindSalesActions();
-
-    bindCalculator();
-
-    bindAI();
-
-    bindSettings();
-
-    bindSearch();
-
-    bindMobileSidebar();
-
-    renderAll();
+  };
 
 }
 
 
-/* =========================================================
-   STORAGE FUNCTIONS
-========================================================= */
+let state = loadState();
+
+
+// ======================================================
+// STORAGE
+// ======================================================
 
 function loadState() {
 
-    try {
+  try {
 
-        const saved = localStorage.getItem(STORAGE_KEY);
+    const saved = localStorage.getItem(STORAGE_KEY);
 
-        if (!saved) {
-            return structuredClone(DEFAULT_STATE);
-        }
-
-        const parsed = JSON.parse(saved);
-
-        return {
-            ...structuredClone(DEFAULT_STATE),
-            ...parsed,
-
-            user: {
-                ...DEFAULT_STATE.user,
-                ...(parsed.user || {})
-            },
-
-            sales: {
-                ...DEFAULT_STATE.sales,
-                ...(parsed.sales || {})
-            },
-
-            settings: {
-                ...DEFAULT_STATE.settings,
-                ...(parsed.settings || {})
-            },
-
-            completedLessons:
-                Array.isArray(parsed.completedLessons)
-                    ? parsed.completedLessons
-                    : [],
-
-            activity:
-                Array.isArray(parsed.activity)
-                    ? parsed.activity
-                    : DEFAULT_STATE.activity
-        };
-
-    } catch (error) {
-
-        console.error("State loading error:", error);
-
-        return structuredClone(DEFAULT_STATE);
+    if (!saved) {
+      return createDefaultState();
     }
+
+    return {
+      ...createDefaultState(),
+      ...JSON.parse(saved)
+    };
+
+  } catch (error) {
+
+    console.error(error);
+
+    return createDefaultState();
+
+  }
+
 }
 
 
 function saveState() {
 
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(state)
-    );
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(state)
+  );
+
 }
 
 
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function getCourses() {
-
-    return DEFAULT_COURSES;
-}
-
-
-function getCourse(courseId) {
-
-    return getCourses().find(
-        course => course.id === courseId
-    );
-}
-
-
-function getAllLessons() {
-
-    return getCourses().flatMap(
-        course => course.lessons
-    );
-}
-
-
-function getTotalCourses() {
-
-    return getCourses().length;
-}
-
+// ======================================================
+// HELPERS
+// ======================================================
 
 function getTotalLessons() {
 
-    return getAllLessons().length;
+  return COURSES.reduce(
+    (total, course) => total + course.lessons.length,
+    0
+  );
+
 }
 
 
-function getCompletedLessons() {
+function getCompletedCount() {
 
-    return state.completedLessons.length;
+  return state.completedLessons.length;
+
 }
 
 
 function getOverallProgress() {
 
-    const total = getTotalLessons();
+  const total = getTotalLessons();
 
-    if (total === 0) {
-        return 0;
-    }
+  if (!total) return 0;
 
-    return Math.round(
-        (getCompletedLessons() / total) * 100
-    );
-}
+  return Math.round(
+    (getCompletedCount() / total) * 100
+  );
 
-
-function getCourseCompletedCount(courseId) {
-
-    const course = getCourse(courseId);
-
-    if (!course) {
-        return 0;
-    }
-
-    return course.lessons.filter(
-        lesson => state.completedLessons.includes(lesson.id)
-    ).length;
 }
 
 
 function getCourseProgress(courseId) {
 
-    const course = getCourse(courseId);
+  const course = COURSES.find(
+    item => item.id === courseId
+  );
 
-    if (!course || course.lessons.length === 0) {
-        return 0;
-    }
+  if (!course) return 0;
 
-    const completed = getCourseCompletedCount(courseId);
+  const completed = course.lessons.filter(
+    (_, index) =>
+      state.completedLessons.includes(
+        `${courseId}-${index}`
+      )
+  ).length;
 
-    return Math.round(
-        (completed / course.lessons.length) * 100
-    );
-}
-
-
-function formatNumber(value) {
-
-    return Number(value || 0).toLocaleString(
-        "en-US"
-    );
-}
-
-
-function formatCurrency(value) {
-
-    return formatNumber(
-        Math.round(value || 0)
-    );
-}
-
-
-function getFirstName() {
-
-    return state.user.name
-        .trim()
-        .split(" ")[0] || "Aung";
-}
-
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-function bindNavigation() {
-
-    document.querySelectorAll(".nav-item").forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            const page = button.dataset.page;
-
-            navigateTo(page);
-
-        });
-
-    });
-
-
-    document.querySelectorAll("[data-page-action]").forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            navigateTo(
-                button.dataset.pageAction
-            );
-
-        });
-
-    });
+  return Math.round(
+    (completed / course.lessons.length) * 100
+  );
 
 }
 
 
-function navigateTo(pageName) {
-
-    document.querySelectorAll(".page").forEach(page => {
-
-        page.classList.remove("active");
-
-    });
-
-
-    const targetPage =
-        document.getElementById(
-            `page-${pageName}`
-        );
-
-
-    if (targetPage) {
-
-        targetPage.classList.add("active");
-
-    }
-
-
-    document.querySelectorAll(".nav-item").forEach(item => {
-
-        item.classList.toggle(
-            "active",
-            item.dataset.page === pageName
-        );
-
-    });
-
-
-    const navItem =
-        document.querySelector(
-            `.nav-item[data-page="${pageName}"]`
-        );
-
-
-    const title =
-        navItem
-            ? navItem.innerText.trim()
-            : "Dashboard";
-
-
-    const breadcrumb =
-        document.getElementById(
-            "breadcrumbTitle"
-        );
-
-
-    if (breadcrumb) {
-
-        breadcrumb.textContent = title;
-
-    }
-
-
-    closeMobileSidebar();
-
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
-
-    if (pageName === "courses") {
-        renderCourses();
-    }
-
-    if (pageName === "lessons") {
-        renderLessons();
-    }
-
-    if (pageName === "progress") {
-        renderProgress();
-    }
-
-    if (pageName === "sales") {
-        renderSales();
-    }
-
-    if (pageName === "reports") {
-        renderReports();
-    }
-
-    if (pageName === "settings") {
-        renderSettings();
-    }
-
-}
-
-
-/* =========================================================
-   RENDER ALL
-========================================================= */
-
-function renderAll() {
-
-    renderUser();
-
-    renderDashboard();
-
-    renderCourses();
-
-    renderLessons();
-
-    renderProgress();
-
-    renderSales();
-
-    renderReports();
-
-    renderSettings();
-
-    calculatePrice();
-
-}
-
-
-/* =========================================================
-   USER
-========================================================= */
-
-function renderUser() {
-
-    const name = state.user.name;
-    const role = state.user.role;
-
-
-    const elements = {
-
-        sidebarUserName:
-            document.getElementById(
-                "sidebarUserName"
-            ),
-
-        sidebarUserRole:
-            document.getElementById(
-                "sidebarUserRole"
-            ),
-
-        topUserName:
-            document.getElementById(
-                "topUserName"
-            ),
-
-        topUserRole:
-            document.getElementById(
-                "topUserRole"
-            ),
-
-        welcomeName:
-            document.getElementById(
-                "welcomeName"
-            )
-
-    };
-
-
-    if (elements.sidebarUserName) {
-        elements.sidebarUserName.textContent = name;
-    }
-
-    if (elements.sidebarUserRole) {
-        elements.sidebarUserRole.textContent = role;
-    }
-
-    if (elements.topUserName) {
-        elements.topUserName.textContent = name;
-    }
-
-    if (elements.topUserRole) {
-        elements.topUserRole.textContent = role;
-    }
-
-    if (elements.welcomeName) {
-        elements.welcomeName.textContent =
-            getFirstName();
-    }
-
-}
-
-
-/* =========================================================
-   DASHBOARD
-========================================================= */
-
-function renderDashboard() {
-
-    const totalCourses =
-        getTotalCourses();
-
-    const totalLessons =
-        getTotalLessons();
-
-    const progress =
-        getOverallProgress();
-
-    const completed =
-        getCompletedLessons();
-
-
-    setText(
-        "statCourses",
-        totalCourses
-    );
-
-    setText(
-        "statLessons",
-        totalLessons
-    );
-
-    setText(
-        "statProgress",
-        `${progress}%`
-    );
-
-    setText(
-        "statStreak",
-        `${state.streak} days`
-    );
-
-
-    /* Current Course */
-
-    const course =
-        getCourse(
-            state.currentCourse
-        ) || getCourses()[0];
-
-
-    const courseCompleted =
-        getCourseCompletedCount(
-            course.id
-        );
-
-    const courseProgress =
-        getCourseProgress(
-            course.id
-        );
-
-
-    setText(
-        "currentCourseTitle",
-        course.title
-    );
-
-
-    setText(
-        "currentCoursePercent",
-        `${courseProgress}%`
-    );
-
-
-    setText(
-        "currentCourseLessons",
-        `${courseCompleted} / ${course.lessons.length} Lessons`
-    );
-
-
-    setText(
-        "currentCourseStatus",
-        courseProgress === 100
-            ? "Completed"
-            : courseProgress > 0
-                ? "In Progress"
-                : "Not Started"
-    );
-
-
-    const currentProgress =
-        document.getElementById(
-            "currentCourseProgress"
-        );
-
-
-    if (currentProgress) {
-
-        currentProgress.style.width =
-            `${courseProgress}%`;
-
-    }
-
-
-    /* Daily Goal */
-
-    const dailyGoal =
-        Math.max(
-            1,
-            Number(state.dailyGoal || 1)
-        );
-
-
-    const dailyCompleted =
-        Math.min(
-            dailyGoal,
-            Number(state.dailyCompleted || 0)
-        );
-
-
-    const dailyPercent =
-        Math.round(
-            (dailyCompleted / dailyGoal) * 100
-        );
-
-
-    setText(
-        "goalPercent",
-        `${dailyPercent}%`
-    );
-
-
-    setText(
-        "goalCompleted",
-        `${dailyCompleted} / ${dailyGoal} lesson`
-    );
-
-
-    renderActivity();
-
-}
-
-
-/* =========================================================
-   ACTIVITY
-========================================================= */
-
-function renderActivity() {
-
-    const container =
-        document.getElementById(
-            "activityList"
-        );
-
-
-    if (!container) {
-        return;
-    }
-
-
-    const activities =
-        state.activity.slice(0, 6);
-
-
-    if (activities.length === 0) {
-
-        container.innerHTML = `
-            <div class="empty-state">
-                <i class="fa-regular fa-clock"></i>
-                <p>No recent activity yet.</p>
-            </div>
-        `;
-
-        return;
-    }
-
-
-    container.innerHTML =
-        activities.map(activity => {
-
-            return `
-                <div class="activity-item">
-
-                    <div class="activity-icon ${activity.color || "blue"}">
-                        <i class="${activity.icon || "fa-solid fa-circle"}"></i>
-                    </div>
-
-                    <div class="activity-content">
-
-                        <strong>
-                            ${escapeHTML(activity.title)}
-                        </strong>
-
-                        <span>
-                            ${escapeHTML(activity.text)}
-                        </span>
-
-                    </div>
-
-                    <time>
-                        ${escapeHTML(activity.time)}
-                    </time>
-
-                </div>
-            `;
-
-        }).join("");
-
-}
-
-
-/* =========================================================
-   COURSES
-========================================================= */
-
-function bindCourseActions() {
-
-    document.querySelectorAll(".filter-tab").forEach(tab => {
-
-        tab.addEventListener("click", () => {
-
-            document
-                .querySelectorAll(".filter-tab")
-                .forEach(item => {
-                    item.classList.remove("active");
-                });
-
-
-            tab.classList.add("active");
-
-
-            renderCourses(
-                tab.dataset.filter
-            );
-
-        });
-
-    });
-
-
-    document.querySelectorAll("[data-course]").forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            const courseId =
-                button.dataset.course;
-
-            state.currentCourse =
-                courseId;
-
-            saveState();
-
-            navigateTo("lessons");
-
-            renderLessons();
-
-        });
-
-    });
-
-}
-
-
-function renderCourses(filter = "all") {
-
-    const container =
-        document.getElementById(
-            "coursesGrid"
-        );
-
-
-    if (!container) {
-        return;
-    }
-
-
-    let courses = getCourses();
-
-
-    if (filter !== "all") {
-
-        courses =
-            courses.filter(
-                course =>
-                    course.category === filter
-            );
-
-    }
-
-
-    container.innerHTML =
-        courses.map(course => {
-
-            const completed =
-                getCourseCompletedCount(
-                    course.id
-                );
-
-            const progress =
-                getCourseProgress(
-                    course.id
-                );
-
-
-            return `
-                <div class="course-card">
-
-                    <div class="course-card-top">
-
-                        <div class="course-icon ${course.color}">
-                            <i class="${course.icon}"></i>
-                        </div>
-
-                        <span class="course-badge ${course.category}">
-                            ${capitalize(course.category)}
-                        </span>
-
-                    </div>
-
-
-                    <h3>
-                        ${escapeHTML(course.title)}
-                    </h3>
-
-
-                    <p>
-                        ${escapeHTML(course.description)}
-                    </p>
-
-
-                    <div class="course-meta">
-
-                        <span>
-                            <i class="fa-regular fa-file-lines"></i>
-                            ${course.lessons.length} Lessons
-                        </span>
-
-                        <strong>
-                            ${progress}%
-                        </strong>
-
-                    </div>
-
-
-                    <div class="progress-bar small">
-
-                        <div
-                            class="progress-fill ${course.color}-fill"
-                            style="width:${progress}%"
-                        ></div>
-
-                    </div>
-
-
-                    <div class="course-card-footer">
-
-                        <span>
-                            ${completed} / ${course.lessons.length}
-                            completed
-                        </span>
-
-                        <button
-                            class="primary-btn small-btn"
-                            data-open-course="${course.id}"
-                        >
-                            ${progress > 0 ? "Continue" : "Start Course"}
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </button>
-
-                    </div>
-
-                </div>
-            `;
-
-        }).join("");
-
-
-    container
-        .querySelectorAll(
-            "[data-open-course]"
-        )
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    state.currentCourse =
-                        button.dataset.openCourse;
-
-                    saveState();
-
-                    navigateTo("lessons");
-
-                    renderLessons();
-
-                }
-            );
-
-        });
-
-}
-
-
-/* =========================================================
-   LESSONS
-========================================================= */
-
-function bindLessonActions() {
-
-    const completeButton =
-        document.getElementById(
-            "completeLessonBtn"
-        );
-
-
-    if (completeButton) {
-
-        completeButton.addEventListener(
-            "click",
-            completeCurrentLesson
-        );
-
-    }
-
-
-    const nextButton =
-        document.getElementById(
-            "nextLessonBtn"
-        );
-
-
-    if (nextButton) {
-
-        nextButton.addEventListener(
-            "click",
-            nextLesson
-        );
-
-    }
-
-
-    const previousButton =
-        document.getElementById(
-            "previousLessonBtn"
-        );
-
-
-    if (previousButton) {
-
-        previousButton.addEventListener(
-            "click",
-            previousLesson
-        );
-
-    }
-
-
-    const continueButton =
-        document.getElementById(
-            "continueCourseBtn"
-        );
-
-
-    if (continueButton) {
-
-        continueButton.addEventListener(
-            "click",
-            () => {
-
-                navigateTo("lessons");
-
-                renderLessons();
-
-            }
-        );
-
-    }
-
-
-    const dailyGoalButton =
-        document.getElementById(
-            "dailyGoalBtn"
-        );
-
-
-    if (dailyGoalButton) {
-
-        dailyGoalButton.addEventListener(
-            "click",
-            () => {
-
-                navigateTo("lessons");
-
-                renderLessons();
-
-            }
-        );
-
-    }
-
-}
-
-
-function renderLessons() {
-
-    const courseList =
-        document.getElementById(
-            "lessonCourseList"
-        );
-
-
-    if (!courseList) {
-        return;
-    }
-
-
-    const courses =
-        getCourses();
-
-
-    courseList.innerHTML =
-        courses.map(course => {
-
-            const completed =
-                getCourseCompletedCount(
-                    course.id
-                );
-
-            const progress =
-                getCourseProgress(
-                    course.id
-                );
-
-
-            return `
-                <button
-                    class="lesson-course-item ${
-                        state.currentCourse === course.id
-                            ? "active"
-                            : ""
-                    }"
-                    data-select-course="${course.id}"
-                >
-
-                    <div class="lesson-course-icon ${course.color}">
-                        <i class="${course.icon}"></i>
-                    </div>
-
-                    <div class="lesson-course-info">
-
-                        <strong>
-                            ${escapeHTML(course.title)}
-                        </strong>
-
-                        <span>
-                            ${completed}/${course.lessons.length}
-                            completed
-                        </span>
-
-                    </div>
-
-                    <div class="mini-progress">
-                        <div
-                            style="width:${progress}%"
-                        ></div>
-                    </div>
-
-                </button>
-            `;
-
-        }).join("");
-
-
-    courseList
-        .querySelectorAll(
-            "[data-select-course]"
-        )
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    state.currentCourse =
-                        button.dataset.selectCourse;
-
-                    state.currentLesson = null;
-
-                    saveState();
-
-                    renderLessons();
-
-                }
-            );
-
-        });
-
-
-    const course =
-        getCourse(
-            state.currentCourse
-        ) || courses[0];
-
-
-    if (!course) {
-        return;
-    }
-
-
-    if (
-        !state.currentLesson ||
-        !course.lessons.some(
-            lesson =>
-                lesson.id === state.currentLesson
-        )
-    ) {
-
-        const firstIncomplete =
-            course.lessons.find(
-                lesson =>
-                    !state.completedLessons.includes(
-                        lesson.id
-                    )
-            );
-
-
-        state.currentLesson =
-            firstIncomplete
-                ? firstIncomplete.id
-                : course.lessons[0].id;
-
-    }
-
-
-    const lesson =
-        course.lessons.find(
-            item =>
-                item.id === state.currentLesson
-        );
-
-
-    if (!lesson) {
-        return;
-    }
-
-
-    const lessonIndex =
-        course.lessons.findIndex(
-            item =>
-                item.id === lesson.id
-        );
-
-
-    setText(
-        "lessonTitle",
-        lesson.title
-    );
-
-
-    setText(
-        "lessonDescription",
-        lesson.description
-    );
-
-
-    setText(
-        "lessonHeading",
-        lesson.title
-    );
-
-
-    setText(
-        "lessonText",
-        lesson.content
-    );
-
-
-    setText(
-        "lessonNumber",
-        String(lessonIndex + 1).padStart(2, "0")
-    );
-
-
-    const completeButton =
-        document.getElementById(
-            "completeLessonBtn"
-        );
-
-
-    if (completeButton) {
-
-        const isCompleted =
-            state.completedLessons.includes(
-                lesson.id
-            );
-
-
-        completeButton.innerHTML =
-            isCompleted
-                ? `
-                    <i class="fa-solid fa-check"></i>
-                    Completed
-                  `
-                : `
-                    Mark Complete
-                    <i class="fa-solid fa-check"></i>
-                  `;
-
-
-        completeButton.classList.toggle(
-            "completed",
-            isCompleted
-        );
-
-    }
-
-
-    const previousButton =
-        document.getElementById(
-            "previousLessonBtn"
-        );
-
-
-    const nextButton =
-        document.getElementById(
-            "nextLessonBtn"
-        );
-
-
-    if (previousButton) {
-
-        previousButton.disabled =
-            lessonIndex === 0;
-
-    }
-
-
-    if (nextButton) {
-
-        nextButton.disabled =
-            lessonIndex ===
-            course.lessons.length - 1;
-
-    }
-
-}
-
-
-function completeCurrentLesson() {
-
-    const course =
-        getCourse(
-            state.currentCourse
-        );
-
-
-    if (!course) {
-        return;
-    }
-
-
-    const lesson =
-        course.lessons.find(
-            item =>
-                item.id === state.currentLesson
-        );
-
-
-    if (!lesson) {
-        return;
-    }
-
-
-    const alreadyCompleted =
-        state.completedLessons.includes(
-            lesson.id
-        );
-
-
-    if (alreadyCompleted) {
-
-        showToast(
-            "Already Completed",
-            "This lesson has already been completed."
-        );
-
-        return;
-
-    }
-
-
-    state.completedLessons.push(
-        lesson.id
-    );
-
-
-    state.dailyCompleted =
-        Math.min(
-            state.dailyGoal,
-            state.dailyCompleted + 1
-        );
-
-
-    state.streak =
-        Math.max(
-            state.streak,
-            1
-        );
-
-
-    state.activity.unshift({
-
-        icon: "fa-solid fa-check",
-
-        color: "green",
-
-        title: `Completed: ${lesson.title}`,
-
-        text: course.title,
-
-        time: "Just now"
-
-    });
-
-
-    state.activity =
-        state.activity.slice(0, 10);
-
-
-    saveState();
-
-
-    renderAll();
-
-    renderLessons();
-
-
-    showToast(
-        "Lesson Completed",
-        "Great work! Your progress has been updated."
-    );
-
-}
-
-
-function nextLesson() {
-
-    const course =
-        getCourse(
-            state.currentCourse
-        );
-
-
-    if (!course) {
-        return;
-    }
-
-
-    const index =
-        course.lessons.findIndex(
-            lesson =>
-                lesson.id === state.currentLesson
-        );
-
-
-    if (
-        index >= 0 &&
-        index < course.lessons.length - 1
-    ) {
-
-        state.currentLesson =
-            course.lessons[index + 1].id;
-
-        saveState();
-
-        renderLessons();
-
-    } else {
-
-        showToast(
-            "Course Complete",
-            "You have reached the last lesson."
-        );
-
-    }
-
-}
-
-
-function previousLesson() {
-
-    const course =
-        getCourse(
-            state.currentCourse
-        );
-
-
-    if (!course) {
-        return;
-    }
-
-
-    const index =
-        course.lessons.findIndex(
-            lesson =>
-                lesson.id === state.currentLesson
-        );
-
-
-    if (index > 0) {
-
-        state.currentLesson =
-            course.lessons[index - 1].id;
-
-        saveState();
-
-        renderLessons();
-
-    }
-
-}
-
-
-/* =========================================================
-   PROGRESS
-========================================================= */
-
-function renderProgress() {
-
-    const progress =
-        getOverallProgress();
-
-    const completed =
-        getCompletedLessons();
-
-    const total =
-        getTotalLessons();
-
-
-    setText(
-        "overallProgressLarge",
-        `${progress}%`
-    );
-
-
-    setText(
-        "progressLessonText",
-        `${completed} of ${total} lessons completed`
-    );
-
-
-    setText(
-        "progressStreak",
-        `${state.streak} days`
-    );
-
-
-    setText(
-        "progressCompleted",
-        completed
-    );
-
-
-    const progressBar =
-        document.getElementById(
-            "overallProgressBar"
-        );
-
-
-    if (progressBar) {
-
-        progressBar.style.width =
-            `${progress}%`;
-
-    }
-
-
-    const container =
-        document.getElementById(
-            "courseProgressList"
-        );
-
-
-    if (!container) {
-        return;
-    }
-
-
-    container.innerHTML =
-        getCourses().map(course => {
-
-            const completedCount =
-                getCourseCompletedCount(
-                    course.id
-                );
-
-            const courseProgress =
-                getCourseProgress(
-                    course.id
-                );
-
-
-            return `
-                <div class="course-progress-row">
-
-                    <div class="course-progress-name">
-
-                        <div class="course-icon small ${course.color}">
-                            <i class="${course.icon}"></i>
-                        </div>
-
-                        <div>
-                            <strong>
-                                ${escapeHTML(course.title)}
-                            </strong>
-
-                            <span>
-                                ${completedCount} /
-                                ${course.lessons.length}
-                                lessons
-                            </span>
-                        </div>
-
-                    </div>
-
-
-                    <div class="course-progress-track">
-
-                        <div class="progress-bar">
-
-                            <div
-                                class="progress-fill ${course.color}-fill"
-                                style="width:${courseProgress}%"
-                            ></div>
-
-                        </div>
-
-                    </div>
-
-
-                    <strong class="course-progress-percent">
-                        ${courseProgress}%
-                    </strong>
-
-                </div>
-            `;
-
-        }).join("");
-
-}
-
-
-/* =========================================================
-   SALES
-========================================================= */
-
-function bindSalesActions() {
-
-    const updateButton =
-        document.getElementById(
-            "updateSalesBtn"
-        );
-
-
-    if (updateButton) {
-
-        updateButton.addEventListener(
-            "click",
-            updateSalesPerformance
-        );
-
-    }
-
-
-    const addPriorityButton =
-        document.getElementById(
-            "addPriorityBtn"
-        );
-
-
-    if (addPriorityButton) {
-
-        addPriorityButton.addEventListener(
-            "click",
-            addPriority
-        );
-
-    }
-
-}
-
-
-function renderSales() {
-
-    const target =
-        Number(
-            state.sales.target || 0
-        );
-
-
-    const actual =
-        Number(
-            state.sales.actual || 0
-        );
-
-
-    const achievement =
-        target > 0
-            ? Math.round(
-                (actual / target) * 100
-            )
-            : 0;
-
-
-    const gap =
-        target - actual;
-
-
-    setText(
-        "salesTarget",
-        formatCurrency(target)
-    );
-
-
-    setText(
-        "salesActual",
-        formatCurrency(actual)
-    );
-
-
-    setText(
-        "salesAchievement",
-        `${achievement}%`
-    );
-
-
-    setText(
-        "salesGap",
-        formatCurrency(
-            Math.max(0, gap)
-        )
-    );
-
-
-    renderPriorities();
-
-}
-
-
-function renderPriorities() {
-
-    const container =
-        document.getElementById(
-            "priorityList"
-        );
-
-
-    if (!container) {
-        return;
-    }
-
-
-    const priorities =
-        state.sales.priorities || [];
-
-
-    if (priorities.length === 0) {
-
-        container.innerHTML = `
-            <div class="empty-state">
-                <i class="fa-solid fa-list-check"></i>
-                <p>No priorities added.</p>
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    container.innerHTML =
-        priorities.map(
-            (priority, index) => {
-
-                return `
-                    <div class="priority-item">
-
-                        <div class="priority-number">
-                            ${index + 1}
-                        </div>
-
-                        <span>
-                            ${escapeHTML(priority)}
-                        </span>
-
-                        <button
-                            class="priority-delete"
-                            data-delete-priority="${index}"
-                        >
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
-
-                    </div>
-                `;
-
-            }
-        ).join("");
-
-
-    container
-        .querySelectorAll(
-            "[data-delete-priority]"
-        )
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    const index =
-                        Number(
-                            button.dataset.deletePriority
-                        );
-
-
-                    state.sales.priorities.splice(
-                        index,
-                        1
-                    );
-
-
-                    saveState();
-
-                    renderSales();
-
-                    showToast(
-                        "Priority Removed",
-                        "The priority has been removed."
-                    );
-
-                }
-            );
-
-        });
-
-}
-
-
-function updateSalesPerformance() {
-
-    const target =
-        prompt(
-            "Enter monthly sales target:"
-        );
-
-
-    if (target === null) {
-        return;
-    }
-
-
-    const actual =
-        prompt(
-            "Enter actual sales:"
-        );
-
-
-    if (actual === null) {
-        return;
-    }
-
-
-    const targetNumber =
-        Number(
-            target.replace(/,/g, "")
-        );
-
-
-    const actualNumber =
-        Number(
-            actual.replace(/,/g, "")
-        );
-
-
-    if (
-        !Number.isFinite(targetNumber) ||
-        !Number.isFinite(actualNumber) ||
-        targetNumber < 0 ||
-        actualNumber < 0
-    ) {
-
-        showToast(
-            "Invalid Input",
-            "Please enter valid sales numbers."
-        );
-
-        return;
-
-    }
-
-
-    state.sales.target =
-        targetNumber;
-
-    state.sales.actual =
-        actualNumber;
-
-
-    saveState();
-
-    renderSales();
-
-    renderReports();
-
-    showToast(
-        "Sales Updated",
-        "Sales performance has been updated."
-    );
-
-}
-
-
-function addPriority() {
-
-    const priority =
-        prompt(
-            "Enter today's priority:"
-        );
-
-
-    if (!priority || !priority.trim()) {
-        return;
-    }
-
-
-    state.sales.priorities.push(
-        priority.trim()
-    );
-
-
-    saveState();
-
-    renderSales();
-
-    showToast(
-        "Priority Added",
-        "Your new priority has been added."
-    );
-
-}
-
-
-/* =========================================================
-   CALCULATOR
-========================================================= */
-
-function bindCalculator() {
-
-    const button =
-        document.getElementById(
-            "calculateBtn"
-        );
-
-
-    if (button) {
-
-        button.addEventListener(
-            "click",
-            calculatePrice
-        );
-
-    }
-
-
-    [
-        "calcCost",
-        "calcMargin",
-        "calcQuantity"
-    ].forEach(id => {
-
-        const input =
-            document.getElementById(id);
-
-
-        if (input) {
-
-            input.addEventListener(
-                "input",
-                calculatePrice
-            );
-
-        }
-
-    });
-
-}
-
-
-function calculatePrice() {
-
-    const cost =
-        Number(
-            document.getElementById(
-                "calcCost"
-            )?.value || 0
-        );
-
-
-    const margin =
-        Number(
-            document.getElementById(
-                "calcMargin"
-            )?.value || 0
-        );
-
-
-    const quantity =
-        Number(
-            document.getElementById(
-                "calcQuantity"
-            )?.value || 1
-        );
-
-
-    if (
-        cost < 0 ||
-        margin < 0 ||
-        margin >= 100 ||
-        quantity < 0
-    ) {
-
-        return;
-
-    }
-
-
-    const sellingPrice =
-        cost /
-        (1 - margin / 100);
-
-
-    const profit =
-        sellingPrice - cost;
-
-
-    const revenue =
-        sellingPrice * quantity;
-
-
-    const totalProfit =
-        profit * quantity;
-
-
-    setText(
-        "resultPrice",
-        formatCurrency(sellingPrice)
-    );
-
-
-    setText(
-        "resultProfit",
-        formatCurrency(profit)
-    );
-
-
-    setText(
-        "resultRevenue",
-        formatCurrency(revenue)
-    );
-
-
-    setText(
-        "resultTotalProfit",
-        formatCurrency(totalProfit)
-    );
-
-
-    setText(
-        "resultMargin",
-        `${margin}%`
-    );
-
-}
-
-
-/* =========================================================
-   REPORTS
-========================================================= */
-
-function renderReports() {
-
-    const progress =
-        getOverallProgress();
-
-
-    const target =
-        Number(
-            state.sales.target || 0
-        );
-
-
-    const actual =
-        Number(
-            state.sales.actual || 0
-        );
-
-
-    const achievement =
-        target > 0
-            ? Math.round(
-                (actual / target) * 100
-            )
-            : 0;
-
-
-    setText(
-        "reportLearning",
-        `${progress}% Complete`
-    );
-
-
-    setText(
-        "reportSales",
-        `${achievement}% Achievement`
-    );
-
-}
-
-
-/* =========================================================
-   AI COACH
-========================================================= */
-
-function bindAI() {
-
-    const sendButton =
-        document.getElementById(
-            "aiSendBtn"
-        );
-
-
-    const input =
-        document.getElementById(
-            "aiInput"
-        );
-
-
-    if (sendButton) {
-
-        sendButton.addEventListener(
-            "click",
-            sendAIMessage
-        );
-
-    }
-
-
-    if (input) {
-
-        input.addEventListener(
-            "keydown",
-            event => {
-
-                if (event.key === "Enter") {
-
-                    sendAIMessage();
-
-                }
-
-            }
-        );
-
-    }
-
-
-    document
-        .querySelectorAll(".ai-question")
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    const question =
-                        button.dataset.question;
-
-                    if (input) {
-
-                        input.value =
-                            question;
-
-                        sendAIMessage();
-
-                    }
-
-                }
-            );
-
-        });
-
-}
-
-
-function sendAIMessage() {
-
-    const input =
-        document.getElementById(
-            "aiInput"
-        );
-
-
-    const container =
-        document.getElementById(
-            "chatMessages"
-        );
-
-
-    if (!input || !container) {
-        return;
-    }
-
-
-    const question =
-        input.value.trim();
-
-
-    if (!question) {
-        return;
-    }
-
-
-    container.insertAdjacentHTML(
-        "beforeend",
-        `
-            <div class="chat-message user">
-
-                <div class="message-content">
-
-                    <strong>You</strong>
-
-                    <p>
-                        ${escapeHTML(question)}
-                    </p>
-
-                </div>
-
-            </div>
-        `
-    );
-
-
-    input.value = "";
-
-
-    const answer =
-        generateAIResponse(
-            question
-        );
-
-
-    setTimeout(() => {
-
-        container.insertAdjacentHTML(
-            "beforeend",
-            `
-                <div class="chat-message ai">
-
-                    <div class="message-avatar">
-                        AI
-                    </div>
-
-                    <div class="message-content">
-
-                        <strong>Aung AI</strong>
-
-                        <p>
-                            ${escapeHTML(answer)}
-                        </p>
-
-                    </div>
-
-                </div>
-            `
-        );
-
-
-        container.scrollTop =
-            container.scrollHeight;
-
-    }, 400);
-
-
-    container.scrollTop =
-        container.scrollHeight;
-
-}
-
-
-function generateAIResponse(question) {
-
-    const text =
-        question.toLowerCase();
-
-
-    if (
-        text.includes("sales") ||
-        text.includes("target")
-    ) {
-
-        return "Start with the numbers. Break the monthly target into weekly and daily targets, identify the performance gap, then assign clear actions to each sales rep. Review progress regularly and coach based on the root cause.";
-
-    }
-
-
-    if (
-        text.includes("team") ||
-        text.includes("coach")
-    ) {
-
-        return "Use a coaching and empowerment approach. Set clear expectations, observe field execution, give specific feedback, agree on an action plan and review the result. Avoid micromanagement while maintaining accountability.";
-
-    }
-
-
-    if (
-        text.includes("business") ||
-        text.includes("growth")
-    ) {
-
-        return "Focus on three areas: customers, revenue and execution. Identify the highest-value customer segment, strengthen the offer, improve distribution or acquisition, and measure results with clear KPIs.";
-
-    }
-
-
-    if (
-        text.includes("youtube") ||
-        text.includes("channel")
-    ) {
-
-        return "For YouTube growth, focus on topic demand, thumbnail CTR, title quality and audience retention. Build repeatable content formats and study which videos generate the strongest watch time.";
-
-    }
-
-
-    return "A practical management approach is to define the objective, measure the current gap, identify the root cause, create a clear action plan and review the result regularly. If you give me your specific situation, I can help structure the action plan.";
-
-}
-
-
-/* =========================================================
-   SETTINGS
-========================================================= */
-
-function bindSettings() {
-
-    const saveButton =
-        document.getElementById(
-            "saveSettingsBtn"
-        );
-
-
-    if (saveButton) {
-
-        saveButton.addEventListener(
-            "click",
-            saveSettings
-        );
-
-    }
-
-
-    const resetButton =
-        document.getElementById(
-            "resetDataBtn"
-        );
-
-
-    if (resetButton) {
-
-        resetButton.addEventListener(
-            "click",
-            resetData
-        );
-
-    }
-
-
-    const dailyGoalToggle =
-        document.getElementById(
-            "dailyGoalToggle"
-        );
-
-
-    if (dailyGoalToggle) {
-
-        dailyGoalToggle.addEventListener(
-            "change",
-            () => {
-
-                state.settings.dailyGoalReminder =
-                    dailyGoalToggle.checked;
-
-                saveState();
-
-            }
-        );
-
-    }
-
-
-    const notificationToggle =
-        document.getElementById(
-            "notificationToggle"
-        );
-
-
-    if (notificationToggle) {
-
-        notificationToggle.addEventListener(
-            "change",
-            () => {
-
-                state.settings.notifications =
-                    notificationToggle.checked;
-
-                saveState();
-
-            }
-        );
-
-    }
-
-}
-
-
-function renderSettings() {
-
-    const nameInput =
-        document.getElementById(
-            "settingsName"
-        );
-
-
-    const roleInput =
-        document.getElementById(
-            "settingsRole"
-        );
-
-
-    const dailyGoalToggle =
-        document.getElementById(
-            "dailyGoalToggle"
-        );
-
-
-    const notificationToggle =
-        document.getElementById(
-            "notificationToggle"
-        );
-
-
-    if (nameInput) {
-        nameInput.value =
-            state.user.name;
-    }
-
-
-    if (roleInput) {
-        roleInput.value =
-            state.user.role;
-    }
-
-
-    if (dailyGoalToggle) {
-
-        dailyGoalToggle.checked =
-            state.settings.dailyGoalReminder;
-
-    }
-
-
-    if (notificationToggle) {
-
-        notificationToggle.checked =
-            state.settings.notifications;
-
-    }
-
-}
-
-
-function saveSettings() {
-
-    const name =
-        document.getElementById(
-            "settingsName"
-        )?.value.trim();
-
-
-    const role =
-        document.getElementById(
-            "settingsRole"
-        )?.value.trim();
-
-
-    if (!name) {
-
-        showToast(
-            "Name Required",
-            "Please enter your name."
-        );
-
-        return;
-
-    }
-
-
-    state.user.name =
-        name;
-
-
-    state.user.role =
-        role || "Business Manager";
-
-
-    saveState();
-
-    renderUser();
-
-    showToast(
-        "Settings Saved",
-        "Your profile has been updated."
-    );
-
-}
-
-
-function resetData() {
-
-    const confirmed =
-        confirm(
-            "Reset all academy progress and settings?"
-        );
-
-
-    if (!confirmed) {
-        return;
-    }
-
-
-    localStorage.removeItem(
-        STORAGE_KEY
-    );
-
-
-    state =
-        structuredClone(
-            DEFAULT_STATE
-        );
-
-
-    renderAll();
-
-    showToast(
-        "Data Reset",
-        "Academy data has been reset."
-    );
-
-}
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-function bindSearch() {
-
-    const searchInput =
-        document.getElementById(
-            "globalSearch"
-        );
-
-
-    if (!searchInput) {
-        return;
-    }
-
-
-    searchInput.addEventListener(
-        "keydown",
-        event => {
-
-            if (event.key !== "Enter") {
-                return;
-            }
-
-
-            const query =
-                searchInput.value
-                    .trim()
-                    .toLowerCase();
-
-
-            if (!query) {
-                return;
-            }
-
-
-            const course =
-                getCourses().find(
-                    item =>
-                        item.title
-                            .toLowerCase()
-                            .includes(query)
-                );
-
-
-            if (course) {
-
-                state.currentCourse =
-                    course.id;
-
-                saveState();
-
-                navigateTo("lessons");
-
-                renderLessons();
-
-                return;
-
-            }
-
-
-            if (
-                query.includes("sales") ||
-                query.includes("manager")
-            ) {
-
-                navigateTo("sales");
-
-                return;
-
-            }
-
-
-            if (
-                query.includes("calculator") ||
-                query.includes("price")
-            ) {
-
-                navigateTo("calculator");
-
-                return;
-
-            }
-
-
-            if (
-                query.includes("ai") ||
-                query.includes("coach")
-            ) {
-
-                navigateTo("ai-coach");
-
-                return;
-
-            }
-
-
-            showToast(
-                "No Result",
-                `No result found for "${query}".`
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   MOBILE SIDEBAR
-========================================================= */
-
-function bindMobileSidebar() {
-
-    const menuButton =
-        document.getElementById(
-            "mobileMenu"
-        );
-
-
-    const overlay =
-        document.getElementById(
-            "sidebarOverlay"
-        );
-
-
-    if (menuButton) {
-
-        menuButton.addEventListener(
-            "click",
-            openMobileSidebar
-        );
-
-    }
-
-
-    if (overlay) {
-
-        overlay.addEventListener(
-            "click",
-            closeMobileSidebar
-        );
-
-    }
-
-}
-
-
-function openMobileSidebar() {
-
-    document
-        .getElementById("sidebar")
-        ?.classList.add("open");
-
-
-    document
-        .getElementById("sidebarOverlay")
-        ?.classList.add("show");
-
-}
-
-
-function closeMobileSidebar() {
-
-    document
-        .getElementById("sidebar")
-        ?.classList.remove("open");
-
-
-    document
-        .getElementById("sidebarOverlay")
-        ?.classList.remove("show");
-
-}
-
-
-/* =========================================================
-   TOAST
-========================================================= */
-
-let toastTimer;
-
-
-function showToast(
-    title,
-    message
-) {
-
-    const toast =
-        document.getElementById(
-            "toast"
-        );
-
-
-    const toastTitle =
-        document.getElementById(
-            "toastTitle"
-        );
-
-
-    const toastMessage =
-        document.getElementById(
-            "toastMessage"
-        );
-
-
-    if (!toast) {
-        return;
-    }
-
-
-    if (toastTitle) {
-        toastTitle.textContent =
-            title;
-    }
-
-
-    if (toastMessage) {
-        toastMessage.textContent =
-            message;
-    }
-
-
-    toast.classList.add(
-        "show"
-    );
-
-
-    clearTimeout(
-        toastTimer
-    );
-
-
-    toastTimer =
-        setTimeout(
-            () => {
-
-                toast.classList.remove(
-                    "show"
-                );
-
-            },
-            3000
-        );
-
-}
-
-
-/* =========================================================
-   MODAL
-========================================================= */
-
-function openModal(content) {
-
-    const overlay =
-        document.getElementById(
-            "modalOverlay"
-        );
-
-
-    const container =
-        document.getElementById(
-            "modalContent"
-        );
-
-
-    if (!overlay || !container) {
-        return;
-    }
-
-
-    container.innerHTML =
-        content;
-
-
-    overlay.classList.add(
-        "show"
-    );
-
-}
-
-
-function closeModal() {
-
-    document
-        .getElementById(
-            "modalOverlay"
-        )
-        ?.classList.remove(
-            "show"
-        );
-
-}
-
-
-document.addEventListener(
-    "click",
-    event => {
-
-        if (
-            event.target.closest(
-                "#modalClose"
-            )
-        ) {
-
-            closeModal();
-
-        }
-
-
-        if (
-            event.target.id ===
-            "modalOverlay"
-        ) {
-
-            closeModal();
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   REPORT BUTTONS
-========================================================= */
-
-document.addEventListener(
-    "click",
-    event => {
-
-        const button =
-            event.target.closest(
-                "[data-report]"
-            );
-
-
-        if (!button) {
-            return;
-        }
-
-
-        const type =
-            button.dataset.report;
-
-
-        let title =
-            "Business Report";
-
-
-        let content =
-            "Your report is ready.";
-
-
-        if (type === "learning") {
-
-            title =
-                "Learning Report";
-
-            content =
-                `Overall learning progress is ${getOverallProgress()}%. You have completed ${getCompletedLessons()} of ${getTotalLessons()} lessons.`;
-
-        }
-
-
-        if (type === "sales") {
-
-            const target =
-                state.sales.target || 0;
-
-            const actual =
-                state.sales.actual || 0;
-
-            const achievement =
-                target > 0
-                    ? Math.round(
-                        actual / target * 100
-                    )
-                    : 0;
-
-
-            title =
-                "Sales Report";
-
-            content =
-                `Current sales achievement is ${achievement}%. Actual sales are ${formatCurrency(actual)} against a target of ${formatCurrency(target)}.`;
-
-        }
-
-
-        if (type === "manager") {
-
-            title =
-                "Manager Report";
-
-            content =
-                "Your management focus should remain on people, numbers and execution: coach the team, monitor KPIs and convert targets into practical field actions.";
-
-        }
-
-
-        if (type === "ai") {
-
-            title =
-                "AI Business Report";
-
-            content =
-                "AI insight: focus on closing performance gaps, improving team execution and maintaining consistent KPI reviews.";
-
-        }
-
-
-        openModal(`
-            <div class="modal-icon blue">
-                <i class="fa-solid fa-chart-line"></i>
-            </div>
-
-            <h2>
-                ${title}
-            </h2>
-
-            <p>
-                ${content}
-            </p>
-
-            <button
-                class="primary-btn full"
-                onclick="closeModal()"
-            >
-                Close
-            </button>
-        `);
-
-    }
-);
-
-
-/* =========================================================
-   AI TOOL BUTTONS
-========================================================= */
-
-document.addEventListener(
-    "click",
-    event => {
-
-        const tool =
-            event.target.closest(
-                ".ai-tool-card"
-            );
-
-
-        if (!tool) {
-            return;
-        }
-
-
-        const title =
-            tool.querySelector(
-                "strong"
-            )?.textContent ||
-            "AI Tool";
-
-
-        openModal(`
-            <div class="modal-icon purple">
-                <i class="fa-solid fa-wand-magic-sparkles"></i>
-            </div>
-
-            <h2>
-                ${escapeHTML(title)}
-            </h2>
-
-            <p>
-                This AI tool interface is ready.
-                You can connect it to your Gemini API
-                in the next version.
-            </p>
-
-            <button
-                class="primary-btn full"
-                onclick="closeModal()"
-            >
-                Got it
-            </button>
-        `);
-
-    }
-);
-
-
-/* =========================================================
-   NOTIFICATION
-========================================================= */
-
-document
-    .getElementById("notificationBtn")
-    ?.addEventListener(
-        "click",
-        () => {
-
-            showToast(
-                "Notifications",
-                "No new notifications."
-            );
-
-        }
-    );
-
-
-/* =========================================================
-   UTILITIES
-========================================================= */
-
-function setText(
-    id,
-    value
-) {
-
-    const element =
-        document.getElementById(id);
-
-
-    if (element) {
-
-        element.textContent =
-            value;
-
-    }
-
-}
-
-
-function capitalize(text) {
-
-    if (!text) {
-        return "";
-    }
-
-    return (
-        text.charAt(0).toUpperCase() +
-        text.slice(1)
-    );
+function getCourseCompleted(courseId) {
+
+  const course = COURSES.find(
+    item => item.id === courseId
+  );
+
+  if (!course) return 0;
+
+  return course.lessons.filter(
+    (_, index) =>
+      state.completedLessons.includes(
+        `${courseId}-${index}`
+      )
+  ).length;
 
 }
 
 
 function escapeHTML(value) {
 
-    return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 
 }
 
 
-/* =========================================================
-   GLOBAL API
-========================================================= */
+// ======================================================
+// NAVIGATION
+// ======================================================
+
+const pages = [
+  "dashboard",
+  "courses",
+  "lessons",
+  "progress",
+  "sales",
+  "calculator",
+  "reports",
+  "ai-coach",
+  "ai-tools",
+  "settings"
+];
+
+
+function navigate(page) {
+
+  if (!pages.includes(page)) return;
+
+  document.querySelectorAll(".page").forEach(
+    item => item.classList.remove("active")
+  );
+
+  document
+    .getElementById(`page-${page}`)
+    ?.classList.add("active");
+
+
+  document.querySelectorAll(".nav-item").forEach(
+    item => {
+
+      item.classList.toggle(
+        "active",
+        item.dataset.page === page
+      );
+
+    }
+  );
+
+
+  const names = {
+    dashboard: "Dashboard",
+    courses: "My Courses",
+    lessons: "Lessons",
+    progress: "My Progress",
+    sales: "Sales Manager",
+    calculator: "Pricing Calculator",
+    reports: "Reports",
+    "ai-coach": "AI Business Coach",
+    "ai-tools": "AI Tools",
+    settings: "Settings"
+  };
+
+
+  document.getElementById(
+    "breadcrumbCurrent"
+  ).textContent = names[page];
+
+
+  if (page === "dashboard") renderDashboard();
+
+  if (page === "courses") renderCourses();
+
+  if (page === "lessons") renderLessons();
+
+  if (page === "progress") renderProgress();
+
+  if (page === "sales") renderSales();
+
+  if (page === "calculator") renderCalculator();
+
+  if (page === "reports") renderReports();
+
+  closeSidebar();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+// ======================================================
+// DASHBOARD
+// ======================================================
+
+function renderDashboard() {
+
+  const total = getTotalLessons();
+  const completed = getCompletedCount();
+  const progress = getOverallProgress();
+
+  document.getElementById("statCourses")
+    .textContent = COURSES.length;
+
+  document.getElementById("statLessons")
+    .textContent = total;
+
+  document.getElementById("statCompleted")
+    .textContent = completed;
+
+  document.getElementById("statProgress")
+    .textContent = `${progress}%`;
+
+
+  const course =
+    COURSES.find(
+      item => item.id === state.currentCourseId
+    ) || COURSES[0];
+
+
+  const courseProgress =
+    getCourseProgress(course.id);
+
+  const courseCompleted =
+    getCourseCompleted(course.id);
+
+
+  document.getElementById(
+    "dashboardCourseTitle"
+  ).textContent = course.title;
+
+
+  document.getElementById(
+    "dashboardCourseDescription"
+  ).textContent = course.description;
+
+
+  document.getElementById(
+    "dashboardProgressText"
+  ).textContent =
+    `${courseCompleted} of ${course.lessons.length} lessons`;
+
+
+  document.getElementById(
+    "dashboardProgressPercent"
+  ).textContent =
+    `${courseProgress}%`;
+
+
+  document.getElementById(
+    "dashboardProgressBar"
+  ).style.width =
+    `${courseProgress}%`;
+
+
+  document.getElementById(
+    "goalMinutes"
+  ).textContent =
+    `${state.dailyGoal.minutes} / ${state.dailyGoal.target} min`;
+
+
+  const goal =
+    Math.min(
+      100,
+      Math.round(
+        (state.dailyGoal.minutes /
+          state.dailyGoal.target) * 100
+      )
+    );
+
+
+  document.getElementById(
+    "goalPercent"
+  ).textContent = `${goal}%`;
+
+
+  renderActivity();
+
+}
+
+
+function renderActivity() {
+
+  const container =
+    document.getElementById("activityList");
+
+
+  if (!state.activity.length) {
+
+    container.innerHTML = `
+      <div class="empty-state">
+        <div>📚</div>
+        <strong>No activity yet</strong>
+        <span>Start your first lesson.</span>
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    state.activity
+      .slice(0, 5)
+      .map(item => `
+        <div class="activity-item">
+
+          <div class="activity-icon">
+            ✓
+          </div>
+
+          <div class="activity-content">
+            <strong>${escapeHTML(item.title)}</strong>
+            <span>${escapeHTML(item.course)}</span>
+          </div>
+
+          <small>${escapeHTML(item.time)}</small>
+
+        </div>
+      `)
+      .join("");
+
+}
+
+
+// ======================================================
+// COURSES
+// ======================================================
+
+function renderCourses(filter = "all") {
+
+  const container =
+    document.getElementById("coursesGrid");
+
+
+  const courses =
+    filter === "all"
+      ? COURSES
+      : COURSES.filter(
+          course => course.category === filter
+        );
+
+
+  container.innerHTML =
+    courses.map(course => {
+
+      const progress =
+        getCourseProgress(course.id);
+
+      const completed =
+        getCourseCompleted(course.id);
+
+
+      return `
+        <div class="course-card">
+
+          <div class="course-card-top">
+
+            <div class="course-icon ${course.color}">
+              ${course.icon}
+            </div>
+
+            <span class="course-badge ${course.category}">
+              ${course.category.toUpperCase()}
+            </span>
+
+          </div>
+
+          <h2>${course.title}</h2>
+
+          <p>${course.description}</p>
+
+          <div class="course-meta">
+            <span>▣ ${course.lessons.length} Lessons</span>
+            <strong>${progress}%</strong>
+          </div>
+
+          <div class="progress-bar">
+            <div
+              class="progress-fill ${course.color}-fill"
+              style="width:${progress}%"
+            ></div>
+          </div>
+
+          <div class="course-card-footer">
+
+            <span>
+              ${completed}/${course.lessons.length} completed
+            </span>
+
+            <button
+              class="secondary-btn open-course"
+              data-course="${course.id}"
+            >
+              ${progress > 0 ? "Continue" : "Start Course"}
+            </button>
+
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+
+
+  document.querySelectorAll(".open-course")
+    .forEach(button => {
+
+      button.addEventListener("click", () => {
+
+        state.currentCourseId =
+          button.dataset.course;
+
+        state.currentLessonIndex = 0;
+
+        saveState();
+
+        navigate("lessons");
+
+      });
+
+    });
+
+}
+
+
+// ======================================================
+// LESSONS
+// ======================================================
+
+function renderLessons() {
+
+  const courseList =
+    document.getElementById("lessonCourseList");
+
+  const content =
+    document.getElementById("lessonContent");
+
+
+  courseList.innerHTML =
+    COURSES.map(course => {
+
+      const progress =
+        getCourseProgress(course.id);
+
+      return `
+        <button
+          class="lesson-course-item
+          ${state.currentCourseId === course.id ? "active" : ""}"
+          data-course="${course.id}"
+        >
+
+          <div class="lesson-course-icon ${course.color}">
+            ${course.icon}
+          </div>
+
+          <div class="lesson-course-info">
+
+            <strong>${course.title}</strong>
+
+            <span>
+              ${getCourseCompleted(course.id)}
+              /${course.lessons.length} completed
+            </span>
+
+            <div class="mini-progress">
+              <div
+                style="width:${progress}%"
+              ></div>
+            </div>
+
+          </div>
+
+        </button>
+      `;
+
+    }).join("");
+
+
+  document.querySelectorAll(".lesson-course-item")
+    .forEach(button => {
+
+      button.addEventListener("click", () => {
+
+        state.currentCourseId =
+          button.dataset.course;
+
+        state.currentLessonIndex = 0;
+
+        saveState();
+
+        renderLessons();
+
+      });
+
+    });
+
+
+  const course =
+    COURSES.find(
+      item => item.id === state.currentCourseId
+    ) || COURSES[0];
+
+
+  const index =
+    Math.min(
+      state.currentLessonIndex,
+      course.lessons.length - 1
+    );
+
+
+  const lesson =
+    course.lessons[index];
+
+
+  const lessonKey =
+    `${course.id}-${index}`;
+
+
+  const completed =
+    state.completedLessons.includes(
+      lessonKey
+    );
+
+
+  content.innerHTML = `
+
+    <div class="lesson-content-header">
+
+      <div>
+        <span class="lesson-number">
+          LESSON ${index + 1}
+        </span>
+
+        <h2>${lesson.title}</h2>
+
+        <p>${course.title}</p>
+      </div>
+
+      <span class="course-badge ${course.category}">
+        ${course.category.toUpperCase()}
+      </span>
+
+    </div>
+
+
+    <div class="lesson-body">
+
+      <div class="lesson-visual ${course.color}">
+        ${course.icon}
+      </div>
+
+      <h3>${lesson.title}</h3>
+
+      <p>
+        ${lesson.content}
+      </p>
+
+      <div class="lesson-tip">
+
+        <strong>Manager Tip</strong>
+
+        <span>
+          Apply this concept to a real business situation
+          and turn the idea into a measurable action.
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div class="lesson-footer">
+
+      <button
+        class="secondary-btn"
+        id="previousLessonBtn"
+        ${index === 0 ? "disabled" : ""}
+      >
+        ← Previous
+      </button>
+
+      <button
+        class="primary-btn"
+        id="completeLessonBtn"
+      >
+        ${
+          completed
+            ? "✓ Completed"
+            : "Mark as Complete"
+        }
+      </button>
+
+      <button
+        class="secondary-btn"
+        id="nextLessonBtn"
+        ${index === course.lessons.length - 1 ? "disabled" : ""}
+      >
+        Next →
+      </button>
+
+    </div>
+  `;
+
+
+  document
+    .getElementById("previousLessonBtn")
+    ?.addEventListener("click", () => {
+
+      if (index > 0) {
+
+        state.currentLessonIndex =
+          index - 1;
+
+        saveState();
+
+        renderLessons();
+
+      }
+
+    });
+
+
+  document
+    .getElementById("nextLessonBtn")
+    ?.addEventListener("click", () => {
+
+      if (index < course.lessons.length - 1) {
+
+        state.currentLessonIndex =
+          index + 1;
+
+        saveState();
+
+        renderLessons();
+
+      }
+
+    });
+
+
+  document
+    .getElementById("completeLessonBtn")
+    ?.addEventListener("click", () => {
+
+      completeLesson(
+        course.id,
+        index,
+        lesson.title,
+        course.title
+      );
+
+    });
+
+}
+
+
+function completeLesson(
+  courseId,
+  index,
+  lessonTitle,
+  courseTitle
+) {
+
+  const key =
+    `${courseId}-${index}`;
+
+
+  if (!state.completedLessons.includes(key)) {
+
+    state.completedLessons.push(key);
+
+    state.dailyGoal.minutes =
+      Math.min(
+        state.dailyGoal.target,
+        state.dailyGoal.minutes + 15
+      );
+
+
+    state.activity.unshift({
+
+      title: lessonTitle,
+
+      course: courseTitle,
+
+      time: "Just now"
+
+    });
+
+
+    state.activity =
+      state.activity.slice(0, 10);
+
+
+    state.streak =
+      Math.max(1, state.streak);
+
+
+    saveState();
+
+    showToast("Lesson completed successfully!");
+
+  }
+
+
+  renderLessons();
+
+  renderDashboard();
+
+  renderProgress();
+
+  renderReports();
+
+}
+
+
+// ======================================================
+// PROGRESS
+// ======================================================
+
+function renderProgress() {
+
+  const progress =
+    getOverallProgress();
+
+  const completed =
+    getCompletedCount();
+
+  const total =
+    getTotalLessons();
+
+  document.getElementById(
+    "overallProgress"
+  ).textContent =
+    `${progress}%`;
+
+  document.getElementById(
+    "progressCompleted"
+  ).textContent =
+    completed;
+
+  document.getElementById(
+    "progressRemaining"
+  ).textContent =
+    total - completed;
+
+  document.getElementById(
+    "progressStreak"
+  ).textContent =
+    state.streak;
+
+
+  const container =
+    document.getElementById(
+      "courseProgressList"
+    );
+
+
+  container.innerHTML =
+    COURSES.map(course => {
+
+      const p =
+        getCourseProgress(course.id);
+
+      const completedCourse =
+        getCourseCompleted(course.id);
+
+
+      return `
+        <div class="course-progress-row">
+
+          <div class="course-progress-name">
+
+            <div class="small-icon ${course.color}">
+              ${course.icon}
+            </div>
+
+            <div>
+              <strong>${course.title}</strong>
+              <span>
+                ${completedCourse}/${course.lessons.length}
+                lessons
+              </span>
+            </div>
+
+          </div>
+
+          <div class="course-progress-bar">
+            <div>
+              <span style="width:${p}%"></span>
+            </div>
+          </div>
+
+          <strong>${p}%</strong>
+
+        </div>
+      `;
+
+    }).join("");
+
+}
+
+
+// ======================================================
+// SALES
+// ======================================================
+
+function renderSales() {
+
+  const target =
+    Number(state.sales.target) || 0;
+
+  const actual =
+    Number(state.sales.actual) || 0;
+
+  const achievement =
+    target > 0
+      ? Math.round((actual / target) * 100)
+      : 0;
+
+  const gap =
+    Math.max(target - actual, 0);
+
+
+  document.getElementById(
+    "salesTargetDisplay"
+  ).textContent = target;
+
+  document.getElementById(
+    "salesActualDisplay"
+  ).textContent = actual;
+
+  document.getElementById(
+    "salesAchievementDisplay"
+  ).textContent = `${achievement}%`;
+
+  document.getElementById(
+    "salesGapDisplay"
+  ).textContent = gap;
+
+
+  document.getElementById(
+    "salesTargetInput"
+  ).value = target;
+
+  document.getElementById(
+    "salesActualInput"
+  ).value = actual;
+
+
+  renderSalesChart();
+
+  renderPriorities();
+
+}
+
+
+function renderSalesChart() {
+
+  const container =
+    document.getElementById("salesChart");
+
+
+  const max =
+    Math.max(...state.sales.history, 100);
+
+
+  container.innerHTML =
+    state.sales.history.map(
+      (value, index) => {
+
+        const height =
+          Math.round(
+            (value / max) * 100
+          );
+
+
+        return `
+          <div class="chart-bar-group">
+
+            <span class="chart-value">
+              ${value}
+            </span>
+
+            <div
+              class="chart-bar"
+              style="height:${height}%"
+            ></div>
+
+            <small>
+              M${index + 1}
+            </small>
+
+          </div>
+        `;
+
+      }
+    ).join("");
+
+}
+
+
+function renderPriorities() {
+
+  const container =
+    document.getElementById("priorityList");
+
+
+  container.innerHTML =
+    state.sales.priorities.map(
+      (item, index) => `
+
+        <div class="priority-item">
+
+          <div class="priority-number">
+            ${index + 1}
+          </div>
+
+          <span>${escapeHTML(item)}</span>
+
+          <button
+            class="priority-delete"
+            data-index="${index}"
+          >
+            ×
+          </button>
+
+        </div>
+
+      `
+    ).join("");
+
+
+  document.querySelectorAll(".priority-delete")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          state.sales.priorities.splice(
+            Number(button.dataset.index),
+            1
+          );
+
+          saveState();
+
+          renderPriorities();
+
+          showToast("Priority removed.");
+
+        }
+      );
+
+    });
+
+}
+
+
+// ======================================================
+// CALCULATOR
+// ======================================================
+
+function calculatePrice() {
+
+  const product =
+    document.getElementById(
+      "productName"
+    ).value || "Product";
+
+  const cost =
+    Number(
+      document.getElementById(
+        "productCost"
+      ).value
+    ) || 0;
+
+  const margin =
+    Number(
+      document.getElementById(
+        "productMargin"
+      ).value
+    ) || 0;
+
+
+  const price =
+    margin >= 100
+      ? 0
+      : cost / (1 - margin / 100);
+
+
+  const profit =
+    price - cost;
+
+
+  state.calculator = {
+    product,
+    cost,
+    margin
+  };
+
+
+  saveState();
+
+
+  document.getElementById(
+    "resultProduct"
+  ).textContent =
+    product;
+
+
+  document.getElementById(
+    "resultPrice"
+  ).textContent =
+    formatMoney(price);
+
+
+  document.getElementById(
+    "resultCost"
+  ).textContent =
+    formatMoney(cost);
+
+
+  document.getElementById(
+    "resultProfit"
+  ).textContent =
+    formatMoney(profit);
+
+
+  document.getElementById(
+    "resultMargin"
+  ).textContent =
+    `${margin}%`;
+
+}
+
+
+function formatMoney(number) {
+
+  return `${Math.round(number).toLocaleString()} Ks`;
+
+}
+
+
+function renderCalculator() {
+
+  const data =
+    state.calculator;
+
+
+  document.getElementById(
+    "productName"
+  ).value =
+    data.product;
+
+
+  document.getElementById(
+    "productCost"
+  ).value =
+    data.cost;
+
+
+  document.getElementById(
+    "productMargin"
+  ).value =
+    data.margin;
+
+
+  calculatePrice();
+
+}
+
+
+// ======================================================
+// REPORTS
+// ======================================================
+
+function renderReports() {
+
+  const total =
+    getTotalLessons();
+
+  const completed =
+    getCompletedCount();
+
+
+  document.getElementById(
+    "reportCourses"
+  ).textContent =
+    COURSES.length;
+
+  document.getElementById(
+    "reportLessons"
+  ).textContent =
+    total;
+
+  document.getElementById(
+    "reportCompleted"
+  ).textContent =
+    completed;
+
+  document.getElementById(
+    "reportStreak"
+  ).textContent =
+    state.streak;
+
+
+  document.getElementById(
+    "reportSalesTarget"
+  ).textContent =
+    state.sales.target;
+
+  document.getElementById(
+    "reportSalesActual"
+  ).textContent =
+    state.sales.actual;
+
+
+  const achievement =
+    state.sales.target > 0
+      ? Math.round(
+          state.sales.actual /
+          state.sales.target *
+          100
+        )
+      : 0;
+
+
+  document.getElementById(
+    "reportSalesAchievement"
+  ).textContent =
+    `${achievement}%`;
+
+}
+
+
+// ======================================================
+// AI BUSINESS COACH
+// ======================================================
+
+function getAIResponse(question) {
+
+  const q =
+    question.toLowerCase();
+
+
+  if (
+    q.includes("team") ||
+    q.includes("coach") ||
+    q.includes("performance")
+  ) {
+
+    return `
+      Start with the numbers, identify the performance gap,
+      understand the root cause and create a specific action plan.
+      Then coach the salesperson through regular follow-up.
+      Focus on coaching and empowerment rather than micromanagement.
+    `;
+
+  }
+
+
+  if (
+    q.includes("customer") ||
+    q.includes("retention")
+  ) {
+
+    return `
+      Segment customers by value and potential. Identify your
+      key customers, understand their needs, review service issues
+      and create regular contact plans. Retention improves when
+      customers consistently receive measurable value.
+    `;
+
+  }
+
+
+  if (
+    q.includes("sales") ||
+    q.includes("target")
+  ) {
+
+    return `
+      Break the monthly target into weekly and daily targets.
+      Analyze the gap by salesperson, territory, product and customer.
+      Then create three priorities: people, market and execution.
+      Review progress every week.
+    `;
+
+  }
+
+
+  return `
+    I recommend starting with three areas: people, numbers and execution.
+    Define the business objective, measure the current performance,
+    identify the biggest gap and create a practical action plan.
+    Review the result regularly and improve the plan based on data.
+  `;
+
+}
+
+
+function sendAIMessage(question) {
+
+  if (!question.trim()) return;
+
+
+  const container =
+    document.getElementById(
+      "chatMessages"
+    );
+
+
+  container.insertAdjacentHTML(
+    "beforeend",
+    `
+      <div class="chat-message user">
+
+        <div class="message-avatar">
+          AZ
+        </div>
+
+        <div class="message-content">
+          <strong>You</strong>
+          <p>${escapeHTML(question)}</p>
+        </div>
+
+      </div>
+    `
+  );
+
+
+  const answer =
+    getAIResponse(question);
+
+
+  setTimeout(() => {
+
+    container.insertAdjacentHTML(
+      "beforeend",
+      `
+        <div class="chat-message assistant">
+
+          <div class="message-avatar">
+            AI
+          </div>
+
+          <div class="message-content">
+
+            <strong>Business Coach</strong>
+
+            <p>
+              ${answer}
+            </p>
+
+          </div>
+
+        </div>
+      `
+    );
+
+
+    container.scrollTop =
+      container.scrollHeight;
+
+  }, 350);
+
+
+  container.scrollTop =
+    container.scrollHeight;
+
+}
+
+
+// ======================================================
+// AI TOOLS
+// ======================================================
+
+function openAITool(tool) {
+
+  const messages = {
+
+    sales:
+      "Create a monthly sales action plan based on target, territory and team performance.",
+
+    customer:
+      "Create a customer growth and retention strategy.",
+
+    team:
+      "Create a coaching plan for an underperforming salesperson.",
+
+    business:
+      "Create a practical business growth strategy."
+  };
+
+
+  navigate("ai-coach");
+
+
+  const input =
+    document.getElementById(
+      "chatInput"
+    );
+
+
+  input.value =
+    messages[tool] || "";
+
+
+  sendAIMessage(
+    input.value
+  );
+
+
+  input.value = "";
+
+}
+
+
+// ======================================================
+// SEARCH
+// ======================================================
+
+function performSearch(query) {
+
+  const text =
+    query.trim().toLowerCase();
+
+
+  if (!text) return;
+
+
+  const course =
+    COURSES.find(course =>
+      course.title
+        .toLowerCase()
+        .includes(text)
+    );
+
+
+  if (course) {
+
+    state.currentCourseId =
+      course.id;
+
+    state.currentLessonIndex =
+      0;
+
+    saveState();
+
+    navigate("lessons");
+
+    return;
+
+  }
+
+
+  for (const course of COURSES) {
+
+    const index =
+      course.lessons.findIndex(
+        lesson =>
+          lesson.title
+            .toLowerCase()
+            .includes(text)
+      );
+
+
+    if (index !== -1) {
+
+      state.currentCourseId =
+        course.id;
+
+      state.currentLessonIndex =
+        index;
+
+      saveState();
+
+      navigate("lessons");
+
+      return;
+
+    }
+
+  }
+
+
+  showToast("No course or lesson found.");
+
+}
+
+
+// ======================================================
+// SIDEBAR
+// ======================================================
+
+function openSidebar() {
+
+  document
+    .getElementById("sidebar")
+    .classList.add("open");
+
+  document
+    .getElementById("sidebarOverlay")
+    .classList.add("show");
+
+}
+
+
+function closeSidebar() {
+
+  document
+    .getElementById("sidebar")
+    .classList.remove("open");
+
+  document
+    .getElementById("sidebarOverlay")
+    .classList.remove("show");
+
+}
+
+
+// ======================================================
+// TOAST
+// ======================================================
+
+function showToast(message) {
+
+  const toast =
+    document.getElementById("toast");
+
+  document.getElementById(
+    "toastMessage"
+  ).textContent =
+    message;
+
+
+  toast.classList.add("show");
+
+
+  setTimeout(() => {
+
+    toast.classList.remove("show");
+
+  }, 2500);
+
+}
+
+
+// ======================================================
+// EVENT LISTENERS
+// ======================================================
+
+document.addEventListener(
+  "click",
+  event => {
+
+    const nav =
+      event.target.closest(
+        ".nav-item"
+      );
+
+
+    if (nav) {
+
+      navigate(
+        nav.dataset.page
+      );
+
+      return;
+
+    }
+
+
+    const go =
+      event.target.closest(
+        "[data-go]"
+      );
+
+
+    if (go) {
+
+      navigate(
+        go.dataset.go
+      );
+
+      return;
+
+    }
+
+
+    const recommendation =
+      event.target.closest(
+        "[data-course]"
+      );
+
+
+    if (
+      recommendation &&
+      recommendation.classList.contains(
+        "recommendation-item"
+      )
+    ) {
+
+      state.currentCourseId =
+        recommendation.dataset.course;
+
+      state.currentLessonIndex =
+        0;
+
+      saveState();
+
+      navigate("lessons");
+
+    }
+
+  }
+);
+
+
+// Course filters
+
+document.querySelectorAll(
+  ".filter-tab"
+).forEach(button => {
+
+  button.addEventListener(
+    "click",
+    () => {
+
+      document.querySelectorAll(
+        ".filter-tab"
+      ).forEach(
+        item =>
+          item.classList.remove(
+            "active"
+          )
+      );
+
+
+      button.classList.add(
+        "active"
+      );
+
+
+      renderCourses(
+        button.dataset.filter
+      );
+
+    }
+  );
+
+});
+
+
+// Continue Learning
+
+document
+  .getElementById(
+    "continueLearningBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      navigate("lessons");
+
+    }
+  );
+
+
+// Sales Update
+
+document
+  .getElementById(
+    "updateSalesBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      state.sales.target =
+        Number(
+          document.getElementById(
+            "salesTargetInput"
+          ).value
+        ) || 0;
+
+
+      state.sales.actual =
+        Number(
+          document.getElementById(
+            "salesActualInput"
+          ).value
+        ) || 0;
+
+
+      state.sales.history.push(
+        state.sales.actual
+      );
+
+
+      state.sales.history =
+        state.sales.history.slice(-7);
+
+
+      saveState();
+
+      renderSales();
+
+      renderReports();
+
+      showToast(
+        "Sales performance updated."
+      );
+
+    }
+  );
+
+
+// Add Priority
+
+document
+  .getElementById(
+    "addPriorityBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      const input =
+        document.getElementById(
+          "priorityInput"
+        );
+
+
+      const value =
+        input.value.trim();
+
+
+      if (!value) {
+
+        showToast(
+          "Please enter a priority."
+        );
+
+        return;
+
+      }
+
+
+      state.sales.priorities.push(
+        value
+      );
+
+
+      input.value = "";
+
+      saveState();
+
+      renderPriorities();
+
+      showToast(
+        "Priority added."
+      );
+
+    }
+  );
+
+
+// Calculator
+
+document
+  .getElementById(
+    "calculateBtn"
+  )
+  .addEventListener(
+    "click",
+    calculatePrice
+  );
+
+
+// AI Chat
+
+document
+  .getElementById(
+    "sendChatBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      const input =
+        document.getElementById(
+          "chatInput"
+        );
+
+
+      sendAIMessage(
+        input.value
+      );
+
+
+      input.value = "";
+
+    }
+  );
+
+
+document
+  .getElementById(
+    "chatInput"
+  )
+  .addEventListener(
+    "keydown",
+    event => {
+
+      if (
+        event.key === "Enter"
+      ) {
+
+        document
+          .getElementById(
+            "sendChatBtn"
+          )
+          .click();
+
+      }
+
+    }
+  );
+
+
+// AI Questions
+
+document.querySelectorAll(
+  ".ai-question"
+).forEach(button => {
+
+  button.addEventListener(
+    "click",
+    () => {
+
+      const input =
+        document.getElementById(
+          "chatInput"
+        );
+
+
+      input.value =
+        button.textContent.trim();
+
+
+      document
+        .getElementById(
+          "sendChatBtn"
+        )
+        .click();
+
+    }
+  );
+
+});
+
+
+// AI Tools
+
+document.querySelectorAll(
+  ".ai-tool-card"
+).forEach(button => {
+
+  button.addEventListener(
+    "click",
+    () => {
+
+      openAITool(
+        button.dataset.tool
+      );
+
+    }
+  );
+
+});
+
+
+// Search
+
+document
+  .getElementById(
+    "globalSearch"
+  )
+  .addEventListener(
+    "keydown",
+    event => {
+
+      if (
+        event.key === "Enter"
+      ) {
+
+        performSearch(
+          event.target.value
+        );
+
+      }
+
+    }
+  );
+
+
+// Mobile
+
+document
+  .getElementById(
+    "mobileMenu"
+  )
+  .addEventListener(
+    "click",
+    openSidebar
+  );
+
+
+document
+  .getElementById(
+    "sidebarOverlay"
+  )
+  .addEventListener(
+    "click",
+    closeSidebar
+  );
+
+
+// Settings
+
+document
+  .getElementById(
+    "reminderToggle"
+  )
+  .addEventListener(
+    "change",
+    event => {
+
+      state.settings.reminder =
+        event.target.checked;
+
+      saveState();
+
+    }
+  );
+
+
+document
+  .getElementById(
+    "trackingToggle"
+  )
+  .addEventListener(
+    "change",
+    event => {
+
+      state.settings.tracking =
+        event.target.checked;
+
+      saveState();
+
+    }
+  );
+
+
+// Reset
+
+document
+  .getElementById(
+    "resetDataBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      const confirmReset =
+        confirm(
+          "Reset all Academy progress?"
+        );
+
+
+      if (!confirmReset) return;
+
+
+      localStorage.removeItem(
+        STORAGE_KEY
+      );
+
+
+      state =
+        createDefaultState();
+
+
+      saveState();
+
+      renderAll();
+
+      showToast(
+        "Academy data has been reset."
+      );
+
+    }
+  );
+
+
+// Notification
+
+document
+  .getElementById(
+    "notificationBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      showToast(
+        "You are up to date."
+      );
+
+    }
+  );
+
+
+// Modal
+
+document
+  .getElementById(
+    "modalClose"
+  )
+  .addEventListener(
+    "click",
+    closeModal
+  );
+
+
+document
+  .getElementById(
+    "modalOverlay"
+  )
+  .addEventListener(
+    "click",
+    event => {
+
+      if (
+        event.target.id ===
+        "modalOverlay"
+      ) {
+
+        closeModal();
+
+      }
+
+    }
+  );
+
+
+function closeModal() {
+
+  document
+    .getElementById(
+      "modalOverlay"
+    )
+    .classList.remove(
+      "show"
+    );
+
+}
+
+
+// ======================================================
+// RENDER ALL
+// ======================================================
+
+function renderAll() {
+
+  renderDashboard();
+
+  renderCourses();
+
+  renderLessons();
+
+  renderProgress();
+
+  renderSales();
+
+  renderCalculator();
+
+  renderReports();
+
+}
+
+
+// ======================================================
+// INIT
+// ======================================================
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    renderAll();
+
+  }
+);
+
+
+// ======================================================
+// GLOBAL API
+// ======================================================
 
 window.AungAcademy = {
 
-    state,
+  state,
 
-    courses: DEFAULT_COURSES,
+  courses: COURSES,
 
-    navigateTo,
+  navigate,
 
-    renderAll,
+  renderAll,
 
-    renderDashboard,
+  completeLesson,
 
-    renderCourses,
+  getOverallProgress,
 
-    renderLessons,
-
-    renderProgress,
-
-    renderSales,
-
-    calculatePrice,
-
-    showToast,
-
-    openModal,
-
-    closeModal
+  getCourseProgress
 
 };

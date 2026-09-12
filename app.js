@@ -1,7 +1,7 @@
 // ======================================================
 // AUNG BUSINESS ACADEMY V8
 // BUSINESS + SALES + MARKETING + LEADERSHIP
-// FIXED LESSON CLICK VERSION
+// PROFESSIONAL LESSON SYSTEM
 // Myanmar Lesson Edition
 // ======================================================
 
@@ -12,6 +12,10 @@ const STORAGE_KEY = "aungBusinessAcademyV8";
 // ======================================================
 
 const COURSES = [
+
+  // ====================================================
+  // SALES MANAGEMENT
+  // ====================================================
 
   {
     id: "sales",
@@ -183,6 +187,10 @@ const COURSES = [
     ]
   },
 
+  // ====================================================
+  // BUSINESS FOUNDATION
+  // ====================================================
+
   {
     id: "business",
     title: "Business Foundation",
@@ -312,6 +320,10 @@ const COURSES = [
 
     ]
   },
+
+  // ====================================================
+  // MARKETING
+  // ====================================================
 
   {
     id: "marketing",
@@ -444,6 +456,10 @@ const COURSES = [
 
     ]
   },
+
+  // ====================================================
+  // LEADERSHIP
+  // ====================================================
 
   {
     id: "leadership",
@@ -672,7 +688,7 @@ function createDefaultState() {
 
 }
 
-let state = loadState();
+let state;
 
 // ======================================================
 // STORAGE
@@ -682,14 +698,18 @@ function loadState() {
 
   try {
 
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const saved =
+      localStorage.getItem(STORAGE_KEY);
 
     if (!saved) {
       return createDefaultState();
     }
 
-    const parsed = JSON.parse(saved);
-    const defaults = createDefaultState();
+    const parsed =
+      JSON.parse(saved);
+
+    const defaults =
+      createDefaultState();
 
     return {
 
@@ -735,7 +755,10 @@ function loadState() {
 
   } catch (error) {
 
-    console.error("Storage Error:", error);
+    console.error(
+      "Storage Error:",
+      error
+    );
 
     return createDefaultState();
 
@@ -745,10 +768,21 @@ function loadState() {
 
 function saveState() {
 
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(state)
-  );
+  try {
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(state)
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Save State Error:",
+      error
+    );
+
+  }
 
 }
 
@@ -774,12 +808,15 @@ function getCompletedCount() {
 
 function getOverallProgress() {
 
-  const total = getTotalLessons();
+  const total =
+    getTotalLessons();
 
   if (!total) return 0;
 
   return Math.round(
-    getCompletedCount() / total * 100
+    getCompletedCount() /
+    total *
+    100
   );
 
 }
@@ -801,8 +838,14 @@ function getCourseProgress(courseId) {
         )
     ).length;
 
+  if (!course.lessons.length) {
+    return 0;
+  }
+
   return Math.round(
-    completed / course.lessons.length * 100
+    completed /
+    course.lessons.length *
+    100
   );
 
 }
@@ -827,12 +870,55 @@ function getCourseCompleted(courseId) {
 
 function escapeHTML(value) {
 
-  return String(value)
+  return String(value ?? "")
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+
+}
+
+function getCurrentCourse() {
+
+  return (
+    COURSES.find(
+      course =>
+        course.id === state.currentCourseId
+    ) || COURSES[0]
+  );
+
+}
+
+function getCurrentLesson() {
+
+  const course =
+    getCurrentCourse();
+
+  let index =
+    Number(state.currentLessonIndex);
+
+  if (!Number.isFinite(index)) {
+    index = 0;
+  }
+
+  index =
+    Math.max(
+      0,
+      Math.min(
+        index,
+        course.lessons.length - 1
+      )
+    );
+
+  state.currentLessonIndex =
+    index;
+
+  return {
+    course,
+    index,
+    lesson: course.lessons[index]
+  };
 
 }
 
@@ -855,19 +941,29 @@ const pages = [
 
 function navigate(page) {
 
-  if (!pages.includes(page)) return;
+  if (!pages.includes(page)) {
+    return;
+  }
 
   document
     .querySelectorAll(".page")
-    .forEach(item =>
-      item.classList.remove("active")
-    );
+    .forEach(item => {
+
+      item.classList.remove("active");
+
+    });
 
   const targetPage =
-    document.getElementById(`page-${page}`);
+    document.getElementById(
+      `page-${page}`
+    );
 
   if (targetPage) {
-    targetPage.classList.add("active");
+
+    targetPage.classList.add(
+      "active"
+    );
+
   }
 
   document
@@ -897,20 +993,37 @@ function navigate(page) {
   };
 
   const breadcrumb =
-    document.getElementById("breadcrumbCurrent");
+    document.getElementById(
+      "breadcrumbCurrent"
+    );
 
   if (breadcrumb) {
+
     breadcrumb.textContent =
       names[page] || page;
+
   }
 
-  if (page === "dashboard") renderDashboard();
-  if (page === "courses") renderCourses();
-  if (page === "lessons") renderLessons();
-  if (page === "progress") renderProgress();
-  if (page === "sales") renderSales();
-  if (page === "calculator") renderCalculator();
-  if (page === "reports") renderReports();
+  if (page === "dashboard")
+    renderDashboard();
+
+  if (page === "courses")
+    renderCourses();
+
+  if (page === "lessons")
+    renderLessons();
+
+  if (page === "progress")
+    renderProgress();
+
+  if (page === "sales")
+    renderSales();
+
+  if (page === "calculator")
+    renderCalculator();
+
+  if (page === "reports")
+    renderReports();
 
   closeSidebar();
 
@@ -927,57 +1040,96 @@ function navigate(page) {
 
 function renderDashboard() {
 
-  const total = getTotalLessons();
-  const completed = getCompletedCount();
-  const progress = getOverallProgress();
+  const total =
+    getTotalLessons();
+
+  const completed =
+    getCompletedCount();
+
+  const progress =
+    getOverallProgress();
 
   const statCourses =
-    document.getElementById("statCourses");
+    document.getElementById(
+      "statCourses"
+    );
 
   const statLessons =
-    document.getElementById("statLessons");
+    document.getElementById(
+      "statLessons"
+    );
 
   const statCompleted =
-    document.getElementById("statCompleted");
+    document.getElementById(
+      "statCompleted"
+    );
 
   const statProgress =
-    document.getElementById("statProgress");
+    document.getElementById(
+      "statProgress"
+    );
 
-  if (statCourses) statCourses.textContent = COURSES.length;
-  if (statLessons) statLessons.textContent = total;
-  if (statCompleted) statCompleted.textContent = completed;
-  if (statProgress) statProgress.textContent = `${progress}%`;
+  if (statCourses)
+    statCourses.textContent =
+      COURSES.length;
+
+  if (statLessons)
+    statLessons.textContent =
+      total;
+
+  if (statCompleted)
+    statCompleted.textContent =
+      completed;
+
+  if (statProgress)
+    statProgress.textContent =
+      `${progress}%`;
 
   const course =
-    COURSES.find(
-      item => item.id === state.currentCourseId
-    ) || COURSES[0];
+    getCurrentCourse();
 
   const courseProgress =
-    getCourseProgress(course.id);
+    getCourseProgress(
+      course.id
+    );
 
   const courseCompleted =
-    getCourseCompleted(course.id);
+    getCourseCompleted(
+      course.id
+    );
 
   const title =
-    document.getElementById("dashboardCourseTitle");
+    document.getElementById(
+      "dashboardCourseTitle"
+    );
 
   const description =
-    document.getElementById("dashboardCourseDescription");
+    document.getElementById(
+      "dashboardCourseDescription"
+    );
 
   const progressText =
-    document.getElementById("dashboardProgressText");
+    document.getElementById(
+      "dashboardProgressText"
+    );
 
   const progressPercent =
-    document.getElementById("dashboardProgressPercent");
+    document.getElementById(
+      "dashboardProgressPercent"
+    );
 
   const progressBar =
-    document.getElementById("dashboardProgressBar");
+    document.getElementById(
+      "dashboardProgressBar"
+    );
 
-  if (title) title.textContent = course.title;
+  if (title)
+    title.textContent =
+      course.title;
 
   if (description)
-    description.textContent = course.description;
+    description.textContent =
+      course.description;
 
   if (progressText)
     progressText.textContent =
@@ -1004,10 +1156,14 @@ function renderDashboard() {
       : 0;
 
   const goalMinutes =
-    document.getElementById("goalMinutes");
+    document.getElementById(
+      "goalMinutes"
+    );
 
   const goalPercent =
-    document.getElementById("goalPercent");
+    document.getElementById(
+      "goalPercent"
+    );
 
   if (goalMinutes)
     goalMinutes.textContent =
@@ -1024,7 +1180,9 @@ function renderDashboard() {
 function renderActivity() {
 
   const container =
-    document.getElementById("activityList");
+    document.getElementById(
+      "activityList"
+    );
 
   if (!container) return;
 
@@ -1039,12 +1197,14 @@ function renderActivity() {
     `;
 
     return;
+
   }
 
   container.innerHTML =
     state.activity
       .slice(0, 5)
       .map(item => `
+
         <div class="activity-item">
 
           <div class="activity-icon">
@@ -1068,6 +1228,7 @@ function renderActivity() {
           </small>
 
         </div>
+
       `)
       .join("");
 
@@ -1077,10 +1238,14 @@ function renderActivity() {
 // COURSES
 // ======================================================
 
-function renderCourses(filter = "all") {
+function renderCourses(
+  filter = "all"
+) {
 
   const container =
-    document.getElementById("coursesGrid");
+    document.getElementById(
+      "coursesGrid"
+    );
 
   if (!container) return;
 
@@ -1088,19 +1253,25 @@ function renderCourses(filter = "all") {
     filter === "all"
       ? COURSES
       : COURSES.filter(
-          course => course.category === filter
+          course =>
+            course.category === filter
         );
 
   container.innerHTML =
     courses.map(course => {
 
       const progress =
-        getCourseProgress(course.id);
+        getCourseProgress(
+          course.id
+        );
 
       const completed =
-        getCourseCompleted(course.id);
+        getCourseCompleted(
+          course.id
+        );
 
       return `
+
         <div class="course-card">
 
           <div class="course-card-top">
@@ -1156,12 +1327,17 @@ function renderCourses(filter = "all") {
               class="secondary-btn open-course"
               data-course="${course.id}"
             >
-              ${progress > 0 ? "Continue" : "Start Course"}
+              ${
+                progress > 0
+                  ? "Continue"
+                  : "Start Course"
+              }
             </button>
 
           </div>
 
         </div>
+
       `;
 
     }).join("");
@@ -1175,30 +1351,50 @@ function renderCourses(filter = "all") {
 function renderLessons() {
 
   const courseList =
-    document.getElementById("lessonCourseList");
+    document.getElementById(
+      "lessonCourseList"
+    );
 
   const content =
-    document.getElementById("lessonContent");
+    document.getElementById(
+      "lessonContent"
+    );
 
   if (!courseList || !content) {
+
     console.error(
-      "Lesson elements not found. Check index.html IDs."
+      "Lesson elements not found."
     );
+
     return;
+
   }
+
+  // ----------------------------------------------------
+  // COURSE LIST
+  // ----------------------------------------------------
 
   courseList.innerHTML =
     COURSES.map(course => {
 
       const progress =
-        getCourseProgress(course.id);
+        getCourseProgress(
+          course.id
+        );
+
+      const completed =
+        getCourseCompleted(
+          course.id
+        );
 
       const active =
-        state.currentCourseId === course.id
+        state.currentCourseId ===
+        course.id
           ? "active"
           : "";
 
       return `
+
         <button
           type="button"
           class="lesson-course-item ${active}"
@@ -1216,8 +1412,7 @@ function renderLessons() {
             </strong>
 
             <span>
-              ${getCourseCompleted(course.id)}
-              /${course.lessons.length}
+              ${completed}/${course.lessons.length}
               completed
             </span>
 
@@ -1232,34 +1427,41 @@ function renderLessons() {
           </div>
 
         </button>
+
       `;
 
     }).join("");
 
+  // ----------------------------------------------------
+  // CURRENT LESSON
+  // ----------------------------------------------------
+
+  const current =
+    getCurrentLesson();
+
   const course =
-    COURSES.find(
-      item => item.id === state.currentCourseId
-    ) || COURSES[0];
+    current.course;
 
-  let index =
-    Number(state.currentLessonIndex) || 0;
-
-  if (index < 0) index = 0;
-
-  if (index >= course.lessons.length) {
-    index = course.lessons.length - 1;
-  }
-
-  state.currentLessonIndex = index;
+  const index =
+    current.index;
 
   const lesson =
-    course.lessons[index];
+    current.lesson;
 
   const lessonKey =
     `${course.id}-${index}`;
 
   const completed =
-    state.completedLessons.includes(lessonKey);
+    state.completedLessons.includes(
+      lessonKey
+    );
+
+  const isFirst =
+    index === 0;
+
+  const isLast =
+    index ===
+    course.lessons.length - 1;
 
   content.innerHTML = `
 
@@ -1309,7 +1511,8 @@ function renderLessons() {
         type="button"
         class="secondary-btn"
         id="previousLessonBtn"
-        ${index === 0 ? "disabled" : ""}
+        data-lesson-action="previous"
+        ${isFirst ? "disabled" : ""}
       >
         ← Previous
       </button>
@@ -1318,6 +1521,7 @@ function renderLessons() {
         type="button"
         class="primary-btn"
         id="completeLessonBtn"
+        data-lesson-action="complete"
       >
         ${
           completed
@@ -1330,84 +1534,80 @@ function renderLessons() {
         type="button"
         class="secondary-btn"
         id="nextLessonBtn"
-        ${
-          index === course.lessons.length - 1
-            ? "disabled"
-            : ""
-        }
+        data-lesson-action="next"
+        ${isLast ? "disabled" : ""}
       >
         Next →
       </button>
 
     </div>
+
   `;
 
-  // ----------------------------------------------------
-  // LESSON NAVIGATION
-  // ----------------------------------------------------
+}
 
-  const previousBtn =
-    document.getElementById("previousLessonBtn");
+// ======================================================
+// LESSON NAVIGATION
+// ======================================================
 
-  if (previousBtn) {
+function previousLesson() {
 
-    previousBtn.onclick = function () {
+  const course =
+    getCurrentCourse();
 
-      if (state.currentLessonIndex > 0) {
+  if (
+    state.currentLessonIndex <= 0
+  ) {
 
-        state.currentLessonIndex--;
+    showToast(
+      "ဒါက ပထမဆုံး Lesson ဖြစ်ပါတယ်။"
+    );
 
-        saveState();
-
-        renderLessons();
-
-      }
-
-    };
+    return;
 
   }
 
-  const nextBtn =
-    document.getElementById("nextLessonBtn");
+  state.currentLessonIndex--;
 
-  if (nextBtn) {
+  saveState();
 
-    nextBtn.onclick = function () {
+  renderLessons();
 
-      if (
-        state.currentLessonIndex <
-        course.lessons.length - 1
-      ) {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 
-        state.currentLessonIndex++;
+}
 
-        saveState();
+function nextLesson() {
 
-        renderLessons();
+  const course =
+    getCurrentCourse();
 
-      }
+  if (
+    state.currentLessonIndex >=
+    course.lessons.length - 1
+  ) {
 
-    };
+    showToast(
+      "ဒီ Course ရဲ့ နောက်ဆုံး Lesson ရောက်နေပါပြီ။"
+    );
 
-  }
-
-  const completeBtn =
-    document.getElementById("completeLessonBtn");
-
-  if (completeBtn) {
-
-    completeBtn.onclick = function () {
-
-      completeLesson(
-        course.id,
-        state.currentLessonIndex,
-        lesson.title,
-        course.title
-      );
-
-    };
+    return;
 
   }
+
+  state.currentLessonIndex++;
+
+  saveState();
+
+  renderLessons();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 
 }
 
@@ -1425,9 +1625,16 @@ function completeLesson(
   const key =
     `${courseId}-${index}`;
 
-  if (!state.completedLessons.includes(key)) {
+  const alreadyCompleted =
+    state.completedLessons.includes(
+      key
+    );
 
-    state.completedLessons.push(key);
+  if (!alreadyCompleted) {
+
+    state.completedLessons.push(
+      key
+    );
 
     state.dailyGoal.minutes =
       Math.min(
@@ -1437,9 +1644,14 @@ function completeLesson(
 
     state.activity.unshift({
 
-      title: lessonTitle,
-      course: courseTitle,
-      time: "Just now"
+      title:
+        lessonTitle,
+
+      course:
+        courseTitle,
+
+      time:
+        "Just now"
 
     });
 
@@ -1447,7 +1659,10 @@ function completeLesson(
       state.activity.slice(0, 10);
 
     state.streak =
-      Math.max(1, state.streak);
+      Math.max(
+        1,
+        state.streak
+      );
 
     saveState();
 
@@ -1486,24 +1701,45 @@ function renderProgress() {
     getTotalLessons();
 
   const overall =
-    document.getElementById("overallProgress");
+    document.getElementById(
+      "overallProgress"
+    );
 
   const completedEl =
-    document.getElementById("progressCompleted");
+    document.getElementById(
+      "progressCompleted"
+    );
 
   const remainingEl =
-    document.getElementById("progressRemaining");
+    document.getElementById(
+      "progressRemaining"
+    );
 
   const streakEl =
-    document.getElementById("progressStreak");
+    document.getElementById(
+      "progressStreak"
+    );
 
-  if (overall) overall.textContent = `${progress}%`;
-  if (completedEl) completedEl.textContent = completed;
-  if (remainingEl) remainingEl.textContent = total - completed;
-  if (streakEl) streakEl.textContent = state.streak;
+  if (overall)
+    overall.textContent =
+      `${progress}%`;
+
+  if (completedEl)
+    completedEl.textContent =
+      completed;
+
+  if (remainingEl)
+    remainingEl.textContent =
+      total - completed;
+
+  if (streakEl)
+    streakEl.textContent =
+      state.streak;
 
   const container =
-    document.getElementById("courseProgressList");
+    document.getElementById(
+      "courseProgressList"
+    );
 
   if (!container) return;
 
@@ -1511,12 +1747,17 @@ function renderProgress() {
     COURSES.map(course => {
 
       const p =
-        getCourseProgress(course.id);
+        getCourseProgress(
+          course.id
+        );
 
       const completedCourse =
-        getCourseCompleted(course.id);
+        getCourseCompleted(
+          course.id
+        );
 
       return `
+
         <div class="course-progress-row">
 
           <div class="course-progress-name">
@@ -1543,7 +1784,9 @@ function renderProgress() {
           <div class="course-progress-bar">
 
             <div>
-              <span style="width:${p}%"></span>
+              <span
+                style="width:${p}%"
+              ></span>
             </div>
 
           </div>
@@ -1553,6 +1796,7 @@ function renderProgress() {
           </strong>
 
         </div>
+
       `;
 
     }).join("");
@@ -1573,37 +1817,72 @@ function renderSales() {
 
   const achievement =
     target > 0
-      ? Math.round(actual / target * 100)
+      ? Math.round(
+          actual /
+          target *
+          100
+        )
       : 0;
 
   const gap =
-    Math.max(target - actual, 0);
+    Math.max(
+      target - actual,
+      0
+    );
 
   const targetEl =
-    document.getElementById("salesTargetDisplay");
+    document.getElementById(
+      "salesTargetDisplay"
+    );
 
   const actualEl =
-    document.getElementById("salesActualDisplay");
+    document.getElementById(
+      "salesActualDisplay"
+    );
 
   const achievementEl =
-    document.getElementById("salesAchievementDisplay");
+    document.getElementById(
+      "salesAchievementDisplay"
+    );
 
   const gapEl =
-    document.getElementById("salesGapDisplay");
+    document.getElementById(
+      "salesGapDisplay"
+    );
 
-  if (targetEl) targetEl.textContent = target;
-  if (actualEl) actualEl.textContent = actual;
-  if (achievementEl) achievementEl.textContent = `${achievement}%`;
-  if (gapEl) gapEl.textContent = gap;
+  if (targetEl)
+    targetEl.textContent =
+      target;
+
+  if (actualEl)
+    actualEl.textContent =
+      actual;
+
+  if (achievementEl)
+    achievementEl.textContent =
+      `${achievement}%`;
+
+  if (gapEl)
+    gapEl.textContent =
+      gap;
 
   const targetInput =
-    document.getElementById("salesTargetInput");
+    document.getElementById(
+      "salesTargetInput"
+    );
 
   const actualInput =
-    document.getElementById("salesActualInput");
+    document.getElementById(
+      "salesActualInput"
+    );
 
-  if (targetInput) targetInput.value = target;
-  if (actualInput) actualInput.value = actual;
+  if (targetInput)
+    targetInput.value =
+      target;
+
+  if (actualInput)
+    actualInput.value =
+      actual;
 
   renderSalesChart();
   renderPriorities();
@@ -1613,26 +1892,46 @@ function renderSales() {
 function renderSalesChart() {
 
   const container =
-    document.getElementById("salesChart");
+    document.getElementById(
+      "salesChart"
+    );
 
   if (!container) return;
 
   const history =
-    Array.isArray(state.sales.history)
+    Array.isArray(
+      state.sales.history
+    )
       ? state.sales.history
       : [];
 
+  if (!history.length) {
+
+    container.innerHTML = "";
+
+    return;
+
+  }
+
   const max =
-    Math.max(...history, 100);
+    Math.max(
+      ...history,
+      100
+    );
 
   container.innerHTML =
     history.map(
       (value, index) => {
 
         const height =
-          Math.round(value / max * 100);
+          Math.round(
+            value /
+            max *
+            100
+          );
 
         return `
+
           <div class="chart-bar-group">
 
             <span class="chart-value">
@@ -1649,6 +1948,7 @@ function renderSalesChart() {
             </small>
 
           </div>
+
         `;
 
       }
@@ -1659,18 +1959,30 @@ function renderSalesChart() {
 function renderPriorities() {
 
   const container =
-    document.getElementById("priorityList");
+    document.getElementById(
+      "priorityList"
+    );
 
   if (!container) return;
 
   if (!state.sales.priorities.length) {
 
     container.innerHTML = `
+
       <div class="empty-state">
+
         <div>🎯</div>
-        <strong>No priority</strong>
-        <span>Add your next execution priority.</span>
+
+        <strong>
+          No priority
+        </strong>
+
+        <span>
+          Add your next execution priority.
+        </span>
+
       </div>
+
     `;
 
     return;
@@ -1680,6 +1992,7 @@ function renderPriorities() {
   container.innerHTML =
     state.sales.priorities.map(
       (item, index) => `
+
         <div class="priority-item">
 
           <div class="priority-number">
@@ -1699,6 +2012,7 @@ function renderPriorities() {
           </button>
 
         </div>
+
       `
     ).join("");
 
@@ -1711,35 +2025,53 @@ function renderPriorities() {
 function calculatePrice() {
 
   const productInput =
-    document.getElementById("productName");
+    document.getElementById(
+      "productName"
+    );
 
   const costInput =
-    document.getElementById("productCost");
+    document.getElementById(
+      "productCost"
+    );
 
   const marginInput =
-    document.getElementById("productMargin");
+    document.getElementById(
+      "productMargin"
+    );
 
-  if (!productInput || !costInput || !marginInput) {
+  if (
+    !productInput ||
+    !costInput ||
+    !marginInput
+  ) {
     return;
   }
 
   const product =
-    productInput.value.trim() || "Product";
+    productInput.value.trim() ||
+    "Product";
 
   const cost =
-    Number(costInput.value) || 0;
+    Number(
+      costInput.value
+    ) || 0;
 
   const margin =
     Math.max(
       0,
       Math.min(
         99.99,
-        Number(marginInput.value) || 0
+        Number(
+          marginInput.value
+        ) || 0
       )
     );
 
   const price =
-    cost / (1 - margin / 100);
+    margin >= 100
+      ? 0
+      : cost /
+        (1 - margin / 100);
 
   const profit =
     price - cost;
@@ -1753,34 +2085,49 @@ function calculatePrice() {
   saveState();
 
   const resultProduct =
-    document.getElementById("resultProduct");
+    document.getElementById(
+      "resultProduct"
+    );
 
   const resultPrice =
-    document.getElementById("resultPrice");
+    document.getElementById(
+      "resultPrice"
+    );
 
   const resultCost =
-    document.getElementById("resultCost");
+    document.getElementById(
+      "resultCost"
+    );
 
   const resultProfit =
-    document.getElementById("resultProfit");
+    document.getElementById(
+      "resultProfit"
+    );
 
   const resultMargin =
-    document.getElementById("resultMargin");
+    document.getElementById(
+      "resultMargin"
+    );
 
   if (resultProduct)
-    resultProduct.textContent = product;
+    resultProduct.textContent =
+      product;
 
   if (resultPrice)
-    resultPrice.textContent = formatMoney(price);
+    resultPrice.textContent =
+      formatMoney(price);
 
   if (resultCost)
-    resultCost.textContent = formatMoney(cost);
+    resultCost.textContent =
+      formatMoney(cost);
 
   if (resultProfit)
-    resultProfit.textContent = formatMoney(profit);
+    resultProfit.textContent =
+      formatMoney(profit);
 
   if (resultMargin)
-    resultMargin.textContent = `${margin}%`;
+    resultMargin.textContent =
+      `${margin}%`;
 
 }
 
@@ -1794,22 +2141,40 @@ function formatMoney(number) {
 
 function renderCalculator() {
 
-  const data = state.calculator;
+  const data =
+    state.calculator;
 
   const product =
-    document.getElementById("productName");
+    document.getElementById(
+      "productName"
+    );
 
   const cost =
-    document.getElementById("productCost");
+    document.getElementById(
+      "productCost"
+    );
 
   const margin =
-    document.getElementById("productMargin");
+    document.getElementById(
+      "productMargin"
+    );
 
-  if (!product || !cost || !margin) return;
+  if (
+    !product ||
+    !cost ||
+    !margin
+  ) {
+    return;
+  }
 
-  product.value = data.product;
-  cost.value = data.cost;
-  margin.value = data.margin;
+  product.value =
+    data.product;
+
+  cost.value =
+    data.cost;
+
+  margin.value =
+    data.margin;
 
   calculatePrice();
 
@@ -1828,37 +2193,55 @@ function renderReports() {
     getCompletedCount();
 
   const reportCourses =
-    document.getElementById("reportCourses");
+    document.getElementById(
+      "reportCourses"
+    );
 
   const reportLessons =
-    document.getElementById("reportLessons");
+    document.getElementById(
+      "reportLessons"
+    );
 
   const reportCompleted =
-    document.getElementById("reportCompleted");
+    document.getElementById(
+      "reportCompleted"
+    );
 
   const reportStreak =
-    document.getElementById("reportStreak");
+    document.getElementById(
+      "reportStreak"
+    );
 
   const reportSalesTarget =
-    document.getElementById("reportSalesTarget");
+    document.getElementById(
+      "reportSalesTarget"
+    );
 
   const reportSalesActual =
-    document.getElementById("reportSalesActual");
+    document.getElementById(
+      "reportSalesActual"
+    );
 
   const reportSalesAchievement =
-    document.getElementById("reportSalesAchievement");
+    document.getElementById(
+      "reportSalesAchievement"
+    );
 
   if (reportCourses)
-    reportCourses.textContent = COURSES.length;
+    reportCourses.textContent =
+      COURSES.length;
 
   if (reportLessons)
-    reportLessons.textContent = total;
+    reportLessons.textContent =
+      total;
 
   if (reportCompleted)
-    reportCompleted.textContent = completed;
+    reportCompleted.textContent =
+      completed;
 
   if (reportStreak)
-    reportStreak.textContent = state.streak;
+    reportStreak.textContent =
+      state.streak;
 
   if (reportSalesTarget)
     reportSalesTarget.textContent =
@@ -1902,7 +2285,10 @@ function getAIResponse(question) {
   ) {
 
     return `
-      <strong>အဖွဲ့လုပ်ဆောင်ရည် မြှင့်တင်ရန်</strong>
+
+      <strong>
+        အဖွဲ့လုပ်ဆောင်ရည် မြှင့်တင်ရန်
+      </strong>
 
       <p>
         ပထမဆုံး Target နဲ့ Actual ကို နှိုင်းယှဉ်ပြီး
@@ -1920,6 +2306,7 @@ function getAIResponse(question) {
         Micromanagement မလုပ်ဘဲ Coaching နဲ့ Empowerment
         ကို အသုံးပြုပါ။
       </p>
+
     `;
 
   }
@@ -1930,7 +2317,10 @@ function getAIResponse(question) {
   ) {
 
     return `
-      <strong>Customer Growth တိုးတက်စေရန်</strong>
+
+      <strong>
+        Customer Growth တိုးတက်စေရန်
+      </strong>
 
       <p>
         Customer တွေကို Value နဲ့ Potential အလိုက် ခွဲခြားပါ။
@@ -1945,6 +2335,7 @@ function getAIResponse(question) {
         Visit Plan၊ Follow-up Plan နဲ့
         Customer Development Plan တည်ဆောက်ပါ။
       </p>
+
     `;
 
   }
@@ -1957,7 +2348,10 @@ function getAIResponse(question) {
   ) {
 
     return `
-      <strong>Sales Target တိုးတက်စေရန်</strong>
+
+      <strong>
+        Sales Target တိုးတက်စေရန်
+      </strong>
 
       <p>
         လစဉ် Target ကို အပတ်စဉ်နဲ့ နေ့စဉ် Target အဖြစ် ခွဲပါ။
@@ -1972,6 +2366,7 @@ function getAIResponse(question) {
         People၊ Market နဲ့ Execution သုံးခုအပေါ်
         Action Plan ချပြီး အပတ်စဉ် Review ပြုလုပ်ပါ။
       </p>
+
     `;
 
   }
@@ -1983,7 +2378,10 @@ function getAIResponse(question) {
   ) {
 
     return `
-      <strong>Pricing Strategy</strong>
+
+      <strong>
+        Pricing Strategy
+      </strong>
 
       <p>
         Cost တစ်ခုတည်းကို မကြည့်ဘဲ Customer Value၊
@@ -1994,12 +2392,16 @@ function getAIResponse(question) {
         Margin မလုံလောက်ရင် ရောင်းအားတက်နေသော်လည်း
         Profit ကျဆင်းနိုင်ပါတယ်။
       </p>
+
     `;
 
   }
 
   return `
-    <strong>Business Manager အနေနဲ့</strong>
+
+    <strong>
+      Business Manager အနေနဲ့
+    </strong>
 
     <p>
       ပြဿနာတစ်ခုကို ဖြေရှင်းတဲ့အခါ
@@ -2011,6 +2413,7 @@ function getAIResponse(question) {
       ရလဒ်ကို တိုင်းတာပါ။ အကြီးမားဆုံး Gap ကို ရှာပါ။
       Root Cause ကို သတ်မှတ်ပြီး Action Plan ချမှတ်ပါ။
     </p>
+
   `;
 
 }
@@ -2020,13 +2423,16 @@ function sendAIMessage(question) {
   if (!question.trim()) return;
 
   const container =
-    document.getElementById("chatMessages");
+    document.getElementById(
+      "chatMessages"
+    );
 
   if (!container) return;
 
   container.insertAdjacentHTML(
     "beforeend",
     `
+
       <div class="chat-message user">
 
         <div class="message-avatar">
@@ -2035,7 +2441,9 @@ function sendAIMessage(question) {
 
         <div class="message-content">
 
-          <strong>You</strong>
+          <strong>
+            You
+          </strong>
 
           <p>
             ${escapeHTML(question)}
@@ -2044,6 +2452,7 @@ function sendAIMessage(question) {
         </div>
 
       </div>
+
     `
   );
 
@@ -2055,6 +2464,7 @@ function sendAIMessage(question) {
     container.insertAdjacentHTML(
       "beforeend",
       `
+
         <div class="chat-message assistant">
 
           <div class="message-avatar">
@@ -2074,6 +2484,7 @@ function sendAIMessage(question) {
           </div>
 
         </div>
+
       `
     );
 
@@ -2112,14 +2523,18 @@ function openAITool(tool) {
   navigate("ai-coach");
 
   const input =
-    document.getElementById("chatInput");
+    document.getElementById(
+      "chatInput"
+    );
 
   if (!input) return;
 
   input.value =
     messages[tool] || "";
 
-  sendAIMessage(input.value);
+  sendAIMessage(
+    input.value
+  );
 
   input.value = "";
 
@@ -2139,15 +2554,23 @@ function performSearch(query) {
   const course =
     COURSES.find(course =>
 
-      course.title.toLowerCase().includes(text) ||
-      course.description.toLowerCase().includes(text)
+      course.title
+        .toLowerCase()
+        .includes(text) ||
+
+      course.description
+        .toLowerCase()
+        .includes(text)
 
     );
 
   if (course) {
 
-    state.currentCourseId = course.id;
-    state.currentLessonIndex = 0;
+    state.currentCourseId =
+      course.id;
+
+    state.currentLessonIndex =
+      0;
 
     saveState();
 
@@ -2157,27 +2580,44 @@ function performSearch(query) {
 
   }
 
-  for (const course of COURSES) {
+  for (
+    const course of COURSES
+  ) {
 
     const index =
-      course.lessons.findIndex(lesson => {
+      course.lessons.findIndex(
+        lesson => {
 
-        const plainContent =
-          lesson.content
-            .replace(/<[^>]*>/g, "")
-            .toLowerCase();
+          const plainContent =
+            lesson.content
+              .replace(
+                /<[^>]*>/g,
+                ""
+              )
+              .toLowerCase();
 
-        return (
-          lesson.title.toLowerCase().includes(text) ||
-          plainContent.includes(text)
-        );
+          return (
 
-      });
+            lesson.title
+              .toLowerCase()
+              .includes(text) ||
+
+            plainContent.includes(
+              text
+            )
+
+          );
+
+        }
+      );
 
     if (index !== -1) {
 
-      state.currentCourseId = course.id;
-      state.currentLessonIndex = index;
+      state.currentCourseId =
+        course.id;
+
+      state.currentLessonIndex =
+        index;
 
       saveState();
 
@@ -2230,22 +2670,37 @@ function closeSidebar() {
 function showToast(message) {
 
   const toast =
-    document.getElementById("toast");
+    document.getElementById(
+      "toast"
+    );
 
   const toastMessage =
-    document.getElementById("toastMessage");
+    document.getElementById(
+      "toastMessage"
+    );
 
-  if (!toast || !toastMessage) return;
+  if (!toast || !toastMessage)
+    return;
 
-  toastMessage.textContent = message;
+  toastMessage.textContent =
+    message;
 
-  toast.classList.add("show");
+  toast.classList.add(
+    "show"
+  );
 
-  setTimeout(() => {
+  clearTimeout(
+    showToast.timer
+  );
 
-    toast.classList.remove("show");
+  showToast.timer =
+    setTimeout(() => {
 
-  }, 2500);
+      toast.classList.remove(
+        "show"
+      );
+
+    }, 2500);
 
 }
 
@@ -2256,29 +2711,77 @@ function showToast(message) {
 function closeModal() {
 
   document
-    .getElementById("modalOverlay")
-    ?.classList.remove("show");
+    .getElementById(
+      "modalOverlay"
+    )
+    ?.classList.remove(
+      "show"
+    );
+
+}
+
+// ======================================================
+// LESSON ACTION HANDLER
+// ======================================================
+
+function handleLessonAction(
+  action
+) {
+
+  if (action === "previous") {
+
+    previousLesson();
+
+    return;
+
+  }
+
+  if (action === "next") {
+
+    nextLesson();
+
+    return;
+
+  }
+
+  if (action === "complete") {
+
+    const current =
+      getCurrentLesson();
+
+    completeLesson(
+      current.course.id,
+      current.index,
+      current.lesson.title,
+      current.course.title
+    );
+
+  }
 
 }
 
 // ======================================================
 // INITIALIZE EVENTS
-// IMPORTANT FIX
 // ======================================================
 
 function initializeApp() {
 
   // ----------------------------------------------------
-  // GLOBAL CLICK
+  // GLOBAL CLICK DELEGATION
   // ----------------------------------------------------
 
   document.addEventListener(
     "click",
     event => {
 
-      // Navigation
+      // ------------------------------------------------
+      // NAVIGATION
+      // ------------------------------------------------
+
       const nav =
-        event.target.closest(".nav-item");
+        event.target.closest(
+          ".nav-item"
+        );
 
       if (nav) {
 
@@ -2292,9 +2795,14 @@ function initializeApp() {
 
       }
 
-      // Data Go
+      // ------------------------------------------------
+      // DATA GO
+      // ------------------------------------------------
+
       const go =
-        event.target.closest("[data-go]");
+        event.target.closest(
+          "[data-go]"
+        );
 
       if (go) {
 
@@ -2308,9 +2816,14 @@ function initializeApp() {
 
       }
 
-      // Course Start / Continue
+      // ------------------------------------------------
+      // COURSE START / CONTINUE
+      // ------------------------------------------------
+
       const openCourse =
-        event.target.closest(".open-course");
+        event.target.closest(
+          ".open-course"
+        );
 
       if (openCourse) {
 
@@ -2319,29 +2832,30 @@ function initializeApp() {
         const courseId =
           openCourse.dataset.course;
 
-        if (
-          COURSES.some(
-            course => course.id === courseId
-          )
-        ) {
+        const course =
+          COURSES.find(
+            item =>
+              item.id === courseId
+          );
 
-          state.currentCourseId =
-            courseId;
+        if (!course) return;
 
-          state.currentLessonIndex = 0;
+        state.currentCourseId =
+          courseId;
 
-          saveState();
+        state.currentLessonIndex =
+          0;
 
-          navigate("lessons");
+        saveState();
 
-        }
+        navigate("lessons");
 
         return;
 
       }
 
       // ------------------------------------------------
-      // LESSON COURSE BUTTON
+      // LESSON COURSE
       // ------------------------------------------------
 
       const lessonCourse =
@@ -2358,7 +2872,8 @@ function initializeApp() {
 
         const course =
           COURSES.find(
-            item => item.id === courseId
+            item =>
+              item.id === courseId
           );
 
         if (!course) return;
@@ -2366,11 +2881,39 @@ function initializeApp() {
         state.currentCourseId =
           courseId;
 
-        state.currentLessonIndex = 0;
+        state.currentLessonIndex =
+          0;
 
         saveState();
 
         renderLessons();
+
+        return;
+
+      }
+
+      // ------------------------------------------------
+      // LESSON PREVIOUS / NEXT / COMPLETE
+      // ------------------------------------------------
+
+      const lessonAction =
+        event.target.closest(
+          "[data-lesson-action]"
+        );
+
+      if (lessonAction) {
+
+        event.preventDefault();
+
+        if (
+          lessonAction.disabled
+        ) {
+          return;
+        }
+
+        handleLessonAction(
+          lessonAction.dataset.lessonAction
+        );
 
         return;
 
@@ -2394,10 +2937,19 @@ function initializeApp() {
 
         if (!courseId) return;
 
+        const course =
+          COURSES.find(
+            item =>
+              item.id === courseId
+          );
+
+        if (!course) return;
+
         state.currentCourseId =
           courseId;
 
-        state.currentLessonIndex = 0;
+        state.currentLessonIndex =
+          0;
 
         saveState();
 
@@ -2418,21 +2970,88 @@ function initializeApp() {
 
       if (deletePriority) {
 
+        event.preventDefault();
+
         const index =
-          Number(deletePriority.dataset.index);
+          Number(
+            deletePriority.dataset.index
+          );
 
-        state.sales.priorities.splice(
-          index,
-          1
+        if (
+          Number.isInteger(index) &&
+          index >= 0 &&
+          index <
+            state.sales.priorities.length
+        ) {
+
+          state.sales.priorities.splice(
+            index,
+            1
+          );
+
+          saveState();
+
+          renderPriorities();
+
+          showToast(
+            "Priority ဖျက်ပြီးပါပြီ။"
+          );
+
+        }
+
+        return;
+
+      }
+
+      // ------------------------------------------------
+      // AI QUESTIONS
+      // ------------------------------------------------
+
+      const aiQuestion =
+        event.target.closest(
+          ".ai-question"
         );
 
-        saveState();
+      if (aiQuestion) {
 
-        renderPriorities();
+        const input =
+          document.getElementById(
+            "chatInput"
+          );
 
-        showToast(
-          "Priority ဖျက်ပြီးပါပြီ။"
+        const send =
+          document.getElementById(
+            "sendChatBtn"
+          );
+
+        if (!input || !send)
+          return;
+
+        input.value =
+          aiQuestion.textContent.trim();
+
+        send.click();
+
+        return;
+
+      }
+
+      // ------------------------------------------------
+      // AI TOOLS
+      // ------------------------------------------------
+
+      const aiTool =
+        event.target.closest(
+          ".ai-tool-card"
         );
+
+      if (aiTool) {
+
+        openAITool(
+          aiTool.dataset.tool
+        );
+
+        return;
 
       }
 
@@ -2444,7 +3063,9 @@ function initializeApp() {
   // ----------------------------------------------------
 
   document
-    .querySelectorAll(".filter-tab")
+    .querySelectorAll(
+      ".filter-tab"
+    )
     .forEach(button => {
 
       button.addEventListener(
@@ -2452,12 +3073,18 @@ function initializeApp() {
         () => {
 
           document
-            .querySelectorAll(".filter-tab")
+            .querySelectorAll(
+              ".filter-tab"
+            )
             .forEach(item =>
-              item.classList.remove("active")
+              item.classList.remove(
+                "active"
+              )
             );
 
-          button.classList.add("active");
+          button.classList.add(
+            "active"
+          );
 
           renderCourses(
             button.dataset.filter
@@ -2630,17 +3257,27 @@ function initializeApp() {
       "chatInput"
     );
 
-  if (sendChatBtn && chatInput) {
+  if (
+    sendChatBtn &&
+    chatInput
+  ) {
 
     sendChatBtn.addEventListener(
       "click",
       () => {
 
+        const value =
+          chatInput.value;
+
+        if (!value.trim())
+          return;
+
         sendAIMessage(
-          chatInput.value
+          value
         );
 
-        chatInput.value = "";
+        chatInput.value =
+          "";
 
       }
     );
@@ -2649,7 +3286,10 @@ function initializeApp() {
       "keydown",
       event => {
 
-        if (event.key === "Enter") {
+        if (
+          event.key ===
+          "Enter"
+        ) {
 
           event.preventDefault();
 
@@ -2661,61 +3301,6 @@ function initializeApp() {
     );
 
   }
-
-  // ----------------------------------------------------
-  // AI QUICK QUESTIONS
-  // ----------------------------------------------------
-
-  document
-    .querySelectorAll(".ai-question")
-    .forEach(button => {
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          const input =
-            document.getElementById(
-              "chatInput"
-            );
-
-          const send =
-            document.getElementById(
-              "sendChatBtn"
-            );
-
-          if (!input || !send) return;
-
-          input.value =
-            button.textContent.trim();
-
-          send.click();
-
-        }
-      );
-
-    });
-
-  // ----------------------------------------------------
-  // AI TOOLS
-  // ----------------------------------------------------
-
-  document
-    .querySelectorAll(".ai-tool-card")
-    .forEach(button => {
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          openAITool(
-            button.dataset.tool
-          );
-
-        }
-      );
-
-    });
 
   // ----------------------------------------------------
   // SEARCH
@@ -2732,7 +3317,10 @@ function initializeApp() {
       "keydown",
       event => {
 
-        if (event.key === "Enter") {
+        if (
+          event.key ===
+          "Enter"
+        ) {
 
           performSearch(
             event.target.value
@@ -2843,7 +3431,8 @@ function initializeApp() {
             "Aung Business Academy ရဲ့ Learning Progress အားလုံးကို Reset လုပ်မှာ သေချာပါသလား?"
           );
 
-        if (!confirmed) return;
+        if (!confirmed)
+          return;
 
         localStorage.removeItem(
           STORAGE_KEY
@@ -2941,11 +3530,17 @@ function initializeApp() {
 function renderAll() {
 
   renderDashboard();
+
   renderCourses();
+
   renderLessons();
+
   renderProgress();
+
   renderSales();
+
   renderCalculator();
+
   renderReports();
 
   const reminder =
@@ -2959,13 +3554,17 @@ function renderAll() {
     );
 
   if (reminder) {
+
     reminder.checked =
-      state.settings.reminder;
+      !!state.settings.reminder;
+
   }
 
   if (tracking) {
+
     tracking.checked =
-      state.settings.tracking;
+      !!state.settings.tracking;
+
   }
 
 }
@@ -2975,6 +3574,9 @@ function renderAll() {
 // ======================================================
 
 function initAcademy() {
+
+  state =
+    loadState();
 
   console.log(
     "Aung Business Academy V8 initialized."
@@ -2997,7 +3599,10 @@ if (
 
   document.addEventListener(
     "DOMContentLoaded",
-    initAcademy
+    initAcademy,
+    {
+      once: true
+    }
   );
 
 } else {
@@ -3016,7 +3621,8 @@ window.AungAcademy = {
     return state;
   },
 
-  courses: COURSES,
+  courses:
+    COURSES,
 
   navigate,
 
@@ -3025,6 +3631,10 @@ window.AungAcademy = {
   renderLessons,
 
   completeLesson,
+
+  previousLesson,
+
+  nextLesson,
 
   getOverallProgress,
 

@@ -1,1635 +1,2284 @@
-// ============================================================
-// AUNG BUSINESS ACADEMY
-// APP.JS V6
-// FULL BUSINESS ACADEMY EDITION
-// Dashboard + Lessons + Tools + AI + Business Plan
-// KPI + Sales + Finance + Growth + Premium + Profile
-// ============================================================
-
-(function () {
-  "use strict";
-
-  // ============================================================
-  // CONFIG
-  // ============================================================
-
-  const API_BASE_URL = "https://aung-business-academy.onrender.com";
-  const AI_API_URL = API_BASE_URL + "/api/ai";
-
-  const USER_KEY = "aung_business_academy_user";
-  const COMPLETED_KEY = "aung_business_academy_completed";
-  const TRIAL_KEY = "aung_business_academy_trial";
-  const NOTES_KEY = "aung_business_academy_notes";
-  const PLAN_KEY = "aung_business_academy_plan";
-  const KPI_KEY = "aung_business_academy_kpi";
-  const SETTINGS_KEY = "aung_business_academy_settings";
-
-  // ============================================================
-  // LESSON DATA
-  // ============================================================
-
-  const lessons = [
-    {id:1,title:"Business Fundamentals",category:"Business",level:"Beginner",description:"Understand the basic principles of business.",content:"Business starts with solving customer problems and creating value."},
-    {id:2,title:"Business Model",category:"Business",level:"Beginner",description:"Learn how a business creates revenue.",content:"A business model explains customers, value, channels, revenue and costs."},
-    {id:3,title:"Market Research",category:"Marketing",level:"Beginner",description:"Learn how to understand your market.",content:"Market research helps you understand customers, competitors and demand."},
-    {id:4,title:"Customer Finding",category:"Customer Finding",level:"Beginner",description:"Learn practical customer acquisition.",content:"Find customers by understanding their needs, problems and buying behavior."},
-    {id:5,title:"Marketing Fundamentals",category:"Marketing",level:"Beginner",description:"Understand the foundation of marketing.",content:"Marketing connects the right product with the right customer."},
-    {id:6,title:"Digital Marketing",category:"Digital Marketing",level:"Intermediate",description:"Learn digital channels for business growth.",content:"Digital marketing includes social media, search, content and online advertising."},
-    {id:7,title:"Content Marketing",category:"Content Marketing",level:"Intermediate",description:"Create content that attracts customers.",content:"Useful content builds trust and attracts potential customers."},
-    {id:8,title:"Sales Fundamentals",category:"Sales",level:"Beginner",description:"Learn the fundamentals of professional selling.",content:"Sales is the process of understanding customer needs and presenting value."},
-    {id:9,title:"Sales Strategy",category:"Sales Strategy",level:"Intermediate",description:"Build a practical sales strategy.",content:"A sales strategy defines target customers, channels, activities and targets."},
-    {id:10,title:"Negotiation Skills",category:"Negotiation",level:"Intermediate",description:"Improve your negotiation skills.",content:"Good negotiation creates value while protecting your business interests."},
-    {id:11,title:"Sales Management",category:"Sales Management",level:"Advanced",description:"Manage sales teams and performance.",content:"Sales managers focus on targets, people, execution, coaching and performance."},
-    {id:12,title:"Leadership Fundamentals",category:"Leadership",level:"Beginner",description:"Understand effective leadership.",content:"Leadership means setting direction, developing people and taking responsibility."},
-    {id:13,title:"Strategic Thinking",category:"Strategy",level:"Advanced",description:"Think strategically about business.",content:"Strategic thinking connects long-term goals with practical actions."},
-    {id:14,title:"Decision Making",category:"Leadership",level:"Intermediate",description:"Make better business decisions.",content:"Good decisions require facts, alternatives, risks and clear priorities."},
-    {id:15,title:"Team Leadership",category:"Leadership",level:"Intermediate",description:"Build and lead strong teams.",content:"Strong teams need clear expectations, ownership, coaching and feedback."},
-    {id:16,title:"Brand Fundamentals",category:"Branding",level:"Beginner",description:"Understand the fundamentals of branding.",content:"A brand represents the experience and value customers associate with a business."},
-    {id:17,title:"Brand Positioning",category:"Branding",level:"Intermediate",description:"Position your business in the market.",content:"Positioning defines why customers should choose your brand."},
-    {id:18,title:"People Management",category:"Management",level:"Intermediate",description:"Manage people effectively.",content:"People management includes expectations, communication, coaching and accountability."},
-    {id:19,title:"Recruitment",category:"Recruitment",level:"Intermediate",description:"Learn practical recruitment principles.",content:"Good recruitment starts with clear roles, requirements and selection criteria."},
-    {id:20,title:"Performance Management",category:"Performance Management",level:"Advanced",description:"Improve team performance.",content:"Performance management requires targets, reviews, feedback and development."},
-    {id:21,title:"Coaching",category:"Coaching",level:"Advanced",description:"Develop people through coaching.",content:"Effective coaching helps employees identify gaps and improve their capability."},
-    {id:22,title:"Revenue Management",category:"Revenue Management",level:"Intermediate",description:"Understand business revenue.",content:"Revenue is the money generated from selling products or services."},
-    {id:23,title:"Profit & Loss",category:"Finance",level:"Intermediate",description:"Understand profit and loss.",content:"Profit is revenue minus the costs required to operate the business."},
-    {id:24,title:"Cash Flow",category:"Finance",level:"Intermediate",description:"Manage business cash flow.",content:"Cash flow measures money coming into and leaving a business."},
-    {id:25,title:"Financial Analysis",category:"Finance",level:"Advanced",description:"Analyze business financial performance.",content:"Financial analysis helps identify profitability, efficiency and financial risks."},
-    {id:26,title:"Time Management",category:"Productivity",level:"Beginner",description:"Improve your use of time.",content:"Prioritize important activities and protect focused working time."},
-    {id:27,title:"Goal Setting",category:"Productivity",level:"Beginner",description:"Set measurable business goals.",content:"Effective goals should be clear, measurable and connected to business priorities."},
-    {id:28,title:"Daily Planning",category:"Productivity",level:"Beginner",description:"Plan your day effectively.",content:"Daily planning converts important goals into specific actions."},
-    {id:29,title:"Business Growth Strategy",category:"Strategy",level:"Advanced",description:"Create a growth strategy.",content:"Growth can come from more customers, higher frequency, new products or new markets."},
-    {id:30,title:"Business Execution",category:"Business",level:"Advanced",description:"Turn strategy into execution.",content:"Execution requires clear priorities, ownership, measurement and consistent follow-up."}
-  ];
-
-  // ============================================================
-  // HELPERS
-  // ============================================================
-
-  function $(id) {
-    return document.getElementById(id);
-  }
-
-  function escapeHTML(value) {
-    return String(value ?? "")
-      .replace(/&/g,"&amp;")
-      .replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;")
-      .replace(/"/g,"&quot;")
-      .replace(/'/g,"&#039;");
-  }
-
-  function num(id, fallback = 0) {
-    const value = Number($(id)?.value);
-    return Number.isFinite(value) ? value : fallback;
-  }
-
-  function formatNumber(value, decimals = 0) {
-    const n = Number(value) || 0;
-    return n.toLocaleString("en-US", {
-      minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals
-    });
-  }
-
-  function formatKs(value) {
-    return formatNumber(value) + " Ks";
-  }
-
-  function todayKey() {
-    return new Date().toISOString().slice(0,10);
-  }
-
-  function safeJSON(key, fallback) {
-    try {
-      const raw = localStorage.getItem(key);
-      return raw ? JSON.parse(raw) : fallback;
-    } catch {
-      return fallback;
-    }
-  }
-
-  function saveJSON(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
-  }
-
-  // ============================================================
-  // USER
-  // ============================================================
-
-  function getUser() {
-    return safeJSON(USER_KEY, null);
-  }
-
-  function saveUser(user) {
-    saveJSON(USER_KEY, user);
-  }
-
-  function getUserName() {
-    return getUser()?.name || "Aung";
-  }
-
-  function isLoggedIn() {
-    return !!getUser();
-  }
-
-  function showLoginScreen() {
-    showModal(`
-      <div class="academy-modal">
-        <h2>Welcome to Aung Business Academy</h2>
-        <p>Enter your name to start your business learning journey.</p>
-        <input id="loginName" class="tool-input" type="text" placeholder="Your name">
-        <button class="primary-button" onclick="handleLogin()">Continue →</button>
-      </div>
-    `);
-    setTimeout(() => $("loginName")?.focus(), 100);
-  }
-
-  function handleLogin() {
-    const input = $("loginName");
-    const name = input?.value.trim();
-
-    if (!name) {
-      showToast("Please enter your name.");
-      return;
-    }
-
-    saveUser({
-      name,
-      createdAt: new Date().toISOString(),
-      lastActive: new Date().toISOString()
-    });
-
-    closeModal();
-    updateUserUI();
-    showToast("Welcome, " + name + "! 🎉");
-  }
-
-  // ============================================================
-  // PROGRESS
-  // ============================================================
-
-  function getCompletedLessons() {
-    return safeJSON(COMPLETED_KEY, []);
-  }
-
-  function saveCompletedLessons(list) {
-    saveJSON(COMPLETED_KEY, [...new Set(list.map(Number))]);
-  }
-
-  function isCompleted(id) {
-    return getCompletedLessons().includes(Number(id));
-  }
-
-  function getProgress() {
-    return Math.round((getCompletedLessons().length / lessons.length) * 100);
-  }
-
-  function updateUserUI() {
-    const name = getUserName();
-
-    document.querySelectorAll(".profile strong").forEach(el => {
-      el.textContent = name;
-    });
-
-    document.querySelectorAll("[data-user-name]").forEach(el => {
-      el.textContent = name;
-    });
-
-    updateDashboard();
-  }
-
-  // ============================================================
-  // DASHBOARD
-  // ============================================================
-
-  function updateDashboard() {
-    const completed = getCompletedLessons().length;
-    const progress = getProgress();
-
-    if ($("lessonCount")) $("lessonCount").textContent = lessons.length;
-    if ($("progress")) $("progress").textContent = progress + "%";
-
-    document.querySelectorAll("[data-stat='completed']").forEach(el => {
-      el.textContent = completed;
-    });
-
-    document.querySelectorAll("[data-stat='progress']").forEach(el => {
-      el.textContent = progress + "%";
-    });
-
-    document.querySelectorAll("[data-progress-bar]").forEach(el => {
-      el.style.width = progress + "%";
-    });
-
-    const next = lessons.find(x => !isCompleted(x.id));
-    document.querySelectorAll("[data-next-lesson]").forEach(el => {
-      el.textContent = next ? next.title : "All lessons completed 🎉";
-    });
-  }
-
-  function goDashboard() {
-    closeModal();
-    closeSidebarMobile();
-
-    document.querySelectorAll(".nav-item").forEach(item => {
-      item.classList.remove("active");
-    });
-
-    const dashboard = document.querySelector('.nav-item[onclick="goDashboard()"]');
-    if (dashboard) dashboard.classList.add("active");
-
-    setPage("Dashboard", "Learn Business. Build Business. Grow Business.");
-    updateDashboard();
-
-    window.scrollTo({top:0, behavior:"smooth"});
-  }
-
-  function toggleSidebar() {
-    document.querySelector(".sidebar")?.classList.toggle("mobile-open");
-  }
-
-  function closeSidebarMobile() {
-    document.querySelector(".sidebar")?.classList.remove("mobile-open");
-  }
-
-  function toggleMenu(menuId) {
-    const menu = $(menuId);
-    if (!menu) return;
-
-    document.querySelectorAll(".submenu").forEach(item => {
-      if (item !== menu) item.classList.remove("open");
-    });
-
-    menu.classList.toggle("open");
-  }
-
-  function setPage(title, subtitle) {
-    if ($("pageTitle")) $("pageTitle").textContent = title;
-    if ($("pageSubtitle")) $("pageSubtitle").textContent = subtitle;
-  }
-
-  // ============================================================
-  // MODAL
-  // ============================================================
-
-  function showModal(html) {
-    const modal = $("appModal");
-    const body = $("modalBody");
-    if (!modal || !body) return;
-
-    body.innerHTML = html;
-    modal.style.display = "flex";
-    document.body.style.overflow = "hidden";
-  }
-
-  function closeModal() {
-    const modal = $("appModal");
-    if (!modal) return;
-
-    modal.style.display = "none";
-    document.body.style.overflow = "";
-  }
-
-  function closeModalOutside(event) {
-    if (event.target?.id === "appModal") closeModal();
-  }
-
-  // ============================================================
-  // LESSONS
-  // ============================================================
-
-  function openLessons() {
-    closeSidebarMobile();
-    setPage("Business Lessons","Learn practical business skills step by step.");
-
-    const categories = [
-      "All","Business","Marketing","Customer Finding","Digital Marketing",
-      "Content Marketing","Sales","Sales Strategy","Negotiation",
-      "Sales Management","Leadership","Strategy","Branding","Management",
-      "Recruitment","Performance Management","Coaching","Revenue Management",
-      "Finance","Productivity"
-    ];
-
-    showModal(`
-      <div class="lesson-page">
-        <h2>📚 Business Lessons</h2>
-        <p>30 practical lessons from beginner to advanced.</p>
-
-        <div class="academy-stats">
-          <div><strong>${getCompletedLessons().length}</strong><span>Completed</span></div>
-          <div><strong>${lessons.length}</strong><span>Total Lessons</span></div>
-          <div><strong>${getProgress()}%</strong><span>Progress</span></div>
         </div>
 
-        <div class="lesson-filters">
-          ${categories.map((c,i) => `
-            <button class="lesson-filter ${i===0?"active":""}"
-              onclick="filterLessons('${escapeHTML(c)}',this)">
-              ${escapeHTML(c)}
-            </button>
-          `).join("")}
+          <small>
+            ${escapeHTML(item.time)}
+          </small>
+
         </div>
 
-        <div id="lessonList" class="quick-grid">
-          ${lessons.map(createLessonCard).join("")}
-        </div>
-      </div>
-    `);
-  }
+      `)
+      .join("");
 
-  function createLessonCard(lesson) {
-    const completed = isCompleted(lesson.id);
+}
 
-    return `
-      <div class="quick-card lesson-card">
-        <div class="quick-icon">${completed ? "✅" : "📘"}</div>
-        <div>
-          <small>${escapeHTML(lesson.category)} • ${escapeHTML(lesson.level)}</small>
-          <h3>${escapeHTML(lesson.title)}</h3>
-          <p>${escapeHTML(lesson.description)}</p>
-          <button class="primary-button" onclick="openLesson(${lesson.id})">
-            ${completed ? "Review Lesson" : "Start Lesson"} →
-          </button>
-        </div>
-      </div>
-    `;
-  }
+// ======================================================
+// COURSES
+// ======================================================
 
-  function filterLessons(category, button) {
-    const list = $("lessonList");
-    if (!list) return;
+function renderCourses(
+  filter = "all"
+) {
 
-    document.querySelectorAll(".lesson-filter").forEach(b => b.classList.remove("active"));
-    if (button) button.classList.add("active");
-
-    const filtered = category === "All"
-      ? lessons
-      : lessons.filter(lesson => lesson.category === category);
-
-    list.innerHTML = filtered.length
-      ? filtered.map(createLessonCard).join("")
-      : `<div class="result-box"><h3>No lessons found</h3><p>More lessons will be added.</p></div>`;
-  }
-
-  function openLesson(id) {
-    const lesson = lessons.find(item => item.id === Number(id));
-    if (lesson) showLesson(lesson);
-  }
-
-  function showLesson(lesson) {
-    const completed = isCompleted(lesson.id);
-    const previous = lessons.find(x => x.id === lesson.id - 1);
-    const next = lessons.find(x => x.id === lesson.id + 1);
-
-    showModal(`
-      <div class="lesson-detail">
-        <span class="welcome-label">${escapeHTML(lesson.level)}</span>
-        <h2>Lesson ${lesson.id}: ${escapeHTML(lesson.title)}</h2>
-        <p>${escapeHTML(lesson.description)}</p>
-
-        <div class="result-box">
-          <h3>🎯 Key Learning</h3>
-          <p>${escapeHTML(lesson.content)}</p>
-        </div>
-
-        <div class="result-box">
-          <h3>💡 Manager Action</h3>
-          <p>Write down one action you can apply today based on this lesson.</p>
-        </div>
-
-        <button class="primary-button" onclick="markLessonComplete(${lesson.id})">
-          ${completed ? "✓ Completed" : "Mark as Complete"}
-        </button>
-
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
-          ${previous ? `<button class="secondary-button" onclick="openLesson(${previous.id})">← Previous</button>` : ""}
-          ${next ? `<button class="secondary-button" onclick="openLesson(${next.id})">Next →</button>` : ""}
-          <button class="secondary-button" onclick="openLessons()">All Lessons</button>
-        </div>
-      </div>
-    `);
-  }
-
-  function markLessonComplete(id) {
-    const list = getCompletedLessons();
-    const n = Number(id);
-
-    if (!list.includes(n)) {
-      list.push(n);
-      saveCompletedLessons(list);
-      showToast("Lesson completed! 🎉");
-    } else {
-      showToast("Lesson already completed.");
-    }
-
-    updateDashboard();
-    const lesson = lessons.find(x => x.id === n);
-    if (lesson) showLesson(lesson);
-  }
-
-  function continueLearning() {
-    const next = lessons.find(lesson => !isCompleted(lesson.id));
-
-    if (next) openLesson(next.id);
-    else showToast("All 30 lessons completed! 🏆");
-  }
-
-  function openCategory(category) {
-    closeSidebarMobile();
-
-    const normalized = String(category).toLowerCase();
-    const results = lessons.filter(lesson =>
-      lesson.category.toLowerCase().includes(normalized) ||
-      normalized.includes(lesson.category.toLowerCase())
+  const container =
+    document.getElementById(
+      "coursesGrid"
     );
 
-    if (!results.length) {
-      showModal(`
-        <div class="lesson-detail">
-          <h2>📚 ${escapeHTML(category)}</h2>
-          <p>No lessons are currently available in this category.</p>
-          <button class="primary-button" onclick="openLessons()">View All Lessons →</button>
-        </div>
-      `);
-      return;
-    }
-
-    showModal(`
-      <div class="lesson-page">
-        <h2>${escapeHTML(category)}</h2>
-        <p>${results.length} lesson(s) available.</p>
-        <div class="quick-grid">${results.map(createLessonCard).join("")}</div>
-      </div>
-    `);
-  }
-
-  // ============================================================
-  // TOOL HELPERS
-  // ============================================================
-
-  function inputField(id,label,placeholder,type="number") {
-    return `
-      <label style="display:block;margin:12px 0 6px;font-weight:600;">${escapeHTML(label)}</label>
-      <input id="${escapeHTML(id)}" class="tool-input" type="${type}" placeholder="${escapeHTML(placeholder)}">
-    `;
-  }
-
-  function calculateButton(text,action) {
-    return `<button class="primary-button" onclick="${action}">${escapeHTML(text)}</button>`;
-  }
-
-  function resultBox(id) {
-    return `<div id="${escapeHTML(id)}" class="result-box" style="margin-top:18px;"></div>`;
-  }
-
-  function toolCard(icon,title,description,action) {
-    return `
-      <div class="quick-card" onclick="${action}">
-        <div class="quick-icon">${icon}</div>
-        <div>
-          <h3>${escapeHTML(title)}</h3>
-          <p>${escapeHTML(description)}</p>
-          <span>Open Tool →</span>
-        </div>
-      </div>
-    `;
-  }
-
-  // ============================================================
-  // BUSINESS TOOLS HUB
-  // ============================================================
-
-  function openTools() {
-    closeSidebarMobile();
-    setPage("Business Tools","Practical calculators for your business.");
-
-    showModal(`
-      <div class="lesson-page">
-        <h2>🛠️ Business Tools</h2>
-        <p>Professional calculators for sales, finance, pricing and growth.</p>
-
-        <div class="quick-grid">
-          ${toolCard("💰","Profit Calculator","Revenue, cost, profit and margin.","openProfitCalculator()")}
-          ${toolCard("🏷️","Pricing Calculator","Selling price from cost and target margin.","openPricingCalculator()")}
-          ${toolCard("⚖️","Break-Even Calculator","Units and revenue needed to break even.","openBreakEvenCalculator()")}
-          ${toolCard("🎯","Sales Target","Orders required to hit revenue target.","openSalesTargetCalculator()")}
-          ${toolCard("📈","Growth Calculator","Calculate growth rate and target revenue.","openGrowthCalculator()")}
-          ${toolCard("💵","ROI Calculator","Measure return on investment.","openROICalculator()")}
-          ${toolCard("👥","Sales Commission","Calculate team commission.","openCommissionCalculator()")}
-          ${toolCard("📦","Inventory Calculator","Estimate stock value and turnover.","openInventoryCalculator()")}
-          ${toolCard("📊","Sales KPI Dashboard","Track target, achievement and gap.","openKPIDashboard()")}
-          ${toolCard("💸","Cash Flow Planner","Plan inflow, outflow and closing cash.","openCashFlowPlanner()")}
-        </div>
-      </div>
-    `);
-  }
-
-  // ============================================================
-  // PROFIT
-  // ============================================================
-
-  function openProfitCalculator() {
-    showModal(`
-      <div>
-        <h2>💰 Profit Calculator</h2>
-        ${inputField("revenue","Revenue","1000000")}
-        ${inputField("cost","Total Cost","700000")}
-        ${calculateButton("Calculate Profit","calculateProfit()")}
-        ${resultBox("profitResult")}
-      </div>
-    `);
-  }
-
-  function calculateProfit() {
-    const revenue = num("revenue");
-    const cost = num("cost");
-    const profit = revenue - cost;
-    const margin = revenue > 0 ? profit / revenue * 100 : 0;
-
-    $("profitResult").innerHTML = `
-      <h3>Profit: ${formatKs(profit)}</h3>
-      <p>Profit Margin: ${margin.toFixed(2)}%</p>
-      <p>${profit >= 0 ? "✅ Business is profitable at this level." : "⚠️ Business is currently losing money."}</p>
-    `;
-  }
-
-  // ============================================================
-  // PRICING
-  // ============================================================
-
-  function openPricingCalculator() {
-    showModal(`
-      <div>
-        <h2>🏷️ Pricing Calculator</h2>
-        ${inputField("unitCost","Unit Cost","5000")}
-        ${inputField("margin","Target Margin %","30")}
-        ${calculateButton("Calculate Price","calculatePrice()")}
-        ${resultBox("priceResult")}
-      </div>
-    `);
-  }
-
-  function calculatePrice() {
-    const cost = num("unitCost");
-    const margin = num("margin");
-
-    if (cost <= 0 || margin < 0 || margin >= 100) {
-      showToast("Enter a valid cost and margin below 100%.");
-      return;
-    }
-
-    const price = cost / (1 - margin / 100);
-
-    $("priceResult").innerHTML = `
-      <h3>Recommended Price: ${formatKs(price)}</h3>
-      <p>Gross Profit / Unit: ${formatKs(price - cost)}</p>
-      <p>Target Margin: ${margin.toFixed(2)}%</p>
-    `;
-  }
-
-  // ============================================================
-  // BREAK EVEN
-  // ============================================================
-
-  function openBreakEvenCalculator() {
-    showModal(`
-      <div>
-        <h2>⚖️ Break-Even Calculator</h2>
-        ${inputField("fixedCost","Fixed Cost","1000000")}
-        ${inputField("sellingPrice","Selling Price / Unit","10000")}
-        ${inputField("variableCost","Variable Cost / Unit","6000")}
-        ${calculateButton("Calculate Break-Even","calculateBreakEven()")}
-        ${resultBox("breakEvenResult")}
-      </div>
-    `);
-  }
-
-  function calculateBreakEven() {
-    const fixed = num("fixedCost");
-    const price = num("sellingPrice");
-    const variable = num("variableCost");
-    const contribution = price - variable;
-
-    if (fixed < 0 || price <= 0 || contribution <= 0) {
-      showToast("Selling price must be higher than variable cost.");
-      return;
-    }
-
-    const units = Math.ceil(fixed / contribution);
-    const sales = units * price;
-
-    $("breakEvenResult").innerHTML = `
-      <h3>Break-Even: ${formatNumber(units)} units</h3>
-      <p>Break-Even Sales: ${formatKs(sales)}</p>
-      <p>Contribution / Unit: ${formatKs(contribution)}</p>
-    `;
-  }
-
-  // ============================================================
-  // SALES TARGET
-  // ============================================================
-
-  function openSalesTargetCalculator() {
-    showModal(`
-      <div>
-        <h2>🎯 Sales Target Calculator</h2>
-        ${inputField("targetRevenue","Target Revenue","10000000")}
-        ${inputField("averageOrder","Average Order Value","50000")}
-        ${calculateButton("Calculate Sales Target","calculateSalesTarget()")}
-        ${resultBox("salesTargetResult")}
-      </div>
-    `);
-  }
-
-  function calculateSalesTarget() {
-    const target = num("targetRevenue");
-    const average = num("averageOrder");
-
-    if (target <= 0 || average <= 0) {
-      showToast("Enter valid target and average order values.");
-      return;
-    }
-
-    const orders = Math.ceil(target / average);
-
-    $("salesTargetResult").innerHTML = `
-      <h3>Required Orders: ${formatNumber(orders)}</h3>
-      <p>Target Revenue: ${formatKs(target)}</p>
-      <p>Average Order: ${formatKs(average)}</p>
-    `;
-  }
-
-  // ============================================================
-  // GROWTH
-  // ============================================================
-
-  function openGrowthCalculator() {
-    showModal(`
-      <div>
-        <h2>📈 Growth Calculator</h2>
-        ${inputField("previousRevenue","Previous Revenue","10000000")}
-        ${inputField("currentRevenue","Current Revenue","12500000")}
-        ${inputField("growthTarget","Target Growth %","20")}
-        ${calculateButton("Calculate Growth","calculateGrowth()")}
-        ${resultBox("growthResult")}
-      </div>
-    `);
-  }
-
-  function calculateGrowth() {
-    const previous = num("previousRevenue");
-    const current = num("currentRevenue");
-    const target = num("growthTarget");
-
-    if (previous <= 0) {
-      showToast("Previous revenue must be greater than zero.");
-      return;
-    }
-
-    const growth = (current - previous) / previous * 100;
-    const targetRevenue = previous * (1 + target / 100);
-
-    $("growthResult").innerHTML = `
-      <h3>Actual Growth: ${growth.toFixed(2)}%</h3>
-      <p>Target Revenue at ${target.toFixed(2)}% growth: ${formatKs(targetRevenue)}</p>
-      <p>${growth >= target ? "🎉 Growth target achieved." : "📌 Additional growth is required."}</p>
-    `;
-  }
-
-  // ============================================================
-  // ROI
-  // ============================================================
-
-  function openROICalculator() {
-    showModal(`
-      <div>
-        <h2>💵 ROI Calculator</h2>
-        ${inputField("roiInvestment","Investment","5000000")}
-        ${inputField("roiReturn","Net Return","7500000")}
-        ${calculateButton("Calculate ROI","calculateROI()")}
-        ${resultBox("roiResult")}
-      </div>
-    `);
-  }
-
-  function calculateROI() {
-    const investment = num("roiInvestment");
-    const returned = num("roiReturn");
-
-    if (investment <= 0) {
-      showToast("Investment must be greater than zero.");
-      return;
-    }
-
-    const profit = returned - investment;
-    const roi = profit / investment * 100;
-
-    $("roiResult").innerHTML = `
-      <h3>ROI: ${roi.toFixed(2)}%</h3>
-      <p>Net Return: ${formatKs(profit)}</p>
-      <p>Returned Value: ${formatKs(returned)}</p>
-    `;
-  }
-
-  // ============================================================
-  // COMMISSION
-  // ============================================================
-
-  function openCommissionCalculator() {
-    showModal(`
-      <div>
-        <h2>👥 Sales Commission Calculator</h2>
-        ${inputField("commissionSales","Sales Achievement","10000000")}
-        ${inputField("commissionRate","Commission Rate %","2")}
-        ${inputField("commissionBonus","Bonus / Incentive","100000")}
-        ${calculateButton("Calculate Commission","calculateCommission()")}
-        ${resultBox("commissionResult")}
-      </div>
-    `);
-  }
-
-  function calculateCommission() {
-    const sales = num("commissionSales");
-    const rate = num("commissionRate");
-    const bonus = num("commissionBonus");
-    const commission = sales * rate / 100;
-    const total = commission + bonus;
-
-    $("commissionResult").innerHTML = `
-      <h3>Commission: ${formatKs(commission)}</h3>
-      <p>Bonus: ${formatKs(bonus)}</p>
-      <p><strong>Total Incentive: ${formatKs(total)}</strong></p>
-    `;
-  }
-
-  // ============================================================
-  // INVENTORY
-  // ============================================================
-
-  function openInventoryCalculator() {
-    showModal(`
-      <div>
-        <h2>📦 Inventory Calculator</h2>
-        ${inputField("inventoryUnits","Units in Stock","1000")}
-        ${inputField("inventoryCost","Cost / Unit","5000")}
-        ${inputField("inventoryCOGS","Annual COGS","50000000")}
-        ${inputField("inventoryAverage","Average Inventory Value","10000000")}
-        ${calculateButton("Calculate Inventory","calculateInventory()")}
-        ${resultBox("inventoryResult")}
-      </div>
-    `);
-  }
-
-  function calculateInventory() {
-    const units = num("inventoryUnits");
-    const cost = num("inventoryCost");
-    const cogs = num("inventoryCOGS");
-    const average = num("inventoryAverage");
-    const value = units * cost;
-    const turnover = average > 0 ? cogs / average : 0;
-
-    $("inventoryResult").innerHTML = `
-      <h3>Current Stock Value: ${formatKs(value)}</h3>
-      <p>Inventory Turnover: ${turnover.toFixed(2)}x</p>
-      <p>Higher turnover generally means stock is moving faster.</p>
-    `;
-  }
-
-  // ============================================================
-  // CASH FLOW
-  // ============================================================
-
-  function openCashFlowPlanner() {
-    showModal(`
-      <div>
-        <h2>💸 Cash Flow Planner</h2>
-        ${inputField("openingCash","Opening Cash","5000000")}
-        ${inputField("cashInflow","Expected Cash Inflow","10000000")}
-        ${inputField("cashOutflow","Expected Cash Outflow","7000000")}
-        ${calculateButton("Calculate Cash Flow","calculateCashFlow()")}
-        ${resultBox("cashFlowResult")}
-      </div>
-    `);
-  }
-
-  function calculateCashFlow() {
-    const opening = num("openingCash");
-    const inflow = num("cashInflow");
-    const outflow = num("cashOutflow");
-    const closing = opening + inflow - outflow;
-
-    $("cashFlowResult").innerHTML = `
-      <h3>Closing Cash: ${formatKs(closing)}</h3>
-      <p>Net Cash Flow: ${formatKs(inflow - outflow)}</p>
-      <p>${closing >= 0 ? "✅ Positive closing cash." : "⚠️ Cash shortfall — review expenses and collections."}</p>
-    `;
-  }
-
-  // ============================================================
-  // KPI DASHBOARD
-  // ============================================================
-
-  function openKPIDashboard() {
-    const saved = safeJSON(KPI_KEY, {target:10000000,achievement:7500000,customers:100,orders:250});
-
-    showModal(`
-      <div>
-        <h2>📊 Sales KPI Dashboard</h2>
-        ${inputField("kpiTarget","Sales Target",saved.target)}
-        ${inputField("kpiAchievement","Sales Achievement",saved.achievement)}
-        ${inputField("kpiCustomers","Active Customers",saved.customers)}
-        ${inputField("kpiOrders","Orders",saved.orders)}
-        ${calculateButton("Analyze KPI","calculateKPI()")}
-        ${resultBox("kpiResult")}
-      </div>
-    `);
-
-    calculateKPI();
-  }
-
-  function calculateKPI() {
-    const target = num("kpiTarget");
-    const achievement = num("kpiAchievement");
-    const customers = num("kpiCustomers");
-    const orders = num("kpiOrders");
-
-    saveJSON(KPI_KEY,{target,achievement,customers,orders});
-
-    const achievementPct = target > 0 ? achievement / target * 100 : 0;
-    const gap = target - achievement;
-    const avgOrder = orders > 0 ? achievement / orders : 0;
-    const avgCustomer = customers > 0 ? achievement / customers : 0;
-
-    $("kpiResult").innerHTML = `
-      <h3>Achievement: ${achievementPct.toFixed(1)}%</h3>
-      <p>Target Gap: ${formatKs(gap)}</p>
-      <p>Average Order Value: ${formatKs(avgOrder)}</p>
-      <p>Revenue / Active Customer: ${formatKs(avgCustomer)}</p>
-      <p>${achievementPct >= 100 ? "🏆 Target achieved." : "📌 Focus on the gap and build an action plan."}</p>
-    `;
-  }
-
-  // ============================================================
-  // AI BUSINESS COACH
-  // ============================================================
-
-  function openAI() {
-    closeSidebarMobile();
-    setPage("AI Business Coach","Your practical AI advisor for business, sales and management.");
-
-    showModal(`
-      <div class="ai-page">
-        <h2>🤖 AI Business Coach</h2>
-        <p>Ask about business, sales, marketing, leadership, finance or strategy.</p>
-
-        <div class="ai-quick-grid">
-          <button class="secondary-button" onclick="askAIQuick('How can I increase sales in my business?')">📈 Increase Sales</button>
-          <button class="secondary-button" onclick="askAIQuick('Create a sales action plan for my team.')">🎯 Sales Plan</button>
-          <button class="secondary-button" onclick="askAIQuick('How can I improve team performance?')">👥 Team Performance</button>
-          <button class="secondary-button" onclick="askAIQuick('Give me a marketing strategy for a small business.')">📣 Marketing</button>
-          <button class="secondary-button" onclick="askAIQuick('Help me create a business growth strategy.')">🚀 Growth</button>
-          <button class="secondary-button" onclick="askAIQuick('Analyze the financial health of my business and tell me what numbers I should track.')">💰 Finance</button>
+  if (!container) return;
+
+  const courses =
+    filter === "all"
+      ? COURSES
+      : COURSES.filter(
+          course =>
+            course.category === filter
+        );
+
+  container.innerHTML =
+    courses.map(course => {
+
+      const progress =
+        getCourseProgress(course.id);
+
+      const completed =
+        getCourseCompleted(course.id);
+
+      return `
+
+        <div class="course-card">
+
+          <div class="course-card-top">
+
+            <div class="course-icon ${course.color}">
+              ${course.icon}
+            </div>
+
+            <span class="course-badge ${course.category}">
+              ${escapeHTML(course.category.toUpperCase())}
+            </span>
+
+          </div>
+
+          <h2>
+            ${escapeHTML(course.title)}
+          </h2>
+
+          <p>
+            ${escapeHTML(course.description)}
+          </p>
+
+          <div class="course-meta">
+
+            <span>
+              ▣ ${course.lessons.length} Lessons
+            </span>
+
+            <strong>
+              ${progress}%
+            </strong>
+
+          </div>
+
+          <div class="progress-bar">
+
+            <div
+              class="progress-fill ${course.color}-fill"
+              style="width:${progress}%"
+            ></div>
+
+          </div>
+
+          <div class="course-card-footer">
+
+            <span>
+              ${completed}/${course.lessons.length}
+              completed
+            </span>
+
+            <button
+              type="button"
+              class="secondary-btn open-course"
+              data-course="${course.id}"
+            >
+              ${
+                progress > 0
+                  ? "Continue"
+                  : "Start Course"
+              }
+            </button>
+
+          </div>
+
         </div>
 
-        <div id="aiChat" class="result-box ai-chat">
-          <div><strong>AI Coach:</strong> Hello ${escapeHTML(getUserName())}! What business challenge can I help you solve today?</div>
-        </div>
-
-        <textarea id="aiInput" class="tool-input" rows="4"
-          placeholder="Ask your business question..."></textarea>
-
-        <button class="primary-button" onclick="sendAIMessage()">Send to AI →</button>
-        <button class="secondary-button" onclick="clearAIChat()">Clear Chat</button>
-      </div>
-    `);
-
-    setTimeout(() => $("aiInput")?.focus(),100);
-  }
-
-  async function sendAIMessage(message) {
-    const input = $("aiInput");
-    const text = message || input?.value.trim();
-
-    if (!text) {
-      showToast("Please enter a question.");
-      return;
-    }
-
-    appendAIMessage("You",text);
-    if (input) input.value = "";
-
-    appendAIMessage("AI Coach","Thinking...");
-
-    try {
-      const response = await fetch(AI_API_URL,{
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({
-          message:
-            "You are the AI Business Coach inside Aung Business Academy. " +
-            "Give practical, concise and actionable advice. " +
-            "When useful, structure the answer into steps, numbers, KPIs and action plans. " +
-            "The user may be a Myanmar business owner or sales manager. " +
-            "Answer in the same language as the user when possible. " +
-            "User question: " + text
-        })
-      });
-
-      if (!response.ok) throw new Error("AI server error");
-
-      const data = await response.json();
-      const answer = data.reply || data.response || data.message || "No response received.";
-
-      removeLastAIMessage();
-      appendAIMessage("AI Coach",answer);
-    } catch (error) {
-      removeLastAIMessage();
-      appendAIMessage(
-        "AI Coach",
-        "AI connection is temporarily unavailable. Please check the server/API connection and try again."
-      );
-    }
-  }
-
-  function askAIQuick(question) {
-    sendAIMessage(question);
-  }
-
-  function appendAIMessage(sender,message) {
-    const chat = $("aiChat");
-    if (!chat) return;
-
-    const div = document.createElement("div");
-    div.style.margin = "10px 0";
-    div.innerHTML = `
-      <strong>${escapeHTML(sender)}:</strong>
-      <span style="white-space:pre-wrap;">${escapeHTML(message)}</span>
-    `;
-
-    chat.appendChild(div);
-    chat.scrollTop = chat.scrollHeight;
-  }
-
-  function removeLastAIMessage() {
-    const chat = $("aiChat");
-    if (chat?.lastElementChild) chat.removeChild(chat.lastElementChild);
-  }
-
-  function clearAIChat() {
-    const chat = $("aiChat");
-    if (chat) {
-      chat.innerHTML = `<div><strong>AI Coach:</strong> Chat cleared. How can I help?</div>`;
-    }
-  }
-
-  async function checkAIHealth() {
-    try {
-      const response = await fetch(API_BASE_URL,{method:"GET"});
-      return response.ok;
-    } catch {
-      return false;
-    }
-  }
-
-  // ============================================================
-  // BUSINESS PLAN
-  // ============================================================
-     // ============================================================
-  // BUSINESS PLAN
-  // ============================================================
-
-  function textInput(id,label,placeholder) {
-    return `
-      <label style="display:block;margin:12px 0 6px;font-weight:600;">${escapeHTML(label)}</label>
-      <input id="${escapeHTML(id)}" class="tool-input" type="text" placeholder="${escapeHTML(placeholder)}">
-    `;
-  }
-
-  function openBusinessPlan() {
-    closeSidebarMobile();
-    setPage("Business Plan","Build a practical business plan step by step.");
-
-    const saved = safeJSON(PLAN_KEY,{});
-
-    showModal(`
-      <div>
-        <h2>📋 AI Business Plan</h2>
-        <p>Create a practical plan for your business.</p>
-
-        ${textInput("businessName","Business Name",saved.name || "Aung Business")}
-        ${textInput("businessType","Business Type",saved.type || "Food / Retail / Service")}
-        ${textInput("targetCustomer","Target Customer",saved.customer || "Who are your customers?")}
-        ${textInput("budget","Starting Budget",saved.budget || "5000000")}
-        ${textInput("goal","Business Goal",saved.goal || "Monthly profit target")}
-        ${textInput("location","Market / Location",saved.location || "Yangon")}
-        ${textInput("strength","Competitive Advantage",saved.strength || "What makes your business different?")}
-
-        <button class="primary-button" onclick="generateBusinessPlan()">Generate Business Plan →</button>
-        ${resultBox("businessPlanResult")}
-      </div>
-    `);
-  }
-
-  async function generateBusinessPlan() {
-    const data = {
-      name:$("businessName")?.value.trim() || "My Business",
-      type:$("businessType")?.value.trim() || "Business",
-      customer:$("targetCustomer")?.value.trim() || "Target Customers",
-      budget:$("budget")?.value.trim() || "Not specified",
-      goal:$("goal")?.value.trim() || "Business growth",
-      location:$("location")?.value.trim() || "Myanmar",
-      strength:$("strength")?.value.trim() || "Customer value"
-    };
-
-    saveJSON(PLAN_KEY,data);
-
-    const result = $("businessPlanResult");
-    if (!result) return;
-
-    result.innerHTML = `<p><strong>Building your plan...</strong></p>`;
-
-    const prompt =
-      `Create a practical business plan for:
-Business: ${data.name}
-Type: ${data.type}
-Target Customer: ${data.customer}
-Budget: ${data.budget}
-Goal: ${data.goal}
-Location: ${data.location}
-Competitive Advantage: ${data.strength}
-
-Give:
-1. Executive summary
-2. Customer profile
-3. Value proposition
-4. Product/service strategy
-5. Pricing strategy
-6. Marketing plan
-7. Sales plan
-8. Operations plan
-9. Monthly KPI targets
-10. Risks and solutions
-11. 30-day action plan.
-Keep it practical and easy to execute.`;
-
-    try {
-      const response = await fetch(AI_API_URL,{
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({message:prompt})
-      });
-
-      if (!response.ok) throw new Error();
-
-      const json = await response.json();
-      const answer = json.reply || json.response || json.message;
-
-      if (!answer) throw new Error();
-
-      result.innerHTML = `
-        <h3>🚀 ${escapeHTML(data.name)}</h3>
-        <div style="white-space:pre-wrap;">${escapeHTML(answer)}</div>
-        <hr>
-        <p><strong>Plan saved locally on this device.</strong></p>
       `;
-    } catch {
-      result.innerHTML = `
-        <h3>🚀 ${escapeHTML(data.name)}</h3>
-        <p><strong>Business Type:</strong> ${escapeHTML(data.type)}</p>
-        <p><strong>Target Customer:</strong> ${escapeHTML(data.customer)}</p>
-        <p><strong>Budget:</strong> ${escapeHTML(data.budget)}</p>
-        <p><strong>Goal:</strong> ${escapeHTML(data.goal)}</p>
-        <hr>
-        <h4>30-Day Action Plan</h4>
-        <p>1. Research customer demand and competitors.</p>
-        <p>2. Define your offer and value proposition.</p>
-        <p>3. Set pricing and profit targets.</p>
-        <p>4. Build customer acquisition channels.</p>
-        <p>5. Set weekly sales KPIs.</p>
-        <p>6. Review cash flow and profitability every week.</p>
-        <p>7. Coach the team and adjust execution based on results.</p>
-        <p>⚠️ AI plan generation needs the backend AI endpoint to be available.</p>
+
+    }).join("");
+
+}
+
+// ======================================================
+// LESSONS
+// ======================================================
+
+function renderLessons() {
+
+  const courseList =
+    document.getElementById(
+      "lessonCourseList"
+    );
+
+  const content =
+    document.getElementById(
+      "lessonContent"
+    );
+
+  if (!courseList || !content) {
+
+    console.error(
+      "Lesson elements not found."
+    );
+
+    return;
+
+  }
+
+  courseList.innerHTML =
+    COURSES.map(course => {
+
+      const progress =
+        getCourseProgress(course.id);
+
+      const completed =
+        getCourseCompleted(course.id);
+
+      const active =
+        state.currentCourseId === course.id
+          ? "active"
+          : "";
+
+      return `
+
+        <button
+          type="button"
+          class="lesson-course-item ${active}"
+          data-course="${course.id}"
+        >
+
+          <div class="lesson-course-icon ${course.color}">
+            ${course.icon}
+          </div>
+
+          <div class="lesson-course-info">
+
+            <strong>
+              ${escapeHTML(course.title)}
+            </strong>
+
+            <span>
+              ${completed}/${course.lessons.length}
+              completed
+            </span>
+
+            <div class="mini-progress">
+              <div
+                style="width:${progress}%"
+              ></div>
+            </div>
+
+          </div>
+
+        </button>
+
       `;
-    }
-  }
 
-  // ============================================================
-  // NOTES / ACTION PLAN
-  // ============================================================
+    }).join("");
 
-  function getNotes() {
-    return safeJSON(NOTES_KEY,[]);
-  }
+  const current =
+    getCurrentLesson();
 
-  function saveNotes(notes) {
-    saveJSON(NOTES_KEY,notes);
-  }
+  const course =
+    current.course;
 
-  function openNotes() {
-    const notes = getNotes();
+  const index =
+    current.index;
 
-    showModal(`
+  const lesson =
+    current.lesson;
+
+  const lessonKey =
+    `${course.id}-${index}`;
+
+  const completed =
+    state.completedLessons.includes(
+      lessonKey
+    );
+
+  const isFirst =
+    index === 0;
+
+  const isLast =
+    index ===
+    course.lessons.length - 1;
+
+  content.innerHTML = `
+
+    <div class="lesson-content-header">
+
       <div>
-        <h2>📝 My Business Notes</h2>
-        <p>Capture ideas, decisions, customer insights and action items.</p>
 
-        <textarea id="newNote" class="tool-input" rows="5"
-          placeholder="Write your business note..."></textarea>
+        <span class="lesson-number">
+          LESSON ${index + 1}
+        </span>
 
-        <button class="primary-button" onclick="saveNewNote()">Save Note</button>
-
-        <div style="margin-top:20px;">
-          ${notes.length
-            ? notes.map((n,i)=>`
-              <div class="result-box">
-                <small>${escapeHTML(n.date)}</small>
-                <p style="white-space:pre-wrap;">${escapeHTML(n.text)}</p>
-                <button class="secondary-button" onclick="deleteNote(${i})">Delete</button>
-              </div>
-            `).join("")
-            : `<div class="result-box"><p>No notes yet.</p></div>`
-          }
-        </div>
-      </div>
-    `);
-  }
-
-  function saveNewNote() {
-    const text = $("newNote")?.value.trim();
-
-    if (!text) {
-      showToast("Write something first.");
-      return;
-    }
-
-    const notes = getNotes();
-    notes.unshift({date:new Date().toLocaleString(),text});
-    saveNotes(notes);
-
-    showToast("Note saved.");
-    openNotes();
-  }
-
-  function deleteNote(index) {
-    const notes = getNotes();
-
-    notes.splice(Number(index),1);
-    saveNotes(notes);
-
-    openNotes();
-  }
-
-  // ============================================================
-  // PREMIUM / TRIAL
-  // ============================================================
-
-  function getTrialInfo() {
-    return safeJSON(TRIAL_KEY,null);
-  }
-
-  function startTrial() {
-    const existing = getTrialInfo();
-
-    if (existing) {
-      showToast("Your trial has already started.");
-      return;
-    }
-
-    saveJSON(TRIAL_KEY,{
-      start:Date.now(),
-      days:7
-    });
-
-    showToast("7-Day Premium Trial Started! 🎉");
-    openPremium();
-  }
-
-  function getTrialDaysRemaining() {
-    const trial = getTrialInfo();
-
-    if (!trial) return 0;
-
-    const elapsed = Date.now() - trial.start;
-    const days = Math.ceil(trial.days - elapsed / 86400000);
-
-    return Math.max(0,days);
-  }
-
-  function isPremiumActive() {
-    return getTrialDaysRemaining() > 0;
-  }
-
-  function openPremium() {
-    showModal(`
-      <div>
-        <h2>👑 Full Business Academy</h2>
-        <p>Build your complete business management skillset.</p>
-
-        <div class="result-box">
-          <h3>Premium Features</h3>
-          <p>✓ Advanced Business Lessons</p>
-          <p>✓ Professional Business Tools</p>
-          <p>✓ AI Business Coach</p>
-          <p>✓ AI Business Plan Generator</p>
-          <p>✓ Sales KPI Dashboard</p>
-          <p>✓ Growth & Finance Tools</p>
-          <p>✓ Business Notes & Action Planning</p>
-          <p>✓ Leadership & Management Training</p>
-        </div>
-
-        <h3>${isPremiumActive() ? "🟢 Premium Trial Active" : "7-Day Free Trial"}</h3>
+        <h2>
+          ${escapeHTML(lesson.title)}
+        </h2>
 
         <p>
-          ${
-            isPremiumActive()
-              ? getTrialDaysRemaining() + " day(s) remaining."
-              : "Start your free trial on this device."
-          }
+          ${escapeHTML(course.title)}
         </p>
 
+      </div>
+
+      <span class="course-badge ${course.category}">
+        ${escapeHTML(course.category.toUpperCase())}
+      </span>
+
+    </div>
+
+    <div class="lesson-body">
+
+      <div class="lesson-visual ${course.color}">
+        ${course.icon}
+      </div>
+
+      <h3>
+        ${escapeHTML(lesson.title)}
+      </h3>
+
+      <div class="lesson-text">
+        ${lesson.content}
+      </div>
+
+    </div>
+
+    <div class="lesson-footer">
+
+      <button
+        type="button"
+        class="secondary-btn"
+        data-lesson-action="previous"
+        ${isFirst ? "disabled" : ""}
+      >
+        ← Previous
+      </button>
+
+      <button
+        type="button"
+        class="primary-btn"
+        data-lesson-action="complete"
+      >
         ${
-          !getTrialInfo()
-            ? `<button class="primary-button" onclick="startTrial()">Start Free Trial →</button>`
-            : ""
+          completed
+            ? "✓ Completed"
+            : "Mark as Complete"
         }
-      </div>
-    `);
-  }
+      </button>
 
-  // ============================================================
-  // PROFILE
-  // ============================================================
+      <button
+        type="button"
+        class="secondary-btn"
+        data-lesson-action="next"
+        ${isLast ? "disabled" : ""}
+      >
+        Next →
+      </button>
 
-  function openProfile() {
-    const user = getUser();
-    const name = user?.name || "Aung";
-    const completed = getCompletedLessons().length;
-    const progress = getProgress();
-    const notes = getNotes().length;
+    </div>
 
-    showModal(`
-      <div>
-        <h2>👤 My Profile</h2>
+  `;
 
-        <div class="result-box">
-          <h3>${escapeHTML(name)}</h3>
-          <p>Business Learner</p>
-          <p>Lessons Completed: ${completed}/${lessons.length}</p>
-          <p>Learning Progress: ${progress}%</p>
-          <p>Business Notes: ${notes}</p>
-          <p>
-            Premium Trial:
-            ${
-              isPremiumActive()
-                ? getTrialDaysRemaining() + " day(s) remaining"
-                : "Not active"
-            }
-          </p>
-        </div>
+}
 
-        <button class="primary-button" onclick="openNotes()">📝 My Notes</button>
-        <button class="secondary-button" onclick="changeUserName()">Change Name</button>
-      </div>
-    `);
-  }
+// ======================================================
+// LESSON NAVIGATION
+// ======================================================
 
-  function changeUserName() {
-    showModal(`
-      <div>
-        <h2>👤 Change Name</h2>
+function previousLesson() {
 
-        ${textInput(
-          "newUserName",
-          "Your Name",
-          getUserName()
-        )}
+  const course =
+    getCurrentCourse();
 
-        <button class="primary-button" onclick="saveNewUserName()">
-          Save Name
-        </button>
-      </div>
-    `);
-  }
+  if (state.currentLessonIndex <= 0) {
 
-  function saveNewUserName() {
-    const name = $("newUserName")?.value.trim();
-
-    if (!name) {
-      showToast("Enter a name.");
-      return;
-    }
-
-    const user = getUser() || {};
-
-    user.name = name;
-    user.lastActive = new Date().toISOString();
-
-    saveUser(user);
-
-    closeModal();
-    updateUserUI();
-
-    showToast("Name updated.");
-  }
-
-  // ============================================================
-  // NOTIFICATIONS
-  // ============================================================
-
-  function showNotification() {
-    const progress = getProgress();
-    const next = lessons.find(x => !isCompleted(x.id));
-
-    showModal(`
-      <div>
-        <h2>🔔 Academy Notifications</h2>
-
-        <div class="result-box">
-          <p>🎓 Keep learning every day.</p>
-          <p>📚 ${lessons.length} business lessons are available.</p>
-          <p>📊 Current progress: ${progress}%.</p>
-          <p>🤖 AI Business Coach is ready.</p>
-          <p>🛠️ Professional business tools are available.</p>
-          <p>📝 Capture your next action in My Notes.</p>
-
-          <p>
-            ${
-              next
-                ? "➡️ Next lesson: " + escapeHTML(next.title)
-                : "🏆 All lessons completed!"
-            }
-          </p>
-        </div>
-      </div>
-    `);
-  }
-
-  // ============================================================
-  // SETTINGS
-  // ============================================================
-
-  function getSettings() {
-    return safeJSON(SETTINGS_KEY,{
-      language:"auto"
-    });
-  }
-
-  function openSettings() {
-    const settings = getSettings();
-
-    showModal(`
-      <div>
-        <h2>⚙️ Academy Settings</h2>
-
-        <div class="result-box">
-          <h3>Account</h3>
-          <p>
-            Current user:
-            <strong>${escapeHTML(getUserName())}</strong>
-          </p>
-        </div>
-
-        <button class="primary-button" onclick="resetLearningProgress()">
-          Reset Learning Progress
-        </button>
-
-        <button class="secondary-button" onclick="clearAcademyData()">
-          Clear Academy Data
-        </button>
-      </div>
-    `);
-  }
-
-  function resetLearningProgress() {
-    if (!confirm("Reset all completed lessons?")) return;
-
-    localStorage.removeItem(COMPLETED_KEY);
-
-    updateDashboard();
-
-    showToast("Learning progress reset.");
-
-    openSettings();
-  }
-
-  function clearAcademyData() {
-    if (!confirm("Clear notes, plans, KPI data and progress?")) return;
-
-    [
-      COMPLETED_KEY,
-      NOTES_KEY,
-      PLAN_KEY,
-      KPI_KEY,
-      TRIAL_KEY,
-      SETTINGS_KEY
-    ].forEach(key => localStorage.removeItem(key));
-
-    updateDashboard();
-
-    showToast("Academy data cleared.");
-
-    openSettings();
-  }
-
-  // ============================================================
-  // LOGOUT
-  // ============================================================
-
-  function logoutUser() {
-    localStorage.removeItem(USER_KEY);
-
-    closeModal();
-
-    showToast("Logged out.");
-
-    setTimeout(() => {
-      showLoginScreen();
-    },500);
-  }
-
-  // ============================================================
-  // TOAST
-  // ============================================================
-
-  function showToast(message) {
-    let toast = $("academyToast");
-
-    if (!toast) {
-      toast = document.createElement("div");
-
-      toast.id = "academyToast";
-
-      Object.assign(toast.style,{
-        position:"fixed",
-        bottom:"25px",
-        left:"50%",
-        transform:"translateX(-50%)",
-        padding:"12px 20px",
-        borderRadius:"10px",
-        background:"#111827",
-        color:"#fff",
-        zIndex:"99999",
-        fontSize:"14px",
-        maxWidth:"90%",
-        boxShadow:"0 10px 30px rgba(0,0,0,.2)"
-      });
-
-      document.body.appendChild(toast);
-    }
-
-    toast.textContent = message;
-    toast.style.display = "block";
-
-    clearTimeout(toast._timer);
-
-    toast._timer = setTimeout(() => {
-      toast.style.display = "none";
-    },2500);
-  }
-
-  // ============================================================
-  // KEYBOARD SHORTCUTS
-  // ============================================================
-
-  document.addEventListener("keydown",event => {
-
-    if (event.key === "Escape") {
-      closeModal();
-    }
-
-    if (
-      (event.ctrlKey || event.metaKey) &&
-      event.key === "Enter"
-    ) {
-      if ($("aiInput")) {
-        sendAIMessage();
-      }
-    }
-
-  });
-
-  // ============================================================
-  // INIT
-  // ============================================================
-
-  function init() {
-
-    updateUserUI();
-
-    setPage(
-      "Dashboard",
-      "Learn Business. Build Business. Grow Business."
+    showToast(
+      "ဒါက ပထမဆုံး Lesson ဖြစ်ပါတယ်။"
     );
 
-    const modal = $("appModal");
+    return;
 
-    if (modal) {
-      modal.addEventListener(
-        "click",
-        closeModalOutside
-      );
-    }
-
-    if (!isLoggedIn()) {
-      setTimeout(showLoginScreen,300);
-    }
   }
 
-  // ============================================================
-  // GLOBAL EXPORTS
-  // ============================================================
+  state.currentLessonIndex--;
 
-  window.goDashboard = goDashboard;
-  window.toggleSidebar = toggleSidebar;
-  window.toggleMenu = toggleMenu;
+  saveState();
 
-  window.openLessons = openLessons;
-  window.openLesson = openLesson;
-  window.showLesson = showLesson;
-  window.filterLessons = filterLessons;
-  window.openCategory = openCategory;
-  window.markLessonComplete = markLessonComplete;
-  window.continueLearning = continueLearning;
+  renderLessons();
 
-  window.openTools = openTools;
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 
-  window.openProfitCalculator = openProfitCalculator;
-  window.calculateProfit = calculateProfit;
+}
 
-  window.openPricingCalculator = openPricingCalculator;
-  window.calculatePrice = calculatePrice;
+function nextLesson() {
 
-  window.openBreakEvenCalculator = openBreakEvenCalculator;
-  window.calculateBreakEven = calculateBreakEven;
+  const course =
+    getCurrentCourse();
 
-  window.openSalesTargetCalculator = openSalesTargetCalculator;
-  window.calculateSalesTarget = calculateSalesTarget;
+  if (
+    state.currentLessonIndex >=
+    course.lessons.length - 1
+  ) {
 
-  window.openGrowthCalculator = openGrowthCalculator;
-  window.calculateGrowth = calculateGrowth;
+    showToast(
+      "ဒီ Course ရဲ့ နောက်ဆုံး Lesson ရောက်နေပါပြီ။"
+    );
 
-  window.openROICalculator = openROICalculator;
-  window.calculateROI = calculateROI;
+    return;
 
-  window.openCommissionCalculator = openCommissionCalculator;
-  window.calculateCommission = calculateCommission;
+  }
 
-  window.openInventoryCalculator = openInventoryCalculator;
-  window.calculateInventory = calculateInventory;
+  state.currentLessonIndex++;
 
-  window.openCashFlowPlanner = openCashFlowPlanner;
-  window.calculateCashFlow = calculateCashFlow;
+  saveState();
 
-  window.openKPIDashboard = openKPIDashboard;
-  window.calculateKPI = calculateKPI;
+  renderLessons();
 
-  window.openAI = openAI;
-  window.sendAIMessage = sendAIMessage;
-  window.askAIQuick = askAIQuick;
-  window.checkAIHealth = checkAIHealth;
-  window.clearAIChat = clearAIChat;
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 
-  window.openBusinessPlan = openBusinessPlan;
-  window.generateBusinessPlan = generateBusinessPlan;
+}
 
-  window.openNotes = openNotes;
-  window.saveNewNote = saveNewNote;
-  window.deleteNote = deleteNote;
+// ======================================================
+// COMPLETE LESSON
+// ======================================================
 
-  window.openPremium = openPremium;
-  window.startTrial = startTrial;
+function completeLesson(
+  courseId,
+  index,
+  lessonTitle,
+  courseTitle
+) {
 
-  window.openProfile = openProfile;
-  window.changeUserName = changeUserName;
-  window.saveNewUserName = saveNewUserName;
+  const key =
+    `${courseId}-${index}`;
 
-  window.showNotification = showNotification;
-  window.openSettings = openSettings;
-  window.resetLearningProgress = resetLearningProgress;
-  window.clearAcademyData = clearAcademyData;
+  const alreadyCompleted =
+    state.completedLessons.includes(key);
 
-  window.logoutUser = logoutUser;
-  window.closeModal = closeModal;
-  window.handleLogin = handleLogin;
-  window.showToast = showToast;
+  if (!alreadyCompleted) {
 
-  // ============================================================
-  // START
-  // ============================================================
+    state.completedLessons.push(key);
 
-  if (document.readyState === "loading") {
+    state.dailyGoal.minutes =
+      Math.min(
+        state.dailyGoal.target,
+        state.dailyGoal.minutes + 15
+      );
 
-    document.addEventListener(
-      "DOMContentLoaded",
-      init
+    state.activity.unshift({
+
+      title:
+        lessonTitle,
+
+      course:
+        courseTitle,
+
+      time:
+        "Just now"
+
+    });
+
+    state.activity =
+      state.activity.slice(0, 10);
+
+    state.streak =
+      Math.max(
+        1,
+        state.streak
+      );
+
+    saveState();
+
+    showToast(
+      "သင်ခန်းစာ ပြီးဆုံးပါပြီ ✓"
     );
 
   } else {
 
-    init();
+    showToast(
+      "ဒီသင်ခန်းစာကို ပြီးဆုံးပြီးသားပါ။"
+    );
 
   }
 
-})();
+  renderLessons();
+  renderDashboard();
+  renderProgress();
+  renderReports();
 
- 
+}
+
+// ======================================================
+// PROGRESS
+// ======================================================
+
+function renderProgress() {
+
+  const progress =
+    getOverallProgress();
+
+  const completed =
+    getCompletedCount();
+
+  const total =
+    getTotalLessons();
+
+  const overall =
+    document.getElementById(
+      "overallProgress"
+    );
+
+  const completedEl =
+    document.getElementById(
+      "progressCompleted"
+    );
+
+  const remainingEl =
+    document.getElementById(
+      "progressRemaining"
+    );
+
+  const streakEl =
+    document.getElementById(
+      "progressStreak"
+    );
+
+  if (overall)
+    overall.textContent =
+      `${progress}%`;
+
+  if (completedEl)
+    completedEl.textContent =
+      completed;
+
+  if (remainingEl)
+    remainingEl.textContent =
+      total - completed;
+
+  if (streakEl)
+    streakEl.textContent =
+      state.streak;
+
+  const container =
+    document.getElementById(
+      "courseProgressList"
+    );
+
+  if (!container) return;
+
+  container.innerHTML =
+    COURSES.map(course => {
+
+      const p =
+        getCourseProgress(course.id);
+
+      const completedCourse =
+        getCourseCompleted(course.id);
+
+      return `
+
+        <div class="course-progress-row">
+
+          <div class="course-progress-name">
+
+            <div class="small-icon ${course.color}">
+              ${course.icon}
+            </div>
+
+            <div>
+
+              <strong>
+                ${escapeHTML(course.title)}
+              </strong>
+
+              <span>
+                ${completedCourse}/${course.lessons.length}
+                lessons
+              </span>
+
+            </div>
+
+          </div>
+
+          <div class="course-progress-bar">
+
+            <div>
+              <span
+                style="width:${p}%"
+              ></span>
+            </div>
+
+          </div>
+
+          <strong>
+            ${p}%
+          </strong>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+}
+
+// ======================================================
+// SALES
+// ======================================================
+
+function renderSales() {
+
+  const target =
+    Number(state.sales.target) || 0;
+
+  const actual =
+    Number(state.sales.actual) || 0;
+
+  const achievement =
+    target > 0
+      ? Math.round(
+          actual /
+          target *
+          100
+        )
+      : 0;
+
+  const gap =
+    Math.max(
+      target - actual,
+      0
+    );
+
+  const targetEl =
+    document.getElementById(
+      "salesTargetDisplay"
+    );
+
+  const actualEl =
+    document.getElementById(
+      "salesActualDisplay"
+    );
+
+  const achievementEl =
+    document.getElementById(
+      "salesAchievementDisplay"
+    );
+
+  const gapEl =
+    document.getElementById(
+      "salesGapDisplay"
+    );
+
+  if (targetEl)
+    targetEl.textContent = target;
+
+  if (actualEl)
+    actualEl.textContent = actual;
+
+  if (achievementEl)
+    achievementEl.textContent =
+      `${achievement}%`;
+
+  if (gapEl)
+    gapEl.textContent = gap;
+
+  const targetInput =
+    document.getElementById(
+      "salesTargetInput"
+    );
+
+  const actualInput =
+    document.getElementById(
+      "salesActualInput"
+    );
+
+  if (targetInput)
+    targetInput.value = target;
+
+  if (actualInput)
+    actualInput.value = actual;
+
+  renderSalesChart();
+  renderPriorities();
+
+}
+
+function renderSalesChart() {
+
+  const container =
+    document.getElementById(
+      "salesChart"
+    );
+
+  if (!container) return;
+
+  const history =
+    Array.isArray(state.sales.history)
+      ? state.sales.history
+      : [];
+
+  if (!history.length) {
+
+    container.innerHTML = "";
+
+    return;
+
+  }
+
+  const max =
+    Math.max(...history, 100);
+
+  container.innerHTML =
+    history.map(
+      (value, index) => {
+
+        const height =
+          Math.round(
+            value /
+            max *
+            100
+          );
+
+        return `
+
+          <div class="chart-bar-group">
+
+            <span class="chart-value">
+              ${value}
+            </span>
+
+            <div
+              class="chart-bar"
+              style="height:${height}%"
+            ></div>
+
+            <small>
+              M${index + 1}
+            </small>
+
+          </div>
+
+        `;
+
+      }
+    ).join("");
+
+}
+
+function renderPriorities() {
+
+  const container =
+    document.getElementById(
+      "priorityList"
+    );
+
+  if (!container) return;
+
+  if (!state.sales.priorities.length) {
+
+    container.innerHTML = `
+      <div class="empty-state">
+        <div>🎯</div>
+        <strong>No priority</strong>
+        <span>Add your next execution priority.</span>
+      </div>
+    `;
+
+    return;
+
+  }
+
+  container.innerHTML =
+    state.sales.priorities.map(
+      (item, index) => `
+
+        <div class="priority-item">
+
+          <div class="priority-number">
+            ${index + 1}
+          </div>
+
+          <span>
+            ${escapeHTML(item)}
+          </span>
+
+          <button
+            type="button"
+            class="priority-delete"
+            data-index="${index}"
+          >
+            ×
+          </button>
+
+        </div>
+
+      `
+    ).join("");
+
+}
+
+// ======================================================
+// CALCULATOR
+// ======================================================
+
+function calculatePrice() {
+
+  const productInput =
+    document.getElementById(
+      "productName"
+    );
+
+  const costInput =
+    document.getElementById(
+      "productCost"
+    );
+
+  const marginInput =
+    document.getElementById(
+      "productMargin"
+    );
+
+  if (
+    !productInput ||
+    !costInput ||
+    !marginInput
+  ) {
+    return;
+  }
+
+  const product =
+    productInput.value.trim() ||
+    "Product";
+
+  const cost =
+    Number(costInput.value) || 0;
+
+  const margin =
+    Math.max(
+      0,
+      Math.min(
+        99.99,
+        Number(marginInput.value) || 0
+      )
+    );
+
+  const price =
+    cost /
+    (1 - margin / 100);
+
+  const profit =
+    price - cost;
+
+  state.calculator = {
+    product,
+    cost,
+    margin
+  };
+
+  saveState();
+
+  const resultProduct =
+    document.getElementById(
+      "resultProduct"
+    );
+
+  const resultPrice =
+    document.getElementById(
+      "resultPrice"
+    );
+
+  const resultCost =
+    document.getElementById(
+      "resultCost"
+    );
+
+  const resultProfit =
+    document.getElementById(
+      "resultProfit"
+    );
+
+  const resultMargin =
+    document.getElementById(
+      "resultMargin"
+    );
+
+  if (resultProduct)
+    resultProduct.textContent =
+      product;
+
+  if (resultPrice)
+    resultPrice.textContent =
+      formatMoney(price);
+
+  if (resultCost)
+    resultCost.textContent =
+      formatMoney(cost);
+
+  if (resultProfit)
+    resultProfit.textContent =
+      formatMoney(profit);
+
+  if (resultMargin)
+    resultMargin.textContent =
+      `${margin}%`;
+
+}
+
+function formatMoney(number) {
+
+  return `${Math.round(
+    Number(number) || 0
+  ).toLocaleString()} Ks`;
+
+}
+
+function renderCalculator() {
+
+  const data =
+    state.calculator;
+
+  const product =
+    document.getElementById(
+      "productName"
+    );
+
+  const cost =
+    document.getElementById(
+      "productCost"
+    );
+
+  const margin =
+    document.getElementById(
+      "productMargin"
+    );
+
+  if (
+    !product ||
+    !cost ||
+    !margin
+  ) {
+    return;
+  }
+
+  product.value =
+    data.product;
+
+  cost.value =
+    data.cost;
+
+  margin.value =
+    data.margin;
+
+  calculatePrice();
+
+}
+
+// ======================================================
+// REPORTS
+// ======================================================
+
+function renderReports() {
+
+  const total =
+    getTotalLessons();
+
+  const completed =
+    getCompletedCount();
+
+  const reportCourses =
+    document.getElementById(
+      "reportCourses"
+    );
+
+  const reportLessons =
+    document.getElementById(
+      "reportLessons"
+    );
+
+  const reportCompleted =
+    document.getElementById(
+      "reportCompleted"
+    );
+
+  const reportStreak =
+    document.getElementById(
+      "reportStreak"
+    );
+
+  const reportSalesTarget =
+    document.getElementById(
+      "reportSalesTarget"
+    );
+
+  const reportSalesActual =
+    document.getElementById(
+      "reportSalesActual"
+    );
+
+  const reportSalesAchievement =
+    document.getElementById(
+      "reportSalesAchievement"
+    );
+
+  if (reportCourses)
+    reportCourses.textContent =
+      COURSES.length;
+
+  if (reportLessons)
+    reportLessons.textContent =
+      total;
+
+  if (reportCompleted)
+    reportCompleted.textContent =
+      completed;
+
+  if (reportStreak)
+    reportStreak.textContent =
+      state.streak;
+
+  if (reportSalesTarget)
+    reportSalesTarget.textContent =
+      state.sales.target;
+
+  if (reportSalesActual)
+    reportSalesActual.textContent =
+      state.sales.actual;
+
+  const achievement =
+    state.sales.target > 0
+      ? Math.round(
+          state.sales.actual /
+          state.sales.target *
+          100
+        )
+      : 0;
+
+  if (reportSalesAchievement)
+    reportSalesAchievement.textContent =
+      `${achievement}%`;
+
+}
+
+// ======================================================
+// AI COACH
+// ======================================================
+
+function getAIResponse(question) {
+
+  const q =
+    question.toLowerCase().trim();
+
+  if (
+    q.includes("team") ||
+    q.includes("အဖွဲ့") ||
+    q.includes("coach") ||
+    q.includes("coaching") ||
+    q.includes("performance") ||
+    q.includes("လုပ်ဆောင်ရည်")
+  ) {
+
+    return `
+      <strong>အဖွဲ့လုပ်ဆောင်ရည် မြှင့်တင်ရန်</strong>
+      <p>
+        ပထမဆုံး Target နဲ့ Actual ကို နှိုင်းယှဉ်ပြီး
+        Performance Gap ကို ရှာပါ။
+      </p>
+      <p>
+        Gap ဖြစ်ရတဲ့ Root Cause ကို
+        လူ၊ Skill၊ Customer၊ နယ်မြေနဲ့ Execution
+        အပိုင်းခွဲပြီး လေ့လာပါ။
+      </p>
+      <p>
+        Action Plan ချမှတ်ပြီး အပတ်စဉ် Follow-up လုပ်ပါ။
+        Micromanagement မလုပ်ဘဲ Coaching နဲ့ Empowerment
+        ကို အသုံးပြုပါ။
+      </p>
+    `;
+
+  }
+
+  if (
+    q.includes("customer") ||
+    q.includes("ဖောက်သည်")
+  ) {
+
+    return `
+      <strong>Customer Growth တိုးတက်စေရန်</strong>
+      <p>
+        Customer တွေကို Value နဲ့ Potential အလိုက် ခွဲခြားပါ။
+      </p>
+      <p>
+        အဓိက Customer တွေရဲ့ လိုအပ်ချက်၊ Complaint၊
+        ဝယ်ယူမှုပုံစံနဲ့ Business Problem ကို နားလည်ပါ။
+      </p>
+      <p>
+        Visit Plan၊ Follow-up Plan နဲ့
+        Customer Development Plan တည်ဆောက်ပါ။
+      </p>
+    `;
+
+  }
+
+  if (
+    q.includes("sales") ||
+    q.includes("အရောင်း") ||
+    q.includes("target") ||
+    q.includes("ရောင်းအား")
+  ) {
+
+    return `
+      <strong>Sales Target တိုးတက်စေရန်</strong>
+      <p>
+        လစဉ် Target ကို အပတ်စဉ်နဲ့ နေ့စဉ် Target အဖြစ် ခွဲပါ။
+      </p>
+      <p>
+        Sales Gap ကို Salesperson၊ Territory၊ Product နဲ့
+        Customer အလိုက် ခွဲခြမ်းစိတ်ဖြာပါ။
+      </p>
+      <p>
+        People၊ Market နဲ့ Execution သုံးခုအပေါ်
+        Action Plan ချပြီး အပတ်စဉ် Review ပြုလုပ်ပါ။
+      </p>
+    `;
+
+  }
+
+  if (
+    q.includes("finance") ||
+    q.includes("profit") ||
+    q.includes("အမြတ်") ||
+    q.includes("ငွေကြေး")
+  ) {
+
+    return `
+      <strong>Finance Management</strong>
+      <p>
+        Revenue၊ Cost၊ Profit၊ Margin နဲ့ Cash Flow ကို
+        တစ်ခုချင်းစီ ခွဲပြီး စောင့်ကြည့်ပါ။
+      </p>
+      <p>
+        Budget vs Actual ကို ပုံမှန်နှိုင်းယှဉ်ပြီး
+        မလိုအပ်တဲ့ Cost နဲ့ Cash Leakage ကို ရှာပါ။
+      </p>
+    `;
+
+  }
+
+  if (
+    q.includes("hr") ||
+    q.includes("employee") ||
+    q.includes("ဝန်ထမ်း")
+  ) {
+
+    return `
+      <strong>HR Management</strong>
+      <p>
+        လူမှန်နေရာမှန်၊ Clear KPI၊ Coaching၊
+        Recognition နဲ့ Career Development ကို အဓိကထားပါ။
+      </p>
+    `;
+
+  }
+
+  if (
+    q.includes("strategy") ||
+    q.includes("မဟာဗျူဟာ")
+  ) {
+
+    return `
+      <strong>Strategic Management</strong>
+      <p>
+        Market၊ Customer၊ Competitor နဲ့
+        Company Capability ကို အရင်သုံးသပ်ပါ။
+      </p>
+      <p>
+        ပြီးရင် Strategic Priority ၃ ခုလောက် သတ်မှတ်ပြီး
+        Measurable Action Plan ပြုလုပ်ပါ။
+      </p>
+    `;
+
+  }
+
+  if (
+    q.includes("pricing") ||
+    q.includes("price") ||
+    q.includes("စျေးနှုန်း")
+  ) {
+
+    return `
+      <strong>Pricing Strategy</strong>
+      <p>
+        Cost တစ်ခုတည်းကို မကြည့်ဘဲ Customer Value၊
+        Competitor Price နဲ့ Desired Margin ကို တွဲပြီး စဉ်းစားပါ။
+      </p>
+      <p>
+        Margin မလုံလောက်ရင် ရောင်းအားတက်နေသော်လည်း
+        Profit ကျဆင်းနိုင်ပါတယ်။
+      </p>
+    `;
+
+  }
+
+  return `
+    <strong>Business Manager အနေနဲ့</strong>
+    <p>
+      ပြဿနာတစ်ခုကို ဖြေရှင်းတဲ့အခါ
+      <strong>လူ၊ နံပါတ်နဲ့ လက်တွေ့အကောင်အထည်ဖော်မှု</strong>
+      သုံးခုကို အရင်ကြည့်ပါ။
+    </p>
+    <p>
+      ရလဒ်ကို တိုင်းတာပါ။ အကြီးမားဆုံး Gap ကို ရှာပါ။
+      Root Cause ကို သတ်မှတ်ပြီး Action Plan ချမှတ်ပါ။
+    </p>
+  `;
+
+}
+
+function sendAIMessage(question) {
+
+  if (!question.trim()) return;
+
+  const container =
+    document.getElementById(
+      "chatMessages"
+    );
+
+  if (!container) return;
+
+  container.insertAdjacentHTML(
+    "beforeend",
+    `
+      <div class="chat-message user">
+        <div class="message-avatar">
+          AZ
+        </div>
+        <div class="message-content">
+          <strong>You</strong>
+          <p>${escapeHTML(question)}</p>
+        </div>
+      </div>
+    `
+  );
+
+  const answer =
+    getAIResponse(question);
+
+  setTimeout(() => {
+
+    container.insertAdjacentHTML(
+      "beforeend",
+      `
+        <div class="chat-message assistant">
+          <div class="message-avatar">
+            AI
+          </div>
+          <div class="message-content">
+            <strong>Business Coach</strong>
+            <div>${answer}</div>
+          </div>
+        </div>
+      `
+    );
+
+    container.scrollTop =
+      container.scrollHeight;
+
+  }, 350);
+
+  container.scrollTop =
+    container.scrollHeight;
+
+}
+
+// ======================================================
+// AI TOOLS
+// ======================================================
+
+function openAITool(tool) {
+
+  const messages = {
+
+    sales:
+      "လစဉ်အရောင်း Target အတွက် လက်တွေ့လုပ်ဆောင်နိုင်တဲ့ Sales Action Plan တစ်ခုရေးပေးပါ။",
+
+    customer:
+      "Customer Growth နဲ့ Customer Retention တိုးတက်အောင် ဘယ်လို Strategy ချမှတ်ရမလဲ။",
+
+    team:
+      "Performance မကောင်းတဲ့ Salesperson တစ်ယောက်အတွက် Coaching Plan တစ်ခုရေးပေးပါ။",
+
+    business:
+      "လုပ်ငန်းတိုးတက်ဖို့ လက်တွေ့အသုံးချနိုင်တဲ့ Business Growth Strategy တစ်ခုရေးပေးပါ။"
+
+  };
+
+  navigate("ai-coach");
+
+  const input =
+    document.getElementById(
+      "chatInput"
+    );
+
+  if (!input) return;
+
+  input.value =
+    messages[tool] || "";
+
+  sendAIMessage(
+    input.value
+  );
+
+  input.value = "";
+
+}
+
+// ======================================================
+// SEARCH
+// ======================================================
+
+function performSearch(query) {
+
+  const text =
+    query.trim().toLowerCase();
+
+  if (!text) return;
+
+  const course =
+    COURSES.find(course =>
+      course.title.toLowerCase().includes(text) ||
+      course.description.toLowerCase().includes(text) ||
+      course.category.toLowerCase().includes(text)
+    );
+
+  if (course) {
+
+    state.currentCourseId =
+      course.id;
+
+    state.currentLessonIndex =
+      0;
+
+    saveState();
+
+    navigate("lessons");
+
+    return;
+
+  }
+
+  for (const course of COURSES) {
+
+    const index =
+      course.lessons.findIndex(
+        lesson => {
+
+          const plainContent =
+            lesson.content
+              .replace(/<[^>]*>/g, "")
+              .toLowerCase();
+
+          return (
+            lesson.title
+              .toLowerCase()
+              .includes(text) ||
+            plainContent.includes(text)
+          );
+
+        }
+      );
+
+    if (index !== -1) {
+
+      state.currentCourseId =
+        course.id;
+
+      state.currentLessonIndex =
+        index;
+
+      saveState();
+
+      navigate("lessons");
+
+      return;
+
+    }
+
+  }
+
+  showToast(
+    "သင်တန်း သို့မဟုတ် သင်ခန်းစာ မတွေ့ပါ။"
+  );
+
+}
+
+// ======================================================
+// SIDEBAR
+// ======================================================
+
+function openSidebar() {
+
+  document
+    .getElementById("sidebar")
+    ?.classList.add("open");
+
+  document
+    .getElementById("sidebarOverlay")
+    ?.classList.add("show");
+
+}
+
+function closeSidebar() {
+
+  document
+    .getElementById("sidebar")
+    ?.classList.remove("open");
+
+  document
+    .getElementById("sidebarOverlay")
+    ?.classList.remove("show");
+
+}
+
+// ======================================================
+// TOAST
+// ======================================================
+
+function showToast(message) {
+
+  const toast =
+    document.getElementById("toast");
+
+  const toastMessage =
+    document.getElementById("toastMessage");
+
+  if (!toast || !toastMessage)
+    return;
+
+  toastMessage.textContent =
+    message;
+
+  toast.classList.add("show");
+
+  clearTimeout(showToast.timer);
+
+  showToast.timer =
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2500);
+
+}
+
+// ======================================================
+// MODAL
+// ======================================================
+
+function closeModal() {
+
+  document
+    .getElementById("modalOverlay")
+    ?.classList.remove("show");
+
+}
+
+// ======================================================
+// LESSON ACTION
+// ======================================================
+
+function handleLessonAction(action) {
+
+  if (action === "previous") {
+    previousLesson();
+    return;
+  }
+
+  if (action === "next") {
+    nextLesson();
+    return;
+  }
+
+  if (action === "complete") {
+
+    const current =
+      getCurrentLesson();
+
+    completeLesson(
+      current.course.id,
+      current.index,
+      current.lesson.title,
+      current.course.title
+    );
+
+  }
+
+}
+
+// ======================================================
+// INITIALIZE EVENTS
+// ======================================================
+
+let academyInitialized = false;
+
+function initializeApp() {
+
+  if (academyInitialized) {
+    return;
+  }
+
+  academyInitialized = true;
+
+  // ----------------------------------------------------
+  // GLOBAL CLICK DELEGATION
+  // ----------------------------------------------------
+
+  document.addEventListener(
+    "click",
+    event => {
+
+      const target =
+        event.target;
+
+      if (!(target instanceof Element)) {
+        return;
+      }
+
+      // NAVIGATION
+      const nav =
+        target.closest(".nav-item");
+
+      if (nav) {
+
+        event.preventDefault();
+
+        navigate(
+          nav.dataset.page
+        );
+
+        return;
+
+      }
+
+      // DATA GO
+      const go =
+        target.closest("[data-go]");
+
+      if (go) {
+
+        event.preventDefault();
+
+        navigate(
+          go.dataset.go
+        );
+
+        return;
+
+      }
+
+      // COURSE
+      const openCourse =
+        target.closest(".open-course");
+
+      if (openCourse) {
+
+        event.preventDefault();
+
+        const courseId =
+          openCourse.dataset.course;
+
+        const course =
+          COURSES.find(
+            item =>
+              item.id === courseId
+          );
+
+        if (!course) return;
+
+        state.currentCourseId =
+          courseId;
+
+        state.currentLessonIndex =
+          0;
+
+        saveState();
+
+        navigate("lessons");
+
+        return;
+
+      }
+
+      // LESSON COURSE
+      const lessonCourse =
+        target.closest(
+          ".lesson-course-item"
+        );
+
+      if (lessonCourse) {
+
+        event.preventDefault();
+
+        const courseId =
+          lessonCourse.dataset.course;
+
+        const course =
+          COURSES.find(
+            item =>
+              item.id === courseId
+          );
+
+        if (!course) return;
+
+        state.currentCourseId =
+          courseId;
+
+        state.currentLessonIndex =
+          0;
+
+        saveState();
+
+        renderLessons();
+
+        return;
+
+      }
+
+      // LESSON ACTION
+      const lessonAction =
+        target.closest(
+          "[data-lesson-action]"
+        );
+
+      if (lessonAction) {
+
+        event.preventDefault();
+
+        if (lessonAction.disabled) {
+          return;
+        }
+
+        handleLessonAction(
+          lessonAction.dataset.lessonAction
+        );
+
+        return;
+
+      }
+
+      // RECOMMENDATION
+      const recommendation =
+        target.closest(
+          ".recommendation-item"
+        );
+
+      if (recommendation) {
+
+        event.preventDefault();
+
+        const courseId =
+          recommendation.dataset.course;
+
+        const course =
+          COURSES.find(
+            item =>
+              item.id === courseId
+          );
+
+        if (!course) return;
+
+        state.currentCourseId =
+          courseId;
+
+        state.currentLessonIndex =
+          0;
+
+        saveState();
+
+        navigate("lessons");
+
+        return;
+
+      }
+
+      // PRIORITY DELETE
+      const deletePriority =
+        target.closest(
+          ".priority-delete"
+        );
+
+      if (deletePriority) {
+
+        event.preventDefault();
+
+        const index =
+          Number(
+            deletePriority.dataset.index
+          );
+
+        if (
+          Number.isInteger(index) &&
+          index >= 0 &&
+          index <
+            state.sales.priorities.length
+        ) {
+
+          state.sales.priorities.splice(
+            index,
+            1
+          );
+
+          saveState();
+
+          renderPriorities();
+
+          showToast(
+            "Priority ဖျက်ပြီးပါပြီ။"
+          );
+
+        }
+
+        return;
+
+      }
+
+      // AI QUESTIONS
+      const aiQuestion =
+        target.closest(".ai-question");
+
+      if (aiQuestion) {
+
+        const input =
+          document.getElementById(
+            "chatInput"
+          );
+
+        const send =
+          document.getElementById(
+            "sendChatBtn"
+          );
+
+        if (!input || !send)
+          return;
+
+        input.value =
+          aiQuestion.textContent.trim();
+
+        send.click();
+
+        return;
+
+      }
+
+      // AI TOOLS
+      const aiTool =
+        target.closest(
+          ".ai-tool-card"
+        );
+
+      if (aiTool) {
+
+        openAITool(
+          aiTool.dataset.tool
+        );
+
+      }
+
+    }
+  );
+
+  // ----------------------------------------------------
+  // COURSE FILTER
+  // ----------------------------------------------------
+
+  document
+    .querySelectorAll(".filter-tab")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          document
+            .querySelectorAll(".filter-tab")
+            .forEach(item =>
+              item.classList.remove(
+                "active"
+              )
+            );
+
+          button.classList.add(
+            "active"
+          );
+
+          renderCourses(
+            button.dataset.filter
+          );
+
+        }
+      );
+
+    });
+
+  // ----------------------------------------------------
+  // CONTINUE LEARNING
+  // ----------------------------------------------------
+
+  const continueBtn =
+    document.getElementById(
+      "continueLearningBtn"
+    );
+
+  if (continueBtn) {
+
+    continueBtn.addEventListener(
+      "click",
+      () => navigate("lessons")
+    );
+
+  }
+
+  // ----------------------------------------------------
+  // SALES UPDATE
+  // ----------------------------------------------------
+
+  const updateSalesBtn =
+    document.getElementById(
+      "updateSalesBtn"
+    );
+
+  if (updateSalesBtn) {
+
+    updateSalesBtn.addEventListener(
+      "click",
+      () => {
+
+        const targetInput =
+          document.getElementById(
+            "salesTargetInput"
+          );
+
+        const actualInput =
+          document.getElementById(
+            "salesActualInput"
+          );
+
+        state.sales.target =
+          Number(
+            targetInput?.value
+          ) || 0;
+
+        state.sales.actual =
+          Number(
+            actualInput?.value
+          ) || 0;
+
+        state.sales.history.push(
+          state.sales.actual
+        );
+
+        state.sales.history =
+          state.sales.history.slice(-7);
+
+        saveState();
+
+        renderSales();
+        renderReports();
+
+        showToast(
+          "Sales performance updated."
+        );
+
+      }
+    );
+
+  }
+
+  // ----------------------------------------------------
+  // ADD PRIORITY
+  // ----------------------------------------------------
+
+  const addPriorityBtn =
+    document.getElementById(
+      "addPriorityBtn"
+    );
+
+  if (addPriorityBtn) {
+
+    addPriorityBtn.addEventListener(
+      "click",
+      () => {
+
+        const input =
+          document.getElementById(
+            "priorityInput"
+          );
+
+        const value =
+          input?.value.trim();
+
+        if (!value) {
+
+          showToast(
+            "Priority ထည့်ပေးပါ။"
+          );
+
+          return;
+
+        }
+
+        state.sales.priorities.push(
+          value
+        );
+
+        input.value = "";
+
+        saveState();
+
+        renderPriorities();
+
+        showToast(
+          "Priority ထည့်ပြီးပါပြီ။"
+        );
+
+      }
+    );
+
+  }
+
+  // ----------------------------------------------------
+  // CALCULATOR
+  // ----------------------------------------------------
+
+  const calculateBtn =
+    document.getElementById(
+      "calculateBtn"
+    );
+
+  if (calculateBtn) {
+
+    calculateBtn.addEventListener(
+      "click",
+      calculatePrice
+    );
+
+  }
+
+  // ----------------------------------------------------
+  // AI CHAT
+  // ----------------------------------------------------
+
+  const sendChatBtn =
+    document.getElementById(
+      "sendChatBtn"
+    );
+
+  const chatInput =
+    document.getElementById(
+      "chatInput"
+    );
+
+  if (
+    sendChatBtn &&
+    chatInput
+  ) {
+
+    sendChatBtn.addEventListener(
+      "click",
+      () => {
+
+        const value =
+          chatInput.value;
+
+        if (!value.trim())
+          return;
+
+        sendAIMessage(value);
+
+        chatInput.value = "";
+
+      }
+    );
+
+    chatInput.addEventListener(
+      "keydown",
+      event => {
+
+        if (event.key === "Enter") {
+
+          event.preventDefault();
+
+          sendChatBtn.click();
+
+        }
+
+      }
+    );
+
+  }
+
+  // ----------------------------------------------------
+  // SEARCH
+  // ----------------------------------------------------
+
+  const search =
+    document.getElementById(
+      "globalSearch"
+    );
+
+  if (search) {
+
+    search.addEventListener(
+      "keydown",
+      event => {
+
+        if (event.key === "Enter") {
+
+          performSearch(
+            event.target.value
+          );
+
+        }
+
+      }
+    );
+
+  }
+
+  // ----------------------------------------------------
+  // MOBILE SIDEBAR
+  // ----------------------------------------------------
+
+  const mobileMenu =
+    document.getElementById(
+      "mobileMenu"
+    );
+
+  if (mobileMenu) {
+    mobileMenu.addEventListener(
+      "click",
+      openSidebar
+    );
+  }
+
+  const overlay =
+    document.getElementById(
+      "sidebarOverlay"
+    );
+
+  if (overlay) {
+    overlay.addEventListener(
+      "click",
+      closeSidebar
+    );
+  }
+
+  // ----------------------------------------------------
+  // SETTINGS
+  // ----------------------------------------------------
+
+  const reminder =
+    document.getElementById(
+      "reminderToggle"
+    );
+
+  if (reminder) {
+
+    reminder.addEventListener(
+      "change",
+      event => {
+
+        state.settings.reminder =
+          event.target.checked;
+
+        saveState();
+
+      }
+    );
+
+  }
+
+  const tracking =
+    document.getElementById(
+      "trackingToggle"
+    );
+
+  if (tracking) {
+
+    tracking.addEventListener(
+      "change",
+      event => {
+
+        state.settings.tracking =
+          event.target.checked;
+
+        saveState();
+
+      }
+    );
+
+  }
+
+  // ----------------------------------------------------
+  // RESET
+  // ----------------------------------------------------
+
+  const resetBtn =
+    document.getElementById(
+      "resetDataBtn"
+    );
+
+  if (resetBtn) {
+
+    resetBtn.addEventListener(
+      "click",
+      () => {
+
+        const confirmed =
+          confirm(
+            "Aung Business Academy ရဲ့ Learning Progress အားလုံးကို Reset လုပ်မှာ သေချာပါသလား?"
+          );
+
+        if (!confirmed)
+          return;
+
+        localStorage.removeItem(
+          STORAGE_KEY
+        );
+
+        state =
+          createDefaultState();
+
+        saveState();
+
+        renderAll();
+
+        showToast(
+          "Academy Data အားလုံး Reset ပြီးပါပြီ။"
+        );
+
+      }
+    );
+
+  }
+
+  // ----------------------------------------------------
+  // NOTIFICATION
+  // ----------------------------------------------------
+
+  const notification =
+    document.getElementById(
+      "notificationBtn"
+    );
+
+  if (notification) {
+
+    notification.addEventListener(
+      "click",
+      () => {
+
+        showToast(
+          "လက်ရှိ Notification မရှိသေးပါ။"
+        );
+
+      }
+    );
+
+  }
+
+  // ----------------------------------------------------
+  // MODAL
+  // ----------------------------------------------------
+
+  const modalClose =
+    document.getElementById(
+      "modalClose"
+    );
+
+  if (modalClose) {
+
+    modalClose.addEventListener(
+      "click",
+      closeModal
+    );
+
+  }
+
+  const modalOverlay =
+    document.getElementById(
+      "modalOverlay"
+    );
+
+  if (modalOverlay) {
+
+    modalOverlay.addEventListener(
+      "click",
+      event => {
+
+        if (
+          event.target.id ===
+          "modalOverlay"
+        ) {
+
+          closeModal();
+
+        }
+
+      }
+    );
+
+  }
+
+}
+
+// ======================================================
+// RENDER ALL
+// ======================================================
+
+function renderAll() {
+
+  renderDashboard();
+
+  renderCourses();
+
+  renderLessons();
+
+  renderProgress();
+
+  renderSales();
+
+  renderCalculator();
+
+  renderReports();
+
+  const reminder =
+    document.getElementById(
+      "reminderToggle"
+    );
+
+  const tracking =
+    document.getElementById(
+      "trackingToggle"
+    );
+
+  if (reminder) {
+
+    reminder.checked =
+      !!state.settings.reminder;
+
+  }
+
+  if (tracking) {
+
+    tracking.checked =
+      !!state.settings.tracking;
+
+  }
+
+}
+
+// ======================================================
+// INIT
+// ======================================================
+
+function initAcademy() {
+
+  state =
+    loadState();
+
+  console.log(
+    "Aung Business Academy V8 initialized."
+  );
+
+  console.log(
+    `Courses: ${COURSES.length}`
+  );
+
+  console.log(
+    `Lessons: ${getTotalLessons()}`
+  );
+
+  initializeApp();
+
+  renderAll();
+
+}
+
+// ======================================================
+// DOM READY
+// ======================================================
+
+if (
+  document.readyState ===
+  "loading"
+) {
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    initAcademy,
+    {
+      once: true
+    }
+  );
+
+} else {
+
+  initAcademy();
+
+}
+
+// ======================================================
+// GLOBAL API
+// ======================================================
+
+window.AungAcademy = {
+
+  get state() {
+    return state;
+  },
+
+  courses:
+    COURSES,
+
+  navigate,
+
+  renderAll,
+
+  renderLessons,
+
+  completeLesson,
+
+  previousLesson,
+
+  nextLesson,
+
+  getOverallProgress,
+
+  getCourseProgress,
+
+  getTotalLessons
+
+};

@@ -29,19 +29,18 @@
    * IMPORTANT:
    * Replace these with your real payment information.
    */
-  const DEFAULT_PAYMENT = {
-    kpay: {
-      number: "09XXXXXXXXX",
-      name: "Aung Business Academy"
-    },
+const DEFAULT_PAYMENT = {
+  kpay: {
+    number: "0943016420",
+    name: "Aung Zar Ni Win"
+  },
 
-    bank: {
-      bankName: "KBZ Bank",
-      accountNumber: "XXXXXXXXXX",
-      accountName: "Aung Business Academy"
-    }
-  };
-
+  bank: {
+    bankName: "CB Bank",
+    accountNumber: "0174600900060763",
+    accountName: "Aung Zar Ni Win"
+  }
+};
   /* =========================================================
      BASIC HELPERS
      ========================================================= */

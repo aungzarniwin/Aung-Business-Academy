@@ -13,8 +13,7 @@ const SUPABASE_URL =
   "https://cubhlvttogntwxtqszbn.supabase.co";
 
 const SUPABASE_ANON_KEY =
-  sb_publishable_KQHXLQIiLZ4_GOmPsEcZFA_8_pw9rl2
-
+  "sb_publishable_KQHXLQIiLZ4_GOmPsEcZFA_8_pw9rl2";
 const SUPABASE_TABLE =
   "premium_payments";
 

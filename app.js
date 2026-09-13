@@ -4834,3 +4834,1222 @@
   // ============================================================
   // END OF PART 3
   // ============================================================
+  // ============================================================
+  // NOTES / ACTION PLAN
+  // ============================================================
+
+  function getNotes() {
+    return safeJSON(NOTES_KEY,[]);
+  }
+
+  function saveNotes(notes) {
+    saveJSON(NOTES_KEY,notes);
+  }
+
+  function openNotes() {
+    const notes = getNotes();
+
+    showModal(`
+      <div>
+        <h2>📝 My Business Notes</h2>
+        <p>Capture ideas, decisions, customer insights and action items.</p>
+
+        <textarea id="newNote" class="tool-input" rows="5"
+          placeholder="Write your business note..."></textarea>
+
+        <button class="primary-button" onclick="saveNewNote()">Save Note</button>
+
+        <div style="margin-top:20px;">
+          ${notes.length
+            ? notes.map((n,i)=>`
+              <div class="result-box">
+                <small>${escapeHTML(n.date)}</small>
+                <p style="white-space:pre-wrap;">${escapeHTML(n.text)}</p>
+                <button class="secondary-button" onclick="deleteNote(${i})">
+                  Delete
+                </button>
+              </div>
+            `).join("")
+            : `
+              <div class="result-box">
+                <p>No notes yet.</p>
+              </div>
+            `
+          }
+        </div>
+      </div>
+    `);
+  }
+
+  function saveNewNote() {
+    const text = $("newNote")?.value.trim();
+
+    if (!text) {
+      showToast("Write something first.");
+      return;
+    }
+
+    const notes = getNotes();
+
+    notes.unshift({
+      date:new Date().toLocaleString(),
+      text:text
+    });
+
+    saveNotes(notes);
+
+    showToast("Note saved.");
+    openNotes();
+  }
+
+  function deleteNote(index) {
+    const notes = getNotes();
+
+    notes.splice(Number(index),1);
+
+    saveNotes(notes);
+
+    openNotes();
+  }
+
+
+  // ============================================================
+  // PREMIUM PAYMENT
+  // Lesson 1 is free. No 7-day trial.
+  // ============================================================
+
+  function getPaymentRequest() {
+    return safeJSON(PAYMENT_KEY,null);
+  }
+
+  function formatPlanPrice(price) {
+    return formatNumber(price) + " Ks";
+  }
+
+  function openPremium() {
+    const premium = getPremiumInfo();
+    const pending = getPaymentRequest();
+
+    if (premium) {
+      const daysLeft = Math.max(
+        0,
+        Math.ceil((premium.expiresAt - Date.now()) / 86400000)
+      );
+
+      showModal(`
+        <div>
+          <h2>👑 Premium Academy</h2>
+
+          <div class="result-box">
+            <h3>🟢 Premium Active</h3>
+
+            <p>
+              Plan:
+              <strong>${escapeHTML(premium.planName)}</strong>
+            </p>
+
+            <p>
+              Remaining:
+              <strong>${daysLeft} day(s)</strong>
+            </p>
+
+            <p>
+              Premium access includes Lessons 2–30
+              and premium business tools.
+            </p>
+          </div>
+
+          <button
+            class="secondary-button"
+            onclick="openPremiumPlans()">
+            View Plans
+          </button>
+        </div>
+      `);
+
+      return;
+    }
+
+    showModal(`
+      <div class="premium-page">
+
+        <h2>👑 Premium Academy</h2>
+
+        <p>
+          Lesson 1 is free.
+          Unlock Lessons 2–30 and premium tools with a paid plan.
+        </p>
+
+        <div class="result-box">
+          <h3>🆓 Free Access</h3>
+
+          <p>✓ Lesson 1 — Business Fundamentals</p>
+          <p>✓ Create your learner profile</p>
+        </div>
+
+        <div class="result-box">
+          <h3>👑 Premium Includes</h3>
+
+          <p>✓ Lessons 2–30</p>
+          <p>✓ Professional Business Tools</p>
+          <p>✓ AI Business Coach</p>
+          <p>✓ AI Business Plan</p>
+          <p>✓ Sales KPI Dashboard</p>
+          <p>✓ Growth & Finance Tools</p>
+          <p>✓ Notes & Action Planning</p>
+          <p>✓ Leadership & Management Training</p>
+        </div>
+
+        ${pending ? `
+          <div class="result-box">
+
+            <h3>🟠 Payment Pending</h3>
+
+            <p>
+              Plan:
+              <strong>${escapeHTML(pending.planName)}</strong>
+            </p>
+
+            <p>
+              Method:
+              <strong>${escapeHTML(pending.method)}</strong>
+            </p>
+
+            <p>
+              Reference:
+              <strong>${escapeHTML(pending.reference)}</strong>
+            </p>
+
+            <p>
+              Your payment is waiting for admin verification.
+            </p>
+
+          </div>
+        ` : ""}
+
+        <button
+          class="primary-button"
+          onclick="openPremiumPlans()">
+
+          ${pending
+            ? "Change / Resubmit Payment"
+            : "Choose Premium Plan →"}
+
+        </button>
+
+      </div>
+    `);
+  }
+
+
+  // ============================================================
+  // PREMIUM PLANS
+  // ============================================================
+
+  function openPremiumPlans() {
+
+    showModal(`
+      <div class="premium-page">
+
+        <h2>💳 Choose Your Plan</h2>
+
+        <p>
+          Launch Offer — limited introductory pricing.
+        </p>
+
+        <div class="quick-grid">
+
+          ${premiumPlanCard(
+            PAYMENT_PLANS.month1,
+            "Starter",
+            "Good for trying the Academy.",
+            false
+          )}
+
+          ${premiumPlanCard(
+            PAYMENT_PLANS.month3,
+            "Popular",
+            "Best balance of price and learning time.",
+            true
+          )}
+
+          ${premiumPlanCard(
+            PAYMENT_PLANS.month6,
+            "Best Value",
+            "Lowest monthly cost for serious learners.",
+            false
+          )}
+
+        </div>
+
+        <div class="result-box">
+
+          <h3>💳 Payment Methods</h3>
+
+          <p>🟢 KPay</p>
+          <p>
+            ${escapeHTML(PAYMENT_ACCOUNTS.kpay)}
+          </p>
+
+          <hr>
+
+          <p>🔵 CB Bank</p>
+          <p>
+            ${escapeHTML(PAYMENT_ACCOUNTS.cb)}
+          </p>
+
+        </div>
+
+      </div>
+    `);
+  }
+
+
+  function premiumPlanCard(
+    plan,
+    label,
+    description,
+    featured
+  ) {
+
+    return `
+      <div
+        class="quick-card"
+        style="position:relative;">
+
+        ${
+          featured
+            ? '<span class="welcome-label">⭐ MOST POPULAR</span>'
+            : ''
+        }
+
+        <h3>${escapeHTML(plan.name)}</h3>
+
+        <p>
+          ${escapeHTML(description)}
+        </p>
+
+        <h2>
+          ${formatPlanPrice(plan.price)}
+        </h2>
+
+        <p>
+          Access for ${plan.days} days
+        </p>
+
+        <button
+          class="primary-button"
+          onclick="openPaymentForm('${escapeHTML(plan.id)}')">
+
+          Choose ${escapeHTML(plan.name)} →
+
+        </button>
+
+      </div>
+    `;
+  }
+
+
+  // ============================================================
+  // PAYMENT FORM
+  // ============================================================
+
+  function openPaymentForm(planId) {
+
+    const plan = Object.values(PAYMENT_PLANS)
+      .find(item => item.id === planId);
+
+    if (!plan) return;
+
+    showModal(`
+      <div class="premium-page">
+
+        <h2>🧾 Payment Confirmation</h2>
+
+        <div class="result-box">
+
+          <h3>
+            ${escapeHTML(plan.name)}
+            —
+            ${formatPlanPrice(plan.price)}
+          </h3>
+
+          <p>
+            Choose your payment method and enter
+            the transaction/reference number after payment.
+          </p>
+
+        </div>
+
+        <label
+          style="
+            display:block;
+            margin:12px 0 6px;
+            font-weight:600;
+          ">
+
+          Payment Method
+
+        </label>
+
+        <select
+          id="paymentMethod"
+          class="tool-input">
+
+          <option value="KPay">
+            🟢 KPay
+          </option>
+
+          <option value="CB Bank">
+            🔵 CB Bank
+          </option>
+
+        </select>
+
+        <div class="result-box">
+
+          <p>
+            <strong>KPay:</strong>
+            ${escapeHTML(PAYMENT_ACCOUNTS.kpay)}
+          </p>
+
+          <p>
+            <strong>CB Bank:</strong>
+            ${escapeHTML(PAYMENT_ACCOUNTS.cb)}
+          </p>
+
+        </div>
+
+        <label
+          style="
+            display:block;
+            margin:12px 0 6px;
+            font-weight:600;
+          ">
+
+          Transaction / Reference Number
+
+        </label>
+
+        <input
+          id="paymentReference"
+          class="tool-input"
+          type="text"
+          placeholder="Enter transaction reference">
+
+        <label
+          style="
+            display:block;
+            margin:12px 0 6px;
+            font-weight:600;
+          ">
+
+          Payer Name
+
+        </label>
+
+        <input
+          id="paymentPayer"
+          class="tool-input"
+          type="text"
+          value="${escapeHTML(getUserName())}"
+          placeholder="Your payment name">
+
+        <button
+          class="primary-button"
+          onclick="submitPayment('${escapeHTML(plan.id)}')">
+
+          Submit Payment →
+
+        </button>
+
+        <button
+          class="secondary-button"
+          onclick="openPremiumPlans()">
+
+          ← Back to Plans
+
+        </button>
+
+      </div>
+    `);
+  }
+
+
+  // ============================================================
+  // SUBMIT PAYMENT
+  // ============================================================
+
+  function submitPayment(planId) {
+
+    const plan = Object.values(PAYMENT_PLANS)
+      .find(item => item.id === planId);
+
+    if (!plan) return;
+
+    const method =
+      $("paymentMethod")?.value || "KPay";
+
+    const reference =
+      $("paymentReference")?.value.trim();
+
+    const payer =
+      $("paymentPayer")?.value.trim() ||
+      getUserName();
+
+    if (!reference) {
+
+      showToast(
+        "Enter your transaction/reference number."
+      );
+
+      return;
+    }
+
+    const request = {
+
+      id:"PAY-" + Date.now(),
+
+      userName:getUserName(),
+
+      payer:payer,
+
+      planId:plan.id,
+
+      planName:plan.name,
+
+      amount:plan.price,
+
+      method:method,
+
+      reference:reference,
+
+      submittedAt:new Date().toISOString(),
+
+      status:"pending"
+
+    };
+
+    saveJSON(PAYMENT_KEY,request);
+
+    showModal(`
+      <div>
+
+        <h2>✅ Payment Submitted</h2>
+
+        <div class="result-box">
+
+          <h3>
+            🟠 Waiting for Verification
+          </h3>
+
+          <p>
+            Plan:
+            <strong>${escapeHTML(plan.name)}</strong>
+          </p>
+
+          <p>
+            Amount:
+            <strong>${formatPlanPrice(plan.price)}</strong>
+          </p>
+
+          <p>
+            Method:
+            <strong>${escapeHTML(method)}</strong>
+          </p>
+
+          <p>
+            Reference:
+            <strong>${escapeHTML(reference)}</strong>
+          </p>
+
+        </div>
+
+        <p>
+          Admin will verify the payment and
+          activate your Premium access.
+        </p>
+
+        <button
+          class="primary-button"
+          onclick="openPremium()">
+
+          Done
+
+        </button>
+
+      </div>
+    `);
+  }
+
+
+  // ============================================================
+  // LOCAL PREMIUM ACTIVATION
+  // For testing only
+  // ============================================================
+
+  function activatePremiumForCurrentUser(planId) {
+
+    const plan = Object.values(PAYMENT_PLANS)
+      .find(item => item.id === planId);
+
+    if (!plan) return;
+
+    const existing = getPremiumInfo();
+
+    const start =
+      existing &&
+      existing.expiresAt > Date.now()
+        ? existing.expiresAt
+        : Date.now();
+
+    saveJSON(
+      PREMIUM_KEY,
+      {
+        planId:plan.id,
+
+        planName:plan.name,
+
+        startedAt:Date.now(),
+
+        expiresAt:
+          start +
+          plan.days * 86400000
+      }
+    );
+
+    const payment = getPaymentRequest();
+
+    if (payment) {
+
+      payment.status = "approved";
+
+      payment.approvedAt =
+        new Date().toISOString();
+
+      saveJSON(
+        PAYMENT_KEY,
+        payment
+      );
+    }
+
+    showToast(
+      plan.name +
+      " Premium activated."
+    );
+
+    openPremium();
+  }
+
+
+  // ============================================================
+  // PROFILE
+  // ============================================================
+
+  function openProfile() {
+
+    const user = getUser();
+
+    const name =
+      user?.name || "Aung";
+
+    const completed =
+      getCompletedLessons().length;
+
+    const progress =
+      getProgress();
+
+    const notes =
+      getNotes().length;
+
+    const premium =
+      getPremiumInfo();
+
+    showModal(`
+      <div>
+
+        <h2>👤 My Profile</h2>
+
+        <div class="result-box">
+
+          <h3>
+            ${escapeHTML(name)}
+          </h3>
+
+          <p>
+            Business Learner
+          </p>
+
+          <p>
+            Lessons Completed:
+            ${completed}/${lessons.length}
+          </p>
+
+          <p>
+            Learning Progress:
+            ${progress}%
+          </p>
+
+          <p>
+            Business Notes:
+            ${notes}
+          </p>
+
+          <p>
+            Premium:
+            ${
+              premium
+                ? escapeHTML(premium.planName) +
+                  " — Active"
+                : "Not active"
+            }
+          </p>
+
+        </div>
+
+        <button
+          class="primary-button"
+          onclick="openNotes()">
+
+          📝 My Notes
+
+        </button>
+
+        <button
+          class="secondary-button"
+          onclick="changeUserName()">
+
+          Change Name
+
+        </button>
+
+      </div>
+    `);
+  }
+
+
+  function changeUserName() {
+
+    showModal(`
+      <div>
+
+        <h2>👤 Change Name</h2>
+
+        ${textInput(
+          "newUserName",
+          "Your Name",
+          getUserName()
+        )}
+
+        <button
+          class="primary-button"
+          onclick="saveNewUserName()">
+
+          Save Name
+
+        </button>
+
+      </div>
+    `);
+  }
+
+
+  function saveNewUserName() {
+
+    const name =
+      $("newUserName")?.value.trim();
+
+    if (!name) {
+
+      showToast(
+        "Enter a name."
+      );
+
+      return;
+    }
+
+    const user =
+      getUser() || {};
+
+    user.name = name;
+
+    user.lastActive =
+      new Date().toISOString();
+
+    saveUser(user);
+
+    closeModal();
+
+    updateUserUI();
+
+    showToast(
+      "Name updated."
+    );
+  }
+
+
+  // ============================================================
+  // NOTIFICATIONS
+  // ============================================================
+
+  function showNotification() {
+
+    const progress =
+      getProgress();
+
+    const next =
+      lessons.find(
+        x => !isCompleted(x.id)
+      );
+
+    showModal(`
+      <div>
+
+        <h2>🔔 Academy Notifications</h2>
+
+        <div class="result-box">
+
+          <p>
+            🎓 Keep learning every day.
+          </p>
+
+          <p>
+            📚 ${lessons.length}
+            business lessons are available.
+          </p>
+
+          <p>
+            📊 Current progress:
+            ${progress}%.
+          </p>
+
+          <p>
+            🤖 AI Business Coach is ready.
+          </p>
+
+          <p>
+            🛠️ Professional business tools
+            are available.
+          </p>
+
+          <p>
+            📝 Capture your next action
+            in My Notes.
+          </p>
+
+          <p>
+            ${
+              next
+                ? "➡️ Next lesson: " +
+                  escapeHTML(next.title)
+                : "🏆 All lessons completed!"
+            }
+          </p>
+
+        </div>
+
+      </div>
+    `);
+  }
+
+
+  // ============================================================
+  // LOGOUT
+  // ============================================================
+
+  function logoutUser() {
+
+    localStorage.removeItem(
+      USER_KEY
+    );
+
+    closeModal();
+
+    showToast(
+      "Logged out."
+    );
+
+    setTimeout(() => {
+
+      showLoginScreen();
+
+    },500);
+  }
+
+
+  // ============================================================
+  // TOAST
+  // ============================================================
+
+  function showToast(message) {
+
+    let toast =
+      $("academyToast");
+
+    if (!toast) {
+
+      toast =
+        document.createElement("div");
+
+      toast.id =
+        "academyToast";
+
+      Object.assign(
+        toast.style,
+        {
+          position:"fixed",
+
+          bottom:"25px",
+
+          left:"50%",
+
+          transform:
+            "translateX(-50%)",
+
+          padding:"12px 20px",
+
+          borderRadius:"10px",
+
+          background:"#111827",
+
+          color:"#fff",
+
+          zIndex:"99999",
+
+          fontSize:"14px",
+
+          maxWidth:"90%",
+
+          boxShadow:
+            "0 10px 30px rgba(0,0,0,.2)"
+        }
+      );
+
+      document.body.appendChild(
+        toast
+      );
+    }
+
+    toast.textContent =
+      message;
+
+    toast.style.display =
+      "block";
+
+    clearTimeout(
+      toast._timer
+    );
+
+    toast._timer =
+      setTimeout(
+        () => {
+
+          toast.style.display =
+            "none";
+
+        },
+        2500
+      );
+  }
+
+
+  // ============================================================
+  // KEYBOARD SHORTCUTS
+  // ============================================================
+
+  document.addEventListener(
+    "keydown",
+    event => {
+
+      if (event.key === "Escape") {
+        closeModal();
+      }
+
+      if (
+        (event.ctrlKey ||
+         event.metaKey) &&
+        event.key === "Enter"
+      ) {
+
+        if ($("aiInput")) {
+          sendAIMessage();
+        }
+
+      }
+
+    }
+  );
+
+
+  // ============================================================
+  // INIT
+  // ============================================================
+
+  function init() {
+
+    updateUserUI();
+
+    setPage(
+      "Dashboard",
+      "Learn Business. Build Business. Grow Business."
+    );
+
+    const modal =
+      $("appModal");
+
+    if (modal) {
+
+      modal.addEventListener(
+        "click",
+        closeModalOutside
+      );
+
+    }
+
+    if (!isLoggedIn()) {
+
+      setTimeout(
+        showLoginScreen,
+        300
+      );
+
+    }
+
+  }
+
+
+  // ============================================================
+  // GLOBAL EXPORTS
+  // ============================================================
+
+  window.goDashboard =
+    goDashboard;
+
+  window.toggleSidebar =
+    toggleSidebar;
+
+  window.toggleMenu =
+    toggleMenu;
+
+
+  // LESSONS
+
+  window.openLessons =
+    openLessons;
+
+  window.openLesson =
+    openLesson;
+
+  window.showLesson =
+    showLesson;
+
+  window.filterLessons =
+    filterLessons;
+
+  window.openCategory =
+    openCategory;
+
+  window.markLessonComplete =
+    markLessonComplete;
+
+  window.continueLearning =
+    continueLearning;
+
+  window.isPremiumLesson =
+    isPremiumLesson;
+
+  window.hasPremiumAccess =
+    hasPremiumAccess;
+
+  window.openPremiumAccess =
+    openPremiumAccess;
+
+
+  // TOOLS
+
+  window.openTools =
+    openTools;
+
+  window.openProfitCalculator =
+    openProfitCalculator;
+
+  window.calculateProfit =
+    calculateProfit;
+
+  window.openPricingCalculator =
+    openPricingCalculator;
+
+  window.calculatePrice =
+    calculatePrice;
+
+  window.openBreakEvenCalculator =
+    openBreakEvenCalculator;
+
+  window.calculateBreakEven =
+    calculateBreakEven;
+
+  window.openSalesTargetCalculator =
+    openSalesTargetCalculator;
+
+  window.calculateSalesTarget =
+    calculateSalesTarget;
+
+  window.openGrowthCalculator =
+    openGrowthCalculator;
+
+  window.calculateGrowth =
+    calculateGrowth;
+
+  window.openROICalculator =
+    openROICalculator;
+
+  window.calculateROI =
+    calculateROI;
+
+  window.openCommissionCalculator =
+    openCommissionCalculator;
+
+  window.calculateCommission =
+    calculateCommission;
+
+  window.openInventoryCalculator =
+    openInventoryCalculator;
+
+  window.calculateInventory =
+    calculateInventory;
+
+  window.openCashFlowPlanner =
+    openCashFlowPlanner;
+
+  window.calculateCashFlow =
+    calculateCashFlow;
+
+  window.openKPIDashboard =
+    openKPIDashboard;
+
+  window.calculateKPI =
+    calculateKPI;
+
+
+  // AI
+
+  window.openAI =
+    openAI;
+
+  window.sendAIMessage =
+    sendAIMessage;
+
+  window.askAIQuick =
+    askAIQuick;
+
+  window.checkAIHealth =
+    checkAIHealth;
+
+  window.clearAIChat =
+    clearAIChat;
+
+
+  // BUSINESS PLAN
+
+  window.openBusinessPlan =
+    openBusinessPlan;
+
+  window.generateBusinessPlan =
+    generateBusinessPlan;
+
+
+  // NOTES
+
+  window.openNotes =
+    openNotes;
+
+  window.saveNewNote =
+    saveNewNote;
+
+  window.deleteNote =
+    deleteNote;
+
+
+  // PREMIUM
+
+  window.openPremium =
+    openPremium;
+
+  window.openPremiumPlans =
+    openPremiumPlans;
+
+  window.openPaymentForm =
+    openPaymentForm;
+
+  window.submitPayment =
+    submitPayment;
+
+  window.activatePremiumForCurrentUser =
+    activatePremiumForCurrentUser;
+
+
+  // PROFILE
+
+  window.openProfile =
+    openProfile;
+
+  window.changeUserName =
+    changeUserName;
+
+  window.saveNewUserName =
+    saveNewUserName;
+
+
+  // NOTIFICATIONS
+
+  window.showNotification =
+    showNotification;
+
+
+  // SETTINGS
+
+  window.openSettings =
+    openSettings;
+
+  window.resetLearningProgress =
+    resetLearningProgress;
+
+  window.clearAcademyData =
+    clearAcademyData;
+
+
+  // LOGIN / LOGOUT
+
+  window.logoutUser =
+    logoutUser;
+
+  window.closeModal =
+    closeModal;
+
+  window.handleLogin =
+    handleLogin;
+
+  window.showToast =
+    showToast;
+
+
+  // ============================================================
+  // START
+  // ============================================================
+
+  if (
+    document.readyState === "loading"
+  ) {
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      init
+    );
+
+  } else {
+
+    init();
+
+  }
+
+})();

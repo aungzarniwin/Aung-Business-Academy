@@ -2282,3 +2282,80 @@ window.AungAcademy = {
   getTotalLessons
 
 };
+// ==========================================
+// AUNG BUSINESS ACADEMY - BUSINESS TOOLS LOGIC
+// ==========================================
+
+// 1. Profit Calculator (အမြတ်ငွေနှင့် Profit Margin တွက်ချက်ရန်)
+function calculateProfit(revenue, cost) {
+    const rev = parseFloat(revenue) || 0;
+    const cst = parseFloat(cost) || 0;
+    
+    const grossProfit = rev - cst;
+    const profitMargin = rev > 0 ? ((grossProfit / rev) * 100).toFixed(2) : 0;
+
+    return {
+        grossProfit: grossProfit.toLocaleString(),
+        profitMargin: profitMargin + '%'
+    };
+}
+
+// 2. Pricing Calculator (လိုချင်သော Margin အလိုက် ရောင်းဈေး သတ်မှတ်ရန်)
+function calculatePricing(cost, desiredMarginPercentage) {
+    const cst = parseFloat(cost) || 0;
+    const margin = parseFloat(desiredMarginPercentage) || 0;
+
+    if (margin >= 100) {
+        return { sellingPrice: 'Invalid Margin', markup: 'N/A' };
+    }
+
+    // Selling Price Formula = Cost / (1 - (Margin / 100))
+    const sellingPrice = cst / (1 - (margin / 100));
+    const markup = cst > 0 ? (((sellingPrice - cst) / cst) * 100).toFixed(2) : 0;
+
+    return {
+        sellingPrice: Math.round(sellingPrice).toLocaleString(),
+        markup: markup + '%'
+    };
+}
+
+// ==========================================
+// UI INTERACTION & EVENT LISTENERS
+// ==========================================
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    // --- Profit Calculator UI Listener ---
+    const profitRevInput = document.getElementById('profit-revenue');
+    const profitCostInput = document.getElementById('profit-cost');
+    const profitResultDisplay = document.getElementById('profit-result');
+    const marginResultDisplay = document.getElementById('margin-result');
+
+    function updateProfitUI() {
+        if (!profitRevInput || !profitCostInput) return;
+        const res = calculateProfit(profitRevInput.value, profitCostInput.value);
+        if (profitResultDisplay) profitResultDisplay.innerText = res.grossProfit;
+        if (marginResultDisplay) marginResultDisplay.innerText = res.profitMargin;
+    }
+
+    if (profitRevInput) profitRevInput.addEventListener('input', updateProfitUI);
+    if (profitCostInput) profitCostInput.addEventListener('input', updateProfitUI);
+
+
+    // --- Pricing Calculator UI Listener ---
+    const pricingCostInput = document.getElementById('pricing-cost');
+    const pricingMarginInput = document.getElementById('pricing-margin');
+    const priceResultDisplay = document.getElementById('price-result');
+    const markupResultDisplay = document.getElementById('markup-result');
+
+    function updatePricingUI() {
+        if (!pricingCostInput || !pricingMarginInput) return;
+        const res = calculatePricing(pricingCostInput.value, pricingMarginInput.value);
+        if (priceResultDisplay) priceResultDisplay.innerText = res.sellingPrice;
+        if (markupResultDisplay) markupResultDisplay.innerText = res.markup;
+    }
+
+    if (pricingCostInput) pricingCostInput.addEventListener('input', updatePricingUI);
+    if (pricingMarginInput) pricingMarginInput.addEventListener('input', updatePricingUI);
+
+});

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="my">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +17,7 @@
   <aside class="sidebar" id="sidebar">
 
     <div class="brand">
-      <div class="brand-icon">A</div>
+      <div class="brand-logo">A</div>
       <div>
         <h2>AUNG</h2>
         <span>BUSINESS ACADEMY</span>
@@ -25,7 +25,7 @@
     </div>
 
     <div class="profile-mini">
-      <div class="avatar">AZ</div>
+      <div class="profile-avatar">AZ</div>
       <div>
         <strong>Aung Zar Ni Win</strong>
         <small>Business Manager</small>
@@ -34,69 +34,80 @@
 
     <nav class="sidebar-nav">
 
-      <button class="nav-item active" data-page="dashboardPage" onclick="navigate('dashboardPage')">
-        <span>🏠</span>
-        <label>Dashboard</label>
-      </button>
+      <div class="nav-label">MAIN</div>
 
-      <button class="nav-item" data-page="coursesPage" onclick="navigate('coursesPage')">
-        <span>📚</span>
-        <label>My Courses</label>
-      </button>
-
-      <button class="nav-item" data-page="lessonsPage" onclick="navigate('lessonsPage')">
-        <span>📖</span>
-        <label>Lessons</label>
-      </button>
-
-      <button class="nav-item" data-page="progressPage" onclick="navigate('progressPage')">
+      <button class="nav-item active" data-page="dashboardPage">
         <span>📊</span>
-        <label>My Progress</label>
+        <span>Dashboard</span>
       </button>
 
-      <div class="nav-section">BUSINESS</div>
-
-      <button class="nav-item" data-page="salesPage" onclick="navigate('salesPage')">
-        <span>💼</span>
-        <label>Sales Manager</label>
+      <button class="nav-item" data-page="coursesPage">
+        <span>📚</span>
+        <span>My Courses</span>
       </button>
 
-      <button class="nav-item" data-page="calculatorPage" onclick="navigate('calculatorPage')">
-        <span>🧮</span>
-        <label>Pricing Calculator</label>
+      <button class="nav-item" data-page="lessonsPage">
+        <span>🎓</span>
+        <span>Lessons</span>
       </button>
 
-      <button class="nav-item" data-page="reportsPage" onclick="navigate('reportsPage')">
+      <button class="nav-item" data-page="progressPage">
         <span>📈</span>
-        <label>Reports</label>
+        <span>My Progress</span>
       </button>
 
-      <div class="nav-section">AI & TOOLS</div>
+      <div class="nav-label">BUSINESS TOOLS</div>
 
-      <button class="nav-item" data-page="aiPage" onclick="navigate('aiPage')">
+      <button class="nav-item" data-page="salesPage">
+        <span>💼</span>
+        <span>Sales Manager</span>
+      </button>
+
+      <button class="nav-item" data-page="calculatorPage">
+        <span>🧮</span>
+        <span>Pricing Calculator</span>
+      </button>
+
+      <button class="nav-item" data-page="reportsPage">
+        <span>📋</span>
+        <span>Reports</span>
+      </button>
+
+      <div class="nav-label">AI</div>
+
+      <button class="nav-item" data-page="aiPage">
         <span>🤖</span>
-        <label>AI Business Coach</label>
+        <span>AI Business Coach</span>
       </button>
 
-      <button class="nav-item" data-page="toolsPage" onclick="navigate('toolsPage')">
-        <span>🛠️</span>
-        <label>AI Tools</label>
+      <button class="nav-item" data-page="toolsPage">
+        <span>⚡</span>
+        <span>AI Tools</span>
       </button>
 
-      <button class="nav-item" data-page="settingsPage" onclick="navigate('settingsPage')">
+      <div class="nav-label">ACCOUNT</div>
+
+      <button class="nav-item" data-page="settingsPage">
         <span>⚙️</span>
-        <label>Settings</label>
+        <span>Settings</span>
       </button>
 
     </nav>
 
-    <div class="sidebar-footer">
-      <div class="version">V8.0 Professional</div>
-      <button class="logout-btn" onclick="logoutUser()">🚪 Logout</button>
+    <div class="sidebar-bottom">
+      <div class="academy-status">
+        <div class="status-dot"></div>
+        <div>
+          <strong>V8.0 Professional</strong>
+          <small>Learning System Active</small>
+        </div>
+      </div>
     </div>
 
   </aside>
 
+  <!-- Overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
   <!-- ================= MAIN ================= -->
   <main class="main">
@@ -104,95 +115,74 @@
     <!-- TOPBAR -->
     <header class="topbar">
 
-      <button id="mobileMenu" class="mobile-menu-btn" onclick="toggleSidebar()">
-        ☰
-      </button>
+      <button class="mobile-menu" id="mobileMenu">☰</button>
 
       <div class="page-heading">
         <h1 id="pageTitle">Dashboard</h1>
-        <p id="pageSubtitle">Welcome back, Aung Zar Ni Win</p>
+        <p id="pageSubtitle">သင့် Business Knowledge ကို တစ်ဆင့်ချင်းတိုးတက်အောင်လုပ်ပါ</p>
       </div>
 
-      <div class="topbar-actions">
+      <div class="top-actions">
 
         <div class="search-box">
-          <span>🔍</span>
+          <span>🔎</span>
           <input
-            id="globalSearch"
             type="text"
-            placeholder="Search academy..."
-            oninput="performSearch()"
+            id="globalSearch"
+            placeholder="Search lessons, tools..."
           >
         </div>
 
-        <button
-          id="notificationBtn"
-          class="icon-button"
-          onclick="showNotification()"
-        >
-          🔔
-        </button>
+        <button class="icon-btn" id="notificationBtn">🔔</button>
 
         <button class="top-profile" onclick="openProfile()">
-          <div class="avatar small">AZ</div>
-          <div>
-            <strong>Aung Zar Ni Win</strong>
-            <small>Business Manager</small>
-          </div>
+          <div class="profile-avatar small">AZ</div>
+          <span>Aung Zar Ni Win</span>
         </button>
 
       </div>
-    </header>
 
+    </header>
 
     <!-- ================= CONTENT ================= -->
     <section class="content">
 
-
       <!-- ================= DASHBOARD ================= -->
-      <div id="dashboardPage" class="page active">
+      <section class="page active" id="dashboardPage">
 
-        <div class="hero-card">
+        <div class="welcome-card">
 
-          <div>
-            <span class="eyebrow">AUNG BUSINESS ACADEMY</span>
+          <div class="welcome-content">
+            <span class="eyebrow">WELCOME BACK 👋</span>
 
-            <h2>
-              Build Your Business.<br>
-              Build Your Future.
-            </h2>
+            <h2>Aung Zar Ni Win</h2>
 
             <p>
-              Learn practical business, sales and leadership skills
-              designed for real-world results.
+              Business Manager တစ်ယောက်အနေဖြင့်
+              Sales, Leadership, Strategy နှင့် Business Management
+              Skills များကို တစ်နေ့ချင်း တိုးတက်အောင် လေ့လာပါ။
             </p>
 
-            <div class="hero-actions">
-              <button class="btn primary" onclick="openLessons()">
-                Start Learning →
+            <div class="welcome-actions">
+              <button class="primary-btn" onclick="continueLearning()">
+                Continue Learning →
               </button>
 
-              <button class="btn light" onclick="openBusinessPlan()">
-                Business Plan
+              <button class="secondary-btn" onclick="navigate('aiPage')">
+                🤖 Ask AI Coach
               </button>
             </div>
           </div>
 
-          <div class="hero-icon">
-            🚀
+          <div class="welcome-visual">
+            <div class="visual-circle">
+              📈
+            </div>
           </div>
 
         </div>
 
-
-        <div class="section-header">
-          <div>
-            <h2>Learning Overview</h2>
-            <p>Your current academy performance</p>
-          </div>
-        </div>
-
-
+        <!-- STATS -->
         <div class="stats-grid">
 
           <div class="stat-card">
@@ -204,7 +194,7 @@
           </div>
 
           <div class="stat-card">
-            <div class="stat-icon pink">📖</div>
+            <div class="stat-icon pink">🎓</div>
             <div>
               <span>Lessons</span>
               <strong id="statLessons">14</strong>
@@ -212,7 +202,7 @@
           </div>
 
           <div class="stat-card">
-            <div class="stat-icon green">✅</div>
+            <div class="stat-icon green">✓</div>
             <div>
               <span>Completed</span>
               <strong id="statCompleted">0</strong>
@@ -220,7 +210,7 @@
           </div>
 
           <div class="stat-card">
-            <div class="stat-icon orange">📈</div>
+            <div class="stat-icon orange">📊</div>
             <div>
               <span>Progress</span>
               <strong id="statProgress">0%</strong>
@@ -229,431 +219,485 @@
 
         </div>
 
-
         <div class="dashboard-grid">
 
-          <div class="card current-course">
+          <!-- CURRENT COURSE -->
+          <div class="panel current-course">
 
-            <div class="card-header">
+            <div class="panel-header">
               <div>
-                <span class="eyebrow">CURRENT COURSE</span>
+                <span class="section-kicker">CURRENT COURSE</span>
                 <h3>Sales Management Mastery</h3>
               </div>
 
-              <span class="course-badge">Active</span>
+              <button class="text-btn" onclick="navigate('lessonsPage')">
+                View All →
+              </button>
             </div>
 
-            <p>
-              Master sales planning, team management,
-              target achievement and market execution.
-            </p>
+            <div class="course-progress-box">
 
-            <div class="progress-row">
-              <span>Course Progress</span>
-              <strong id="currentCourseProgress">0%</strong>
+              <div class="course-icon">💼</div>
+
+              <div class="course-info">
+                <h4>Sales Manager Professional Skills</h4>
+                <p>
+                  Target Management • Team Leadership • KPI • Execution
+                </p>
+
+                <div class="progress-line">
+                  <span id="dashboardProgressBar"></span>
+                </div>
+
+                <small id="dashboardProgressText">0% completed</small>
+              </div>
+
             </div>
 
-            <div class="progress">
-              <div
-                id="currentCourseBar"
-                class="progress-bar"
-                style="width:0%"
-              ></div>
-            </div>
-
-            <button
-              class="btn primary full"
-              onclick="continueLearning()"
-            >
-              Continue Learning
+            <button class="primary-btn full" onclick="continueLearning()">
+              Continue Lesson
             </button>
 
           </div>
 
+          <!-- DAILY GOAL -->
+          <div class="panel">
 
-          <div class="card daily-goal">
-
-            <div class="card-header">
+            <div class="panel-header">
               <div>
-                <span class="eyebrow">DAILY GOAL</span>
-                <h3>Learning Today</h3>
+                <span class="section-kicker">DAILY LEARNING</span>
+                <h3>Today's Goal</h3>
               </div>
               <span class="goal-icon">🎯</span>
             </div>
 
-            <div class="goal-number">
-              <strong>0</strong>
-              <span>/ 30 min</span>
+            <div class="daily-goal">
+
+              <div class="goal-number">
+                <strong id="dailyMinutes">0</strong>
+                <span>/ 30 min</span>
+              </div>
+
+              <div class="circle-progress">
+                <div id="dailyCircle">0%</div>
+              </div>
+
             </div>
 
-            <div class="progress">
-              <div class="progress-bar" style="width:0%"></div>
+            <p class="muted">
+              တစ်နေ့လျှင် အနည်းဆုံး 30 မိနစ် Business Knowledge လေ့လာပါ။
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- BUSINESS AREAS -->
+        <div class="section-block">
+
+          <div class="section-heading">
+            <div>
+              <span class="section-kicker">LEARNING AREAS</span>
+              <h2>Business Knowledge</h2>
             </div>
 
-            <p>Start a lesson today to build your learning streak.</p>
+            <button class="text-btn" onclick="navigate('lessonsPage')">
+              All Lessons →
+            </button>
+          </div>
 
-            <button class="btn outline full" onclick="openLessons()">
-              Open Lessons
+          <div class="learning-grid">
+
+            <button class="learning-card" onclick="openCategory('Business Basics')">
+              <span>🏢</span>
+              <strong>Business Basics</strong>
+              <small>လုပ်ငန်းအခြေခံ</small>
+            </button>
+
+            <button class="learning-card" onclick="openCategory('Strategic Thinking')">
+              <span>♟️</span>
+              <strong>Strategic Thinking</strong>
+              <small>မဟာဗျူဟာစဉ်းစားမှု</small>
+            </button>
+
+            <button class="learning-card" onclick="openCategory('Brand Basics')">
+              <span>🏷️</span>
+              <strong>Brand Basics</strong>
+              <small>Brand Management</small>
+            </button>
+
+            <button class="learning-card" onclick="openCategory('Marketing Basics')">
+              <span>📣</span>
+              <strong>Marketing Basics</strong>
+              <small>Marketing Strategy</small>
+            </button>
+
+            <button class="learning-card" onclick="openCategory('Sales Basics')">
+              <span>💰</span>
+              <strong>Sales Basics</strong>
+              <small>Sales Excellence</small>
+            </button>
+
+            <button class="learning-card" onclick="openCategory('Negotiation')">
+              <span>🤝</span>
+              <strong>Negotiation</strong>
+              <small>ညှိနှိုင်းမှုစွမ်းရည်</small>
+            </button>
+
+            <button class="learning-card" onclick="openCategory('Customer Service')">
+              <span>❤️</span>
+              <strong>Customer Service</strong>
+              <small>Customer Experience</small>
+            </button>
+
+            <button class="learning-card" onclick="openCategory('People Management')">
+              <span>👥</span>
+              <strong>People Management</strong>
+              <small>Team Leadership</small>
+            </button>
+
+            <button class="learning-card" onclick="openCategory('Profit & Loss')">
+              <span>📊</span>
+              <strong>Profit & Loss</strong>
+              <small>Financial Thinking</small>
+            </button>
+
+            <button class="learning-card" onclick="openCategory('Goal Setting')">
+              <span>🎯</span>
+              <strong>Goal Setting</strong>
+              <small>KPI & Execution</small>
             </button>
 
           </div>
 
         </div>
 
+        <!-- BUSINESS TOOLS -->
+        <div class="section-block">
 
-        <div class="section-header">
-          <div>
-            <h2>Business Learning Areas</h2>
-            <p>Develop the skills that drive business growth</p>
+          <div class="section-heading">
+            <div>
+              <span class="section-kicker">BUSINESS TOOLS</span>
+              <h2>Manager Toolkit</h2>
+            </div>
           </div>
-        </div>
 
+          <div class="tool-grid">
 
-        <div class="learning-grid">
+            <button class="tool-card" onclick="openProfitCalculator()">
+              <div class="tool-icon">💵</div>
+              <strong>Profit Calculator</strong>
+              <span>အမြတ်တွက်ရန်</span>
+            </button>
 
-          <button onclick="openCategory('Business Basics')" class="learning-card">
-            <span>💡</span>
-            <strong>Business Basics</strong>
-            <small>Foundation & fundamentals</small>
-          </button>
+            <button class="tool-card" onclick="openPricingCalculator()">
+              <div class="tool-icon">🏷️</div>
+              <strong>Pricing Calculator</strong>
+              <span>ဈေးနှုန်းတွက်ရန်</span>
+            </button>
 
-          <button onclick="openCategory('Strategic Thinking')" class="learning-card">
-            <span>♟️</span>
-            <strong>Strategic Thinking</strong>
-            <small>Strategy & decision making</small>
-          </button>
+            <button class="tool-card" onclick="openBreakEvenCalculator()">
+              <div class="tool-icon">⚖️</div>
+              <strong>Break-even</strong>
+              <span>အရှုံးအမြတ်မျှခြေ</span>
+            </button>
 
-          <button onclick="openCategory('Brand Basics')" class="learning-card">
-            <span>⭐</span>
-            <strong>Brand Basics</strong>
-            <small>Build strong brands</small>
-          </button>
+            <button class="tool-card" onclick="openSalesTargetCalculator()">
+              <div class="tool-icon">🎯</div>
+              <strong>Sales Target</strong>
+              <span>Target ချမှတ်ရန်</span>
+            </button>
 
-          <button onclick="openCategory('Marketing Basics')" class="learning-card">
-            <span>📣</span>
-            <strong>Marketing Basics</strong>
-            <small>Marketing fundamentals</small>
-          </button>
-
-          <button onclick="openCategory('Sales Basics')" class="learning-card">
-            <span>💰</span>
-            <strong>Sales Basics</strong>
-            <small>Sell more effectively</small>
-          </button>
-
-          <button onclick="openCategory('Negotiation')" class="learning-card">
-            <span>🤝</span>
-            <strong>Negotiation</strong>
-            <small>Win-win negotiation</small>
-          </button>
-
-          <button onclick="openCategory('Customer Service')" class="learning-card">
-            <span>❤️</span>
-            <strong>Customer Service</strong>
-            <small>Customer experience</small>
-          </button>
-
-          <button onclick="openCategory('People Management')" class="learning-card">
-            <span>👥</span>
-            <strong>People Management</strong>
-            <small>Lead & develop people</small>
-          </button>
-
-          <button onclick="openCategory('Profit & Loss')" class="learning-card">
-            <span>💵</span>
-            <strong>Profit & Loss</strong>
-            <small>Understand business numbers</small>
-          </button>
-
-          <button onclick="openCategory('Goal Setting')" class="learning-card">
-            <span>🎯</span>
-            <strong>Goal Setting</strong>
-            <small>Set & achieve goals</small>
-          </button>
-
-        </div>
-
-
-        <div class="section-header">
-          <div>
-            <h2>Business Tools</h2>
-            <p>Practical calculators for managers</p>
           </div>
-        </div>
-
-
-        <div class="tools-grid">
-
-          <button class="tool-card" onclick="openProfitCalculator()">
-            <span>💰</span>
-            <strong>Profit Calculator</strong>
-            <small>Calculate profit & margin</small>
-          </button>
-
-          <button class="tool-card" onclick="openPricingCalculator()">
-            <span>🏷️</span>
-            <strong>Pricing Calculator</strong>
-            <small>Calculate selling price</small>
-          </button>
-
-          <button class="tool-card" onclick="openBreakEvenCalculator()">
-            <span>⚖️</span>
-            <strong>Break-even Calculator</strong>
-            <small>Find your break-even point</small>
-          </button>
-
-          <button class="tool-card" onclick="openSalesTargetCalculator()">
-            <span>🎯</span>
-            <strong>Sales Target Calculator</strong>
-            <small>Plan daily sales targets</small>
-          </button>
 
         </div>
 
-      </div>
-
+      </section>
 
       <!-- ================= COURSES ================= -->
-      <div id="coursesPage" class="page">
+      <section class="page" id="coursesPage">
 
         <div class="page-intro">
-          <span class="eyebrow">MY LEARNING</span>
+          <span class="section-kicker">ACADEMY</span>
           <h2>My Courses</h2>
-          <p>Build practical business skills step by step.</p>
+          <p>
+            Business Management အတွက် အရေးကြီးတဲ့ Skill များကို
+            Course အလိုက် လေ့လာနိုင်ပါတယ်။
+          </p>
         </div>
 
-        <div id="coursesGrid" class="courses-grid"></div>
+        <div class="course-grid" id="coursesContainer"></div>
 
-      </div>
-
+      </section>
 
       <!-- ================= LESSONS ================= -->
-      <div id="lessonsPage" class="page">
+      <section class="page" id="lessonsPage">
 
         <div class="page-intro">
-          <span class="eyebrow">ACADEMY LESSONS</span>
-          <h2>Lessons</h2>
-          <p>Practical Burmese business lessons.</p>
+          <span class="section-kicker">LEARNING CENTER</span>
+          <h2>Detailed Lessons</h2>
+          <p>
+            Lesson တစ်ခုချင်းစီတွင် Concept, Example, Manager Application,
+            KPI, Checklist နှင့် Assignment များပါဝင်သည်။
+          </p>
         </div>
 
-        <div id="lessonsList" class="lessons-list"></div>
+        <div class="lesson-filter">
+          <button class="filter-btn active" onclick="filterLessons('all', this)">
+            All
+          </button>
+          <button class="filter-btn" onclick="filterLessons('Sales Basics', this)">
+            Sales
+          </button>
+          <button class="filter-btn" onclick="filterLessons('Strategic Thinking', this)">
+            Strategy
+          </button>
+          <button class="filter-btn" onclick="filterLessons('People Management', this)">
+            People
+          </button>
+          <button class="filter-btn" onclick="filterLessons('Profit & Loss', this)">
+            Finance
+          </button>
+        </div>
 
-      </div>
+        <div class="lesson-grid" id="lessonsContainer"></div>
 
+      </section>
 
       <!-- ================= PROGRESS ================= -->
-      <div id="progressPage" class="page">
+      <section class="page" id="progressPage">
 
         <div class="page-intro">
-          <span class="eyebrow">MY PERFORMANCE</span>
+          <span class="section-kicker">MY DEVELOPMENT</span>
           <h2>My Progress</h2>
-          <p>Track your academy learning progress.</p>
+          <p>သင့် Learning Progress ကို ဒီနေရာမှာ စောင့်ကြည့်နိုင်ပါတယ်။</p>
         </div>
 
-        <div id="progressContent"></div>
+        <div class="progress-overview">
 
-      </div>
+          <div class="progress-main-card">
 
+            <div class="progress-score">
+              <span>OVERALL PROGRESS</span>
+              <strong id="overallProgress">0%</strong>
+            </div>
+
+            <div class="big-progress">
+              <span id="overallProgressBar"></span>
+            </div>
+
+            <p id="progressSummary">
+              Lesson 0 ခု ပြီးဆုံးထားပါတယ်။
+            </p>
+
+          </div>
+
+          <div class="progress-side-card">
+            <span>COMPLETED LESSONS</span>
+            <strong id="progressCompleted">0</strong>
+            <small>/ 14 lessons</small>
+          </div>
+
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Learning Activity</h3>
+          </div>
+
+          <div id="progressLessonList"></div>
+        </div>
+
+      </section>
 
       <!-- ================= SALES MANAGER ================= -->
-      <div id="salesPage" class="page">
+      <section class="page" id="salesPage">
 
         <div class="page-intro sales-intro">
 
           <div>
-            <span class="eyebrow">PROFESSIONAL SALES MANAGEMENT</span>
-            <h2>Sales Manager</h2>
+            <span class="section-kicker">PROFESSIONAL MODULE</span>
+            <h2>Sales Manager Dashboard</h2>
             <p>
-              Manage targets, performance, team execution and action plans.
+              Target → Actual → Gap → Action Plan → Team Execution
             </p>
           </div>
 
           <div class="sales-actions">
-            <button class="btn outline" onclick="resetSalesData()">
-              🔄 Reset
+            <button class="secondary-btn" onclick="exportSalesReport()">
+              📥 Export Report
             </button>
 
-            <button class="btn primary" onclick="exportSalesReport()">
-              📄 Print Report
+            <button class="primary-btn" onclick="resetSalesData()">
+              Reset Data
             </button>
           </div>
 
         </div>
-
 
         <!-- KPI CARDS -->
-        <div class="sales-kpi-grid">
+        <div class="kpi-grid">
 
-          <div class="sales-kpi">
-            <div class="kpi-top">
-              <span>MONTHLY TARGET</span>
-              <div class="kpi-icon purple">🎯</div>
-            </div>
-            <strong id="salesTargetDisplay">30,000,000 MMK</strong>
-            <small>Monthly sales target</small>
+          <div class="kpi-card purple-border">
+            <span>MONTHLY TARGET</span>
+            <strong id="salesTargetDisplay">0</strong>
+            <small>MMK</small>
           </div>
 
-          <div class="sales-kpi">
-            <div class="kpi-top">
-              <span>ACTUAL SALES</span>
-              <div class="kpi-icon green">💰</div>
-            </div>
-            <strong id="salesActualDisplay">22,500,000 MMK</strong>
-            <small>Current actual sales</small>
+          <div class="kpi-card blue-border">
+            <span>ACTUAL SALES</span>
+            <strong id="salesActualDisplay">0</strong>
+            <small>MMK</small>
           </div>
 
-          <div class="sales-kpi">
-            <div class="kpi-top">
-              <span>ACHIEVEMENT</span>
-              <div class="kpi-icon blue">📊</div>
-            </div>
-            <strong id="salesAchievementDisplay">75%</strong>
-            <small>Target achievement</small>
+          <div class="kpi-card green-border">
+            <span>ACHIEVEMENT</span>
+            <strong id="salesAchievementDisplay">0%</strong>
+            <small>Target Achievement</small>
           </div>
 
-          <div class="sales-kpi">
-            <div class="kpi-top">
-              <span>SALES GAP</span>
-              <div class="kpi-icon red">📉</div>
-            </div>
-            <strong id="salesGapDisplay">7,500,000 MMK</strong>
-            <small>Remaining to target</small>
+          <div class="kpi-card red-border">
+            <span>SALES GAP</span>
+            <strong id="salesGapDisplay">0</strong>
+            <small>MMK</small>
+          </div>
+
+          <div class="kpi-card orange-border">
+            <span>DAILY TARGET</span>
+            <strong id="salesDailyTargetDisplay">0</strong>
+            <small>MMK / Day</small>
           </div>
 
         </div>
 
+        <!-- KPI INPUT -->
+        <div class="sales-grid">
 
-        <!-- PERFORMANCE -->
-        <div class="sales-layout">
+          <div class="panel">
 
-          <div class="card">
-
-            <div class="card-header">
+            <div class="panel-header">
               <div>
-                <span class="eyebrow">TARGET PERFORMANCE</span>
-                <h3>Monthly Sales Performance</h3>
-              </div>
-
-              <span id="achievementStatus" class="status-badge warning">
-                On Track
-              </span>
-            </div>
-
-            <div class="big-achievement">
-              <strong id="bigAchievement">75%</strong>
-              <span>Achievement</span>
-            </div>
-
-            <div class="large-progress">
-              <div id="salesProgressBar" class="progress-bar" style="width:75%"></div>
-            </div>
-
-            <div class="performance-meta">
-              <div>
-                <span>Actual</span>
-                <strong id="performanceActual">22.5M</strong>
-              </div>
-
-              <div>
-                <span>Target</span>
-                <strong id="performanceTarget">30M</strong>
-              </div>
-
-              <div>
-                <span>Gap</span>
-                <strong id="performanceGap">7.5M</strong>
+                <span class="section-kicker">KPI CONTROL</span>
+                <h3>Monthly Sales KPI</h3>
               </div>
             </div>
+
+            <form id="salesKpiForm" onsubmit="saveSalesKPI(event)">
+
+              <div class="form-grid">
+
+                <div class="form-group">
+                  <label>Monthly Target (MMK)</label>
+                  <input
+                    type="number"
+                    id="salesTargetInput"
+                    placeholder="30000000"
+                    required
+                  >
+                </div>
+
+                <div class="form-group">
+                  <label>Actual Sales (MMK)</label>
+                  <input
+                    type="number"
+                    id="salesActualInput"
+                    placeholder="22500000"
+                    required
+                  >
+                </div>
+
+                <div class="form-group">
+                  <label>Working Days</label>
+                  <input
+                    type="number"
+                    id="workingDaysInput"
+                    value="26"
+                    min="1"
+                    required
+                  >
+                </div>
+
+                <div class="form-group">
+                  <label>Month</label>
+                  <input
+                    type="month"
+                    id="salesMonthInput"
+                    required
+                  >
+                </div>
+
+              </div>
+
+              <button class="primary-btn" type="submit">
+                Save KPI
+              </button>
+
+            </form>
 
           </div>
 
+          <!-- EXECUTION -->
+          <div class="panel">
 
-          <div class="card">
-
-            <div class="card-header">
+            <div class="panel-header">
               <div>
-                <span class="eyebrow">DAILY EXECUTION</span>
-                <h3>Daily Sales Target</h3>
+                <span class="section-kicker">EXECUTION</span>
+                <h3>Manager Focus</h3>
               </div>
-              <span>📅</span>
             </div>
 
-            <div class="daily-target-box">
-              <strong id="dailyTargetDisplay">1,153,846 MMK</strong>
-              <span>Required average per working day</span>
-            </div>
+            <div class="execution-list">
 
-            <div class="manager-tip">
-              <strong>Manager Focus</strong>
-              <p id="managerTip">
-                Focus on closing the remaining gap and improving team execution.
-              </p>
+              <div class="execution-item">
+                <span>01</span>
+                <div>
+                  <strong>People</strong>
+                  <p>Team capability, coaching & accountability</p>
+                </div>
+              </div>
+
+              <div class="execution-item">
+                <span>02</span>
+                <div>
+                  <strong>Numbers</strong>
+                  <p>Target, achievement, gap, productivity</p>
+                </div>
+              </div>
+
+              <div class="execution-item">
+                <span>03</span>
+                <div>
+                  <strong>Execution</strong>
+                  <p>Field action, customer visit, follow-up</p>
+                </div>
+              </div>
+
             </div>
 
           </div>
 
         </div>
-
-
-        <!-- UPDATE KPI -->
-        <div class="card">
-
-          <div class="card-header">
-            <div>
-              <span class="eyebrow">MANAGER INPUT</span>
-              <h3>Update Sales KPI</h3>
-            </div>
-          </div>
-
-          <div class="form-grid">
-
-            <div class="form-group">
-              <label>Monthly Target (MMK)</label>
-              <input id="salesTargetInput" type="number" value="30000000">
-            </div>
-
-            <div class="form-group">
-              <label>Actual Sales (MMK)</label>
-              <input id="salesActualInput" type="number" value="22500000">
-            </div>
-
-            <div class="form-group">
-              <label>Working Days</label>
-              <input id="workingDaysInput" type="number" value="26">
-            </div>
-
-          </div>
-
-          <button class="btn primary" onclick="saveSalesKPI()">
-            💾 Save Sales Performance
-          </button>
-
-        </div>
-
 
         <!-- TEAM PERFORMANCE -->
-        <div class="card">
+        <div class="panel">
 
-          <div class="card-header">
-
+          <div class="panel-header">
             <div>
-              <span class="eyebrow">TEAM MANAGEMENT</span>
+              <span class="section-kicker">TEAM MANAGEMENT</span>
               <h3>Team Performance</h3>
             </div>
 
-            <button class="btn primary small-btn" onclick="openAddTeamMember()">
-              + Add Member
+            <button class="secondary-btn" onclick="addTeamMember()">
+              + Add Team Member
             </button>
-
           </div>
 
-          <div class="table-wrap">
-
+          <div class="table-wrapper">
             <table class="data-table">
 
               <thead>
                 <tr>
-                  <th>Team Member</th>
+                  <th>Name</th>
                   <th>Role</th>
                   <th>Target</th>
                   <th>Actual</th>
@@ -663,342 +707,366 @@
                 </tr>
               </thead>
 
-              <tbody id="teamPerformanceBody"></tbody>
+              <tbody id="teamTableBody"></tbody>
 
             </table>
-
           </div>
 
         </div>
 
-
         <!-- ACTION PLAN -->
-        <div class="card">
+        <div class="panel">
 
-          <div class="card-header">
-
+          <div class="panel-header">
             <div>
-              <span class="eyebrow">EXECUTION MANAGEMENT</span>
+              <span class="section-kicker">FIELD EXECUTION</span>
               <h3>Action Plan</h3>
             </div>
 
-            <button class="btn primary small-btn" onclick="openActionPlanForm()">
+            <button class="primary-btn" onclick="addActionPlan()">
               + Add Action
             </button>
-
           </div>
 
-          <div id="actionPlanList" class="action-plan-list"></div>
+          <div id="actionPlanList"></div>
 
         </div>
 
-
-        <!-- SALES CHART -->
-        <div class="card">
-
-          <div class="card-header">
-            <div>
-              <span class="eyebrow">SALES TREND</span>
-              <h3>Performance Overview</h3>
-            </div>
-          </div>
-
-          <div class="chart-container">
-
-            <div class="chart-bars">
-
-              <div class="chart-item">
-                <div class="bar" style="height:45%"></div>
-                <span>W1</span>
-              </div>
-
-              <div class="chart-item">
-                <div class="bar" style="height:60%"></div>
-                <span>W2</span>
-              </div>
-
-              <div class="chart-item">
-                <div class="bar" style="height:55%"></div>
-                <span>W3</span>
-              </div>
-
-              <div class="chart-item">
-                <div class="bar" style="height:75%"></div>
-                <span>W4</span>
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
+      </section>
 
       <!-- ================= CALCULATOR ================= -->
-      <div id="calculatorPage" class="page">
+      <section class="page" id="calculatorPage">
 
         <div class="page-intro">
-          <span class="eyebrow">BUSINESS TOOLS</span>
-          <h2>Pricing & Business Calculator</h2>
-          <p>Calculate your business numbers quickly.</p>
+          <span class="section-kicker">BUSINESS FINANCE</span>
+          <h2>Business Calculators</h2>
+          <p>Manager အတွက် လက်တွေ့အသုံးချနိုင်သော Calculator များ။</p>
         </div>
 
         <div class="calculator-grid">
 
-          <div class="calculator-card">
+          <button class="calculator-card" onclick="openProfitCalculator()">
+            <span>💰</span>
+            <h3>Profit Calculator</h3>
+            <p>Revenue နှင့် Cost မှ Profit တွက်ပါ။</p>
+          </button>
 
-            <h3>💰 Profit Calculator</h3>
+          <button class="calculator-card" onclick="openPricingCalculator()">
+            <span>🏷️</span>
+            <h3>Pricing Calculator</h3>
+            <p>Cost + Margin မှ Selling Price တွက်ပါ။</p>
+          </button>
 
-            <label>Revenue</label>
-            <input id="profitRevenue" type="number" placeholder="10000000">
+          <button class="calculator-card" onclick="openBreakEvenCalculator()">
+            <span>⚖️</span>
+            <h3>Break-even Calculator</h3>
+            <p>Break-even Units နှင့် Revenue တွက်ပါ။</p>
+          </button>
 
-            <label>Total Cost</label>
-            <input id="profitCost" type="number" placeholder="7000000">
-
-            <button class="btn primary full" onclick="calculateProfitTool()">
-              Calculate Profit
-            </button>
-
-            <div id="profitResult" class="calc-result">
-              Enter values
-            </div>
-
-          </div>
-
-
-          <div class="calculator-card">
-
-            <h3>🏷️ Pricing Calculator</h3>
-
-            <label>Product Cost</label>
-            <input id="pricingCost" type="number" placeholder="50000">
-
-            <label>Desired Margin %</label>
-            <input id="pricingMargin" type="number" placeholder="30">
-
-            <button class="btn primary full" onclick="calculatePricingTool()">
-              Calculate Price
-            </button>
-
-            <div id="pricingResult" class="calc-result">
-              Enter values
-            </div>
-
-          </div>
-
-
-          <div class="calculator-card">
-
-            <h3>⚖️ Break-even Calculator</h3>
-
-            <label>Fixed Cost</label>
-            <input id="breakFixed" type="number" placeholder="5000000">
-
-            <label>Price / Unit</label>
-            <input id="breakPrice" type="number" placeholder="50000">
-
-            <label>Variable Cost / Unit</label>
-            <input id="breakVariable" type="number" placeholder="30000">
-
-            <button class="btn primary full" onclick="calculateBreakEven()">
-              Calculate
-            </button>
-
-            <div id="breakResult" class="calc-result">
-              Enter values
-            </div>
-
-          </div>
-
-
-          <div class="calculator-card">
-
-            <h3>🎯 Sales Target Calculator</h3>
-
-            <label>Monthly Target</label>
-            <input id="targetMonthly" type="number" placeholder="30000000">
-
-            <label>Working Days</label>
-            <input id="targetDays" type="number" placeholder="26">
-
-            <button class="btn primary full" onclick="calculateSalesTarget()">
-              Calculate
-            </button>
-
-            <div id="targetResult" class="calc-result">
-              Enter values
-            </div>
-
-          </div>
+          <button class="calculator-card" onclick="openSalesTargetCalculator()">
+            <span>🎯</span>
+            <h3>Sales Target Calculator</h3>
+            <p>Monthly Target ကို Daily Target အဖြစ် ခွဲပါ။</p>
+          </button>
 
         </div>
 
-      </div>
-
+      </section>
 
       <!-- ================= REPORTS ================= -->
-      <div id="reportsPage" class="page">
+      <section class="page" id="reportsPage">
 
         <div class="page-intro">
-          <span class="eyebrow">BUSINESS REPORTING</span>
+          <span class="section-kicker">BUSINESS INTELLIGENCE</span>
           <h2>Reports</h2>
-          <p>Review your learning and sales performance.</p>
+          <p>Business performance ကို data အပေါ်အခြေခံပြီး သုံးသပ်ပါ။</p>
         </div>
 
-        <div id="reportsContent"></div>
+        <div class="report-grid">
 
-      </div>
+          <div class="report-card">
+            <span>📊</span>
+            <h3>Sales Performance</h3>
+            <p>Target vs Actual vs Gap ကိုကြည့်ပါ။</p>
+            <button class="secondary-btn" onclick="navigate('salesPage')">
+              Open
+            </button>
+          </div>
 
+          <div class="report-card">
+            <span>👥</span>
+            <h3>Team Performance</h3>
+            <p>Team Member တစ်ဦးချင်းစီရဲ့ KPI ကိုသုံးသပ်ပါ။</p>
+            <button class="secondary-btn" onclick="navigate('salesPage')">
+              Open
+            </button>
+          </div>
 
-      <!-- ================= AI ================= -->
-      <div id="aiPage" class="page">
+          <div class="report-card">
+            <span>🎓</span>
+            <h3>Learning Report</h3>
+            <p>သင့် Academy Learning Progress ကိုကြည့်ပါ။</p>
+            <button class="secondary-btn" onclick="navigate('progressPage')">
+              Open
+            </button>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ================= AI COACH ================= -->
+      <section class="page" id="aiPage">
 
         <div class="page-intro">
-          <span class="eyebrow">AI BUSINESS COACH</span>
-          <h2>AI Business Coach</h2>
-          <p>Ask business, sales and management questions.</p>
+          <span class="section-kicker">AI BUSINESS COACH</span>
+          <h2>🤖 Aung AI Business Coach</h2>
+          <p>
+            Sales, Management, Strategy, Marketing, Finance နဲ့
+            Leadership အကြောင်း မေးနိုင်ပါတယ်။
+          </p>
         </div>
 
-        <div class="ai-card">
+        <div class="ai-layout">
 
-          <div id="aiMessages" class="ai-messages">
+          <div class="ai-chat panel">
 
-            <div class="ai-message">
-              <div class="ai-avatar">AI</div>
+            <div class="ai-header">
 
-              <div class="message-content">
-                <strong>AI Business Coach</strong>
-                <p>
-                  မင်္ဂလာပါ။ Business, Sales, Marketing,
-                  Leadership နဲ့ Management အကြောင်း မေးနိုင်ပါတယ်။
-                </p>
+              <div class="ai-avatar">🤖</div>
+
+              <div>
+                <strong>Aung Business Coach</strong>
+                <span>Detailed Business Advisor</span>
               </div>
+
+              <div class="online-dot"></div>
+
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+
+              <div class="chat-message bot">
+
+                <div class="message-avatar">🤖</div>
+
+                <div class="message-content">
+
+                  <strong>AI Business Coach</strong>
+
+                  <p>
+                    မင်္ဂလာပါ။ Business, Sales, Marketing,
+                    Team Management, KPI, Strategy, Finance
+                    စတာတွေကို မေးနိုင်ပါတယ်။
+                  </p>
+
+                  <p>
+                    သင့်မေးခွန်းကို <b>Concept → Analysis →
+                    Step-by-step → Example → KPI → Action Plan</b>
+                    ပုံစံနဲ့ အသေးစိတ်ဖြေပေးပါမယ်။
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <form class="chat-input-area" onsubmit="sendAIMessage(event)">
+
+              <input
+                type="text"
+                id="aiInput"
+                placeholder="ဥပမာ - Sales Target မပြည့်ရင် ဘာလုပ်သင့်လဲ?"
+                autocomplete="off"
+              >
+
+              <button type="submit">
+                ➤
+              </button>
+
+            </form>
+
+          </div>
+
+          <div class="ai-sidebar">
+
+            <div class="panel">
+
+              <div class="panel-header">
+                <h3>Quick Questions</h3>
+              </div>
+
+              <button class="quick-question" onclick="askQuickQuestion('Sales Target မပြည့်ရင် ဘာလုပ်သင့်လဲ?')">
+                🎯 Target မပြည့်ရင် ဘာလုပ်မလဲ?
+              </button>
+
+              <button class="quick-question" onclick="askQuickQuestion('Team Performance ဘယ်လိုတိုးတက်အောင်လုပ်မလဲ?')">
+                👥 Team Performance ဘယ်လိုတိုးမလဲ?
+              </button>
+
+              <button class="quick-question" onclick="askQuickQuestion('Distributor Sales ကျသွားရင် ဘယ်လို Analysis လုပ်မလဲ?')">
+                🚚 Distributor Sales ကျရင်?
+              </button>
+
+              <button class="quick-question" onclick="askQuickQuestion('Gross Margin ကို ဘယ်လိုတွက်မလဲ?')">
+                💰 Gross Margin ဘယ်လိုတွက်မလဲ?
+              </button>
+
+              <button class="quick-question" onclick="askQuickQuestion('Sales Manager Interview အတွက် ဘယ်လိုပြင်ဆင်မလဲ?')">
+                🎤 Sales Manager Interview
+              </button>
+
+            </div>
+
+            <div class="panel ai-framework">
+
+              <span class="section-kicker">COACHING FRAMEWORK</span>
+
+              <h3>AI က ဘယ်လိုဖြေမလဲ?</h3>
+
+              <ol>
+                <li>Problem Definition</li>
+                <li>Root Cause Analysis</li>
+                <li>Step-by-step Solution</li>
+                <li>Business Example</li>
+                <li>KPI Measurement</li>
+                <li>Action Plan</li>
+                <li>Mistakes to Avoid</li>
+              </ol>
+
             </div>
 
           </div>
 
-          <div class="ai-input-row">
-
-            <input
-              id="aiInput"
-              type="text"
-              placeholder="မေးခွန်းရေးပါ..."
-              onkeydown="if(event.key==='Enter') sendAIMessage()"
-            >
-
-            <button class="btn primary" onclick="sendAIMessage()">
-              Send
-            </button>
-
-          </div>
-
         </div>
 
-      </div>
+      </section>
 
-
-      <!-- ================= TOOLS ================= -->
-      <div id="toolsPage" class="page">
+      <!-- ================= AI TOOLS ================= -->
+      <section class="page" id="toolsPage">
 
         <div class="page-intro">
-          <span class="eyebrow">AI & BUSINESS TOOLS</span>
-          <h2>AI Tools</h2>
-          <p>Use practical tools to improve your business.</p>
+          <span class="section-kicker">AI TOOLS</span>
+          <h2>Business AI Tools</h2>
+          <p>နေ့စဉ် Business Management အတွက် အသုံးဝင်တဲ့ AI Tools များ။</p>
         </div>
 
-        <div class="tools-grid">
+        <div class="ai-tools-grid">
 
-          <button class="tool-card" onclick="openAITool('Sales Strategy')">
+          <button class="ai-tool-card" onclick="openAITool('Sales Strategy')">
             <span>🎯</span>
-            <strong>Sales Strategy</strong>
-            <small>Create a practical sales plan</small>
+            <strong>Sales Strategy Advisor</strong>
+            <small>Sales plan တည်ဆောက်ရန်</small>
           </button>
 
-          <button class="tool-card" onclick="openAITool('Marketing Plan')">
-            <span>📣</span>
-            <strong>Marketing Plan</strong>
-            <small>Build a marketing action plan</small>
-          </button>
-
-          <button class="tool-card" onclick="openAITool('Team Coaching')">
+          <button class="ai-tool-card" onclick="openAITool('Team Coach')">
             <span>👥</span>
-            <strong>Team Coaching</strong>
-            <small>Improve team performance</small>
+            <strong>Team Coach</strong>
+            <small>Team performance တိုးရန်</small>
           </button>
 
-          <button class="tool-card" onclick="openAITool('Business Plan')">
-            <span>📋</span>
-            <strong>Business Plan</strong>
-            <small>Create a business plan</small>
+          <button class="ai-tool-card" onclick="openAITool('Business Analyzer')">
+            <span>📊</span>
+            <strong>Business Analyzer</strong>
+            <small>Business problem ခွဲခြမ်းရန်</small>
+          </button>
+
+          <button class="ai-tool-card" onclick="openAITool('Marketing Planner')">
+            <span>📣</span>
+            <strong>Marketing Planner</strong>
+            <small>Marketing action plan</small>
+          </button>
+
+          <button class="ai-tool-card" onclick="openAITool('Negotiation Coach')">
+            <span>🤝</span>
+            <strong>Negotiation Coach</strong>
+            <small>Negotiation strategy</small>
+          </button>
+
+          <button class="ai-tool-card" onclick="openAITool('Interview Coach')">
+            <span>🎤</span>
+            <strong>Interview Coach</strong>
+            <small>Manager interview preparation</small>
           </button>
 
         </div>
 
-      </div>
-
+      </section>
 
       <!-- ================= SETTINGS ================= -->
-      <div id="settingsPage" class="page">
+      <section class="page" id="settingsPage">
 
         <div class="page-intro">
-          <span class="eyebrow">ACCOUNT</span>
+          <span class="section-kicker">ACCOUNT</span>
           <h2>Settings</h2>
-          <p>Manage your academy preferences.</p>
+          <p>Application preferences နှင့် profile information။</p>
         </div>
 
-        <div class="settings-card">
+        <div class="settings-grid">
 
-          <div class="setting-row">
-            <div>
-              <strong>Profile</strong>
-              <p>Aung Zar Ni Win</p>
+          <div class="panel">
+
+            <div class="panel-header">
+              <h3>Profile</h3>
             </div>
 
-            <button class="btn outline" onclick="openProfile()">
-              Edit
-            </button>
+            <div class="profile-setting">
+
+              <div class="large-avatar">AZ</div>
+
+              <div>
+                <h3>Aung Zar Ni Win</h3>
+                <p>Business Manager</p>
+              </div>
+
+            </div>
+
           </div>
 
-          <div class="setting-row">
-            <div>
-              <strong>Academy Version</strong>
-              <p>V8.0 Professional</p>
+          <div class="panel">
+
+            <div class="panel-header">
+              <h3>Academy</h3>
             </div>
 
-            <span class="setting-value">Active</span>
-          </div>
-
-          <div class="setting-row">
-            <div>
-              <strong>Learning Language</strong>
-              <p>Burmese</p>
+            <div class="setting-row">
+              <div>
+                <strong>Version</strong>
+                <span>Aung Business Academy V8.0 Professional</span>
+              </div>
+              <span class="badge success">Active</span>
             </div>
 
-            <span class="setting-value">Myanmar</span>
+            <div class="setting-row">
+              <div>
+                <strong>Learning Mode</strong>
+                <span>Detailed Burmese Lessons</span>
+              </div>
+              <span>✓</span>
+            </div>
+
           </div>
 
         </div>
 
-      </div>
+      </section>
 
     </section>
 
   </main>
 
-
   <!-- ================= MOBILE NAV ================= -->
   <nav class="mobile-bottom-nav">
 
     <button onclick="navigate('dashboardPage')">
-      <span>🏠</span>
+      <span>⌂</span>
       <small>Home</small>
     </button>
 
     <button onclick="navigate('lessonsPage')">
-      <span>📖</span>
-      <small>Lessons</small>
+      <span>🎓</span>
+      <small>Learn</small>
     </button>
 
     <button onclick="navigate('salesPage')">
@@ -1006,49 +1074,40 @@
       <small>Sales</small>
     </button>
 
-    <button onclick="navigate('toolsPage')">
-      <span>🛠️</span>
-      <small>Tools</small>
+    <button onclick="navigate('aiPage')">
+      <span>🤖</span>
+      <small>AI</small>
     </button>
 
-    <button onclick="openProfile()">
-      <span>👤</span>
-      <small>Profile</small>
+    <button onclick="navigate('settingsPage')">
+      <span>⚙️</span>
+      <small>More</small>
     </button>
 
   </nav>
 
+</div>
 
-  <!-- ================= MODAL ================= -->
-  <div id="modalOverlay" class="modal-overlay">
+<!-- ================= MODAL ================= -->
+<div class="modal-overlay" id="modalOverlay">
 
-    <div class="modal">
+  <div class="modal">
 
-      <button
-        id="modalClose"
-        class="modal-close"
-        onclick="closeModal()"
-      >
-        ×
-      </button>
+    <button class="modal-close" id="modalClose">×</button>
 
-      <div id="modalBody"></div>
-
-    </div>
+    <div id="modalBody"></div>
 
   </div>
 
-
-  <!-- ================= TOAST ================= -->
-  <div id="toast" class="toast"></div>
-
-
-  <script src="app.js"></script>
-
-  <!-- KEEP YOUR EXISTING PREMIUM.JS -->
-  <script src="premium.js"></script>
-
 </div>
+
+<!-- ================= TOAST ================= -->
+<div class="toast" id="toast"></div>
+
+<script src="app.js"></script>
+
+<!-- KEEP YOUR EXISTING PREMIUM.JS -->
+<script src="premium.js"></script>
 
 </body>
 </html>

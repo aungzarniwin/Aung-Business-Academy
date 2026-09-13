@@ -1,7 +1,7 @@
 /* =========================================================
    AUNG BUSINESS ACADEMY
    V8.0 PROFESSIONAL
-   Sales Manager Professional Module
+   Main Application
 ========================================================= */
 
 
@@ -11,25 +11,33 @@ const COURSES = [
   {
     id: 1,
     title: "Sales Management Mastery",
-    description: "Sales target, team management, execution and performance.",
-    lessons: [1, 2, 3, 4]
+    description:
+      "Sales target, team management, field execution and performance management.",
+    category: "Sales",
+    lessons: [1, 2, 3, 4, 5]
   },
   {
     id: 2,
     title: "Business Strategy",
-    description: "Strategic thinking, planning and business growth.",
-    lessons: [5, 6, 7]
+    description:
+      "Strategic thinking, market analysis and business decision making.",
+    category: "Strategy",
+    lessons: [6, 7, 8]
   },
   {
     id: 3,
     title: "Marketing & Brand",
-    description: "Brand positioning and practical marketing fundamentals.",
-    lessons: [8, 9, 10]
+    description:
+      "Brand building, customer understanding and marketing fundamentals.",
+    category: "Marketing",
+    lessons: [9, 10]
   },
   {
     id: 4,
     title: "People & Leadership",
-    description: "Leadership, coaching, negotiation and people management.",
+    description:
+      "Leadership, coaching, customer service and people development.",
+    category: "Leadership",
     lessons: [11, 12, 13, 14]
   }
 ];
@@ -40,141 +48,127 @@ const LESSONS = [
   {
     id: 1,
     courseId: 1,
-    category: "Sales Basics",
     title: "Sales Target ဆိုတာဘာလဲ",
-    description: "Sales target သတ်မှတ်ခြင်းနှင့် target ကို field execution အဖြစ်ပြောင်းလဲခြင်း။",
+    category: "Sales Basics",
     content:
-      "Sales Manager တစ်ယောက်အနေနဲ့ target ကို နံပါတ်တစ်ခုအဖြစ်သာ မမြင်သင့်ပါ။ Target ကို လူ၊ နံပါတ်၊ customer၊ territory နဲ့ daily execution အဖြစ် ခွဲခြမ်းစိတ်ဖြာရပါမယ်။"
+      "Sales target ဆိုတာ သတ်မှတ်ထားတဲ့ အချိန်ကာလအတွင်း ရောင်းချရမယ့် ရည်မှန်းချက်ဖြစ်ပါတယ်။ Manager တစ်ယောက်အနေနဲ့ target ကို monthly, weekly, daily အဖြစ် ခွဲပြီး field execution လုပ်နိုင်ရပါမယ်။"
   },
 
   {
     id: 2,
     courseId: 1,
+    title: "Target ကို Field Execution ပြောင်းနည်း",
     category: "Sales Basics",
-    title: "Target Achievement Management",
-    description: "Achievement % နှင့် sales gap ကို စီမံခန့်ခွဲခြင်း။",
     content:
-      "Achievement = Actual Sales ÷ Target × 100 ဖြစ်ပါတယ်။ Achievement နည်းနေတဲ့အခါ gap ကိုရှာပြီး recovery action plan တည်ဆောက်ရပါမယ်။"
+      "Target ရဖို့ လူ၊ နံပါတ်နဲ့ execution သုံးခုကို အာရုံစိုက်ရပါမယ်။ Sales performance ကို analyze လုပ်ပြီး gap ရှာပါ။ ပြီးရင် team ကို coach လုပ်ပြီး action plan တစ်ခုချင်းစီ သတ်မှတ်ပါ။"
   },
 
   {
     id: 3,
     courseId: 1,
-    category: "People Management",
     title: "Sales Team Coaching",
-    description: "Team ကို coaching နဲ့ performance တိုးတက်အောင်လုပ်ခြင်း။",
+    category: "People Management",
     content:
-      "Manager က micromanagement မလုပ်ဘဲ clear expectation, direction, coaching, performance review နဲ့ accountability တို့ကို အသုံးပြုသင့်ပါတယ်။"
+      "Manager က team ကို micromanage မလုပ်ဘဲ clear expectation ပေးရပါမယ်။ Regular review, feedback, coaching နဲ့ accountability ကို အသုံးပြုပြီး team performance တိုးတက်အောင်လုပ်ပါ။"
   },
 
   {
     id: 4,
     courseId: 1,
+    title: "Sales Gap Analysis",
     category: "Sales Basics",
-    title: "Field Execution",
-    description: "Sales strategy ကို field execution အဖြစ် ပြောင်းလဲခြင်း။",
     content:
-      "Field execution မှာ customer visit, distribution, visibility, stock availability, team productivity နဲ့ competitor activity တွေကို စနစ်တကျ စောင့်ကြည့်ရပါတယ်။"
+      "Target နဲ့ actual ကြားက gap ကို ရှာပါ။ Gap ရဲ့အကြောင်းရင်းကို people, product, price, distribution, competition နဲ့ execution အလိုက် ခွဲခြမ်းစိတ်ဖြာနိုင်ရပါမယ်။"
   },
 
   {
     id: 5,
-    courseId: 2,
-    category: "Strategic Thinking",
-    title: "Strategic Thinking Fundamentals",
-    description: "Business ကို long-term perspective နဲ့စဉ်းစားခြင်း။",
+    courseId: 1,
+    title: "Monthly Sales Review",
+    category: "Sales Basics",
     content:
-      "Strategy ဆိုတာ အလုပ်များများလုပ်ခြင်းမဟုတ်ပါ။ ဘယ် market ကိုရွေးမလဲ၊ ဘယ် customer ကိုအာရုံစိုက်မလဲ၊ ဘယ်အရာကို မလုပ်ဘူးလဲဆိုတာ သတ်မှတ်ခြင်းဖြစ်ပါတယ်။"
+      "Monthly review မှာ achievement, gap, key accounts, team performance နဲ့ next month action plan ကို review လုပ်ရပါမယ်။"
   },
 
   {
     id: 6,
     courseId: 2,
-    category: "Business Basics",
-    title: "Market Analysis",
-    description: "Market, customer နဲ့ competitor ကို ခွဲခြမ်းစိတ်ဖြာခြင်း။",
+    title: "Strategic Thinking",
+    category: "Strategic Thinking",
     content:
-      "Market analysis မှာ customer needs, competitor strength, pricing, distribution နဲ့ market trend တွေကို သုံးသပ်ပြီး opportunity နဲ့ risk ကိုရှာဖွေရပါတယ်။"
+      "Strategy ဆိုတာ လက်ရှိအခြေအနေကနေ ရည်မှန်းချက်ဆီသွားဖို့ resource တွေကို ဘယ်လိုအသုံးချမလဲဆိုတာဖြစ်ပါတယ်။"
   },
 
   {
     id: 7,
     courseId: 2,
-    category: "Goal Setting",
-    title: "Business Goal Setting",
-    description: "SMART goals ဖြင့် business goal သတ်မှတ်ခြင်း။",
+    title: "Market Analysis",
+    category: "Strategic Thinking",
     content:
-      "Goal က Specific, Measurable, Achievable, Relevant, Time-bound ဖြစ်သင့်ပါတယ်။ Goal တစ်ခုချင်းစီအတွက် KPI နဲ့ action plan ထည့်သင့်ပါတယ်။"
+      "Market size, customer needs, competitors, pricing နဲ့ distribution ကို စုစည်းပြီး market opportunity ကို ရှာဖွေပါ။"
   },
 
   {
     id: 8,
-    courseId: 3,
-    category: "Brand Basics",
-    title: "Brand Fundamentals",
-    description: "Brand positioning နှင့် customer perception။",
+    courseId: 2,
+    title: "Business Decision Making",
+    category: "Business Basics",
     content:
-      "Brand ဆိုတာ logo တစ်ခုတည်းမဟုတ်ပါ။ Customer က product သို့မဟုတ် company ကို ဘယ်လိုခံစားသလဲဆိုတဲ့ perception ဖြစ်ပါတယ်။"
+      "ဆုံးဖြတ်ချက်ချတဲ့အခါ data, customer insight, business impact နဲ့ risk ကို ထည့်သွင်းစဉ်းစားပါ။"
   },
 
   {
     id: 9,
     courseId: 3,
-    category: "Marketing Basics",
-    title: "Marketing Fundamentals",
-    description: "Customer needs နဲ့ marketing mix ကို နားလည်ခြင်း။",
+    title: "Brand Basics",
+    category: "Brand Basics",
     content:
-      "Marketing မှာ customer ကို နားလည်ပြီး product, price, place, promotion ကို customer needs နဲ့ ကိုက်ညီအောင် စီမံရပါတယ်။"
+      "Brand ဆိုတာ logo တစ်ခုတည်းမဟုတ်ပါဘူး။ Customer ရဲ့ စိတ်ထဲမှာ company/product အပေါ်ရှိတဲ့ perception ဖြစ်ပါတယ်။"
   },
 
   {
     id: 10,
     courseId: 3,
-    category: "Customer Service",
-    title: "Customer Experience",
-    description: "Customer relationship တည်ဆောက်ခြင်း။",
+    title: "Marketing Basics",
+    category: "Marketing Basics",
     content:
-      "Customer experience က transaction တစ်ကြိမ်ထက် ပိုအရေးကြီးပါတယ်။ Trust, service quality, responsiveness နဲ့ follow-up က customer retention ကိုတိုးစေပါတယ်။"
+      "Marketing မှာ customer ကို နားလည်ခြင်း၊ value proposition တည်ဆောက်ခြင်းနဲ့ channel strategy သတ်မှတ်ခြင်းက အရေးကြီးပါတယ်။"
   },
 
   {
     id: 11,
     courseId: 4,
+    title: "Leadership Fundamentals",
     category: "People Management",
-    title: "Leadership Style",
-    description: "Coaching and empowerment leadership။",
     content:
-      "Effective leader က clear expectations ပေးပြီး team ကို ownership နဲ့ accountability ပေးရပါတယ်။ Regular review နဲ့ feedback က performance တိုးတက်စေပါတယ်။"
+      "ကောင်းမွန်တဲ့ leader တစ်ယောက်ဟာ direction ပေးနိုင်ရမယ်၊ expectation ရှင်းရမယ်၊ လူတွေကို develop လုပ်နိုင်ရမယ်။"
   },
 
   {
     id: 12,
     courseId: 4,
-    category: "Negotiation",
-    title: "Negotiation Skills",
-    description: "Win-win negotiation ကို လက်တွေ့အသုံးချခြင်း။",
+    title: "Customer Service",
+    category: "Customer Service",
     content:
-      "Negotiation မှာ ကိုယ့်အကျိုးအမြတ်သာ မကြည့်ဘဲ customer ရဲ့ needs ကိုနားလည်ပြီး နှစ်ဖက်လုံးအတွက် value ဖန်တီးရပါတယ်။"
+      "Customer service က customer complaint ဖြေရှင်းတာထက် ပိုပါတယ်။ Trust, responsiveness နဲ့ long-term relationship တည်ဆောက်ခြင်းဖြစ်ပါတယ်။"
   },
 
   {
     id: 13,
     courseId: 4,
-    category: "People Management",
-    title: "Performance Management",
-    description: "Team KPI နှင့် performance review။",
+    title: "Negotiation Skills",
+    category: "Negotiation",
     content:
-      "Performance management မှာ KPI, review frequency, coaching, action plan နဲ့ accountability ကို တစ်ဆက်တည်း စီမံရပါတယ်။"
+      "Negotiation မှာ ကိုယ့်အကျိုးအမြတ်ကိုသာ မကြည့်ဘဲ customer ရဲ့ needs နဲ့ win-win solution ကို ရှာဖွေပါ။"
   },
 
   {
     id: 14,
     courseId: 4,
-    category: "Finance",
-    title: "Profit & Loss Basics",
-    description: "Revenue, cost, profit နှင့် margin ကိုနားလည်ခြင်း။",
+    title: "Goal Setting",
+    category: "Goal Setting",
     content:
-      "Revenue ထက် profit ကို ပိုအာရုံစိုက်ရပါမယ်။ Profit = Revenue - Cost ဖြစ်ပြီး margin က business health ကိုတိုင်းတာရာမှာ အရေးကြီးပါတယ်။"
+      "Goal က ရှင်းလင်းပြီး တိုင်းတာလို့ရရပါမယ်။ SMART framework ကိုအသုံးပြုပြီး deadline နဲ့ action plan သတ်မှတ်ပါ။"
   }
 
 ];
@@ -183,81 +177,86 @@ const LESSONS = [
 /* ================= STATE ================= */
 
 let currentPage = "dashboardPage";
+let currentLessonIndex = 0;
 
 let completedLessons =
   JSON.parse(
     localStorage.getItem("aba_completed_lessons") || "[]"
   );
 
-let currentLessonIndex = 0;
-
 
 /* ================= SALES DATA ================= */
 
-const defaultSalesData = {
-  target: 100000000,
-  actual: 75000000,
-  period: "Current Month"
+const DEFAULT_SALES_DATA = {
+
+  target: 30000000,
+
+  actual: 22500000,
+
+  workingDays: 26,
+
+  team: [
+    {
+      id: 1,
+      name: "Aung Aung",
+      role: "Sales Executive",
+      target: 8000000,
+      actual: 6800000
+    },
+    {
+      id: 2,
+      name: "Ko Min",
+      role: "Sales Executive",
+      target: 7000000,
+      actual: 5200000
+    },
+    {
+      id: 3,
+      name: "Mg Zaw",
+      role: "Sales Representative",
+      target: 6000000,
+      actual: 4800000
+    },
+    {
+      id: 4,
+      name: "Su Su",
+      role: "Sales Representative",
+      target: 5000000,
+      actual: 3500000
+    }
+  ],
+
+  actions: [
+    {
+      id: 1,
+      title: "Review low-performing territories",
+      owner: "Sales Manager",
+      due: "This Week",
+      done: false
+    },
+    {
+      id: 2,
+      title: "Coach bottom-performing team members",
+      owner: "Sales Manager",
+      due: "Friday",
+      done: false
+    },
+    {
+      id: 3,
+      title: "Visit top 10 key customers",
+      owner: "Sales Team",
+      due: "This Month",
+      done: false
+    }
+  ]
+
 };
+
 
 let salesData =
   JSON.parse(
-    localStorage.getItem("aba_sales_data") ||
-    JSON.stringify(defaultSalesData)
-  );
-
-
-const defaultTeam = [
-  {
-    name: "Sales Executive 01",
-    target: 25000000,
-    actual: 22000000
-  },
-  {
-    name: "Sales Executive 02",
-    target: 25000000,
-    actual: 21000000
-  },
-  {
-    name: "Sales Executive 03",
-    target: 25000000,
-    actual: 18000000
-  },
-  {
-    name: "Sales Executive 04",
-    target: 25000000,
-    actual: 14000000
-  }
-];
-
-
-let teamData =
-  JSON.parse(
-    localStorage.getItem("aba_team_data") ||
-    JSON.stringify(defaultTeam)
-  );
-
-
-let actionPlans =
-  JSON.parse(
-    localStorage.getItem("aba_action_plans") ||
-    JSON.stringify([
-      {
-        id: 1,
-        text: "Review sales gap and identify top recovery opportunities.",
-        completed: false
-      },
-      {
-        id: 2,
-        text: "Coach low-performing team members.",
-        completed: false
-      },
-      {
-        id: 3,
-        text: "Visit key customers and review monthly opportunities.",
-        completed: false
-      }
-    ])
+    localStorage.getItem("aba_sales_manager_v1") ||
+    JSON.stringify(DEFAULT_SALES_DATA)
   );
 
 
@@ -270,7 +269,7 @@ function $(id) {
 
 function escapeHTML(value) {
 
-  return String(value)
+  return String(value ?? "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
@@ -280,26 +279,41 @@ function escapeHTML(value) {
 
 
 function saveSalesData() {
+
   localStorage.setItem(
-    "aba_sales_data",
+    "aba_sales_manager_v1",
     JSON.stringify(salesData)
   );
+
 }
 
 
-function saveTeamData() {
-  localStorage.setItem(
-    "aba_team_data",
-    JSON.stringify(teamData)
-  );
+function formatMoney(number) {
+
+  const value = Number(number) || 0;
+
+  return value.toLocaleString("en-US") + " MMK";
+
 }
 
 
-function saveActionPlans() {
-  localStorage.setItem(
-    "aba_action_plans",
-    JSON.stringify(actionPlans)
-  );
+function formatShortMoney(number) {
+
+  const value = Number(number) || 0;
+
+  if (value >= 10000000) {
+    return (value / 10000000).toFixed(1) + "M";
+  }
+
+  if (value >= 1000000) {
+    return (value / 1000000).toFixed(1) + "M";
+  }
+
+  if (value >= 1000) {
+    return (value / 1000).toFixed(0) + "K";
+  }
+
+  return value.toLocaleString();
 }
 
 
@@ -307,24 +321,20 @@ function saveActionPlans() {
 
 function navigate(pageId) {
 
-  const pages = document.querySelectorAll(".page");
-
-  pages.forEach(page => {
-    page.classList.remove("active");
-  });
-
   const page = $(pageId);
 
-  if (!page) {
-    return;
-  }
+  if (!page) return;
+
+  document.querySelectorAll(".page")
+    .forEach(page => {
+      page.classList.remove("active");
+    });
 
   page.classList.add("active");
 
   currentPage = pageId;
 
-  document
-    .querySelectorAll(".nav-item")
+  document.querySelectorAll(".nav-item")
     .forEach(item => {
 
       item.classList.remove("active");
@@ -340,9 +350,6 @@ function navigate(pageId) {
 
   closeSidebar();
 
-  if (pageId === "dashboardPage") {
-    updateDashboardStats();
-  }
 
   if (pageId === "coursesPage") {
     renderCourses();
@@ -373,81 +380,79 @@ function updatePageTitle(pageId) {
 
     dashboardPage: [
       "Dashboard",
-      "Business learning & management system"
+      "Welcome back, Aung Zar Ni Win"
     ],
 
     coursesPage: [
       "My Courses",
-      "Professional business courses"
+      "Your business learning journey"
     ],
 
     lessonsPage: [
       "Lessons",
-      "Practical business learning"
+      "Practical Burmese business lessons"
     ],
 
     progressPage: [
       "My Progress",
-      "Track your development"
+      "Track your academy performance"
     ],
 
     salesPage: [
       "Sales Manager",
-      "Target, team and execution management"
+      "Manage sales performance professionally"
     ],
 
     calculatorPage: [
-      "Business Calculators",
-      "Practical financial tools"
+      "Business Calculator",
+      "Calculate your business numbers"
     ],
 
     reportsPage: [
       "Reports",
-      "Business performance analytics"
+      "Business performance reports"
     ],
 
     aiPage: [
       "AI Business Coach",
-      "Business advice and coaching"
+      "Your practical business assistant"
     ],
 
     toolsPage: [
       "AI Tools",
-      "Practical management tools"
+      "Business productivity tools"
     ],
 
     settingsPage: [
       "Settings",
-      "Application settings"
+      "Manage your academy"
     ]
 
   };
 
 
-  const title =
-    titles[pageId] ||
-    ["Aung Business Academy", "Professional business academy"];
+  const info = titles[pageId] || titles.dashboardPage;
 
+  $("pageTitle").textContent = info[0];
 
-  if ($("pageTitle")) {
-    $("pageTitle").textContent = title[0];
-  }
+  $("pageSubtitle").textContent = info[1];
 
-  if ($("pageSubtitle")) {
-    $("pageSubtitle").textContent = title[1];
-  }
 }
 
 
 /* ================= DASHBOARD ================= */
 
 function goDashboard() {
+
   navigate("dashboardPage");
+
 }
 
 
 function openLessons() {
+
   navigate("lessonsPage");
+
 }
 
 
@@ -460,117 +465,83 @@ function continueLearning() {
 
   if (incomplete) {
     openLessonById(incomplete.id);
-    return;
+  } else {
+    showToast("သင်ခန်းစာအားလုံးပြီးပါပြီ 🎉");
   }
 
-  navigate("lessonsPage");
 }
 
 
 function openBusinessPlan() {
-  navigate("salesPage");
+
+  openAITool("Business Plan");
+
 }
 
-
-function updateDashboardStats() {
-
-  if ($("statCourses")) {
-    $("statCourses").textContent = COURSES.length;
-  }
-
-  if ($("statLessons")) {
-    $("statLessons").textContent = LESSONS.length;
-  }
-
-  const completed =
-    completedLessons.length;
-
-  const progress =
-    Math.round(
-      (completed / LESSONS.length) * 100
-    );
-
-
-  if ($("statCompleted")) {
-    $("statCompleted").textContent = completed;
-  }
-
-  if ($("statProgress")) {
-    $("statProgress").textContent = `${progress}%`;
-  }
-
-
-  const salesCourse =
-    COURSES.find(course => course.id === 1);
-
-  const courseCompleted =
-    salesCourse.lessons.filter(
-      id => completedLessons.includes(id)
-    ).length;
-
-  const courseProgress =
-    Math.round(
-      (courseCompleted / salesCourse.lessons.length) * 100
-    );
-
-
-  if ($("dashboardCourseProgress")) {
-    $("dashboardCourseProgress").style.width =
-      `${courseProgress}%`;
-  }
-
-  if ($("dashboardCourseProgressText")) {
-    $("dashboardCourseProgressText").textContent =
-      `${courseProgress}% completed`;
-  }
-
-
-  if ($("dailyGoalPercent")) {
-    $("dailyGoalPercent").textContent =
-      "0%";
-  }
-
-  if ($("dailyGoalText")) {
-    $("dailyGoalText").textContent =
-      "0 / 30 min";
-  }
-}
-
-
-/* ================= CATEGORIES ================= */
 
 function openCategory(category) {
 
-  navigate("lessonsPage");
+  const results =
+    LESSONS.filter(
+      lesson =>
+        lesson.category.toLowerCase()
+          .includes(category.toLowerCase()) ||
+        category.toLowerCase()
+          .includes(lesson.category.toLowerCase())
+    );
 
-  setTimeout(() => {
 
-    const filtered =
-      LESSONS.filter(
-        lesson => lesson.category === category
-      );
+  let html = `
+    <h3>${escapeHTML(category)}</h3>
+    <p>ဒီ category ထဲက သင်ခန်းစာများ</p>
+  `;
 
-    if (!filtered.length) {
 
-      showToast(
-        `${category} အတွက် lesson မရှိသေးပါ။`
-      );
+  if (!results.length) {
 
-      return;
-    }
+    html += `
+      <div class="calc-result">
+        ဒီ category အတွက် lesson အသစ်များ မကြာမီ ထပ်ထည့်ပေးပါမယ်။
+      </div>
+    `;
 
-    const list = $("lessonsList");
+  } else {
 
-    if (!list) return;
+    html += `<div class="lessons-list">`;
 
-    list.innerHTML = filtered
-      .map(
-        (lesson, index) =>
-          createLessonHTML(lesson, index)
-      )
-      .join("");
+    results.forEach(lesson => {
 
-  }, 50);
+      html += `
+        <div class="lesson-item">
+
+          <div class="lesson-number">
+            ${lesson.id}
+          </div>
+
+          <div class="lesson-info">
+            <strong>${escapeHTML(lesson.title)}</strong>
+            <small>${escapeHTML(lesson.category)}</small>
+          </div>
+
+          <button
+            class="btn primary"
+            onclick="closeModal(); openLessonById(${lesson.id})"
+          >
+            Open
+          </button>
+
+        </div>
+      `;
+
+    });
+
+    html += `</div>`;
+
+  }
+
+
+  openModal(html);
+
 }
 
 
@@ -578,9 +549,7 @@ function openCategory(category) {
 
 function courseProgress(course) {
 
-  if (!course.lessons.length) {
-    return 0;
-  }
+  if (!course.lessons.length) return 0;
 
   const completed =
     course.lessons.filter(
@@ -590,167 +559,170 @@ function courseProgress(course) {
   return Math.round(
     (completed / course.lessons.length) * 100
   );
+
 }
 
 
 function renderCourses() {
 
-  const container = $("coursesList");
+  const container = $("coursesGrid");
 
   if (!container) return;
 
   container.innerHTML =
     COURSES.map(course => {
 
-      const progress =
-        courseProgress(course);
+      const progress = courseProgress(course);
 
       return `
         <div class="course-card">
 
-          <div class="course-card-top">
+          <span class="eyebrow">
+            ${escapeHTML(course.category)}
+          </span>
 
-            <div class="course-card-icon">
-              ${course.title.charAt(0)}
-            </div>
+          <h3>${escapeHTML(course.title)}</h3>
 
-            <div>
-              <h3>${escapeHTML(course.title)}</h3>
+          <p>
+            ${escapeHTML(course.description)}
+          </p>
 
-              <p>
-                ${escapeHTML(course.description)}
-              </p>
-            </div>
-
+          <div class="progress-row">
+            <span>Progress</span>
+            <strong>${progress}%</strong>
           </div>
 
-          <div class="progress-line">
-            <span style="width:${progress}%"></span>
+          <div class="progress">
+            <div
+              class="progress-bar"
+              style="width:${progress}%"
+            ></div>
           </div>
 
-          <div class="course-meta">
+          <br>
 
-            <span>${progress}% completed</span>
-
-            <button
-              class="text-btn"
-              onclick="openCourse(${course.id})"
-            >
-              Open →
-            </button>
-
-          </div>
+          <button
+            class="btn primary full"
+            onclick="openCourse(${course.id})"
+          >
+            Open Course
+          </button>
 
         </div>
       `;
 
     }).join("");
+
 }
 
 
 function openCourse(courseId) {
 
   const course =
-    COURSES.find(
-      item => item.id === courseId
-    );
+    COURSES.find(c => c.id === courseId);
 
   if (!course) return;
 
   const lessons =
     LESSONS.filter(
-      lesson =>
-        course.lessons.includes(lesson.id)
+      lesson => course.lessons.includes(lesson.id)
     );
 
-  openModal(`
 
-    <span class="eyebrow">
-      COURSE
-    </span>
+  let html = `
+    <h3>${escapeHTML(course.title)}</h3>
+    <p>${escapeHTML(course.description)}</p>
 
-    <h2>
-      ${escapeHTML(course.title)}
-    </h2>
+    <div class="lessons-list">
+  `;
 
-    <p>
-      ${escapeHTML(course.description)}
-    </p>
 
-    <div class="modal-lesson">
+  lessons.forEach(lesson => {
 
-      ${lessons.map(
-        lesson => `
-          <div style="
-            padding:10px 0;
-            border-bottom:1px solid #eee;
-          ">
-            <strong>
-              ${lesson.id}. ${escapeHTML(lesson.title)}
-            </strong>
-          </div>
-        `
-      ).join("")}
+    const done =
+      completedLessons.includes(lesson.id);
 
-    </div>
+    html += `
+      <div class="lesson-item">
 
-  `);
+        <div class="lesson-number">
+          ${lesson.id}
+        </div>
+
+        <div class="lesson-info">
+          <strong>${escapeHTML(lesson.title)}</strong>
+          <small>${escapeHTML(lesson.category)}</small>
+        </div>
+
+        ${
+          done
+            ? `<span class="lesson-completed">✓ Done</span>`
+            : `<button class="btn primary"
+                onclick="closeModal();openLessonById(${lesson.id})">
+                Open
+              </button>`
+        }
+
+      </div>
+    `;
+
+  });
+
+
+  html += `</div>`;
+
+  openModal(html);
+
 }
 
 
 /* ================= LESSONS ================= */
 
-function createLessonHTML(lesson, index) {
-
-  const done =
-    completedLessons.includes(lesson.id);
-
-  return `
-    <div
-      class="lesson-card"
-      onclick="openLessonById(${lesson.id})"
-    >
-
-      <div class="lesson-number">
-        ${String(index + 1).padStart(2, "0")}
-      </div>
-
-      <div class="lesson-info">
-
-        <h3>
-          ${escapeHTML(lesson.title)}
-        </h3>
-
-        <p>
-          ${escapeHTML(lesson.description)}
-        </p>
-
-      </div>
-
-      <div
-        class="lesson-status ${done ? "done" : "pending"}"
-      >
-        ${done ? "✓ Completed" : "Start →"}
-      </div>
-
-    </div>
-  `;
-}
-
-
 function renderLessons() {
 
-  const list = $("lessonsList");
+  const container = $("lessonsList");
 
-  if (!list) return;
+  if (!container) return;
 
-  list.innerHTML =
-    LESSONS
-      .map(
-        (lesson, index) =>
-          createLessonHTML(lesson, index)
-      )
-      .join("");
+
+  container.innerHTML =
+    LESSONS.map((lesson, index) => {
+
+      const done =
+        completedLessons.includes(lesson.id);
+
+      return `
+        <div class="lesson-item">
+
+          <div class="lesson-number">
+            ${index + 1}
+          </div>
+
+          <div class="lesson-info">
+            <strong>${escapeHTML(lesson.title)}</strong>
+            <small>
+              ${escapeHTML(lesson.category)}
+            </small>
+          </div>
+
+          ${
+            done
+              ? `<span class="lesson-completed">✓ Completed</span>`
+              : ""
+          }
+
+          <button
+            class="btn ${done ? "outline" : "primary"}"
+            onclick="openLessonById(${lesson.id})"
+          >
+            ${done ? "Review" : "Start"}
+          </button>
+
+        </div>
+      `;
+
+    }).join("");
+
 }
 
 
@@ -761,11 +733,12 @@ function openLessonById(id) {
       lesson => lesson.id === id
     );
 
-  if (index < 0) return;
+  if (index === -1) return;
 
   currentLessonIndex = index;
 
   openLesson();
+
 }
 
 
@@ -776,54 +749,61 @@ function openLesson() {
 
   if (!lesson) return;
 
+
   const done =
     completedLessons.includes(lesson.id);
 
 
-  openModal(`
+  const html = `
 
     <span class="eyebrow">
-      ${escapeHTML(lesson.category)}
+      LESSON ${lesson.id}
     </span>
 
-    <h2>
+    <h3>
       ${escapeHTML(lesson.title)}
-    </h2>
+    </h3>
 
     <p>
-      ${escapeHTML(lesson.description)}
+      ${escapeHTML(lesson.content)}
     </p>
 
-    <div class="modal-lesson">
-      ${escapeHTML(lesson.content)}
+    <div class="calc-result">
+      Category: ${escapeHTML(lesson.category)}
     </div>
 
-    <div class="modal-actions">
+    <br>
+
+    <div style="display:flex;gap:8px;">
 
       <button
-        class="secondary-btn"
+        class="btn outline"
         onclick="previousLesson()"
       >
         ← Previous
       </button>
 
       <button
-        class="secondary-btn"
+        class="btn primary"
+        onclick="completeLesson()"
+      >
+        ${done ? "✓ Completed" : "Complete Lesson"}
+      </button>
+
+      <button
+        class="btn outline"
         onclick="nextLesson()"
       >
         Next →
       </button>
 
-      <button
-        class="primary-btn"
-        onclick="completeLesson()"
-      >
-        ${done ? "Completed ✓" : "Mark Complete"}
-      </button>
-
     </div>
 
-  `);
+  `;
+
+
+  openModal(html);
+
 }
 
 
@@ -836,21 +816,20 @@ function previousLesson() {
     openLesson();
 
   }
+
 }
 
 
 function nextLesson() {
 
-  if (
-    currentLessonIndex <
-    LESSONS.length - 1
-  ) {
+  if (currentLessonIndex < LESSONS.length - 1) {
 
     currentLessonIndex++;
 
     openLesson();
 
   }
+
 }
 
 
@@ -871,12 +850,6 @@ function completeLesson() {
       JSON.stringify(completedLessons)
     );
 
-    showToast("Lesson completed ✓");
-
-  } else {
-
-    showToast("ဒီ lesson ကိုပြီးထားပြီးပါပြီ။");
-
   }
 
 
@@ -884,7 +857,10 @@ function completeLesson() {
 
   renderLessons();
 
+  showToast("Lesson completed successfully 🎉");
+
   openLesson();
+
 }
 
 
@@ -892,42 +868,33 @@ function completeLesson() {
 
 function renderProgress() {
 
-  const container =
-    $("progressContent");
+  const container = $("progressContent");
 
   if (!container) return;
 
-  const completed =
-    completedLessons.length;
+
+  const total = LESSONS.length;
+
+  const completed = completedLessons.length;
 
   const progress =
-    Math.round(
-      (completed / LESSONS.length) * 100
-    );
+    Math.round((completed / total) * 100);
 
 
-  container.innerHTML = `
+  let html = `
 
     <div class="stats-grid">
 
       <div class="stat-card">
-        <div class="stat-icon purple">▤</div>
-        <div>
-          <span>Total Courses</span>
-          <strong>${COURSES.length}</strong>
-        </div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-icon pink">▣</div>
+        <div class="stat-icon purple">📚</div>
         <div>
           <span>Total Lessons</span>
-          <strong>${LESSONS.length}</strong>
+          <strong>${total}</strong>
         </div>
       </div>
 
       <div class="stat-card">
-        <div class="stat-icon green">✓</div>
+        <div class="stat-icon green">✅</div>
         <div>
           <span>Completed</span>
           <strong>${completed}</strong>
@@ -935,72 +902,137 @@ function renderProgress() {
       </div>
 
       <div class="stat-card">
-        <div class="stat-icon orange">◔</div>
+        <div class="stat-icon orange">📈</div>
         <div>
-          <span>Overall Progress</span>
+          <span>Progress</span>
           <strong>${progress}%</strong>
         </div>
       </div>
 
-    </div>
-
-
-    <div class="panel" style="margin-top:20px">
-
-      <div class="panel-header">
-
+      <div class="stat-card">
+        <div class="stat-icon pink">🎯</div>
         <div>
-          <h3>Course Progress</h3>
-          <p>Track every course.</p>
+          <span>Remaining</span>
+          <strong>${total - completed}</strong>
         </div>
-
       </div>
 
+    </div>
 
-      ${COURSES.map(course => {
+    <div class="card">
 
-        const p =
-          courseProgress(course);
+      <div class="card-header">
+        <div>
+          <span class="eyebrow">OVERALL PROGRESS</span>
+          <h3>Academy Learning Progress</h3>
+        </div>
 
-        return `
+        <strong>${progress}%</strong>
+      </div>
 
-          <div style="margin-bottom:20px">
-
-            <div style="
-              display:flex;
-              justify-content:space-between;
-              margin-bottom:7px;
-              font-size:11px;
-              font-weight:700;
-            ">
-
-              <span>
-                ${escapeHTML(course.title)}
-              </span>
-
-              <span>
-                ${p}%
-              </span>
-
-            </div>
-
-            <div class="progress-line">
-
-              <span
-                style="width:${p}%"
-              ></span>
-
-            </div>
-
-          </div>
-
-        `;
-
-      }).join("")}
+      <div class="large-progress">
+        <div
+          class="progress-bar"
+          style="width:${progress}%"
+        ></div>
+      </div>
 
     </div>
 
   `;
+
+
+  COURSES.forEach(course => {
+
+    const p = courseProgress(course);
+
+    html += `
+
+      <div class="card">
+
+        <div class="card-header">
+
+          <div>
+            <span class="eyebrow">
+              ${escapeHTML(course.category)}
+            </span>
+
+            <h3>
+              ${escapeHTML(course.title)}
+            </h3>
+          </div>
+
+          <strong>${p}%</strong>
+
+        </div>
+
+        <div class="progress">
+          <div
+            class="progress-bar"
+            style="width:${p}%"
+          ></div>
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+
+  container.innerHTML = html;
+
+}
+
+
+function updateDashboardStats() {
+
+  const completed = completedLessons.length;
+
+  const total = LESSONS.length;
+
+  const progress =
+    Math.round((completed / total) * 100);
+
+
+  if ($("statCourses")) {
+    $("statCourses").textContent =
+      COURSES.length;
+  }
+
+  if ($("statLessons")) {
+    $("statLessons").textContent =
+      LESSONS.length;
+  }
+
+  if ($("statCompleted")) {
+    $("statCompleted").textContent =
+      completed;
+  }
+
+  if ($("statProgress")) {
+    $("statProgress").textContent =
+      progress + "%";
+  }
+
+
+  const course =
+    COURSES[0];
+
+  const courseP =
+    courseProgress(course);
+
+
+  if ($("currentCourseProgress")) {
+    $("currentCourseProgress").textContent =
+      courseP + "%";
+  }
+
+  if ($("currentCourseBar")) {
+    $("currentCourseBar").style.width =
+      courseP + "%";
+  }
+
 }
 
 
@@ -1008,107 +1040,18 @@ function renderProgress() {
    SALES MANAGER PROFESSIONAL MODULE
 ========================================================= */
 
-function formatMoney(number) {
-
-  const value =
-    Number(number) || 0;
-
-  return new Intl.NumberFormat(
-    "en-US"
-  ).format(Math.round(value));
-}
-
-
-function calculateAchievement(
-  target,
-  actual
-) {
-
-  target = Number(target) || 0;
-  actual = Number(actual) || 0;
-
-  if (target <= 0) {
-    return 0;
-  }
-
-  return (
-    actual / target
-  ) * 100;
-}
-
-
-function calculateGap(
-  target,
-  actual
-) {
-
-  target = Number(target) || 0;
-  actual = Number(actual) || 0;
-
-  return Math.max(
-    target - actual,
-    0
-  );
-}
-
-
-function calculateDailyTarget(
-  target,
-  workingDays = 26
-) {
-
-  target = Number(target) || 0;
-
-  if (workingDays <= 0) {
-    return 0;
-  }
-
-  return target / workingDays;
-}
-
-
-function getAchievementStatus(
-  achievement
-) {
-
-  if (achievement >= 100) {
-    return {
-      text: "Target Achieved",
-      className: "good"
-    };
-  }
-
-  if (achievement >= 80) {
-    return {
-      text: "On Track",
-      className: "warning"
-    };
-  }
-
-  return {
-    text: "Recovery Required",
-    className: "danger"
-  };
-}
-
-
 function renderSales() {
 
-  if (!$("salesTargetInput")) {
-    return;
-  }
+  calculateSalesKPI();
+
+  renderTeamPerformance();
+
+  renderActionPlans();
+
+}
 
 
-  $("salesTargetInput").value =
-    salesData.target || "";
-
-  $("salesActualInput").value =
-    salesData.actual || "";
-
-
-  $("salesPeriod").textContent =
-    salesData.period || "Current Month";
-
+function calculateSalesKPI() {
 
   const target =
     Number(salesData.target) || 0;
@@ -1116,160 +1059,160 @@ function renderSales() {
   const actual =
     Number(salesData.actual) || 0;
 
+  const days =
+    Number(salesData.workingDays) || 1;
+
 
   const achievement =
-    calculateAchievement(
-      target,
-      actual
-    );
+    target > 0
+      ? (actual / target) * 100
+      : 0;
+
 
   const gap =
-    calculateGap(
-      target,
-      actual
-    );
+    Math.max(target - actual, 0);
+
 
   const dailyTarget =
-    calculateDailyTarget(target);
+    target / days;
 
 
-  updateElement(
-    "salesTargetDisplay",
-    `${formatMoney(target)} MMK`
-  );
+  $("salesTargetDisplay").textContent =
+    formatMoney(target);
 
-  updateElement(
-    "salesActualDisplay",
-    `${formatMoney(actual)} MMK`
-  );
+  $("salesActualDisplay").textContent =
+    formatMoney(actual);
 
-  updateElement(
-    "salesAchievementDisplay",
-    `${achievement.toFixed(1)}%`
-  );
+  $("salesAchievementDisplay").textContent =
+    achievement.toFixed(1) + "%";
 
-  updateElement(
-    "salesGapDisplay",
-    `${formatMoney(gap)} MMK`
-  );
-
-  updateElement(
-    "achievementPercentLarge",
-    `${achievement.toFixed(1)}%`
-  );
-
-  updateElement(
-    "dailyTargetDisplay",
-    `Daily Target: ${formatMoney(dailyTarget)} MMK`
-  );
+  $("salesGapDisplay").textContent =
+    formatMoney(gap);
 
 
-  const progress =
-    Math.min(
-      achievement,
-      100
-    );
+  $("bigAchievement").textContent =
+    achievement.toFixed(1) + "%";
 
 
-  if ($("achievementProgressBar")) {
+  $("salesProgressBar").style.width =
+    Math.min(achievement, 100) + "%";
 
-    $("achievementProgressBar").style.width =
-      `${progress}%`;
 
-  }
+  $("performanceActual").textContent =
+    formatShortMoney(actual);
+
+  $("performanceTarget").textContent =
+    formatShortMoney(target);
+
+  $("performanceGap").textContent =
+    formatShortMoney(gap);
+
+
+  $("dailyTargetDisplay").textContent =
+    formatMoney(dailyTarget);
 
 
   const status =
-    getAchievementStatus(
-      achievement
-    );
+    $("achievementStatus");
 
 
-  if ($("achievementStatus")) {
+  status.className =
+    "status-badge";
 
-    $("achievementStatus").textContent =
-      status.text;
 
-    $("achievementStatus").style.color =
-      status.className === "good"
-        ? "var(--success)"
-        : status.className === "warning"
-        ? "#c27a00"
-        : "var(--danger)";
+  if (achievement >= 100) {
+
+    status.classList.add("success");
+
+    status.textContent =
+      "Target Achieved";
+
+    $("managerTip").textContent =
+      "Excellent performance. Focus on exceeding the target and sustaining team momentum.";
 
   }
 
+  else if (achievement >= 75) {
 
-  renderTeamPerformance();
+    status.classList.add("warning");
 
-  renderActionPlans();
-}
+    status.textContent =
+      "On Track";
 
+    $("managerTip").textContent =
+      "Focus on closing the remaining gap and improving team execution.";
 
-function updateElement(
-  id,
-  value
-) {
-
-  const element = $(id);
-
-  if (element) {
-    element.textContent = value;
   }
+
+  else {
+
+    status.classList.add("danger");
+
+    status.textContent =
+      "Needs Attention";
+
+    $("managerTip").textContent =
+      "Achievement is below 75%. Review territory, team and customer execution immediately.";
+
+  }
+
 }
 
 
-function updateSalesPerformance() {
+function saveSalesKPI() {
 
   const target =
-    Number(
-      $("salesTargetInput").value
-    ) || 0;
+    Number($("salesTargetInput").value);
 
   const actual =
-    Number(
-      $("salesActualInput").value
-    ) || 0;
+    Number($("salesActualInput").value);
+
+  const days =
+    Number($("workingDaysInput").value);
 
 
-  if (target <= 0) {
+  if (!target || target <= 0) {
 
-    showToast(
-      "Monthly Target ထည့်ပေးပါ။"
-    );
+    showToast("Monthly Target ထည့်ပါ");
 
     return;
+
   }
 
 
   if (actual < 0) {
 
-    showToast(
-      "Actual Sales မှားနေပါတယ်။"
-    );
+    showToast("Actual Sales မှားနေပါတယ်");
 
     return;
+
   }
 
 
-  salesData = {
-    target,
-    actual,
-    period: "Current Month"
-  };
+  if (!days || days <= 0) {
+
+    showToast("Working Days ထည့်ပါ");
+
+    return;
+
+  }
+
+
+  salesData.target = target;
+
+  salesData.actual = actual;
+
+  salesData.workingDays = days;
 
 
   saveSalesData();
 
-  renderSales();
+  calculateSalesKPI();
 
-  showToast(
-    "Sales performance updated ✓"
-  );
+  showToast("Sales KPI saved successfully ✓");
+
 }
 
-
-/* ================= TEAM ================= */
 
 function renderTeamPerformance() {
 
@@ -1279,115 +1222,240 @@ function renderTeamPerformance() {
   if (!body) return;
 
 
+  if (!salesData.team.length) {
+
+    body.innerHTML = `
+      <tr>
+        <td colspan="7" style="text-align:center;color:#888;">
+          Team member မရှိသေးပါ။
+        </td>
+      </tr>
+    `;
+
+    return;
+
+  }
+
+
   body.innerHTML =
-    teamData.map(
-      member => {
+    salesData.team.map(member => {
 
-        const achievement =
-          calculateAchievement(
-            member.target,
-            member.actual
-          );
-
-        const status =
-          getAchievementStatus(
-            achievement
-          );
+      const achievement =
+        member.target > 0
+          ? (member.actual / member.target) * 100
+          : 0;
 
 
-        return `
+      let status =
+        "Needs Attention";
 
-          <tr>
+      let className =
+        "team-danger";
 
-            <td>
-              ${escapeHTML(member.name)}
-            </td>
 
-            <td>
-              ${formatMoney(member.target)}
-            </td>
+      if (achievement >= 100) {
 
-            <td>
-              ${formatMoney(member.actual)}
-            </td>
+        status = "Excellent";
 
-            <td>
-              <strong>
-                ${achievement.toFixed(1)}%
-              </strong>
-            </td>
-
-            <td>
-
-              <span
-                class="status-pill ${status.className}"
-              >
-                ${status.text}
-              </span>
-
-            </td>
-
-          </tr>
-
-        `;
+        className = "team-good";
 
       }
-    ).join("");
+
+      else if (achievement >= 75) {
+
+        status = "On Track";
+
+        className = "team-warning";
+
+      }
+
+
+      return `
+
+        <tr>
+
+          <td>
+            <span class="team-name">
+              ${escapeHTML(member.name)}
+            </span>
+          </td>
+
+          <td>
+            <span class="team-role">
+              ${escapeHTML(member.role)}
+            </span>
+          </td>
+
+          <td>
+            ${formatShortMoney(member.target)}
+          </td>
+
+          <td>
+            ${formatShortMoney(member.actual)}
+          </td>
+
+          <td>
+            <span class="team-achievement ${className}">
+              ${achievement.toFixed(1)}%
+            </span>
+          </td>
+
+          <td>
+            <span class="${className}">
+              ${status}
+            </span>
+          </td>
+
+          <td>
+
+            <button
+              class="table-delete"
+              onclick="removeTeamMember(${member.id})"
+            >
+              ×
+            </button>
+
+          </td>
+
+        </tr>
+
+      `;
+
+    }).join("");
+
+}
+
+
+function openAddTeamMember() {
+
+  const html = `
+
+    <h3>Add Team Member</h3>
+
+    <p>
+      Team performance ကို track လုပ်ဖို့
+      member information ထည့်ပါ။
+    </p>
+
+    <div class="modal-form">
+
+      <label>Name</label>
+
+      <input
+        id="newTeamName"
+        placeholder="ဥပမာ - Aung Aung"
+      >
+
+      <label>Role</label>
+
+      <input
+        id="newTeamRole"
+        placeholder="Sales Executive"
+      >
+
+      <label>Target (MMK)</label>
+
+      <input
+        id="newTeamTarget"
+        type="number"
+        placeholder="5000000"
+      >
+
+      <label>Actual (MMK)</label>
+
+      <input
+        id="newTeamActual"
+        type="number"
+        placeholder="3500000"
+      >
+
+      <button
+        class="btn primary"
+        onclick="addTeamMember()"
+      >
+        Add Team Member
+      </button>
+
+    </div>
+
+  `;
+
+
+  openModal(html);
+
 }
 
 
 function addTeamMember() {
 
   const name =
-    prompt(
-      "Team member name:"
-    );
+    $("newTeamName").value.trim();
 
-  if (!name) return;
-
+  const role =
+    $("newTeamRole").value.trim();
 
   const target =
-    Number(
-      prompt(
-        "Monthly target (MMK):",
-        "25000000"
-      )
-    ) || 0;
-
+    Number($("newTeamTarget").value);
 
   const actual =
-    Number(
-      prompt(
-        "Actual sales (MMK):",
-        "0"
-      )
-    ) || 0;
+    Number($("newTeamActual").value);
 
 
-  if (target <= 0) {
+  if (!name || !role || !target) {
 
-    showToast(
-      "Target မှန်ကန်စွာထည့်ပါ။"
-    );
+    showToast("Team member information အပြည့်အစုံထည့်ပါ");
 
     return;
+
   }
 
 
-  teamData.push({
+  salesData.team.push({
+
+    id: Date.now(),
+
     name,
+
+    role,
+
     target,
-    actual
+
+    actual: actual || 0
+
   });
 
 
-  saveTeamData();
+  saveSalesData();
+
+  closeModal();
 
   renderTeamPerformance();
 
-  showToast(
-    "Team member added ✓"
-  );
+  showToast("Team member added ✓");
+
+}
+
+
+function removeTeamMember(id) {
+
+  const confirmed =
+    confirm("ဒီ team member ကိုဖျက်မလား?");
+
+  if (!confirmed) return;
+
+
+  salesData.team =
+    salesData.team.filter(
+      member => member.id !== id
+    );
+
+
+  saveSalesData();
+
+  renderTeamPerformance();
+
+  showToast("Team member removed");
+
 }
 
 
@@ -1401,44 +1469,50 @@ function renderActionPlans() {
   if (!container) return;
 
 
-  if (!actionPlans.length) {
+  if (!salesData.actions.length) {
 
     container.innerHTML = `
-      <div style="
-        padding:20px;
-        text-align:center;
-        color:#718096;
-        font-size:11px;
-      ">
-        No action plans yet.
+      <div class="calc-result">
+        Action plan မရှိသေးပါ။
       </div>
     `;
 
     return;
+
   }
 
 
   container.innerHTML =
-    actionPlans.map(
-      action => `
+    salesData.actions.map(action => {
 
-        <div
-          class="action-item ${
-            action.completed
-              ? "completed"
-              : ""
-          }"
-        >
+      return `
+
+        <div class="action-item">
 
           <button
-            class="action-check"
+            class="action-check ${action.done ? "done" : ""}"
             onclick="toggleActionPlan(${action.id})"
           >
-            ${action.completed ? "✓" : ""}
+            ${action.done ? "✓" : ""}
           </button>
 
-          <div class="action-text">
-            ${escapeHTML(action.text)}
+          <div class="action-content">
+
+            <strong
+              style="${
+                action.done
+                  ? "text-decoration:line-through;color:#999;"
+                  : ""
+              }"
+            >
+              ${escapeHTML(action.title)}
+            </strong>
+
+            <small>
+              Owner: ${escapeHTML(action.owner)}
+              • Due: ${escapeHTML(action.due)}
+            </small>
+
           </div>
 
           <button
@@ -1450,107 +1524,386 @@ function renderActionPlans() {
 
         </div>
 
-      `
-    ).join("");
+      `;
+
+    }).join("");
+
+}
+
+
+function openActionPlanForm() {
+
+  const html = `
+
+    <h3>Add Action Plan</h3>
+
+    <p>
+      Sales target ရဖို့ လုပ်ဆောင်ရမယ့် action ကို ထည့်ပါ။
+    </p>
+
+    <div class="modal-form">
+
+      <label>Action</label>
+
+      <input
+        id="actionTitle"
+        placeholder="ဥပမာ - Top customers visit"
+      >
+
+      <label>Owner</label>
+
+      <input
+        id="actionOwner"
+        placeholder="Sales Manager"
+      >
+
+      <label>Due</label>
+
+      <input
+        id="actionDue"
+        placeholder="Friday"
+      >
+
+      <button
+        class="btn primary"
+        onclick="addActionPlan()"
+      >
+        Add Action Plan
+      </button>
+
+    </div>
+
+  `;
+
+
+  openModal(html);
+
 }
 
 
 function addActionPlan() {
 
-  const text =
-    prompt(
-      "Sales action plan:"
-    );
+  const title =
+    $("actionTitle").value.trim();
 
-  if (!text) return;
+  const owner =
+    $("actionOwner").value.trim() ||
+    "Sales Manager";
+
+  const due =
+    $("actionDue").value.trim() ||
+    "This Week";
 
 
-  actionPlans.push({
+  if (!title) {
+
+    showToast("Action Plan ရေးပါ");
+
+    return;
+
+  }
+
+
+  salesData.actions.push({
+
     id: Date.now(),
-    text,
-    completed: false
+
+    title,
+
+    owner,
+
+    due,
+
+    done: false
+
   });
 
 
-  saveActionPlans();
+  saveSalesData();
+
+  closeModal();
 
   renderActionPlans();
 
-  showToast(
-    "Action plan added ✓"
-  );
+  showToast("Action Plan added ✓");
+
 }
 
 
 function toggleActionPlan(id) {
 
   const action =
-    actionPlans.find(
+    salesData.actions.find(
       item => item.id === id
     );
 
   if (!action) return;
 
-  action.completed =
-    !action.completed;
+
+  action.done =
+    !action.done;
 
 
-  saveActionPlans();
+  saveSalesData();
 
   renderActionPlans();
+
 }
 
 
 function deleteActionPlan(id) {
 
-  actionPlans =
-    actionPlans.filter(
-      item => item.id !== id
+  salesData.actions =
+    salesData.actions.filter(
+      action => action.id !== id
     );
 
-  saveActionPlans();
+
+  saveSalesData();
 
   renderActionPlans();
 
-  showToast(
-    "Action plan deleted."
-  );
+  showToast("Action Plan deleted");
+
 }
 
 
-function createSalesAction(type) {
+function resetSalesData() {
 
-  const templates = {
+  const confirmed =
+    confirm(
+      "Sales Manager data အားလုံးကို default ပြန်ထားမလား?"
+    );
 
-    "Target Recovery":
-      "Review sales gap and create a 7-day target recovery plan.",
-
-    "Team Coaching":
-      "Coach low-performing team members based on KPI gaps.",
-
-    "Market Visit":
-      "Conduct key market visits and identify immediate sales opportunities.",
-
-    "Customer Review":
-      "Review key customers, sales potential and next purchase opportunities."
-
-  };
+  if (!confirmed) return;
 
 
-  actionPlans.push({
-    id: Date.now(),
-    text: templates[type],
-    completed: false
-  });
+  salesData =
+    JSON.parse(
+      JSON.stringify(DEFAULT_SALES_DATA)
+    );
 
 
-  saveActionPlans();
+  saveSalesData();
 
-  renderActionPlans();
+  renderSales();
 
-  showToast(
-    `${type} action plan created ✓`
-  );
+  showToast("Sales Manager reset complete");
+
+}
+
+
+function exportSalesReport() {
+
+  const target =
+    salesData.target;
+
+  const actual =
+    salesData.actual;
+
+  const achievement =
+    target
+      ? ((actual / target) * 100).toFixed(1)
+      : 0;
+
+  const gap =
+    Math.max(target - actual, 0);
+
+
+  const reportWindow =
+    window.open("", "_blank");
+
+
+  if (!reportWindow) {
+
+    showToast("Popup blocked. Please allow popups.");
+
+    return;
+
+  }
+
+
+  reportWindow.document.write(`
+
+    <!DOCTYPE html>
+
+    <html>
+
+    <head>
+
+      <title>Aung Business Academy - Sales Report</title>
+
+      <style>
+
+        body {
+          font-family: Arial, sans-serif;
+          padding: 40px;
+          color: #172033;
+        }
+
+        h1 {
+          margin-bottom: 5px;
+        }
+
+        .date {
+          color: #777;
+          margin-bottom: 30px;
+        }
+
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 20px;
+        }
+
+        th, td {
+          border: 1px solid #ddd;
+          padding: 10px;
+          text-align: left;
+        }
+
+        th {
+          background: #f5f5f5;
+        }
+
+        .summary {
+          display: grid;
+          grid-template-columns: repeat(4,1fr);
+          gap: 10px;
+        }
+
+        .box {
+          border: 1px solid #ddd;
+          padding: 15px;
+        }
+
+        .box strong {
+          display: block;
+          font-size: 20px;
+          margin-top: 8px;
+        }
+
+      </style>
+
+    </head>
+
+    <body>
+
+      <h1>AUNG BUSINESS ACADEMY</h1>
+
+      <h2>Sales Manager Performance Report</h2>
+
+      <div class="date">
+        Generated: ${new Date().toLocaleDateString()}
+      </div>
+
+
+      <div class="summary">
+
+        <div class="box">
+          Monthly Target
+          <strong>${formatMoney(target)}</strong>
+        </div>
+
+        <div class="box">
+          Actual Sales
+          <strong>${formatMoney(actual)}</strong>
+        </div>
+
+        <div class="box">
+          Achievement
+          <strong>${achievement}%</strong>
+        </div>
+
+        <div class="box">
+          Sales Gap
+          <strong>${formatMoney(gap)}</strong>
+        </div>
+
+      </div>
+
+
+      <h3>Team Performance</h3>
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Target</th>
+            <th>Actual</th>
+            <th>Achievement</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          ${
+            salesData.team.map(member => {
+
+              const p =
+                member.target
+                  ? (
+                    member.actual /
+                    member.target *
+                    100
+                  ).toFixed(1)
+                  : 0;
+
+              return `
+
+                <tr>
+
+                  <td>
+                    ${escapeHTML(member.name)}
+                  </td>
+
+                  <td>
+                    ${escapeHTML(member.role)}
+                  </td>
+
+                  <td>
+                    ${formatMoney(member.target)}
+                  </td>
+
+                  <td>
+                    ${formatMoney(member.actual)}
+                  </td>
+
+                  <td>
+                    ${p}%
+                  </td>
+
+                </tr>
+
+              `;
+
+            }).join("")
+
+          }
+
+        </tbody>
+
+      </table>
+
+
+      <script>
+        window.onload = function() {
+          window.print();
+        };
+      <\/script>
+
+    </body>
+
+    </html>
+
+  `);
+
+  reportWindow.document.close();
+
 }
 
 
@@ -1562,9 +1915,12 @@ function openProfitCalculator() {
 
   setTimeout(() => {
 
-    $("profitRevenue")?.focus();
+    document
+      .querySelector("#profitRevenue")
+      ?.focus();
 
   }, 100);
+
 }
 
 
@@ -1574,9 +1930,12 @@ function openPricingCalculator() {
 
   setTimeout(() => {
 
-    $("pricingCost")?.focus();
+    document
+      .querySelector("#pricingCost")
+      ?.focus();
 
   }, 100);
+
 }
 
 
@@ -1586,9 +1945,12 @@ function openBreakEvenCalculator() {
 
   setTimeout(() => {
 
-    $("breakFixedCost")?.focus();
+    document
+      .querySelector("#breakFixed")
+      ?.focus();
 
   }, 100);
+
 }
 
 
@@ -1598,23 +1960,32 @@ function openSalesTargetCalculator() {
 
   setTimeout(() => {
 
-    $("targetMonthly")?.focus();
+    document
+      .querySelector("#targetMonthly")
+      ?.focus();
 
   }, 100);
+
 }
 
 
 function calculateProfitTool() {
 
   const revenue =
-    Number(
-      $("profitRevenue").value
-    ) || 0;
+    Number($("profitRevenue").value);
 
   const cost =
-    Number(
-      $("profitCost").value
-    ) || 0;
+    Number($("profitCost").value);
+
+
+  if (!revenue || revenue < 0) {
+
+    $("profitResult").textContent =
+      "Revenue ထည့်ပါ";
+
+    return;
+
+  }
 
 
   const profit =
@@ -1628,145 +1999,132 @@ function calculateProfitTool() {
 
 
   $("profitResult").innerHTML = `
-
-    <strong>
-      Profit: ${formatMoney(profit)} MMK
-    </strong>
-
+    Profit: ${formatMoney(profit)}
     <br>
-
-    Profit Margin:
-    <strong>
-      ${margin.toFixed(2)}%
-    </strong>
-
+    Margin: ${margin.toFixed(1)}%
   `;
+
 }
 
 
 function calculatePricingTool() {
 
   const cost =
-    Number(
-      $("pricingCost").value
-    ) || 0;
+    Number($("pricingCost").value);
 
   const margin =
-    Number(
-      $("pricingMargin").value
-    ) || 0;
+    Number($("pricingMargin").value);
+
+
+  if (!cost || margin < 0) {
+
+    $("pricingResult").textContent =
+      "Cost နှင့် Margin ထည့်ပါ";
+
+    return;
+
+  }
 
 
   if (margin >= 100) {
 
     $("pricingResult").textContent =
-      "Margin must be below 100%.";
+      "Margin 100% အောက်ဖြစ်ရပါမယ်";
 
     return;
+
   }
 
 
   const price =
-    cost /
-    (1 - margin / 100);
+    cost / (1 - margin / 100);
 
 
   const markup =
-    cost > 0
-      ? ((price - cost) / cost) * 100
-      : 0;
+    ((price - cost) / cost) * 100;
 
 
   $("pricingResult").innerHTML = `
-
     Selling Price:
-    <strong>
-      ${formatMoney(price)} MMK
-    </strong>
-
+    ${formatMoney(price)}
     <br>
-
-    Markup:
-    <strong>
-      ${markup.toFixed(2)}%
-    </strong>
-
+    Markup: ${markup.toFixed(1)}%
   `;
+
 }
 
 
 function calculateBreakEven() {
 
-  const fixedCost =
-    Number(
-      $("breakFixedCost").value
-    ) || 0;
+  const fixed =
+    Number($("breakFixed").value);
 
-  const sellingPrice =
-    Number(
-      $("breakSellingPrice").value
-    ) || 0;
+  const price =
+    Number($("breakPrice").value);
 
-  const variableCost =
-    Number(
-      $("breakVariableCost").value
-    ) || 0;
+  const variable =
+    Number($("breakVariable").value);
+
+
+  if (!fixed || !price) {
+
+    $("breakResult").textContent =
+      "Values အားလုံးထည့်ပါ";
+
+    return;
+
+  }
 
 
   const contribution =
-    sellingPrice - variableCost;
+    price - variable;
 
 
   if (contribution <= 0) {
 
-    $("breakEvenResult").textContent =
-      "Selling price must be higher than variable cost.";
+    $("breakResult").textContent =
+      "Price must be higher than variable cost";
 
     return;
+
   }
 
 
   const units =
-    fixedCost / contribution;
+    fixed / contribution;
 
 
-  $("breakEvenResult").innerHTML = `
+  const revenue =
+    units * price;
 
+
+  $("breakResult").innerHTML = `
     Break-even Units:
-    <strong>
-      ${Math.ceil(units).toLocaleString()}
-    </strong>
-
+    ${Math.ceil(units).toLocaleString()}
     <br>
-
     Break-even Sales:
-    <strong>
-      ${formatMoney(units * sellingPrice)} MMK
-    </strong>
-
+    ${formatMoney(revenue)}
   `;
+
 }
 
 
 function calculateSalesTarget() {
 
   const monthly =
-    Number(
-      $("targetMonthly").value
-    ) || 0;
+    Number($("targetMonthly").value);
 
   const days =
-    Number(
-      $("targetDays").value
-    ) || 0;
+    Number($("targetDays").value);
 
 
-  if (days <= 0) {
+  if (!monthly || !days) {
 
-    $("salesTargetResult").textContent =
-      "Working days must be greater than 0.";
+    $("targetResult").textContent =
+      "Monthly Target နှင့် Working Days ထည့်ပါ";
 
     return;
+
   }
 
 
@@ -1774,21 +2132,14 @@ function calculateSalesTarget() {
     monthly / days;
 
 
-  $("salesTargetResult").innerHTML = `
-
-    Daily Sales Target:
-    <strong>
-      ${formatMoney(daily)} MMK
-    </strong>
-
+  $("targetResult").innerHTML = `
+    Daily Target:
+    ${formatMoney(daily)}
     <br>
-
-    Monthly Target:
-    <strong>
-      ${formatMoney(monthly)} MMK
-    </strong>
-
+    Weekly Approx:
+    ${formatMoney(daily * 7)}
   `;
+
 }
 
 
@@ -1802,17 +2153,16 @@ function renderReports() {
   if (!container) return;
 
 
+  const target =
+    salesData.target;
+
+  const actual =
+    salesData.actual;
+
   const achievement =
-    calculateAchievement(
-      salesData.target,
-      salesData.actual
-    );
-
-
-  const salesStatus =
-    getAchievementStatus(
-      achievement
-    );
+    target
+      ? (actual / target * 100)
+      : 0;
 
 
   container.innerHTML = `
@@ -1820,110 +2170,58 @@ function renderReports() {
     <div class="sales-kpi-grid">
 
       <div class="sales-kpi">
-
-        <div class="kpi-top">
-          <span>Sales Target</span>
-          <div class="kpi-icon purple">🎯</div>
-        </div>
-
-        <strong>
-          ${formatMoney(salesData.target)}
-        </strong>
-
-        <small>MMK</small>
-
+        <span>Sales Target</span>
+        <strong>${formatMoney(target)}</strong>
       </div>
 
-
       <div class="sales-kpi">
-
-        <div class="kpi-top">
-          <span>Actual Sales</span>
-          <div class="kpi-icon green">💰</div>
-        </div>
-
-        <strong>
-          ${formatMoney(salesData.actual)}
-        </strong>
-
-        <small>MMK</small>
-
+        <span>Actual Sales</span>
+        <strong>${formatMoney(actual)}</strong>
       </div>
 
-
       <div class="sales-kpi">
-
-        <div class="kpi-top">
-          <span>Achievement</span>
-          <div class="kpi-icon pink">↗</div>
-        </div>
-
-        <strong>
-          ${achievement.toFixed(1)}%
-        </strong>
-
-        <small>
-          ${salesStatus.text}
-        </small>
-
+        <span>Achievement</span>
+        <strong>${achievement.toFixed(1)}%</strong>
       </div>
 
-
       <div class="sales-kpi">
-
-        <div class="kpi-top">
-          <span>Lessons Completed</span>
-          <div class="kpi-icon orange">✓</div>
-        </div>
-
-        <strong>
-          ${completedLessons.length}
-        </strong>
-
-        <small>
-          of ${LESSONS.length}
-        </small>
-
+        <span>Team Members</span>
+        <strong>${salesData.team.length}</strong>
       </div>
 
     </div>
 
+    <div class="card">
 
-    <div class="panel">
-
-      <div class="panel-header">
+      <div class="card-header">
 
         <div>
-          <h3>Manager Summary</h3>
-          <p>Current performance overview.</p>
+          <span class="eyebrow">MANAGEMENT SUMMARY</span>
+          <h3>Sales Performance Summary</h3>
         </div>
+
+        <button
+          class="btn primary"
+          onclick="exportSalesReport()"
+        >
+          Print Report
+        </button>
 
       </div>
 
-      <p style="
-        font-size:11px;
-        line-height:1.8;
-        color:#718096;
-      ">
-
-        Current sales achievement is
-        <strong style="color:#6d4aff">
-          ${achievement.toFixed(1)}%
-        </strong>.
-
-        ${
-          achievement >= 100
-            ? "The current target has been achieved. Focus on sustainable growth and margin."
-            : achievement >= 80
-            ? "Performance is relatively on track. Focus on closing the remaining sales gap."
-            : "A recovery plan is required. Prioritize high-potential customers, team coaching and field execution."
-        }
-
+      <p>
+        Monthly target achievement is
+        <strong>${achievement.toFixed(1)}%</strong>.
+        Remaining sales gap is
+        <strong>${formatMoney(
+          Math.max(target - actual, 0)
+        )}</strong>.
       </p>
 
     </div>
 
   `;
+
 }
 
 
@@ -1934,18 +2232,15 @@ function sendAIMessage() {
   const input =
     $("aiInput");
 
-  if (!input) return;
-
-
-  const text =
+  const message =
     input.value.trim();
 
 
-  if (!text) return;
+  if (!message) return;
 
 
   addAIMessage(
-    text,
+    message,
     "user"
   );
 
@@ -1956,21 +2251,19 @@ function sendAIMessage() {
   setTimeout(() => {
 
     const response =
-      getAIResponse(text);
+      getAIResponse(message);
 
     addAIMessage(
       response,
-      "assistant"
+      "ai"
     );
 
   }, 400);
+
 }
 
 
-function addAIMessage(
-  text,
-  type
-) {
+function addAIMessage(text, type) {
 
   const container =
     $("aiMessages");
@@ -1978,149 +2271,149 @@ function addAIMessage(
   if (!container) return;
 
 
-  const message =
-    document.createElement("div");
+  if (type === "user") {
 
-  message.className =
-    `ai-message ${type}`;
+    container.innerHTML += `
 
+      <div
+        class="ai-message"
+        style="justify-content:flex-end;"
+      >
 
-  message.innerHTML = `
+        <div
+          class="message-content"
+          style="background:#eeeaff;"
+        >
+          <p>${escapeHTML(text)}</p>
+        </div>
 
-    <div class="ai-avatar">
-      AI
-    </div>
+      </div>
 
-    <div class="ai-bubble">
-      ${escapeHTML(text)}
-    </div>
+    `;
 
-  `;
+  } else {
 
+    container.innerHTML += `
 
-  container.appendChild(message);
+      <div class="ai-message">
+
+        <div class="ai-avatar">
+          AI
+        </div>
+
+        <div class="message-content">
+
+          <strong>
+            AI Business Coach
+          </strong>
+
+          <p>
+            ${escapeHTML(text)}
+          </p>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
 
   container.scrollTop =
     container.scrollHeight;
+
 }
 
 
-function getAIResponse(question) {
+function getAIResponse(message) {
 
-  const q =
-    question.toLowerCase();
+  const text =
+    message.toLowerCase();
 
 
   if (
-    q.includes("sales") ||
-    q.includes("ရောင်း")
+    text.includes("sales") ||
+    text.includes("ရောင်း")
   ) {
 
-    return "Sales တိုးချင်ရင် Target, Actual, Gap ကိုအရင်ခွဲခြမ်းပါ။ ပြီးရင် high-potential customers, distribution, team productivity နဲ့ daily field execution ကို အာရုံစိုက်ပါ။";
+    return "Sales တိုးချင်ရင် Target → Gap Analysis → Customer Priority → Team Coaching → Daily Action Plan ဆိုတဲ့ flow နဲ့ လုပ်ပါ။";
+
   }
 
 
   if (
-    q.includes("team") ||
-    q.includes("ဝန်ထမ်း")
+    text.includes("team") ||
+    text.includes("ဝန်ထမ်း")
   ) {
 
-    return "Team management မှာ clear expectation, coaching, regular review နဲ့ accountability ကို အဓိကထားပါ။ Micromanagement ထက် ownership ပေးတာပိုထိရောက်ပါတယ်။";
+    return "Team management မှာ clear expectation ပေးပြီး regular review, coaching, feedback နဲ့ accountability ကို အဓိကထားပါ။";
+
   }
 
 
   if (
-    q.includes("target") ||
-    q.includes("ပစ်မှတ်")
+    text.includes("marketing") ||
+    text.includes("စျေးကွက်")
   ) {
 
-    return "Target ကို monthly number တစ်ခုအဖြစ်မထားဘဲ weekly target, daily target, territory target နဲ့ salesperson target အဖြစ် ခွဲပါ။";
+    return "Marketing မှာ Customer ဘယ်သူလဲ၊ ဘာလိုချင်လဲ၊ ဘာ value ပေးနိုင်လဲ၊ ဘယ် channel ကနေ ရောက်မလဲဆိုတာ အရင်သတ်မှတ်ပါ။";
+
   }
 
 
   if (
-    q.includes("marketing") ||
-    q.includes("brand")
+    text.includes("profit") ||
+    text.includes("အမြတ်")
   ) {
 
-    return "Marketing strategy တည်ဆောက်ရာမှာ customer needs, competitor, positioning, pricing နဲ့ distribution ကို အရင်နားလည်ပါ။";
+    return "Profit တိုးဖို့ Revenue တိုးတာအပြင် Cost Control, Pricing, Product Mix နဲ့ Gross Margin ကိုလည်း စောင့်ကြည့်ပါ။";
+
   }
 
 
   if (
-    q.includes("profit") ||
-    q.includes("အမြတ်")
+    text.includes("target") ||
+    text.includes("ပစ်မှတ်")
   ) {
 
-    return "Revenue တိုးတာတစ်ခုတည်းမဟုတ်ဘဲ cost control နဲ့ margin ကိုပါ စောင့်ကြည့်ပါ။ Profit = Revenue - Cost ဖြစ်ပါတယ်။";
+    return "Target ကို Monthly → Weekly → Daily အဖြစ်ခွဲပြီး လူ၊ customer, territory နဲ့ action plan တွေနဲ့ ချိတ်ဆက်ပါ။";
+
   }
 
 
-  if (
-    q.includes("leadership") ||
-    q.includes("ခေါင်းဆောင်")
-  ) {
+  return "သင့်ပြဿနာကို Target, People, Numbers နဲ့ Execution ဆိုပြီး ၄ ပိုင်းခွဲပြီး စဉ်းစားကြည့်ပါ။ Data ရှိရင် ပိုပြီး practical ဖြစ်အောင် plan ဆွဲနိုင်ပါတယ်။";
 
-    return "Effective leadership က direction ပေးခြင်း၊ coaching လုပ်ခြင်း၊ accountability တည်ဆောက်ခြင်းနဲ့ team ကို ownership ပေးခြင်းပေါ်မှာ အခြေခံပါတယ်။";
-  }
-
-
-  return "ဒီကိစ္စကို Sales, People, Strategy, Customer, Finance ဆိုပြီး အပိုင်းခွဲပြီး စဉ်းစားကြည့်ပါ။ ပြဿနာရဲ့ root cause ကိုရှာပြီး measurable action plan တစ်ခုတည်ဆောက်တာက အကောင်းဆုံးပါ။";
-}
-
-
-/* ================= AI TOOLS ================= */
-
-function openTools() {
-  navigate("toolsPage");
 }
 
 
 function openAITool(tool) {
 
-  const messages = {
-
-    "Sales Plan":
-      "ဒီနေ့ Sales Plan တစ်ခုလုပ်မယ်ဆိုရင် Target → Gap → Key Customers → Team Actions → Daily Follow-up အစီအစဉ်နဲ့ စတင်ပါ။",
-
-    "Customer Strategy":
-      "Customer Strategy အတွက် Key Customer တွေကို Potential, Current Sales, Growth Opportunity နဲ့ Risk အလိုက် ခွဲခြားပါ။",
-
-    "Team Coaching":
-      "Team Coaching မှာ performance gap ကို identify လုပ်ပြီး observation → feedback → action → follow-up cycle ကို အသုံးပြုပါ။",
-
-    "Business Strategy":
-      "Business Strategy တည်ဆောက်ရာမှာ Market → Customer → Competitor → Capability → Growth Opportunity ကို အစဉ်လိုက် သုံးသပ်ပါ။"
-
-  };
+  navigate("aiPage");
 
 
-  openModal(`
+  const input =
+    $("aiInput");
 
-    <span class="eyebrow">
-      AI BUSINESS TOOL
-    </span>
 
-    <h2>
-      ${escapeHTML(tool)}
-    </h2>
+  if (input) {
 
-    <div class="modal-lesson">
-      ${escapeHTML(messages[tool] || "Tool information")}
-    </div>
+    input.value =
+      tool + " အတွက် practical plan တစ်ခု ဆွဲပေးပါ။";
 
-    <div class="modal-actions">
+    sendAIMessage();
 
-      <button
-        class="primary-btn"
-        onclick="navigate('aiPage'); closeModal()"
-      >
-        Open AI Coach
-      </button>
+  }
 
-    </div>
+}
 
-  `);
+
+/* ================= TOOLS ================= */
+
+function openTools() {
+
+  navigate("toolsPage");
+
 }
 
 
@@ -2128,33 +2421,42 @@ function openAITool(tool) {
 
 function openProfile() {
 
-  openModal(`
+  const html = `
 
-    <span class="eyebrow">
-      PROFILE
-    </span>
+    <h3>My Profile</h3>
 
-    <h2>
-      Aung Zar Ni Win
-    </h2>
+    <div class="profile-mini">
 
-    <p>
-      Business Manager
-    </p>
+      <div class="avatar">
+        AZ
+      </div>
 
-    <div class="modal-lesson">
-
-      <strong>
-        Aung Business Academy
-      </strong>
-
-      <br><br>
-
-      Professional learning and sales management platform.
+      <div>
+        <strong>Aung Zar Ni Win</strong>
+        <small>Business Manager</small>
+      </div>
 
     </div>
 
-  `);
+    <div class="calc-result">
+
+      Aung Business Academy
+
+      <br><br>
+
+      Status: Professional
+
+      <br>
+
+      Learning Language: Burmese
+
+    </div>
+
+  `;
+
+
+  openModal(html);
+
 }
 
 
@@ -2162,9 +2464,24 @@ function openProfile() {
 
 function showNotification() {
 
-  showToast(
-    "No new notifications."
-  );
+  openModal(`
+
+    <h3>Notifications</h3>
+
+    <p>
+      🎯 Sales Manager module is ready.
+    </p>
+
+    <p>
+      📚 Continue your academy lessons.
+    </p>
+
+    <p>
+      🚀 Keep building your business skills.
+    </p>
+
+  `);
+
 }
 
 
@@ -2179,62 +2496,32 @@ function performSearch() {
 
 
   const query =
-    input.value
-      .trim()
-      .toLowerCase();
+    input.value.trim().toLowerCase();
 
 
   if (!query) return;
 
 
-  const lesson =
+  const result =
     LESSONS.find(
-      item =>
-        item.title
+      lesson =>
+        lesson.title
           .toLowerCase()
           .includes(query) ||
-        item.category
+        lesson.category
           .toLowerCase()
           .includes(query)
     );
 
 
-  if (lesson) {
+  if (result) {
 
-    openLessonById(
-      lesson.id
+    showToast(
+      `Found: ${result.title}`
     );
 
-    input.value = "";
-
-    return;
   }
 
-
-  const course =
-    COURSES.find(
-      item =>
-        item.title
-          .toLowerCase()
-          .includes(query)
-    );
-
-
-  if (course) {
-
-    navigate("coursesPage");
-
-    openCourse(course.id);
-
-    input.value = "";
-
-    return;
-  }
-
-
-  showToast(
-    "Search result မတွေ့ပါ။"
-  );
 }
 
 
@@ -2248,63 +2535,42 @@ function toggleSidebar() {
   if (!sidebar) return;
 
   sidebar.classList.toggle("open");
+
 }
 
 
 function openSidebar() {
 
-  const sidebar =
-    $("sidebar");
+  $("sidebar")?.classList.add("open");
 
-  if (!sidebar) return;
-
-  sidebar.classList.add("open");
 }
 
 
 function closeSidebar() {
 
-  const sidebar =
-    $("sidebar");
+  $("sidebar")?.classList.remove("open");
 
-  if (!sidebar) return;
-
-  sidebar.classList.remove("open");
 }
 
 
 /* ================= MODAL ================= */
 
-function openModal(html) {
+function openModal(content) {
 
-  const overlay =
-    $("modalOverlay");
+  $("modalBody").innerHTML =
+    content;
 
-  const body =
-    $("modalBody");
+  $("modalOverlay").classList.add("show");
 
-  if (!overlay || !body) return;
-
-  body.innerHTML = html;
-
-  overlay.classList.add("show");
 }
 
 
 function closeModal() {
 
-  const overlay =
-    $("modalOverlay");
+  $("modalOverlay")
+    .classList.remove("show");
 
-  if (!overlay) return;
-
-  overlay.classList.remove("show");
 }
-
-
-/* ================= TOAST ================= */
-
-let toastTimer;
 
 
 function showToast(message) {
@@ -2318,23 +2584,21 @@ function showToast(message) {
   toast.textContent =
     message;
 
-
   toast.classList.add("show");
 
 
   clearTimeout(
-    toastTimer
+    window.toastTimer
   );
 
 
-  toastTimer =
+  window.toastTimer =
     setTimeout(() => {
 
-      toast.classList.remove(
-        "show"
-      );
+      toast.classList.remove("show");
 
     }, 2500);
+
 }
 
 
@@ -2343,8 +2607,9 @@ function showToast(message) {
 function logoutUser() {
 
   showToast(
-    "Logout function will be connected with account system later."
+    "Logout system will be connected with account system later."
   );
+
 }
 
 
@@ -2367,33 +2632,6 @@ function initializeApp() {
   navigate("dashboardPage");
 
 
-  /* SEARCH */
-
-  const search =
-    $("globalSearch");
-
-  if (search) {
-
-    search.addEventListener(
-      "keydown",
-      event => {
-
-        if (
-          event.key === "Enter"
-        ) {
-
-          performSearch();
-
-        }
-
-      }
-    );
-
-  }
-
-
-  /* MODAL CLICK OUTSIDE */
-
   const overlay =
     $("modalOverlay");
 
@@ -2401,7 +2639,7 @@ function initializeApp() {
 
     overlay.addEventListener(
       "click",
-      event => {
+      function(event) {
 
         if (
           event.target === overlay
@@ -2416,27 +2654,13 @@ function initializeApp() {
 
   }
 
-
-  /* ESC */
-
-  document.addEventListener(
-    "keydown",
-    event => {
-
-      if (
-        event.key === "Escape"
-      ) {
-
-        closeModal();
-
-        closeSidebar();
-
-      }
-
-    }
-  );
-
 }
+
+
+document.addEventListener(
+  "DOMContentLoaded",
+  initializeApp
+);
 
 
 /* ================= GLOBAL EXPORT ================= */
@@ -2447,32 +2671,23 @@ window.goDashboard = goDashboard;
 
 window.openLessons = openLessons;
 
-window.continueLearning =
-  continueLearning;
+window.continueLearning = continueLearning;
 
-window.openBusinessPlan =
-  openBusinessPlan;
+window.openBusinessPlan = openBusinessPlan;
 
-window.openCategory =
-  openCategory;
+window.openCategory = openCategory;
 
-window.openCourse =
-  openCourse;
+window.openCourse = openCourse;
 
-window.openLessonById =
-  openLessonById;
+window.openLessonById = openLessonById;
 
-window.openLesson =
-  openLesson;
+window.openLesson = openLesson;
 
-window.previousLesson =
-  previousLesson;
+window.previousLesson = previousLesson;
 
-window.nextLesson =
-  nextLesson;
+window.nextLesson = nextLesson;
 
-window.completeLesson =
-  completeLesson;
+window.completeLesson = completeLesson;
 
 window.openProfitCalculator =
   openProfitCalculator;
@@ -2497,24 +2712,6 @@ window.calculateBreakEven =
 
 window.calculateSalesTarget =
   calculateSalesTarget;
-
-window.updateSalesPerformance =
-  updateSalesPerformance;
-
-window.addTeamMember =
-  addTeamMember;
-
-window.addActionPlan =
-  addActionPlan;
-
-window.toggleActionPlan =
-  toggleActionPlan;
-
-window.deleteActionPlan =
-  deleteActionPlan;
-
-window.createSalesAction =
-  createSalesAction;
 
 window.sendAIMessage =
   sendAIMessage;
@@ -2556,9 +2753,37 @@ window.logoutUser =
   logoutUser;
 
 
-/* ================= START ================= */
+/* SALES */
 
-document.addEventListener(
-  "DOMContentLoaded",
-  initializeApp
-);
+window.renderSales =
+  renderSales;
+
+window.saveSalesKPI =
+  saveSalesKPI;
+
+window.openAddTeamMember =
+  openAddTeamMember;
+
+window.addTeamMember =
+  addTeamMember;
+
+window.removeTeamMember =
+  removeTeamMember;
+
+window.openActionPlanForm =
+  openActionPlanForm;
+
+window.addActionPlan =
+  addActionPlan;
+
+window.toggleActionPlan =
+  toggleActionPlan;
+
+window.deleteActionPlan =
+  deleteActionPlan;
+
+window.resetSalesData =
+  resetSalesData;
+
+window.exportSalesReport =
+  exportSalesReport;

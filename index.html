@@ -17,17 +17,15 @@
   <aside class="sidebar" id="sidebar">
 
     <div class="brand">
-      <div class="brand-logo">A</div>
-
+      <div class="brand-icon">A</div>
       <div>
         <h2>AUNG</h2>
         <span>BUSINESS ACADEMY</span>
       </div>
     </div>
 
-    <div class="profile-mini" onclick="openProfile()">
+    <div class="profile-mini">
       <div class="avatar">AZ</div>
-
       <div>
         <strong>Aung Zar Ni Win</strong>
         <small>Business Manager</small>
@@ -36,72 +34,65 @@
 
     <nav class="sidebar-nav">
 
-      <div class="nav-section-title">MAIN</div>
-
       <button class="nav-item active" data-page="dashboardPage" onclick="navigate('dashboardPage')">
-        <span>▦</span>
-        <span>Dashboard</span>
+        <span>🏠</span>
+        <label>Dashboard</label>
       </button>
 
       <button class="nav-item" data-page="coursesPage" onclick="navigate('coursesPage')">
-        <span>▤</span>
-        <span>My Courses</span>
+        <span>📚</span>
+        <label>My Courses</label>
       </button>
 
       <button class="nav-item" data-page="lessonsPage" onclick="navigate('lessonsPage')">
-        <span>▣</span>
-        <span>Lessons</span>
+        <span>📖</span>
+        <label>Lessons</label>
       </button>
 
       <button class="nav-item" data-page="progressPage" onclick="navigate('progressPage')">
-        <span>◔</span>
-        <span>My Progress</span>
+        <span>📊</span>
+        <label>My Progress</label>
       </button>
 
-      <div class="nav-section-title">BUSINESS</div>
+      <div class="nav-section">BUSINESS</div>
 
       <button class="nav-item" data-page="salesPage" onclick="navigate('salesPage')">
-        <span>▥</span>
-        <span>Sales Manager</span>
+        <span>💼</span>
+        <label>Sales Manager</label>
       </button>
 
       <button class="nav-item" data-page="calculatorPage" onclick="navigate('calculatorPage')">
-        <span>◎</span>
-        <span>Pricing Calculator</span>
+        <span>🧮</span>
+        <label>Pricing Calculator</label>
       </button>
 
       <button class="nav-item" data-page="reportsPage" onclick="navigate('reportsPage')">
-        <span>▥</span>
-        <span>Reports</span>
+        <span>📈</span>
+        <label>Reports</label>
       </button>
 
-      <div class="nav-section-title">AI & TOOLS</div>
+      <div class="nav-section">AI & TOOLS</div>
 
       <button class="nav-item" data-page="aiPage" onclick="navigate('aiPage')">
-        <span>✦</span>
-        <span>AI Business Coach</span>
+        <span>🤖</span>
+        <label>AI Business Coach</label>
       </button>
 
       <button class="nav-item" data-page="toolsPage" onclick="navigate('toolsPage')">
-        <span>⚙</span>
-        <span>AI Tools</span>
+        <span>🛠️</span>
+        <label>AI Tools</label>
       </button>
 
-      <div class="nav-section-title">SYSTEM</div>
-
       <button class="nav-item" data-page="settingsPage" onclick="navigate('settingsPage')">
-        <span>⚙</span>
-        <span>Settings</span>
+        <span>⚙️</span>
+        <label>Settings</label>
       </button>
 
     </nav>
 
     <div class="sidebar-footer">
       <div class="version">V8.0 Professional</div>
-
-      <button class="logout-btn" onclick="logoutUser()">
-        ↪ Logout
-      </button>
+      <button class="logout-btn" onclick="logoutUser()">🚪 Logout</button>
     </div>
 
   </aside>
@@ -113,44 +104,44 @@
     <!-- TOPBAR -->
     <header class="topbar">
 
-      <button class="mobile-menu-btn" id="mobileMenu" onclick="toggleSidebar()">
+      <button id="mobileMenu" class="mobile-menu-btn" onclick="toggleSidebar()">
         ☰
       </button>
 
       <div class="page-heading">
         <h1 id="pageTitle">Dashboard</h1>
-        <p id="pageSubtitle">Business learning & management system</p>
+        <p id="pageSubtitle">Welcome back, Aung Zar Ni Win</p>
       </div>
 
-      <div class="topbar-right">
+      <div class="topbar-actions">
 
         <div class="search-box">
-          <span>⌕</span>
+          <span>🔍</span>
           <input
             id="globalSearch"
             type="text"
             placeholder="Search academy..."
+            oninput="performSearch()"
           >
         </div>
 
         <button
-          class="icon-button"
           id="notificationBtn"
+          class="icon-button"
           onclick="showNotification()"
         >
-          ♢
+          🔔
         </button>
 
         <button class="top-profile" onclick="openProfile()">
           <div class="avatar small">AZ</div>
-          <div class="top-profile-text">
+          <div>
             <strong>Aung Zar Ni Win</strong>
             <small>Business Manager</small>
           </div>
         </button>
 
       </div>
-
     </header>
 
 
@@ -159,44 +150,53 @@
 
 
       <!-- ================= DASHBOARD ================= -->
-      <section class="page active" id="dashboardPage">
+      <div id="dashboardPage" class="page active">
 
-        <div class="welcome-card">
+        <div class="hero-card">
 
           <div>
             <span class="eyebrow">AUNG BUSINESS ACADEMY</span>
 
-            <h2>Welcome back, Aung Zar Ni Win 👋</h2>
+            <h2>
+              Build Your Business.<br>
+              Build Your Future.
+            </h2>
 
             <p>
-              Build stronger sales leadership, business strategy and management skills.
+              Learn practical business, sales and leadership skills
+              designed for real-world results.
             </p>
 
-            <div class="welcome-actions">
-              <button class="primary-btn" onclick="continueLearning()">
-                Continue Learning
+            <div class="hero-actions">
+              <button class="btn primary" onclick="openLessons()">
+                Start Learning →
               </button>
 
-              <button class="secondary-btn" onclick="navigate('salesPage')">
-                Open Sales Manager
+              <button class="btn light" onclick="openBusinessPlan()">
+                Business Plan
               </button>
             </div>
           </div>
 
-          <div class="welcome-badge">
-            <div class="badge-icon">✦</div>
-            <strong>Professional</strong>
-            <span>Business Manager</span>
+          <div class="hero-icon">
+            🚀
           </div>
 
         </div>
 
 
-        <!-- STATS -->
+        <div class="section-header">
+          <div>
+            <h2>Learning Overview</h2>
+            <p>Your current academy performance</p>
+          </div>
+        </div>
+
+
         <div class="stats-grid">
 
           <div class="stat-card">
-            <div class="stat-icon purple">▤</div>
+            <div class="stat-icon purple">📚</div>
             <div>
               <span>Courses</span>
               <strong id="statCourses">4</strong>
@@ -204,7 +204,7 @@
           </div>
 
           <div class="stat-card">
-            <div class="stat-icon pink">▣</div>
+            <div class="stat-icon pink">📖</div>
             <div>
               <span>Lessons</span>
               <strong id="statLessons">14</strong>
@@ -212,7 +212,7 @@
           </div>
 
           <div class="stat-card">
-            <div class="stat-icon green">✓</div>
+            <div class="stat-icon green">✅</div>
             <div>
               <span>Completed</span>
               <strong id="statCompleted">0</strong>
@@ -220,7 +220,7 @@
           </div>
 
           <div class="stat-card">
-            <div class="stat-icon orange">◔</div>
+            <div class="stat-icon orange">📈</div>
             <div>
               <span>Progress</span>
               <strong id="statProgress">0%</strong>
@@ -230,405 +230,364 @@
         </div>
 
 
-        <!-- CURRENT COURSE -->
-        <div class="section-header">
+        <div class="dashboard-grid">
 
-          <div>
-            <h3>Continue Learning</h3>
-            <p>Your current professional development course</p>
-          </div>
+          <div class="card current-course">
 
-          <button class="text-btn" onclick="navigate('coursesPage')">
-            View All →
-          </button>
+            <div class="card-header">
+              <div>
+                <span class="eyebrow">CURRENT COURSE</span>
+                <h3>Sales Management Mastery</h3>
+              </div>
 
-        </div>
-
-        <div class="course-feature">
-
-          <div class="course-icon">S</div>
-
-          <div class="course-info">
-            <span class="course-label">CURRENT COURSE</span>
-            <h3>Sales Management Mastery</h3>
+              <span class="course-badge">Active</span>
+            </div>
 
             <p>
-              Master target management, team coaching, execution and sales performance.
+              Master sales planning, team management,
+              target achievement and market execution.
             </p>
 
-            <div class="progress-line">
-              <span id="dashboardCourseProgress" style="width:0%"></span>
+            <div class="progress-row">
+              <span>Course Progress</span>
+              <strong id="currentCourseProgress">0%</strong>
             </div>
 
-            <div class="course-meta">
-              <span id="dashboardCourseProgressText">0% completed</span>
-              <span>4 Lessons</span>
+            <div class="progress">
+              <div
+                id="currentCourseBar"
+                class="progress-bar"
+                style="width:0%"
+              ></div>
             </div>
+
+            <button
+              class="btn primary full"
+              onclick="continueLearning()"
+            >
+              Continue Learning
+            </button>
+
           </div>
 
-          <button class="primary-btn" onclick="continueLearning()">
-            Continue
-          </button>
+
+          <div class="card daily-goal">
+
+            <div class="card-header">
+              <div>
+                <span class="eyebrow">DAILY GOAL</span>
+                <h3>Learning Today</h3>
+              </div>
+              <span class="goal-icon">🎯</span>
+            </div>
+
+            <div class="goal-number">
+              <strong>0</strong>
+              <span>/ 30 min</span>
+            </div>
+
+            <div class="progress">
+              <div class="progress-bar" style="width:0%"></div>
+            </div>
+
+            <p>Start a lesson today to build your learning streak.</p>
+
+            <button class="btn outline full" onclick="openLessons()">
+              Open Lessons
+            </button>
+
+          </div>
 
         </div>
 
 
-        <!-- DAILY GOAL -->
-        <div class="daily-goal-card">
-
-          <div>
-            <span class="eyebrow">TODAY'S GOAL</span>
-            <h3>30 Minutes Learning</h3>
-            <p>Build your management capability every day.</p>
-          </div>
-
-          <div class="goal-progress">
-            <div class="goal-circle">
-              <strong id="dailyGoalPercent">0%</strong>
-            </div>
-
-            <span id="dailyGoalText">0 / 30 min</span>
-          </div>
-
-        </div>
-
-
-        <!-- BUSINESS AREAS -->
         <div class="section-header">
-
           <div>
-            <h3>Business Learning Areas</h3>
-            <p>Develop practical business capabilities</p>
+            <h2>Business Learning Areas</h2>
+            <p>Develop the skills that drive business growth</p>
           </div>
-
         </div>
+
 
         <div class="learning-grid">
 
-          <button onclick="openCategory('Business Basics')">
-            <span>▦</span>
+          <button onclick="openCategory('Business Basics')" class="learning-card">
+            <span>💡</span>
             <strong>Business Basics</strong>
-            <small>Core business knowledge</small>
+            <small>Foundation & fundamentals</small>
           </button>
 
-          <button onclick="openCategory('Strategic Thinking')">
-            <span>♟</span>
+          <button onclick="openCategory('Strategic Thinking')" class="learning-card">
+            <span>♟️</span>
             <strong>Strategic Thinking</strong>
-            <small>Strategy & planning</small>
+            <small>Strategy & decision making</small>
           </button>
 
-          <button onclick="openCategory('Brand Basics')">
-            <span>◆</span>
+          <button onclick="openCategory('Brand Basics')" class="learning-card">
+            <span>⭐</span>
             <strong>Brand Basics</strong>
-            <small>Brand development</small>
+            <small>Build strong brands</small>
           </button>
 
-          <button onclick="openCategory('Marketing Basics')">
-            <span>⌁</span>
+          <button onclick="openCategory('Marketing Basics')" class="learning-card">
+            <span>📣</span>
             <strong>Marketing Basics</strong>
             <small>Marketing fundamentals</small>
           </button>
 
-          <button onclick="openCategory('Sales Basics')">
-            <span>↗</span>
+          <button onclick="openCategory('Sales Basics')" class="learning-card">
+            <span>💰</span>
             <strong>Sales Basics</strong>
-            <small>Sales execution</small>
+            <small>Sell more effectively</small>
           </button>
 
-          <button onclick="openCategory('Negotiation')">
-            <span>⇄</span>
+          <button onclick="openCategory('Negotiation')" class="learning-card">
+            <span>🤝</span>
             <strong>Negotiation</strong>
             <small>Win-win negotiation</small>
           </button>
 
-          <button onclick="openCategory('Customer Service')">
-            <span>♙</span>
+          <button onclick="openCategory('Customer Service')" class="learning-card">
+            <span>❤️</span>
             <strong>Customer Service</strong>
-            <small>Customer excellence</small>
+            <small>Customer experience</small>
           </button>
 
-          <button onclick="openCategory('People Management')">
-            <span>♟</span>
+          <button onclick="openCategory('People Management')" class="learning-card">
+            <span>👥</span>
             <strong>People Management</strong>
-            <small>Leadership & coaching</small>
+            <small>Lead & develop people</small>
           </button>
 
-          <button onclick="openCategory('Profit & Loss')">
-            <span>₿</span>
+          <button onclick="openCategory('Profit & Loss')" class="learning-card">
+            <span>💵</span>
             <strong>Profit & Loss</strong>
-            <small>Financial management</small>
+            <small>Understand business numbers</small>
           </button>
 
-          <button onclick="openCategory('Goal Setting')">
-            <span>◎</span>
+          <button onclick="openCategory('Goal Setting')" class="learning-card">
+            <span>🎯</span>
             <strong>Goal Setting</strong>
-            <small>Performance goals</small>
+            <small>Set & achieve goals</small>
           </button>
 
         </div>
 
 
-        <!-- TOOLS -->
         <div class="section-header">
-
           <div>
-            <h3>Business Tools</h3>
+            <h2>Business Tools</h2>
             <p>Practical calculators for managers</p>
           </div>
-
         </div>
+
 
         <div class="tools-grid">
 
-          <button onclick="openProfitCalculator()">
-            <span class="tool-icon">₿</span>
+          <button class="tool-card" onclick="openProfitCalculator()">
+            <span>💰</span>
             <strong>Profit Calculator</strong>
             <small>Calculate profit & margin</small>
           </button>
 
-          <button onclick="openPricingCalculator()">
-            <span class="tool-icon">◇</span>
+          <button class="tool-card" onclick="openPricingCalculator()">
+            <span>🏷️</span>
             <strong>Pricing Calculator</strong>
             <small>Calculate selling price</small>
           </button>
 
-          <button onclick="openBreakEvenCalculator()">
-            <span class="tool-icon">≈</span>
+          <button class="tool-card" onclick="openBreakEvenCalculator()">
+            <span>⚖️</span>
             <strong>Break-even Calculator</strong>
-            <small>Find break-even point</small>
+            <small>Find your break-even point</small>
           </button>
 
-          <button onclick="openSalesTargetCalculator()">
-            <span class="tool-icon">↗</span>
+          <button class="tool-card" onclick="openSalesTargetCalculator()">
+            <span>🎯</span>
             <strong>Sales Target Calculator</strong>
-            <small>Plan sales target</small>
+            <small>Plan daily sales targets</small>
           </button>
 
         </div>
 
-      </section>
+      </div>
 
 
       <!-- ================= COURSES ================= -->
-      <section class="page" id="coursesPage">
+      <div id="coursesPage" class="page">
 
-        <div class="page-banner">
-          <span class="eyebrow">LEARNING</span>
+        <div class="page-intro">
+          <span class="eyebrow">MY LEARNING</span>
           <h2>My Courses</h2>
-          <p>Professional business courses designed for practical application.</p>
+          <p>Build practical business skills step by step.</p>
         </div>
 
-        <div id="coursesList" class="courses-grid"></div>
+        <div id="coursesGrid" class="courses-grid"></div>
 
-      </section>
+      </div>
 
 
       <!-- ================= LESSONS ================= -->
-      <section class="page" id="lessonsPage">
+      <div id="lessonsPage" class="page">
 
-        <div class="page-banner">
-          <span class="eyebrow">LEARNING</span>
+        <div class="page-intro">
+          <span class="eyebrow">ACADEMY LESSONS</span>
           <h2>Lessons</h2>
-          <p>Learn practical business management concepts in Burmese.</p>
+          <p>Practical Burmese business lessons.</p>
         </div>
 
         <div id="lessonsList" class="lessons-list"></div>
 
-      </section>
+      </div>
 
 
       <!-- ================= PROGRESS ================= -->
-      <section class="page" id="progressPage">
+      <div id="progressPage" class="page">
 
-        <div class="page-banner">
-          <span class="eyebrow">PERFORMANCE</span>
+        <div class="page-intro">
+          <span class="eyebrow">MY PERFORMANCE</span>
           <h2>My Progress</h2>
           <p>Track your academy learning progress.</p>
         </div>
 
         <div id="progressContent"></div>
 
-      </section>
+      </div>
 
 
       <!-- ================= SALES MANAGER ================= -->
-      <section class="page" id="salesPage">
+      <div id="salesPage" class="page">
 
-        <div class="page-banner sales-banner">
+        <div class="page-intro sales-intro">
 
           <div>
-            <span class="eyebrow">SALES MANAGEMENT</span>
-
-            <h2>Sales Manager Dashboard</h2>
-
+            <span class="eyebrow">PROFESSIONAL SALES MANAGEMENT</span>
+            <h2>Sales Manager</h2>
             <p>
-              Monitor target, actual sales, achievement, team performance and action plans.
+              Manage targets, performance, team execution and action plans.
             </p>
           </div>
 
-          <div class="sales-date">
-            <span>PERFORMANCE PERIOD</span>
-            <strong id="salesPeriod">Current Month</strong>
+          <div class="sales-actions">
+            <button class="btn outline" onclick="resetSalesData()">
+              🔄 Reset
+            </button>
+
+            <button class="btn primary" onclick="exportSalesReport()">
+              📄 Print Report
+            </button>
           </div>
 
         </div>
 
 
-        <!-- KPI -->
+        <!-- KPI CARDS -->
         <div class="sales-kpi-grid">
 
           <div class="sales-kpi">
             <div class="kpi-top">
-              <span>Monthly Target</span>
+              <span>MONTHLY TARGET</span>
               <div class="kpi-icon purple">🎯</div>
             </div>
-
-            <strong id="salesTargetDisplay">0 MMK</strong>
+            <strong id="salesTargetDisplay">30,000,000 MMK</strong>
             <small>Monthly sales target</small>
           </div>
 
-
           <div class="sales-kpi">
             <div class="kpi-top">
-              <span>Actual Sales</span>
+              <span>ACTUAL SALES</span>
               <div class="kpi-icon green">💰</div>
             </div>
-
-            <strong id="salesActualDisplay">0 MMK</strong>
+            <strong id="salesActualDisplay">22,500,000 MMK</strong>
             <small>Current actual sales</small>
           </div>
 
-
           <div class="sales-kpi">
             <div class="kpi-top">
-              <span>Achievement</span>
-              <div class="kpi-icon pink">↗</div>
+              <span>ACHIEVEMENT</span>
+              <div class="kpi-icon blue">📊</div>
             </div>
-
-            <strong id="salesAchievementDisplay">0%</strong>
+            <strong id="salesAchievementDisplay">75%</strong>
             <small>Target achievement</small>
           </div>
 
-
           <div class="sales-kpi">
             <div class="kpi-top">
-              <span>Sales Gap</span>
-              <div class="kpi-icon orange">⚠</div>
+              <span>SALES GAP</span>
+              <div class="kpi-icon red">📉</div>
             </div>
-
-            <strong id="salesGapDisplay">0 MMK</strong>
+            <strong id="salesGapDisplay">7,500,000 MMK</strong>
             <small>Remaining to target</small>
           </div>
 
         </div>
 
 
-        <!-- TARGET INPUT -->
-        <div class="sales-main-grid">
+        <!-- PERFORMANCE -->
+        <div class="sales-layout">
 
-          <div class="panel">
+          <div class="card">
 
-            <div class="panel-header">
+            <div class="card-header">
               <div>
+                <span class="eyebrow">TARGET PERFORMANCE</span>
                 <h3>Monthly Sales Performance</h3>
-                <p>Update your target and actual sales.</p>
               </div>
+
+              <span id="achievementStatus" class="status-badge warning">
+                On Track
+              </span>
             </div>
 
-            <div class="sales-input-grid">
-
-              <div class="form-group">
-                <label>Monthly Target (MMK)</label>
-
-                <input
-                  id="salesTargetInput"
-                  type="number"
-                  placeholder="e.g. 100000000"
-                >
-              </div>
-
-              <div class="form-group">
-                <label>Actual Sales (MMK)</label>
-
-                <input
-                  id="salesActualInput"
-                  type="number"
-                  placeholder="e.g. 75000000"
-                >
-              </div>
-
+            <div class="big-achievement">
+              <strong id="bigAchievement">75%</strong>
+              <span>Achievement</span>
             </div>
 
-            <button class="primary-btn full-btn" onclick="updateSalesPerformance()">
-              Update Performance
-            </button>
+            <div class="large-progress">
+              <div id="salesProgressBar" class="progress-bar" style="width:75%"></div>
+            </div>
 
-
-            <div class="achievement-box">
-
-              <div class="achievement-header">
-                <span>Target Achievement</span>
-                <strong id="achievementPercentLarge">0%</strong>
+            <div class="performance-meta">
+              <div>
+                <span>Actual</span>
+                <strong id="performanceActual">22.5M</strong>
               </div>
 
-              <div class="large-progress">
-                <span id="achievementProgressBar"></span>
+              <div>
+                <span>Target</span>
+                <strong id="performanceTarget">30M</strong>
               </div>
 
-              <div class="achievement-footer">
-                <span id="achievementStatus">Waiting for data</span>
-                <span id="dailyTargetDisplay">Daily Target: 0 MMK</span>
+              <div>
+                <span>Gap</span>
+                <strong id="performanceGap">7.5M</strong>
               </div>
-
             </div>
 
           </div>
 
 
-          <!-- QUICK ACTION -->
-          <div class="panel">
+          <div class="card">
 
-            <div class="panel-header">
+            <div class="card-header">
               <div>
-                <h3>Manager Quick Actions</h3>
-                <p>Focus on execution.</p>
+                <span class="eyebrow">DAILY EXECUTION</span>
+                <h3>Daily Sales Target</h3>
               </div>
+              <span>📅</span>
             </div>
 
-            <div class="quick-actions">
+            <div class="daily-target-box">
+              <strong id="dailyTargetDisplay">1,153,846 MMK</strong>
+              <span>Required average per working day</span>
+            </div>
 
-              <button onclick="createSalesAction('Target Recovery')">
-                <span>🎯</span>
-                <div>
-                  <strong>Target Recovery</strong>
-                  <small>Create recovery action plan</small>
-                </div>
-              </button>
-
-              <button onclick="createSalesAction('Team Coaching')">
-                <span>👥</span>
-                <div>
-                  <strong>Team Coaching</strong>
-                  <small>Plan coaching session</small>
-                </div>
-              </button>
-
-              <button onclick="createSalesAction('Market Visit')">
-                <span>📍</span>
-                <div>
-                  <strong>Market Visit</strong>
-                  <small>Plan field execution</small>
-                </div>
-              </button>
-
-              <button onclick="createSalesAction('Customer Review')">
-                <span>🤝</span>
-                <div>
-                  <strong>Customer Review</strong>
-                  <small>Review key customers</small>
-                </div>
-              </button>
-
+            <div class="manager-tip">
+              <strong>Manager Focus</strong>
+              <p id="managerTip">
+                Focus on closing the remaining gap and improving team execution.
+              </p>
             </div>
 
           </div>
@@ -636,17 +595,53 @@
         </div>
 
 
-        <!-- TEAM -->
-        <div class="panel">
+        <!-- UPDATE KPI -->
+        <div class="card">
 
-          <div class="panel-header">
-
+          <div class="card-header">
             <div>
-              <h3>Team Performance</h3>
-              <p>Monitor individual sales performance.</p>
+              <span class="eyebrow">MANAGER INPUT</span>
+              <h3>Update Sales KPI</h3>
+            </div>
+          </div>
+
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label>Monthly Target (MMK)</label>
+              <input id="salesTargetInput" type="number" value="30000000">
             </div>
 
-            <button class="secondary-btn" onclick="addTeamMember()">
+            <div class="form-group">
+              <label>Actual Sales (MMK)</label>
+              <input id="salesActualInput" type="number" value="22500000">
+            </div>
+
+            <div class="form-group">
+              <label>Working Days</label>
+              <input id="workingDaysInput" type="number" value="26">
+            </div>
+
+          </div>
+
+          <button class="btn primary" onclick="saveSalesKPI()">
+            💾 Save Sales Performance
+          </button>
+
+        </div>
+
+
+        <!-- TEAM PERFORMANCE -->
+        <div class="card">
+
+          <div class="card-header">
+
+            <div>
+              <span class="eyebrow">TEAM MANAGEMENT</span>
+              <h3>Team Performance</h3>
+            </div>
+
+            <button class="btn primary small-btn" onclick="openAddTeamMember()">
               + Add Member
             </button>
 
@@ -654,15 +649,17 @@
 
           <div class="table-wrap">
 
-            <table class="performance-table">
+            <table class="data-table">
 
               <thead>
                 <tr>
                   <th>Team Member</th>
+                  <th>Role</th>
                   <th>Target</th>
                   <th>Actual</th>
                   <th>Achievement</th>
                   <th>Status</th>
+                  <th></th>
                 </tr>
               </thead>
 
@@ -676,16 +673,16 @@
 
 
         <!-- ACTION PLAN -->
-        <div class="panel">
+        <div class="card">
 
-          <div class="panel-header">
+          <div class="card-header">
 
             <div>
-              <h3>Sales Action Plan</h3>
-              <p>Manager priorities and execution actions.</p>
+              <span class="eyebrow">EXECUTION MANAGEMENT</span>
+              <h3>Action Plan</h3>
             </div>
 
-            <button class="secondary-btn" onclick="addActionPlan()">
+            <button class="btn primary small-btn" onclick="openActionPlanForm()">
               + Add Action
             </button>
 
@@ -697,64 +694,37 @@
 
 
         <!-- SALES CHART -->
-        <div class="panel">
+        <div class="card">
 
-          <div class="panel-header">
-
+          <div class="card-header">
             <div>
-              <h3>Monthly Performance Trend</h3>
-              <p>Sales achievement overview.</p>
+              <span class="eyebrow">SALES TREND</span>
+              <h3>Performance Overview</h3>
             </div>
-
           </div>
 
-          <div class="chart-box">
+          <div class="chart-container">
 
             <div class="chart-bars">
 
               <div class="chart-item">
-                <span style="height:45%"></span>
-                <small>Jan</small>
+                <div class="bar" style="height:45%"></div>
+                <span>W1</span>
               </div>
 
               <div class="chart-item">
-                <span style="height:60%"></span>
-                <small>Feb</small>
+                <div class="bar" style="height:60%"></div>
+                <span>W2</span>
               </div>
 
               <div class="chart-item">
-                <span style="height:52%"></span>
-                <small>Mar</small>
+                <div class="bar" style="height:55%"></div>
+                <span>W3</span>
               </div>
 
               <div class="chart-item">
-                <span style="height:70%"></span>
-                <small>Apr</small>
-              </div>
-
-              <div class="chart-item">
-                <span style="height:64%"></span>
-                <small>May</small>
-              </div>
-
-              <div class="chart-item">
-                <span style="height:82%"></span>
-                <small>Jun</small>
-              </div>
-
-              <div class="chart-item">
-                <span style="height:74%"></span>
-                <small>Jul</small>
-              </div>
-
-              <div class="chart-item">
-                <span style="height:90%"></span>
-                <small>Aug</small>
-              </div>
-
-              <div class="chart-item">
-                <span style="height:78%"></span>
-                <small>Sep</small>
+                <div class="bar" style="height:75%"></div>
+                <span>W4</span>
               </div>
 
             </div>
@@ -763,34 +733,36 @@
 
         </div>
 
-      </section>
+      </div>
 
 
       <!-- ================= CALCULATOR ================= -->
-      <section class="page" id="calculatorPage">
+      <div id="calculatorPage" class="page">
 
-        <div class="page-banner">
+        <div class="page-intro">
           <span class="eyebrow">BUSINESS TOOLS</span>
-          <h2>Pricing & Business Calculators</h2>
-          <p>Practical financial calculations for managers.</p>
+          <h2>Pricing & Business Calculator</h2>
+          <p>Calculate your business numbers quickly.</p>
         </div>
 
         <div class="calculator-grid">
 
           <div class="calculator-card">
 
-            <h3>Profit Calculator</h3>
-            <p>Calculate profit and profit margin.</p>
+            <h3>💰 Profit Calculator</h3>
 
-            <input id="profitRevenue" type="number" placeholder="Revenue">
-            <input id="profitCost" type="number" placeholder="Cost">
+            <label>Revenue</label>
+            <input id="profitRevenue" type="number" placeholder="10000000">
 
-            <button onclick="calculateProfitTool()">
-              Calculate
+            <label>Total Cost</label>
+            <input id="profitCost" type="number" placeholder="7000000">
+
+            <button class="btn primary full" onclick="calculateProfitTool()">
+              Calculate Profit
             </button>
 
-            <div id="profitResult" class="calculator-result">
-              Result will appear here
+            <div id="profitResult" class="calc-result">
+              Enter values
             </div>
 
           </div>
@@ -798,18 +770,20 @@
 
           <div class="calculator-card">
 
-            <h3>Pricing Calculator</h3>
-            <p>Calculate selling price from cost and margin.</p>
+            <h3>🏷️ Pricing Calculator</h3>
 
-            <input id="pricingCost" type="number" placeholder="Cost">
-            <input id="pricingMargin" type="number" placeholder="Desired Margin %">
+            <label>Product Cost</label>
+            <input id="pricingCost" type="number" placeholder="50000">
 
-            <button onclick="calculatePricingTool()">
-              Calculate
+            <label>Desired Margin %</label>
+            <input id="pricingMargin" type="number" placeholder="30">
+
+            <button class="btn primary full" onclick="calculatePricingTool()">
+              Calculate Price
             </button>
 
-            <div id="pricingResult" class="calculator-result">
-              Result will appear here
+            <div id="pricingResult" class="calc-result">
+              Enter values
             </div>
 
           </div>
@@ -817,19 +791,23 @@
 
           <div class="calculator-card">
 
-            <h3>Break-even Calculator</h3>
-            <p>Find the required sales volume.</p>
+            <h3>⚖️ Break-even Calculator</h3>
 
-            <input id="breakFixedCost" type="number" placeholder="Fixed Cost">
-            <input id="breakSellingPrice" type="number" placeholder="Selling Price / Unit">
-            <input id="breakVariableCost" type="number" placeholder="Variable Cost / Unit">
+            <label>Fixed Cost</label>
+            <input id="breakFixed" type="number" placeholder="5000000">
 
-            <button onclick="calculateBreakEven()">
+            <label>Price / Unit</label>
+            <input id="breakPrice" type="number" placeholder="50000">
+
+            <label>Variable Cost / Unit</label>
+            <input id="breakVariable" type="number" placeholder="30000">
+
+            <button class="btn primary full" onclick="calculateBreakEven()">
               Calculate
             </button>
 
-            <div id="breakEvenResult" class="calculator-result">
-              Result will appear here
+            <div id="breakResult" class="calc-result">
+              Enter values
             </div>
 
           </div>
@@ -837,83 +815,80 @@
 
           <div class="calculator-card">
 
-            <h3>Sales Target Calculator</h3>
-            <p>Calculate daily sales requirements.</p>
+            <h3>🎯 Sales Target Calculator</h3>
 
-            <input id="targetMonthly" type="number" placeholder="Monthly Target">
-            <input id="targetDays" type="number" placeholder="Working Days">
+            <label>Monthly Target</label>
+            <input id="targetMonthly" type="number" placeholder="30000000">
 
-            <button onclick="calculateSalesTarget()">
+            <label>Working Days</label>
+            <input id="targetDays" type="number" placeholder="26">
+
+            <button class="btn primary full" onclick="calculateSalesTarget()">
               Calculate
             </button>
 
-            <div id="salesTargetResult" class="calculator-result">
-              Result will appear here
+            <div id="targetResult" class="calc-result">
+              Enter values
             </div>
 
           </div>
 
         </div>
 
-      </section>
+      </div>
 
 
       <!-- ================= REPORTS ================= -->
-      <section class="page" id="reportsPage">
+      <div id="reportsPage" class="page">
 
-        <div class="page-banner">
-          <span class="eyebrow">ANALYTICS</span>
+        <div class="page-intro">
+          <span class="eyebrow">BUSINESS REPORTING</span>
           <h2>Reports</h2>
-          <p>Review business and learning performance.</p>
+          <p>Review your learning and sales performance.</p>
         </div>
 
         <div id="reportsContent"></div>
 
-      </section>
+      </div>
 
 
       <!-- ================= AI ================= -->
-      <section class="page" id="aiPage">
+      <div id="aiPage" class="page">
 
-        <div class="page-banner ai-banner">
-
-          <div>
-            <span class="eyebrow">AI BUSINESS COACH</span>
-            <h2>AI Business Coach</h2>
-            <p>Ask business, sales and management questions.</p>
-          </div>
-
-          <div class="ai-badge">✦ AI</div>
-
+        <div class="page-intro">
+          <span class="eyebrow">AI BUSINESS COACH</span>
+          <h2>AI Business Coach</h2>
+          <p>Ask business, sales and management questions.</p>
         </div>
 
-
-        <div class="ai-chat">
+        <div class="ai-card">
 
           <div id="aiMessages" class="ai-messages">
 
-            <div class="ai-message assistant">
+            <div class="ai-message">
               <div class="ai-avatar">AI</div>
 
-              <div class="ai-bubble">
-                မင်္ဂလာပါ။ Aung Business Academy AI Business Coach ပါ။
-                Sales, Management, Marketing, Leadership နဲ့ Business Strategy
-                အကြောင်း မေးနိုင်ပါတယ်။
+              <div class="message-content">
+                <strong>AI Business Coach</strong>
+                <p>
+                  မင်္ဂလာပါ။ Business, Sales, Marketing,
+                  Leadership နဲ့ Management အကြောင်း မေးနိုင်ပါတယ်။
+                </p>
               </div>
             </div>
 
           </div>
 
-          <div class="ai-input">
+          <div class="ai-input-row">
 
             <input
               id="aiInput"
               type="text"
-              placeholder="မေးချင်တာ ရိုက်ပါ..."
+              placeholder="မေးခွန်းရေးပါ..."
               onkeydown="if(event.key==='Enter') sendAIMessage()"
             >
 
-            <button onclick="sendAIMessage()">
+            <button class="btn primary" onclick="sendAIMessage()">
               Send
             </button>
 
@@ -921,54 +896,54 @@
 
         </div>
 
-      </section>
+      </div>
 
 
       <!-- ================= TOOLS ================= -->
-      <section class="page" id="toolsPage">
+      <div id="toolsPage" class="page">
 
-        <div class="page-banner">
-          <span class="eyebrow">TOOLS</span>
+        <div class="page-intro">
+          <span class="eyebrow">AI & BUSINESS TOOLS</span>
           <h2>AI Tools</h2>
-          <p>Practical tools for business managers.</p>
+          <p>Use practical tools to improve your business.</p>
         </div>
 
-        <div class="tools-grid large">
+        <div class="tools-grid">
 
-          <button onclick="openAITool('Sales Plan')">
-            <span class="tool-icon">↗</span>
-            <strong>Sales Plan Generator</strong>
-            <small>Create a practical sales action plan.</small>
+          <button class="tool-card" onclick="openAITool('Sales Strategy')">
+            <span>🎯</span>
+            <strong>Sales Strategy</strong>
+            <small>Create a practical sales plan</small>
           </button>
 
-          <button onclick="openAITool('Customer Strategy')">
-            <span class="tool-icon">♙</span>
-            <strong>Customer Strategy</strong>
-            <small>Develop customer growth ideas.</small>
+          <button class="tool-card" onclick="openAITool('Marketing Plan')">
+            <span>📣</span>
+            <strong>Marketing Plan</strong>
+            <small>Build a marketing action plan</small>
           </button>
 
-          <button onclick="openAITool('Team Coaching')">
-            <span class="tool-icon">♟</span>
+          <button class="tool-card" onclick="openAITool('Team Coaching')">
+            <span>👥</span>
             <strong>Team Coaching</strong>
-            <small>Create coaching questions.</small>
+            <small>Improve team performance</small>
           </button>
 
-          <button onclick="openAITool('Business Strategy')">
-            <span class="tool-icon">◆</span>
-            <strong>Business Strategy</strong>
-            <small>Build strategic thinking.</small>
+          <button class="tool-card" onclick="openAITool('Business Plan')">
+            <span>📋</span>
+            <strong>Business Plan</strong>
+            <small>Create a business plan</small>
           </button>
 
         </div>
 
-      </section>
+      </div>
 
 
       <!-- ================= SETTINGS ================= -->
-      <section class="page" id="settingsPage">
+      <div id="settingsPage" class="page">
 
-        <div class="page-banner">
-          <span class="eyebrow">SYSTEM</span>
+        <div class="page-intro">
+          <span class="eyebrow">ACCOUNT</span>
           <h2>Settings</h2>
           <p>Manage your academy preferences.</p>
         </div>
@@ -977,43 +952,36 @@
 
           <div class="setting-row">
             <div>
-              <strong>Account</strong>
-              <small>Aung Zar Ni Win</small>
+              <strong>Profile</strong>
+              <p>Aung Zar Ni Win</p>
             </div>
 
-            <span class="setting-status">Business Manager</span>
+            <button class="btn outline" onclick="openProfile()">
+              Edit
+            </button>
           </div>
 
           <div class="setting-row">
             <div>
-              <strong>Application Version</strong>
-              <small>Aung Business Academy</small>
+              <strong>Academy Version</strong>
+              <p>V8.0 Professional</p>
             </div>
 
-            <span class="setting-status">V8.0 Professional</span>
+            <span class="setting-value">Active</span>
           </div>
 
           <div class="setting-row">
             <div>
               <strong>Learning Language</strong>
-              <small>Course lessons</small>
+              <p>Burmese</p>
             </div>
 
-            <span class="setting-status">မြန်မာ</span>
-          </div>
-
-          <div class="setting-row">
-            <div>
-              <strong>Data Storage</strong>
-              <small>Your progress is stored on this device.</small>
-            </div>
-
-            <span class="setting-status success">Local</span>
+            <span class="setting-value">Myanmar</span>
           </div>
 
         </div>
 
-      </section>
+      </div>
 
     </section>
 
@@ -1024,27 +992,27 @@
   <nav class="mobile-bottom-nav">
 
     <button onclick="navigate('dashboardPage')">
-      <span>▦</span>
+      <span>🏠</span>
       <small>Home</small>
     </button>
 
     <button onclick="navigate('lessonsPage')">
-      <span>▣</span>
+      <span>📖</span>
       <small>Lessons</small>
     </button>
 
     <button onclick="navigate('salesPage')">
-      <span>↗</span>
+      <span>💼</span>
       <small>Sales</small>
     </button>
 
     <button onclick="navigate('toolsPage')">
-      <span>⚙</span>
+      <span>🛠️</span>
       <small>Tools</small>
     </button>
 
     <button onclick="openProfile()">
-      <span>AZ</span>
+      <span>👤</span>
       <small>Profile</small>
     </button>
 
@@ -1052,13 +1020,13 @@
 
 
   <!-- ================= MODAL ================= -->
-  <div class="modal-overlay" id="modalOverlay">
+  <div id="modalOverlay" class="modal-overlay">
 
     <div class="modal">
 
       <button
-        class="modal-close"
         id="modalClose"
+        class="modal-close"
         onclick="closeModal()"
       >
         ×
@@ -1072,16 +1040,15 @@
 
 
   <!-- ================= TOAST ================= -->
-  <div class="toast" id="toast"></div>
+  <div id="toast" class="toast"></div>
 
+
+  <script src="app.js"></script>
+
+  <!-- KEEP YOUR EXISTING PREMIUM.JS -->
+  <script src="premium.js"></script>
 
 </div>
-
-
-<script src="app.js"></script>
-
-<!-- DO NOT DELETE YOUR PREMIUM PAYMENT FILE -->
-<script src="premium.js"></script>
 
 </body>
 </html>

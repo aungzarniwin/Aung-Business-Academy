@@ -5818,6 +5818,1079 @@
   }
 
 
+
+    // ============================================================
+  // AUNG BUSINESS ACADEMY V10 PROFESSIONAL UPGRADE
+  // ============================================================
+
+  const V10_GOAL_KEY = "aung_business_academy_v10_goal";
+  const V10_FAVORITES_KEY = "aung_business_academy_v10_favorites";
+  const V10_THEME_KEY = "aung_business_academy_v10_theme";
+  const V10_ACTIVITY_KEY = "aung_business_academy_v10_activity";
+
+  function v10Today() {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  function v10GetActivity() {
+    return safeJSON(V10_ACTIVITY_KEY, {});
+  }
+
+  function v10SaveActivity(data) {
+    saveJSON(V10_ACTIVITY_KEY, data);
+  }
+
+  function v10Track(action) {
+    const data = v10GetActivity();
+    const today = v10Today();
+
+    if (!Array.isArray(data[today])) {
+      data[today] = [];
+    }
+
+    data[today].push({
+      action: action,
+      time: Date.now()
+    });
+
+    v10SaveActivity(data);
+  }
+
+  // ------------------------------------------------------------
+  // 1. PROFESSIONAL HOME DASHBOARD
+  // ------------------------------------------------------------
+
+  function openV10Home() {
+    v10Track("home");
+
+    const completed = getCompletedLessons().length;
+    const total = lessons.length;
+    const progress = getProgress();
+
+    const nextLesson = lessons.find(
+      lesson => !isCompleted(lesson.id)
+    );
+
+    const premium = getPremiumInfo();
+
+    const plan = safeJSON(
+      V10_GOAL_KEY,
+      {
+        goal: "",
+        revenue: 0,
+        target: 0
+      }
+    );
+
+    const kpi = safeJSON(
+      KPI_KEY,
+      {
+        target: 0,
+        achievement: 0,
+        customers: 0,
+        orders: 0
+      }
+    );
+
+    const achievement =
+      Number(kpi.target) > 0
+        ? (Number(kpi.achievement) / Number(kpi.target)) * 100
+        : 0;
+
+    showModal(`
+      <div style="
+        max-width:1150px;
+        margin:auto;
+        padding:4px;
+      ">
+
+        <div style="
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          gap:15px;
+          flex-wrap:wrap;
+          margin-bottom:22px;
+        ">
+
+          <div>
+            <div style="
+              font-size:12px;
+              font-weight:800;
+              color:#64748b;
+              letter-spacing:.12em;
+            ">
+              AUNG BUSINESS ACADEMY
+            </div>
+
+            <h2 style="
+              margin:5px 0;
+              font-size:28px;
+            ">
+              Welcome back, ${v9Esc(getUserName())} 👋
+            </h2>
+
+            <p style="
+              margin:0;
+              color:#64748b;
+            ">
+              Your business growth command center
+            </p>
+          </div>
+
+          <div style="
+            padding:10px 15px;
+            border-radius:14px;
+            background:#f8fafc;
+            font-weight:700;
+          ">
+            ${
+              premium
+                ? "🟢 Premium Active"
+                : "🔒 Free Account"
+            }
+          </div>
+
+        </div>
+
+        <!-- KPI CARDS -->
+
+        <div style="
+          display:grid;
+          grid-template-columns:
+          repeat(auto-fit,minmax(170px,1fr));
+          gap:12px;
+          margin-bottom:18px;
+        ">
+
+          <div class="result-box">
+            <div style="color:#64748b;font-size:12px">
+              Learning
+            </div>
+
+            <strong style="font-size:27px">
+              ${completed}/${total}
+            </strong>
+
+            <div>
+              ${progress}% completed
+            </div>
+          </div>
+
+          <div class="result-box">
+            <div style="color:#64748b;font-size:12px">
+              Sales Achievement
+            </div>
+
+            <strong style="font-size:27px">
+              ${achievement.toFixed(0)}%
+            </strong>
+
+            <div>
+              ${formatKs(Number(kpi.achievement) || 0)}
+            </div>
+          </div>
+
+          <div class="result-box">
+            <div style="color:#64748b;font-size:12px">
+              Customers
+            </div>
+
+            <strong style="font-size:27px">
+              ${Number(kpi.customers) || 0}
+            </strong>
+
+            <div>
+              Active customers
+            </div>
+          </div>
+
+          <div class="result-box">
+            <div style="color:#64748b;font-size:12px">
+              Orders
+            </div>
+
+            <strong style="font-size:27px">
+              ${Number(kpi.orders) || 0}
+            </strong>
+
+            <div>
+              Total orders
+            </div>
+          </div>
+
+        </div>
+
+        <!-- PROGRESS -->
+
+        <div class="result-box" style="margin-bottom:14px">
+
+          <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+          ">
+            <strong>📚 Academy Progress</strong>
+            <strong>${progress}%</strong>
+          </div>
+
+          ${v9ProgressBar(progress)}
+
+        </div>
+
+        <!-- CONTINUE LEARNING -->
+
+        <div style="
+          display:grid;
+          grid-template-columns:
+          repeat(auto-fit,minmax(280px,1fr));
+          gap:14px;
+        ">
+
+          <div class="result-box">
+
+            <h3>📖 Continue Learning</h3>
+
+            <p style="color:#64748b">
+              ${
+                nextLesson
+                  ? "Next lesson: " +
+                    v9Esc(nextLesson.title)
+                  : "🎉 All lessons completed!"
+              }
+            </p>
+
+            ${
+              nextLesson
+                ? v9Button(
+                    "Continue →",
+                    `openLesson(${nextLesson.id})`,
+                    true
+                  )
+                : v9Button(
+                    "View Lessons",
+                    "openLessons()",
+                    false
+                  )
+            }
+
+          </div>
+
+          <div class="result-box">
+
+            <h3>🎯 Business Goal</h3>
+
+            <p>
+              ${
+                plan.goal
+                  ? v9Esc(plan.goal)
+                  : "Set your main business goal."
+              }
+            </p>
+
+            <p style="color:#64748b">
+              Monthly Target:
+              ${formatKs(Number(plan.target) || 0)}
+            </p>
+
+            ${v9Button(
+              "Set Goal",
+              "openV10Goal",
+              false
+            )}
+
+          </div>
+
+          <div class="result-box">
+
+            <h3>📊 Sales Performance</h3>
+
+            <p>
+              Target:
+              ${formatKs(Number(kpi.target) || 0)}
+            </p>
+
+            <p>
+              Achievement:
+              ${formatKs(Number(kpi.achievement) || 0)}
+            </p>
+
+            ${v9Button(
+              "Open Sales Manager",
+              "openKPIDashboard()",
+              false
+            )}
+
+          </div>
+
+          <div class="result-box">
+
+            <h3>🤖 AI Business Coach</h3>
+
+            <p style="color:#64748b">
+              Get practical advice for sales,
+              marketing and business growth.
+            </p>
+
+            ${v9Button(
+              "Ask AI Coach",
+              "openAI()",
+              true
+            )}
+
+          </div>
+
+        </div>
+
+        <!-- QUICK ACTIONS -->
+
+        <div style="margin-top:20px">
+
+          <h3>⚡ Quick Actions</h3>
+
+          <div style="
+            display:flex;
+            flex-wrap:wrap;
+            margin-top:8px;
+          ">
+
+            ${v9Button(
+              "📚 Lessons",
+              "openLessons()",
+              true
+            )}
+
+            ${v9Button(
+              "📈 Sales",
+              "openKPIDashboard()",
+              false
+            )}
+
+            ${v9Button(
+              "🧮 Tools",
+              "openV9QuickTools()",
+              false
+            )}
+
+            ${v9Button(
+              "🤖 AI Coach",
+              "openAI()",
+              false
+            )}
+
+            ${v9Button(
+              "📝 Notes",
+              "openNotes()",
+              false
+            )}
+
+            ${v9Button(
+              "📊 Analytics",
+              "openV9Analytics()",
+              false
+            )}
+
+            ${v9Button(
+              "👑 Premium",
+              "openPremiumPlans()",
+              false
+            )}
+
+            ${v9Button(
+              "⚙️ Settings",
+              "openSettings()",
+              false
+            )}
+
+          </div>
+
+        </div>
+
+      </div>
+    `);
+
+    setTimeout(() => {
+      const buttons =
+        document.querySelectorAll(
+          'button[onclick="openV10Goal"]'
+        );
+
+      buttons.forEach(button => {
+        button.onclick = openV10Goal;
+      });
+    }, 50);
+  }
+
+  // ------------------------------------------------------------
+  // 2. BUSINESS GOAL SYSTEM
+  // ------------------------------------------------------------
+
+  function openV10Goal() {
+
+    const saved = safeJSON(
+      V10_GOAL_KEY,
+      {
+        goal: "",
+        revenue: 0,
+        target: 0
+      }
+    );
+
+    showModal(`
+      <div style="max-width:650px;margin:auto">
+
+        <h2>🎯 Business Goal</h2>
+
+        <p style="color:#64748b">
+          သင့်လုပ်ငန်းအတွက် အဓိက Goal တစ်ခု
+          သတ်မှတ်ပါ။
+        </p>
+
+        ${textInput(
+          "v10Goal",
+          "Main Business Goal",
+          saved.goal || ""
+        )}
+
+        ${inputField(
+          "v10Revenue",
+          "Current Monthly Revenue",
+          Number(saved.revenue) || 0
+        )}
+
+        ${inputField(
+          "v10Target",
+          "Target Monthly Revenue",
+          Number(saved.target) || 0
+        )}
+
+        ${v9Button(
+          "💾 Save Goal",
+          "saveV10Goal()",
+          true
+        )}
+
+        ${v9Button(
+          "← Dashboard",
+          "openV10Home()",
+          false
+        )}
+
+      </div>
+    `);
+  }
+
+  function saveV10Goal() {
+
+    const goal =
+      $("v10Goal")?.value.trim() || "";
+
+    const revenue =
+      num("v10Revenue");
+
+    const target =
+      num("v10Target");
+
+    saveJSON(
+      V10_GOAL_KEY,
+      {
+        goal: goal,
+        revenue: revenue,
+        target: target,
+        updatedAt: Date.now()
+      }
+    );
+
+    v10Track("goal_saved");
+
+    showToast("Business Goal saved successfully 🎯");
+
+    openV10Home();
+  }
+
+  // ------------------------------------------------------------
+  // 3. FAVORITE LESSONS
+  // ------------------------------------------------------------
+
+  function getV10Favorites() {
+    const data = safeJSON(
+      V10_FAVORITES_KEY,
+      []
+    );
+
+    return Array.isArray(data)
+      ? data.map(Number)
+      : [];
+  }
+
+  function saveV10Favorites(list) {
+    saveJSON(
+      V10_FAVORITES_KEY,
+      list
+    );
+  }
+
+  function toggleV10Favorite(id) {
+
+    const lessonId = Number(id);
+
+    let favorites =
+      getV10Favorites();
+
+    if (favorites.includes(lessonId)) {
+
+      favorites =
+        favorites.filter(
+          x => x !== lessonId
+        );
+
+      showToast("Removed from Favorites");
+
+    } else {
+
+      favorites.push(lessonId);
+
+      showToast("Added to Favorites ⭐");
+    }
+
+    saveV10Favorites(favorites);
+
+    v10Track(
+      "favorite:" + lessonId
+    );
+  }
+
+  function openV10Favorites() {
+
+    const favorites =
+      getV10Favorites();
+
+    const favoriteLessons =
+      lessons.filter(
+        lesson =>
+          favorites.includes(
+            Number(lesson.id)
+          )
+      );
+
+    showModal(`
+      <div style="max-width:850px;margin:auto">
+
+        <h2>⭐ My Favorite Lessons</h2>
+
+        <p style="color:#64748b">
+          သင်အကြိုက်ဆုံး Lesson များ
+        </p>
+
+        ${
+          favoriteLessons.length
+            ? favoriteLessons.map(
+                lesson => `
+                  <div class="result-box"
+                    style="margin:10px 0">
+
+                    <div style="
+                      display:flex;
+                      justify-content:space-between;
+                      gap:10px;
+                      align-items:center;
+                    ">
+
+                      <div>
+                        <strong>
+                          ${v9Esc(lesson.title)}
+                        </strong>
+
+                        <div style="
+                          color:#64748b;
+                          font-size:13px;
+                          margin-top:4px;
+                        ">
+                          ${v9Esc(lesson.category)}
+                          ·
+                          ${v9Esc(lesson.level)}
+                        </div>
+                      </div>
+
+                      <div>
+                        ${v9Button(
+                          "Open",
+                          `openLesson(${lesson.id})`,
+                          true
+                        )}
+                      </div>
+
+                    </div>
+
+                  </div>
+                `
+              ).join("")
+            : `
+              <div class="result-box">
+                <h3>⭐ No Favorites Yet</h3>
+                <p>
+                  Lesson တွေထဲက
+                  ⭐ Favorite လုပ်ထားပါ။
+                </p>
+              </div>
+            `
+        }
+
+        ${v9Button(
+          "📚 All Lessons",
+          "openLessons()",
+          false
+        )}
+
+        ${v9Button(
+          "← Dashboard",
+          "openV10Home()",
+          false
+        )}
+
+      </div>
+    `);
+  }
+
+  // ------------------------------------------------------------
+  // 4. MY LEARNING REPORT
+  // ------------------------------------------------------------
+
+  function openV10LearningReport() {
+
+    const completed =
+      getCompletedLessons().length;
+
+    const total =
+      lessons.length;
+
+    const progress =
+      getProgress();
+
+    const favorites =
+      getV10Favorites().length;
+
+    const activeDays =
+      typeof getV9ActiveDays === "function"
+        ? getV9ActiveDays().length
+        : 0;
+
+    const streak =
+      typeof getV9Streak === "function"
+        ? getV9Streak()
+        : 0;
+
+    const remaining =
+      Math.max(
+        0,
+        total - completed
+      );
+
+    showModal(`
+      <div style="max-width:900px;margin:auto">
+
+        <h2>📊 My Learning Report</h2>
+
+        <p style="color:#64748b">
+          Your complete academy learning summary
+        </p>
+
+        <div style="
+          display:grid;
+          grid-template-columns:
+          repeat(auto-fit,minmax(170px,1fr));
+          gap:12px;
+          margin:18px 0;
+        ">
+
+          <div class="result-box">
+            <div>Completed</div>
+            <strong style="font-size:28px">
+              ${completed}
+            </strong>
+          </div>
+
+          <div class="result-box">
+            <div>Remaining</div>
+            <strong style="font-size:28px">
+              ${remaining}
+            </strong>
+          </div>
+
+          <div class="result-box">
+            <div>Progress</div>
+            <strong style="font-size:28px">
+              ${progress}%
+            </strong>
+          </div>
+
+          <div class="result-box">
+            <div>Favorites</div>
+            <strong style="font-size:28px">
+              ⭐ ${favorites}
+            </strong>
+          </div>
+
+          <div class="result-box">
+            <div>Active Days</div>
+            <strong style="font-size:28px">
+              ${activeDays}
+            </strong>
+          </div>
+
+          <div class="result-box">
+            <div>Streak</div>
+            <strong style="font-size:28px">
+              🔥 ${streak}
+            </strong>
+          </div>
+
+        </div>
+
+        <div class="result-box">
+
+          <h3>📚 Overall Progress</h3>
+
+          ${v9ProgressBar(progress)}
+
+          <p style="margin-top:10px">
+            ${completed} of ${total}
+            lessons completed.
+          </p>
+
+        </div>
+
+        <div style="margin-top:15px">
+
+          ${v9Button(
+            "📚 Continue Learning",
+            "openLessons()",
+            true
+          )}
+
+          ${v9Button(
+            "⭐ Favorites",
+            "openV10Favorites()",
+            false
+          )}
+
+          ${v9Button(
+            "← Dashboard",
+            "openV10Home()",
+            false
+          )}
+
+        </div>
+
+      </div>
+    `);
+  }
+
+  // ------------------------------------------------------------
+  // 5. BUSINESS SNAPSHOT
+  // ------------------------------------------------------------
+
+  function openV10BusinessSnapshot() {
+
+    const kpi = safeJSON(
+      KPI_KEY,
+      {
+        target: 0,
+        achievement: 0,
+        customers: 0,
+        orders: 0
+      }
+    );
+
+    const target =
+      Number(kpi.target) || 0;
+
+    const achievement =
+      Number(kpi.achievement) || 0;
+
+    const customers =
+      Number(kpi.customers) || 0;
+
+    const orders =
+      Number(kpi.orders) || 0;
+
+    const achievementPct =
+      target > 0
+        ? achievement / target * 100
+        : 0;
+
+    const avgOrder =
+      orders > 0
+        ? achievement / orders
+        : 0;
+
+    showModal(`
+      <div style="max-width:950px;margin:auto">
+
+        <h2>📈 Business Snapshot</h2>
+
+        <p style="color:#64748b">
+          လက်ရှိ Business Performance ကို
+          အမြန်ကြည့်နိုင်ပါတယ်။
+        </p>
+
+        <div style="
+          display:grid;
+          grid-template-columns:
+          repeat(auto-fit,minmax(190px,1fr));
+          gap:12px;
+          margin:18px 0;
+        ">
+
+          <div class="result-box">
+            <div>Sales Target</div>
+            <strong style="font-size:24px">
+              ${formatKs(target)}
+            </strong>
+          </div>
+
+          <div class="result-box">
+            <div>Sales Achievement</div>
+            <strong style="font-size:24px">
+              ${formatKs(achievement)}
+            </strong>
+          </div>
+
+          <div class="result-box">
+            <div>Achievement %</div>
+            <strong style="font-size:24px">
+              ${achievementPct.toFixed(1)}%
+            </strong>
+          </div>
+
+          <div class="result-box">
+            <div>Customers</div>
+            <strong style="font-size:24px">
+              ${customers}
+            </strong>
+          </div>
+
+          <div class="result-box">
+            <div>Orders</div>
+            <strong style="font-size:24px">
+              ${orders}
+            </strong>
+          </div>
+
+          <div class="result-box">
+            <div>Average Order Value</div>
+            <strong style="font-size:24px">
+              ${formatKs(avgOrder)}
+            </strong>
+          </div>
+
+        </div>
+
+        <div class="result-box">
+
+          <h3>📊 Target Progress</h3>
+
+          ${v9ProgressBar(
+            Math.min(100, achievementPct)
+          )}
+
+          <p style="margin-top:10px">
+            ${
+              achievementPct >= 100
+                ? "🎉 Target achieved!"
+                : achievementPct >= 80
+                  ? "🟢 Almost there. Push for the final gap."
+                  : achievementPct >= 50
+                    ? "🟡 Good progress. Increase execution."
+                    : "🔴 Strong action is needed."
+            }
+          </p>
+
+        </div>
+
+        <div style="margin-top:15px">
+
+          ${v9Button(
+            "📈 Sales Manager",
+            "openKPIDashboard()",
+            true
+          )}
+
+          ${v9Button(
+            "🧭 Health Check",
+            "openV9BusinessHealth()",
+            false
+          )}
+
+          ${v9Button(
+            "← Dashboard",
+            "openV10Home()",
+            false
+          )}
+
+        </div>
+
+      </div>
+    `);
+  }
+
+  // ------------------------------------------------------------
+  // 6. V10 MENU
+  // ------------------------------------------------------------
+
+  function openV10Menu() {
+
+    showModal(`
+      <div style="max-width:800px;margin:auto">
+
+        <h2>🚀 Aung Business Academy V10</h2>
+
+        <p style="color:#64748b">
+          Professional Business Learning & Management System
+        </p>
+
+        <div class="quick-grid">
+
+          ${v9Button(
+            "🏠 Home Dashboard",
+            "openV10Home()",
+            true
+          )}
+
+          ${v9Button(
+            "📚 Lessons",
+            "openLessons()",
+            false
+          )}
+
+          ${v9Button(
+            "⭐ Favorites",
+            "openV10Favorites()",
+            false
+          )}
+
+          ${v9Button(
+            "📊 Learning Report",
+            "openV10LearningReport()",
+            false
+          )}
+
+          ${v9Button(
+            "📈 Business Snapshot",
+            "openV10BusinessSnapshot()",
+            false
+          )}
+
+          ${v9Button(
+            "🎯 Business Goal",
+            "openV10Goal()",
+            false
+          )}
+
+          ${v9Button(
+            "📊 Sales Manager",
+            "openKPIDashboard()",
+            false
+          )}
+
+          ${v9Button(
+            "🧮 Business Tools",
+            "openV9QuickTools()",
+            false
+          )}
+
+          ${v9Button(
+            "🤖 AI Coach",
+            "openAI()",
+            false
+          )}
+
+          ${v9Button(
+            "👑 Premium",
+            "openPremiumPlans()",
+            false
+          )}
+
+          ${v9Button(
+            "⚙️ Settings",
+            "openSettings()",
+            false
+          )}
+
+        </div>
+
+      </div>
+    `);
+  }
+
+  // ------------------------------------------------------------
+  // 7. ADD FAVORITE BUTTON TO LESSON VIEW
+  // ------------------------------------------------------------
+
+  const v10OriginalShowLesson =
+    window.showLesson;
+
+  function v10RefreshLessonFavoriteButtons() {
+
+    const buttons =
+      document.querySelectorAll(
+        "[data-v10-favorite-lesson]"
+      );
+
+    buttons.forEach(button => {
+
+      const id =
+        Number(
+          button.getAttribute(
+            "data-v10-favorite-lesson"
+          )
+        );
+
+      const favorites =
+        getV10Favorites();
+
+      button.textContent =
+        favorites.includes(id)
+          ? "⭐ Favorited"
+          : "☆ Add Favorite";
+
+    });
+  }
+
+  // ------------------------------------------------------------
+  // 8. V10 GLOBAL EXPORTS
+  // ------------------------------------------------------------
+
+  window.openV10Home =
+    openV10Home;
+
+  window.openV10Goal =
+    openV10Goal;
+
+  window.saveV10Goal =
+    saveV10Goal;
+
+  window.toggleV10Favorite =
+    toggleV10Favorite;
+
+  window.openV10Favorites =
+    openV10Favorites;
+
+  window.openV10LearningReport =
+    openV10LearningReport;
+
+  window.openV10BusinessSnapshot =
+    openV10BusinessSnapshot;
+
+  window.openV10Menu =
+    openV10Menu;
+
+  window.v10Track =
+    v10Track;
+
+  // ============================================================
+  // END V10 PROFESSIONAL UPGRADE
+  // ============================================================
   // ============================================================
   // GLOBAL EXPORTS
   // ============================================================

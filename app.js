@@ -20384,6 +20384,1220 @@ window.v153AskSalesmanAI =
 
 window.v153RenderSalesmen =
   v153RenderSalesmen;
+  /* =========================================================
+   AUNG BUSINESS ACADEMY
+   V15.4 AI BUSINESS COACH + SALESMAN KPI CONNECTION
+   ========================================================= */
+
+const V154_AI_HISTORY_KEY =
+  "aung_business_academy_v154_ai_history";
+
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+
+function v154Get(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch (e) {
+    return fallback;
+  }
+}
+
+function v154Set(key, value) {
+  localStorage.setItem(
+    key,
+    JSON.stringify(value)
+  );
+}
+
+function v154Num(value) {
+  const n = Number(value);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function v154Money(value) {
+  return new Intl.NumberFormat("en-US").format(
+    Math.round(v154Num(value))
+  );
+}
+
+function v154Percent(value) {
+  return `${v154Num(value).toFixed(1)}%`;
+}
+
+function v154Esc(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+/* =========================================================
+   GET SALESMAN DATA
+   ========================================================= */
+
+function v154GetSalesmen() {
+
+  if (
+    typeof v153GetSalesmen ===
+    "function"
+  ) {
+    return v153GetSalesmen();
+  }
+
+  return v154Get(
+    "aung_business_academy_v153_salesmen",
+    []
+  );
+}
+
+
+function v154GetDailySales() {
+
+  if (
+    typeof v153GetDailySales ===
+    "function"
+  ) {
+    return v153GetDailySales();
+  }
+
+  return v154Get(
+    "aung_business_academy_v153_daily_sales",
+    []
+  );
+}
+
+
+/* =========================================================
+   BUILD SALESMAN KPI REPORT
+   ========================================================= */
+
+function v154BuildSalesmanReport() {
+
+  const salesmen =
+    v154GetSalesmen()
+      .filter(
+        x => x.active !== false
+      );
+
+
+  if (!salesmen.length) {
+
+    return `
+SALESMAN DATA STATUS:
+No salesperson data has been entered yet.
+Do not invent salesperson performance numbers.
+Advise the manager to add salesperson data first.
+`;
+
+  }
+
+
+  const rows = salesmen.map(
+    (person, index) => {
+
+      let m = null;
+
+      if (
+        typeof v153GetSalesmanMetrics ===
+        "function"
+      ) {
+        m =
+          v153GetSalesmanMetrics(
+            person.id
+          );
+      }
+
+
+      if (!m) {
+
+        const target =
+          v154Num(person.target);
+
+        const actual =
+          v154Num(person.actual);
+
+        const achievement =
+          target > 0
+            ? actual / target * 100
+            : 0;
+
+        const previous =
+          v154Num(
+            person.previousMonthSales
+          );
+
+        const growth =
+          previous > 0
+            ? (
+                (actual - previous) /
+                previous
+              ) * 100
+            : 0;
+
+        m = {
+          salesman: person,
+          target,
+          actual,
+          achievement,
+          gap: Math.max(
+            target - actual,
+            0
+          ),
+          growth,
+          dailyTarget:
+            target / 26,
+          dailyActual: 0,
+          requiredDaily: 0,
+          forecast: 0,
+          forecastAchievement: 0,
+          visits: 0,
+          orders: 0,
+          collections: 0,
+          newCustomers: 0,
+          remainingDays: 0
+        };
+
+      }
+
+
+      return `
+SALESMAN #${index + 1}
+
+Name:
+${person.name || "Unknown"}
+
+Role:
+${person.role || "Salesman"}
+
+Territory:
+${person.territory || "Not specified"}
+
+Monthly Target:
+${v154Money(m.target)}
+
+Actual Sales:
+${v154Money(m.actual)}
+
+Achievement:
+${v154Percent(m.achievement)}
+
+Target Gap:
+${v154Money(m.gap)}
+
+Previous Month Sales:
+${v154Money(m.previous || 0)}
+
+Growth:
+${v154Percent(m.growth)}
+
+Daily Target:
+${v154Money(m.dailyTarget)}
+
+Daily Average:
+${v154Money(m.dailyActual)}
+
+Required Daily Sales:
+${v154Money(m.requiredDaily)}
+
+Remaining Days:
+${m.remainingDays}
+
+Forecast Sales:
+${v154Money(m.forecast)}
+
+Forecast Achievement:
+${v154Percent(m.forecastAchievement)}
+
+Customer Visits:
+${m.visits}
+
+Orders:
+${m.orders}
+
+Collections:
+${v154Money(m.collections)}
+
+New Customers:
+${m.newCustomers}
+
+----------------------------------------
+`;
+    }
+  );
+
+
+  return rows.join("\n");
+}
+
+
+/* =========================================================
+   TEAM SUMMARY
+   ========================================================= */
+
+function v154BuildTeamSummary() {
+
+  const salesmen =
+    v154GetSalesmen()
+      .filter(
+        x => x.active !== false
+      );
+
+
+  if (!salesmen.length) {
+    return "";
+  }
+
+
+  const metrics =
+    salesmen
+      .map(
+        person =>
+          typeof v153GetSalesmanMetrics ===
+          "function"
+            ? v153GetSalesmanMetrics(
+                person.id
+              )
+            : null
+      )
+      .filter(Boolean);
+
+
+  if (!metrics.length) {
+    return "";
+  }
+
+
+  const totalTarget =
+    metrics.reduce(
+      (sum, m) =>
+        sum + v154Num(m.target),
+      0
+    );
+
+  const totalActual =
+    metrics.reduce(
+      (sum, m) =>
+        sum + v154Num(m.actual),
+      0
+    );
+
+  const totalGap =
+    metrics.reduce(
+      (sum, m) =>
+        sum + v154Num(m.gap),
+      0
+    );
+
+  const teamAchievement =
+    totalTarget > 0
+      ? (
+          totalActual /
+          totalTarget
+        ) * 100
+      : 0;
+
+
+  const ranked =
+    [...metrics]
+      .sort(
+        (a,b) =>
+          b.achievement -
+          a.achievement
+      );
+
+
+  const top =
+    ranked[0];
+
+  const bottom =
+    ranked[ranked.length - 1];
+
+
+  return `
+TEAM SUMMARY
+
+Total Salesmen:
+${metrics.length}
+
+Team Target:
+${v154Money(totalTarget)}
+
+Team Actual:
+${v154Money(totalActual)}
+
+Team Achievement:
+${v154Percent(teamAchievement)}
+
+Total Target Gap:
+${v154Money(totalGap)}
+
+Top Performer:
+${top?.salesman?.name || "N/A"}
+(${v154Percent(top?.achievement || 0)})
+
+Lowest Performer:
+${bottom?.salesman?.name || "N/A"}
+(${v154Percent(bottom?.achievement || 0)})
+`;
+}
+
+
+/* =========================================================
+   BUILD SMART AI PROMPT
+   ========================================================= */
+
+function v154BuildAIPrompt(
+  userQuestion
+) {
+
+  const salesmanReport =
+    v154BuildSalesmanReport();
+
+  const teamSummary =
+    v154BuildTeamSummary();
+
+
+  return `
+
+You are the AI Business Coach inside Aung Business Academy.
+
+You are assisting a Sales Manager / Business Manager.
+
+The user has asked:
+
+"${userQuestion}"
+
+IMPORTANT:
+Use the available business and salesperson KPI data below.
+Do NOT invent missing numbers.
+If data is missing, clearly say what data is needed.
+
+==============================
+SALESMAN KPI DATA
+==============================
+
+${salesmanReport}
+
+==============================
+TEAM SUMMARY
+==============================
+
+${teamSummary}
+
+==============================
+RESPONSE REQUIREMENTS
+==============================
+
+Answer in Burmese unless the user specifically asks for English.
+
+Give a professional, practical and detailed management answer.
+
+Do NOT give a short generic answer.
+
+When relevant, structure the response using:
+
+1. လက်ရှိအခြေအနေ Analysis
+
+2. KPI Analysis
+
+3. Target vs Actual
+
+4. Achievement %
+
+5. Gap Analysis
+
+6. Growth Analysis
+
+7. Root Cause Analysis
+
+8. Salesman Performance Analysis
+
+9. Immediate Actions
+
+10. Customer Actions
+
+11. Sales Team Actions
+
+12. Daily KPI
+
+13. 7-Day Action Plan
+
+14. Manager Follow-up Plan
+
+15. Target Achievement Recommendation
+
+16. Final Management Recommendation
+
+If the user asks about a specific salesperson,
+focus primarily on that salesperson.
+
+If the user asks about the team,
+compare all salespeople and identify:
+- Top performer
+- Lowest performer
+- Biggest target gap
+- Strongest growth
+- Salesmen needing coaching
+- Salesmen likely to achieve target
+
+If the user asks "ဘယ်သူက အားနည်းဆုံးလဲ",
+identify the lowest performer using actual KPI data.
+
+If the user asks "ဘယ်သူက target ပြည့်နိုင်မလဲ",
+use achievement, daily average, required daily sales and forecast.
+
+If the user asks how to improve sales,
+give specific numerical and operational actions.
+
+For example:
+Instead of saying:
+"Salesman should work harder"
+
+Say:
+"Remaining gap is X.
+Remaining days are Y.
+Required daily sales are approximately Z.
+Therefore focus on high-value customers, pending orders and new customer acquisition."
+
+Always distinguish:
+- Facts from available KPI data
+- Management assumptions
+- Recommended actions
+
+Do not create fake data.
+
+==============================
+MANAGEMENT STYLE
+==============================
+
+Think like an experienced FMCG / Distribution / Sales Manager.
+
+Focus on:
+Revenue
+Target Achievement
+Distribution
+Customer Coverage
+Visit Productivity
+Order Conversion
+Average Order Value
+New Customer Acquisition
+Collection
+Salesman Productivity
+Territory Management
+Daily Execution
+Coaching
+Accountability
+
+The answer should be actionable enough for a Sales Manager to use in a real management meeting.
+
+`;
+}
+
+
+/* =========================================================
+   AI CALL
+   ========================================================= */
+
+async function v154AskBusinessCoach(
+  question
+) {
+
+  const text =
+    String(question || "")
+      .trim();
+
+
+  if (!text) {
+
+    if (
+      typeof showToast ===
+      "function"
+    ) {
+      showToast(
+        "မေးခွန်းထည့်ပါ"
+      );
+    }
+
+    return;
+  }
+
+
+  const chat =
+    document.getElementById(
+      "aiChat"
+    );
+
+
+  if (chat) {
+
+    chat.innerHTML += `
+
+      <div class="v154-user-message">
+
+        <strong>
+          You
+        </strong>
+
+        <div>
+          ${v154Esc(text)}
+        </div>
+
+      </div>
+
+    `;
+
+
+    chat.innerHTML += `
+
+      <div
+        id="v154Thinking"
+        class="v154-ai-thinking"
+      >
+
+        🤖 AI Business Coach
+        စဉ်းစားနေပါတယ်...
+
+      </div>
+
+    `;
+
+
+    chat.scrollTop =
+      chat.scrollHeight;
+
+  }
+
+
+  const prompt =
+    v154BuildAIPrompt(
+      text
+    );
+
+
+  try {
+
+    let answer = "";
+
+
+    if (
+      typeof v12SafeAIFetch ===
+      "function"
+    ) {
+
+      answer =
+        await v12SafeAIFetch(
+          prompt
+        );
+
+    } else {
+
+      const endpoint =
+        typeof AI_API_URL !==
+        "undefined"
+          ? AI_API_URL
+          : "";
+
+
+      if (!endpoint) {
+        throw new Error(
+          "AI endpoint unavailable"
+        );
+      }
+
+
+      const response =
+        await fetch(
+          endpoint,
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+
+            body:
+              JSON.stringify({
+                message: prompt
+              })
+          }
+        );
+
+
+      if (!response.ok) {
+        throw new Error(
+          "AI server error"
+        );
+      }
+
+
+      const data =
+        await response.json();
+
+
+      answer =
+        data.reply ||
+        data.response ||
+        data.message ||
+        "";
+    }
+
+
+    if (!answer) {
+      throw new Error(
+        "Empty AI response"
+      );
+    }
+
+
+    const thinking =
+      document.getElementById(
+        "v154Thinking"
+      );
+
+    if (thinking) {
+      thinking.remove();
+    }
+
+
+    if (chat) {
+
+      chat.innerHTML += `
+
+        <div class="v154-ai-message">
+
+          <div class="v154-ai-title">
+            🤖 AI Business Coach
+          </div>
+
+          <div class="v154-ai-content">
+            ${v154Esc(answer)
+              .replace(/\n/g,"<br>")}
+          </div>
+
+        </div>
+
+      `;
+
+      chat.scrollTop =
+        chat.scrollHeight;
+    }
+
+
+    v154SaveHistory(
+      text,
+      answer
+    );
+
+
+  } catch (error) {
+
+    const thinking =
+      document.getElementById(
+        "v154Thinking"
+      );
+
+    if (thinking) {
+      thinking.remove();
+    }
+
+
+    let fallback =
+      v154LocalCoachAnswer(
+        text
+      );
+
+
+    if (chat) {
+
+      chat.innerHTML += `
+
+        <div class="v154-ai-message">
+
+          <div class="v154-ai-title">
+            🤖 AI Business Coach
+          </div>
+
+          <div class="v154-ai-content">
+
+            ${v154Esc(
+              fallback
+            ).replace(
+              /\n/g,
+              "<br>"
+            )}
+
+          </div>
+
+        </div>
+
+      `;
+
+      chat.scrollTop =
+        chat.scrollHeight;
+    }
+
+
+    v154SaveHistory(
+      text,
+      fallback
+    );
+
+  }
+}
+
+
+/* =========================================================
+   LOCAL FALLBACK COACH
+   ========================================================= */
+
+function v154LocalCoachAnswer(
+  question
+) {
+
+  const salesmen =
+    v154GetSalesmen()
+      .filter(
+        x => x.active !== false
+      );
+
+
+  if (!salesmen.length) {
+
+    return `
+လက်ရှိ AI Business Coach မှာ Salesman KPI Data မရှိသေးပါ
+
+အရင်ဆုံး Salesman Performance ထဲမှာ
+
+• Salesman Name
+• Monthly Target
+• Daily Sales
+• Customer Visits
+• Orders
+• Collection
+• New Customers
+
+တွေထည့်ပေးပါ
+
+Data ထည့်ပြီးနောက် AI က Salesman တစ်ယောက်ချင်းစီရဲ့ Target, Actual, Achievement, Gap, Growth နဲ့ Forecast ကို ခွဲပြီး Analysis လုပ်ပေးနိုင်ပါမယ်
+`;
+
+  }
+
+
+  const metrics =
+    salesmen
+      .map(
+        x =>
+          typeof v153GetSalesmanMetrics ===
+          "function"
+            ? v153GetSalesmanMetrics(
+                x.id
+              )
+            : null
+      )
+      .filter(Boolean);
+
+
+  const ranked =
+    [...metrics]
+      .sort(
+        (a,b) =>
+          b.achievement -
+          a.achievement
+      );
+
+
+  const top =
+    ranked[0];
+
+  const bottom =
+    ranked[ranked.length - 1];
+
+
+  const totalTarget =
+    metrics.reduce(
+      (s,m) =>
+        s + m.target,
+      0
+    );
+
+  const totalActual =
+    metrics.reduce(
+      (s,m) =>
+        s + m.actual,
+      0
+    );
+
+  const achievement =
+    totalTarget > 0
+      ? totalActual /
+        totalTarget *
+        100
+      : 0;
+
+
+  return `
+လက်ရှိ Team Performance အခြေအနေ
+
+Team Target:
+${v154Money(totalTarget)}
+
+Team Actual:
+${v154Money(totalActual)}
+
+Team Achievement:
+${v154Percent(achievement)}
+
+Top Performer:
+${top.salesman.name}
+(${v154Percent(top.achievement)})
+
+အနိမ့်ဆုံး Performance:
+${bottom.salesman.name}
+(${v154Percent(bottom.achievement)})
+
+Manager အနေနဲ့ အခုအချိန်မှာ အောက်ပါ KPI တွေကို Daily Review လုပ်သင့်ပါတယ်
+
+1. Daily Sales
+2. Customer Visits
+3. Orders
+4. Conversion
+5. Collection
+6. New Customers
+7. Target Gap
+
+အနိမ့်ဆုံး Performance ရှိတဲ့ Salesman ကို Target မပြည့်ဘူးလို့ပဲ မဆုံးဖြတ်ဘဲ Customer Coverage, Visit Productivity, Order Conversion နဲ့ Follow-up Quality ကို အရင်စစ်ဆေးပါ
+
+နောက် 7 ရက်အတွက် High-value Customers, Pending Orders, New Customer Prospecting နဲ့ Collection ကို Priority ပေးပြီး Daily KPI Review လုပ်ပါ
+`;
+
+}
+
+
+/* =========================================================
+   HISTORY
+   ========================================================= */
+
+function v154SaveHistory(
+  question,
+  answer
+) {
+
+  const history =
+    v154Get(
+      V154_AI_HISTORY_KEY,
+      []
+    );
+
+
+  history.push({
+
+    question,
+
+    answer,
+
+    date:
+      new Date().toISOString()
+
+  });
+
+
+  while (
+    history.length > 50
+  ) {
+    history.shift();
+  }
+
+
+  v154Set(
+    V154_AI_HISTORY_KEY,
+    history
+  );
+}
+
+
+/* =========================================================
+   QUICK MANAGEMENT QUESTIONS
+   ========================================================= */
+
+function v154OpenManagementQuestions() {
+
+  showModal(`
+
+    <div class="v154-question-panel">
+
+      <h2>
+        🤖 AI Management Advisor
+      </h2>
+
+      <p>
+        Salesman KPI Data ကိုအခြေခံပြီး မေးနိုင်ပါတယ်
+      </p>
+
+
+      <button
+        class="secondary-button v154-question-button"
+        onclick="closeModal();v154AskBusinessCoach('လက်ရှိ Sales Team မှာ ဘယ်သူက Performance အကောင်းဆုံးလဲ၊ ဘာကြောင့်လဲ')"
+      >
+        🏆 ဘယ်သူက Top Performer လဲ
+      </button>
+
+
+      <button
+        class="secondary-button v154-question-button"
+        onclick="closeModal();v154AskBusinessCoach('ဘယ် Salesman က Performance အားနည်းဆုံးလဲ၊ Root Cause နဲ့ Coaching Plan ပြောပါ')"
+      >
+        🔴 ဘယ်သူက အားနည်းဆုံးလဲ
+      </button>
+
+
+      <button
+        class="secondary-button v154-question-button"
+        onclick="closeModal();v154AskBusinessCoach('လက်ရှိ Team Target ကို ပြည့်နိုင်မပြည့်နိုင် KPI data အရ Forecast လုပ်ပြီးရှင်းပြပါ')"
+      >
+        🎯 Target ပြည့်နိုင်မလား
+      </button>
+
+
+      <button
+        class="secondary-button v154-question-button"
+        onclick="closeModal();v154AskBusinessCoach('Sales ကျနေတဲ့အတွက် Sales Team ကို နောက် 7 ရက် ဘယ်လို Manage ရမလဲ')"
+      >
+        📉 Sales ကျနေရင် ဘာလုပ်ရမလဲ
+      </button>
+
+
+      <button
+        class="secondary-button v154-question-button"
+        onclick="closeModal();v154AskBusinessCoach('Salesman တစ်ယောက်ချင်းစီအတွက် Daily KPI နဲ့ Action Plan ဆွဲပေးပါ')"
+      >
+        📅 Daily KPI Plan
+      </button>
+
+
+      <button
+        class="secondary-button v154-question-button"
+        onclick="closeModal();v154AskBusinessCoach('Management Meeting အတွက် Sales Team Performance Report တစ်စောင်ရေးပေးပါ')"
+      >
+        📋 Management Report
+      </button>
+
+    </div>
+
+  `);
+}
+
+
+/* =========================================================
+   CONNECT EXISTING AI INPUT
+   ========================================================= */
+
+function v154SendFromExistingAI() {
+
+  const input =
+    document.getElementById(
+      "aiInput"
+    );
+
+  const question =
+    input?.value?.trim();
+
+
+  if (!question) {
+
+    if (
+      typeof showToast ===
+      "function"
+    ) {
+      showToast(
+        "မေးခွန်းထည့်ပါ"
+      );
+    }
+
+    return;
+  }
+
+
+  if (input) {
+    input.value = "";
+  }
+
+
+  return v154AskBusinessCoach(
+    question
+  );
+}
+
+
+/* =========================================================
+   OVERRIDE AI BUSINESS COACH SEND
+   ========================================================= */
+
+window.sendAIMessage =
+  function(message) {
+
+    if (message) {
+      return v154AskBusinessCoach(
+        message
+      );
+    }
+
+    return v154SendFromExistingAI();
+
+  };
+
+
+window.askAIQuick =
+  function(question) {
+
+    return v154AskBusinessCoach(
+      question
+    );
+
+  };
+
+
+window.v154AskBusinessCoach =
+  v154AskBusinessCoach;
+
+window.v154OpenManagementQuestions =
+  v154OpenManagementQuestions;
+
+
+/* =========================================================
+   CSS
+   ========================================================= */
+
+function v154InjectStyles() {
+
+  if (
+    document.getElementById(
+      "v154Styles"
+    )
+  ) {
+    return;
+  }
+
+
+  const style =
+    document.createElement("style");
+
+  style.id =
+    "v154Styles";
+
+
+  style.textContent = `
+
+    .v154-user-message {
+      padding: 14px 16px;
+      margin: 10px 0;
+      border-radius: 14px;
+      background: rgba(59,130,246,.08);
+      border: 1px solid rgba(59,130,246,.12);
+    }
+
+    .v154-user-message strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .v154-ai-message {
+      margin: 12px 0;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,.08);
+      background: var(--card-bg,#fff);
+    }
+
+    .v154-ai-title {
+      padding: 13px 16px;
+      font-weight: 800;
+      background: rgba(0,0,0,.05);
+    }
+
+    .v154-ai-content {
+      padding: 17px;
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    .v154-ai-thinking {
+      padding: 14px;
+      margin: 10px 0;
+      border-radius: 12px;
+      background: rgba(245,158,11,.10);
+      text-align: center;
+    }
+
+    .v154-question-panel {
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    .v154-question-panel h2 {
+      margin-top: 0;
+    }
+
+    .v154-question-button {
+      width: 100%;
+      text-align: left;
+      margin: 7px 0;
+      padding: 14px 16px;
+    }
+
+  `;
+
+
+  document.head.appendChild(
+    style
+  );
+}
+
+
+/* =========================================================
+   INIT
+   ========================================================= */
+
+function v154Init() {
+
+  v154InjectStyles();
+
+}
+
+
+if (
+  document.readyState ===
+  "loading"
+) {
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+      setTimeout(
+        v154Init,
+        1500
+      );
+
+    }
+  );
+
+} else {
+
+  setTimeout(
+    v154Init,
+    1500
+  );
+
+}
   // START
   // ============================================================
 

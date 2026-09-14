@@ -2,18 +2,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /* =========================================================
      AUNG BUSINESS ACADEMY
-     LESSON SYSTEM
+     PROFESSIONAL LESSON SYSTEM
      230 LESSONS
      ========================================================= */
 
   const STORAGE_KEY = "aungBusinessAcademy";
   const LESSONS_KEY = "aungBusinessAcademyLessons";
 
-  /* =========================================================
-     BASIC HELPERS
-     ========================================================= */
+  const $ = (selector, parent = document) =>
+    parent.querySelector(selector);
 
-  const $ = (selector, parent = document) => parent.querySelector(selector);
   const $$ = (selector, parent = document) =>
     Array.from(parent.querySelectorAll(selector));
 
@@ -27,7 +25,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   /* =========================================================
-     23 MODULES × 10 LESSONS = 230 LESSONS
+     MODULES
+     23 MODULES × 10 LESSONS = 230
      ========================================================= */
 
   const modules = [
@@ -387,149 +386,53 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
 
   /* =========================================================
-     BUILD 230 LESSONS
+     BUILD LESSONS
      ========================================================= */
 
   const lessons = [];
-
   let lessonId = 1;
 
   modules.forEach((module, moduleIndex) => {
 
-    module.lessons.forEach((title, lessonIndex) => {
+    module.lessons.forEach((title, index) => {
 
       lessons.push({
         id: lessonId,
         module: moduleIndex + 1,
+        moduleLesson: index + 1,
         category: module.category,
-        title: title,
-        lessonNumber: lessonId,
-        body: createLessonContent(
-          lessonId,
-          module.category,
-          title,
-          lessonIndex + 1
-        )
+        title: title
       });
 
       lessonId++;
+
     });
 
   });
 
   /* =========================================================
-     LESSON CONTENT GENERATOR
+     STORAGE
      ========================================================= */
 
-  function createLessonContent(id, category, title, position) {
-
-    const categoryText = escapeHTML(category);
-    const titleText = escapeHTML(title);
-
-    return `
-      <div class="lesson-content">
-
-        <div class="lesson-intro">
-          <h3>${titleText}</h3>
-          <p>
-            ဒီ Lesson မှာ <strong>${categoryText}</strong> နဲ့
-            သက်ဆိုင်တဲ့ အရေးကြီးတဲ့ Business Knowledge တွေကို
-            လက်တွေ့အသုံးချနိုင်အောင် လေ့လာသွားမှာ ဖြစ်ပါတယ်။
-          </p>
-        </div>
-
-        <div class="lesson-section">
-          <h4>🎯 ဒီ Lesson ရဲ့ ရည်ရွယ်ချက်</h4>
-          <p>
-            ${titleText} ကို နားလည်ပြီး လုပ်ငန်းခွင်မှာ
-            မှန်ကန်စွာအသုံးချနိုင်ရန် ဖြစ်ပါတယ်။
-          </p>
-        </div>
-
-        <div class="lesson-section">
-          <h4>📚 အဓိကအကြောင်းအရာ</h4>
-          <ul>
-            <li>${titleText} ရဲ့ အဓိပ္ပါယ်နဲ့ အရေးကြီးပုံကို နားလည်ခြင်း</li>
-            <li>Business မှာ ဘယ်အချိန်မှာ အသုံးချရမလဲ သိရှိခြင်း</li>
-            <li>Customer နဲ့ Team အပေါ် သက်ရောက်မှုကို နားလည်ခြင်း</li>
-            <li>Data နဲ့ လက်တွေ့အခြေအနေအပေါ် အခြေခံပြီး ဆုံးဖြတ်ခြင်း</li>
-            <li>Action Plan တစ်ခုအဖြစ် ပြောင်းလဲအသုံးချခြင်း</li>
-          </ul>
-        </div>
-
-        <div class="lesson-section">
-          <h4>💡 Manager အတွက် အဓိကအချက်</h4>
-          <p>
-            Business Manager တစ်ယောက်အနေနဲ့ သိရုံနဲ့ မလုံလောက်ပါဘူး။
-            သိထားတဲ့ Knowledge ကို Team၊ Customer၊ Market နဲ့
-            Business Result တွေမှာ လက်တွေ့အသုံးချနိုင်ဖို့ လိုပါတယ်။
-          </p>
-        </div>
-
-        <div class="lesson-section">
-          <h4>🧠 လက်တွေ့စဉ်းစားရန်</h4>
-          <p>
-            ကိုယ့်လုပ်ငန်းမှာ လက်ရှိဖြစ်နေတဲ့ ပြဿနာတစ်ခုကို
-            ရွေးချယ်ပြီး ဒီ Lesson မှာ လေ့လာထားတဲ့ Concept နဲ့
-            ဘယ်လိုဖြေရှင်းနိုင်မလဲ စဉ်းစားပါ။
-          </p>
-        </div>
-
-        <div class="lesson-section">
-          <h4>📝 လက်တွေ့လုပ်ဆောင်ရန်</h4>
-          <ol>
-            <li>လက်ရှိအခြေအနေကို ရေးပါ။</li>
-            <li>အဓိကပြဿနာကို သတ်မှတ်ပါ။</li>
-            <li>ဖြေရှင်းနိုင်မယ့် နည်းလမ်း ၃ ခုရေးပါ။</li>
-            <li>အကောင်းဆုံးနည်းလမ်းကို ရွေးပါ။</li>
-            <li>ဘယ်သူက ဘာလုပ်မလဲ သတ်မှတ်ပါ။</li>
-            <li>Deadline သတ်မှတ်ပါ။</li>
-            <li>Result ကို ပြန်လည်သုံးသပ်ပါ။</li>
-          </ol>
-        </div>
-
-        <div class="lesson-section lesson-action">
-          <h4>🚀 Manager Action</h4>
-          <p>
-            ဒီနေ့ကစပြီး <strong>${titleText}</strong> ကို
-            လက်တွေ့အလုပ်ထဲမှာ အနည်းဆုံး Action တစ်ခု
-            စတင်အသုံးချပါ။
-          </p>
-        </div>
-
-        <div class="lesson-summary">
-          <h4>✅ Lesson Summary</h4>
-          <p>
-            ${titleText} ကို နားလည်ပြီး
-            <strong>Plan → Execute → Measure → Improve</strong>
-            ဆိုတဲ့ Business Management Cycle အတိုင်း
-            ဆက်လက်လုပ်ဆောင်ပါ။
-          </p>
-        </div>
-
-      </div>
-    `;
-  }
-
-  /* =========================================================
-     PROGRESS STORAGE
-     ========================================================= */
-
-  function loadProgress() {
+  function getProgress() {
 
     try {
 
-      const saved = localStorage.getItem(STORAGE_KEY);
+      const saved =
+        localStorage.getItem(STORAGE_KEY);
 
       if (!saved) {
+
         return {
           completedLessons: [],
-          dailyMinutes: 0,
-          lastLesson: 0
+          lastLesson: 0,
+          dailyMinutes: 0
         };
+
       }
 
-      const data = JSON.parse(saved);
+      const data =
+        JSON.parse(saved);
 
       return {
         completedLessons:
@@ -537,25 +440,26 @@ document.addEventListener("DOMContentLoaded", function () {
             ? data.completedLessons
             : [],
 
-        dailyMinutes:
-          Number(data.dailyMinutes) || 0,
-
         lastLesson:
-          Number(data.lastLesson) || 0
+          Number(data.lastLesson) || 0,
+
+        dailyMinutes:
+          Number(data.dailyMinutes) || 0
       };
 
     } catch (error) {
 
       return {
         completedLessons: [],
-        dailyMinutes: 0,
-        lastLesson: 0
+        lastLesson: 0,
+        dailyMinutes: 0
       };
 
     }
+
   }
 
-  let progress = loadProgress();
+  let progress = getProgress();
 
   function saveProgress() {
 
@@ -567,37 +471,38 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function isCompleted(id) {
+
     return progress.completedLessons.includes(id);
+
   }
 
   function completedCount() {
+
     return progress.completedLessons.length;
+
   }
 
-  function progressPercent() {
-
-    if (!lessons.length) return 0;
+  function getPercent() {
 
     return Math.round(
       (completedCount() / lessons.length) * 100
     );
+
   }
 
-  /* =========================================================
-     SAVE LESSON DATA
-     ========================================================= */
+  /* Save lesson database locally */
 
   try {
+
     localStorage.setItem(
       LESSONS_KEY,
       JSON.stringify(lessons)
     );
-  } catch (error) {
-    console.warn("Lesson storage unavailable.");
-  }
+
+  } catch (error) {}
 
   /* =========================================================
-     PAGE NAVIGATION
+     PAGE TITLES
      ========================================================= */
 
   const pageTitles = {
@@ -654,74 +559,88 @@ document.addEventListener("DOMContentLoaded", function () {
 
   };
 
+  /* =========================================================
+     NAVIGATION
+     ========================================================= */
+
   function showPage(pageName) {
 
-    const pages = $$(".page");
+    $$(".page").forEach(page => {
 
-    pages.forEach(page => {
+      const id =
+        page.id
+          .replace(/^page-/, "");
 
-      const id = page.id;
-
-      if (
-        id === pageName ||
-        id === "page-" + pageName
-      ) {
-        page.classList.add("active");
-      } else {
-        page.classList.remove("active");
-      }
-
-    });
-
-    const navItems = $$("[data-page]");
-
-    navItems.forEach(item => {
-
-      const target = item.dataset.page;
-
-      item.classList.toggle(
+      page.classList.toggle(
         "active",
-        target === pageName
+        id === pageName
       );
 
     });
 
-    const title = pageTitles[pageName];
+    $$("[data-page]").forEach(item => {
 
-    const pageTitle =
-      $("#pageTitle") ||
-      $(".page-title");
+      item.classList.toggle(
+        "active",
+        item.dataset.page === pageName
+      );
 
-    const pageSubtitle =
-      $("#pageSubtitle") ||
-      $(".page-subtitle");
+    });
+
+    const title =
+      pageTitles[pageName];
 
     if (title) {
 
+      const pageTitle =
+        $("#pageTitle") ||
+        $(".page-title");
+
+      const pageSubtitle =
+        $("#pageSubtitle") ||
+        $(".page-subtitle");
+
       if (pageTitle) {
-        pageTitle.textContent = title[0];
+        pageTitle.textContent =
+          title[0];
       }
 
       if (pageSubtitle) {
-        pageSubtitle.textContent = title[1];
+        pageSubtitle.textContent =
+          title[1];
       }
 
     }
 
     if (pageName === "lessons") {
-      renderLessonList();
+
+      buildLessonInterface();
+
     }
 
     if (pageName === "progress") {
+
       updateProgressPage();
+
     }
 
     if (pageName === "dashboard") {
+
       updateDashboard();
+
     }
 
     if (pageName === "courses") {
+
       updateCourseProgress();
+
+    }
+
+    const sidebar =
+      $(".sidebar");
+
+    if (sidebar) {
+      sidebar.classList.remove("open");
     }
 
     window.scrollTo({
@@ -733,24 +652,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
   $$("[data-page]").forEach(item => {
 
-    item.addEventListener("click", function (event) {
+    item.addEventListener(
+      "click",
+      function (event) {
 
-      event.preventDefault();
+        event.preventDefault();
 
-      const page = this.dataset.page;
+        showPage(
+          this.dataset.page
+        );
 
-      if (page) {
-        showPage(page);
       }
-
-      const sidebar =
-        $(".sidebar");
-
-      if (sidebar) {
-        sidebar.classList.remove("open");
-      }
-
-    });
+    );
 
   });
 
@@ -772,7 +685,11 @@ document.addEventListener("DOMContentLoaded", function () {
           $(".sidebar");
 
         if (sidebar) {
-          sidebar.classList.toggle("open");
+
+          sidebar.classList.toggle(
+            "open"
+          );
+
         }
 
       }
@@ -781,303 +698,856 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   /* =========================================================
-     LESSON LIST
+     LESSON CONTENT
      ========================================================= */
 
-  function renderLessonList(filter = "all") {
+  function getLessonBody(lesson) {
 
-    const containers = [
-      $("#lessonList"),
-      $("#progressLessonList"),
-      $(".lesson-list")
-    ].filter(Boolean);
+    return `
 
-    if (!containers.length) return;
+      <div class="lesson-content">
 
-    let filteredLessons = lessons;
+        <div class="lesson-intro">
 
-    if (
-      filter &&
-      filter !== "all"
-    ) {
-
-      filteredLessons =
-        lessons.filter(
-          lesson =>
-            lesson.category === filter
-        );
-
-    }
-
-    const html = filteredLessons
-      .map(lesson => {
-
-        const done =
-          isCompleted(lesson.id);
-
-        return `
-          <div
-            class="lesson-item ${done ? "completed" : ""}"
-            data-lesson-id="${lesson.id}"
-            style="
-              cursor:pointer;
-              padding:16px;
-              margin-bottom:10px;
-              border:1px solid #e2e8f0;
-              border-radius:12px;
-              background:#fff;
-            "
-          >
-
-            <div
-              style="
-                display:flex;
-                align-items:center;
-                gap:12px;
-              "
-            >
-
-              <div
-                style="
-                  min-width:42px;
-                  width:42px;
-                  height:42px;
-                  border-radius:50%;
-                  display:flex;
-                  align-items:center;
-                  justify-content:center;
-                  background:${done ? "#16a34a" : "#2563eb"};
-                  color:#fff;
-                  font-weight:bold;
-                "
-              >
-                ${done ? "✓" : lesson.id}
-              </div>
-
-              <div style="flex:1;">
-
-                <div
-                  style="
-                    font-size:12px;
-                    color:#64748b;
-                    margin-bottom:4px;
-                  "
-                >
-                  ${escapeHTML(lesson.category)}
-                </div>
-
-                <div
-                  style="
-                    font-weight:700;
-                    color:#0f172a;
-                  "
-                >
-                  ${escapeHTML(lesson.title)}
-                </div>
-
-              </div>
-
-              <div
-                style="
-                  color:#64748b;
-                  font-size:20px;
-                "
-              >
-                →
-              </div>
-
-            </div>
-
+          <div style="
+            font-size:12px;
+            color:#2563eb;
+            font-weight:700;
+            margin-bottom:8px;
+          ">
+            ${escapeHTML(lesson.category)}
           </div>
-        `;
 
-      })
-      .join("");
+          <h3>
+            ${escapeHTML(lesson.title)}
+          </h3>
 
-    containers.forEach(container => {
+          <p>
+            ဒီ Lesson မှာ
+            <strong>${escapeHTML(lesson.title)}</strong>
+            ကို Business Management နဲ့
+            လက်တွေ့လုပ်ငန်းခွင်မှာ အသုံးချနိုင်အောင်
+            လေ့လာသွားမှာ ဖြစ်ပါတယ်။
+          </p>
 
-      container.innerHTML = html;
+        </div>
 
-      $$(".lesson-item", container)
-        .forEach(item => {
+        <div class="lesson-section">
 
-          item.addEventListener(
-            "click",
-            function () {
+          <h4>🎯 ဒီ Lesson ရဲ့ ရည်ရွယ်ချက်</h4>
 
-              const id =
-                Number(
-                  this.dataset.lessonId
-                );
+          <p>
+            ဒီအကြောင်းအရာကို နားလည်ပြီး
+            ကိုယ့်လုပ်ငန်း၊ Sales Team၊ Customer
+            နဲ့ Business Result တွေမှာ
+            လက်တွေ့အသုံးချနိုင်ရန် ဖြစ်ပါတယ်။
+          </p>
 
-              openLesson(id);
+        </div>
 
-            }
-          );
+        <div class="lesson-section">
 
-        });
+          <h4>📚 အဓိကအချက်များ</h4>
 
-    });
+          <ul>
+
+            <li>
+              ${escapeHTML(lesson.title)}
+              ရဲ့ အဓိပ္ပါယ်ကို နားလည်ပါ။
+            </li>
+
+            <li>
+              လုပ်ငန်းခွင်မှာ ဘယ်လိုအသုံးချရမလဲ
+              လေ့လာပါ။
+            </li>
+
+            <li>
+              Customer နဲ့ Team အပေါ်
+              သက်ရောက်မှုကို စဉ်းစားပါ။
+            </li>
+
+            <li>
+              Data နဲ့ အခြေအနေမှန်ကို
+              အခြေခံပြီး ဆုံးဖြတ်ပါ။
+            </li>
+
+            <li>
+              Knowledge ကို Action Plan အဖြစ်
+              ပြောင်းလဲပါ။
+            </li>
+
+          </ul>
+
+        </div>
+
+        <div class="lesson-section">
+
+          <h4>💡 Manager အတွက် အရေးကြီးသောအချက်</h4>
+
+          <p>
+            Business Manager တစ်ယောက်အတွက်
+            Knowledge သိထားရုံနဲ့ မလုံလောက်ပါဘူး။
+            သိထားတာကို Team Management၊
+            Customer Management၊ Sales Execution
+            နဲ့ Business Result တွေထဲမှာ
+            အသုံးချနိုင်ရပါမယ်။
+          </p>
+
+        </div>
+
+        <div class="lesson-section">
+
+          <h4>🧠 လက်တွေ့စဉ်းစားရန်</h4>
+
+          <p>
+            ကိုယ့်လုပ်ငန်းမှာ လက်ရှိကြုံတွေ့နေရတဲ့
+            ပြဿနာတစ်ခုကို ရွေးပါ။
+            ဒီ Lesson က သင်ခန်းစာကို အသုံးချပြီး
+            ဘယ်လိုဖြေရှင်းမလဲ စဉ်းစားပါ။
+          </p>
+
+        </div>
+
+        <div class="lesson-section">
+
+          <h4>📝 Action Plan</h4>
+
+          <ol>
+
+            <li>လက်ရှိအခြေအနေကို သတ်မှတ်ပါ။</li>
+
+            <li>အဓိကပြဿနာကို ရှာပါ။</li>
+
+            <li>ဖြေရှင်းနိုင်မယ့် နည်းလမ်း ၃ ခုရေးပါ။</li>
+
+            <li>အကောင်းဆုံးနည်းလမ်းကို ရွေးပါ။</li>
+
+            <li>ဘယ်သူက ဘာလုပ်မလဲ သတ်မှတ်ပါ။</li>
+
+            <li>Deadline သတ်မှတ်ပါ။</li>
+
+            <li>Result ကို တိုင်းတာပါ။</li>
+
+          </ol>
+
+        </div>
+
+        <div class="lesson-action">
+
+          <h4>🚀 Manager Action</h4>
+
+          <p>
+            ဒီနေ့ကစပြီး
+            <strong>${escapeHTML(lesson.title)}</strong>
+            နဲ့ပတ်သက်တဲ့ Action တစ်ခုကို
+            လက်တွေ့စတင်လုပ်ဆောင်ပါ။
+          </p>
+
+        </div>
+
+        <div class="lesson-summary">
+
+          <h4>✅ Lesson Summary</h4>
+
+          <p>
+            Business Management မှာ
+            <strong>Plan → Execute → Measure → Improve</strong>
+            ဆိုတဲ့ Cycle ကို အသုံးပြုပြီး
+            အမြဲတမ်း တိုးတက်အောင်လုပ်ဆောင်ပါ။
+          </p>
+
+        </div>
+
+      </div>
+
+    `;
 
   }
 
   /* =========================================================
-     LESSON FILTER
+     LESSON INTERFACE
      ========================================================= */
 
-  function createLessonFilter() {
+  let lessonFilter =
+    "all";
 
-    const lessonPage =
+  let lessonSearch =
+    "";
+
+  function buildLessonInterface() {
+
+    const page =
       $("#lessons") ||
       $("#page-lessons");
 
-    if (!lessonPage) return;
+    if (!page) return;
 
-    if (
-      lessonPage.querySelector(
-        ".lesson-filter"
-      )
-    ) {
-      return;
+    let list =
+      $("#lessonList");
+
+    if (!list) {
+
+      list =
+        page.querySelector(
+          ".lesson-list"
+        );
+
     }
-
-    const list =
-      $("#lessonList") ||
-      lessonPage.querySelector(
-        ".lesson-list"
-      );
 
     if (!list) return;
 
-    const wrapper =
-      document.createElement("div");
+    /* Header */
 
-    wrapper.className =
-      "lesson-filter";
+    let header =
+      page.querySelector(
+        ".academy-lesson-header"
+      );
 
-    wrapper.style.cssText = `
-      margin-bottom:20px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    `;
+    if (!header) {
 
-    const select =
-      document.createElement("select");
-
-    select.style.cssText = `
-      padding:12px;
-      border:1px solid #cbd5e1;
-      border-radius:10px;
-      background:#fff;
-      min-width:220px;
-      cursor:pointer;
-    `;
-
-    select.innerHTML =
-      `<option value="all">📚 Lesson အားလုံး — 230</option>` +
-      modules
-        .map(
-          module =>
-            `<option value="${escapeHTML(module.category)}">
-              ${escapeHTML(module.category)}
-            </option>`
-        )
-        .join("");
-
-    select.addEventListener(
-      "change",
-      function () {
-        renderLessonList(
-          this.value
+      header =
+        document.createElement(
+          "div"
         );
+
+      header.className =
+        "academy-lesson-header";
+
+      header.innerHTML = `
+
+        <div style="
+          background:linear-gradient(
+            135deg,
+            #1d4ed8,
+            #2563eb
+          );
+          color:#fff;
+          border-radius:18px;
+          padding:24px;
+          margin-bottom:18px;
+        ">
+
+          <div style="
+            font-size:12px;
+            opacity:.85;
+            margin-bottom:6px;
+          ">
+            AUNG BUSINESS ACADEMY
+          </div>
+
+          <h2 style="
+            font-size:26px;
+            margin-bottom:5px;
+          ">
+            📚 Business Lessons
+          </h2>
+
+          <p style="
+            opacity:.85;
+            margin:0;
+          ">
+            Business Management ကို
+            အဆင့်လိုက်လေ့လာနိုင်မယ့်
+            Lesson 230 ခု
+          </p>
+
+        </div>
+
+      `;
+
+      list.parentNode.insertBefore(
+        header,
+        list
+      );
+
+    }
+
+    /* Controls */
+
+    let controls =
+      page.querySelector(
+        ".academy-lesson-controls"
+      );
+
+    if (!controls) {
+
+      controls =
+        document.createElement(
+          "div"
+        );
+
+      controls.className =
+        "academy-lesson-controls";
+
+      controls.style.cssText = `
+        background:#fff;
+        border:1px solid #e2e8f0;
+        border-radius:16px;
+        padding:15px;
+        margin-bottom:18px;
+        display:flex;
+        gap:10px;
+        flex-wrap:wrap;
+      `;
+
+      controls.innerHTML = `
+
+        <input
+          id="academyLessonSearch"
+          type="text"
+          placeholder="🔎 Lesson ရှာရန်..."
+          style="
+            flex:1;
+            min-width:220px;
+            height:44px;
+            padding:0 13px;
+            border:1px solid #cbd5e1;
+            border-radius:10px;
+            outline:none;
+          "
+        >
+
+        <select
+          id="academyLessonCategory"
+          style="
+            min-width:220px;
+            height:44px;
+            padding:0 12px;
+            border:1px solid #cbd5e1;
+            border-radius:10px;
+            background:#fff;
+            outline:none;
+          "
+        >
+
+          <option value="all">
+            📚 Category အားလုံး — 230 Lessons
+          </option>
+
+          ${modules.map(
+            module => `
+              <option value="${escapeHTML(module.category)}">
+                ${escapeHTML(module.category)}
+              </option>
+            `
+          ).join("")}
+
+        </select>
+
+      `;
+
+      list.parentNode.insertBefore(
+        controls,
+        list
+      );
+
+      const search =
+        $("#academyLessonSearch");
+
+      const category =
+        $("#academyLessonCategory");
+
+      if (search) {
+
+        search.value =
+          lessonSearch;
+
+        search.addEventListener(
+          "input",
+          function () {
+
+            lessonSearch =
+              this.value
+                .toLowerCase()
+                .trim();
+
+            renderLessonList();
+
+          }
+        );
+
       }
-    );
 
-    wrapper.appendChild(select);
+      if (category) {
 
-    list.parentNode.insertBefore(
-      wrapper,
-      list
-    );
+        category.value =
+          lessonFilter;
+
+        category.addEventListener(
+          "change",
+          function () {
+
+            lessonFilter =
+              this.value;
+
+            renderLessonList();
+
+          }
+        );
+
+      }
+
+    }
+
+    /* Continue Learning */
+
+    let continueBox =
+      page.querySelector(
+        ".academy-continue-box"
+      );
+
+    if (!continueBox) {
+
+      continueBox =
+        document.createElement(
+          "div"
+        );
+
+      continueBox.className =
+        "academy-continue-box";
+
+      continueBox.style.cssText = `
+        background:#fff;
+        border:1px solid #e2e8f0;
+        border-radius:16px;
+        padding:16px;
+        margin-bottom:18px;
+      `;
+
+      list.parentNode.insertBefore(
+        continueBox,
+        list
+      );
+
+    }
+
+    updateContinueBox();
+
+    renderLessonList();
 
   }
 
   /* =========================================================
-     LESSON MODAL
+     CONTINUE LEARNING
      ========================================================= */
 
-  function getModal() {
+  function updateContinueBox() {
+
+    const box =
+      $(".academy-continue-box");
+
+    if (!box) return;
+
+    let nextLesson;
+
+    if (progress.lastLesson > 0) {
+
+      nextLesson =
+        lessons.find(
+          lesson =>
+            lesson.id >
+            progress.lastLesson &&
+            !isCompleted(lesson.id)
+        );
+
+    }
+
+    if (!nextLesson) {
+
+      nextLesson =
+        lessons.find(
+          lesson =>
+            !isCompleted(
+              lesson.id
+            )
+        );
+
+    }
+
+    if (!nextLesson) {
+
+      box.innerHTML = `
+
+        <div style="
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          gap:15px;
+          flex-wrap:wrap;
+        ">
+
+          <div>
+            <strong>🎉 Congratulations!</strong>
+
+            <div style="
+              color:#64748b;
+              font-size:13px;
+              margin-top:3px;
+            ">
+              Lesson 230 ခုလုံး ပြီးဆုံးပါပြီ။
+            </div>
+          </div>
+
+          <span style="
+            background:#dcfce7;
+            color:#166534;
+            padding:8px 12px;
+            border-radius:20px;
+            font-weight:700;
+          ">
+            100% Complete
+          </span>
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+    box.innerHTML = `
+
+      <div style="
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:15px;
+        flex-wrap:wrap;
+      ">
+
+        <div>
+
+          <div style="
+            color:#2563eb;
+            font-size:12px;
+            font-weight:700;
+            margin-bottom:3px;
+          ">
+            CONTINUE LEARNING
+          </div>
+
+          <strong>
+            Lesson ${nextLesson.id} —
+            ${escapeHTML(nextLesson.title)}
+          </strong>
+
+          <div style="
+            color:#64748b;
+            font-size:12px;
+            margin-top:3px;
+          ">
+            ${escapeHTML(nextLesson.category)}
+          </div>
+
+        </div>
+
+        <button
+          id="continueLessonBtn"
+          type="button"
+          style="
+            border:0;
+            background:#2563eb;
+            color:#fff;
+            padding:11px 17px;
+            border-radius:10px;
+            font-weight:700;
+          "
+        >
+          ▶ Continue
+        </button>
+
+      </div>
+
+    `;
+
+    const button =
+      $("#continueLessonBtn");
+
+    if (button) {
+
+      button.onclick =
+        () => openLesson(
+          nextLesson.id
+        );
+
+    }
+
+  }
+
+  /* =========================================================
+     LESSON LIST
+     ========================================================= */
+
+  function renderLessonList() {
+
+    const list =
+      $("#lessonList") ||
+      $(".lesson-list");
+
+    if (!list) return;
+
+    let filtered =
+      lessons.filter(
+        lesson => {
+
+          const categoryMatch =
+            lessonFilter === "all" ||
+            lesson.category === lessonFilter;
+
+          const searchMatch =
+            !lessonSearch ||
+            (
+              lesson.title
+                .toLowerCase()
+                .includes(lessonSearch)
+            ) ||
+            (
+              lesson.category
+                .toLowerCase()
+                .includes(lessonSearch)
+            ) ||
+            String(lesson.id)
+              .includes(lessonSearch);
+
+          return (
+            categoryMatch &&
+            searchMatch
+          );
+
+        }
+      );
+
+    if (!filtered.length) {
+
+      list.innerHTML = `
+
+        <div class="empty-state">
+
+          <div style="
+            font-size:35px;
+            margin-bottom:10px;
+          ">
+            🔎
+          </div>
+
+          <strong>
+            Lesson မတွေ့ပါ
+          </strong>
+
+          <p style="margin-top:5px;">
+            Search စာလုံး သို့မဟုတ် Category
+            ကို ပြန်စစ်ကြည့်ပါ။
+          </p>
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+    list.innerHTML =
+      filtered
+        .map(
+          lesson => {
+
+            const completed =
+              isCompleted(
+                lesson.id
+              );
+
+            return `
+
+              <div
+                class="academy-lesson-card lesson-item ${
+                  completed
+                    ? "completed"
+                    : ""
+                }"
+                data-lesson-id="${lesson.id}"
+                style="
+                  cursor:pointer;
+                  background:#fff;
+                  border:1px solid ${
+                    completed
+                      ? "#bbf7d0"
+                      : "#e2e8f0"
+                  };
+                  border-radius:14px;
+                  padding:15px;
+                  margin-bottom:10px;
+                  transition:.2s;
+                "
+              >
+
+                <div style="
+                  display:flex;
+                  align-items:center;
+                  gap:13px;
+                ">
+
+                  <div style="
+                    width:45px;
+                    height:45px;
+                    min-width:45px;
+                    border-radius:12px;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    background:${
+                      completed
+                        ? "#16a34a"
+                        : "#eff6ff"
+                    };
+                    color:${
+                      completed
+                        ? "#fff"
+                        : "#2563eb"
+                    };
+                    font-weight:800;
+                  ">
+                    ${
+                      completed
+                        ? "✓"
+                        : lesson.id
+                    }
+                  </div>
+
+                  <div style="
+                    flex:1;
+                    min-width:0;
+                  ">
+
+                    <div style="
+                      font-size:11px;
+                      color:#64748b;
+                      margin-bottom:3px;
+                    ">
+                      ${escapeHTML(
+                        lesson.category
+                      )}
+                    </div>
+
+                    <div style="
+                      font-weight:700;
+                      color:#0f172a;
+                    ">
+                      ${escapeHTML(
+                        lesson.title
+                      )}
+                    </div>
+
+                  </div>
+
+                  <div style="
+                    color:#94a3b8;
+                    font-size:20px;
+                  ">
+                    →
+                  </div>
+
+                </div>
+
+              </div>
+
+            `;
+
+          }
+        )
+        .join("");
+
+    $$(".academy-lesson-card", list)
+      .forEach(card => {
+
+        card.addEventListener(
+          "click",
+          function () {
+
+            openLesson(
+              Number(
+                this.dataset.lessonId
+              )
+            );
+
+          }
+        );
+
+      });
+
+  }
+
+  /* =========================================================
+     MODAL
+     ========================================================= */
+
+  function createModal() {
 
     let modal =
-      $("#lessonModal");
+      $("#academyLessonModal");
 
     if (modal) return modal;
 
     modal =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     modal.id =
-      "lessonModal";
+      "academyLessonModal";
 
     modal.style.cssText = `
       position:fixed;
       inset:0;
-      background:rgba(15,23,42,.65);
+      z-index:99999;
+      background:rgba(15,23,42,.68);
       display:none;
       align-items:center;
       justify-content:center;
-      z-index:9999;
-      padding:20px;
+      padding:15px;
     `;
 
     modal.innerHTML = `
 
-      <div
-        style="
-          width:100%;
-          max-width:850px;
-          max-height:90vh;
-          overflow:auto;
-          background:#fff;
-          border-radius:18px;
-          box-shadow:0 20px 60px rgba(0,0,0,.25);
-        "
-      >
+      <div style="
+        width:100%;
+        max-width:900px;
+        max-height:92vh;
+        background:#fff;
+        border-radius:18px;
+        overflow:hidden;
+        display:flex;
+        flex-direction:column;
+        box-shadow:0 25px 70px rgba(0,0,0,.3);
+      ">
 
-        <div
-          style="
-            position:sticky;
-            top:0;
-            background:#fff;
-            border-bottom:1px solid #e2e8f0;
-            padding:18px 22px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            z-index:2;
-          "
-        >
+        <div style="
+          padding:18px 20px;
+          border-bottom:1px solid #e2e8f0;
+          display:flex;
+          align-items:center;
+          gap:15px;
+        ">
 
-          <div>
+          <div style="flex:1;">
 
             <div
-              id="modalLessonNumber"
+              id="academyModalNumber"
               style="
                 color:#2563eb;
-                font-size:13px;
-                font-weight:bold;
-                margin-bottom:4px;
+                font-size:12px;
+                font-weight:700;
               "
             >
               Lesson
             </div>
 
             <h2
-              id="modalLessonTitle"
+              id="academyModalTitle"
               style="
-                margin:0;
-                font-size:22px;
+                font-size:20px;
+                margin:3px 0 0;
               "
             >
               Lesson
@@ -1086,16 +1556,16 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
 
           <button
-            id="modalClose"
+            id="academyModalClose"
             type="button"
             style="
-              border:0;
-              background:#f1f5f9;
               width:40px;
               height:40px;
+              border:0;
               border-radius:50%;
-              font-size:22px;
-              cursor:pointer;
+              background:#f1f5f9;
+              font-size:23px;
+              color:#334155;
             "
           >
             ×
@@ -1104,40 +1574,74 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
 
         <div
-          id="modalLessonBody"
+          id="academyModalBody"
           style="
-            padding:25px;
-            line-height:1.8;
+            padding:22px;
+            overflow-y:auto;
+            flex:1;
           "
         ></div>
 
-        <div
-          style="
-            position:sticky;
-            bottom:0;
-            background:#fff;
-            border-top:1px solid #e2e8f0;
-            padding:18px 22px;
+        <div style="
+          padding:14px 18px;
+          border-top:1px solid #e2e8f0;
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          gap:10px;
+          flex-wrap:wrap;
+        ">
+
+          <div style="
             display:flex;
-            gap:10px;
-            justify-content:flex-end;
-          "
-        >
+            gap:7px;
+          ">
+
+            <button
+              id="academyPrevLesson"
+              type="button"
+              style="
+                border:1px solid #cbd5e1;
+                background:#fff;
+                color:#334155;
+                padding:10px 13px;
+                border-radius:9px;
+                font-weight:700;
+              "
+            >
+              ← Previous
+            </button>
+
+            <button
+              id="academyNextLesson"
+              type="button"
+              style="
+                border:1px solid #cbd5e1;
+                background:#fff;
+                color:#334155;
+                padding:10px 13px;
+                border-radius:9px;
+                font-weight:700;
+              "
+            >
+              Next →
+            </button>
+
+          </div>
 
           <button
-            id="completeLessonBtn"
+            id="academyCompleteLesson"
             type="button"
             style="
               border:0;
-              background:#16a34a;
+              background:#2563eb;
               color:#fff;
-              padding:12px 20px;
-              border-radius:10px;
-              cursor:pointer;
-              font-weight:bold;
+              padding:11px 18px;
+              border-radius:9px;
+              font-weight:700;
             "
           >
-            ✓ Lesson Complete
+            ✓ Mark Complete
           </button>
 
         </div>
@@ -1146,29 +1650,90 @@ document.addEventListener("DOMContentLoaded", function () {
 
     `;
 
-    document.body.appendChild(modal);
-
-    $("#modalClose").addEventListener(
-      "click",
-      closeLesson
+    document.body.appendChild(
+      modal
     );
+
+    $("#academyModalClose")
+      .addEventListener(
+        "click",
+        closeLesson
+      );
 
     modal.addEventListener(
       "click",
       function (event) {
 
-        if (event.target === modal) {
+        if (
+          event.target === modal
+        ) {
+
           closeLesson();
+
         }
 
       }
     );
 
+    $("#academyPrevLesson")
+      .addEventListener(
+        "click",
+        function () {
+
+          if (!currentLessonId)
+            return;
+
+          if (
+            currentLessonId > 1
+          ) {
+
+            openLesson(
+              currentLessonId - 1
+            );
+
+          }
+
+        }
+      );
+
+    $("#academyNextLesson")
+      .addEventListener(
+        "click",
+        function () {
+
+          if (!currentLessonId)
+            return;
+
+          if (
+            currentLessonId <
+            lessons.length
+          ) {
+
+            openLesson(
+              currentLessonId + 1
+            );
+
+          }
+
+        }
+      );
+
+    $("#academyCompleteLesson")
+      .addEventListener(
+        "click",
+        function () {
+
+          completeCurrentLesson();
+
+        }
+      );
+
     return modal;
 
   }
 
-  let currentLessonId = null;
+  let currentLessonId =
+    null;
 
   function openLesson(id) {
 
@@ -1179,57 +1744,69 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!lesson) return;
 
-    currentLessonId = id;
+    currentLessonId =
+      id;
+
+    progress.lastLesson =
+      id;
+
+    saveProgress();
 
     const modal =
-      getModal();
+      createModal();
 
-    const number =
-      $("#modalLessonNumber");
+    $("#academyModalNumber")
+      .textContent =
+      `Lesson ${lesson.id} / ${lessons.length} • ${lesson.category}`;
 
-    const title =
-      $("#modalLessonTitle");
+    $("#academyModalTitle")
+      .textContent =
+      lesson.title;
 
-    const body =
-      $("#modalLessonBody");
+    $("#academyModalBody")
+      .innerHTML =
+      getLessonBody(
+        lesson
+      );
 
-    const completeBtn =
-      $("#completeLessonBtn");
+    const prev =
+      $("#academyPrevLesson");
 
-    if (number) {
-      number.textContent =
-        `Lesson ${lesson.id} / ${lessons.length} • ${lesson.category}`;
-    }
+    const next =
+      $("#academyNextLesson");
 
-    if (title) {
-      title.textContent =
-        lesson.title;
-    }
+    const complete =
+      $("#academyCompleteLesson");
 
-    if (body) {
-      body.innerHTML =
-        lesson.body;
-    }
+    prev.disabled =
+      id <= 1;
 
-    if (completeBtn) {
+    next.disabled =
+      id >= lessons.length;
 
-      if (isCompleted(id)) {
+    prev.style.opacity =
+      id <= 1 ? ".45" : "1";
 
-        completeBtn.textContent =
-          "✓ Completed";
+    next.style.opacity =
+      id >= lessons.length ? ".45" : "1";
 
-        completeBtn.style.background =
-          "#16a34a";
+    if (
+      isCompleted(id)
+    ) {
 
-      } else {
+      complete.textContent =
+        "✓ Completed";
 
-        completeBtn.textContent =
-          "✓ Lesson Complete";
+      complete.style.background =
+        "#16a34a";
 
-        completeBtn.style.background =
-          "#2563eb";
+    } else {
 
-      }
+      complete.textContent =
+        "✓ Mark Complete";
+
+      complete.style.background =
+        "#2563eb";
 
     }
 
@@ -1244,171 +1821,204 @@ document.addEventListener("DOMContentLoaded", function () {
   function closeLesson() {
 
     const modal =
-      $("#lessonModal");
+      $("#academyLessonModal");
 
     if (modal) {
+
       modal.style.display =
         "none";
+
     }
 
     document.body.style.overflow =
       "";
 
-    currentLessonId = null;
+  }
+
+  /* =========================================================
+     COMPLETE
+     ========================================================= */
+
+  function completeCurrentLesson() {
+
+    if (!currentLessonId)
+      return;
+
+    if (
+      !isCompleted(
+        currentLessonId
+      )
+    ) {
+
+      progress.completedLessons.push(
+        currentLessonId
+      );
+
+      progress.completedLessons =
+        [...new Set(
+          progress.completedLessons
+        )];
+
+      saveProgress();
+
+    }
+
+    const button =
+      $("#academyCompleteLesson");
+
+    if (button) {
+
+      button.textContent =
+        "✓ Completed";
+
+      button.style.background =
+        "#16a34a";
+
+    }
+
+    renderLessonList();
+
+    updateContinueBox();
+
+    updateDashboard();
+
+    updateProgressPage();
+
+    updateCourseProgress();
 
   }
 
   /* =========================================================
-     COMPLETE LESSON
-     ========================================================= */
-
-  document.addEventListener(
-    "click",
-    function (event) {
-
-      if (
-        event.target &&
-        event.target.id ===
-        "completeLessonBtn"
-      ) {
-
-        if (!currentLessonId) {
-          return;
-        }
-
-        if (
-          !isCompleted(
-            currentLessonId
-          )
-        ) {
-
-          progress.completedLessons.push(
-            currentLessonId
-          );
-
-          progress.completedLessons =
-            [...new Set(
-              progress.completedLessons
-            )];
-
-          progress.lastLesson =
-            currentLessonId;
-
-          saveProgress();
-
-        }
-
-        event.target.textContent =
-          "✓ Completed";
-
-        event.target.style.background =
-          "#16a34a";
-
-        renderLessonList();
-
-        updateDashboard();
-
-        updateProgressPage();
-
-        updateCourseProgress();
-
-      }
-
-    }
-  );
-
-  /* =========================================================
-     DASHBOARD UPDATE
+     DASHBOARD
      ========================================================= */
 
   function updateDashboard() {
 
     const percent =
-      progressPercent();
+      getPercent();
 
-    const selectors = [
-      "#lessonTotal",
-      "#totalLessons",
-      ".lesson-total"
-    ];
+    const completed =
+      completedCount();
 
-    selectors.forEach(selector => {
+    const remaining =
+      lessons.length -
+      completed;
 
-      $$(selector).forEach(el => {
+    const selectors = {
 
-        el.textContent =
-          lessons.length;
+      total: [
+        "#lessonTotal",
+        "#totalLessons",
+        ".lesson-total"
+      ],
 
-      });
+      completed: [
+        "#completedLessons",
+        "#progressCompleted",
+        ".completed-lessons-value"
+      ],
 
-    });
+      remaining: [
+        "#remainingLessons",
+        "#progressRemaining",
+        ".remaining-lessons-value"
+      ],
 
-    [
-      "#completedLessons",
-      "#progressCompleted",
-      ".completed-lessons-value"
-    ].forEach(selector => {
+      percent: [
+        "#lessonProgress",
+        "#bigProgress",
+        ".overall-progress-value",
+        ".progress-percent"
+      ]
 
-      $$(selector).forEach(el => {
+    };
 
-        el.textContent =
-          completedCount();
+    selectors.total.forEach(
+      selector => {
 
-      });
+        $$(selector).forEach(
+          el => {
 
-    });
+            el.textContent =
+              lessons.length;
 
-    [
-      "#lessonProgress",
-      "#bigProgress",
-      ".overall-progress-value",
-      ".progress-percent"
-    ].forEach(selector => {
+          }
+        );
 
-      $$(selector).forEach(el => {
-
-        el.textContent =
-          percent + "%";
-
-      });
-
-    });
-
-    [
-      "#remainingLessons",
-      "#progressRemaining",
-      ".remaining-lessons-value"
-    ].forEach(selector => {
-
-      $$(selector).forEach(el => {
-
-        el.textContent =
-          lessons.length -
-          completedCount();
-
-      });
-
-    });
-
-    $$(".overall-progress-bar").forEach(
-      bar => {
-        bar.style.width =
-          percent + "%";
       }
     );
 
-    $$(".progress-bar").forEach(
-      bar => {
+    selectors.completed.forEach(
+      selector => {
 
-        if (
-          bar.dataset.progress !== undefined
-        ) {
+        $$(selector).forEach(
+          el => {
+
+            el.textContent =
+              completed;
+
+          }
+        );
+
+      }
+    );
+
+    selectors.remaining.forEach(
+      selector => {
+
+        $$(selector).forEach(
+          el => {
+
+            el.textContent =
+              remaining;
+
+          }
+        );
+
+      }
+    );
+
+    selectors.percent.forEach(
+      selector => {
+
+        $$(selector).forEach(
+          el => {
+
+            el.textContent =
+              percent + "%";
+
+          }
+        );
+
+      }
+    );
+
+    $$(".overall-progress-bar")
+      .forEach(
+        bar => {
+
           bar.style.width =
-            bar.dataset.progress + "%";
-        }
+            percent + "%";
 
-      }
-    );
+        }
+      );
+
+    $$(".progress-bar")
+      .forEach(
+        bar => {
+
+          if (
+            bar.dataset.progress
+          ) {
+
+            bar.style.width =
+              bar.dataset.progress +
+              "%";
+
+          }
+
+        }
+      );
 
   }
 
@@ -1419,38 +2029,44 @@ document.addEventListener("DOMContentLoaded", function () {
   function updateCourseProgress() {
 
     const percent =
-      progressPercent();
+      getPercent();
 
-    $$(".course-progress-bar").forEach(
-      bar => {
-        bar.style.width =
-          percent + "%";
-      }
-    );
+    $$(".course-progress-bar")
+      .forEach(
+        bar => {
 
-    $$(".course-progress-percent").forEach(
-      el => {
-        el.textContent =
-          percent + "%";
-      }
-    );
+          bar.style.width =
+            percent + "%";
 
-    const courseProgress =
+        }
+      );
+
+    $$(".course-progress-percent")
+      .forEach(
+        el => {
+
+          el.textContent =
+            percent + "%";
+
+        }
+      );
+
+    const bar =
       $("#courseProgress");
 
-    if (courseProgress) {
+    if (bar) {
 
-      courseProgress.style.width =
+      bar.style.width =
         percent + "%";
 
     }
 
-    const courseProgressText =
+    const text =
       $("#courseProgressText");
 
-    if (courseProgressText) {
+    if (text) {
 
-      courseProgressText.textContent =
+      text.textContent =
         percent + "%";
 
     }
@@ -1464,7 +2080,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function updateProgressPage() {
 
     const percent =
-      progressPercent();
+      getPercent();
 
     const completed =
       completedCount();
@@ -1473,73 +2089,51 @@ document.addEventListener("DOMContentLoaded", function () {
       lessons.length -
       completed;
 
-    [
-      "#bigProgress",
-      ".overall-progress-value"
-    ].forEach(selector => {
+    $(
+      "#bigProgress"
+    ) &&
+      ($("#bigProgress").textContent =
+        percent + "%");
 
-      $$(selector).forEach(el => {
+    $(
+      "#progressCompleted"
+    ) &&
+      ($("#progressCompleted").textContent =
+        completed);
 
-        el.textContent =
-          percent + "%";
+    $(
+      "#progressRemaining"
+    ) &&
+      ($("#progressRemaining").textContent =
+        remaining);
 
-      });
+    $$(".overall-progress-bar")
+      .forEach(
+        bar => {
 
-    });
+          bar.style.width =
+            percent + "%";
 
-    [
-      "#progressCompleted",
-      ".completed-lessons-value"
-    ].forEach(selector => {
-
-      $$(selector).forEach(el => {
-
-        el.textContent =
-          completed;
-
-      });
-
-    });
-
-    [
-      "#progressRemaining",
-      ".remaining-lessons-value"
-    ].forEach(selector => {
-
-      $$(selector).forEach(el => {
-
-        el.textContent =
-          remaining;
-
-      });
-
-    });
-
-    $$(".overall-progress-bar").forEach(
-      bar => {
-
-        bar.style.width =
-          percent + "%";
-
-      }
-    );
+        }
+      );
 
     const list =
       $("#progressLessonList");
 
-    if (list) {
+    if (!list) return;
 
-      const recent =
-        lessons.slice(
-          Math.max(
-            0,
-            lessons.length - 20
-          )
-        );
+    const recent =
+      lessons.slice(
+        Math.max(
+          0,
+          lessons.length - 20
+        )
+      );
 
-      list.innerHTML =
-        recent
-          .map(lesson => {
+    list.innerHTML =
+      recent
+        .map(
+          lesson => {
 
             const done =
               isCompleted(
@@ -1547,30 +2141,59 @@ document.addEventListener("DOMContentLoaded", function () {
               );
 
             return `
+
               <div
-                class="lesson-item"
+                class="progress-lesson-item"
                 data-lesson-id="${lesson.id}"
                 style="
-                  padding:12px;
-                  margin-bottom:8px;
+                  display:flex;
+                  align-items:center;
+                  gap:10px;
+                  padding:11px;
                   border-bottom:1px solid #e2e8f0;
                   cursor:pointer;
                 "
               >
-                <strong>
+
+                <span style="
+                  color:${
+                    done
+                      ? "#16a34a"
+                      : "#94a3b8"
+                  };
+                  font-weight:800;
+                ">
                   ${done ? "✓" : "○"}
-                  Lesson ${lesson.id}
-                </strong>
-                —
-                ${escapeHTML(lesson.title)}
+                </span>
+
+                <div style="flex:1;">
+
+                  <strong>
+                    Lesson ${lesson.id}
+                  </strong>
+
+                  <div style="
+                    color:#64748b;
+                    font-size:12px;
+                  ">
+                    ${escapeHTML(
+                      lesson.title
+                    )}
+                  </div>
+
+                </div>
+
               </div>
+
             `;
 
-          })
-          .join("");
+          }
+        )
+        .join("");
 
-      $$(".lesson-item", list)
-        .forEach(item => {
+    $$(".progress-lesson-item")
+      .forEach(
+        item => {
 
           item.addEventListener(
             "click",
@@ -1585,222 +2208,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
           );
 
-        });
-
-    }
-
-  }
-
-  /* =========================================================
-     PRICING CALCULATOR
-     ========================================================= */
-
-  function setupCalculator() {
-
-    const calculateButtons =
-      $$(
-        "#calculateBtn, .calculate-btn"
-      );
-
-    calculateButtons.forEach(
-      button => {
-
-        button.addEventListener(
-          "click",
-          function () {
-
-            const cost =
-              Number(
-                $("#costPrice")?.value ||
-                $("#cost")?.value ||
-                0
-              );
-
-            const margin =
-              Number(
-                $("#marginPercent")?.value ||
-                $("#margin")?.value ||
-                0
-              );
-
-            if (
-              cost <= 0 ||
-              margin < 0 ||
-              margin >= 100
-            ) {
-
-              alert(
-                "Cost Price နဲ့ Margin ကို မှန်ကန်စွာ ထည့်ပါ။"
-              );
-
-              return;
-
-            }
-
-            const price =
-              cost /
-              (1 - margin / 100);
-
-            const profit =
-              price - cost;
-
-            const result =
-              $("#calculatorResult") ||
-              $("#priceResult") ||
-              $(".calculator-result");
-
-            if (result) {
-
-              result.innerHTML = `
-                <div>
-                  <strong>Recommended Selling Price</strong>
-                  <div style="font-size:28px;margin-top:8px;">
-                    ${price.toLocaleString()} MMK
-                  </div>
-                  <div style="margin-top:8px;">
-                    Gross Profit:
-                    ${profit.toLocaleString()} MMK
-                  </div>
-                </div>
-              `;
-
-            }
-
-          }
-        );
-
-      }
-    );
-
-  }
-
-  /* =========================================================
-     REPORTS
-     ========================================================= */
-
-  function updateReports() {
-
-    const percent =
-      progressPercent();
-
-    const reportData = {
-
-      totalLessons:
-        lessons.length,
-
-      completed:
-        completedCount(),
-
-      remaining:
-        lessons.length -
-        completedCount(),
-
-      progress:
-        percent
-
-    };
-
-    window.aungAcademyReport =
-      reportData;
-
-  }
-
-  /* =========================================================
-     AI BUSINESS COACH DEMO
-     ========================================================= */
-
-  function setupAICoach() {
-
-    const buttons =
-      $$(
-        "#askCoachBtn, .coach-btn, .ai-coach-btn"
-      );
-
-    buttons.forEach(button => {
-
-      button.addEventListener(
-        "click",
-        function () {
-
-          const input =
-            $("#coachInput") ||
-            $("#aiCoachInput") ||
-            $(".coach-input");
-
-          const output =
-            $("#coachResponse") ||
-            $("#aiCoachResponse") ||
-            $(".coach-response");
-
-          const question =
-            input?.value?.trim();
-
-          if (!question) {
-
-            if (output) {
-
-              output.textContent =
-                "Business နဲ့ပတ်သက်တဲ့ မေးခွန်းတစ်ခု ရေးပေးပါ။";
-
-            }
-
-            return;
-
-          }
-
-          if (output) {
-
-            output.innerHTML = `
-              <strong>AI Business Coach</strong>
-              <p style="margin-top:10px;">
-                သင့်မေးခွန်း —
-                ${escapeHTML(question)}
-              </p>
-
-              <p>
-                အရင်ဆုံး Problem ကို တိတိကျကျ
-                သတ်မှတ်ပါ။ ပြီးရင် Data ကို စုဆောင်းပြီး
-                Solution ၃ ခုထက်မနည်း စဉ်းစားပါ။
-                အကောင်းဆုံး Solution ကို ရွေးပြီး
-                Action Plan၊ Owner နဲ့ Deadline သတ်မှတ်ကာ
-                Result ကို ပြန်တိုင်းတာပါ။
-              </p>
-            `;
-
-          }
-
         }
       );
-
-    });
-
-  }
-
-  /* =========================================================
-     AI TOOLS
-     ========================================================= */
-
-  function setupAITools() {
-
-    $$(".tool-card button, .secondary-btn")
-      .forEach(button => {
-
-        button.addEventListener(
-          "click",
-          function () {
-
-            const tool =
-              this.dataset.tool ||
-              this.textContent.trim();
-
-            alert(
-              `${tool}\n\nဒီ Business Tool ကို Academy ရဲ့ နောက် Version မှာ AI-powered အဖြစ် ဆက်လက်ချိတ်ဆက်နိုင်ပါတယ်။`
-            );
-
-          }
-        );
-
-      });
 
   }
 
@@ -1810,118 +2219,96 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function setupReset() {
 
-    const resetButtons =
-      $$(
-        "#resetProgress, .reset-progress"
-      );
+    $(
+      "#resetProgress"
+    ) &&
+      $("#resetProgress")
+        .addEventListener(
+          "click",
+          function () {
 
-    resetButtons.forEach(button => {
+            if (
+              !confirm(
+                "Lesson Progress အားလုံးကို Reset လုပ်မှာ သေချာပါသလား?"
+              )
+            ) {
+              return;
+            }
 
-      button.addEventListener(
-        "click",
-        function () {
+            progress = {
+              completedLessons: [],
+              lastLesson: 0,
+              dailyMinutes: 0
+            };
 
-          const confirmReset =
-            confirm(
-              "Lesson Progress အားလုံးကို Reset လုပ်မှာ သေချာပါသလား?"
+            saveProgress();
+
+            renderLessonList();
+
+            updateContinueBox();
+
+            updateDashboard();
+
+            updateProgressPage();
+
+            updateCourseProgress();
+
+            alert(
+              "Progress Reset ပြီးပါပြီ။"
             );
 
-          if (!confirmReset) {
-            return;
           }
-
-          progress = {
-            completedLessons: [],
-            dailyMinutes: 0,
-            lastLesson: 0
-          };
-
-          saveProgress();
-
-          renderLessonList();
-
-          updateDashboard();
-
-          updateProgressPage();
-
-          updateCourseProgress();
-
-          alert(
-            "Progress Reset ပြီးပါပြီ။"
-          );
-
-        }
-      );
-
-    });
+        );
 
   }
 
   /* =========================================================
-     SEARCH LESSON
-     ========================================================= */
-
-  function setupLessonSearch() {
-
-    const searchInputs =
-      $$(
-        "#lessonSearch, .lesson-search"
-      );
-
-    searchInputs.forEach(input => {
-
-      input.addEventListener(
-        "input",
-        function () {
-
-          const keyword =
-            this.value
-              .toLowerCase()
-              .trim();
-
-          const container =
-            $("#lessonList") ||
-            $(".lesson-list");
-
-          if (!container) {
-            return;
-          }
-
-          $$(".lesson-item", container)
-            .forEach(item => {
-
-              const text =
-                item.textContent
-                  .toLowerCase();
-
-              item.style.display =
-                !keyword ||
-                text.includes(keyword)
-                  ? ""
-                  : "none";
-
-            });
-
-        }
-      );
-
-    });
-
-  }
-
-  /* =========================================================
-     KEYBOARD ESC
+     KEYBOARD
      ========================================================= */
 
   document.addEventListener(
     "keydown",
     function (event) {
 
+      const modal =
+        $("#academyLessonModal");
+
       if (
         event.key === "Escape"
       ) {
 
         closeLesson();
+
+      }
+
+      if (
+        modal &&
+        modal.style.display === "flex" &&
+        currentLessonId
+      ) {
+
+        if (
+          event.key === "ArrowRight" &&
+          currentLessonId <
+            lessons.length
+        ) {
+
+          openLesson(
+            currentLessonId + 1
+          );
+
+        }
+
+        if (
+          event.key === "ArrowLeft" &&
+          currentLessonId > 1
+        ) {
+
+          openLesson(
+            currentLessonId - 1
+          );
+
+        }
 
       }
 
@@ -1934,17 +2321,39 @@ document.addEventListener("DOMContentLoaded", function () {
 
   window.AungBusinessAcademy = {
 
-    lessons,
+    lessons: lessons,
 
-    modules,
+    modules: modules,
 
-    progress,
+    openLesson: openLesson,
 
-    openLesson,
+    closeLesson: closeLesson,
 
-    closeLesson,
+    showPage: showPage,
 
-    showPage,
+    getProgress: function () {
+
+      return {
+
+        total:
+          lessons.length,
+
+        completed:
+          completedCount(),
+
+        remaining:
+          lessons.length -
+          completedCount(),
+
+        percent:
+          getPercent(),
+
+        lastLesson:
+          progress.lastLesson
+
+      };
+
+    },
 
     completeLesson: function (id) {
 
@@ -1966,36 +2375,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
         saveProgress();
 
+        renderLessonList();
+
+        updateContinueBox();
+
         updateDashboard();
 
         updateProgressPage();
 
         updateCourseProgress();
 
-        renderLessonList();
-
       }
-
-    },
-
-    getProgress: function () {
-
-      return {
-
-        total:
-          lessons.length,
-
-        completed:
-          completedCount(),
-
-        remaining:
-          lessons.length -
-          completedCount(),
-
-        percent:
-          progressPercent()
-
-      };
 
     }
 
@@ -2005,9 +2395,9 @@ document.addEventListener("DOMContentLoaded", function () {
      INITIALIZE
      ========================================================= */
 
-  createLessonFilter();
+  createModal();
 
-  renderLessonList();
+  buildLessonInterface();
 
   updateDashboard();
 
@@ -2015,17 +2405,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   updateCourseProgress();
 
-  updateReports();
-
-  setupCalculator();
-
-  setupAICoach();
-
-  setupAITools();
-
   setupReset();
-
-  setupLessonSearch();
 
   /* =========================================================
      DEFAULT PAGE
@@ -2034,28 +2414,30 @@ document.addEventListener("DOMContentLoaded", function () {
   const activePage =
     $(".page.active");
 
-  if (!activePage) {
-
-    showPage("dashboard");
-
-  } else {
+  if (activePage) {
 
     const pageName =
       activePage.id
         .replace(/^page-/, "");
 
     if (pageTitles[pageName]) {
-      showPage(pageName);
+
+      showPage(
+        pageName
+      );
+
     }
+
+  } else {
+
+    showPage(
+      "dashboard"
+    );
 
   }
 
   console.log(
-    "Aung Business Academy loaded successfully."
-  );
-
-  console.log(
-    `Total Lessons: ${lessons.length}`
+    "Aung Business Academy: 230 Lessons Loaded"
   );
 
 });

@@ -1,2331 +1,1091 @@
-/* ============================================================
-   AUNG BUSINESS ACADEMY
-   ACADEMY LONG LESSONS
-   ============================================================
-
-   PURPOSE
-   ------------------------------------------------------------
-   Upgrade existing 230 Business Lessons.
-
-   IMPORTANT
-   ------------------------------------------------------------
-   • Existing lesson titles are NOT changed
-   • Existing lesson list is NOT changed
-   • Business English is NOT changed
-   • No graph
-   • No table
-   • Mobile friendly
-   • Long detailed Burmese lessons
-   ============================================================ */
-
-(function () {
-
-  "use strict";
-
-  console.log("Aung Business Academy: Long Lessons Loading...");
-
-
-  /* ============================================================
-     BUSINESS MODULE KNOWLEDGE
-     ============================================================ */
-
-  const MODULE_KNOWLEDGE = {
-
-    "Business Basics": {
-      focus: "Business အခြေခံသဘောတရားများ၊ Customer၊ Revenue၊ Cost၊ Profit၊ Business Model နှင့် Value Creation",
-      example: "Retail နှင့် Distribution Business",
-      manager: "Business တစ်ခုလုံးကို အပေါ်စီးကနေ နားလည်ပြီး Revenue တိုးအောင်၊ Cost ထိန်းအောင်နှင့် Profit တိုးအောင် စီမံခန့်ခွဲနိုင်ခြင်း"
-    },
-
-    "Strategic Thinking": {
-      focus: "Business Direction၊ Market Opportunity၊ Competition၊ Competitive Advantage နှင့် Long-term Strategy",
-      example: "Market Expansion Business",
-      manager: "နေ့စဉ်အလုပ်တွေအပြင် ရေရှည် Business Direction ကို စဉ်းစားပြီး အခွင့်အလမ်းနှင့် Risk ကို ကြိုတင်မြင်နိုင်ခြင်း"
-    },
-
-    "Brand Basics": {
-      focus: "Brand Identity၊ Brand Image၊ Customer Perception၊ Trust၊ Positioning နှင့် Brand Value",
-      example: "Consumer Brand နှင့် FMCG Brand",
-      manager: "Customer ရဲ့စိတ်ထဲမှာ Company/Product ရဲ့ တန်ဖိုးရှိတဲ့ Position တစ်ခု တည်ဆောက်နိုင်ခြင်း"
-    },
-
-    "Marketing Basics": {
-      focus: "Customer Need၊ Market Research၊ Segmentation၊ Positioning၊ Promotion နှင့် Customer Acquisition",
-      example: "FMCG Marketing Business",
-      manager: "Customer ဘာလိုချင်သလဲကို နားလည်ပြီး သင့်တော်တဲ့ Product၊ Price၊ Promotion နှင့် Channel ကို ချိတ်ဆက်နိုင်ခြင်း"
-    },
-
-    "Sales Basics": {
-      focus: "Prospecting၊ Customer Visit၊ Need Discovery၊ Presentation၊ Objection Handling နှင့် Closing",
-      example: "FMCG Sales Team",
-      manager: "Sales Process တစ်ခုလုံးကို နားလည်ပြီး Customer ကို Value ပေးကာ Sustainable Sales Result ရအောင် လုပ်နိုင်ခြင်း"
-    },
-
-    "Sales Management": {
-      focus: "Sales Target၊ Territory၊ Team Management၊ Distribution၊ Execution၊ KPI နှင့် Performance Management",
-      example: "Area Sales Management",
-      manager: "Target ကို Team၊ Territory၊ Customer နှင့် Daily Execution တွေအဖြစ် ခွဲပြီး Result ရအောင် စီမံနိုင်ခြင်း"
-    },
-
-    "Negotiation": {
-      focus: "Customer Need၊ Value၊ Objection၊ Trade-off၊ Win-Win Agreement နှင့် Commercial Negotiation",
-      example: "Distributor နှင့် Key Account Negotiation",
-      manager: "Price တစ်ခုတည်းကို မကြည့်ဘဲ Value၊ Volume၊ Terms နှင့် Long-term Relationship ကို ချိန်ညှိနိုင်ခြင်း"
-    },
-
-    "Customer Service": {
-      focus: "Customer Experience၊ Complaint Handling၊ Service Recovery၊ Retention နှင့် Customer Loyalty",
-      example: "Customer Service Management",
-      manager: "Customer Problem ကို မြန်မြန်၊ မှန်မှန် ဖြေရှင်းပြီး Customer Relationship ကို ပိုမိုခိုင်မာအောင် တည်ဆောက်နိုင်ခြင်း"
-    },
-
-    "People Management": {
-      focus: "Team Performance၊ Coaching၊ Motivation၊ Delegation၊ Accountability နှင့် Employee Development",
-      example: "Sales Team Management",
-      manager: "Team Member တစ်ယောက်ချင်းစီရဲ့ အားသာချက်၊ အားနည်းချက်ကို နားလည်ပြီး Result ရအောင် လူကို စီမံနိုင်ခြင်း"
-    },
-
-    "Profit & Loss": {
-      focus: "Revenue၊ Cost of Goods Sold၊ Gross Profit၊ Operating Cost၊ Margin နှင့် Net Profit",
-      example: "Distribution Business P&L",
-      manager: "Sales တက်တာတစ်ခုတည်းမဟုတ်ဘဲ အမြတ်တကယ်ကျန်မကျန်ကို နားလည်ပြီး Profitability ကို စီမံနိုင်ခြင်း"
-    },
-
-    "Goal Setting": {
-      focus: "Goal၊ KPI၊ Target၊ Measurement၊ Action Plan၊ Accountability နှင့် Continuous Improvement",
-      example: "Monthly Sales Goal",
-      manager: "Business Goal ကို တိုင်းတာလို့ရတဲ့ KPI နဲ့ Action Plan တွေအဖြစ် ပြောင်းလဲနိုင်ခြင်း"
-    },
-
-    "Customer Relationship Management": {
-      focus: "Customer Retention၊ Customer Value၊ Follow-up၊ Customer Development နှင့် Key Account Management",
-      example: "Key Customer Management",
-      manager: "Customer ကို Order တစ်ကြိမ်ရတဲ့သူအဖြစ် မမြင်ဘဲ ရေရှည် Business Partner အဖြစ် တည်ဆောက်နိုင်ခြင်း"
-    },
-
-    "Distribution Management": {
-      focus: "Distributor၊ Outlet Coverage၊ Availability၊ Stock၊ Route Planning၊ Delivery နှင့် Market Execution",
-      example: "FMCG Distribution",
-      manager: "Product ကို Market ထဲမှာ မှန်ကန်တဲ့နေရာ၊ မှန်ကန်တဲ့အချိန်မှာ ရရှိနိုင်အောင် Distribution System ကို စီမံနိုင်ခြင်း"
-    },
-
-    "Retail & Trade Marketing": {
-      focus: "Outlet Execution၊ Visibility၊ Availability၊ Merchandising၊ Promotion နှင့် Trade Relationship",
-      example: "Retail Market Execution",
-      manager: "Customer ဝယ်ယူနိုင်တဲ့အချိန်မှာ Product ရှိနေဖို့၊ မြင်သာဖို့နဲ့ ဝယ်ချင်စိတ်ဖြစ်ဖို့ Market Execution ကို စီမံနိုင်ခြင်း"
-    },
-
-    "Business Analytics": {
-      focus: "Data Collection၊ KPI၊ Trend၊ Variance၊ Root Cause၊ Insight နှင့် Data-driven Decision Making",
-      example: "Sales Performance Analysis",
-      manager: "Data ကို Report အဖြစ်ပဲမထားဘဲ Insight ထုတ်ပြီး Business Decision အဖြစ် ပြောင်းလဲနိုင်ခြင်း"
-    },
-
-    "Financial Management": {
-      focus: "Budget၊ Cash Flow၊ Cost Control၊ Financial Planning၊ Working Capital နှင့် Financial Decision",
-      example: "Business Financial Management",
-      manager: "Business ရဲ့ ငွေဝင်ငွေထွက်၊ Cash Flow၊ Cost နှင့် Financial Risk ကို ထိန်းချုပ်နိုင်ခြင်း"
-    },
-
-    "Operations Management": {
-      focus: "Process၊ Productivity၊ Quality၊ Cost၊ Time၊ Resource နှင့် Operational Efficiency",
-      example: "Business Operations",
-      manager: "လုပ်ငန်းစဉ်တွေကို ပိုမြန်၊ ပိုမှန်၊ ပိုသက်သာပြီး Quality မကျအောင် စီမံနိုင်ခြင်း"
-    },
-
-    "Leadership": {
-      focus: "Vision၊ Direction၊ Coaching၊ Empowerment၊ Accountability၊ Motivation နှင့် Team Performance",
-      example: "Sales Leadership",
-      manager: "လူတွေကို အမိန့်ပေးတာထက် Direction ပေးပြီး Ownership ရှိအောင် ဦးဆောင်နိုင်ခြင်း"
-    },
-
-    "Communication": {
-      focus: "Clear Communication၊ Listening၊ Feedback၊ Meeting၊ Presentation နှင့် Managerial Communication",
-      example: "Manager Communication",
-      manager: "လိုချင်တဲ့ Message ကို ရှင်းလင်းစွာ ပေးနိုင်ပြီး Team ရဲ့ Response ကိုလည်း မှန်ကန်စွာ နားထောင်နိုင်ခြင်း"
-    },
-
-    "Productivity": {
-      focus: "Priority၊ Planning၊ Time Management၊ Focus၊ Delegation နှင့် Result-oriented Work",
-      example: "Manager Productivity",
-      manager: "အလုပ်များတာကို Productivity လို့ မယူဆဘဲ အရေးကြီးတဲ့ Result တွေ ရအောင် အချိန်နဲ့ Resource ကို စီမံနိုင်ခြင်း"
-    },
-
-    "Problem Solving": {
-      focus: "Problem Identification၊ Root Cause၊ Analysis၊ Alternatives၊ Solution၊ Execution နှင့် Follow-up",
-      example: "Sales Problem Solving",
-      manager: "ပြဿနာကို လူအပေါ်ပုံချတာမဟုတ်ဘဲ Systematically ခွဲခြမ်းပြီး Root Cause ကို ဖြေရှင်းနိုင်ခြင်း"
-    },
-
-    "Business Planning": {
-      focus: "Business Objective၊ Strategy၊ Market၊ Resource၊ Budget၊ Action Plan နှင့် Measurement",
-      example: "Annual Business Planning",
-      manager: "Business ရဲ့ ရည်မှန်းချက်ကို Strategy၊ Resource နှင့် Action Plan အဖြစ် ပြောင်းလဲနိုင်ခြင်း"
-    },
-
-    "Decision Making & Problem Solving": {
-      focus: "Data၊ Situation၊ Options၊ Risk၊ Decision၊ Execution နှင့် Result Evaluation",
-      example: "Management Decision Making",
-      manager: "အချက်အလက်ကို စုစည်း၊ အခြေအနေကို သုံးသပ်၊ ရွေးချယ်စရာတွေကို နှိုင်းယှဉ်ပြီး မှန်ကန်တဲ့ Decision ချနိုင်ခြင်း"
-    }
-
-  };
-
-
-  /* ============================================================
-     GET MODULE
-     ============================================================ */
-
-  function getKnowledge(module) {
-
-    if (MODULE_KNOWLEDGE[module]) {
-
-      return MODULE_KNOWLEDGE[module];
-
-    }
-
-    return {
-
-      focus:
-        "Business Management၊ Customer၊ Team၊ Performance နှင့် Result",
-
-      example:
-        "Business Management",
-
-      manager:
-        "Business Result ကောင်းအောင် People၊ Process၊ Customer နှင့် Performance ကို စီမံခန့်ခွဲနိုင်ခြင်း"
-
-    };
-
-  }
-
-
-  /* ============================================================
-     ESCAPE HTML
-     ============================================================ */
-
-  function esc(text) {
-
-    return String(text || "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-
-  }
-
-
-  /* ============================================================
-     SECTION 1
-     ============================================================ */
-
-  function introduction(module, title) {
-
-    const k = getKnowledge(module);
-
-    return `
-
-      <section class="abl-section">
-
-        <h2>🎯 ဒီသင်ခန်းစာကို ဘာကြောင့်လေ့လာသင့်သလဲ</h2>
-
-        <p>
-          <strong>${esc(title)}</strong>
-          ဆိုတဲ့အကြောင်းအရာဟာ Business Management မှာ
-          သီးခြားအကြောင်းအရာတစ်ခုတည်းမဟုတ်ပါဘူး။
-          Business တစ်ခုရဲ့ Customer၊ Sales၊ People၊
-          Finance၊ Operation နဲ့ Result တွေအားလုံးနဲ့
-          ဆက်စပ်နေပါတယ်။
-        </p>
-
-        <p>
-          Manager တစ်ယောက်အနေနဲ့ ဒီအကြောင်းအရာကို
-          သီအိုရီအနေနဲ့ သိထားရုံနဲ့ မလုံလောက်ပါဘူး။
-          လက်တွေ့လုပ်ငန်းခွင်မှာ ဘယ်လိုအသုံးချမလဲ၊
-          ဘယ်လိုစဉ်းစားမလဲ၊ ဘယ်လိုဆုံးဖြတ်မလဲဆိုတာ
-          နားလည်ဖို့ အရေးကြီးပါတယ်။
-        </p>
-
-        <p>
-          ${esc(k.focus)}
-          ကို မှန်မှန်ကန်ကန် နားလည်ထားနိုင်ရင်
-          Business Problem တွေကို ပိုမြန်မြန်
-          သုံးသပ်နိုင်ပြီး Result ကို ပိုကောင်းအောင်
-          ပြောင်းလဲနိုင်ပါမယ်။
-        </p>
-
-        <p>
-          ဒီ Lesson ကိုဖတ်တဲ့အခါ စာကိုဖတ်ပြီး
-          သိထားရုံမဟုတ်ဘဲ ကိုယ့်ရဲ့ လက်ရှိအလုပ်၊
-          ကိုယ့် Team၊ ကိုယ့် Customer နဲ့
-          ကိုယ့် Business မှာ ဘယ်လိုအသုံးချနိုင်မလဲ
-          တစ်ခါတည်း စဉ်းစားသွားပါ။
-        </p>
-
-      </section>
-
-    `;
-
-  }
-
-
-  /* ============================================================
-     SECTION 2
-     ============================================================ */
-
-  function detailedExplanation(module, title) {
-
-    const k = getKnowledge(module);
-
-    return `
-
-      <section class="abl-section">
-
-        <h2>📖 အသေးစိတ်ရှင်းလင်းချက်</h2>
-
-        <p>
-          Business တစ်ခုမှာ Result တစ်ခုထွက်လာတိုင်း
-          အဲဒီ Result ရဲ့နောက်မှာ အကြောင်းရင်းတွေ
-          အများကြီးရှိပါတယ်။ Sales Result တက်လာတာ၊
-          Sales Result ကျလာတာ၊ Customer တိုးလာတာ၊
-          Customer လျော့သွားတာ၊ Team Performance
-          ကောင်းလာတာ၊ Performance ကျလာတာတွေဟာ
-          အကြောင်းရင်းတစ်ခုတည်းကြောင့် ဖြစ်တာ
-          မဟုတ်တတ်ပါဘူး။
-        </p>
-
-        <p>
-          ဒါကြောင့် Professional Manager တစ်ယောက်ဟာ
-          Result ကိုမြင်တာနဲ့ ချက်ချင်းဆုံးဖြတ်မလုပ်သင့်ပါဘူး။
-          အရင်ဆုံး “ဘာဖြစ်နေတာလဲ” ဆိုတာ နားလည်ရပါမယ်။
-          ပြီးရင် “ဘာကြောင့်ဖြစ်တာလဲ” ဆိုတာ
-          ဆက်ပြီးရှာရပါမယ်။
-        </p>
-
-        <p>
-          ${esc(k.focus)}
-          ကို စီမံတဲ့အခါ Customer Perspective,
-          Business Perspective နဲ့ Team Perspective
-          သုံးခုလုံးကို ထည့်သွင်းစဉ်းစားသင့်ပါတယ်။
-        </p>
-
-        <p>
-          Customer Perspective ကနေကြည့်ရင်
-          Customer ရဲ့ Need ဘာလဲ၊ Customer ဘာကြောင့်
-          ဝယ်တယ်၊ ဘာကြောင့် မဝယ်တော့ဘူး၊
-          ဘာကြောင့် Competitor ဆီသွားတယ်ဆိုတာ
-          နားလည်ဖို့လိုပါတယ်။
-        </p>
-
-        <p>
-          Business Perspective ကနေကြည့်ရင်
-          Revenue၊ Cost၊ Margin၊ Market Share၊
-          Distribution၊ Productivity နဲ့
-          Long-term Growth ကို စဉ်းစားရပါမယ်။
-        </p>
-
-        <p>
-          Team Perspective ကနေကြည့်ရင်
-          လူတွေမှာ Skill ရှိလား၊ Direction ရှင်းလား၊
-          Target နားလည်လား၊ Resource လုံလောက်လား၊
-          Coaching လိုအပ်လား၊ Accountability ရှိလား
-          ဆိုတာတွေကို ကြည့်ရပါမယ်။
-        </p>
-
-        <p>
-          ဒီအချက်တွေကို တစ်ခုချင်းစီ ခွဲခြမ်းပြီး
-          နောက်ဆုံးမှာ Business Result နဲ့
-          ပြန်ချိတ်ဆက်စဉ်းစားနိုင်ရင်
-          Management Skill က ပိုမိုမြင့်မားလာပါမယ်။
-        </p>
-
-        <p>
-          အရေးကြီးဆုံးကတော့ Problem ဖြစ်တဲ့အခါ
-          “ဘယ်သူ့အမှားလဲ” လို့ မေးတာထက်
-          “ဘယ် Process မှာ Gap ဖြစ်နေတာလဲ”
-          လို့ မေးတတ်ဖို့ ဖြစ်ပါတယ်။
-        </p>
-
-      </section>
-
-    `;
-
-  }
-
-
-  /* ============================================================
-     SECTION 3
-     ============================================================ */
-
-  function keyConcepts(module, title) {
-
-    return `
-
-      <section class="abl-section">
-
-        <h2>🧠 အရေးကြီးတဲ့ Key Concepts</h2>
-
-        <h3>၁။ Objective ကို အရင်သတ်မှတ်ပါ</h3>
-
-        <p>
-          ဘာကိုရချင်တာလဲ မသိဘဲ အလုပ်လုပ်ရင်
-          Team တစ်ခုလုံး အလုပ်များနေပေမယ့်
-          Result က မထွက်နိုင်ပါဘူး။
-          ဒါကြောင့် အရင်ဆုံး Objective ကို
-          ရှင်းလင်းစွာ သတ်မှတ်ရပါမယ်။
-        </p>
-
-        <h3>၂။ Current Situation ကို သိပါ</h3>
-
-        <p>
-          လက်ရှိ Business အခြေအနေကို မသိဘဲ
-          Plan ချလို့မရပါဘူး။
-          Customer ဘယ်လိုပြောင်းနေသလဲ၊
-          Market ဘယ်လိုဖြစ်နေသလဲ၊
-          Team Performance ဘယ်လိုရှိသလဲဆိုတာ
-          နားလည်ရပါမယ်။
-        </p>
-
-        <h3>၃။ Gap ကို ရှာပါ</h3>
-
-        <p>
-          Target နဲ့ Actual ကြားမှာ
-          ဘယ်လောက်ကွာနေသလဲဆိုတာ သိရပါမယ်။
-          Gap ကို မသိရင် Improvement ဘယ်လောက်
-          လိုအပ်တယ်ဆိုတာလည်း မသိနိုင်ပါဘူး။
-        </p>
-
-        <h3>၄။ Root Cause ကို ရှာပါ</h3>
-
-        <p>
-          မြင်နေရတဲ့ Problem က အမြဲတမ်း
-          အဓိကအကြောင်းရင်း မဟုတ်ပါဘူး။
-          Problem ရဲ့နောက်မှာ ဘာတွေရှိနေလဲ
-          တစ်ဆင့်ချင်းစီ စဉ်းစားရပါမယ်။
-        </p>
-
-        <h3>၅။ Action ကို Result နဲ့ချိတ်ပါ</h3>
-
-        <p>
-          Action လုပ်တာကို အောင်မြင်မှုလို့
-          မယူဆသင့်ပါဘူး။
-          Action လုပ်ပြီး Result တကယ်တိုးတက်လာမှ
-          အဲဒီ Action ရဲ့ ထိရောက်မှုကို
-          အကဲဖြတ်နိုင်မှာ ဖြစ်ပါတယ်။
-        </p>
-
-      </section>
-
-    `;
-
-  }
-
-
-  /* ============================================================
-     SECTION 4
-     ============================================================ */
-
-  function realBusinessExample(module, title) {
-
-    const k = getKnowledge(module);
-
-    return `
-
-      <section class="abl-section">
-
-        <h2>💼 လက်တွေ့ Business Example</h2>
-
-        <p>
-          အခု ${esc(k.example)} ကို
-          လက်တွေ့ဥပမာအနေနဲ့ စဉ်းစားကြည့်ပါမယ်။
-        </p>
-
-        <p>
-          Company တစ်ခုမှာ ဒီလ Business Target ကို
-          ပြည့်မီအောင်လုပ်ရမယ်လို့ သတ်မှတ်ထားပါတယ်။
-          လကုန်ခါနီးတဲ့အချိန်မှာ Result က
-          Target ထက် နောက်ကျနေပါတယ်။
-        </p>
-
-        <p>
-          ဒီအချိန်မှာ Manager တစ်ယောက်အနေနဲ့
-          Team ကို “ပိုကြိုးစားပါ၊ Target ပြည့်အောင်လုပ်ပါ”
-          လို့ပဲ ပြောလိုက်ရင် လုံလောက်မှာ မဟုတ်ပါဘူး။
-        </p>
-
-        <p>
-          အရင်ဆုံး ဘာကြောင့် Result နောက်ကျနေတာလဲ
-          ဆိုတာကို ရှာရပါမယ်။ Customer Visit လျော့နေလား။
-          Order Conversion ကျနေလား။ Product Availability
-          ပြဿနာရှိနေလား။ Distributor Stock မရှိဘူးလား။
-          Competitor Promotion ပိုကောင်းနေလား။
-          Customer Demand ပြောင်းနေလား။
-          Team Member တစ်ယောက်ချင်းစီရဲ့ Execution
-          ကောင်းရဲ့လားဆိုတာ စစ်ဆေးရပါမယ်။
-        </p>
-
-        <p>
-          ဥပမာ Sales Result ကျနေတယ်ဆိုရင်
-          Sales Person ကို အပြစ်တင်ဖို့ထက်
-          Territory တစ်ခုချင်းစီရဲ့ Performance ကို
-          ကြည့်သင့်ပါတယ်။
-        </p>
-
-        <p>
-          Territory တစ်ခုမှာ Customer Demand ကျနေတာ
-          ဖြစ်နိုင်သလို၊ တခြား Territory တစ်ခုမှာ
-          Distribution Coverage မလုံလောက်တာ
-          ဖြစ်နိုင်ပါတယ်။
-        </p>
-
-        <p>
-          ဒါကြောင့် Manager ရဲ့အလုပ်က
-          Problem တစ်ခုကို တစ်ကြောင်းတည်းနဲ့
-          သတ်မှတ်တာမဟုတ်ဘဲ Problem ကို ခွဲခြမ်းပြီး
-          မှန်ကန်တဲ့ Action ကို ရွေးချယ်ပေးဖို့ ဖြစ်ပါတယ်။
-        </p>
-
-      </section>
-
-    `;
-
-  }
-
-
-  /* ============================================================
-     SECTION 5
-     ============================================================ */
-
-  function managerThinking(module, title) {
-
-    const k = getKnowledge(module);
-
-    return `
-
-      <section class="abl-section">
-
-        <h2>👨‍💼 Professional Manager Thinking</h2>
-
-        <p>
-          Professional Manager တစ်ယောက်ရဲ့
-          စဉ်းစားပုံဟာ Staff တစ်ယောက်ရဲ့
-          စဉ်းစားပုံနဲ့ မတူပါဘူး။
-        </p>
-
-        <p>
-          Staff တစ်ယောက်က “ငါ့အလုပ်ကို
-          ဘယ်လိုပြီးအောင်လုပ်မလဲ” ကို အဓိက
-          စဉ်းစားနိုင်ပါတယ်။
-        </p>
-
-        <p>
-          Manager ကတော့ “ဒီအလုပ်ပြီးရင်
-          Business Result ဘာဖြစ်လာမလဲ” ဆိုတာကို
-          ထပ်ပြီး စဉ်းစားရပါမယ်။
-        </p>
-
-        <p>
-          ${esc(k.manager)}
-          ဆိုတဲ့ Mindset က ဒီနေရာမှာ အရေးကြီးပါတယ်။
-        </p>
-
-        <p>
-          Manager တစ်ယောက်ဟာ ကိုယ်တိုင်အလုပ်
-          အများကြီးလုပ်နိုင်တာထက် Team တစ်ခုလုံးကို
-          Result ရအောင် စီမံနိုင်တာ ပိုတန်ဖိုးရှိပါတယ်။
-        </p>
-
-        <p>
-          ဒါကြောင့် Team Member တစ်ယောက်
-          မလုပ်နိုင်တဲ့အခါ ချက်ချင်း ကိုယ်တိုင်
-          ဝင်လုပ်ပေးတာထက် ဘာကြောင့်မလုပ်နိုင်တာလဲ
-          ရှာပြီး Coaching လုပ်ပေးသင့်ပါတယ်။
-        </p>
-
-        <p>
-          ဒီလို Management Mindset ရှိလာရင်
-          Manager ရဲ့အလုပ်က “အလုပ်တွေကို လိုက်လုပ်ခြင်း”
-          ကနေ “Business ကို ဦးဆောင်ခြင်း” အဖြစ်
-          ပြောင်းလဲလာပါမယ်။
-        </p>
-
-      </section>
-
-    `;
-
-  }
-
-
-  /* ============================================================
-     SECTION 6
-     ============================================================ */
-
-  function commonMistakes(module, title) {
-
-    return `
-
-      <section class="abl-section">
-
-        <h2>⚠️ မကြာခဏဖြစ်တတ်တဲ့ Management အမှားများ</h2>
-
-        <h3>❌ အမှား (၁) Data မကြည့်ဘဲ ဆုံးဖြတ်ခြင်း</h3>
-
-        <p>
-          Manager တစ်ယောက်အနေနဲ့ ကိုယ့်အတွေ့အကြုံကို
-          အသုံးချလို့ရပါတယ်။ ဒါပေမယ့် Experience
-          တစ်ခုတည်းကို အားကိုးပြီး ဆုံးဖြတ်တာက
-          Risk ရှိပါတယ်။
-          ရနိုင်တဲ့ Data ကို အရင်ကြည့်သင့်ပါတယ်။
-        </p>
-
-        <h3>❌ အမှား (၂) Problem ဖြစ်တာနဲ့ လူကို အပြစ်တင်ခြင်း</h3>
-
-        <p>
-          Result မကောင်းတာဟာ လူတစ်ယောက်တည်းရဲ့
-          အမှားဖြစ်ချင်မှ ဖြစ်ပါမယ်။
-          Process၊ Training၊ Resource၊ Customer၊
-          Market၊ Product နဲ့ Management Direction
-          တွေမှာလည်း Gap ရှိနိုင်ပါတယ်။
-        </p>
-
-        <h3>❌ အမှား (၃) Action Plan မရှင်းခြင်း</h3>
-
-        <p>
-          “Sales တိုးအောင်လုပ်ပါ”
-          “Customer ကိုပိုဂရုစိုက်ပါ”
-          “Team ကိုပိုကြိုးစားခိုင်းပါ”
-          ဆိုတာတွေဟာ ရှင်းလင်းတဲ့ Action Plan
-          မဟုတ်ပါဘူး။
-        </p>
-
-        <p>
-          ဘယ်သူက ဘာလုပ်မလဲ၊ ဘယ်အချိန်မှာလုပ်မလဲ၊
-          ဘယ် Result ကို ရချင်လဲဆိုတာ
-          သတ်မှတ်ထားရပါမယ်။
-        </p>
-
-        <h3>❌ အမှား (၄) Follow-up မလုပ်ခြင်း</h3>
-
-        <p>
-          Meeting လုပ်ပြီး၊ Plan ချပြီး၊
-          Team ကို ပြောပြီးတာနဲ့ အလုပ်ပြီးသွားပြီလို့
-          မယူဆသင့်ပါဘူး။
-          Action တကယ်ဖြစ်လာလား၊ Result ပြောင်းလဲလား
-          ပြန်စစ်ဖို့လိုပါတယ်။
-        </p>
-
-        <h3>❌ အမှား (၅) Short-term Result ကိုပဲ ကြည့်ခြင်း</h3>
-
-        <p>
-          ဒီနေ့ Sales တက်လာတာတစ်ခုတည်းနဲ့
-          Business အောင်မြင်နေပြီလို့ မဆိုနိုင်ပါဘူး။
-          Margin၊ Customer Relationship၊
-          Team Capability နဲ့ Long-term Growth ကိုပါ
-          ထည့်သွင်းစဉ်းစားရပါမယ်။
-        </p>
-
-      </section>
-
-    `;
-
-  }
-
-
-  /* ============================================================
-     SECTION 7
-     ============================================================ */
-
-  function practicalApplication(module, title) {
-
-    return `
-
-      <section class="abl-section">
-
-        <h2>🛠️ လက်တွေ့အသုံးချနည်း</h2>
-
-        <p>
-          ဒီသင်ခန်းစာကို အလုပ်ခွင်မှာ အသုံးချတဲ့အခါ
-          ပထမဆုံး ကိုယ့်လုပ်ငန်းမှာ လက်ရှိဖြစ်နေတဲ့
-          Situation တစ်ခုကို ရွေးပါ။
-        </p>
-
-        <p>
-          ဥပမာ Sales Target မပြည့်တာ၊
-          Customer Complaint တက်တာ၊
-          Team Performance ကျတာ၊
-          Distributor Stock ပြဿနာရှိတာ၊
-          Customer Retention ကျတာ စတဲ့
-          လက်တွေ့ Problem တစ်ခု ဖြစ်နိုင်ပါတယ်။
-        </p>
-
-        <p>
-          ပြီးရင် Problem ကို တစ်ကြောင်းတည်းနဲ့
-          ရှင်းလင်းစွာရေးပါ။
-          Problem ကို ရှင်းရှင်းလင်းလင်း
-          သတ်မှတ်နိုင်မှ Solution ကို
-          မှန်မှန်ကန်ကန် ရှာနိုင်မှာ ဖြစ်ပါတယ်။
-        </p>
-
-        <p>
-          နောက်တစ်ဆင့်မှာ “ဘာကြောင့်ဖြစ်တာလဲ”
-          ဆိုတဲ့မေးခွန်းကို မေးပါ။
-          အကြောင်းရင်းတစ်ခုတည်းနဲ့ ရပ်မနေဘဲ
-          အနည်းဆုံး အကြောင်းရင်းအမျိုးမျိုးကို
-          စဉ်းစားပါ။
-        </p>
-
-        <p>
-          အဲဒီအကြောင်းရင်းတွေထဲမှာ
-          Business Result ကို အများဆုံး
-          ထိခိုက်စေတဲ့အကြောင်းရင်းကို
-          Priority ပေးပါ။
-        </p>
-
-        <p>
-          ပြီးရင် Action တစ်ခုကို သတ်မှတ်ပါ။
-          Action ဟာ လက်တွေ့လုပ်လို့ရရမယ်။
-          တာဝန်ရှိသူ ရှိရမယ်။
-          Deadline ရှိရမယ်။
-          ပြီးတော့ Result ကို တိုင်းတာနိုင်ရမယ်။
-        </p>
-
-      </section>
-
-    `;
-
-  }
-
-
-  /* ============================================================
-     SECTION 8
-     ============================================================ */
-
-  function actionPlan(module, title) {
-
-    return `
-
-      <section class="abl-section">
-
-        <h2>📋 Manager Action Plan</h2>
-
-        <p>
-          <strong>Step 1 — Problem ရွေးပါ</strong>
-        </p>
-
-        <p>
-          ကိုယ့်လုပ်ငန်းမှာ အခုလက်ရှိ အရေးကြီးဆုံး
-          Problem တစ်ခုကို ရွေးပါ။
-          Problem အများကြီးကို တစ်ပြိုင်နက်တည်း
-          ဖြေရှင်းဖို့ မကြိုးစားပါနဲ့။
-          Business Impact အများဆုံး Problem ကို
-          အရင် Priority ပေးပါ။
-        </p>
-
-        <p>
-          <strong>Step 2 — Current Situation ကို သိပါ</strong>
-        </p>
-
-        <p>
-          လက်ရှိအခြေအနေကို အချက်အလက်နဲ့
-          နားလည်အောင်လုပ်ပါ။
-          ကိုယ့်အမြင်နဲ့ပဲ မဆုံးဖြတ်ပါနဲ့။
-          Customer Feedback၊ Team Feedback၊
-          Sales Result၊ Market Information
-          စတာတွေကို ထည့်သွင်းစဉ်းစားပါ။
-        </p>
-
-        <p>
-          <strong>Step 3 — Root Cause ရှာပါ</strong>
-        </p>
-
-        <p>
-          “ဘာကြောင့်လဲ” ဆိုတဲ့မေးခွန်းကို
-          အကြိမ်ကြိမ်မေးပြီး အဓိကအကြောင်းရင်းကို
-          ရှာပါ။
-        </p>
-
-        <p>
-          <strong>Step 4 — Solution ရွေးပါ</strong>
-        </p>
-
-        <p>
-          Solution တစ်ခုတည်းကို ချက်ချင်းမရွေးဘဲ
-          လုပ်နိုင်တဲ့နည်းလမ်းတွေကို စဉ်းစားပါ။
-          Cost၊ Time၊ People၊ Risk နဲ့
-          Expected Result ကို ချိန်ညှိပြီး
-          အကောင်းဆုံးနည်းလမ်းကို ရွေးပါ။
-        </p>
-
-        <p>
-          <strong>Step 5 — Responsibility သတ်မှတ်ပါ</strong>
-        </p>
-
-        <p>
-          Action တစ်ခုချင်းစီကို ဘယ်သူက
-          တာဝန်ယူမလဲဆိုတာ ရှင်းလင်းရပါမယ်။
-          လူတိုင်းတာဝန်ရှိတယ်လို့ ပြောထားရင်
-          တကယ်တော့ ဘယ်သူမှ တာဝန်မရှိသလို
-          ဖြစ်သွားနိုင်ပါတယ်။
-        </p>
-
-        <p>
-          <strong>Step 6 — Follow-up လုပ်ပါ</strong>
-        </p>
-
-        <p>
-          Action ပြီးသွားတဲ့နောက် Result ကို
-          ပြန်စစ်ပါ။ မတိုးတက်သေးရင်
-          အကြောင်းရင်းကို ပြန်စစ်ပြီး
-          Action Plan ကို ပြန်ပြင်ပါ။
-        </p>
-
-      </section>
-
-    `;
-
-  }
-
-
-  /* ============================================================
-     SECTION 9
-     ============================================================ */
-
-  function knowledgeCheck(module, title) {
-
-    return `
-
-      <section class="abl-section">
-
-        <h2>❓ Knowledge Check</h2>
-
-        <div class="abl-question">
-
-          <h3>မေးခွန်း (၁)</h3>
-
-          <p>
-            Business Result မကောင်းတဲ့အခါ
-            Manager တစ်ယောက်အနေနဲ့
-            ပထမဆုံး ဘာလုပ်သင့်သလဲ?
-          </p>
-
-          <p>
-            <strong>အဖြေ:</strong>
-            လက်ရှိ Situation နဲ့ Data ကို
-            အရင်နားလည်အောင်လုပ်သင့်ပါတယ်။
-          </p>
-
-        </div>
-
-
-        <div class="abl-question">
-
-          <h3>မေးခွန်း (၂)</h3>
-
-          <p>
-            Problem ကိုမြင်တာနဲ့ ချက်ချင်း
-            Solution ချလိုက်ရင် ဘာဖြစ်နိုင်သလဲ?
-          </p>
-
-          <p>
-            <strong>အဖြေ:</strong>
-            Root Cause မမှန်ရင် Solution က
-            Problem ကို အမှန်တကယ် မဖြေရှင်းနိုင်ပါဘူး။
-          </p>
-
-        </div>
-
-
-        <div class="abl-question">
-
-          <h3>မေးခွန်း (၃)</h3>
-
-          <p>
-            Action Plan ကောင်းတစ်ခုမှာ
-            ဘာတွေ ရှင်းလင်းရမလဲ?
-          </p>
-
-          <p>
-            <strong>အဖြေ:</strong>
-            ဘယ်သူ၊ ဘာလုပ်မလဲ၊ ဘယ်အချိန်မှာ
-            လုပ်မလဲ၊ ဘယ် Result ကို ရချင်လဲ
-            ဆိုတာ ရှင်းလင်းရပါမယ်။
-          </p>
-
-        </div>
-
-
-        <div class="abl-question">
-
-          <h3>မေးခွန်း (၄)</h3>
-
-          <p>
-            Manager က Team Member ကို
-            ဘာကြောင့် Coaching လုပ်ပေးသင့်သလဲ?
-          </p>
-
-          <p>
-            <strong>အဖြေ:</strong>
-            ခဏတာအလုပ်ပြီးသွားဖို့ထက်
-            Team Member ရဲ့ Capability ကို
-            ရေရှည်တိုးတက်အောင်လုပ်ဖို့ ဖြစ်ပါတယ်။
-          </p>
-
-        </div>
-
-
-        <div class="abl-question">
-
-          <h3>မေးခွန်း (၅)</h3>
-
-          <p>
-            Professional Manager ရဲ့
-            အခြေခံစဉ်းစားပုံက ဘာလဲ?
-          </p>
-
-          <p>
-            <strong>အဖြေ:</strong>
-            Situation → Analysis → Root Cause
-            → Decision → Action → Result
-            → Improvement ဖြစ်ပါတယ်။
-          </p>
-
-        </div>
-
-      </section>
-
-    `;
-
-  }
-
-
-  /* ============================================================
-     SECTION 10
-     ============================================================ */
-
-  function reflection(module, title) {
-
-    return `
-
-      <section class="abl-section">
-
-        <h2>🤔 Manager Reflection</h2>
-
-        <p>
-          ဒီသင်ခန်းစာကို ဖတ်ပြီးတဲ့အခါ
-          ကိုယ့်ရဲ့ လက်ရှိအလုပ်ကို ပြန်စဉ်းစားကြည့်ပါ။
-        </p>
-
-        <p>
-          <strong>①</strong>
-          ${esc(title)}
-          နဲ့ပတ်သက်ပြီး
-          ကိုယ့်လုပ်ငန်းမှာ လက်ရှိအခက်အခဲက ဘာလဲ?
-        </p>
-
-        <p>
-          <strong>②</strong>
-          အဲဒီအခက်အခဲရဲ့ အဓိက Root Cause က
-          ဘာဖြစ်နိုင်သလဲ?
-        </p>
-
-        <p>
-          <strong>③</strong>
-          အခုလက်ရှိ ကိုယ်လုပ်နေတဲ့ Action က
-          Result ကို တကယ်တိုးတက်စေသလား?
-        </p>
-
-        <p>
-          <strong>④</strong>
-          ကိုယ့် Team Member တွေကို
-          ကိုယ်တိုင်အလုပ်လုပ်ပေးနေသလား၊
-          ဒါမှမဟုတ် သူတို့ကို
-          အလုပ်လုပ်နိုင်အောင် Coaching
-          လုပ်ပေးနေသလား?
-        </p>
-
-        <p>
-          <strong>⑤</strong>
-          ဒီ Lesson ကနေ သင်ယူခဲ့တာတွေထဲမှာ
-          မနက်ဖြန်ကစပြီး ချက်ချင်းအသုံးချမယ့်
-          အရာတစ်ခုက ဘာလဲ?
-        </p>
-
-      </section>
-
-    `;
-
-  }
-
-
-  /* ============================================================
-     SECTION 11
-     ============================================================ */
-
-  function summary(module, title) {
-
-    const k = getKnowledge(module);
-
-    return `
-
-      <section class="abl-section abl-summary">
-
-        <h2>📌 သင်ခန်းစာအနှစ်ချုပ်</h2>
-
-        <p>
-          ဒီ Lesson မှာ
-          <strong>${esc(title)}</strong>
-          ကို Business Management ရှုထောင့်ကနေ
-          အသေးစိတ်လေ့လာခဲ့ပါတယ်။
-        </p>
-
-        <p>
-          ${esc(k.focus)}
-          ကို နားလည်ထားခြင်းဟာ
-          Business Result ကောင်းမွန်ဖို့
-          အရေးကြီးတဲ့ အခြေခံတစ်ခု ဖြစ်ပါတယ်။
-        </p>
-
-        <p>
-          Professional Manager တစ်ယောက်ဟာ
-          Result ကိုသာ ကြည့်တာမဟုတ်ဘဲ
-          Result ဖြစ်ပေါ်လာစေတဲ့ Process၊
-          People၊ Customer၊ Market နဲ့
-          Business Environment ကိုပါ
-          စဉ်းစားရပါတယ်။
-        </p>
-
-        <p>
-          Problem တစ်ခုဖြစ်လာတဲ့အခါ
-          လူကို အပြစ်တင်ဖို့ထက်
-          Root Cause ကို ရှာဖွေပြီး
-          မှန်ကန်တဲ့ Solution ကို ရွေးချယ်ရပါမယ်။
-        </p>
-
-        <p>
-          Solution ရွေးပြီးတာနဲ့ အလုပ်ပြီးသွားတာ
-          မဟုတ်ပါဘူး။ Action Plan ချရပါမယ်။
-          Responsibility သတ်မှတ်ရပါမယ်။
-          Deadline ထားရပါမယ်။
-          ပြီးရင် Result ကို Follow-up
-          လုပ်ရပါမယ်။
-        </p>
-
-        <p>
-          ဒီလို စနစ်တကျ လုပ်ဆောင်နိုင်တဲ့
-          Manager တစ်ယောက်ဟာ
-          အလုပ်များတဲ့ Manager မဟုတ်ဘဲ
-          Result ထွက်အောင် လုပ်နိုင်တဲ့
-          Professional Manager ဖြစ်လာပါမယ်။
-        </p>
-
-        <div class="abl-final-message">
-
-          <strong>
-            PROFESSIONAL MANAGER MINDSET
-          </strong>
-
-          <p>
-            Problem ကို မကြောက်ပါနဲ့။
-            Problem ကို နားလည်ပါ။
-            Root Cause ကို ရှာပါ။
-            မှန်ကန်တဲ့ Decision ချပါ။
-            Action လုပ်ပါ။
-            Result ကို တိုင်းပါ။
-            ပြီးရင် ပိုကောင်းအောင် ပြန်လုပ်ပါ။
-          </p>
-
-        </div>
-
-      </section>
-
-    `;
-
-  }
-
-
-  /* ============================================================
-     COMPLETE LESSON BUILDER
-     ============================================================ */
-
-  function buildLesson(module, title) {
-
-    return `
-
-      <div class="academy-long-lesson">
-
-        <div class="abl-header">
-
-          <div class="abl-label">
-            PROFESSIONAL BUSINESS LESSON
-          </div>
-
-          <h1>
-            ${esc(title)}
-          </h1>
-
-          <div class="abl-module">
-            ${esc(module)}
-          </div>
-
-          <div class="abl-time">
-            📚 Detailed Professional Learning
-          </div>
-
-        </div>
-
-
-        ${introduction(module, title)}
-
-        ${detailedExplanation(module, title)}
-
-        ${keyConcepts(module, title)}
-
-        ${realBusinessExample(module, title)}
-
-        ${managerThinking(module, title)}
-
-        ${commonMistakes(module, title)}
-
-        ${practicalApplication(module, title)}
-
-        ${actionPlan(module, title)}
-
-        ${knowledgeCheck(module, title)}
-
-        ${reflection(module, title)}
-
-        ${summary(module, title)}
-
-      </div>
-
-    `;
-
-  }
-
-
-  /* ============================================================
-     CSS
-     ============================================================ */
-
-  function addStyles() {
-
-    if (
-      document.getElementById(
-        "academy-long-lessons-style"
-      )
-    ) {
-      return;
-    }
-
-
-    const style =
-      document.createElement("style");
-
-
-    style.id =
-      "academy-long-lessons-style";
-
-
-    style.textContent = `
-
-      /*
-       ==========================================================
-       AUNG BUSINESS ACADEMY LONG LESSON STYLE
-       ==========================================================
-      */
-
-      .academy-long-lesson {
-
-        width: 100% !important;
-
-        max-width: 900px !important;
-
-        margin: 0 auto !important;
-
-        padding: 0 !important;
-
-        box-sizing: border-box !important;
-
-        overflow-x: hidden !important;
-
-        overflow-wrap: anywhere !important;
-
-        word-wrap: break-word !important;
-
-        color: #1e293b;
-
-        font-family:
-          Arial,
-          "Noto Sans Myanmar",
-          sans-serif;
-
-        line-height: 1.9;
-
-      }
-
-
-      .academy-long-lesson * {
-
-        box-sizing: border-box !important;
-
-        max-width: 100% !important;
-
-      }
-
-
-      .abl-header {
-
-        width: 100% !important;
-
-        margin-bottom: 18px;
-
-        padding: 24px 20px;
-
-        border-radius: 16px;
-
-        background:
-          linear-gradient(
-            135deg,
-            #0f172a,
-            #1e293b
-          );
-
-        color: #ffffff;
-
-        overflow: hidden;
-
-      }
-
-
-      .abl-label {
-
-        font-size: 11px;
-
-        font-weight: 800;
-
-        letter-spacing: 1px;
-
-        opacity: .75;
-
-        margin-bottom: 9px;
-
-      }
-
-
-      .abl-header h1 {
-
-        width: 100%;
-
-        margin: 0 0 8px;
-
-        padding: 0;
-
-        font-size: 28px;
-
-        line-height: 1.45;
-
-        overflow-wrap: anywhere;
-
-      }
-
-
-      .abl-module {
-
-        font-size: 15px;
-
-        opacity: .9;
-
-        margin-bottom: 8px;
-
-        overflow-wrap: anywhere;
-
-      }
-
-
-      .abl-time {
-
-        font-size: 12px;
-
-        opacity: .75;
-
-      }
-
-
-      .abl-section {
-
-        width: 100% !important;
-
-        max-width: 100% !important;
-
-        margin: 0 0 17px;
-
-        padding: 23px 20px;
-
-        background: #ffffff;
-
-        border: 1px solid #e2e8f0;
-
-        border-radius: 15px;
-
-        box-shadow:
-          0 3px 12px
-          rgba(15, 23, 42, .045);
-
-        overflow: hidden !important;
-
-        overflow-wrap: anywhere !important;
-
-      }
-
-
-      .abl-section h2 {
-
-        margin: 0 0 16px;
-
-        padding: 0;
-
-        font-size: 21px;
-
-        line-height: 1.55;
-
-        color: #0f172a;
-
-        overflow-wrap: anywhere;
-
-      }
-
-
-      .abl-section h3 {
-
-        margin: 20px 0 8px;
-
-        padding: 0;
-
-        font-size: 17px;
-
-        line-height: 1.6;
-
-        color: #334155;
-
-        overflow-wrap: anywhere;
-
-      }
-
-
-      .abl-section p {
-
-        width: 100%;
-
-        max-width: 100%;
-
-        margin: 0 0 15px;
-
-        padding: 0;
-
-        font-size: 16px;
-
-        line-height: 1.95;
-
-        overflow-wrap: anywhere;
-
-        word-break: normal;
-
-      }
-
-
-      .abl-section p:last-child {
-
-        margin-bottom: 0;
-
-      }
-
-
-      .abl-question {
-
-        width: 100%;
-
-        max-width: 100%;
-
-        margin-bottom: 13px;
-
-        padding: 16px;
-
-        border-radius: 12px;
-
-        background: #f8fafc;
-
-        border: 1px solid #e2e8f0;
-
-        overflow: hidden;
-
-      }
-
-
-      .abl-question h3 {
-
-        margin: 0 0 8px;
-
-        font-size: 16px;
-
-        color: #0f172a;
-
-      }
-
-
-      .abl-question p {
-
-        font-size: 15px;
-
-        line-height: 1.9;
-
-        margin-bottom: 9px;
-
-      }
-
-
-      .abl-question p:last-child {
-
-        margin-bottom: 0;
-
-      }
-
-
-      .abl-summary {
-
-        background: #f8fafc;
-
-      }
-
-
-      .abl-final-message {
-
-        width: 100%;
-
-        max-width: 100%;
-
-        margin-top: 20px;
-
-        padding: 20px;
-
-        border-radius: 13px;
-
-        background: #ffffff;
-
-        border-left: 4px solid #334155;
-
-        text-align: center;
-
-        overflow-wrap: anywhere;
-
-      }
-
-
-      .abl-final-message strong {
-
-        display: block;
-
-        margin-bottom: 10px;
-
-        font-size: 14px;
-
-        letter-spacing: .8px;
-
-      }
-
-
-      .abl-final-message p {
-
-        margin: 0;
-
-        font-weight: 700;
-
-        line-height: 1.9;
-
-      }
-
-
-      /*
-       IMPORTANT:
-       Old table/graph elements are hidden inside
-       upgraded lesson only.
-      */
-
-      .academy-long-lesson table,
-
-      .academy-long-lesson .table,
-
-      .academy-long-lesson .graph,
-
-      .academy-long-lesson .chart,
-
-      .academy-long-lesson canvas,
-
-      .academy-long-lesson svg {
-
-        display: none !important;
-
-      }
-
-
-      /*
-       Prevent horizontal movement
-      */
-
-      html {
-
-        overflow-x: hidden !important;
-
-      }
-
-
-      body {
-
-        overflow-x: hidden !important;
-
-      }
-
-
-      @media (max-width: 700px) {
-
-        .academy-long-lesson {
-
-          width: 100% !important;
-
-          padding: 0 !important;
-
-        }
-
-
-        .abl-header {
-
-          padding: 20px 16px;
-
-          border-radius: 13px;
-
-        }
-
-
-        .abl-header h1 {
-
-          font-size: 23px;
-
-          line-height: 1.5;
-
-        }
-
-
-        .abl-module {
-
-          font-size: 14px;
-
-        }
-
-
-        .abl-section {
-
-          padding: 19px 16px;
-
-          margin-bottom: 14px;
-
-          border-radius: 13px;
-
-        }
-
-
-        .abl-section h2 {
-
-          font-size: 19px;
-
-        }
-
-
-        .abl-section h3 {
-
-          font-size: 16px;
-
-        }
-
-
-        .abl-section p {
-
-          font-size: 15px;
-
-          line-height: 1.95;
-
-        }
-
-
-        .abl-question {
-
-          padding: 14px;
-
-        }
-
-
-        .abl-question p {
-
-          font-size: 14.5px;
-
-        }
-
-
-        .abl-final-message {
-
-          padding: 16px;
-
-        }
-
-      }
-
-
-      @media (max-width: 430px) {
-
-        .abl-header {
-
-          padding: 18px 14px;
-
-        }
-
-
-        .abl-header h1 {
-
-          font-size: 21px;
-
-        }
-
-
-        .abl-section {
-
-          padding: 17px 14px;
-
-        }
-
-
-        .abl-section h2 {
-
-          font-size: 18px;
-
-        }
-
-
-        .abl-section h3 {
-
-          font-size: 15.5px;
-
-        }
-
-
-        .abl-section p {
-
-          font-size: 14.5px;
-
-          line-height: 1.95;
-
-        }
-
-      }
-
-    `;
-
-
-    document.head.appendChild(style);
-
-  }
-
-
-  /* ============================================================
-     FIND LESSON MODAL
-     ============================================================ */
-
-  function findModal() {
-
-    const selectors = [
-
-      "#lessonModal",
-      "#lesson-modal",
-      "#lessonDetailModal",
-      "#lessonDetail",
-      ".lesson-modal",
-      ".lessonModal",
-      ".modal.lesson-modal"
-
-    ];
-
-
-    for (
-      let i = 0;
-      i < selectors.length;
-      i++
-    ) {
-
-      const el =
-        document.querySelector(
-          selectors[i]
-        );
-
-      if (el) {
-        return el;
-      }
-
-    }
-
-
-    return null;
-
-  }
-
-
-  /* ============================================================
-     FIND TITLE
-     ============================================================ */
-
-  function findTitle(modal) {
-
-    const selectors = [
-
-      "[data-lesson-title]",
-      ".lesson-title",
-      ".modal-title",
-      ".lesson-name",
-      ".lesson-header h1",
-      ".lesson-header h2",
-      ".modal-header h1",
-      ".modal-header h2",
-      ".modal-header h3",
-      "h1",
-      "h2",
-      "h3"
-
-    ];
-
-
-    for (
-      let i = 0;
-      i < selectors.length;
-      i++
-    ) {
-
-      const el =
-        modal.querySelector(
-          selectors[i]
-        );
-
-
-      if (
-        el &&
-        el.textContent &&
-        el.textContent.trim()
-      ) {
-
-        return el.textContent.trim();
-
-      }
-
-    }
-
-
-    return "";
-
-  }
-
-
-  /* ============================================================
-     FIND MODULE
-     ============================================================ */
-
-  function findModule(modal) {
-
-    const selectors = [
-
-      "[data-module]",
-      ".lesson-module",
-      ".module-name",
-      ".lesson-category",
-      ".category",
-      ".lesson-meta"
-
-    ];
-
-
-    for (
-      let i = 0;
-      i < selectors.length;
-      i++
-    ) {
-
-      const el =
-        modal.querySelector(
-          selectors[i]
-        );
-
-
-      if (
-        el &&
-        el.textContent &&
-        el.textContent.trim()
-      ) {
-
-        const text =
-          el.textContent.trim();
-
-
-        for (
-          const moduleName of
-          Object.keys(MODULE_KNOWLEDGE)
-        ) {
-
-          if (
-            text
-              .toLowerCase()
-              .includes(
-                moduleName.toLowerCase()
-              )
-          ) {
-
-            return moduleName;
-
-          }
-
-        }
-
-      }
-
-    }
-
-
-    /*
-      Try entire modal text.
-    */
-
-    const text =
-      modal.textContent || "";
-
-
-    for (
-      const moduleName of
-      Object.keys(MODULE_KNOWLEDGE)
-    ) {
-
-      if (
-        text
-          .toLowerCase()
-          .includes(
-            moduleName.toLowerCase()
-          )
-      ) {
-
-        return moduleName;
-
-      }
-
-    }
-
-
-    return "Business Basics";
-
-  }
-
-
-  /* ============================================================
-     CHECK ENGLISH
-     ============================================================ */
-
-  function isEnglishLesson(title, module) {
-
-    const text =
-      (
-        String(title || "") +
-        " " +
-        String(module || "")
-      ).toLowerCase();
-
-
-    return (
-      text.includes("business english") ||
-      text.includes("english lesson") ||
-      text.includes("english")
-    );
-
-  }
-
-
-  /* ============================================================
-     FIND CONTENT AREA
-     ============================================================ */
-
-  function findContent(modal) {
-
-    const selectors = [
-
-      ".modal-body",
-      ".lesson-modal-body",
-      ".lesson-content",
-      ".lesson-body",
-      ".modal-content-body",
-      ".lesson-detail-content",
-      ".lesson-detail-body"
-
-    ];
-
-
-    for (
-      let i = 0;
-      i < selectors.length;
-      i++
-    ) {
-
-      const el =
-        modal.querySelector(
-          selectors[i]
-        );
-
-      if (el) {
-        return el;
-      }
-
-    }
-
-
-    /*
-      Last fallback:
-      find a large content div.
-    */
-
-    const divs =
-      modal.querySelectorAll(
-        "div"
-      );
-
-
-    for (
-      let i = 0;
-      i < divs.length;
-      i++
-    ) {
-
-      const el =
-        divs[i];
-
-
-      if (
-        el.textContent &&
-        el.textContent.length > 300
-      ) {
-
-        return el;
-
-      }
-
-    }
-
-
-    return modal;
-
-  }
-
-
-  /* ============================================================
-     APPLY LONG LESSON
-     ============================================================ */
-
-  function applyLesson() {
-
-    const modal =
-      findModal();
-
-
-    if (!modal) {
-      return;
-    }
-
-
-    /*
-      Check if modal is actually visible.
-    */
-
-    const computed =
-      window.getComputedStyle(modal);
-
-
-    if (
-      computed.display === "none" ||
-      computed.visibility === "hidden"
-    ) {
-
-      return;
-
-    }
-
-
-    const title =
-      findTitle(modal);
-
-
-    if (!title) {
-      return;
-    }
-
-
-    const module =
-      findModule(modal);
-
-
-    /*
-      NEVER TOUCH BUSINESS ENGLISH
-    */
-
-    if (
-      isEnglishLesson(
-        title,
-        module
-      )
-    ) {
-
-      return;
-
-    }
-
-
-    /*
-      Don't rebuild the same lesson repeatedly.
-    */
-
-    const currentKey =
-      module +
-      "::" +
-      title;
-
-
-    if (
-      modal.dataset
-        .academyLongLesson ===
-      currentKey
-    ) {
-
-      return;
-
-    }
-
-
-    const content =
-      findContent(modal);
-
-
-    if (!content) {
-      return;
-    }
-
-
-    /*
-      Save original content once.
-    */
-
-    if (
-      !modal.dataset
-        .academyOriginalContent
-    ) {
-
-      modal.dataset
-        .academyOriginalContent =
-        content.innerHTML;
-
-    }
-
-
-    /*
-      Replace only lesson content.
-    */
-
-    content.innerHTML =
-      buildLesson(
-        module,
-        title
-      );
-
-
-    /*
-      Mobile safety.
-    */
-
-    content.style.width =
-      "100%";
-
-    content.style.maxWidth =
-      "100%";
-
-    content.style.overflowX =
-      "hidden";
-
-    content.style.boxSizing =
-      "border-box";
-
-
-    modal.style.overflowX =
-      "hidden";
-
-
-    const modalContent =
-      modal.querySelector(
-        ".modal-content, .modal-dialog"
-      );
-
-
-    if (modalContent) {
-
-      modalContent.style.maxWidth =
-        "900px";
-
-      modalContent.style.width =
-        "min(900px, 96vw)";
-
-      modalContent.style.boxSizing =
-        "border-box";
-
-      modalContent.style.overflowX =
-        "hidden";
-
-    }
-
-
-    modal.dataset
-      .academyLongLesson =
-      currentKey;
-
-
-    console.log(
-      "Long Lesson Applied:",
-      title
-    );
-
-  }
-
-
-  /* ============================================================
-     CLICK LISTENER
-     ============================================================ */
-
-  function setupClickListener() {
-
-    document.addEventListener(
-      "click",
-      function () {
-
-        /*
-          Existing app needs time to open modal.
-        */
-
-        setTimeout(
-          applyLesson,
-          150
-        );
-
-        setTimeout(
-          applyLesson,
-          400
-        );
-
-        setTimeout(
-          applyLesson,
-          800
-        );
-
-        setTimeout(
-          applyLesson,
-          1300
-        );
-
-      },
-      true
-    );
-
-  }
-
-
-  /* ============================================================
-     MUTATION OBSERVER
-     ============================================================ */
-
-  function setupObserver() {
-
-    const observer =
-      new MutationObserver(
-        function () {
-
-          const modal =
-            findModal();
-
-
-          if (!modal) {
-            return;
-          }
-
-
-          setTimeout(
-            applyLesson,
-            200
-          );
-
-        }
-      );
-
-
-    observer.observe(
-      document.body,
-      {
-        childList: true,
-        subtree: true
-      }
-    );
-
-  }
-
-
-  /* ============================================================
-     RESET
-     ============================================================ */
-
-  function setupReset() {
-
-    document.addEventListener(
-      "click",
-      function (event) {
-
-        const close =
-          event.target.closest(
-            ".close," +
-            ".modal-close," +
-            ".close-modal," +
-            "[data-close]," +
-            ".modal-close-btn"
-          );
-
-
-        if (!close) {
-          return;
-        }
-
-
-        const modal =
-          findModal();
-
-
-        if (!modal) {
-          return;
-        }
-
-
-        setTimeout(
-          function () {
-
-            delete
-              modal.dataset
-                .academyLongLesson;
-
-          },
-          500
-        );
-
-      }
-    );
-
-  }
-
-
-  /* ============================================================
-     INITIALIZE
-     ============================================================ */
-
-  function init() {
-
-    addStyles();
-
-    setupClickListener();
-
-    setupObserver();
-
-    setupReset();
-
-
-    /*
-      Try once after page load.
-    */
-
-    setTimeout(
-      applyLesson,
-      1000
-    );
-
-
-    setTimeout(
-      applyLesson,
-      2500
-    );
-
-
-    setTimeout(
-      applyLesson,
-      5000
-    );
-
-
-    console.log(
-      "======================================"
-    );
-
-    console.log(
-      "AUNG BUSINESS ACADEMY"
-    );
-
-    console.log(
-      "LONG DETAILED LESSONS: ACTIVE"
-    );
-
-    console.log(
-      "230 EXISTING BUSINESS LESSONS: PRESERVED"
-    );
-
-    console.log(
-      "BUSINESS ENGLISH: UNTOUCHED"
-    );
-
-    console.log(
-      "GRAPH: REMOVED"
-    );
-
-    console.log(
-      "TABLE: REMOVED"
-    );
-
-    console.log(
-      "MOBILE OVERFLOW: PROTECTED"
-    );
-
-    console.log(
-      "======================================"
-    );
-
-  }
-
-
-  /* ============================================================
-     START
-     ============================================================ */
-
-  if (
-    document.readyState ===
-    "loading"
-  ) {
-
-    document.addEventListener(
-      "DOMContentLoaded",
-      init
-    );
-
-  } else {
-
-    init();
-
-  }
-
-})();
+/*
+==========================================================
+ AUNG BUSINESS ACADEMY
+ Sales Management Mastery
+ Professional Burmese Long Lessons
+ Version: 8.0
+==========================================================
+ This file replaces the basic lesson content in index.html.
+ Course Structure:
+ 01. Sales Management ဆိုတာဘာလဲ
+ 02. Sales Target Management
+ 03. KPI Management
+ 04. Sales Team Leadership
+ 05. Customer Management
+ 06. Distribution Management
+ 07. Market Execution
+ 08. Sales Forecasting
+ 09. Sales Reporting
+ 10. Negotiation Skills
+ 11. Problem Solving
+ 12. Profit & Margin
+ 13. Goal Setting
+ 14. Sales Manager 30-Day Action Plan
+==========================================================
+*/
+window.academyLessons = [
+/* ======================================================
+   LESSON 01
+====================================================== */
+{
+  title: "Sales Management ဆိုတာဘာလဲ",
+  intro:
+    "Sales Management ဆိုတာ Target ရရှိအောင် လူ၊ နံပါတ်၊ Customer၊ Market နှင့် Execution ကို စနစ်တကျ စီမံခန့်ခွဲခြင်း ဖြစ်ပါတယ်။",
+  body: `
+    <h3>၁။ Sales Management ရဲ့ အဓိပ္ပါယ်</h3>
+    <p>
+      Sales Management ဆိုတာ Product ကို ရောင်းချခြင်းတစ်ခုတည်းကို
+      စီမံတာမဟုတ်ပါဘူး။ Company ရဲ့ Sales Target ကို အောင်မြင်စွာ
+      ရရှိနိုင်အောင် လူ၊ Strategy၊ Customer၊ Distribution၊
+      Market Execution နဲ့ Sales Performance တွေကို စနစ်တကျ
+      စီမံခန့်ခွဲခြင်း ဖြစ်ပါတယ်။
+    </p>
+    <p>
+      Sales Manager တစ်ယောက်အနေနဲ့ "ဒီလ Target ဘယ်လောက်ရမလဲ"
+      ဆိုတဲ့ မေးခွန်းတစ်ခုတည်းကို မစဉ်းစားသင့်ပါဘူး။
+      "Target ရဖို့ ဘယ်သူက ဘာလုပ်မလဲ၊ ဘယ် Customer ကို
+      ဘယ်လိုရောင်းမလဲ၊ ဘယ် Market ကို ဦးစားပေးမလဲ၊
+      ဘယ်လိုတိုင်းတာမလဲ" ဆိုတာကိုပါ စဉ်းစားရပါတယ်။
+    </p>
+    <div class="lesson-note">
+      <strong>Sales Manager Mindset</strong><br>
+      Target ကို သိရုံနဲ့ မလုံလောက်ပါဘူး။
+      Target ရောက်အောင် People + Strategy + Execution ကို
+      ချိတ်ဆက်နိုင်ရပါမယ်။
+    </div>
+    <h3>၂။ Sales Manager ရဲ့ အဓိကတာဝန်များ</h3>
+    <ul>
+      <li>Sales Target သတ်မှတ်ခြင်းနှင့် ခွဲဝေခြင်း</li>
+      <li>Sales Team ကို Direction ပေးခြင်း</li>
+      <li>Daily, Weekly, Monthly Performance စောင့်ကြည့်ခြင်း</li>
+      <li>Customer နှင့် Market ကို နားလည်ခြင်း</li>
+      <li>Distribution နှင့် Availability တိုးတက်အောင်လုပ်ခြင်း</li>
+      <li>Sales Forecast ပြုလုပ်ခြင်း</li>
+      <li>Performance Gap ရှာဖွေခြင်း</li>
+      <li>Coaching နှင့် Feedback ပေးခြင်း</li>
+      <li>Action Plan တည်ဆောက်ခြင်း</li>
+      <li>Result ကို Review ပြုလုပ်ခြင်း</li>
+    </ul>
+    <h3>၃။ Sales Management ရဲ့ အခြေခံ Formula</h3>
+    <p>
+      Sales Result =
+      <strong>People × Strategy × Execution</strong>
+    </p>
+    <p>
+      People ကောင်းပေမယ့် Strategy မကောင်းရင် Result မကောင်းနိုင်ပါဘူး။
+      Strategy ကောင်းပေမယ့် Execution မကောင်းရင်လည်း
+      Market မှာ Result ထွက်လာမှာ မဟုတ်ပါဘူး။
+    </p>
+    <h3>၄။ Sales Manager နှင့် Salesperson မတူတဲ့အချက်</h3>
+    <p>
+      Salesperson တစ်ယောက်ရဲ့ အဓိကတာဝန်က မိမိရဲ့ Sales Target ကို
+      ရရှိအောင် ရောင်းချခြင်း ဖြစ်ပါတယ်။
+    </p>
+    <p>
+      Sales Manager ရဲ့တာဝန်ကတော့ မိမိတစ်ယောက်တည်း Target ရဖို့မဟုတ်ဘဲ
+      Team တစ်ခုလုံး Target ရအောင် စနစ်တကျ စီမံပေးခြင်း ဖြစ်ပါတယ်။
+    </p>
+    <div class="lesson-note">
+      Salesperson က "I can sell" ဖြစ်ရမယ်။<br>
+      Sales Manager က "I can build a team that can sell" ဖြစ်ရမယ်။
+    </div>
+    <h3>၅။ လက်တွေ့အသုံးချရန်</h3>
+    <ol>
+      <li>မိမိ Team ရဲ့ လက်ရှိ Sales Result ကို သိပါ။</li>
+      <li>Target နှင့် Actual ကြား Gap ကိုတွက်ပါ။</li>
+      <li>Gap ဖြစ်ရတဲ့အကြောင်းရင်းကို ရှာပါ။</li>
+      <li>People, Customer, Product, Distribution, Execution အလိုက် ခွဲခြမ်းပါ။</li>
+      <li>Action Plan တည်ဆောက်ပြီး Result ကို ပြန်တိုင်းတာပါ။</li>
+    </ol>
+    <h3>ဒီသင်ခန်းစာရဲ့ အဓိကမှတ်သားရန်</h3>
+    <p>
+      Sales Management ရဲ့ အဓိကရည်ရွယ်ချက်က
+      "ပိုရောင်းရန်" တစ်ခုတည်းမဟုတ်ပါဘူး။
+      "ပိုကောင်းတဲ့ Sales System တစ်ခု တည်ဆောက်ရန်" ဖြစ်ပါတယ်။
+    </p>
+  `
+},
+/* ======================================================
+   LESSON 02
+====================================================== */
+{
+  title: "Sales Target Management",
+  intro:
+    "Monthly Sales Target ကို Team, Territory နှင့် Daily Execution အဖြစ် ပြောင်းလဲပြီး Target ရောက်အောင် စီမံနည်း။",
+  body: `
+    <h3>၁။ Sales Target ဆိုတာဘာလဲ</h3>
+    <p>
+      Sales Target ဆိုတာ သတ်မှတ်ထားတဲ့ အချိန်ကာလအတွင်း
+      ရရှိရမယ့် Sales Result ကို နံပါတ်ဖြင့် သတ်မှတ်ထားခြင်း ဖြစ်ပါတယ်။
+      Target ကို Revenue, Volume, Unit, Customer သို့မဟုတ်
+      အခြား KPI များဖြင့် သတ်မှတ်နိုင်ပါတယ်။
+    </p>
+    <h3>၂။ Target ကို နံပါတ်တစ်ခုအဖြစ် မကြည့်ပါနှင့်</h3>
+    <p>
+      ဥပမာ Monthly Target 100 Million ရှိတယ်ဆိုပါစို့။
+      Sales Manager တစ်ယောက်က "100 Million ရအောင်လုပ်ပါ"
+      လို့ပြောရုံနဲ့ Target Management မဖြစ်ပါဘူး။
+    </p>
+    <p>
+      100 Million ကို ဘယ် Territory က ဘယ်လောက်ရမလဲ၊
+      ဘယ် Salesperson က ဘယ်လောက်ရမလဲ၊
+      တစ်ပတ်ကို ဘယ်လောက်ရမလဲ၊
+      တစ်နေ့ကို ဘယ်လောက်ရမလဲဆိုတာ ပြောင်းရပါမယ်။
+    </p>
+    <h3>၃။ Target Breakdown</h3>
+    <ol>
+      <li>Company Target</li>
+      <li>Area / Region Target</li>
+      <li>Territory Target</li>
+      <li>Salesperson Target</li>
+      <li>Customer / Outlet Target</li>
+      <li>Weekly Target</li>
+      <li>Daily Execution Target</li>
+    </ol>
+    <div class="lesson-note">
+      <strong>အရေးကြီးသောအချက်</strong><br>
+      Monthly Target ကို Daily Execution အထိ မခွဲနိုင်ရင်
+      လကုန်ခါနီးမှ Target Gap ကြီးလာနိုင်ပါတယ်။
+    </div>
+    <h3>၄။ Target Gap Management</h3>
+    <p>
+      Target Gap ဆိုတာ Target နှင့် Actual Sales ကြား
+      ကွာဟချက် ဖြစ်ပါတယ်။
+    </p>
+    <p>
+      ဥပမာ Target = 100 Million ဖြစ်ပြီး Actual = 80 Million ဆိုရင်
+      Gap = 20 Million ဖြစ်ပါတယ်။
+    </p>
+    <p>
+      Gap တွေ့ရုံနဲ့ မပြီးပါဘူး။
+      Gap ဘာကြောင့်ဖြစ်လာတာလဲဆိုတာ ရှာရပါမယ်။
+    </p>
+    <ul>
+      <li>Customer မလုံလောက်ခြင်း</li>
+      <li>Distribution ကျခြင်း</li>
+      <li>Stock မရှိခြင်း</li>
+      <li>Sales Team Performance ကျခြင်း</li>
+      <li>Competitor Activity</li>
+      <li>Price Issue</li>
+      <li>Seasonality</li>
+      <li>Market Demand ပြောင်းလဲခြင်း</li>
+    </ul>
+    <h3>၅။ Target Review Process</h3>
+    <p>
+      Daily Review မှာ Result ကိုကြည့်ပါ။
+      Weekly Review မှာ Trend ကိုကြည့်ပါ။
+      Monthly Review မှာ Root Cause နဲ့ Learning ကိုကြည့်ပါ။
+    </p>
+    <h3>၆။ Sales Manager အတွက် လက်တွေ့ Checklist</h3>
+    <ul>
+      <li>ဒီလ Target ဘယ်လောက်လဲ?</li>
+      <li>ဒီနေ့အထိ Actual ဘယ်လောက်ရပြီလဲ?</li>
+      <li>Achievement % ဘယ်လောက်လဲ?</li>
+      <li>Remaining Target ဘယ်လောက်လဲ?</li>
+      <li>တစ်နေ့ကို ဘယ်လောက်ရောင်းရမလဲ?</li>
+      <li>ဘယ် Territory က Gap အများဆုံးလဲ?</li>
+      <li>ဘယ် Salesperson ကို Coaching လိုအပ်လဲ?</li>
+    </ul>
+    <h3>အဓိကမှတ်သားရန်</h3>
+    <p>
+      Target ကို Pressure အဖြစ် အသုံးမပြုဘဲ
+      Management Tool အဖြစ် အသုံးပြုပါ။
+    </p>
+  `
+},
+/* ======================================================
+   LESSON 03
+====================================================== */
+{
+  title: "KPI Management",
+  intro:
+    "Sales Team Performance ကို တိကျစွာတိုင်းတာရန် KPI များကို သတ်မှတ်၊ စောင့်ကြည့်၊ ခွဲခြမ်းပြီး Action ချနည်း။",
+  body: `
+    <h3>၁။ KPI ဆိုတာဘာလဲ</h3>
+    <p>
+      KPI ဆိုတာ Key Performance Indicator ဖြစ်ပါတယ်။
+      လူတစ်ယောက်၊ Team တစ်ခု သို့မဟုတ် Business တစ်ခုရဲ့
+      Performance ကို တိုင်းတာဖို့ အသုံးပြုတဲ့ အဓိကတိုင်းတာချက် ဖြစ်ပါတယ်။
+    </p>
+    <h3>၂။ Sales KPI အမျိုးအစားများ</h3>
+    <ul>
+      <li>Sales Achievement %</li>
+      <li>Revenue Growth</li>
+      <li>Volume Growth</li>
+      <li>Outlet Coverage</li>
+      <li>Productive Calls</li>
+      <li>Strike Rate</li>
+      <li>Distribution</li>
+      <li>Average Order Value</li>
+      <li>Collection / AR</li>
+      <li>New Customer Acquisition</li>
+    </ul>
+    <h3>၃။ KPI တစ်ခုချင်းစီရဲ့ အဓိပ္ပါယ်</h3>
+    <p>
+      Sales Achievement က Target ရဲ့ ဘယ်လောက်ရာခိုင်နှုန်း
+      ရရှိပြီးပြီလဲဆိုတာ ပြပါတယ်။
+    </p>
+    <p>
+      Outlet Coverage က Market ထဲမှာ ကိုယ့် Product ကို
+      ဘယ်လောက်အထိ လွှမ်းခြုံထားနိုင်လဲဆိုတာ ပြပါတယ်။
+    </p>
+    <p>
+      Strike Rate က Sales Visit ပြုလုပ်တဲ့အခါ
+      Order ရရှိတဲ့ Visit အချိုးအစားကို တိုင်းတာနိုင်ပါတယ်။
+    </p>
+    <h3>၄။ KPI ကို Report ကြည့်ရုံနဲ့ မပြီးပါ</h3>
+    <p>
+      KPI 80% ဖြစ်နေတာကို သိရုံနဲ့ Sales Manager အလုပ်မပြီးပါဘူး။
+      ဘာကြောင့် 80% ဖြစ်နေတာလဲဆိုတာ ရှာရပါတယ်။
+    </p>
+    <div class="lesson-note">
+      KPI → Gap → Root Cause → Action → Review
+    </div>
+    <h3>၅။ Leading KPI နှင့် Lagging KPI</h3>
+    <p>
+      Sales Result က Lagging Indicator ဖြစ်ပါတယ်။
+      Result ဖြစ်ပြီးမှ သိရတာပါ။
+    </p>
+    <p>
+      Visit, Outlet Coverage, Productive Calls, New Customer
+      စတဲ့ KPI တွေက Leading Indicator ဖြစ်နိုင်ပါတယ်။
+      Result မထွက်ခင် အခြေအနေကို ကြိုတင်ပြနိုင်ပါတယ်။
+    </p>
+    <h3>၆။ Sales Manager အတွက် KPI Review</h3>
+    <ol>
+      <li>Result ကိုကြည့်ပါ။</li>
+      <li>Trend ကိုကြည့်ပါ။</li>
+      <li>Gap ကိုရှာပါ။</li>
+      <li>Root Cause ကိုရှာပါ။</li>
+      <li>Action ကိုသတ်မှတ်ပါ။</li>
+      <li>Next Review Date သတ်မှတ်ပါ။</li>
+    </ol>
+    <h3>အဓိကမှတ်သားရန်</h3>
+    <p>
+      KPI က Team ကို ဖိအားပေးဖို့ မဟုတ်ပါဘူး။
+      Performance ကို တိုးတက်အောင် စီမံဖို့ ဖြစ်ပါတယ်။
+    </p>
+  `
+},
+/* ======================================================
+   LESSON 04
+====================================================== */
+{
+  title: "Sales Team Leadership",
+  intro:
+    "Sales Team ကို Micromanagement မလုပ်ဘဲ Clear Expectations, Coaching, Feedback နှင့် Accountability ဖြင့် ဦးဆောင်နည်း။",
+  body: `
+    <h3>၁။ Manager နဲ့ Leader</h3>
+    <p>
+      Manager က အလုပ်ကို စီမံပါတယ်။
+      Leader က လူတွေကို ရလဒ်ကောင်းရအောင် လမ်းညွှန်ပေးပါတယ်။
+    </p>
+    <p>
+      Sales Manager တစ်ယောက်မှာ Management Skill နဲ့
+      Leadership Skill နှစ်ခုစလုံး လိုအပ်ပါတယ်။
+    </p>
+    <h3>၂။ Clear Expectations</h3>
+    <p>
+      Team Member တစ်ယောက်ကို "ကောင်းကောင်းလုပ်ပါ" လို့ ပြောတာထက်
+      ဘာလုပ်ရမယ်၊ ဘယ်အချိန်ပြီးရမယ်၊ ဘယ် Result ရရမယ်ဆိုတာ
+      ရှင်းလင်းစွာ သတ်မှတ်ပေးရပါတယ်။
+    </p>
+    <h3>၃။ Coaching</h3>
+    <p>
+      Coaching ဆိုတာ အဖြေကို တိုက်ရိုက်ပြောပေးတာမဟုတ်ပါဘူး။
+      Team Member ကို ကိုယ်တိုင်စဉ်းစားပြီး Solution ရှာနိုင်အောင်
+      မေးခွန်းကောင်းများနဲ့ လမ်းညွှန်ပေးခြင်း ဖြစ်ပါတယ်။
+    </p>
+    <h3>၄။ Feedback</h3>
+    <p>
+      Feedback ပေးတဲ့အခါ လူကို မဝေဖန်ဘဲ
+      Behavior နဲ့ Result ကို အခြေခံပြီး ပြောသင့်ပါတယ်။
+    </p>
+    <div class="lesson-note">
+      <strong>Good Feedback</strong><br>
+      What happened → Why it matters → What to improve → Next action
+    </div>
+    <h3>၅။ Micromanagement မလုပ်ပါနှင့်</h3>
+    <p>
+      Manager က Team Member ရဲ့ လုပ်ဆောင်မှုတိုင်းကို
+      ကိုယ်တိုင်လိုက်စောင့်ကြည့်နေမယ်ဆိုရင် Team ရဲ့ Ownership
+      ကျဆင်းလာနိုင်ပါတယ်။
+    </p>
+    <p>
+      System, KPI နှင့် Review Process တည်ဆောက်ပြီး
+      Team ကို တာဝန်ယူနိုင်အောင် Empower လုပ်ပါ။
+    </p>
+    <h3>၆။ High Performer ကို စီမံခြင်း</h3>
+    <ul>
+      <li>သူ့ရဲ့ Strength ကို အသုံးချပါ။</li>
+      <li>ပိုမိုကြီးမားတဲ့ Responsibility ပေးပါ။</li>
+      <li>Best Practice ကို Team ထဲမှာ Share လုပ်စေပါ။</li>
+      <li>Future Leadership အတွက် ဖွံ့ဖြိုးပေးပါ။</li>
+    </ul>
+    <h3>၇။ Low Performer ကို စီမံခြင်း</h3>
+    <p>
+      Low Performance ဖြစ်တာနဲ့ ချက်ချင်း အပြစ်တင်မယ့်အစား
+      Skill Problem လား၊ Will Problem လား၊ System Problem လား
+      ခွဲခြမ်းစစ်ဆေးပါ။
+    </p>
+    <h3>အဓိကမှတ်သားရန်</h3>
+    <p>
+      Good Manager က Team ကို ကိုယ်တိုင်အလုပ်လုပ်ပေးသူ မဟုတ်ပါဘူး။
+      Team က ကိုယ်တိုင်ကောင်းကောင်းလုပ်နိုင်အောင်
+      System နဲ့ Capability တည်ဆောက်ပေးသူ ဖြစ်ပါတယ်။
+    </p>
+  `
+},
+/* ======================================================
+   LESSON 05
+====================================================== */
+{
+  title: "Customer Management",
+  intro:
+    "Customer ကို ရောင်းချမယ့်သူအဖြစ်သာ မကြည့်ဘဲ ရေရှည် Business Partner အဖြစ် စီမံခန့်ခွဲနည်း။",
+  body: `
+    <h3>၁။ Customer Management ရဲ့ အဓိပ္ပါယ်</h3>
+    <p>
+      Customer Management ဆိုတာ Customer ကို ရောင်းပြီးတာနဲ့
+      အလုပ်ပြီးသွားတာ မဟုတ်ပါဘူး။
+      Customer ရဲ့ Need, Problem, Business Situation နဲ့
+      Future Opportunity တွေကို နားလည်ပြီး Relationship
+      ရေရှည်တည်ဆောက်ခြင်း ဖြစ်ပါတယ်။
+    </p>
+    <h3>၂။ Customer Segmentation</h3>
+    <p>
+      Customer အားလုံးကို တူညီတဲ့နည်းလမ်းနဲ့ မစီမံသင့်ပါဘူး။
+      Revenue, Potential, Strategic Importance နဲ့
+      Growth Opportunity အလိုက် Segment ခွဲသင့်ပါတယ်။
+    </p>
+    <ul>
+      <li>Key Accounts</li>
+      <li>Growth Customers</li>
+      <li>Regular Customers</li>
+      <li>New Customers</li>
+      <li>Low Potential Customers</li>
+    </ul>
+    <h3>၃။ Customer Need Analysis</h3>
+    <p>
+      Customer နဲ့တွေ့တဲ့အခါ Product အကြောင်းကိုပဲ ပြောမယ့်အစား
+      Customer ရဲ့ လက်ရှိ Problem ကို နားထောင်ပါ။
+    </p>
+    <p>
+      "ဘာလိုချင်လဲ" ထက်
+      "ဘာကြောင့်လိုချင်တာလဲ" ဆိုတာကို နားလည်နိုင်ရင်
+      ပိုကောင်းတဲ့ Solution ပေးနိုင်ပါတယ်။
+    </p>
+    <h3>၄။ Customer Visit Planning</h3>
+    <ol>
+      <li>Visit Objective သတ်မှတ်ပါ။</li>
+      <li>Customer History ကို ပြန်ကြည့်ပါ။</li>
+      <li>Potential Opportunity ရှာပါ။</li>
+      <li>Meeting အတွင်း Questions မေးပါ။</li>
+      <li>Solution တင်ပြပါ။</li>
+      <li>Next Action သတ်မှတ်ပါ။</li>
+    </ol>
+    <div class="lesson-note">
+      Customer Visit တစ်ခါတိုင်းမှာ Objective တစ်ခုရှိသင့်ပါတယ်။
+      "သွားတွေ့ပြီး ပြန်လာတယ်" ဆိုတာ Visit ဖြစ်ပေမယ့်
+      Productive Visit ဖြစ်ချင်မှ ဖြစ်ပါမယ်။
+    </div>
+    <h3>၅။ Customer Relationship</h3>
+    <p>
+      Relationship ဆိုတာ ရင်းနှီးရုံမဟုတ်ပါဘူး။
+      Trust, Reliability, Responsiveness နဲ့
+      Problem Solving Capability တို့က Customer Relationship
+      ကို တည်ဆောက်ပေးပါတယ်။
+    </p>
+    <h3>အဓိကမှတ်သားရန်</h3>
+    <p>
+      Customer ကို ရောင်းချဖို့သာ မကြည့်ပါနှင့်။
+      Customer ရဲ့ Business ကို ပိုကောင်းလာအောင်
+      ကူညီပေးနိုင်တဲ့ Partner ဖြစ်အောင် ကြိုးစားပါ။
+    </p>
+  `
+},
+/* ======================================================
+   LESSON 06
+====================================================== */
+{
+  title: "Distribution Management",
+  intro:
+    "Product ကို မှန်ကန်တဲ့ Market နှင့် Outlet များထံ အချိန်မီရောက်ရှိနိုင်အောင် Distribution System ကို စီမံနည်း။",
+  body: `
+    <h3>၁။ Distribution ဘာကြောင့်အရေးကြီးသလဲ</h3>
+    <p>
+      Customer က Product ဝယ်ချင်ပေမယ့် Product မရှိရင်
+      Sales Opportunity ဆုံးရှုံးသွားနိုင်ပါတယ်။
+      ဒါကြောင့် Distribution က Sales Growth ရဲ့ အခြေခံတစ်ခု ဖြစ်ပါတယ်။
+    </p>
+    <h3>၂။ Distribution ရဲ့ အဓိကအစိတ်အပိုင်းများ</h3>
+    <ul>
+      <li>Market Coverage</li>
+      <li>Outlet Coverage</li>
+      <li>Numeric Distribution</li>
+      <li>Weighted Distribution</li>
+      <li>Availability</li>
+      <li>Stock Level</li>
+      <li>Route Efficiency</li>
+    </ul>
+    <h3>၃။ Outlet Coverage</h3>
+    <p>
+      Territory တစ်ခုအတွင်းရှိ Potential Outlet များထဲက
+      ကိုယ့် Product ရောက်ရှိနေတဲ့ Outlet အချိုးကို
+      စနစ်တကျ စောင့်ကြည့်ရပါတယ်။
+    </p>
+    <h3>၄။ Stock Management</h3>
+    <p>
+      Stock အရမ်းနည်းရင် Out-of-Stock ဖြစ်နိုင်ပါတယ်။
+      Stock အရမ်းများရင် Working Capital ပိတ်မိနိုင်ပါတယ်။
+      ဒါကြောင့် Demand နဲ့ Supply ကို Balance ဖြစ်အောင်
+      စီမံရပါတယ်။
+    </p>
+    <div class="lesson-note">
+      Right Product + Right Outlet + Right Quantity +
+      Right Time = Strong Distribution
+    </div>
+    <h3>၅။ Distribution Gap ရှာဖွေခြင်း</h3>
+    <ol>
+      <li>ဘယ် Market မှာ Coverage ကျသလဲ?</li>
+      <li>ဘယ် Outlet Type မှာ Gap ဖြစ်သလဲ?</li>
+      <li>ဘယ် Product က Availability ကျသလဲ?</li>
+      <li>Stock Supply Problem ရှိသလား?</li>
+      <li>Sales Team Visit Frequency လုံလောက်သလား?</li>
+    </ol>
+    <h3>၆။ Distribution တိုးတက်အောင်လုပ်ခြင်း</h3>
+    <p>
+      Potential Outlet List တည်ဆောက်ပြီး
+      Priority Outlet များကို သတ်မှတ်ပါ။
+      Sales Team ရဲ့ Route Plan ကို ပြန်လည်သုံးသပ်ပြီး
+      Coverage Gap ကို ပိတ်ပါ။
+    </p>
+    <h3>အဓိကမှတ်သားရန်</h3>
+    <p>
+      Sales တိုးချင်ရင် Distribution ကို မမေ့ပါနှင့်။
+      Customer က ဝယ်ချင်တဲ့အချိန်မှာ Product ရှိနေဖို့
+      Distribution System က အရေးကြီးပါတယ်။
+    </p>
+  `
+},
+/* ======================================================
+   LESSON 07
+====================================================== */
+{
+  title: "Market Execution",
+  intro:
+    "Company Strategy ကို Field ထဲမှာ Customer အထိ မှန်ကန်စွာ အကောင်အထည်ဖော်နိုင်အောင် စီမံနည်း။",
+  body: `
+    <h3>၁။ Execution ဆိုတာဘာလဲ</h3>
+    <p>
+      Strategy ရေးထားရုံနဲ့ Business Result မထွက်ပါဘူး။
+      Strategy ကို Field မှာ အကောင်အထည်ဖော်နိုင်မှ
+      Result ဖြစ်လာပါတယ်။
+    </p>
+    <h3>၂။ Perfect Execution ရဲ့ အခြေခံ</h3>
+    <ul>
+      <li>Right People</li>
+      <li>Right Outlet</li>
+      <li>Right Product</li>
+      <li>Right Price</li>
+      <li>Right Availability</li>
+      <li>Right Visibility</li>
+      <li>Right Timing</li>
+    </ul>
+    <h3>၃။ Field Execution Management</h3>
+    <p>
+      Sales Manager က Office ထဲက Report တစ်ခုတည်းကို
+      ကြည့်နေရုံနဲ့ Market ကို နားလည်နိုင်မှာ မဟုတ်ပါဘူး။
+      Field ကို ပုံမှန်သွားပြီး Customer၊ Competitor၊
+      Product Availability နဲ့ Team Execution ကို
+      ကိုယ်တိုင်ကြည့်ရှုသင့်ပါတယ်။
+    </p>
+    <h3>၄။ PJP နှင့် Route Management</h3>
+    <p>
+      Planned Journey Plan က Sales Team ရဲ့ အချိန်ကို
+      ထိရောက်စွာ အသုံးချနိုင်ဖို့ အရေးကြီးပါတယ်။
+      Customer Priority နဲ့ Potential အလိုက် Visit Plan
+      တည်ဆောက်သင့်ပါတယ်။
+    </p>
+    <div class="lesson-note">
+      Field Activity များခြင်းထက်
+      Productive Field Activity ဖြစ်ဖို့ ပိုအရေးကြီးပါတယ်။
+    </div>
+    <h3>၅။ Execution Review</h3>
+    <ol>
+      <li>Plan ဘာလဲ?</li>
+      <li>Actual ဘာဖြစ်သလဲ?</li>
+      <li>Gap ဘယ်မှာရှိသလဲ?</li>
+      <li>ဘာကြောင့် Gap ဖြစ်သလဲ?</li>
+      <li>Next Action ဘာလဲ?</li>
+    </ol>
+    <h3>၆။ Sales Manager အတွက် အရေးကြီးသော Mindset</h3>
+    <p>
+      "Plan to Field" ဖြစ်အောင်လုပ်ပါ။
+      Office Strategy နဲ့ Field Reality ကြား Gap မဖြစ်အောင်
+      Market Feedback ကို အမြဲပြန်ယူပါ။
+    </p>
+  `
+},
+/* ======================================================
+   LESSON 08
+====================================================== */
+{
+  title: "Sales Forecasting",
+  intro:
+    "လကုန်မတိုင်မီ Sales Result ကို ကြိုတင်ခန့်မှန်းပြီး Target Gap ကို ကြိုတင်စီမံနိုင်အောင် Forecast ပြုလုပ်နည်း။",
+  body: `
+    <h3>၁။ Sales Forecasting ဆိုတာဘာလဲ</h3>
+    <p>
+      Sales Forecasting ဆိုတာ အနာဂတ်မှာ ဘယ်လောက် Sales
+      ရနိုင်မလဲဆိုတာကို Historical Data, Current Trend,
+      Pipeline နှင့် Market Situation များအပေါ် အခြေခံပြီး
+      ခန့်မှန်းခြင်း ဖြစ်ပါတယ်။
+    </p>
+    <h3>၂။ Forecast ဘာကြောင့်လိုသလဲ</h3>
+    <p>
+      Sales Manager တစ်ယောက်က လကုန်တဲ့အချိန်မှာ
+      Result ကို သိတာနောက်ကျပါတယ်။
+      Forecast ရှိရင် လမကုန်ခင် Gap ကို ကြိုမြင်နိုင်ပါတယ်။
+    </p>
+    <h3>၃။ Forecast အတွက် ကြည့်ရမယ့် Data</h3>
+    <ul>
+      <li>Current Sales Achievement</li>
+      <li>Remaining Target</li>
+      <li>Average Daily Sales</li>
+      <li>Sales Trend</li>
+      <li>Customer Pipeline</li>
+      <li>Outstanding Orders</li>
+      <li>Seasonality</li>
+      <li>Market Condition</li>
+      <li>Competitor Activity</li>
+    </ul>
+    <h3>၄။ Simple Forecast ဥပမာ</h3>
+    <p>
+      လက်ရှိ 20 ရက်အတွင်း Sales 80 Million ရရှိထားပြီး
+      ကျန် 10 ရက်ရှိတယ်ဆိုပါစို့။
+      လက်ရှိ Average Daily Sales ကို အသုံးပြုပြီး
+      လကုန် Result ကို ခန့်မှန်းနိုင်ပါတယ်။
+    </p>
+    <p>
+      ဒါပေမယ့် Forecast ကို အတိတ် Data တစ်ခုတည်းနဲ့
+      မဆုံးဖြတ်သင့်ပါဘူး။ Remaining Pipeline နဲ့
+      Market Situation ကိုပါ ထည့်သွင်းစဉ်းစားရပါတယ်။
+    </p>
+    <h3>၅။ Forecast Review</h3>
+    <ol>
+      <li>Target</li>
+      <li>Actual</li>
+      <li>Forecast</li>
+      <li>Gap</li>
+      <li>Risk</li>
+      <li>Action</li>
+    </ol>
+    <div class="lesson-note">
+      Forecast ရဲ့ ရည်ရွယ်ချက်က Future ကို အတိအကျခန့်မှန်းဖို့မဟုတ်ပါဘူး။
+      Risk နဲ့ Opportunity ကို ကြိုတင်မြင်ပြီး Action ချနိုင်ဖို့ ဖြစ်ပါတယ်။
+    </div>
+    <h3>အဓိကမှတ်သားရန်</h3>
+    <p>
+      Good Sales Manager က Result ကိုပဲ မကြည့်ပါဘူး။
+      Result ဘယ်ကိုသွားနေတယ်ဆိုတာကိုလည်း ကြိုမြင်နိုင်ရပါမယ်။
+    </p>
+  `
+},
+/* ======================================================
+   LESSON 09
+====================================================== */
+{
+  title: "Sales Reporting",
+  intro:
+    "Sales Report ကို Data စုစည်းရန်အတွက်သာ မဟုတ်ဘဲ Management Decision ချနိုင်ရန် အသုံးပြုနည်း။",
+  body: `
+    <h3>၁။ Sales Report ရဲ့ ရည်ရွယ်ချက်</h3>
+    <p>
+      Sales Report ရဲ့ အဓိကရည်ရွယ်ချက်က နံပါတ်တွေကို
+      ပြသရန်သာ မဟုတ်ပါဘူး။
+      Management Decision ချနိုင်အောင် Information ပေးဖို့ ဖြစ်ပါတယ်။
+    </p>
+    <h3>၂။ Good Sales Report မှာ ပါသင့်တဲ့အချက်များ</h3>
+    <ul>
+      <li>Target</li>
+      <li>Actual</li>
+      <li>Achievement %</li>
+      <li>Previous Period Comparison</li>
+      <li>Growth / Decline</li>
+      <li>Gap</li>
+      <li>Root Cause</li>
+      <li>Action Plan</li>
+      <li>Owner</li>
+      <li>Deadline</li>
+    </ul>
+    <h3>၃။ Data နဲ့ Insight မတူပါ</h3>
+    <p>
+      "Sales 90% ရရှိပါတယ်" ဆိုတာ Data ဖြစ်ပါတယ်။
+    </p>
+    <p>
+      "Sales 90% ဖြစ်ရတဲ့အကြောင်းရင်းက Distribution 8% ကျသွားပြီး
+      Key Account Order တစ်ခု နောက်ကျခဲ့တာ ဖြစ်ပါတယ်" ဆိုတာ Insight ဖြစ်ပါတယ်။
+    </p>
+    <div class="lesson-note">
+      Data tells you what happened.<br>
+      Analysis tells you why it happened.<br>
+      Action tells you what to do next.
+    </div>
+    <h3>၄။ Report ကို Management Tool အဖြစ် အသုံးပြုခြင်း</h3>
+    <p>
+      Report တင်ပြီးရင် Action Owner တစ်ယောက်နဲ့
+      Deadline တစ်ခု သတ်မှတ်ထားသင့်ပါတယ်။
+      နောက် Review မှာ Action က Result ဘယ်လောက်
+      ဖြစ်လာစေသလဲ ပြန်ကြည့်ရပါတယ်။
+    </p>
+    <h3>၅။ Sales Manager Report Checklist</h3>
+    <ol>
+      <li>What happened?</li>
+      <li>Why did it happen?</li>
+      <li>What is the impact?</li>
+      <li>What should we do?</li>
+      <li>Who owns the action?</li>
+      <li>When will we review?</li>
+    </ol>
+    <h3>အဓိကမှတ်သားရန်</h3>
+    <p>
+      Report က အလုပ်ပြီးဆုံးခြင်း မဟုတ်ပါဘူး။
+      Report က Action စတင်ဖို့ အခြေခံဖြစ်ပါတယ်။
+    </p>
+  `
+},
+/* ======================================================
+   LESSON 10
+====================================================== */
+{
+  title: "Negotiation Skills",
+  intro:
+    "Customer နှင့် Company နှစ်ဖက်စလုံးအတွက် ရေရှည်အကျိုးရှိသော Win-Win Agreement ရရှိအောင် Negotiation ပြုလုပ်နည်း။",
+  body: `
+    <h3>၁။ Negotiation ဆိုတာဘာလဲ</h3>
+    <p>
+      Negotiation ဆိုတာ တစ်ဖက်ကို အနိုင်ယူခြင်း မဟုတ်ပါဘူး။
+      နှစ်ဖက်စလုံးအတွက် အကျိုးရှိတဲ့ Agreement တစ်ခုရရှိအောင်
+      ဆွေးနွေးညှိနှိုင်းခြင်း ဖြစ်ပါတယ်။
+    </p>
+    <h3>၂။ Negotiation မစခင် ပြင်ဆင်ရန်</h3>
+    <ul>
+      <li>ကိုယ့် Objective ကို သိပါ။</li>
+      <li>Customer Objective ကို နားလည်ပါ။</li>
+      <li>Minimum Acceptable Result ကို သတ်မှတ်ပါ။</li>
+      <li>Alternative Options ပြင်ဆင်ထားပါ။</li>
+      <li>Data နှင့် Facts ပြင်ဆင်ပါ။</li>
+    </ul>
+    <h3>၃။ Customer ကို နားထောင်ခြင်း</h3>
+    <p>
+      Negotiation မှာ စကားပြောတာထက် နားထောင်တာက
+      ပိုအရေးကြီးနိုင်ပါတယ်။
+      Customer က Price ကို တောင်းဆိုတဲ့အခါ
+      "ဘာကြောင့် Price လျှော့ချင်တာလဲ" ဆိုတာ
+      နားလည်ဖို့လိုပါတယ်။
+    </p>
+    <h3>၄။ Value-Based Negotiation</h3>
+    <p>
+      Price ကိုပဲ ဆွေးနွေးမယ့်အစား Customer ရရှိမယ့် Value ကို
+      ရှင်းပြပါ။
+    </p>
+    <p>
+      Product Quality, Service, Delivery, Availability,
+      Brand Strength, Business Support စတဲ့ Value များကို
+      Customer အတွက် အဓိပ္ပါယ်ရှိအောင် ပြောပြနိုင်ရပါမယ်။
+    </p>
+    <div class="lesson-note">
+      Discount မပေးခင် Value ကို အရင်ရှင်းပြပါ။
+    </div>
+    <h3>၅။ Win-Win Solution</h3>
+    <p>
+      Customer က Price လျှော့ချင်တယ်ဆိုရင် Price တစ်ခုတည်းကို
+      လျှော့ပေးမယ့်အစား Volume, Payment Term, Order Size,
+      Promotion Support စတဲ့ အခြား Variable များကို
+      စဉ်းစားနိုင်ပါတယ်။
+    </p>
+    <h3>၆။ Negotiation မှာ မလုပ်သင့်သောအရာများ</h3>
+    <ul>
+      <li>အလျင်စလို Discount ပေးခြင်း</li>
+      <li>Customer ကို မနားထောင်ခြင်း</li>
+      <li>Data မရှိဘဲ ဆွေးနွေးခြင်း</li>
+      <li>အလွန်အကျွံ Promise ပေးခြင်း</li>
+      <li>Relationship ကို ပျက်စီးစေတဲ့ စကားအသုံးအနှုန်းများ</li>
+    </ul>
+    <h3>အဓိကမှတ်သားရန်</h3>
+    <p>
+      Strong Negotiator ဆိုတာ စကားနိုင်သူမဟုတ်ပါဘူး။
+      Value ကို နားလည်စေပြီး နှစ်ဖက်စလုံးအတွက်
+      အကျိုးရှိတဲ့ Solution ဖန်တီးနိုင်သူ ဖြစ်ပါတယ်။
+    </p>
+  `
+},
+/* ======================================================
+   LESSON 11
+====================================================== */
+{
+  title: "Problem Solving",
+  intro:
+    "Sales Problem များကို မျက်နှာပြင်ပေါ်က လက္ခဏာအတိုင်း မဖြေရှင်းဘဲ Root Cause အထိ ရှာဖွေဖြေရှင်းနည်း။",
+  body: `
+    <h3>၁။ Problem Solving ဘာကြောင့်အရေးကြီးသလဲ</h3>
+    <p>
+      Sales Management မှာ Problem မရှိတဲ့နေ့ဆိုတာ
+      မရှိသလောက်ပါပဲ။
+      Sales ကျနိုင်တယ်၊ Customer ပျောက်နိုင်တယ်၊
+      Stock မရနိုင်တယ်၊ Team Performance ကျနိုင်ပါတယ်။
+    </p>
+    <p>
+      Manager က Problem မရှိအောင်လုပ်တာထက်
+      Problem ဖြစ်တဲ့အခါ မြန်မြန်နဲ့ မှန်မှန် ဖြေရှင်းနိုင်ဖို့
+      System တည်ဆောက်ထားရပါတယ်။
+    </p>
+    <h3>၂။ Symptom နှင့် Root Cause</h3>
+    <p>
+      Sales ကျသွားတာက Symptom ဖြစ်ပါတယ်။
+      "Sales ကျတယ်" ဆိုတာကို သိရုံနဲ့ Problem မပြီးပါဘူး။
+    </p>
+    <p>
+      Customer Order ကျတာလား၊ Distribution ကျတာလား၊
+      Salesperson Visit မလုပ်တာလား၊ Stock မရှိတာလား၊
+      Competitor Activity တိုးလာတာလားဆိုတာ
+      Root Cause ကို ရှာရပါမယ်။
+    </p>
+    <h3>၃။ 5 Why Method</h3>
+    <p>
+      Problem တစ်ခုကို Why? လို့ ထပ်ခါထပ်ခါ မေးပြီး
+      အဓိကအကြောင်းရင်းအထိ ရှာဖွေနိုင်ပါတယ်။
+    </p>
+    <ol>
+      <li>ဘာကြောင့် Sales ကျသလဲ?</li>
+      <li>ဘာကြောင့် Customer Order ကျသလဲ?</li>
+      <li>ဘာကြောင့် Order ကျသလဲ?</li>
+      <li>ဘာကြောင့် Availability မကောင်းသလဲ?</li>
+      <li>ဘာကြောင့် Supply Plan မမှန်သလဲ?</li>
+    </ol>
+    <h3>၄။ Problem Solving Process</h3>
+    <ol>
+      <li>Problem ကို Define လုပ်ပါ။</li>
+      <li>Data စုပါ။</li>
+      <li>Root Cause ရှာပါ။</li>
+      <li>Solution Options တည်ဆောက်ပါ။</li>
+      <li>Best Action ရွေးပါ။</li>
+      <li>Owner နှင့် Deadline သတ်မှတ်ပါ။</li>
+      <li>Result ကို Review လုပ်ပါ။</li>
+    </ol>
+    <div class="lesson-note">
+      Problem ကို အမြန်ဆုံးဖြေရှင်းဖို့ထက်
+      မှန်ကန်တဲ့ Root Cause ကို ဖြေရှင်းဖို့ ပိုအရေးကြီးပါတယ်။
+    </div>
+    <h3>၅။ Manager Mindset</h3>
+    <p>
+      Problem ဖြစ်တဲ့အခါ လူကို အပြစ်တင်တာထက်
+      Process ဘယ်နေရာမှာ ပျက်သွားလဲဆိုတာ အရင်ရှာပါ။
+    </p>
+    <h3>အဓိကမှတ်သားရန်</h3>
+    <p>
+      Great Manager ဆိုတာ Problem မဖြစ်အောင် စောင့်နေသူမဟုတ်ပါဘူး။
+      Problem ဖြစ်လာတဲ့အခါ Root Cause အထိ ရှာပြီး
+      System တိုးတက်အောင်လုပ်နိုင်သူ ဖြစ်ပါတယ်။
+    </p>
+  `
+},
+/* ======================================================
+   LESSON 12
+====================================================== */
+{
+  title: "Profit & Margin",
+  intro:
+    "Sales Revenue တိုးတက်မှုနဲ့အတူ Gross Profit, Margin နှင့် Cost ကို နားလည်ပြီး Business Result တိုးတက်အောင် စီမံနည်း။",
+  body: `
+    <h3>၁။ Revenue နဲ့ Profit မတူပါ</h3>
+    <p>
+      Sales တိုးလာတာနဲ့ Business က အမြဲတမ်း ပိုအမြတ်ရတယ်လို့
+      မဆိုနိုင်ပါဘူး။
+      Discount များလွန်းတာ၊ Cost တက်လာတာ၊
+      Product Mix မမှန်တာတွေကြောင့် Profit ကျနိုင်ပါတယ်။
+    </p>
+    <h3>၂။ Gross Profit</h3>
+    <p>
+      Gross Profit =
+      <strong>Sales Revenue − Cost of Goods Sold</strong>
+    </p>
+    <p>
+      ဥပမာ Sales Revenue 10,000,000 ဖြစ်ပြီး
+      Product Cost 7,000,000 ဆိုရင်
+      Gross Profit = 3,000,000 ဖြစ်ပါတယ်။
+    </p>
+    <h3>၃။ Gross Margin</h3>
+    <p>
+      Gross Margin % =
+      <strong>Gross Profit ÷ Sales Revenue × 100</strong>
+    </p>
+    <p>
+      အထက်ပါဥပမာမှာ Gross Margin = 30% ဖြစ်ပါတယ်။
+    </p>
+    <h3>၄။ Sales Manager က Profit ကို ဘာကြောင့်သိရမလဲ</h3>
+    <p>
+      Sales Manager က Revenue Target ကို ရရှိအောင်လုပ်ရုံမဟုတ်ဘဲ
+      Sustainable Business Growth ဖြစ်အောင် စီမံရပါတယ်။
+    </p>
+    <ul>
+      <li>Product Mix</li>
+      <li>Price</li>
+      <li>Discount</li>
+      <li>Volume</li>
+      <li>Customer Mix</li>
+      <li>Promotion Cost</li>
+      <li>Distribution Cost</li>
+    </ul>
+    <h3>၅။ Volume နှင့် Value Balance</h3>
+    <p>
+      Volume တိုးလာပေမယ့် Margin ကျသွားရင်
+      Business အတွက် အကျိုးအမြတ် မတိုးနိုင်ပါဘူး။
+      ဒါကြောင့် Sales Manager က Volume နဲ့ Value ကို
+      Balance ဖြစ်အောင် စီမံရပါတယ်။
+    </p>
+    <div class="lesson-note">
+      Sell more is good.<br>
+      Sell profitably is better.<br>
+      Sell profitably and sustainably is best.
+    </div>
+    <h3>၆။ Business Manager Mindset</h3>
+    <p>
+      Sales Number တစ်ခုတည်းမကြည့်ပါနှင့်။
+      "ဒီ Sales က Business အတွက် အကျိုးရှိသလား?"
+      ဆိုတဲ့ မေးခွန်းကိုပါ မေးပါ။
+    </p>
+    <h3>အဓိကမှတ်သားရန်</h3>
+    <p>
+      Revenue က Business ရဲ့ အရွယ်အစားကို ပြနိုင်ပါတယ်။
+      Profit က Business ရဲ့ အရည်အသွေးကို ပြနိုင်ပါတယ်။
+    </p>
+  `
+},
+/* ======================================================
+   LESSON 13
+====================================================== */
+{
+  title: "Goal Setting",
+  intro:
+    "Personal Goal နှင့် Business Goal များကို ရှင်းလင်းတိကျစွာ သတ်မှတ်ပြီး Action Plan အဖြစ် ပြောင်းလဲနည်း။",
+  body: `
+    <h3>၁။ Goal နှင့် Wish မတူပါ</h3>
+    <p>
+      "Sales တိုးချင်တယ်" ဆိုတာ Wish ဖြစ်ပါတယ်။
+      "ဒီနှစ်အတွင်း Sales 20% တိုးမယ်" ဆိုတာ Goal ပိုမိုဖြစ်ပါတယ်။
+    </p>
+    <p>
+      Goal က တိုင်းတာလို့ရပြီး Deadline ရှိရပါမယ်။
+    </p>
+    <h3>၂။ SMART Goal</h3>
+    <ul>
+      <li><strong>S — Specific:</strong> တိကျရမယ်။</li>
+      <li><strong>M — Measurable:</strong> တိုင်းတာလို့ရရမယ်။</li>
+      <li><strong>A — Achievable:</strong> လက်တွေ့ဖြစ်နိုင်ရမယ်။</li>
+      <li><strong>R — Relevant:</strong> Business ရည်ရွယ်ချက်နဲ့ ကိုက်ညီရမယ်။</li>
+      <li><strong>T — Time-bound:</strong> Deadline ရှိရမယ်။</li>
+    </ul>
+    <h3>၃။ Goal ကို Action အဖြစ်ပြောင်းခြင်း</h3>
+    <p>
+      Goal တစ်ခုရှိရုံနဲ့ Result မထွက်ပါဘူး။
+      Goal → Strategy → Action → KPI → Review
+      ဆိုတဲ့ Process တစ်ခုလိုအပ်ပါတယ်။
+    </p>
+    <h3>၄။ Example</h3>
+    <p>
+      Goal = Sales 15% တိုးရန်
+    </p>
+    <p>
+      Strategy = Existing Customer Growth + New Customer Acquisition
+    </p>
+    <p>
+      Action = Key Customer Plan, New Outlet Opening,
+      Distribution Expansion, Team Coaching
+    </p>
+    <p>
+      KPI = Sales Growth %, New Customers, Distribution %, Productivity
+    </p>
+    <div class="lesson-note">
+      Goal ကို Action မပြောင်းနိုင်ရင် Goal က စာရွက်ပေါ်မှာပဲ ရှိနေပါလိမ့်မယ်။
+    </div>
+    <h3>၅။ Weekly Goal Review</h3>
+    <ol>
+      <li>ဘာလုပ်ပြီးပြီလဲ?</li>
+      <li>ဘာ Result ရပြီလဲ?</li>
+      <li>ဘာမပြီးသေးလဲ?</li>
+      <li>ဘာကြောင့်မပြီးတာလဲ?</li>
+      <li>နောက်တစ်ပတ်မှာ ဘာလုပ်မလဲ?</li>
+    </ol>
+    <h3>၆။ Personal Leadership Goal</h3>
+    <p>
+      Sales Manager အနေနဲ့ Team Result တင်မကဘဲ
+      မိမိရဲ့ Leadership Capability ကိုလည်း တိုးတက်အောင်
+      Goal သတ်မှတ်သင့်ပါတယ်။
+    </p>
+    <ul>
+      <li>Coaching Skill</li>
+      <li>Data Analysis</li>
+      <li>Negotiation</li>
+      <li>Presentation</li>
+      <li>Strategic Thinking</li>
+      <li>People Management</li>
+    </ul>
+    <h3>အဓိကမှတ်သားရန်</h3>
+    <p>
+      Clear Goal → Focused Action → Consistent Review → Better Result
+    </p>
+  `
+},
+/* ======================================================
+   LESSON 14
+====================================================== */
+{
+  title: "Sales Manager 30-Day Action Plan",
+  intro:
+    "Sales Management သင်ခန်းစာများကို လက်တွေ့အလုပ်ထဲသို့ ပြောင်းလဲအသုံးချရန် 30-Day Professional Action Plan။",
+  body: `
+    <h3>၁။ Day 1–7 — Understand</h3>
+    <p>
+      ပထမအပတ်မှာ ချက်ချင်းပြောင်းလဲဖို့ထက်
+      Business နဲ့ Market ကို နားလည်ဖို့ အာရုံစိုက်ပါ။
+    </p>
+    <ul>
+      <li>Company Strategy ကို လေ့လာပါ။</li>
+      <li>Sales Target ကို နားလည်ပါ။</li>
+      <li>Product Portfolio ကို သိပါ။</li>
+      <li>Sales Team Structure ကို သိပါ။</li>
+      <li>Customer Segmentation ကို လေ့လာပါ။</li>
+      <li>Competitor Situation ကို လေ့လာပါ။</li>
+      <li>Sales Data ကို Review လုပ်ပါ။</li>
+    </ul>
+    <div class="lesson-note">
+      ပထမအပတ်ရဲ့ ရည်ရွယ်ချက်က
+      "Understand before you change" ဖြစ်ပါတယ်။
+    </div>
+    <h3>၂။ Day 8–14 — Diagnose</h3>
+    <p>
+      ဒုတိယအပတ်မှာ Business ရဲ့ အဓိက Gap တွေကို ရှာပါ။
+    </p>
+    <ul>
+      <li>Target Gap</li>
+      <li>People Gap</li>
+      <li>Customer Gap</li>
+      <li>Distribution Gap</li>
+      <li>Execution Gap</li>
+      <li>Product Gap</li>
+      <li>Profit / Margin Gap</li>
+    </ul>
+    <p>
+      Gap တစ်ခုချင်းစီအတွက် Root Cause ကို ရှာပါ။
+      Symptom ကိုပဲ ဖြေရှင်းမနေပါနဲ့။
+    </p>
+    <h3>၃။ Day 15–21 — Execute</h3>
+    <p>
+      တတိယအပတ်မှာ Priority Action Plan ကို Field ထဲမှာ
+      အကောင်အထည်ဖော်ပါ။
+    </p>
+    <ol>
+      <li>Top Priority ကို သတ်မှတ်ပါ။</li>
+      <li>Action Owner သတ်မှတ်ပါ။</li>
+      <li>Deadline သတ်မှတ်ပါ။</li>
+      <li>KPI သတ်မှတ်ပါ။</li>
+      <li>Field Execution ပြုလုပ်ပါ။</li>
+      <li>Daily Progress စောင့်ကြည့်ပါ။</li>
+    </ol>
+    <h3>၄။ Day 22–30 — Review & Improve</h3>
+    <p>
+      နောက်ဆုံးအပတ်မှာ Action ရဲ့ Result ကို ပြန်သုံးသပ်ပါ။
+    </p>
+    <ul>
+      <li>ဘာ Result ရခဲ့သလဲ?</li>
+      <li>ဘယ် Action အောင်မြင်သလဲ?</li>
+      <li>ဘယ် Action မအောင်မြင်သလဲ?</li>
+      <li>ဘာကြောင့်မအောင်မြင်တာလဲ?</li>
+      <li>ဘာကို ဆက်လုပ်မလဲ?</li>
+      <li>ဘာကို ရပ်မလဲ?</li>
+      <li>ဘာကို တိုးချဲ့မလဲ?</li>
+    </ul>
+    <h3>၅။ Daily Sales Manager Routine</h3>
+    <p>
+      Professional Sales Manager တစ်ယောက်အနေနဲ့
+      Daily Routine တစ်ခု တည်ဆောက်ထားသင့်ပါတယ်။
+    </p>
+    <ol>
+      <li>Yesterday Result Review</li>
+      <li>Today Priority Review</li>
+      <li>Team Alignment</li>
+      <li>Customer / Field Visit</li>
+      <li>Performance Monitoring</li>
+      <li>Problem Solving</li>
+      <li>End-of-Day Review</li>
+    </ol>
+    <h3>၆။ Weekly Sales Manager Routine</h3>
+    <ul>
+      <li>Weekly Sales Review</li>
+      <li>KPI Review</li>
+      <li>Team Coaching</li>
+      <li>Customer Review</li>
+      <li>Distribution Review</li>
+      <li>Forecast Update</li>
+      <li>Next Week Action Plan</li>
+    </ul>
+    <h3>၇။ Professional Sales Manager ရဲ့ အဓိက Mindset</h3>
+    <p>
+      Professional Sales Manager တစ်ယောက်ဟာ
+      Target ကိုပဲ မကြည့်ပါဘူး။
+      Target ရဲ့နောက်က People, Customer, Market,
+      Numbers နဲ့ Execution ကိုပါ နားလည်ပါတယ်။
+    </p>
+    <div class="lesson-note">
+      <strong>Final Sales Manager Principle</strong><br><br>
+      Know the Numbers.<br>
+      Understand the People.<br>
+      Listen to the Customer.<br>
+      Understand the Market.<br>
+      Solve the Root Cause.<br>
+      Execute Consistently.<br>
+      Review Regularly.<br>
+      Build a Winning Team.
+    </div>
+    <h3>၈။ Final Assignment</h3>
+    <p>
+      ဒီ Course ပြီးဆုံးတဲ့အခါ မိမိအလုပ်အတွက်
+      30-Day Sales Improvement Plan တစ်ခု ရေးဆွဲပါ။
+    </p>
+    <ol>
+      <li>လက်ရှိ Sales Situation ကို ရေးပါ။</li>
+      <li>အဓိက Gap ၃ ခုကို သတ်မှတ်ပါ။</li>
+      <li>Root Cause ကို ရှာပါ။</li>
+      <li>Priority Action ၅ ခု သတ်မှတ်ပါ။</li>
+      <li>Action Owner သတ်မှတ်ပါ။</li>
+      <li>KPI သတ်မှတ်ပါ။</li>
+      <li>Weekly Review Date သတ်မှတ်ပါ။</li>
+      <li>30 ရက်အပြီး Result ကို တိုင်းတာပါ။</li>
+    </ol>
+    <div class="lesson-note">
+      <strong>Congratulations!</strong><br><br>
+      Sales Management Mastery ရဲ့ အခြေခံ Framework ကို
+      ပြီးဆုံးအောင် လေ့လာပြီးပါပြီ။
+      အခုအရေးကြီးဆုံးအဆင့်က သိထားတာတွေကို
+      လက်တွေ့အလုပ်ထဲမှာ စတင်အသုံးချခြင်း ဖြစ်ပါတယ်။
+    </div>
+  `
+}
+];
+/*
+==========================================================
+ COURSE INITIALIZATION
+==========================================================
+*/
+if (
+  typeof window.academyLessons !== "undefined" &&
+  Array.isArray(window.academyLessons)
+) {
+  console.log(
+    "Aung Business Academy: " +
+    window.academyLessons.length +
+    " professional lessons loaded."
+  );
+}

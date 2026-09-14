@@ -24371,3 +24371,753 @@ if (
   }
 
 })();
+/* =========================================================
+   AUNG BUSINESS ACADEMY
+   V15.7 SALES TEAM FORCE SIDEBAR
+   PREMIUM SAFE VERSION
+   ========================================================= */
+
+(function () {
+
+  "use strict";
+
+  const BUTTON_ID =
+    "aungV157SalesTeamButton";
+
+
+  /* =======================================================
+     PREMIUM CHECK
+     ======================================================= */
+
+  function hasPremium() {
+
+    try {
+
+      if (
+        typeof hasPremiumAccess === "function"
+      ) {
+        return !!hasPremiumAccess();
+      }
+
+
+      const raw =
+        localStorage.getItem(
+          "aung_business_academy_premium"
+        );
+
+
+      if (!raw) {
+        return false;
+      }
+
+
+      const data =
+        JSON.parse(raw);
+
+
+      if (!data) {
+        return false;
+      }
+
+
+      if (
+        data.active === true ||
+        data.isPremium === true
+      ) {
+        return true;
+      }
+
+
+      if (
+        data.expiresAt &&
+        Date.now() <
+        Number(data.expiresAt)
+      ) {
+        return true;
+      }
+
+
+      return false;
+
+    } catch (error) {
+
+      console.warn(
+        "Premium check:",
+        error
+      );
+
+      return false;
+
+    }
+
+  }
+
+
+  /* =======================================================
+     OPEN PREMIUM
+     ======================================================= */
+
+  function openPremiumGate() {
+
+    try {
+
+      if (
+        typeof openPremium === "function"
+      ) {
+
+        openPremium();
+        return;
+
+      }
+
+
+      if (
+        typeof openPremiumAccess === "function"
+      ) {
+
+        openPremiumAccess();
+        return;
+
+      }
+
+
+      if (
+        typeof showModal === "function"
+      ) {
+
+        showModal(`
+
+          <div
+            style="
+              text-align:center;
+              padding:25px;
+            "
+          >
+
+            <div
+              style="
+                font-size:55px;
+                margin-bottom:15px;
+              "
+            >
+              🔐
+            </div>
+
+            <h2>
+              Premium Feature
+            </h2>
+
+            <p>
+              Sales Team Management သည်
+              Premium Member များအတွက်သာ
+              အသုံးပြုနိုင်ပါသည်
+            </p>
+
+            <br>
+
+            <button
+              class="primary-button"
+              onclick="
+                if(typeof openPremium==='function'){
+                  openPremium();
+                }
+              "
+            >
+              👑 Upgrade Premium
+            </button>
+
+          </div>
+
+        `);
+
+        return;
+
+      }
+
+
+      alert(
+        "Sales Team သည် Premium Feature ဖြစ်ပါသည်"
+      );
+
+    } catch (error) {
+
+      console.error(
+        "Premium gate error:",
+        error
+      );
+
+    }
+
+  }
+
+
+  /* =======================================================
+     OPEN SALES TEAM
+     ======================================================= */
+
+  function openSalesTeam() {
+
+    if (!hasPremium()) {
+
+      openPremiumGate();
+
+      return;
+
+    }
+
+
+    try {
+
+      if (
+        typeof openV153Salesmen ===
+        "function"
+      ) {
+
+        openV153Salesmen();
+
+        return;
+
+      }
+
+
+      if (
+        typeof window.openV153Salesmen ===
+        "function"
+      ) {
+
+        window.openV153Salesmen();
+
+        return;
+
+      }
+
+
+      if (
+        typeof openV156SalesTeam ===
+        "function"
+      ) {
+
+        openV156SalesTeam();
+
+        return;
+
+      }
+
+
+      alert(
+        "Sales Team module မတွေ့ပါ — V15.3 code ကိုစစ်ဆေးရန်လိုပါသည်"
+      );
+
+    } catch (error) {
+
+      console.error(
+        "Sales Team open error:",
+        error
+      );
+
+      alert(
+        "Sales Team ဖွင့်ရာတွင် Error ဖြစ်နေပါသည်"
+      );
+
+    }
+
+  }
+
+
+  /* =======================================================
+     FIND SIDEBAR
+     ======================================================= */
+
+  function findSidebar() {
+
+    const selectors = [
+
+      ".sidebar",
+
+      "#sidebar",
+
+      ".app-sidebar",
+
+      ".side-bar",
+
+      "aside",
+
+      "nav"
+
+    ];
+
+
+    for (
+      const selector of selectors
+    ) {
+
+      const elements =
+        document.querySelectorAll(
+          selector
+        );
+
+
+      for (
+        const element of elements
+      ) {
+
+        if (
+          element.offsetParent !== null ||
+          element.classList.contains(
+            "sidebar"
+          )
+        ) {
+
+          return element;
+
+        }
+
+      }
+
+    }
+
+
+    return null;
+
+  }
+
+
+  /* =======================================================
+     CREATE BUTTON
+     ======================================================= */
+
+  function createButton() {
+
+    if (
+      document.getElementById(
+        BUTTON_ID
+      )
+    ) {
+
+      return;
+
+    }
+
+
+    const sidebar =
+      findSidebar();
+
+
+    if (!sidebar) {
+
+      return;
+
+    }
+
+
+    const button =
+      document.createElement(
+        "button"
+      );
+
+
+    button.id =
+      BUTTON_ID;
+
+
+    button.type =
+      "button";
+
+
+    button.className =
+      "aung-v157-sales-team";
+
+
+    button.innerHTML = `
+
+      <span class="aung-v157-icon">
+        👥
+      </span>
+
+      <span class="aung-v157-label">
+        Sales Team
+      </span>
+
+      <span class="aung-v157-pro">
+        PRO
+      </span>
+
+    `;
+
+
+    button.addEventListener(
+      "click",
+      function (event) {
+
+        event.preventDefault();
+
+        event.stopPropagation();
+
+        openSalesTeam();
+
+      }
+    );
+
+
+    /* =====================================================
+       FIND SETTINGS
+       ===================================================== */
+
+    const allButtons =
+      Array.from(
+        sidebar.querySelectorAll(
+          "button"
+        )
+      );
+
+
+    let inserted =
+      false;
+
+
+    /* Put before Settings */
+
+    for (
+      const item of allButtons
+    ) {
+
+      const text =
+        (
+          item.innerText ||
+          item.textContent ||
+          ""
+        )
+          .trim()
+          .toLowerCase();
+
+
+      if (
+        text.includes(
+          "settings"
+        )
+      ) {
+
+        item.parentNode.insertBefore(
+          button,
+          item
+        );
+
+        inserted =
+          true;
+
+        break;
+
+      }
+
+    }
+
+
+    /* =====================================================
+       If Settings not found,
+       put after Sales Management
+       ===================================================== */
+
+    if (!inserted) {
+
+      for (
+        const item of allButtons
+      ) {
+
+        const text =
+          (
+            item.innerText ||
+            item.textContent ||
+            ""
+          )
+            .trim()
+            .toLowerCase();
+
+
+        if (
+          text.includes(
+            "sales management"
+          ) ||
+          text.includes(
+            "sales manager"
+          )
+        ) {
+
+          item.insertAdjacentElement(
+            "afterend",
+            button
+          );
+
+          inserted =
+            true;
+
+          break;
+
+        }
+
+      }
+
+    }
+
+
+    /* =====================================================
+       Final fallback
+       ===================================================== */
+
+    if (!inserted) {
+
+      sidebar.appendChild(
+        button
+      );
+
+    }
+
+  }
+
+
+  /* =======================================================
+     CSS
+     ======================================================= */
+
+  function injectCSS() {
+
+    if (
+      document.getElementById(
+        "aungV157CSS"
+      )
+    ) {
+
+      return;
+
+    }
+
+
+    const style =
+      document.createElement(
+        "style"
+      );
+
+
+    style.id =
+      "aungV157CSS";
+
+
+    style.textContent = `
+
+      .aung-v157-sales-team {
+
+        width:100%;
+
+        min-height:44px;
+
+        display:flex;
+
+        align-items:center;
+
+        gap:10px;
+
+        padding:11px 14px;
+
+        margin:4px 0;
+
+        border:0;
+
+        border-radius:10px;
+
+        background:transparent;
+
+        color:inherit;
+
+        font-family:inherit;
+
+        font-size:14px;
+
+        font-weight:650;
+
+        text-align:left;
+
+        cursor:pointer;
+
+        transition:
+          background .2s ease,
+          transform .2s ease;
+
+      }
+
+
+      .aung-v157-sales-team:hover {
+
+        background:
+          rgba(59,130,246,.12);
+
+        transform:
+          translateX(2px);
+
+      }
+
+
+      .aung-v157-icon {
+
+        width:25px;
+
+        min-width:25px;
+
+        font-size:18px;
+
+        text-align:center;
+
+      }
+
+
+      .aung-v157-label {
+
+        flex:1;
+
+      }
+
+
+      .aung-v157-pro {
+
+        padding:3px 6px;
+
+        border-radius:5px;
+
+        font-size:9px;
+
+        font-weight:800;
+
+        background:
+          rgba(245,158,11,.15);
+
+        color:
+          #b45309;
+
+      }
+
+    `;
+
+
+    document.head.appendChild(
+      style
+    );
+
+  }
+
+
+  /* =======================================================
+     WATCH SIDEBAR
+     ======================================================= */
+
+  function startWatcher() {
+
+    injectCSS();
+
+    createButton();
+
+
+    /*
+       Watch the whole app.
+
+       If the sidebar is rebuilt,
+       Sales Team will automatically
+       be added again.
+    */
+
+    if (
+      window.__AUNG_V157_OBSERVER__
+    ) {
+
+      return;
+
+    }
+
+
+    const observer =
+      new MutationObserver(
+        function () {
+
+          if (
+            !document.getElementById(
+              BUTTON_ID
+            )
+          ) {
+
+            createButton();
+
+          }
+
+        }
+      );
+
+
+    observer.observe(
+      document.body,
+      {
+        childList: true,
+        subtree: true
+      }
+    );
+
+
+    window.__AUNG_V157_OBSERVER__ =
+      observer;
+
+
+    /* Extra retries */
+
+    [500,1000,2000,4000,7000].forEach(
+      function (delay) {
+
+        setTimeout(
+          createButton,
+          delay
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     EXPORT
+     ======================================================= */
+
+  window.openAungSalesTeam =
+    openSalesTeam;
+
+
+  window.aungSalesTeamPremium =
+    hasPremium;
+
+
+  /* =======================================================
+     START
+     ======================================================= */
+
+  if (
+    document.readyState ===
+    "loading"
+  ) {
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      function () {
+
+        setTimeout(
+          startWatcher,
+          500
+        );
+
+      }
+    );
+
+  } else {
+
+    setTimeout(
+      startWatcher,
+      500
+    );
+
+  }
+
+})();

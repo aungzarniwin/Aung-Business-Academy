@@ -1,1481 +1,765 @@
-```javascript
 /* =========================================================
-   AUNG BUSINESS ACADEMY
-   PROFESSIONAL BUSINESS LESSON ENGINE
-   230 LESSONS
-   23 MODULES × 10 LESSONS
+   AUNG BUSINESS ACADEMY V8.0
+   COMPLETE APP.JS
+   Dashboard + Lessons + Progress + Navigation
    ========================================================= */
 
 (function () {
   "use strict";
 
   /* =========================================================
-     1. MODULES
+     1. GLOBAL STATE
      ========================================================= */
 
-  const MODULES = [
+  const APP_NAME = "Aung Business Academy";
+
+  const STORAGE_KEYS = {
+    completed: "aba_completed_lessons",
+    currentLesson: "aba_current_lesson",
+    lastSection: "aba_last_section",
+    dailyMinutes: "aba_daily_minutes",
+    userName: "aba_user_name"
+  };
+
+  let lessons = [];
+  let completedLessons = [];
+  let currentLessonIndex = 0;
+  let currentSection = "dashboard";
+
+  /* =========================================================
+     2. DEFAULT LESSONS
+     ========================================================= */
+
+  const defaultLessons = [
     {
-      name: "Business Basics",
-      icon: "🏢",
-      lessons: [
-        "Understanding Business",
-        "Business Models",
-        "Value Creation",
-        "Revenue & Cost",
-        "Profit Fundamentals",
-        "Business Resources",
-        "Business Environment",
-        "Business Growth",
-        "Business Risk",
-        "Building a Strong Business Foundation"
-      ]
+      title: "Sales Management ဆိုတာဘာလဲ",
+      intro: "Sales Manager တစ်ယောက်အနေနဲ့ Sales Management ရဲ့ အခြေခံအဓိပ္ပါယ်ကို နားလည်ရန်။",
+      body: `
+        <h3>Sales Management ဆိုတာဘာလဲ</h3>
+        <p>
+          Sales Management ဆိုတာ Sales Team၊ Customer၊ Target၊ Distribution၊
+          Market Execution နဲ့ Revenue တို့ကို စနစ်တကျ စီမံခန့်ခွဲပြီး
+          Business Result ရရှိအောင် ဦးဆောင်ခြင်းဖြစ်ပါတယ်။
+        </p>
+
+        <p>
+          Sales Manager တစ်ယောက်ရဲ့ အဓိကတာဝန်က Target ပေးပြီး စောင့်ကြည့်ရုံမဟုတ်ပါဘူး။
+          လူ၊ နံပါတ်နဲ့ Execution သုံးခုကို ချိတ်ဆက်ပြီး Result ထွက်အောင်
+          စီမံခန့်ခွဲနိုင်ရပါမယ်။
+        </p>
+
+        <h3>Sales Manager ရဲ့ အဓိကတာဝန်များ</h3>
+
+        <ul>
+          <li>Sales Target သတ်မှတ်ခြင်း</li>
+          <li>KPI သတ်မှတ်ခြင်း</li>
+          <li>Sales Team ကို Coaching လုပ်ခြင်း</li>
+          <li>Customer Management</li>
+          <li>Distribution Management</li>
+          <li>Market Execution စောင့်ကြည့်ခြင်း</li>
+          <li>Sales Forecast ပြုလုပ်ခြင်း</li>
+          <li>Sales Report ခွဲခြမ်းစိတ်ဖြာခြင်း</li>
+        </ul>
+
+        <div class="lesson-note">
+          <strong>Manager Mindset:</strong>
+          Target ကို ရောက်အောင်လုပ်တာထက်
+          Team က Target ကို သူတို့ကိုယ်တိုင် ရောက်အောင်လုပ်နိုင်တဲ့
+          System တစ်ခုတည်ဆောက်ပေးနိုင်ခြင်းက ပိုအရေးကြီးပါတယ်။
+        </div>
+      `
     },
 
     {
-      name: "Strategic Thinking",
-      icon: "♟️",
-      lessons: [
-        "What Is Strategy?",
-        "Strategic Thinking",
-        "Vision & Mission",
-        "Competitive Advantage",
-        "SWOT Analysis",
-        "Market Positioning",
-        "Strategic Priorities",
-        "Business Decision Making",
-        "Strategic Execution",
-        "Building a Winning Strategy"
-      ]
+      title: "Sales Target Management",
+      intro: "Target ကို Field Execution အဖြစ် ပြောင်းလဲအသုံးချနည်း။",
+      body: `
+        <h3>Sales Target Management</h3>
+
+        <p>
+          Sales Target ဆိုတာ လစဉ်ရောင်းရမယ့် နံပါတ်တစ်ခုတည်း မဟုတ်ပါဘူး။
+          Target ကို Daily၊ Weekly နဲ့ Monthly Execution အဖြစ် ခွဲပြီး
+          Team တစ်ခုလုံး နားလည်အောင် ပြောင်းလဲပေးရပါတယ်။
+        </p>
+
+        <h3>Target ခွဲနည်း</h3>
+
+        <ol>
+          <li>Monthly Target သတ်မှတ်ပါ။</li>
+          <li>Weekly Target ခွဲပါ။</li>
+          <li>Daily Run Rate သတ်မှတ်ပါ။</li>
+          <li>Salesperson တစ်ဦးချင်း Target ခွဲပါ။</li>
+          <li>Channel အလိုက် Target ခွဲပါ။</li>
+        </ol>
+
+        <p>
+          Target မပြည့်ရင် "Target မပြည့်ဘူး" လို့ ပြောရုံမလုံလောက်ပါဘူး။
+          ဘယ် Product၊ ဘယ် Area၊ ဘယ် Customer၊ ဘယ် Salesperson မှာ
+          Gap ဖြစ်နေတာလဲဆိုတာ ရှာဖွေရပါမယ်။
+        </p>
+
+        <div class="lesson-note">
+          Target → Gap → Action → Follow-up → Result
+        </div>
+      `
     },
 
     {
-      name: "Brand Basics",
-      icon: "🏷️",
-      lessons: [
-        "Understanding Branding",
-        "Brand Identity",
-        "Brand Positioning",
-        "Brand Promise",
-        "Customer Perception",
-        "Brand Trust",
-        "Brand Differentiation",
-        "Brand Consistency",
-        "Brand Experience",
-        "Building a Strong Brand"
-      ]
-    },
+      title: "KPI Management",
+      intro: "Sales Team အတွက် KPI ကို မှန်ကန်စွာ သတ်မှတ်ခြင်း။",
+      body: `
+        <h3>KPI Management</h3>
 
-    {
-      name: "Marketing Basics",
-      icon: "📣",
-      lessons: [
-        "Understanding Marketing",
-        "Market Segmentation",
-        "Target Customers",
-        "Customer Needs",
-        "Marketing Mix",
-        "Product Strategy",
-        "Promotion Strategy",
-        "Distribution Strategy",
-        "Marketing Measurement",
-        "Building a Marketing Plan"
-      ]
-    },
+        <p>
+          KPI ဆိုတာ Key Performance Indicator ဖြစ်ပြီး
+          Employee တစ်ဦးရဲ့ Performance ကို တိုင်းတာနိုင်တဲ့
+          အဓိကတိုင်းတာချက်ဖြစ်ပါတယ်။
+        </p>
 
-    {
-      name: "Sales Basics",
-      icon: "💰",
-      lessons: [
-        "Understanding Sales",
-        "Sales Process",
-        "Sales Funnel",
-        "Prospecting",
-        "Lead Management",
-        "Customer Qualification",
-        "Sales Presentation",
-        "Closing Sales",
-        "Sales Follow-Up",
-        "Building a Winning Sales System"
-      ]
-    },
+        <h3>Sales KPI ဥပမာများ</h3>
 
-    {
-      name: "Sales Management",
-      icon: "👨‍💼",
-      lessons: [
-        "Role of a Sales Manager",
-        "Sales Target Management",
-        "Sales Planning",
-        "Territory Management",
-        "Sales Team Structure",
-        "Sales KPI Management",
-        "Sales Forecasting",
-        "Field Force Management",
-        "Sales Review Meetings",
-        "Building a High-Performance Sales Team"
-      ]
-    },
+        <ul>
+          <li>Sales Achievement %</li>
+          <li>Volume Achievement</li>
+          <li>Revenue Achievement</li>
+          <li>Active Customers</li>
+          <li>Strike Rate</li>
+          <li>Productivity</li>
+          <li>Distribution</li>
+          <li>Collection / AR</li>
+        </ul>
 
-    {
-      name: "Negotiation",
-      icon: "🤝",
-      lessons: [
-        "Negotiation Fundamentals",
-        "Negotiation Preparation",
-        "Understanding Customer Needs",
-        "BATNA & Alternatives",
-        "Price Negotiation",
-        "Value-Based Negotiation",
-        "Handling Difficult Negotiations",
-        "Win-Win Negotiation",
-        "Negotiation Mistakes",
-        "Advanced Negotiation Strategy"
-      ]
-    },
+        <p>
+          KPI များလွန်းရင် Team အတွက် ရှုပ်ထွေးနိုင်ပါတယ်။
+          Business Result ကို တကယ်သက်ရောက်စေတဲ့ KPI များကို
+          ရွေးချယ်ပြီး Regular Review ပြုလုပ်သင့်ပါတယ်။
+        </p>
 
-    {
-      name: "Customer Service",
-      icon: "❤️",
-      lessons: [
-        "Customer Service Fundamentals",
-        "Customer Expectations",
-        "Customer Communication",
-        "Active Listening",
-        "Handling Complaints",
-        "Service Recovery",
-        "Customer Satisfaction",
-        "Customer Retention",
-        "Customer Loyalty",
-        "Building Customer-Centric Culture"
-      ]
-    },
-
-    {
-      name: "People Management",
-      icon: "👥",
-      lessons: [
-        "People Management Fundamentals",
-        "Leadership vs Management",
-        "Setting Expectations",
-        "Delegation",
-        "Coaching Employees",
-        "Performance Management",
-        "Employee Motivation",
-        "Conflict Management",
-        "Team Development",
-        "Building a High-Performance Culture"
-      ]
-    },
-
-    {
-      name: "Profit & Loss",
-      icon: "📊",
-      lessons: [
-        "Understanding Profit",
-        "Revenue Management",
-        "Cost Management",
-        "Gross Profit",
-        "Gross Margin",
-        "Operating Expenses",
-        "Break-Even Analysis",
-        "Profitability Analysis",
-        "Profit Improvement",
-        "Building a Profit-Focused Business"
-      ]
-    },
-
-    {
-      name: "Goal Setting",
-      icon: "🎯",
-      lessons: [
-        "Why Goals Matter",
-        "SMART Goals",
-        "Business Objectives",
-        "Sales Targets",
-        "Activity Targets",
-        "KPI Goals",
-        "Monthly Planning",
-        "Quarterly Planning",
-        "Goal Review",
-        "Building a Goal-Driven Organization"
-      ]
-    },
-
-    {
-      name: "Customer Relationship Management",
-      icon: "🤝",
-      lessons: [
-        "Understanding CRM",
-        "Customer Database",
-        "Customer Segmentation",
-        "Customer Value",
-        "Key Account Management",
-        "Customer Visit Planning",
-        "Customer Follow-Up",
-        "Customer Retention Strategy",
-        "CRM Performance",
-        "Building Long-Term Customer Relationships"
-      ]
-    },
-
-    {
-      name: "Distribution Management",
-      icon: "🚚",
-      lessons: [
-        "Distribution Fundamentals",
-        "Distributor Management",
-        "Route-to-Market",
-        "Territory Coverage",
-        "Outlet Management",
-        "Stock Availability",
-        "Order Management",
-        "Distribution KPI",
-        "Distributor Performance",
-        "Building an Effective Distribution System"
-      ]
-    },
-
-    {
-      name: "Retail & Trade Marketing",
-      icon: "🏪",
-      lessons: [
-        "Retail Fundamentals",
-        "Outlet Classification",
-        "Trade Channels",
-        "Merchandising",
-        "Visibility Management",
-        "Promotion Execution",
-        "Planogram Basics",
-        "Trade Spend",
-        "Retail Performance",
-        "Building a Winning Trade Strategy"
-      ]
-    },
-
-    {
-      name: "Business Analytics",
-      icon: "📈",
-      lessons: [
-        "Understanding Business Data",
-        "Data Collection",
-        "Sales Analysis",
-        "Trend Analysis",
-        "Growth Analysis",
-        "Variance Analysis",
-        "KPI Dashboard",
-        "Excel for Business",
-        "Data-Based Decisions",
-        "Building a Business Analytics Mindset"
-      ]
-    },
-
-    {
-      name: "Financial Management",
-      icon: "💵",
-      lessons: [
-        "Financial Management Basics",
-        "Cash Flow",
-        "Working Capital",
-        "Accounts Receivable",
-        "Inventory Cost",
-        "Budget Management",
-        "Financial Controls",
-        "Financial Risk",
-        "Financial Performance",
-        "Building Financial Discipline"
-      ]
-    },
-
-    {
-      name: "Operations Management",
-      icon: "⚙️",
-      lessons: [
-        "Operations Fundamentals",
-        "Process Management",
-        "Productivity",
-        "Quality Management",
-        "Inventory Management",
-        "Supply Planning",
-        "Process Improvement",
-        "SOP Management",
-        "Operational KPIs",
-        "Building Operational Excellence"
-      ]
-    },
-
-    {
-      name: "Leadership",
-      icon: "👑",
-      lessons: [
-        "Understanding Leadership",
-        "Leadership Mindset",
-        "Leading by Example",
-        "Decision Making",
-        "Communication Leadership",
-        "Situational Leadership",
-        "Empowering Teams",
-        "Leadership Accountability",
-        "Developing Future Leaders",
-        "Becoming a Strong Business Leader"
-      ]
-    },
-
-    {
-      name: "Communication",
-      icon: "🗣️",
-      lessons: [
-        "Business Communication",
-        "Clear Communication",
-        "Professional Listening",
-        "Presentation Skills",
-        "Meeting Communication",
-        "Giving Feedback",
-        "Difficult Conversations",
-        "Persuasive Communication",
-        "Executive Communication",
-        "Becoming an Effective Communicator"
-      ]
-    },
-
-    {
-      name: "Productivity",
-      icon: "⚡",
-      lessons: [
-        "Personal Productivity",
-        "Time Management",
-        "Priority Management",
-        "Important vs Urgent",
-        "Daily Planning",
-        "Weekly Planning",
-        "Focus Management",
-        "Delegation for Productivity",
-        "Productivity Measurement",
-        "Building a High-Performance Work System"
-      ]
-    },
-
-    {
-      name: "Problem Solving",
-      icon: "🧩",
-      lessons: [
-        "Problem Solving Fundamentals",
-        "Identifying the Real Problem",
-        "Root Cause Analysis",
-        "5 Whys",
-        "Fishbone Analysis",
-        "Problem Prioritization",
-        "Solution Generation",
-        "Decision Evaluation",
-        "Corrective Action",
-        "Building a Problem-Solving Culture"
-      ]
-    },
-
-    {
-      name: "Business Planning",
-      icon: "📋",
-      lessons: [
-        "Business Planning Fundamentals",
-        "Annual Business Planning",
-        "Sales Planning",
-        "Marketing Planning",
-        "Resource Planning",
-        "Budget Planning",
-        "Risk Planning",
-        "Execution Planning",
-        "Business Review",
-        "Building a Complete Business Plan"
-      ]
-    },
-
-    {
-      name: "Decision Making & Problem Solving",
-      icon: "🧠",
-      lessons: [
-        "Managerial Decision Making",
-        "Decision Quality",
-        "Data-Based Decisions",
-        "Decision Under Pressure",
-        "Risk vs Reward",
-        "Scenario Planning",
-        "Business Trade-Offs",
-        "Strategic Problem Solving",
-        "Decision Review",
-        "Becoming a Better Decision Maker"
-      ]
+        <div class="lesson-note">
+          KPI က လူကို ဖိအားပေးဖို့မဟုတ်ပါ။
+          Performance Gap ကို ရှာဖွေပြီး တိုးတက်အောင် Coaching လုပ်ဖို့ ဖြစ်ပါတယ်။
+        </div>
+      `
     }
   ];
 
   /* =========================================================
-     2. BUILD 230 LESSONS
+     3. LOAD LESSON DATA
      ========================================================= */
 
-  const LESSONS = [];
+  function loadLessons() {
 
-  MODULES.forEach(function (module, moduleIndex) {
-    module.lessons.forEach(function (title, lessonIndex) {
+    try {
 
-      LESSONS.push({
-        id: moduleIndex * 10 + lessonIndex + 1,
-        module: module.name,
-        moduleIndex: moduleIndex,
-        lessonIndex: lessonIndex,
-        icon: module.icon,
-        title: title
-      });
+      if (
+        Array.isArray(window.academyLessons) &&
+        window.academyLessons.length > 0
+      ) {
+        lessons = window.academyLessons.slice();
+      }
+
+      else if (
+        Array.isArray(window.academyLongLessons) &&
+        window.academyLongLessons.length > 0
+      ) {
+        lessons = window.academyLongLessons.slice();
+      }
+
+      else if (
+        Array.isArray(window.longLessons) &&
+        window.longLessons.length > 0
+      ) {
+        lessons = window.longLessons.slice();
+      }
+
+      else {
+        lessons = defaultLessons.slice();
+      }
+
+    } catch (error) {
+
+      console.error("Lesson loading error:", error);
+      lessons = defaultLessons.slice();
+
+    }
+
+    lessons = lessons.map(function (lesson, index) {
+
+      return {
+        id: lesson.id || index + 1,
+        title: lesson.title || "Lesson " + (index + 1),
+        intro: lesson.intro || "",
+        body:
+          lesson.body ||
+          lesson.content ||
+          lesson.description ||
+          "<p>ဒီ Lesson အတွက် Content မထည့်ရသေးပါ။</p>"
+      };
 
     });
-  });
 
-  console.log("========================================");
-  console.log("AUNG BUSINESS ACADEMY");
-  console.log("Professional Lesson Engine");
-  console.log("Business Lessons:", LESSONS.length);
-  console.log("========================================");
-
-  /* =========================================================
-     3. STORAGE
-     ========================================================= */
-
-  const STORAGE_KEY = "aung_business_academy_completed_v15";
-
-  function getCompleted() {
-    try {
-      return JSON.parse(
-        localStorage.getItem(STORAGE_KEY) || "[]"
-      );
-    } catch (error) {
-      return [];
-    }
   }
 
-  function saveCompleted(list) {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(list)
+  /* =========================================================
+     4. STORAGE
+     ========================================================= */
+
+  function loadCompletedLessons() {
+
+    try {
+
+      const saved = localStorage.getItem(STORAGE_KEYS.completed);
+
+      if (saved) {
+
+        const parsed = JSON.parse(saved);
+
+        if (Array.isArray(parsed)) {
+          completedLessons = parsed.map(Number);
+        }
+
+      }
+
+    } catch (error) {
+
+      console.error("Completed lesson storage error:", error);
+      completedLessons = [];
+
+    }
+
+  }
+
+  function saveCompletedLessons() {
+
+    try {
+
+      localStorage.setItem(
+        STORAGE_KEYS.completed,
+        JSON.stringify(completedLessons)
+      );
+
+    } catch (error) {
+
+      console.error("Unable to save progress:", error);
+
+    }
+
+  }
+
+  function saveCurrentLesson() {
+
+    try {
+
+      localStorage.setItem(
+        STORAGE_KEYS.currentLesson,
+        String(currentLessonIndex)
+      );
+
+    } catch (error) {}
+
+  }
+
+  function loadCurrentLesson() {
+
+    try {
+
+      const saved = localStorage.getItem(
+        STORAGE_KEYS.currentLesson
+      );
+
+      if (saved !== null) {
+
+        const index = parseInt(saved, 10);
+
+        if (
+          !isNaN(index) &&
+          index >= 0 &&
+          index < lessons.length
+        ) {
+          currentLessonIndex = index;
+        }
+
+      }
+
+    } catch (error) {}
+
+  }
+
+  /* =========================================================
+     5. BASIC DOM HELPERS
+     ========================================================= */
+
+  function byId(id) {
+    return document.getElementById(id);
+  }
+
+  function qs(selector, parent) {
+    return (parent || document).querySelector(selector);
+  }
+
+  function qsa(selector, parent) {
+    return Array.from(
+      (parent || document).querySelectorAll(selector)
     );
   }
 
-  function isCompleted(id) {
-    return getCompleted().includes(id);
-  }
-
-  function markCompleted(id) {
-    const list = getCompleted();
-
-    if (!list.includes(id)) {
-      list.push(id);
-      saveCompleted(list);
-    }
-
-    updateDashboard();
-  }
-
-  /* =========================================================
-     4. HELPERS
-     ========================================================= */
-
   function escapeHTML(value) {
-    return String(value)
+
+    return String(value || "")
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
-  }
 
-  function getAchievement(actual, target) {
-    if (!target) return 0;
-    return Math.round((actual / target) * 100);
-  }
-
-  function getProgress() {
-    return Math.round(
-      (getCompleted().length / LESSONS.length) * 100
-    );
   }
 
   /* =========================================================
-     5. LESSON CONTENT ENGINE
+     6. PROGRESS FUNCTIONS
      ========================================================= */
 
-  function buildDetailedContent(lesson) {
+  function isLessonCompleted(index) {
 
-    const title = lesson.title;
-    const module = lesson.module;
+    return completedLessons.includes(index);
 
-    const baseTarget = 100;
-    const baseActual = 82;
-    const achievement = getAchievement(
-      baseActual,
-      baseTarget
-    );
-
-    const gap = baseTarget - baseActual;
-
-    return {
-
-      objective: `
-        ဒီသင်ခန်းစာပြီးဆုံးတဲ့အချိန်မှာ
-        <strong>${escapeHTML(title)}</strong>
-        ကို အဓိပ္ပါယ်သိရုံမက
-        လက်တွေ့ Business Environment ထဲမှာ
-        Manager တစ်ယောက်အနေနဲ့
-        အသုံးချနိုင်ရမယ်။
-
-        အထူးသဖြင့်
-        <strong>${escapeHTML(module)}</strong>
-        နဲ့ ဆက်စပ်ပြီး
-        လူ၊ နံပါတ်၊ Customer၊ Market နဲ့
-        Business Result ကို
-        ချိတ်ဆက်စဉ်းစားနိုင်ဖို့
-        ရည်ရွယ်ထားပါတယ်။
-      `,
-
-      explanation: `
-        <p>
-          <strong>${escapeHTML(title)}</strong>
-          ဆိုတာ Business Management မှာ
-          သိထားရုံနဲ့ မလုံလောက်တဲ့
-          လက်တွေ့အသုံးချရတဲ့ Skill တစ်ခုဖြစ်ပါတယ်။
-        </p>
-
-        <p>
-          Manager တစ်ယောက်အနေနဲ့
-          အခြေအနေတစ်ခုကို မြင်တဲ့အခါ
-          “ဘာဖြစ်နေတာလဲ” ဆိုတာတင်မကဘဲ
-          “ဘာကြောင့်ဖြစ်တာလဲ”၊
-          “Business Result ကို ဘယ်လောက်ထိခိုက်လဲ”၊
-          “ဘယ်လို Action ယူရမလဲ”
-          ဆိုတာအထိ စဉ်းစားနိုင်ရပါမယ်။
-        </p>
-
-        <p>
-          Professional Management ရဲ့ အဓိကအချက်က
-          Activity များတာမဟုတ်ဘဲ
-          <strong>Result ရအောင် Activity ကို
-          စနစ်တကျ စီမံနိုင်ခြင်း</strong> ဖြစ်ပါတယ်။
-        </p>
-
-        <p>
-          ဥပမာ Sales Team တစ်ခုမှာ
-          Target မပြည့်တဲ့အခါ
-          “Team က ကြိုးစားမှုမရှိဘူး”
-          လို့ တန်းဆုံးဖြတ်တာ မလုပ်သင့်ပါဘူး။
-          Target Gap ရဲ့ Root Cause ကို
-          Data နဲ့ စစ်ဆေးရပါမယ်။
-        </p>
-
-        <p>
-          Customer Coverage လျော့နေတာလား။
-          Stock မရှိတာလား။
-          Price ပြဿနာလား။
-          Competitor Promotion ပြင်းနေတာလား။
-          Salesperson Skill Gap ရှိနေတာလား။
-          Distributor Execution အားနည်းနေတာလား။
-        </p>
-
-        <p>
-          ဒီလို Root Cause ကို ခွဲခြမ်းပြီးမှ
-          Corrective Action ချမှတ်ရပါမယ်။
-          ဒါကြောင့် Business Manager တစ်ယောက်အတွက်
-          Knowledge + Data + Judgment + Execution
-          လေးခုလုံးလိုအပ်ပါတယ်။
-        </p>
-      `,
-
-      concepts: [
-        "Business Objective ကို ရှင်းရှင်းလင်းလင်း သတ်မှတ်ခြင်း",
-        "Target နဲ့ Actual ကို နှိုင်းယှဉ်ခြင်း",
-        "Gap ကို ခွဲခြမ်းခြင်း",
-        "Root Cause ကို ရှာဖွေခြင်း",
-        "Priority သတ်မှတ်ခြင်း",
-        "Action Plan တည်ဆောက်ခြင်း",
-        "Owner နဲ့ Deadline သတ်မှတ်ခြင်း",
-        "Result ကို ပြန်လည်တိုင်းတာခြင်း"
-      ],
-
-      table: [
-        {
-          metric: "Target",
-          target: "100",
-          actual: "100",
-          gap: "0",
-          status: "On Target"
-        },
-        {
-          metric: "Actual Result",
-          target: "100",
-          actual: "82",
-          gap: "-18",
-          status: "Below Target"
-        },
-        {
-          metric: "Customer Coverage",
-          target: "100",
-          actual: "88",
-          gap: "-12",
-          status: "Attention"
-        },
-        {
-          metric: "Productivity",
-          target: "100",
-          actual: "76",
-          gap: "-24",
-          status: "Action Required"
-        }
-      ],
-
-      caseStudy: `
-        <strong>Case Study — ABC Distribution</strong>
-
-        ABC Distribution မှာ
-        Monthly Sales Target ကို
-        100 Units သတ်မှတ်ထားပါတယ်။
-
-        Actual Sales က 82 Units ပဲ ရပါတယ်။
-
-        Manager က
-        “Sales Team မကြိုးစားဘူး”
-        လို့ တန်းသတ်မှတ်မယ့်အစား
-        Data ကို ခွဲကြည့်ပါတယ်။
-
-        Customer Coverage = 88%
-
-        Product Availability = 91%
-
-        Salesperson Productivity = 76%
-
-        Competitor Activity = High
-
-        ဒီ Data အရ
-        Sales Gap 18 Units ရဲ့
-        အဓိကပြဿနာဟာ
-        လူအင်အားတစ်ခုတည်းမဟုတ်ဘဲ
-        Coverage + Productivity +
-        Competitive Pressure တို့
-        ပေါင်းစပ်သက်ရောက်နေတာ
-        ဖြစ်နိုင်ပါတယ်။
-
-        ဒါကြောင့် Manager က
-        Training တစ်ခုတည်းပေးတာထက်
-        Route Plan ပြန်ပြင်ခြင်း၊
-        Priority Outlet သတ်မှတ်ခြင်း၊
-        Daily Productivity Review လုပ်ခြင်း၊
-        Competitor Counter Action ပြုလုပ်ခြင်း
-        စတဲ့ Action တွေကို
-        တစ်ပြိုင်နက်လုပ်ဆောင်ရပါမယ်။
-      `,
-
-      application: `
-        <p>
-          လက်တွေ့လုပ်ငန်းခွင်မှာ
-          ဒီ Concept ကို အသုံးချတဲ့အခါ
-          အောက်ပါ Flow ကို အသုံးပြုပါ။
-        </p>
-
-        <ol>
-          <li>Problem ကို သတ်မှတ်ပါ။</li>
-          <li>Data စုပါ။</li>
-          <li>Target နဲ့ Actual နှိုင်းယှဉ်ပါ။</li>
-          <li>Gap ကိုတွက်ပါ။</li>
-          <li>Root Cause ရှာပါ။</li>
-          <li>Action Plan တည်ဆောက်ပါ။</li>
-          <li>Owner သတ်မှတ်ပါ။</li>
-          <li>Deadline သတ်မှတ်ပါ။</li>
-          <li>Result ကို ပြန်စစ်ပါ။</li>
-        </ol>
-
-        <p>
-          ဒီ Flow ကို နေ့စဉ်၊ အပတ်စဉ်၊ လစဉ်
-          Business Management မှာ
-          အသုံးချနိုင်ပါတယ်။
-        </p>
-      `,
-
-      managerThinking: `
-        <div class="manager-thinking-box">
-          <h4>👨‍💼 Manager တစ်ယောက်အနေနဲ့ စဉ်းစားရန်</h4>
-
-          <p>
-            <strong>Question 1:</strong>
-            ငါ့ Business မှာ အခုအချိန်မှာ
-            အကြီးဆုံး Gap က ဘာလဲ?
-          </p>
-
-          <p>
-            <strong>Question 2:</strong>
-            ဒီ Gap ရဲ့ Root Cause ကို
-            Data နဲ့ သက်သေပြနိုင်လား?
-          </p>
-
-          <p>
-            <strong>Question 3:</strong>
-            Action မလုပ်ရင်
-            Business Result ဘယ်လောက်ထိခိုက်မလဲ?
-          </p>
-
-          <p>
-            <strong>Question 4:</strong>
-            ဘယ်သူက ဘာကို ဘယ်နေ့အပြီး
-            လုပ်ရမလဲ?
-          </p>
-
-          <p>
-            <strong>Question 5:</strong>
-            Action လုပ်ပြီးတဲ့နောက်
-            Result ကို ဘယ် KPI နဲ့တိုင်းမလဲ?
-          </p>
-        </div>
-      `,
-
-      mistakes: [
-        "Data မကြည့်ဘဲ ခန့်မှန်းပြီး ဆုံးဖြတ်ခြင်း",
-        "Problem နဲ့ Root Cause ကို ရောထွေးခြင်း",
-        "Target ပဲပြောပြီး Action Plan မရှိခြင်း",
-        "Owner မသတ်မှတ်ခြင်း",
-        "Deadline မရှိခြင်း",
-        "Review မလုပ်ခြင်း",
-        "Activity များတာကို Result ကောင်းတယ်လို့ ထင်ခြင်း"
-      ],
-
-      actionPlan: `
-        <h4>🛠️ ဒီနေ့ လက်တွေ့လုပ်ရန်</h4>
-
-        <ol>
-          <li>
-            သင့် Business ရဲ့ အရေးကြီးဆုံး KPI တစ်ခုကို ရွေးပါ။
-          </li>
-
-          <li>
-            Target နဲ့ Actual ကို ရေးပါ။
-          </li>
-
-          <li>
-            Gap ကိုတွက်ပါ။
-          </li>
-
-          <li>
-            Gap ရဲ့ Root Cause 3 ခု ရှာပါ။
-          </li>
-
-          <li>
-            အရေးကြီးဆုံး Root Cause တစ်ခုကို
-            ရွေးပါ။
-          </li>
-
-          <li>
-            Action 3 ခု ရေးပါ။
-          </li>
-
-          <li>
-            Owner + Deadline သတ်မှတ်ပါ။
-          </li>
-
-          <li>
-            နောက် Review Date သတ်မှတ်ပါ။
-          </li>
-        </ol>
-      `,
-
-      quiz: [
-        {
-          q: "Target မပြည့်တဲ့အခါ ပထမဆုံး ဘာလုပ်သင့်သလဲ?",
-          options: [
-            "ဝန်ထမ်းကို အပြစ်တင်မယ်",
-            "Data နဲ့ Gap ကို စစ်မယ်",
-            "Promotion ချက်ချင်းလုပ်မယ်",
-            "Target လျှော့မယ်"
-          ],
-          answer: 1
-        },
-
-        {
-          q: "Root Cause ဆိုတာ ဘာလဲ?",
-          options: [
-            "အပေါ်ယံလက္ခဏာ",
-            "တကယ့်အခြေခံအကြောင်းရင်း",
-            "Monthly Target",
-            "Sales Report"
-          ],
-          answer: 1
-        },
-
-        {
-          q: "Action Plan မှာ ဘာတွေပါသင့်သလဲ?",
-          options: [
-            "Action ပဲ",
-            "Owner ပဲ",
-            "Action + Owner + Deadline",
-            "Problem ပဲ"
-          ],
-          answer: 2
-        }
-      ],
-
-      reflection: `
-        <div class="reflection-box">
-          <h4>🔄 Reflection</h4>
-
-          <p>
-            1. ဒီနေ့သင်ခန်းစာထဲက
-            ကိုယ့်လုပ်ငန်းမှာ ချက်ချင်းအသုံးချနိုင်တာ
-            ဘာလဲ?
-          </p>
-
-          <p>
-            2. လက်ရှိ Business Problem တစ်ခုကို
-            Data နဲ့ ပြန်ကြည့်ရင်
-            ဘာတွေပြောင်းလဲမြင်လာမလဲ?
-          </p>
-
-          <p>
-            3. ကိုယ်တိုင် Manager ဖြစ်ရင်
-            ဘယ် Action ကို အရင်လုပ်မလဲ?
-          </p>
-        </div>
-      `,
-
-      summary: `
-        <p>
-          <strong>${escapeHTML(title)}</strong>
-          ရဲ့ အဓိကအချက်က
-          Knowledge ကို Action အဖြစ်
-          ပြောင်းလဲနိုင်ခြင်း ဖြစ်ပါတယ်။
-        </p>
-
-        <p>
-          Professional Manager တစ်ယောက်ဟာ
-          Problem → Data → Analysis →
-          Decision → Action → Review
-          ဆိုတဲ့ Management Cycle ကို
-          စနစ်တကျ အသုံးချနိုင်ရပါမယ်။
-        </p>
-      `,
-
-      graph: {
-        target: 100,
-        actual: 82,
-        coverage: 88,
-        productivity: 76
-      },
-
-      achievement: achievement,
-      gap: gap
-    };
   }
 
-  /* =========================================================
-     6. FIND LESSON PAGE
-     ========================================================= */
+  function getCompletedCount() {
 
-  function findLessonsPage() {
+    return completedLessons.length;
 
-    const selectors = [
-      "#page-lessons",
-      "#lessons",
-      "#lessonPage",
-      ".lessons-page",
-      ".lessons-content",
-      "[data-page='lessons']",
-      "main"
-    ];
+  }
 
-    for (const selector of selectors) {
-      const element =
-        document.querySelector(selector);
+  function getProgressPercent() {
 
-      if (element) return element;
+    if (!lessons.length) {
+      return 0;
     }
 
-    return document.body;
+    return Math.round(
+      (getCompletedCount() / lessons.length) * 100
+    );
+
+  }
+
+  function markLessonCompleted(index) {
+
+    if (
+      index < 0 ||
+      index >= lessons.length
+    ) {
+      return;
+    }
+
+    if (!completedLessons.includes(index)) {
+
+      completedLessons.push(index);
+
+      completedLessons.sort(function (a, b) {
+        return a - b;
+      });
+
+      saveCompletedLessons();
+
+    }
+
+    updateAllProgressUI();
+    renderLesson();
+
+  }
+
+  function markLessonIncomplete(index) {
+
+    completedLessons = completedLessons.filter(
+      function (item) {
+        return item !== index;
+      }
+    );
+
+    saveCompletedLessons();
+
+    updateAllProgressUI();
+    renderLesson();
+
   }
 
   /* =========================================================
-     7. LESSON MODAL
+     7. SECTION NAVIGATION
      ========================================================= */
 
-  function openLesson(id) {
+  function showSection(sectionName) {
 
-    const lesson =
-      LESSONS.find(function (item) {
-        return item.id === id;
-      });
+    currentSection = sectionName;
 
-    if (!lesson) return;
-
-    const content =
-      buildDetailedContent(lesson);
-
-    const old =
-      document.getElementById(
-        "aungProfessionalLessonModal"
+    try {
+      localStorage.setItem(
+        STORAGE_KEYS.lastSection,
+        sectionName
       );
+    } catch (error) {}
 
-    if (old) old.remove();
+    closeMobileSidebar();
 
-    const modal =
-      document.createElement("div");
+    const sections = qsa(
+      "[data-section], .app-section, .page-section"
+    );
 
-    modal.id =
-      "aungProfessionalLessonModal";
+    let found = false;
 
-    modal.innerHTML = `
+    sections.forEach(function (section) {
 
-      <div class="aba-modal-overlay">
+      const name =
+        section.dataset.section ||
+        section.id ||
+        "";
 
-        <div class="aba-lesson-modal">
+      if (
+        name.toLowerCase() ===
+        sectionName.toLowerCase()
+      ) {
 
-          <div class="aba-lesson-header">
+        section.style.display = "";
+        section.classList.add("active");
+        found = true;
 
-            <div class="aba-lesson-module">
-              ${lesson.icon}
-              ${escapeHTML(lesson.module)}
+      } else {
+
+        section.style.display = "none";
+        section.classList.remove("active");
+
+      }
+
+    });
+
+    /*
+      If the original HTML does not use
+      data-section, create / use our own main container.
+    */
+
+    if (!found) {
+
+      renderDynamicSection(sectionName);
+
+    }
+
+    updateNavigationActive(sectionName);
+
+    updateDashboard();
+
+  }
+
+  function updateNavigationActive(sectionName) {
+
+    qsa(
+      "[data-section-link], [data-nav], .nav-link, .sidebar-link"
+    ).forEach(function (link) {
+
+      const target =
+        link.dataset.sectionLink ||
+        link.dataset.nav ||
+        link.dataset.target ||
+        link.getAttribute("href") ||
+        "";
+
+      const cleanTarget = target
+        .replace("#", "")
+        .trim()
+        .toLowerCase();
+
+      if (
+        cleanTarget ===
+        sectionName.toLowerCase()
+      ) {
+
+        link.classList.add("active");
+
+      } else {
+
+        link.classList.remove("active");
+
+      }
+
+    });
+
+  }
+
+  /* =========================================================
+     8. DYNAMIC SECTION
+     ========================================================= */
+
+  function getMainContentContainer() {
+
+    let container =
+      byId("app-content") ||
+      byId("main-content") ||
+      byId("content") ||
+      qs("main");
+
+    if (!container) {
+
+      container = document.createElement("main");
+
+      container.id = "app-content";
+
+      document.body.appendChild(container);
+
+    }
+
+    return container;
+
+  }
+
+  function renderDynamicSection(sectionName) {
+
+    const container =
+      getMainContentContainer();
+
+    switch (sectionName) {
+
+      case "dashboard":
+        renderDashboard(container);
+        break;
+
+      case "lessons":
+        renderLessonsPage(container);
+        break;
+
+      case "my-lessons":
+        renderLessonsPage(container);
+        break;
+
+      case "progress":
+        renderProgressPage(container);
+        break;
+
+      case "sales":
+      case "sales-manager":
+        renderSalesManager(container);
+        break;
+
+      case "pricing":
+      case "pricing-calculator":
+        renderPricingCalculator(container);
+        break;
+
+      case "reports":
+        renderReports(container);
+        break;
+
+      case "ai":
+      case "ai-coach":
+      case "ai-business-coach":
+        renderAIBusinessCoach(container);
+        break;
+
+      case "ai-tools":
+        renderAITools(container);
+        break;
+
+      case "settings":
+        renderSettings(container);
+        break;
+
+      case "courses":
+      case "my-courses":
+        renderCourses(container);
+        break;
+
+      default:
+        renderDashboard(container);
+        break;
+
+    }
+
+  }
+
+  /* =========================================================
+     9. DASHBOARD
+     ========================================================= */
+
+  function renderDashboard(container) {
+
+    const completed = getCompletedCount();
+    const total = lessons.length;
+    const percent = getProgressPercent();
+
+    const nextLessonIndex =
+      findNextIncompleteLesson();
+
+    let nextLessonText =
+      "သင်ခန်းစာများ အားလုံးပြီးဆုံးပါပြီ 🎉";
+
+    if (nextLessonIndex !== -1) {
+
+      nextLessonText =
+        lessons[nextLessonIndex].title;
+
+    }
+
+    container.innerHTML = `
+
+      <div class="aba-dashboard">
+
+        <div class="aba-page-header">
+
+          <div>
+            <h1>Dashboard</h1>
+
+            <p>
+              Aung Business Academy မှာ
+              သင့်ရဲ့ Business Learning Progress ကို
+              ဒီနေရာကနေ စောင့်ကြည့်နိုင်ပါတယ်။
+            </p>
+          </div>
+
+        </div>
+
+        <div class="aba-stats-grid">
+
+          <div class="aba-stat-card">
+            <div class="aba-stat-icon">📚</div>
+            <div>
+              <strong>${total}</strong>
+              <span>Total Lessons</span>
+            </div>
+          </div>
+
+          <div class="aba-stat-card">
+            <div class="aba-stat-icon">✅</div>
+            <div>
+              <strong>${completed}</strong>
+              <span>Completed</span>
+            </div>
+          </div>
+
+          <div class="aba-stat-card">
+            <div class="aba-stat-icon">📈</div>
+            <div>
+              <strong>${percent}%</strong>
+              <span>Progress</span>
+            </div>
+          </div>
+
+          <div class="aba-stat-card">
+            <div class="aba-stat-icon">🎯</div>
+            <div>
+              <strong>30</strong>
+              <span>Daily Goal (min)</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="aba-dashboard-card">
+
+          <div class="aba-card-header">
+
+            <div>
+              <h2>Sales Management Mastery</h2>
+
+              <p>
+                Professional Sales Manager Course
+              </p>
             </div>
 
-            <h1>
-              ${escapeHTML(lesson.title)}
-            </h1>
-
-            <div class="aba-lesson-meta">
-              Lesson ${lesson.id} / ${LESSONS.length}
-              &nbsp; • &nbsp;
-              ⏱️ Approximately 15 Minutes
-            </div>
-
-            <button
-              class="aba-close-btn"
-              id="abaCloseLesson"
-            >
-              ✕
-            </button>
+            <span class="aba-progress-number">
+              ${percent}%
+            </span>
 
           </div>
 
+          <div class="aba-progress-track">
 
-          <div class="aba-lesson-body">
+            <div
+              class="aba-progress-fill"
+              style="width:${percent}%"
+            ></div>
 
+          </div>
 
-            <!-- OBJECTIVE -->
+          <div class="aba-progress-meta">
 
-            <section class="aba-section">
+            <span>
+              ${completed} / ${total} Lessons Completed
+            </span>
 
-              <div class="aba-section-title">
-                🎯 Learning Objectives
-              </div>
+            <span>
+              ${percent}%
+            </span>
 
-              <div class="aba-objective">
-                ${content.objective}
-              </div>
+          </div>
 
-            </section>
+        </div>
 
+        <div class="aba-dashboard-card">
 
-            <!-- EXPLANATION -->
+          <div class="aba-card-header">
 
-            <section class="aba-section">
+            <div>
 
-              <div class="aba-section-title">
-                📖 Detailed Explanation
-              </div>
-
-              <div class="aba-text">
-                ${content.explanation}
-              </div>
-
-            </section>
-
-
-            <!-- CONCEPTS -->
-
-            <section class="aba-section">
-
-              <div class="aba-section-title">
-                🧠 Key Business Concepts
-              </div>
-
-              <div class="aba-concept-grid">
-
-                ${content.concepts.map(
-                  function (item, index) {
-
-                    return `
-                      <div class="aba-concept-card">
-
-                        <div class="aba-concept-number">
-                          ${index + 1}
-                        </div>
-
-                        <div>
-                          ${escapeHTML(item)}
-                        </div>
-
-                      </div>
-                    `;
-
-                  }
-                ).join("")}
-
-              </div>
-
-            </section>
-
-
-            <!-- DATA -->
-
-            <section class="aba-section">
-
-              <div class="aba-section-title">
-                📊 Business Data Analysis
-              </div>
-
-              <div class="aba-table-wrap">
-
-                <table class="aba-data-table">
-
-                  <thead>
-
-                    <tr>
-                      <th>Metric</th>
-                      <th>Target</th>
-                      <th>Actual</th>
-                      <th>Gap</th>
-                      <th>Status</th>
-                    </tr>
-
-                  </thead>
-
-                  <tbody>
-
-                    ${content.table.map(
-                      function (row) {
-
-                        return `
-                          <tr>
-
-                            <td>
-                              ${escapeHTML(row.metric)}
-                            </td>
-
-                            <td>
-                              ${row.target}
-                            </td>
-
-                            <td>
-                              ${row.actual}
-                            </td>
-
-                            <td>
-                              ${row.gap}
-                            </td>
-
-                            <td>
-                              ${escapeHTML(row.status)}
-                            </td>
-
-                          </tr>
-                        `;
-
-                      }
-                    ).join("")}
-
-                  </tbody>
-
-                </table>
-
-              </div>
-
-            </section>
-
-
-            <!-- GRAPH -->
-
-            <section class="aba-section">
-
-              <div class="aba-section-title">
-                📈 Performance Graph
-              </div>
-
-              <div class="aba-graph">
-
-                <div class="aba-bar-row">
-
-                  <div class="aba-bar-label">
-                    Target
-                  </div>
-
-                  <div class="aba-bar-track">
-                    <div
-                      class="aba-bar target"
-                      style="width:100%"
-                    >
-                      100%
-                    </div>
-                  </div>
-
-                </div>
-
-
-                <div class="aba-bar-row">
-
-                  <div class="aba-bar-label">
-                    Actual
-                  </div>
-
-                  <div class="aba-bar-track">
-                    <div
-                      class="aba-bar actual"
-                      style="width:82%"
-                    >
-                      82%
-                    </div>
-                  </div>
-
-                </div>
-
-
-                <div class="aba-bar-row">
-
-                  <div class="aba-bar-label">
-                    Coverage
-                  </div>
-
-                  <div class="aba-bar-track">
-                    <div
-                      class="aba-bar coverage"
-                      style="width:88%"
-                    >
-                      88%
-                    </div>
-                  </div>
-
-                </div>
-
-
-                <div class="aba-bar-row">
-
-                  <div class="aba-bar-label">
-                    Productivity
-                  </div>
-
-                  <div class="aba-bar-track">
-                    <div
-                      class="aba-bar productivity"
-                      style="width:76%"
-                    >
-                      76%
-                    </div>
-                  </div>
-
-                </div>
-
-              </div>
-
-              <div class="aba-graph-note">
-
-                Target = 100% |
-                Actual = 82% |
-                Gap = -18%
-
-                <br>
-
-                Manager ရဲ့အလုပ်က
-                Graph ကိုကြည့်ပြီး
-                Gap ဖြစ်ရတဲ့အကြောင်းရင်းကို
-                ရှာဖွေပြီး Action ပြောင်းပေးခြင်း ဖြစ်ပါတယ်။
-
-              </div>
-
-            </section>
-
-
-            <!-- CASE STUDY -->
-
-            <section class="aba-section">
-
-              <div class="aba-section-title">
-                🧩 Real Business Case Study
-              </div>
-
-              <div class="aba-case-study">
-                ${content.caseStudy}
-              </div>
-
-            </section>
-
-
-            <!-- APPLICATION -->
-
-            <section class="aba-section">
-
-              <div class="aba-section-title">
-                💼 Real Business Application
-              </div>
-
-              <div class="aba-text">
-                ${content.application}
-              </div>
-
-            </section>
-
-
-            <!-- MANAGER -->
-
-            <section class="aba-section">
-
-              <div class="aba-section-title">
-                👨‍💼 Manager Thinking
-              </div>
-
-              ${content.managerThinking}
-
-            </section>
-
-
-            <!-- MISTAKES -->
-
-            <section class="aba-section">
-
-              <div class="aba-section-title">
-                ⚠️ Common Mistakes
-              </div>
-
-              <div class="aba-mistake-list">
-
-                ${content.mistakes.map(
-                  function (mistake) {
-
-                    return `
-                      <div class="aba-mistake">
-                        ❌ ${escapeHTML(mistake)}
-                      </div>
-                    `;
-
-                  }
-                ).join("")}
-
-              </div>
-
-            </section>
-
-
-            <!-- ACTION PLAN -->
-
-            <section class="aba-section">
-
-              <div class="aba-section-title">
-                🛠️ Manager Action Plan
-              </div>
-
-              <div class="aba-action-plan">
-                ${content.actionPlan}
-              </div>
-
-            </section>
-
-
-            <!-- PRACTICE -->
-
-            <section class="aba-section">
-
-              <div class="aba-section-title">
-                ✍️ Practical Exercise
-              </div>
-
-              <div class="aba-practice">
-
-                <p>
-                  <strong>Exercise:</strong>
-                </p>
-
-                <p>
-                  သင့်လက်ရှိလုပ်ငန်းမှာ
-                  Target တစ်ခုကိုရွေးပြီး
-                  အောက်ပါအချက်များကို
-                  ကိုယ်တိုင်ရေးပါ။
-                </p>
-
-                <div class="aba-exercise-grid">
-
-                  <div>
-                    Target
-                  </div>
-
-                  <div>
-                    Actual
-                  </div>
-
-                  <div>
-                    Gap
-                  </div>
-
-                  <div>
-                    Root Cause
-                  </div>
-
-                  <div>
-                    Action
-                  </div>
-
-                  <div>
-                    Deadline
-                  </div>
-
-                </div>
-
-              </div>
-
-            </section>
-
-
-            <!-- QUIZ -->
-
-            <section class="aba-section">
-
-              <div class="aba-section-title">
-                🧪 Knowledge Check
-              </div>
-
-              <div id="abaQuizContainer">
-
-                ${content.quiz.map(
-                  function (quiz, index) {
-
-                    return `
-
-                      <div
-                        class="aba-quiz"
-                        data-answer="${quiz.answer}"
-                      >
-
-                        <div class="aba-quiz-question">
-                          ${index + 1}.
-                          ${escapeHTML(quiz.q)}
-                        </div>
-
-                        <div class="aba-quiz-options">
-
-                          ${quiz.options.map(
-                            function (
-                              option,
-                              optionIndex
-                            ) {
-
-                              return `
-                                <button
-                                  class="aba-quiz-option"
-                                  data-index="${optionIndex}"
-                                >
-                                  ${escapeHTML(option)}
-                                </button>
-                              `;
-
-                            }
-                          ).join("")}
-
-                        </div>
-
-                      </div>
-
-                    `;
-
-                  }
-                ).join("")}
-
-              </div>
-
-            </section>
-
-
-            <!-- REFLECTION -->
-
-            <section class="aba-section">
-
-              ${content.reflection}
-
-            </section>
-
-
-            <!-- SUMMARY -->
-
-            <section class="aba-section">
-
-              <div class="aba-section-title">
-                📌 Lesson Summary
-              </div>
-
-              <div class="aba-summary">
-                ${content.summary}
-              </div>
-
-            </section>
-
-
-            <!-- COMPLETION -->
-
-            <section class="aba-completion">
-
-              <div class="aba-completion-icon">
-                ${isCompleted(lesson.id) ? "✅" : "🏆"}
-              </div>
-
-              <h3>
-                ${isCompleted(lesson.id)
-                  ? "Lesson Completed"
-                  : "Complete This Lesson"}
-              </h3>
+              <h2>Continue Learning</h2>
 
               <p>
-                ဒီ Lesson ကို လေ့လာပြီးဆုံးပါက
-                Complete Lesson ကိုနှိပ်ပါ။
+                ${escapeHTML(nextLessonText)}
               </p>
 
-              <button
-                id="abaCompleteLesson"
-                class="aba-complete-button"
-              >
-                ${
-                  isCompleted(lesson.id)
-                    ? "✅ Completed"
-                    : "✓ Complete Lesson"
-                }
-              </button>
-
-            </section>
-
-
-            <!-- NAVIGATION -->
-
-            <div class="aba-lesson-navigation">
-
-              ${
-                lesson.id > 1
-                  ? `
-                    <button
-                      id="abaPreviousLesson"
-                      class="aba-nav-button"
-                    >
-                      ← Previous Lesson
-                    </button>
-                  `
-                  : "<span></span>"
-              }
-
-
-              ${
-                lesson.id < LESSONS.length
-                  ? `
-                    <button
-                      id="abaNextLesson"
-                      class="aba-nav-button primary"
-                    >
-                      Next Lesson →
-                    </button>
-                  `
-                  : "<span></span>"
-              }
-
             </div>
+
+          </div>
+
+          <button
+            class="aba-primary-btn"
+            id="dashboardContinueBtn"
+          >
+            ${nextLessonIndex === -1
+              ? "Review Lessons"
+              : "Continue Lesson"}
+          </button>
+
+        </div>
+
+        <div class="aba-dashboard-card">
+
+          <div class="aba-card-header">
+
+            <div>
+              <h2>Quick Access</h2>
+              <p>Business tools နှင့် learning sections</p>
+            </div>
+
+          </div>
+
+          <div class="aba-quick-grid">
+
+            <button class="aba-quick-btn" data-quick="lessons">
+              📚
+              <span>Lessons</span>
+            </button>
+
+            <button class="aba-quick-btn" data-quick="progress">
+              📊
+              <span>My Progress</span>
+            </button>
+
+            <button class="aba-quick-btn" data-quick="sales-manager">
+              👔
+              <span>Sales Manager</span>
+            </button>
+
+            <button class="aba-quick-btn" data-quick="pricing-calculator">
+              🧮
+              <span>Pricing Calculator</span>
+            </button>
+
+            <button class="aba-quick-btn" data-quick="ai-business-coach">
+              🤖
+              <span>AI Business Coach</span>
+            </button>
+
+            <button class="aba-quick-btn" data-quick="settings">
+              ⚙️
+              <span>Settings</span>
+            </button>
 
           </div>
 
@@ -1484,709 +768,2130 @@
       </div>
     `;
 
-    document.body.appendChild(modal);
+    const continueBtn =
+      byId("dashboardContinueBtn");
 
-    /* CLOSE */
+    if (continueBtn) {
 
-    document
-      .getElementById("abaCloseLesson")
-      .addEventListener("click", function () {
-        modal.remove();
-      });
-
-
-    /* COMPLETE */
-
-    const completeButton =
-      document.getElementById(
-        "abaCompleteLesson"
-      );
-
-    if (completeButton) {
-
-      completeButton.addEventListener(
+      continueBtn.addEventListener(
         "click",
         function () {
 
-          markCompleted(lesson.id);
+          if (nextLessonIndex !== -1) {
 
-          completeButton.textContent =
-            "✅ Completed";
+            currentLessonIndex =
+              nextLessonIndex;
 
-          completeButton.classList.add(
-            "completed"
+          }
+
+          showSection("lessons");
+
+          setTimeout(function () {
+            renderLesson();
+          }, 50);
+
+        }
+      );
+
+    }
+
+    qsa("[data-quick]").forEach(function (button) {
+
+      button.addEventListener(
+        "click",
+        function () {
+
+          showSection(
+            button.dataset.quick
           );
 
         }
       );
 
-    }
+    });
 
+  }
 
-    /* PREVIOUS */
+  function updateDashboard() {
 
-    const previous =
-      document.getElementById(
-        "abaPreviousLesson"
-      );
+    if (
+      currentSection === "dashboard"
+    ) {
 
-    if (previous) {
-
-      previous.addEventListener(
-        "click",
-        function () {
-
-          modal.remove();
-
-          setTimeout(function () {
-            openLesson(lesson.id - 1);
-          }, 100);
-
-        }
+      renderDashboard(
+        getMainContentContainer()
       );
 
     }
 
-
-    /* NEXT */
-
-    const next =
-      document.getElementById(
-        "abaNextLesson"
-      );
-
-    if (next) {
-
-      next.addEventListener(
-        "click",
-        function () {
-
-          modal.remove();
-
-          setTimeout(function () {
-            openLesson(lesson.id + 1);
-          }, 100);
-
-        }
-      );
-
-    }
-
-
-    /* QUIZ */
-
-    document
-      .querySelectorAll(
-        "#abaProfessionalLessonModal .aba-quiz"
-      )
-      .forEach(function (quizElement) {
-
-        const answer =
-          Number(
-            quizElement.dataset.answer
-          );
-
-        quizElement
-          .querySelectorAll(
-            ".aba-quiz-option"
-          )
-          .forEach(function (button) {
-
-            button.addEventListener(
-              "click",
-              function () {
-
-                const selected =
-                  Number(
-                    button.dataset.index
-                  );
-
-                quizElement
-                  .querySelectorAll(
-                    ".aba-quiz-option"
-                  )
-                  .forEach(function (btn) {
-                    btn.disabled = true;
-                  });
-
-                if (selected === answer) {
-
-                  button.classList.add(
-                    "correct"
-                  );
-
-                  button.textContent =
-                    "✅ " + button.textContent;
-
-                } else {
-
-                  button.classList.add(
-                    "wrong"
-                  );
-
-                  button.textContent =
-                    "❌ " + button.textContent;
-
-                }
-
-              }
-            );
-
-          });
-
-      });
+    updateAllProgressUI();
 
   }
 
   /* =========================================================
-     8. LESSON CARD STYLE
+     10. LESSON LIST
      ========================================================= */
 
-  function injectStyles() {
+  function renderLessonsPage(container) {
+
+    container.innerHTML = `
+
+      <div class="aba-lessons-page">
+
+        <div class="aba-page-header">
+
+          <div>
+            <h1>Lessons</h1>
+
+            <p>
+              Sales Management နှင့် Business Management
+              အတွက် Professional Lessons များ
+            </p>
+          </div>
+
+          <div class="aba-page-progress">
+            ${getProgressPercent()}%
+          </div>
+
+        </div>
+
+        <div class="aba-progress-track aba-main-progress">
+
+          <div
+            class="aba-progress-fill"
+            style="width:${getProgressPercent()}%"
+          ></div>
+
+        </div>
+
+        <div class="aba-lessons-list" id="abaLessonsList">
+
+          ${lessons.map(function (lesson, index) {
+
+            const completed =
+              isLessonCompleted(index);
+
+            return `
+
+              <button
+                class="aba-lesson-item ${
+                  index === currentLessonIndex
+                    ? "current"
+                    : ""
+                } ${
+                  completed
+                    ? "completed"
+                    : ""
+                }"
+                data-lesson-index="${index}"
+              >
+
+                <div class="aba-lesson-number">
+
+                  ${
+                    completed
+                      ? "✓"
+                      : index + 1
+                  }
+
+                </div>
+
+                <div class="aba-lesson-info">
+
+                  <strong>
+                    ${escapeHTML(lesson.title)}
+                  </strong>
+
+                  <span>
+                    ${
+                      completed
+                        ? "Completed"
+                        : "Not completed"
+                    }
+                  </span>
+
+                </div>
+
+                <div class="aba-lesson-arrow">
+                  →
+                </div>
+
+              </button>
+
+            `;
+
+          }).join("")}
+
+        </div>
+
+      </div>
+
+      <div
+        id="abaLessonViewer"
+        class="aba-lesson-viewer"
+      ></div>
+
+    `;
+
+    qsa("[data-lesson-index]").forEach(
+      function (button) {
+
+        button.addEventListener(
+          "click",
+          function () {
+
+            const index =
+              parseInt(
+                button.dataset.lessonIndex,
+                10
+              );
+
+            openLesson(index);
+
+          }
+        );
+
+      }
+    );
+
+    renderLesson();
+
+  }
+
+  /* =========================================================
+     11. OPEN LESSON
+     ========================================================= */
+
+  function openLesson(index) {
 
     if (
-      document.getElementById(
-        "aungProfessionalLessonStyles"
-      )
-    ) return;
+      index < 0 ||
+      index >= lessons.length
+    ) {
+      return;
+    }
+
+    currentLessonIndex = index;
+
+    saveCurrentLesson();
+
+    showSection("lessons");
+
+    setTimeout(function () {
+
+      renderLesson();
+
+      const viewer =
+        byId("abaLessonViewer");
+
+      if (viewer) {
+
+        viewer.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+
+      }
+
+    }, 20);
+
+  }
+
+  /* =========================================================
+     12. RENDER LESSON
+     ========================================================= */
+
+  function renderLesson() {
+
+    const viewer =
+      byId("abaLessonViewer");
+
+    if (!viewer) {
+      return;
+    }
+
+    if (!lessons.length) {
+
+      viewer.innerHTML = `
+        <div class="aba-empty">
+          Lesson မရှိသေးပါ။
+        </div>
+      `;
+
+      return;
+
+    }
+
+    const lesson =
+      lessons[currentLessonIndex];
+
+    const completed =
+      isLessonCompleted(currentLessonIndex);
+
+    const previousDisabled =
+      currentLessonIndex <= 0;
+
+    const nextDisabled =
+      currentLessonIndex >=
+      lessons.length - 1;
+
+    viewer.innerHTML = `
+
+      <article class="aba-lesson-card">
+
+        <div class="aba-lesson-header">
+
+          <div>
+
+            <span class="aba-lesson-label">
+              LESSON ${currentLessonIndex + 1}
+              / ${lessons.length}
+            </span>
+
+            <h2>
+              ${escapeHTML(lesson.title)}
+            </h2>
+
+            ${
+              lesson.intro
+                ? `
+                  <p class="aba-lesson-intro">
+                    ${escapeHTML(lesson.intro)}
+                  </p>
+                `
+                : ""
+            }
+
+          </div>
+
+          <div class="aba-lesson-status ${
+            completed
+              ? "completed"
+              : ""
+          }">
+
+            ${
+              completed
+                ? "✓ Completed"
+                : "In Progress"
+            }
+
+          </div>
+
+        </div>
+
+        <div class="aba-lesson-content">
+
+          ${lesson.body}
+
+        </div>
+
+        <div class="aba-lesson-actions">
+
+          <button
+            class="aba-secondary-btn"
+            id="previousLessonBtn"
+            ${previousDisabled ? "disabled" : ""}
+          >
+            ← Previous
+          </button>
+
+          <button
+            class="${
+              completed
+                ? "aba-warning-btn"
+                : "aba-complete-btn"
+            }"
+            id="completeLessonBtn"
+          >
+
+            ${
+              completed
+                ? "↩ Mark as Incomplete"
+                : "✓ Mark as Completed"
+            }
+
+          </button>
+
+          <button
+            class="aba-primary-btn"
+            id="nextLessonBtn"
+            ${nextDisabled ? "disabled" : ""}
+          >
+            Next →
+          </button>
+
+        </div>
+
+      </article>
+
+    `;
+
+    const previousBtn =
+      byId("previousLessonBtn");
+
+    const nextBtn =
+      byId("nextLessonBtn");
+
+    const completeBtn =
+      byId("completeLessonBtn");
+
+    if (previousBtn) {
+
+      previousBtn.addEventListener(
+        "click",
+        previousLesson
+      );
+
+    }
+
+    if (nextBtn) {
+
+      nextBtn.addEventListener(
+        "click",
+        nextLesson
+      );
+
+    }
+
+    if (completeBtn) {
+
+      completeBtn.addEventListener(
+        "click",
+        function () {
+
+          if (
+            isLessonCompleted(
+              currentLessonIndex
+            )
+          ) {
+
+            markLessonIncomplete(
+              currentLessonIndex
+            );
+
+          } else {
+
+            markLessonCompleted(
+              currentLessonIndex
+            );
+
+          }
+
+        }
+      );
+
+    }
+
+    /*
+      Important:
+      Long lesson content should be scrollable.
+    */
+
+    viewer.style.maxHeight = "none";
+    viewer.style.overflow = "visible";
+
+    updateLessonListActive();
+
+  }
+
+  /* =========================================================
+     13. PREVIOUS / NEXT
+     ========================================================= */
+
+  function previousLesson() {
+
+    if (currentLessonIndex <= 0) {
+      return;
+    }
+
+    currentLessonIndex--;
+
+    saveCurrentLesson();
+
+    renderLesson();
+
+    scrollLessonTop();
+
+  }
+
+  function nextLesson() {
+
+    if (
+      currentLessonIndex >=
+      lessons.length - 1
+    ) {
+
+      return;
+
+    }
+
+    currentLessonIndex++;
+
+    saveCurrentLesson();
+
+    renderLesson();
+
+    scrollLessonTop();
+
+  }
+
+  function scrollLessonTop() {
+
+    const viewer =
+      byId("abaLessonViewer");
+
+    if (viewer) {
+
+      viewer.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+    }
+
+  }
+
+  function findNextIncompleteLesson() {
+
+    for (
+      let i = 0;
+      i < lessons.length;
+      i++
+    ) {
+
+      if (!isLessonCompleted(i)) {
+        return i;
+      }
+
+    }
+
+    return -1;
+
+  }
+
+  function updateLessonListActive() {
+
+    qsa("[data-lesson-index]").forEach(
+      function (button) {
+
+        const index =
+          parseInt(
+            button.dataset.lessonIndex,
+            10
+          );
+
+        button.classList.toggle(
+          "current",
+          index === currentLessonIndex
+        );
+
+        button.classList.toggle(
+          "completed",
+          isLessonCompleted(index)
+        );
+
+      }
+    );
+
+  }
+
+  /* =========================================================
+     14. PROGRESS PAGE
+     ========================================================= */
+
+  function renderProgressPage(container) {
+
+    const total = lessons.length;
+    const completed = getCompletedCount();
+    const percent = getProgressPercent();
+
+    container.innerHTML = `
+
+      <div class="aba-progress-page">
+
+        <div class="aba-page-header">
+
+          <div>
+
+            <h1>My Progress</h1>
+
+            <p>
+              သင့်ရဲ့ Learning Progress ကို
+              တစ်နေရာတည်းမှာ စောင့်ကြည့်ပါ။
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="aba-progress-main-card">
+
+          <div class="aba-progress-circle">
+
+            <span>
+              ${percent}%
+            </span>
+
+          </div>
+
+          <div>
+
+            <h2>
+              Learning Progress
+            </h2>
+
+            <p>
+              ${completed} / ${total}
+              lessons completed
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="aba-progress-track">
+
+          <div
+            class="aba-progress-fill"
+            style="width:${percent}%"
+          ></div>
+
+        </div>
+
+        <div class="aba-progress-list">
+
+          ${lessons.map(function (lesson, index) {
+
+            const completed =
+              isLessonCompleted(index);
+
+            return `
+
+              <div class="aba-progress-row">
+
+                <div>
+
+                  <strong>
+                    ${index + 1}.
+                    ${escapeHTML(lesson.title)}
+                  </strong>
+
+                </div>
+
+                <span class="${
+                  completed
+                    ? "status-completed"
+                    : "status-pending"
+                }">
+
+                  ${
+                    completed
+                      ? "✓ Completed"
+                      : "○ Pending"
+                  }
+
+                </span>
+
+              </div>
+
+            `;
+
+          }).join("")}
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+  function updateAllProgressUI() {
+
+    const percent =
+      getProgressPercent();
+
+    qsa(
+      ".aba-progress-fill"
+    ).forEach(function (bar) {
+
+      bar.style.width =
+        percent + "%";
+
+    });
+
+    qsa(
+      ".aba-page-progress"
+    ).forEach(function (item) {
+
+      item.textContent =
+        percent + "%";
+
+    });
+
+  }
+
+  /* =========================================================
+     15. COURSES
+     ========================================================= */
+
+  function renderCourses(container) {
+
+    container.innerHTML = `
+
+      <div class="aba-courses-page">
+
+        <div class="aba-page-header">
+
+          <div>
+
+            <h1>My Courses</h1>
+
+            <p>
+              Aung Business Academy Professional Courses
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="aba-course-card">
+
+          <div class="aba-course-icon">
+            📊
+          </div>
+
+          <div class="aba-course-info">
+
+            <span>
+              PROFESSIONAL COURSE
+            </span>
+
+            <h2>
+              Sales Management Mastery
+            </h2>
+
+            <p>
+              Sales Management၊ KPI၊ Team Leadership၊
+              Customer Management၊ Distribution၊
+              Forecasting နှင့် Business Execution
+              အကြောင်း လေ့လာနိုင်ပါသည်။
+            </p>
+
+            <button
+              class="aba-primary-btn"
+              id="startCourseBtn"
+            >
+              Start Learning
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+    const start =
+      byId("startCourseBtn");
+
+    if (start) {
+
+      start.addEventListener(
+        "click",
+        function () {
+
+          showSection("lessons");
+
+        }
+      );
+
+    }
+
+  }
+
+  /* =========================================================
+     16. SALES MANAGER
+     ========================================================= */
+
+  function renderSalesManager(container) {
+
+    container.innerHTML = `
+
+      <div class="aba-tool-page">
+
+        <div class="aba-page-header">
+
+          <div>
+
+            <h1>Sales Manager</h1>
+
+            <p>
+              Sales Team ကို Target မှ Result အထိ
+              စနစ်တကျ စီမံခန့်ခွဲရန်။
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="aba-tool-grid">
+
+          <div class="aba-tool-card">
+
+            <h3>🎯 Target Management</h3>
+
+            <p>
+              Monthly Target ကို Weekly နှင့်
+              Daily Execution အဖြစ် ခွဲခြမ်းပါ။
+            </p>
+
+          </div>
+
+          <div class="aba-tool-card">
+
+            <h3>👥 Team Management</h3>
+
+            <p>
+              Clear Expectations၊ Coaching၊
+              Feedback နှင့် Accountability ကို
+              အသုံးပြုပါ။
+            </p>
+
+          </div>
+
+          <div class="aba-tool-card">
+
+            <h3>📊 KPI Management</h3>
+
+            <p>
+              Sales Achievement၊ Productivity၊
+              Distribution နှင့် Customer KPI များကို
+              စောင့်ကြည့်ပါ။
+            </p>
+
+          </div>
+
+          <div class="aba-tool-card">
+
+            <h3>📈 Market Execution</h3>
+
+            <p>
+              Market Visit၊ Customer Visit နှင့်
+              Distribution Execution ကို စောင့်ကြည့်ပါ။
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+  /* =========================================================
+     17. PRICING CALCULATOR
+     ========================================================= */
+
+  function renderPricingCalculator(container) {
+
+    container.innerHTML = `
+
+      <div class="aba-tool-page">
+
+        <div class="aba-page-header">
+
+          <div>
+
+            <h1>Pricing Calculator</h1>
+
+            <p>
+              Cost၊ Margin နှင့် Selling Price
+              ကို တွက်ချက်ရန်။
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="aba-calculator-card">
+
+          <label>
+            Cost Price
+            <input
+              type="number"
+              id="calcCost"
+              placeholder="ဥပမာ 10000"
+            />
+          </label>
+
+          <label>
+            Desired Margin %
+            <input
+              type="number"
+              id="calcMargin"
+              placeholder="ဥပမာ 20"
+            />
+          </label>
+
+          <button
+            class="aba-primary-btn"
+            id="calculatePriceBtn"
+          >
+            Calculate
+          </button>
+
+          <div
+            class="aba-calculator-result"
+            id="priceResult"
+          >
+            Result ကို ဒီမှာပြပါမယ်။
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+    const button =
+      byId("calculatePriceBtn");
+
+    if (button) {
+
+      button.addEventListener(
+        "click",
+        function () {
+
+          const cost =
+            parseFloat(
+              byId("calcCost").value
+            );
+
+          const margin =
+            parseFloat(
+              byId("calcMargin").value
+            );
+
+          const result =
+            byId("priceResult");
+
+          if (
+            isNaN(cost) ||
+            isNaN(margin) ||
+            margin >= 100
+          ) {
+
+            result.innerHTML =
+              "မှန်ကန်တဲ့ Cost နဲ့ Margin % ထည့်ပါ။";
+
+            return;
+
+          }
+
+          const sellingPrice =
+            cost /
+            (1 - margin / 100);
+
+          result.innerHTML = `
+            <strong>
+              Selling Price:
+              ${sellingPrice.toLocaleString()}
+            </strong>
+          `;
+
+        }
+      );
+
+    }
+
+  }
+
+  /* =========================================================
+     18. REPORTS
+     ========================================================= */
+
+  function renderReports(container) {
+
+    container.innerHTML = `
+
+      <div class="aba-tool-page">
+
+        <div class="aba-page-header">
+
+          <div>
+
+            <h1>Reports</h1>
+
+            <p>
+              Business Performance ကို
+              Data ဖြင့် ခွဲခြမ်းစိတ်ဖြာရန်။
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="aba-report-grid">
+
+          <div class="aba-report-card">
+            <span>Learning Progress</span>
+            <strong>${getProgressPercent()}%</strong>
+          </div>
+
+          <div class="aba-report-card">
+            <span>Completed Lessons</span>
+            <strong>${getCompletedCount()}</strong>
+          </div>
+
+          <div class="aba-report-card">
+            <span>Total Lessons</span>
+            <strong>${lessons.length}</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+  /* =========================================================
+     19. AI BUSINESS COACH
+     ========================================================= */
+
+  function renderAIBusinessCoach(container) {
+
+    container.innerHTML = `
+
+      <div class="aba-tool-page">
+
+        <div class="aba-page-header">
+
+          <div>
+
+            <h1>AI Business Coach</h1>
+
+            <p>
+              Business Problem ကို ရေးပြီး
+              Coaching Question အဖြစ် အသုံးပြုနိုင်ပါသည်။
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="aba-ai-card">
+
+          <textarea
+            id="aiBusinessQuestion"
+            rows="6"
+            placeholder="ဥပမာ - Sales target မပြည့်တဲ့ team ကို ဘယ်လို coaching လုပ်သင့်လဲ?"
+          ></textarea>
+
+          <button
+            class="aba-primary-btn"
+            id="aiCoachBtn"
+          >
+            🤖 Get Coaching Framework
+          </button>
+
+          <div
+            class="aba-ai-result"
+            id="aiCoachResult"
+          ></div>
+
+        </div>
+
+      </div>
+
+    `;
+
+    const button =
+      byId("aiCoachBtn");
+
+    if (button) {
+
+      button.addEventListener(
+        "click",
+        function () {
+
+          const question =
+            byId(
+              "aiBusinessQuestion"
+            ).value.trim();
+
+          const result =
+            byId("aiCoachResult");
+
+          if (!question) {
+
+            result.innerHTML =
+              "<p>Business Question တစ်ခုရေးပါ။</p>";
+
+            return;
+
+          }
+
+          result.innerHTML = `
+
+            <h3>Coaching Framework</h3>
+
+            <ol>
+
+              <li>
+                Problem ကို အရင်ဆုံး တိတိကျကျ သတ်မှတ်ပါ။
+              </li>
+
+              <li>
+                Data နှင့် Facts ကို စစ်ဆေးပါ။
+              </li>
+
+              <li>
+                Root Cause ကို ရှာပါ။
+              </li>
+
+              <li>
+                Action Plan သတ်မှတ်ပါ။
+              </li>
+
+              <li>
+                Owner နှင့် Deadline သတ်မှတ်ပါ။
+              </li>
+
+              <li>
+                Follow-up နှင့် Review ပြုလုပ်ပါ။
+              </li>
+
+            </ol>
+
+            <p>
+              <strong>Your Question:</strong>
+              ${escapeHTML(question)}
+            </p>
+
+          `;
+
+        }
+      );
+
+    }
+
+  }
+
+  /* =========================================================
+     20. AI TOOLS
+     ========================================================= */
+
+  function renderAITools(container) {
+
+    container.innerHTML = `
+
+      <div class="aba-tool-page">
+
+        <div class="aba-page-header">
+
+          <div>
+
+            <h1>AI Tools</h1>
+
+            <p>
+              Business Management အတွက်
+              AI-based tools များ။
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="aba-tool-grid">
+
+          <div class="aba-tool-card">
+            <h3>🧠 Business Ideas</h3>
+            <p>Business idea generation framework</p>
+          </div>
+
+          <div class="aba-tool-card">
+            <h3>📣 Marketing Ideas</h3>
+            <p>Marketing campaign planning</p>
+          </div>
+
+          <div class="aba-tool-card">
+            <h3>🎯 Sales Strategy</h3>
+            <p>Sales growth strategy framework</p>
+          </div>
+
+          <div class="aba-tool-card">
+            <h3>👥 Team Coaching</h3>
+            <p>Team performance coaching framework</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+  /* =========================================================
+     21. SETTINGS
+     ========================================================= */
+
+  function renderSettings(container) {
+
+    const savedName =
+      localStorage.getItem(
+        STORAGE_KEYS.userName
+      ) || "Aung Zar Ni Win";
+
+    container.innerHTML = `
+
+      <div class="aba-settings-page">
+
+        <div class="aba-page-header">
+
+          <div>
+
+            <h1>Settings</h1>
+
+            <p>
+              Academy profile နှင့် progress settings
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="aba-settings-card">
+
+          <label>
+
+            Your Name
+
+            <input
+              type="text"
+              id="settingsUserName"
+              value="${escapeHTML(savedName)}"
+            />
+
+          </label>
+
+          <button
+            class="aba-primary-btn"
+            id="saveSettingsBtn"
+          >
+            Save Settings
+          </button>
+
+        </div>
+
+        <div class="aba-settings-card">
+
+          <h3>Learning Progress</h3>
+
+          <p>
+            လက်ရှိ Progress:
+            <strong>
+              ${getProgressPercent()}%
+            </strong>
+          </p>
+
+          <button
+            class="aba-danger-btn"
+            id="resetProgressBtn"
+          >
+            Reset Learning Progress
+          </button>
+
+        </div>
+
+        <div class="aba-settings-card">
+
+          <h3>About</h3>
+
+          <p>
+            Aung Business Academy V8.0 Professional
+          </p>
+
+        </div>
+
+      </div>
+
+    `;
+
+    const saveBtn =
+      byId("saveSettingsBtn");
+
+    if (saveBtn) {
+
+      saveBtn.addEventListener(
+        "click",
+        function () {
+
+          const name =
+            byId(
+              "settingsUserName"
+            ).value.trim();
+
+          localStorage.setItem(
+            STORAGE_KEYS.userName,
+            name || "Aung Zar Ni Win"
+          );
+
+          alert("Settings saved successfully.");
+
+          updateUserProfile();
+
+        }
+      );
+
+    }
+
+    const resetBtn =
+      byId("resetProgressBtn");
+
+    if (resetBtn) {
+
+      resetBtn.addEventListener(
+        "click",
+        function () {
+
+          const confirmed =
+            confirm(
+              "Learning Progress အားလုံးကို Reset လုပ်မလား?"
+            );
+
+          if (!confirmed) {
+            return;
+          }
+
+          completedLessons = [];
+
+          saveCompletedLessons();
+
+          currentLessonIndex = 0;
+
+          saveCurrentLesson();
+
+          alert(
+            "Learning Progress ကို Reset လုပ်ပြီးပါပြီ။"
+          );
+
+          renderSettings(container);
+
+        }
+      );
+
+    }
+
+  }
+
+  /* =========================================================
+     22. USER PROFILE
+     ========================================================= */
+
+  function updateUserProfile() {
+
+    const savedName =
+      localStorage.getItem(
+        STORAGE_KEYS.userName
+      ) || "Aung Zar Ni Win";
+
+    qsa(
+      "[data-user-name], .user-name, #userName"
+    ).forEach(function (element) {
+
+      element.textContent =
+        savedName;
+
+    });
+
+  }
+
+  /* =========================================================
+     23. MOBILE SIDEBAR
+     ========================================================= */
+
+  function openMobileSidebar() {
+
+    const sidebar =
+      qs(
+        ".sidebar, .app-sidebar, #sidebar"
+      );
+
+    if (sidebar) {
+
+      sidebar.classList.add(
+        "mobile-open"
+      );
+
+    }
+
+    document.body.classList.add(
+      "sidebar-open"
+    );
+
+  }
+
+  function closeMobileSidebar() {
+
+    const sidebar =
+      qs(
+        ".sidebar, .app-sidebar, #sidebar"
+      );
+
+    if (sidebar) {
+
+      sidebar.classList.remove(
+        "mobile-open"
+      );
+
+    }
+
+    document.body.classList.remove(
+      "sidebar-open"
+    );
+
+  }
+
+  function setupMobileMenu() {
+
+    qsa(
+      "#menuBtn, #mobileMenuBtn, .mobile-menu-btn, .hamburger"
+    ).forEach(function (button) {
+
+      button.addEventListener(
+        "click",
+        function () {
+
+          const sidebar =
+            qs(
+              ".sidebar, .app-sidebar, #sidebar"
+            );
+
+          if (
+            sidebar &&
+            sidebar.classList.contains(
+              "mobile-open"
+            )
+          ) {
+
+            closeMobileSidebar();
+
+          } else {
+
+            openMobileSidebar();
+
+          }
+
+        }
+      );
+
+    });
+
+  }
+
+  /* =========================================================
+     24. NAVIGATION EVENTS
+     ========================================================= */
+
+  function setupNavigation() {
+
+    qsa(
+      "[data-section-link], [data-nav], [data-target], .nav-link, .sidebar-link"
+    ).forEach(function (link) {
+
+      link.addEventListener(
+        "click",
+        function (event) {
+
+          const rawTarget =
+            link.dataset.sectionLink ||
+            link.dataset.nav ||
+            link.dataset.target ||
+            link.getAttribute("href") ||
+            "";
+
+          if (
+            !rawTarget ||
+            rawTarget === "#" ||
+            rawTarget.startsWith("http")
+          ) {
+            return;
+          }
+
+          const target =
+            rawTarget
+              .replace("#", "")
+              .trim();
+
+          if (!target) {
+            return;
+          }
+
+          event.preventDefault();
+
+          showSection(
+            target
+          );
+
+        }
+      );
+
+    });
+
+  }
+
+  /* =========================================================
+     25. SUPPORT COMMON OLD NAVIGATION IDs
+     ========================================================= */
+
+  function setupLegacyNavigation() {
+
+    const mapping = {
+
+      dashboardBtn: "dashboard",
+      dashboardLink: "dashboard",
+
+      coursesBtn: "courses",
+      coursesLink: "courses",
+
+      lessonsBtn: "lessons",
+      lessonsLink: "lessons",
+
+      progressBtn: "progress",
+      progressLink: "progress",
+
+      salesBtn: "sales-manager",
+      salesManagerBtn: "sales-manager",
+
+      pricingBtn: "pricing-calculator",
+      pricingCalculatorBtn: "pricing-calculator",
+
+      reportsBtn: "reports",
+      reportsLink: "reports",
+
+      aiBtn: "ai-business-coach",
+      aiCoachBtn: "ai-business-coach",
+
+      aiToolsBtn: "ai-tools",
+
+      settingsBtn: "settings",
+      settingsLink: "settings"
+
+    };
+
+    Object.keys(mapping).forEach(
+      function (id) {
+
+        const element =
+          byId(id);
+
+        if (!element) {
+          return;
+        }
+
+        element.addEventListener(
+          "click",
+          function (event) {
+
+            event.preventDefault();
+
+            showSection(
+              mapping[id]
+            );
+
+          }
+        );
+
+      }
+    );
+
+  }
+
+  /* =========================================================
+     26. ADD REQUIRED APP STYLES
+     ========================================================= */
+
+  function injectAppStyles() {
+
+    if (
+      byId("aba-app-runtime-styles")
+    ) {
+      return;
+    }
 
     const style =
       document.createElement("style");
 
     style.id =
-      "aungProfessionalLessonStyles";
+      "aba-app-runtime-styles";
 
     style.textContent = `
 
-      .aba-lesson-grid {
-        display:grid;
-        grid-template-columns:
-          repeat(auto-fit,minmax(280px,1fr));
-        gap:18px;
-      }
-
-      .aba-lesson-card {
-        background:#ffffff;
-        border:1px solid #e2e8f0;
-        border-radius:18px;
+      .aba-dashboard,
+      .aba-lessons-page,
+      .aba-progress-page,
+      .aba-courses-page,
+      .aba-tool-page,
+      .aba-settings-page {
+        width:100%;
+        max-width:1200px;
+        margin:0 auto;
         padding:20px;
-        cursor:pointer;
-        transition:.2s ease;
-        box-shadow:
-          0 6px 18px rgba(15,23,42,.06);
       }
 
-      .aba-lesson-card:hover {
-        transform:translateY(-4px);
-        box-shadow:
-          0 14px 30px rgba(15,23,42,.12);
-      }
-
-      .aba-lesson-card.completed {
-        border-color:#22c55e;
-      }
-
-      .aba-card-top {
+      .aba-page-header {
         display:flex;
+        align-items:center;
         justify-content:space-between;
-        align-items:center;
-        margin-bottom:12px;
+        gap:20px;
+        margin-bottom:24px;
       }
 
-      .aba-card-module {
-        font-size:12px;
-        font-weight:800;
-        color:#2563eb;
+      .aba-page-header h1 {
+        margin:0 0 8px;
       }
 
-      .aba-card-number {
-        font-size:12px;
-        color:#64748b;
+      .aba-page-header p {
+        margin:0;
+        opacity:.75;
       }
 
-      .aba-card-title {
-        font-size:18px;
-        line-height:1.55;
-        color:#0f172a;
-        font-weight:800;
-      }
-
-      .aba-card-bottom {
-        margin-top:16px;
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        font-size:13px;
-      }
-
-      .aba-start {
-        color:#2563eb;
-        font-weight:800;
-      }
-
-      .aba-done {
-        color:#16a34a;
-        font-weight:800;
-      }
-
-      .aba-modal-overlay {
-        position:fixed;
-        inset:0;
-        z-index:999999;
-        background:
-          rgba(15,23,42,.78);
-        overflow-y:auto;
-        padding:20px;
-      }
-
-      .aba-lesson-modal {
-        max-width:1000px;
-        margin:20px auto;
-        background:#ffffff;
-        border-radius:24px;
-        overflow:hidden;
-        box-shadow:
-          0 25px 70px rgba(0,0,0,.3);
-      }
-
-      .aba-lesson-header {
-        position:relative;
-        background:
-          linear-gradient(
-            135deg,
-            #0f172a,
-            #1d4ed8
-          );
-        color:white;
-        padding:34px;
-      }
-
-      .aba-lesson-header h1 {
-        margin:8px 50px 12px 0;
-        font-size:30px;
-        line-height:1.4;
-      }
-
-      .aba-lesson-module {
-        font-size:13px;
-        font-weight:800;
-        opacity:.9;
-      }
-
-      .aba-lesson-meta {
-        font-size:13px;
-        opacity:.8;
-      }
-
-      .aba-close-btn {
-        position:absolute;
-        right:22px;
-        top:22px;
-        width:42px;
-        height:42px;
-        border:0;
-        border-radius:50%;
-        background:
-          rgba(255,255,255,.15);
-        color:white;
-        font-size:20px;
-        cursor:pointer;
-      }
-
-      .aba-lesson-body {
-        padding:30px;
-      }
-
-      .aba-section {
-        margin-bottom:34px;
-      }
-
-      .aba-section-title {
-        font-size:22px;
-        font-weight:900;
-        color:#0f172a;
-        margin-bottom:16px;
-      }
-
-      .aba-text {
-        color:#334155;
-        line-height:2;
-        font-size:15px;
-      }
-
-      .aba-objective {
-        background:#eff6ff;
-        border-left:5px solid #2563eb;
-        padding:20px;
-        border-radius:12px;
-        line-height:2;
-        color:#334155;
-      }
-
-      .aba-concept-grid {
+      .aba-stats-grid {
         display:grid;
-        grid-template-columns:
-          repeat(auto-fit,minmax(220px,1fr));
-        gap:12px;
+        grid-template-columns:repeat(4,1fr);
+        gap:16px;
+        margin-bottom:20px;
       }
 
-      .aba-concept-card {
+      .aba-stat-card {
         display:flex;
-        gap:12px;
         align-items:center;
-        background:#f8fafc;
-        border:1px solid #e2e8f0;
-        border-radius:12px;
-        padding:14px;
-        line-height:1.6;
-        color:#334155;
+        gap:14px;
+        padding:20px;
+        border-radius:16px;
+        background:#fff;
+        border:1px solid rgba(0,0,0,.08);
+        box-shadow:0 5px 20px rgba(0,0,0,.05);
       }
 
-      .aba-concept-number {
-        width:32px;
-        height:32px;
-        min-width:32px;
+      .aba-stat-icon {
+        width:46px;
+        height:46px;
         display:flex;
         align-items:center;
         justify-content:center;
-        border-radius:50%;
-        background:#2563eb;
-        color:white;
-        font-weight:800;
+        border-radius:12px;
+        background:#f1f5f9;
+        font-size:22px;
       }
 
-      .aba-table-wrap {
-        overflow-x:auto;
+      .aba-stat-card strong {
+        display:block;
+        font-size:25px;
+        line-height:1.2;
       }
 
-      .aba-data-table {
-        width:100%;
-        border-collapse:collapse;
-        min-width:650px;
-      }
-
-      .aba-data-table th {
-        background:#0f172a;
-        color:white;
-        padding:14px;
-        text-align:left;
-      }
-
-      .aba-data-table td {
-        padding:14px;
-        border:1px solid #e2e8f0;
-        color:#334155;
-      }
-
-      .aba-data-table tr:nth-child(even) {
-        background:#f8fafc;
-      }
-
-      .aba-graph {
-        background:#f8fafc;
-        border:1px solid #e2e8f0;
-        border-radius:16px;
-        padding:22px;
-      }
-
-      .aba-bar-row {
-        display:grid;
-        grid-template-columns:120px 1fr;
-        gap:12px;
-        align-items:center;
-        margin:16px 0;
-      }
-
-      .aba-bar-label {
+      .aba-stat-card span {
+        display:block;
         font-size:13px;
-        font-weight:800;
-        color:#334155;
+        opacity:.7;
+        margin-top:4px;
       }
 
-      .aba-bar-track {
-        background:#e2e8f0;
-        height:34px;
-        border-radius:8px;
+      .aba-dashboard-card,
+      .aba-lesson-card,
+      .aba-progress-main-card,
+      .aba-settings-card,
+      .aba-calculator-card,
+      .aba-ai-card {
+        background:#fff;
+        border:1px solid rgba(0,0,0,.08);
+        border-radius:18px;
+        padding:24px;
+        margin-bottom:20px;
+        box-shadow:0 5px 20px rgba(0,0,0,.04);
+      }
+
+      .aba-card-header {
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:15px;
+        margin-bottom:18px;
+      }
+
+      .aba-card-header h2 {
+        margin:0 0 5px;
+      }
+
+      .aba-card-header p {
+        margin:0;
+        opacity:.7;
+      }
+
+      .aba-progress-number {
+        font-size:24px;
+        font-weight:700;
+      }
+
+      .aba-progress-track {
+        width:100%;
+        height:10px;
+        background:#e5e7eb;
+        border-radius:99px;
         overflow:hidden;
       }
 
-      .aba-bar {
+      .aba-progress-fill {
         height:100%;
+        background:#2563eb;
+        border-radius:99px;
+        transition:width .3s ease;
+      }
+
+      .aba-progress-meta {
+        display:flex;
+        justify-content:space-between;
+        margin-top:10px;
+        font-size:13px;
+        opacity:.7;
+      }
+
+      .aba-quick-grid {
+        display:grid;
+        grid-template-columns:repeat(3,1fr);
+        gap:14px;
+      }
+
+      .aba-quick-btn {
+        border:1px solid rgba(0,0,0,.08);
+        background:#f8fafc;
+        border-radius:14px;
+        padding:18px;
+        cursor:pointer;
+        font-size:16px;
+        text-align:left;
+      }
+
+      .aba-quick-btn span {
+        display:block;
+        margin-top:8px;
+        font-weight:600;
+      }
+
+      .aba-primary-btn,
+      .aba-secondary-btn,
+      .aba-complete-btn,
+      .aba-warning-btn,
+      .aba-danger-btn {
+        border:0;
+        border-radius:10px;
+        padding:12px 18px;
+        cursor:pointer;
+        font-weight:600;
+        font-size:14px;
+      }
+
+      .aba-primary-btn {
+        background:#2563eb;
+        color:#fff;
+      }
+
+      .aba-secondary-btn {
+        background:#e5e7eb;
+        color:#111827;
+      }
+
+      .aba-complete-btn {
+        background:#16a34a;
+        color:#fff;
+      }
+
+      .aba-warning-btn {
+        background:#f59e0b;
+        color:#fff;
+      }
+
+      .aba-danger-btn {
+        background:#dc2626;
+        color:#fff;
+      }
+
+      button:disabled {
+        opacity:.45;
+        cursor:not-allowed;
+      }
+
+      .aba-main-progress {
+        margin-bottom:22px;
+      }
+
+      .aba-lessons-list {
+        display:flex;
+        flex-direction:column;
+        gap:10px;
+        margin-bottom:24px;
+      }
+
+      .aba-lesson-item {
+        width:100%;
         display:flex;
         align-items:center;
-        padding-left:12px;
-        color:white;
-        font-weight:800;
-        font-size:12px;
-        border-radius:8px;
-      }
-
-      .aba-bar.target {
-        background:#0f172a;
-      }
-
-      .aba-bar.actual {
-        background:#2563eb;
-      }
-
-      .aba-bar.coverage {
-        background:#16a34a;
-      }
-
-      .aba-bar.productivity {
-        background:#ea580c;
-      }
-
-      .aba-graph-note {
-        margin-top:15px;
-        padding:15px;
-        background:#eff6ff;
-        border-radius:10px;
-        line-height:1.8;
-        color:#334155;
-      }
-
-      .aba-case-study {
-        background:#fffbeb;
-        border-left:5px solid #f59e0b;
-        border-radius:12px;
-        padding:22px;
-        line-height:2;
-        color:#334155;
-      }
-
-      .manager-thinking-box {
-        background:#f5f3ff;
-        border-left:5px solid #7c3aed;
-        padding:22px;
-        border-radius:12px;
-        line-height:2;
-        color:#334155;
-      }
-
-      .aba-mistake-list {
-        display:grid;
-        gap:10px;
-      }
-
-      .aba-mistake {
-        padding:14px 16px;
-        background:#fef2f2;
-        border:1px solid #fecaca;
-        border-radius:10px;
-        color:#991b1b;
-        line-height:1.6;
-      }
-
-      .aba-action-plan {
-        background:#ecfdf5;
-        border-left:5px solid #16a34a;
-        border-radius:12px;
-        padding:22px;
-        line-height:2;
-        color:#14532d;
-      }
-
-      .aba-practice {
-        background:#f8fafc;
-        border:1px solid #e2e8f0;
+        gap:14px;
+        padding:16px;
         border-radius:14px;
-        padding:22px;
-        line-height:2;
-        color:#334155;
-      }
-
-      .aba-exercise-grid {
-        display:grid;
-        grid-template-columns:
-          repeat(auto-fit,minmax(140px,1fr));
-        gap:10px;
-        margin-top:18px;
-      }
-
-      .aba-exercise-grid div {
-        background:white;
-        border:1px dashed #94a3b8;
-        border-radius:10px;
-        padding:18px 10px;
-        text-align:center;
-        font-weight:800;
-        color:#475569;
-      }
-
-      .aba-quiz {
-        background:#f8fafc;
-        border:1px solid #e2e8f0;
-        border-radius:14px;
-        padding:20px;
-        margin-bottom:15px;
-      }
-
-      .aba-quiz-question {
-        font-weight:800;
-        color:#0f172a;
-        margin-bottom:14px;
-        line-height:1.6;
-      }
-
-      .aba-quiz-options {
-        display:grid;
-        gap:8px;
-      }
-
-      .aba-quiz-option {
-        border:1px solid #cbd5e1;
-        background:white;
-        border-radius:10px;
-        padding:12px 14px;
-        text-align:left;
+        border:1px solid rgba(0,0,0,.08);
+        background:#fff;
         cursor:pointer;
-        color:#334155;
+        text-align:left;
       }
 
-      .aba-quiz-option:hover {
+      .aba-lesson-item.current {
+        border-color:#2563eb;
+      }
+
+      .aba-lesson-item.completed {
+        background:#f0fdf4;
+      }
+
+      .aba-lesson-number {
+        width:38px;
+        height:38px;
+        flex:0 0 38px;
+        border-radius:50%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
         background:#eff6ff;
+        font-weight:700;
       }
 
-      .aba-quiz-option.correct {
+      .aba-lesson-info {
+        flex:1;
+      }
+
+      .aba-lesson-info strong {
+        display:block;
+        margin-bottom:4px;
+      }
+
+      .aba-lesson-info span {
+        font-size:12px;
+        opacity:.65;
+      }
+
+      .aba-lesson-arrow {
+        font-size:20px;
+      }
+
+      .aba-lesson-viewer {
+        width:100%;
+        max-width:1200px;
+        margin:0 auto;
+        padding:0 20px 40px;
+      }
+
+      .aba-lesson-header {
+        display:flex;
+        align-items:flex-start;
+        justify-content:space-between;
+        gap:20px;
+        margin-bottom:24px;
+      }
+
+      .aba-lesson-label {
+        font-size:12px;
+        font-weight:700;
+        opacity:.65;
+      }
+
+      .aba-lesson-header h2 {
+        margin:8px 0;
+        font-size:28px;
+      }
+
+      .aba-lesson-intro {
+        margin:0;
+        opacity:.75;
+      }
+
+      .aba-lesson-status {
+        white-space:nowrap;
+        padding:8px 12px;
+        border-radius:99px;
+        background:#fef3c7;
+        color:#92400e;
+        font-size:12px;
+        font-weight:700;
+      }
+
+      .aba-lesson-status.completed {
         background:#dcfce7;
-        border-color:#22c55e;
         color:#166534;
       }
 
-      .aba-quiz-option.wrong {
-        background:#fee2e2;
-        border-color:#ef4444;
-        color:#991b1b;
+      .aba-lesson-content {
+        line-height:1.9;
+        font-size:16px;
+        overflow:visible;
       }
 
-      .reflection-box {
-        background:#f0fdf4;
-        border-left:5px solid #22c55e;
-        padding:22px;
-        border-radius:12px;
-        line-height:2;
-        color:#334155;
+      .aba-lesson-content h3 {
+        margin:26px 0 10px;
       }
 
-      .aba-summary {
-        background:#f1f5f9;
-        padding:22px;
-        border-radius:14px;
-        line-height:2;
-        color:#334155;
+      .aba-lesson-content p {
+        margin:0 0 16px;
       }
 
-      .aba-completion {
-        text-align:center;
-        background:
-          linear-gradient(
-            135deg,
-            #eff6ff,
-            #f8fafc
-          );
-        border:1px solid #dbeafe;
-        border-radius:18px;
-        padding:30px 20px;
-      }
-
-      .aba-completion-icon {
-        font-size:42px;
-        margin-bottom:10px;
-      }
-
-      .aba-completion h3 {
-        color:#0f172a;
+      .aba-lesson-content li {
         margin-bottom:8px;
       }
 
-      .aba-completion p {
-        color:#64748b;
-        line-height:1.7;
+      .aba-lesson-content .lesson-note {
+        margin:22px 0;
+        padding:16px;
+        border-left:4px solid #2563eb;
+        background:#eff6ff;
+        border-radius:10px;
       }
 
-      .aba-complete-button {
-        margin-top:15px;
-        padding:14px 25px;
-        border:0;
-        border-radius:12px;
-        background:#2563eb;
-        color:white;
-        font-size:16px;
-        font-weight:800;
-        cursor:pointer;
-      }
-
-      .aba-complete-button:hover {
-        background:#1d4ed8;
-      }
-
-      .aba-complete-button.completed {
-        background:#16a34a;
-      }
-
-      .aba-lesson-navigation {
+      .aba-lesson-actions {
         display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:10px;
+        margin-top:30px;
+        padding-top:20px;
+        border-top:1px solid rgba(0,0,0,.08);
+      }
+
+      .aba-progress-main-card {
+        display:flex;
+        align-items:center;
+        gap:24px;
+      }
+
+      .aba-progress-circle {
+        width:100px;
+        height:100px;
+        border-radius:50%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background:#eff6ff;
+        border:8px solid #2563eb;
+      }
+
+      .aba-progress-circle span {
+        font-weight:800;
+        font-size:22px;
+      }
+
+      .aba-progress-list {
+        margin-top:20px;
+      }
+
+      .aba-progress-row {
+        display:flex;
+        align-items:center;
         justify-content:space-between;
         gap:15px;
-        margin-top:30px;
+        padding:15px;
+        border-bottom:1px solid rgba(0,0,0,.07);
       }
 
-      .aba-nav-button {
-        border:1px solid #cbd5e1;
-        background:white;
-        color:#334155;
-        padding:13px 20px;
+      .status-completed {
+        color:#16a34a;
+        font-weight:700;
+        white-space:nowrap;
+      }
+
+      .status-pending {
+        opacity:.55;
+        white-space:nowrap;
+      }
+
+      .aba-course-card {
+        display:flex;
+        gap:20px;
+        padding:25px;
+        border-radius:18px;
+        background:#fff;
+        border:1px solid rgba(0,0,0,.08);
+      }
+
+      .aba-course-icon {
+        font-size:42px;
+      }
+
+      .aba-course-info span {
+        font-size:12px;
+        opacity:.6;
+        font-weight:700;
+      }
+
+      .aba-course-info h2 {
+        margin:7px 0;
+      }
+
+      .aba-course-info p {
+        line-height:1.7;
+        margin-bottom:18px;
+      }
+
+      .aba-tool-grid,
+      .aba-report-grid {
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+        gap:16px;
+      }
+
+      .aba-tool-card,
+      .aba-report-card {
+        padding:22px;
+        background:#fff;
+        border:1px solid rgba(0,0,0,.08);
+        border-radius:16px;
+      }
+
+      .aba-report-card span {
+        display:block;
+        opacity:.65;
+      }
+
+      .aba-report-card strong {
+        display:block;
+        font-size:30px;
+        margin-top:8px;
+      }
+
+      .aba-calculator-card label,
+      .aba-settings-card label {
+        display:block;
+        margin-bottom:16px;
+        font-weight:600;
+      }
+
+      .aba-calculator-card input,
+      .aba-settings-card input,
+      .aba-ai-card textarea {
+        width:100%;
+        margin-top:7px;
+        padding:13px;
+        border:1px solid #d1d5db;
         border-radius:10px;
-        font-weight:800;
-        cursor:pointer;
+        font:inherit;
+        box-sizing:border-box;
       }
 
-      .aba-nav-button.primary {
-        background:#0f172a;
-        color:white;
-        border-color:#0f172a;
+      .aba-calculator-result,
+      .aba-ai-result {
+        margin-top:20px;
+        padding:18px;
+        border-radius:12px;
+        background:#f8fafc;
+        line-height:1.8;
       }
 
-      @media(max-width:700px) {
+      .aba-settings-card h3 {
+        margin-top:0;
+      }
 
-        .aba-modal-overlay {
-          padding:0;
+      @media(max-width:800px) {
+
+        .aba-stats-grid {
+          grid-template-columns:repeat(2,1fr);
         }
 
-        .aba-lesson-modal {
-          margin:0;
-          border-radius:0;
-          min-height:100vh;
+        .aba-quick-grid {
+          grid-template-columns:repeat(2,1fr);
+        }
+
+        .aba-tool-grid,
+        .aba-report-grid {
+          grid-template-columns:1fr;
         }
 
         .aba-lesson-header {
-          padding:25px 20px;
-        }
-
-        .aba-lesson-header h1 {
-          font-size:23px;
-        }
-
-        .aba-lesson-body {
-          padding:20px;
-        }
-
-        .aba-section-title {
-          font-size:19px;
-        }
-
-        .aba-bar-row {
-          grid-template-columns:1fr;
-          gap:6px;
-        }
-
-        .aba-lesson-navigation {
           flex-direction:column;
         }
 
-        .aba-nav-button {
+      }
+
+      @media(max-width:600px) {
+
+        .aba-dashboard,
+        .aba-lessons-page,
+        .aba-progress-page,
+        .aba-courses-page,
+        .aba-tool-page,
+        .aba-settings-page {
+          padding:14px;
+        }
+
+        .aba-lesson-viewer {
+          padding:0 14px 30px;
+        }
+
+        .aba-stats-grid {
+          grid-template-columns:1fr 1fr;
+          gap:10px;
+        }
+
+        .aba-stat-card {
+          padding:14px;
+        }
+
+        .aba-stat-card strong {
+          font-size:21px;
+        }
+
+        .aba-quick-grid {
+          grid-template-columns:1fr 1fr;
+        }
+
+        .aba-card-header {
+          align-items:flex-start;
+        }
+
+        .aba-lesson-header h2 {
+          font-size:23px;
+        }
+
+        .aba-lesson-content {
+          font-size:15px;
+        }
+
+        .aba-lesson-actions {
+          display:grid;
+          grid-template-columns:1fr;
+        }
+
+        .aba-lesson-actions button {
           width:100%;
+        }
+
+        .aba-progress-main-card {
+          flex-direction:column;
+          text-align:center;
+        }
+
+        .aba-progress-row {
+          align-items:flex-start;
+          flex-direction:column;
+        }
+
+        .aba-course-card {
+          flex-direction:column;
         }
 
       }
@@ -2194,533 +2899,76 @@
     `;
 
     document.head.appendChild(style);
-  }
-
-  /* =========================================================
-     9. RENDER LESSONS
-     ========================================================= */
-
-  function renderLessons() {
-
-    const page = findLessonsPage();
-
-    if (!page) return;
-
-    let container =
-      document.getElementById(
-        "aungProfessional230Lessons"
-      );
-
-    if (!container) {
-
-      container =
-        document.createElement("div");
-
-      container.id =
-        "aungProfessional230Lessons";
-
-      container.style.cssText = `
-        width:100%;
-        margin:25px 0;
-      `;
-
-      page.appendChild(container);
-    }
-
-    container.innerHTML = `
-
-      <div style="
-        background:
-          linear-gradient(
-            135deg,
-            #0f172a,
-            #1d4ed8
-          );
-        color:white;
-        padding:28px;
-        border-radius:20px;
-        margin-bottom:20px;
-      ">
-
-        <div style="
-          font-size:12px;
-          font-weight:800;
-          opacity:.75;
-          margin-bottom:8px;
-        ">
-          AUNG BUSINESS ACADEMY
-        </div>
-
-        <h2 style="
-          margin:0 0 8px 0;
-          font-size:28px;
-        ">
-          📚 Professional Business Academy
-        </h2>
-
-        <p style="
-          margin:0;
-          opacity:.9;
-          line-height:1.8;
-        ">
-          230 Business Lessons —
-          Professional 15-Minute Learning System
-        </p>
-
-        <div style="
-          display:flex;
-          flex-wrap:wrap;
-          gap:10px;
-          margin-top:18px;
-        ">
-
-          <span style="
-            padding:8px 13px;
-            border-radius:20px;
-            background:rgba(255,255,255,.15);
-          ">
-            📚 230 Lessons
-          </span>
-
-          <span style="
-            padding:8px 13px;
-            border-radius:20px;
-            background:rgba(255,255,255,.15);
-          ">
-            📊 Tables
-          </span>
-
-          <span style="
-            padding:8px 13px;
-            border-radius:20px;
-            background:rgba(255,255,255,.15);
-          ">
-            📈 Graphs
-          </span>
-
-          <span style="
-            padding:8px 13px;
-            border-radius:20px;
-            background:rgba(255,255,255,.15);
-          ">
-            💼 Case Studies
-          </span>
-
-          <span style="
-            padding:8px 13px;
-            border-radius:20px;
-            background:rgba(255,255,255,.15);
-          ">
-            👨‍💼 Manager Thinking
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <div style="
-        display:flex;
-        flex-wrap:wrap;
-        gap:10px;
-        margin-bottom:20px;
-      ">
-
-        <input
-          id="abaLessonSearch"
-          type="search"
-          placeholder="🔎 Search lessons..."
-          style="
-            flex:1;
-            min-width:230px;
-            padding:13px 15px;
-            border:1px solid #cbd5e1;
-            border-radius:10px;
-            outline:none;
-          "
-        />
-
-        <select
-          id="abaModuleFilter"
-          style="
-            padding:13px 15px;
-            border:1px solid #cbd5e1;
-            border-radius:10px;
-            background:white;
-          "
-        >
-
-          <option value="all">
-            All Modules
-          </option>
-
-          ${MODULES.map(
-            function (module) {
-
-              return `
-                <option value="${escapeHTML(module.name)}">
-                  ${module.icon}
-                  ${escapeHTML(module.name)}
-                </option>
-              `;
-
-            }
-          ).join("")}
-
-        </select>
-
-        <select
-          id="abaStatusFilter"
-          style="
-            padding:13px 15px;
-            border:1px solid #cbd5e1;
-            border-radius:10px;
-            background:white;
-          "
-        >
-
-          <option value="all">
-            All Lessons
-          </option>
-
-          <option value="remaining">
-            Remaining
-          </option>
-
-          <option value="completed">
-            Completed
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div
-        id="abaLessonResultInfo"
-        style="
-          margin-bottom:15px;
-          color:#64748b;
-          font-size:14px;
-          font-weight:700;
-        "
-      >
-      </div>
-
-
-      <div
-        id="abaLessonGrid"
-        class="aba-lesson-grid"
-      >
-      </div>
-
-    `;
-
-    const grid =
-      document.getElementById(
-        "abaLessonGrid"
-      );
-
-    const search =
-      document.getElementById(
-        "abaLessonSearch"
-      );
-
-    const moduleFilter =
-      document.getElementById(
-        "abaModuleFilter"
-      );
-
-    const statusFilter =
-      document.getElementById(
-        "abaStatusFilter"
-      );
-
-    function refresh() {
-
-      const searchText =
-        (search.value || "")
-          .toLowerCase()
-          .trim();
-
-      const selectedModule =
-        moduleFilter.value;
-
-      const status =
-        statusFilter.value;
-
-      const completed =
-        getCompleted();
-
-      const filtered =
-        LESSONS.filter(function (lesson) {
-
-          const matchesSearch =
-            !searchText ||
-            lesson.title
-              .toLowerCase()
-              .includes(searchText) ||
-            lesson.module
-              .toLowerCase()
-              .includes(searchText);
-
-          const matchesModule =
-            selectedModule === "all" ||
-            lesson.module ===
-              selectedModule;
-
-          const matchesStatus =
-            status === "all" ||
-            (
-              status === "completed" &&
-              completed.includes(lesson.id)
-            ) ||
-            (
-              status === "remaining" &&
-              !completed.includes(lesson.id)
-            );
-
-          return (
-            matchesSearch &&
-            matchesModule &&
-            matchesStatus
-          );
-
-        });
-
-      document.getElementById(
-        "abaLessonResultInfo"
-      ).textContent =
-        `Showing ${filtered.length} of ${LESSONS.length} lessons`;
-
-      grid.innerHTML = "";
-
-      if (!filtered.length) {
-
-        grid.innerHTML = `
-          <div style="
-            grid-column:1/-1;
-            text-align:center;
-            padding:50px 20px;
-            color:#64748b;
-          ">
-            <div style="
-              font-size:45px;
-              margin-bottom:10px;
-            ">
-              🔎
-            </div>
-
-            <h3>
-              No lessons found
-            </h3>
-
-            <p>
-              Search or filter ပြန်ပြောင်းကြည့်ပါ။
-            </p>
-
-          </div>
-        `;
-
-        return;
-      }
-
-      filtered.forEach(function (lesson) {
-
-        const done =
-          completed.includes(
-            lesson.id
-          );
-
-        const card =
-          document.createElement("div");
-
-        card.className =
-          "aba-lesson-card" +
-          (done ? " completed" : "");
-
-        card.innerHTML = `
-
-          <div class="aba-card-top">
-
-            <div class="aba-card-module">
-              ${lesson.icon}
-              ${escapeHTML(lesson.module)}
-            </div>
-
-            <div class="aba-card-number">
-              ${lesson.id}/${LESSONS.length}
-            </div>
-
-          </div>
-
-          <div class="aba-card-title">
-            ${escapeHTML(lesson.title)}
-          </div>
-
-          <div class="aba-card-bottom">
-
-            <div>
-              ${
-                done
-                  ? `<span class="aba-done">
-                       ✓ Completed
-                     </span>`
-                  : `<span class="aba-start">
-                       📖 Start Lesson →
-                     </span>`
-              }
-            </div>
-
-            <div>
-              ⏱️ 15 min
-            </div>
-
-          </div>
-
-        `;
-
-        card.addEventListener(
-          "click",
-          function () {
-            openLesson(lesson.id);
-          }
-        );
-
-        grid.appendChild(card);
-
-      });
-
-    }
-
-    search.addEventListener(
-      "input",
-      refresh
-    );
-
-    moduleFilter.addEventListener(
-      "change",
-      refresh
-    );
-
-    statusFilter.addEventListener(
-      "change",
-      refresh
-    );
-
-    refresh();
-  }
-
-  /* =========================================================
-     10. DASHBOARD UPDATE
-     ========================================================= */
-
-  function updateDashboard() {
-
-    const completed =
-      getCompleted().length;
-
-    const total =
-      LESSONS.length;
-
-    const percent =
-      Math.round(
-        (completed / total) * 100
-      );
-
-    const selectors = [
-      "#completedLessons",
-      "#completedCount",
-      "[data-completed-lessons]"
-    ];
-
-    selectors.forEach(function (selector) {
-
-      document
-        .querySelectorAll(selector)
-        .forEach(function (element) {
-          element.textContent =
-            completed;
-        });
-
-    });
-
-    document
-      .querySelectorAll(
-        "#progressPercent,[data-progress-percent]"
-      )
-      .forEach(function (element) {
-        element.textContent =
-          percent + "%";
-      });
-
-    document
-      .querySelectorAll(
-        ".progress-bar-fill,[data-progress-bar]"
-      )
-      .forEach(function (element) {
-        element.style.width =
-          percent + "%";
-      });
 
   }
 
   /* =========================================================
-     11. NAVIGATION HOOK
+     27. INITIALIZE
      ========================================================= */
 
-  function setupNavigation() {
+  function initApp() {
 
-    document
-      .querySelectorAll(
-        "[data-page='lessons'], #nav-lessons, .nav-lessons"
-      )
-      .forEach(function (button) {
+    loadLessons();
 
-        button.addEventListener(
-          "click",
-          function () {
+    loadCompletedLessons();
 
-            setTimeout(function () {
-              renderLessons();
-            }, 100);
+    loadCurrentLesson();
 
-            setTimeout(function () {
-              renderLessons();
-            }, 700);
-
-          }
-        );
-
-      });
-
-  }
-
-  /* =========================================================
-     12. INITIALIZATION
-     ========================================================= */
-
-  function init() {
-
-    injectStyles();
+    injectAppStyles();
 
     setupNavigation();
 
-    updateDashboard();
+    setupLegacyNavigation();
 
-    setTimeout(function () {
-      renderLessons();
-    }, 500);
+    setupMobileMenu();
 
-    setTimeout(function () {
-      renderLessons();
-    }, 1500);
+    updateUserProfile();
 
-    setTimeout(function () {
-      renderLessons();
-    }, 3000);
+    /*
+      If the HTML already contains its own sections,
+      use the existing dashboard first.
+    */
+
+    const existingDashboard =
+      qs(
+        '[data-section="dashboard"], #dashboard'
+      );
+
+    if (existingDashboard) {
+
+      showSection("dashboard");
+
+    } else {
+
+      renderDashboard(
+        getMainContentContainer()
+      );
+
+      currentSection =
+        "dashboard";
+
+    }
+
+    console.log(
+      APP_NAME +
+      " initialized successfully."
+    );
+
+    console.log(
+      "Lessons loaded:",
+      lessons.length
+    );
+
+    console.log(
+      "Completed:",
+      completedLessons.length
+    );
 
   }
+
+  /* =========================================================
+     28. DOM READY
+     ========================================================= */
 
   if (
     document.readyState === "loading"
@@ -2728,38 +2976,73 @@
 
     document.addEventListener(
       "DOMContentLoaded",
-      init
+      initApp
     );
 
   } else {
 
-    init();
+    initApp();
 
   }
 
   /* =========================================================
-     13. PUBLIC API
+     29. GLOBAL API
      ========================================================= */
 
   window.AungBusinessAcademy = {
 
-    lessons: LESSONS,
-
-    modules: MODULES,
-
-    totalLessons: LESSONS.length,
+    lessons: function () {
+      return lessons;
+    },
 
     openLesson: openLesson,
 
-    markCompleted: markCompleted,
+    nextLesson: nextLesson,
 
-    getCompleted: getCompleted,
+    previousLesson: previousLesson,
 
-    getProgress: getProgress,
+    markCompleted: function () {
 
-    refresh: renderLessons
+      markLessonCompleted(
+        currentLessonIndex
+      );
+
+    },
+
+    markIncomplete: function () {
+
+      markLessonIncomplete(
+        currentLessonIndex
+      );
+
+    },
+
+    getProgress: function () {
+
+      return {
+        total: lessons.length,
+        completed: getCompletedCount(),
+        percent: getProgressPercent()
+      };
+
+    },
+
+    showSection: showSection,
+
+    resetProgress: function () {
+
+      completedLessons = [];
+
+      saveCompletedLessons();
+
+      currentLessonIndex = 0;
+
+      saveCurrentLesson();
+
+      updateAllProgressUI();
+
+    }
 
   };
 
 })();
-```

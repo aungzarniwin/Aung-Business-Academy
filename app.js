@@ -15350,6 +15350,1718 @@ if (document.readyState === "loading") {
 
 
   // ============================================================
+  /* =========================================================
+   AUNG BUSINESS ACADEMY
+   V15 PROFESSIONAL MANAGEMENT SYSTEM
+   SALES DASHBOARD + TARGET PLANNER + SALES TEAM
+   SAFE ADD-ON
+   ========================================================= */
+
+const V15_SALES_KEY = "aung_business_academy_v15_sales_data";
+const V15_TEAM_KEY = "aung_business_academy_v15_team_data";
+const V15_TARGET_KEY = "aung_business_academy_v15_target_data";
+
+
+/* =========================================================
+   V15 STORAGE
+   ========================================================= */
+
+function v15Get(key, fallback) {
+  try {
+    const data = localStorage.getItem(key);
+    return data ? JSON.parse(data) : fallback;
+  } catch (error) {
+    return fallback;
+  }
+}
+
+function v15Set(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+function v15Number(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : 0;
+}
+
+function v15Money(value) {
+  return new Intl.NumberFormat("en-US", {
+    maximumFractionDigits: 0
+  }).format(v15Number(value));
+}
+
+function v15Percent(value) {
+  return v15Number(value).toFixed(1) + "%";
+}
+
+function v15Escape(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+/* =========================================================
+   DEFAULT DATA
+   ========================================================= */
+
+function v15GetSalesData() {
+  return v15Get(V15_SALES_KEY, {
+    monthlySales: 0,
+    monthlyTarget: 0,
+    previousMonthSales: 0
+  });
+}
+
+function v15GetTargetData() {
+  return v15Get(V15_TARGET_KEY, {
+    monthlyTarget: 0,
+    workingDays: 26,
+    daysPassed: 0,
+    actualSales: 0
+  });
+}
+
+function v15GetTeam() {
+  return v15Get(V15_TEAM_KEY, []);
+}
+
+
+/* =========================================================
+   SALES CALCULATIONS
+   ========================================================= */
+
+function v15CalculateSales() {
+
+  const data = v15GetSalesData();
+
+  const sales = v15Number(data.monthlySales);
+  const target = v15Number(data.monthlyTarget);
+  const previous = v15Number(data.previousMonthSales);
+
+  const achievement =
+    target > 0 ? (sales / target) * 100 : 0;
+
+  const growth =
+    previous > 0
+      ? ((sales - previous) / previous) * 100
+      : 0;
+
+  const remaining =
+    Math.max(target - sales, 0);
+
+  return {
+    sales,
+    target,
+    previous,
+    achievement,
+    growth,
+    remaining
+  };
+}
+
+
+/* =========================================================
+   TARGET CALCULATIONS
+   ========================================================= */
+
+function v15CalculateTarget() {
+
+  const data = v15GetTargetData();
+
+  const target = v15Number(data.monthlyTarget);
+  const workingDays = Math.max(
+    v15Number(data.workingDays),
+    1
+  );
+
+  const daysPassed = Math.min(
+    Math.max(v15Number(data.daysPassed), 0),
+    workingDays
+  );
+
+  const actual = v15Number(data.actualSales);
+
+  const dailyTarget =
+    target / workingDays;
+
+  const remaining =
+    Math.max(target - actual, 0);
+
+  const remainingDays =
+    Math.max(workingDays - daysPassed, 0);
+
+  const requiredDaily =
+    remainingDays > 0
+      ? remaining / remainingDays
+      : remaining;
+
+  const achievement =
+    target > 0
+      ? (actual / target) * 100
+      : 0;
+
+  return {
+    target,
+    workingDays,
+    daysPassed,
+    actual,
+    dailyTarget,
+    remaining,
+    remainingDays,
+    requiredDaily,
+    achievement
+  };
+}
+
+
+/* =========================================================
+   TEAM CALCULATIONS
+   ========================================================= */
+
+function v15TeamStats() {
+
+  const team = v15GetTeam();
+
+  const totalTarget = team.reduce(
+    (sum, person) => sum + v15Number(person.target),
+    0
+  );
+
+  const totalSales = team.reduce(
+    (sum, person) => sum + v15Number(person.sales),
+    0
+  );
+
+  const achievement =
+    totalTarget > 0
+      ? (totalSales / totalTarget) * 100
+      : 0;
+
+  return {
+    team,
+    totalTarget,
+    totalSales,
+    achievement
+  };
+}
+
+
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
+
+function v15Page(title, subtitle) {
+
+  return `
+    <div class="v15-page">
+
+      <div class="v15-header">
+        <div>
+          <div class="v15-kicker">AUNG BUSINESS ACADEMY · V15</div>
+          <h1>${v15Escape(title)}</h1>
+          <p>${v15Escape(subtitle)}</p>
+        </div>
+
+        <button
+          class="v15-secondary"
+          onclick="openV15Dashboard()">
+          ← Management Dashboard
+        </button>
+      </div>
+
+    </div>
+  `;
+}
+
+
+/* =========================================================
+   METRIC CARD
+   ========================================================= */
+
+function v15Metric(title, value, label, icon) {
+
+  return `
+    <div class="v15-metric-card">
+
+      <div class="v15-metric-icon">
+        ${icon}
+      </div>
+
+      <div class="v15-metric-title">
+        ${v15Escape(title)}
+      </div>
+
+      <div class="v15-metric-value">
+        ${value}
+      </div>
+
+      <div class="v15-metric-label">
+        ${v15Escape(label)}
+      </div>
+
+    </div>
+  `;
+}
+
+
+/* =========================================================
+   V15 MAIN DASHBOARD
+   ========================================================= */
+
+function openV15Dashboard() {
+
+  if (typeof closeSidebarMobile === "function") {
+    closeSidebarMobile();
+  }
+
+  const sales = v15CalculateSales();
+  const target = v15CalculateTarget();
+  const team = v15TeamStats();
+
+  setPage(
+    "V15 Professional Management",
+    "Sales, Target and Team Performance Management"
+  );
+
+  showModal(`
+
+    <div class="v15-container">
+
+      <div class="v15-hero">
+
+        <div>
+          <span class="v15-badge">
+            PROFESSIONAL MANAGEMENT SYSTEM
+          </span>
+
+          <h2>
+            📊 Business Performance Center
+          </h2>
+
+          <p>
+            လုပ်ငန်းရဲ့ Sales, Target နဲ့ Team Performance ကို
+            တစ်နေရာတည်းကနေ စောင့်ကြည့်စီမံနိုင်ပါပြီ
+          </p>
+        </div>
+
+      </div>
+
+
+      <div class="v15-grid">
+
+        ${v15Metric(
+          "Monthly Sales",
+          v15Money(sales.sales) + " Ks",
+          "လက်ရှိလအရောင်း",
+          "💰"
+        )}
+
+        ${v15Metric(
+          "Sales Target",
+          v15Money(sales.target) + " Ks",
+          "လစဉ် Target",
+          "🎯"
+        )}
+
+        ${v15Metric(
+          "Achievement",
+          v15Percent(sales.achievement),
+          "Target ပြည့်မီမှု",
+          "📈"
+        )}
+
+        ${v15Metric(
+          "Growth",
+          v15Percent(sales.growth),
+          "ယခင်လနှင့်နှိုင်းယှဉ်မှု",
+          "🚀"
+        )}
+
+        ${v15Metric(
+          "Remaining Target",
+          v15Money(sales.remaining) + " Ks",
+          "ကျန်ရှိ Target",
+          "🎯"
+        )}
+
+        ${v15Metric(
+          "Team Achievement",
+          v15Percent(team.achievement),
+          "Sales Team စုစုပေါင်း",
+          "👥"
+        )}
+
+      </div>
+
+
+      <div class="v15-action-grid">
+
+        <button
+          class="v15-action"
+          onclick="openV15SalesDashboard()">
+
+          <span>📊</span>
+
+          <strong>Sales Dashboard</strong>
+
+          <small>
+            Sales နှင့် Target Performance
+          </small>
+
+        </button>
+
+
+        <button
+          class="v15-action"
+          onclick="openV15TargetPlanner()">
+
+          <span>🎯</span>
+
+          <strong>Target Planner</strong>
+
+          <small>
+            Daily Target နှင့် Remaining Target
+          </small>
+
+        </button>
+
+
+        <button
+          class="v15-action"
+          onclick="openV15TeamManagement()">
+
+          <span>👥</span>
+
+          <strong>Sales Team</strong>
+
+          <small>
+            ဝန်ထမ်းတစ်ဦးချင်း Performance
+          </small>
+
+        </button>
+
+
+        <button
+          class="v15-action"
+          onclick="openV15ManagementSummary()">
+
+          <span>📋</span>
+
+          <strong>Management Summary</strong>
+
+          <small>
+            Manager အတွက် အကျဉ်းချုပ်
+          </small>
+
+        </button>
+
+      </div>
+
+    </div>
+
+  `);
+
+}
+
+
+/* =========================================================
+   SALES DASHBOARD
+   ========================================================= */
+
+function openV15SalesDashboard() {
+
+  const data = v15GetSalesData();
+  const calc = v15CalculateSales();
+
+  showModal(`
+
+    <div class="v15-container">
+
+      <div class="v15-section-title">
+        <h2>📊 Sales Dashboard</h2>
+        <p>လစဉ် Sales Performance ကို စောင့်ကြည့်ရန်</p>
+      </div>
+
+
+      <div class="v15-form-grid">
+
+        <div>
+          <label>Monthly Sales (Ks)</label>
+
+          <input
+            id="v15MonthlySales"
+            class="v15-input"
+            type="number"
+            value="${data.monthlySales}"
+            placeholder="ဥပမာ 50000000"
+          >
+        </div>
+
+
+        <div>
+          <label>Monthly Target (Ks)</label>
+
+          <input
+            id="v15MonthlyTarget"
+            class="v15-input"
+            type="number"
+            value="${data.monthlyTarget}"
+            placeholder="ဥပမာ 60000000"
+          >
+        </div>
+
+
+        <div>
+          <label>Previous Month Sales (Ks)</label>
+
+          <input
+            id="v15PreviousSales"
+            class="v15-input"
+            type="number"
+            value="${data.previousMonthSales}"
+            placeholder="ယခင်လ Sales"
+          >
+        </div>
+
+      </div>
+
+
+      <button
+        class="v15-primary"
+        onclick="v15SaveSalesData()">
+
+        💾 Save Sales Data
+
+      </button>
+
+
+      <div class="v15-result-grid">
+
+        ${v15Metric(
+          "Sales",
+          v15Money(calc.sales) + " Ks",
+          "လက်ရှိ Sales",
+          "💰"
+        )}
+
+        ${v15Metric(
+          "Target",
+          v15Money(calc.target) + " Ks",
+          "လစဉ် Target",
+          "🎯"
+        )}
+
+        ${v15Metric(
+          "Achievement",
+          v15Percent(calc.achievement),
+          "Target Achievement",
+          "📈"
+        )}
+
+        ${v15Metric(
+          "Growth",
+          v15Percent(calc.growth),
+          "Monthly Growth",
+          "🚀"
+        )}
+
+      </div>
+
+    </div>
+
+  `);
+}
+
+
+function v15SaveSalesData() {
+
+  const monthlySales =
+    v15Number(
+      document.getElementById("v15MonthlySales")?.value
+    );
+
+  const monthlyTarget =
+    v15Number(
+      document.getElementById("v15MonthlyTarget")?.value
+    );
+
+  const previousMonthSales =
+    v15Number(
+      document.getElementById("v15PreviousSales")?.value
+    );
+
+  v15Set(V15_SALES_KEY, {
+    monthlySales,
+    monthlyTarget,
+    previousMonthSales
+  });
+
+  showToast("Sales data saved successfully");
+
+  openV15SalesDashboard();
+}
+
+
+/* =========================================================
+   TARGET PLANNER
+   ========================================================= */
+
+function openV15TargetPlanner() {
+
+  const data = v15GetTargetData();
+  const calc = v15CalculateTarget();
+
+  showModal(`
+
+    <div class="v15-container">
+
+      <div class="v15-section-title">
+
+        <h2>🎯 Target Planner</h2>
+
+        <p>
+          Monthly Target ကို Daily Action အဖြစ် ပြောင်းလဲစီမံပါ
+        </p>
+
+      </div>
+
+
+      <div class="v15-form-grid">
+
+        <div>
+
+          <label>Monthly Target (Ks)</label>
+
+          <input
+            id="v15Target"
+            class="v15-input"
+            type="number"
+            value="${data.monthlyTarget}"
+          >
+
+        </div>
+
+
+        <div>
+
+          <label>Working Days</label>
+
+          <input
+            id="v15WorkingDays"
+            class="v15-input"
+            type="number"
+            value="${data.workingDays}"
+          >
+
+        </div>
+
+
+        <div>
+
+          <label>Days Passed</label>
+
+          <input
+            id="v15DaysPassed"
+            class="v15-input"
+            type="number"
+            value="${data.daysPassed}"
+          >
+
+        </div>
+
+
+        <div>
+
+          <label>Actual Sales (Ks)</label>
+
+          <input
+            id="v15ActualSales"
+            class="v15-input"
+            type="number"
+            value="${data.actualSales}"
+          >
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="v15-primary"
+        onclick="v15SaveTargetData()">
+
+        💾 Save Target Plan
+
+      </button>
+
+
+      <div class="v15-result-grid">
+
+        ${v15Metric(
+          "Daily Target",
+          v15Money(calc.dailyTarget) + " Ks",
+          "နေ့စဉ်လိုအပ်သော Sales",
+          "📅"
+        )}
+
+        ${v15Metric(
+          "Achievement",
+          v15Percent(calc.achievement),
+          "Target ပြည့်မီမှု",
+          "📈"
+        )}
+
+        ${v15Metric(
+          "Remaining",
+          v15Money(calc.remaining) + " Ks",
+          "ကျန်ရှိ Target",
+          "🎯"
+        )}
+
+        ${v15Metric(
+          "Required Daily",
+          v15Money(calc.requiredDaily) + " Ks",
+          "ကျန်ရက်အလိုက်လိုအပ်ချက်",
+          "🔥"
+        )}
+
+      </div>
+
+
+      <div class="v15-advice">
+
+        <strong>Manager Advice</strong>
+
+        <p>
+          ${
+            calc.achievement >= 100
+              ? "🎉 Target ပြည့်ပြီးဖြစ်ပါတယ် — Growth Target အသစ်တစ်ခု သတ်မှတ်ပါ"
+              : calc.requiredDaily > calc.dailyTarget
+              ? "⚠️ လက်ရှိ Pace ထက် ပိုမိုမြန်ဆန်စွာ ရောင်းချရန် လိုအပ်ပါတယ်"
+              : "✅ လက်ရှိ Sales Pace ကို ဆက်လက်ထိန်းထားပါ"
+          }
+        </p>
+
+      </div>
+
+    </div>
+
+  `);
+}
+
+
+function v15SaveTargetData() {
+
+  const data = {
+    monthlyTarget:
+      v15Number(
+        document.getElementById("v15Target")?.value
+      ),
+
+    workingDays:
+      v15Number(
+        document.getElementById("v15WorkingDays")?.value
+      ),
+
+    daysPassed:
+      v15Number(
+        document.getElementById("v15DaysPassed")?.value
+      ),
+
+    actualSales:
+      v15Number(
+        document.getElementById("v15ActualSales")?.value
+      )
+  };
+
+  v15Set(V15_TARGET_KEY, data);
+
+  showToast("Target plan saved successfully");
+
+  openV15TargetPlanner();
+}
+
+
+/* =========================================================
+   SALES TEAM MANAGEMENT
+   ========================================================= */
+
+function openV15TeamManagement() {
+
+  const stats = v15TeamStats();
+
+  const sortedTeam = [...stats.team].sort(
+    (a, b) => {
+
+      const aRate =
+        v15Number(a.target) > 0
+          ? v15Number(a.sales) / v15Number(a.target)
+          : 0;
+
+      const bRate =
+        v15Number(b.target) > 0
+          ? v15Number(b.sales) / v15Number(b.target)
+          : 0;
+
+      return bRate - aRate;
+    }
+  );
+
+  showModal(`
+
+    <div class="v15-container">
+
+      <div class="v15-section-title">
+
+        <h2>👥 Sales Team Management</h2>
+
+        <p>
+          Salesperson တစ်ဦးချင်း Performance ကို စီမံပါ
+        </p>
+
+      </div>
+
+
+      <button
+        class="v15-primary"
+        onclick="openV15AddSalesperson()">
+
+        + Add Salesperson
+
+      </button>
+
+
+      <div class="v15-team-summary">
+
+        <div>
+          <strong>${stats.team.length}</strong>
+          <span>Salespeople</span>
+        </div>
+
+        <div>
+          <strong>${v15Money(stats.totalTarget)} Ks</strong>
+          <span>Total Target</span>
+        </div>
+
+        <div>
+          <strong>${v15Money(stats.totalSales)} Ks</strong>
+          <span>Total Sales</span>
+        </div>
+
+        <div>
+          <strong>${v15Percent(stats.achievement)}</strong>
+          <span>Achievement</span>
+        </div>
+
+      </div>
+
+
+      <div class="v15-team-list">
+
+        ${
+          sortedTeam.length === 0
+            ? `
+              <div class="v15-empty">
+                Salesperson မရှိသေးပါ
+              </div>
+            `
+            : sortedTeam.map((person, index) => {
+
+              const target =
+                v15Number(person.target);
+
+              const sales =
+                v15Number(person.sales);
+
+              const achievement =
+                target > 0
+                  ? (sales / target) * 100
+                  : 0;
+
+              return `
+
+                <div class="v15-person-card">
+
+                  <div class="v15-rank">
+                    #${index + 1}
+                  </div>
+
+                  <div class="v15-person-info">
+
+                    <strong>
+                      ${v15Escape(person.name)}
+                    </strong>
+
+                    <small>
+                      Target: ${v15Money(target)} Ks
+                    </small>
+
+                  </div>
+
+                  <div class="v15-person-performance">
+
+                    <strong>
+                      ${v15Money(sales)} Ks
+                    </strong>
+
+                    <span>
+                      ${v15Percent(achievement)}
+                    </span>
+
+                  </div>
+
+                  <div class="v15-person-actions">
+
+                    <button
+                      onclick="v15EditSalesperson('${person.id}')">
+                      Edit
+                    </button>
+
+                    <button
+                      onclick="v15DeleteSalesperson('${person.id}')">
+                      Delete
+                    </button>
+
+                  </div>
+
+                </div>
+
+              `;
+
+            }).join("")
+        }
+
+      </div>
+
+    </div>
+
+  `);
+}
+
+
+/* =========================================================
+   ADD SALESPERSON
+   ========================================================= */
+
+function openV15AddSalesperson(editId = null) {
+
+  const team = v15GetTeam();
+
+  const person = editId
+    ? team.find(item => String(item.id) === String(editId))
+    : null;
+
+  showModal(`
+
+    <div class="v15-container">
+
+      <div class="v15-section-title">
+
+        <h2>
+          ${person ? "✏️ Edit Salesperson" : "👤 Add Salesperson"}
+        </h2>
+
+      </div>
+
+
+      <div class="v15-form-grid">
+
+        <div>
+
+          <label>Salesperson Name</label>
+
+          <input
+            id="v15PersonName"
+            class="v15-input"
+            value="${v15Escape(person?.name || "")}"
+            placeholder="ဝန်ထမ်းအမည်"
+          >
+
+        </div>
+
+
+        <div>
+
+          <label>Monthly Target (Ks)</label>
+
+          <input
+            id="v15PersonTarget"
+            class="v15-input"
+            type="number"
+            value="${person?.target || 0}"
+          >
+
+        </div>
+
+
+        <div>
+
+          <label>Actual Sales (Ks)</label>
+
+          <input
+            id="v15PersonSales"
+            class="v15-input"
+            type="number"
+            value="${person?.sales || 0}"
+          >
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="v15-primary"
+        onclick="v15SaveSalesperson('${person?.id || ""}')">
+
+        💾 Save Salesperson
+
+      </button>
+
+    </div>
+
+  `);
+}
+
+
+function v15SaveSalesperson(editId = "") {
+
+  const name =
+    document.getElementById("v15PersonName")?.value.trim();
+
+  const target =
+    v15Number(
+      document.getElementById("v15PersonTarget")?.value
+    );
+
+  const sales =
+    v15Number(
+      document.getElementById("v15PersonSales")?.value
+    );
+
+  if (!name) {
+    showToast("Salesperson name ထည့်ပါ");
+    return;
+  }
+
+  const team = v15GetTeam();
+
+  if (editId) {
+
+    const index = team.findIndex(
+      item => String(item.id) === String(editId)
+    );
+
+    if (index >= 0) {
+      team[index] = {
+        ...team[index],
+        name,
+        target,
+        sales
+      };
+    }
+
+  } else {
+
+    team.push({
+      id: Date.now().toString(),
+      name,
+      target,
+      sales
+    });
+
+  }
+
+  v15Set(V15_TEAM_KEY, team);
+
+  showToast("Salesperson saved successfully");
+
+  openV15TeamManagement();
+}
+
+
+function v15EditSalesperson(id) {
+  openV15AddSalesperson(id);
+}
+
+
+function v15DeleteSalesperson(id) {
+
+  const team = v15GetTeam();
+
+  const updated = team.filter(
+    item => String(item.id) !== String(id)
+  );
+
+  v15Set(V15_TEAM_KEY, updated);
+
+  showToast("Salesperson deleted");
+
+  openV15TeamManagement();
+}
+
+
+/* =========================================================
+   MANAGEMENT SUMMARY
+   ========================================================= */
+
+function openV15ManagementSummary() {
+
+  const sales = v15CalculateSales();
+  const target = v15CalculateTarget();
+  const team = v15TeamStats();
+
+  let priority = "";
+  let action = "";
+
+  if (sales.achievement < 70) {
+
+    priority = "🔴 Sales Recovery";
+    action =
+      "Sales Target Achievement နည်းနေသောကြောင့် " +
+      "Top Customers, Pipeline နှင့် Field Execution ကို ချက်ချင်းပြန်စစ်ပါ";
+
+  } else if (sales.achievement < 90) {
+
+    priority = "🟠 Target Acceleration";
+    action =
+      "Target ရောက်ရန် ကျန်ရှိသော Sales ကို " +
+      "Daily Action Plan ဖြင့် အရှိန်မြှင့်ပါ";
+
+  } else if (sales.achievement < 100) {
+
+    priority = "🟡 Target Closing";
+    action =
+      "လကုန်မတိုင်မီ ကျန် Target ကို Customer Follow-up " +
+      "နှင့် Closing Activity ဖြင့် ဖြည့်ပါ";
+
+  } else {
+
+    priority = "🟢 Growth";
+    action =
+      "Target ပြည့်ပြီးဖြစ်သောကြောင့် Growth Target နှင့် " +
+      "New Customer Acquisition ကို အာရုံစိုက်ပါ";
+  }
+
+
+  showModal(`
+
+    <div class="v15-container">
+
+      <div class="v15-section-title">
+
+        <h2>📋 Management Summary</h2>
+
+        <p>
+          Manager အတွက် လုပ်ငန်းအခြေအနေ အကျဉ်းချုပ်
+        </p>
+
+      </div>
+
+
+      <div class="v15-summary-box">
+
+        <span>Current Priority</span>
+
+        <strong>
+          ${priority}
+        </strong>
+
+        <p>
+          ${action}
+        </p>
+
+      </div>
+
+
+      <div class="v15-summary-grid">
+
+        <div>
+          <span>Sales</span>
+          <strong>${v15Money(sales.sales)} Ks</strong>
+        </div>
+
+        <div>
+          <span>Target</span>
+          <strong>${v15Money(sales.target)} Ks</strong>
+        </div>
+
+        <div>
+          <span>Achievement</span>
+          <strong>${v15Percent(sales.achievement)}</strong>
+        </div>
+
+        <div>
+          <span>Remaining</span>
+          <strong>${v15Money(sales.remaining)} Ks</strong>
+        </div>
+
+        <div>
+          <span>Daily Target</span>
+          <strong>${v15Money(target.dailyTarget)} Ks</strong>
+        </div>
+
+        <div>
+          <span>Team Achievement</span>
+          <strong>${v15Percent(team.achievement)}</strong>
+        </div>
+
+      </div>
+
+
+      <div class="v15-advice">
+
+        <strong>Today's Manager Action</strong>
+
+        <ol>
+
+          <li>
+            Top Customer 5 ယောက်ကို Follow-up လုပ်ပါ
+          </li>
+
+          <li>
+            Sales Team ရဲ့ Individual Gap ကို စစ်ပါ
+          </li>
+
+          <li>
+            Remaining Target ကို Daily Target ခွဲပါ
+          </li>
+
+          <li>
+            End-of-day Sales Review ပြုလုပ်ပါ
+          </li>
+
+        </ol>
+
+      </div>
+
+    </div>
+
+  `);
+}
+
+
+/* =========================================================
+   SIDEBAR / FLOATING BUTTON
+   ========================================================= */
+
+function v15AddButton() {
+
+  if (document.getElementById("v15-floating-button")) {
+    return;
+  }
+
+  const button = document.createElement("button");
+
+  button.id = "v15-floating-button";
+  button.innerHTML = "📊 V15 Management";
+  button.onclick = openV15Dashboard;
+
+  document.body.appendChild(button);
+}
+
+
+/* =========================================================
+   V15 CSS
+   ========================================================= */
+
+function v15InjectStyles() {
+
+  if (document.getElementById("v15-styles")) {
+    return;
+  }
+
+  const style = document.createElement("style");
+
+  style.id = "v15-styles";
+
+  style.textContent = `
+
+    .v15-container {
+      width: 100%;
+      max-width: 1180px;
+      margin: auto;
+      padding: 8px;
+    }
+
+    .v15-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .v15-kicker {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      opacity: .65;
+      margin-bottom: 8px;
+    }
+
+    .v15-header h1,
+    .v15-section-title h2 {
+      margin: 0 0 8px;
+    }
+
+    .v15-header p,
+    .v15-section-title p {
+      margin: 0;
+      opacity: .7;
+    }
+
+    .v15-hero {
+      border-radius: 22px;
+      padding: 28px;
+      margin-bottom: 20px;
+      background:
+        linear-gradient(
+          135deg,
+          #111827,
+          #1f2937
+        );
+      color: white;
+    }
+
+    .v15-hero h2 {
+      margin: 14px 0 8px;
+      font-size: 28px;
+    }
+
+    .v15-hero p {
+      margin: 0;
+      opacity: .82;
+      line-height: 1.7;
+    }
+
+    .v15-badge {
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .v15-grid,
+    .v15-result-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .v15-metric-card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow:
+        0 8px 25px rgba(15,23,42,.06);
+    }
+
+    .v15-metric-icon {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .v15-metric-title {
+      font-size: 13px;
+      font-weight: 700;
+      opacity: .7;
+    }
+
+    .v15-metric-value {
+      font-size: 25px;
+      font-weight: 900;
+      margin: 8px 0 4px;
+    }
+
+    .v15-metric-label {
+      font-size: 12px;
+      opacity: .6;
+    }
+
+    .v15-action-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .v15-action {
+      text-align: left;
+      border: 1px solid #e5e7eb;
+      background: white;
+      border-radius: 18px;
+      padding: 20px;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .v15-action:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 10px 28px rgba(15,23,42,.09);
+    }
+
+    .v15-action span {
+      display: block;
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .v15-action strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .v15-action small {
+      opacity: .65;
+    }
+
+    .v15-form-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .v15-form-grid label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .v15-input {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      outline: none;
+      font-size: 14px;
+      background: white;
+    }
+
+    .v15-input:focus {
+      border-color: #6b7280;
+      box-shadow:
+        0 0 0 3px rgba(107,114,128,.12);
+    }
+
+    .v15-primary,
+    .v15-secondary {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 17px;
+      cursor: pointer;
+      font-weight: 800;
+      margin: 4px;
+    }
+
+    .v15-primary {
+      background: #111827;
+      color: white;
+    }
+
+    .v15-secondary {
+      background: #f3f4f6;
+      color: #111827;
+    }
+
+    .v15-team-summary {
+      display: grid;
+      grid-template-columns:
+        repeat(4, 1fr);
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .v15-team-summary > div {
+      background: #f8fafc;
+      border-radius: 15px;
+      padding: 15px;
+    }
+
+    .v15-team-summary strong,
+    .v15-team-summary span {
+      display: block;
+    }
+
+    .v15-team-summary strong {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .v15-team-summary span {
+      font-size: 12px;
+      opacity: .65;
+    }
+
+    .v15-person-card {
+      display: grid;
+      grid-template-columns:
+        55px 1fr auto auto;
+      gap: 15px;
+      align-items: center;
+      padding: 15px;
+      border: 1px solid #e5e7eb;
+      border-radius: 15px;
+      margin-bottom: 10px;
+      background: white;
+    }
+
+    .v15-rank {
+      font-weight: 900;
+      font-size: 18px;
+    }
+
+    .v15-person-info strong,
+    .v15-person-info small {
+      display: block;
+    }
+
+    .v15-person-info small {
+      opacity: .6;
+      margin-top: 4px;
+    }
+
+    .v15-person-performance strong,
+    .v15-person-performance span {
+      display: block;
+      text-align: right;
+    }
+
+    .v15-person-performance span {
+      font-size: 12px;
+      margin-top: 4px;
+      opacity: .7;
+    }
+
+    .v15-person-actions button {
+      border: 0;
+      background: #f3f4f6;
+      padding: 8px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-left: 4px;
+    }
+
+    .v15-advice,
+    .v15-summary-box {
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 16px;
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+    }
+
+    .v15-advice strong,
+    .v15-summary-box span,
+    .v15-summary-box strong {
+      display: block;
+    }
+
+    .v15-summary-box strong {
+      font-size: 24px;
+      margin: 8px 0;
+    }
+
+    .v15-summary-box p {
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .v15-summary-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .v15-summary-grid > div {
+      padding: 16px;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+    }
+
+    .v15-summary-grid span,
+    .v15-summary-grid strong {
+      display: block;
+    }
+
+    .v15-summary-grid span {
+      font-size: 12px;
+      opacity: .6;
+      margin-bottom: 5px;
+    }
+
+    .v15-summary-grid strong {
+      font-size: 18px;
+    }
+
+    .v15-empty {
+      text-align: center;
+      padding: 35px;
+      opacity: .6;
+    }
+
+    #v15-floating-button {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 9999;
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 17px;
+      background: #111827;
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow:
+        0 10px 30px rgba(0,0,0,.18);
+    }
+
+    @media (max-width: 900px) {
+
+      .v15-grid,
+      .v15-result-grid {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+
+      .v15-team-summary {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
+
+      .v15-summary-grid {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
+
+    }
+
+    @media (max-width: 600px) {
+
+      .v15-container {
+        padding: 5px;
+      }
+
+      .v15-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .v15-hero {
+        padding: 20px;
+      }
+
+      .v15-hero h2 {
+        font-size: 22px;
+      }
+
+      .v15-grid,
+      .v15-result-grid,
+      .v15-action-grid,
+      .v15-form-grid,
+      .v15-team-summary,
+      .v15-summary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .v15-person-card {
+        grid-template-columns:
+          40px 1fr;
+      }
+
+      .v15-person-performance,
+      .v15-person-actions {
+        grid-column: 2;
+      }
+
+      .v15-person-performance strong,
+      .v15-person-performance span {
+        text-align: left;
+      }
+
+      #v15-floating-button {
+        right: 12px;
+        bottom: 12px;
+        font-size: 12px;
+      }
+
+    }
+
+  `;
+
+  document.head.appendChild(style);
+}
+
+
+/* =========================================================
+   V15 STARTUP
+   ========================================================= */
+
+function v15Init() {
+
+  v15InjectStyles();
+
+  setTimeout(() => {
+    v15AddButton();
+  }, 1200);
+
+}
+
+
+/* =========================================================
+   V15 GLOBAL EXPORTS
+   ========================================================= */
+
+window.openV15Dashboard = openV15Dashboard;
+window.openV15SalesDashboard = openV15SalesDashboard;
+window.v15SaveSalesData = v15SaveSalesData;
+
+window.openV15TargetPlanner = openV15TargetPlanner;
+window.v15SaveTargetData = v15SaveTargetData;
+
+window.openV15TeamManagement = openV15TeamManagement;
+window.openV15AddSalesperson = openV15AddSalesperson;
+window.v15SaveSalesperson = v15SaveSalesperson;
+window.v15EditSalesperson = v15EditSalesperson;
+window.v15DeleteSalesperson = v15DeleteSalesperson;
+
+window.openV15ManagementSummary = openV15ManagementSummary;
+
+
+/* =========================================================
+   V15 RUN
+   ========================================================= */
+
+if (document.readyState === "loading") {
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    v15Init
+  );
+
+} else {
+
+  v15Init();
+
+}
   // START
   // ============================================================
 

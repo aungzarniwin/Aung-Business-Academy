@@ -3231,6 +3231,62 @@ function init(){
 init();
 
 <script src="app.js"></script>
+```html
+<script>
+/* =========================================================
+   AUNG BUSINESS ACADEMY — CLICK FIX
+   Restore clickability without replacing existing app code
+   ========================================================= */
+
+(function () {
+  "use strict";
+
+  function unlockClicks() {
+    /* Remove accidental full-screen click blockers */
+    document.querySelectorAll(
+      ".overlay, .page-overlay, .click-overlay, .screen-overlay"
+    ).forEach(function (el) {
+      if (!el.classList.contains("modal-overlay")) {
+        el.style.pointerEvents = "none";
+      }
+    });
+
+    /* Keep normal app elements clickable */
+    document.querySelectorAll(
+      "button, a, .nav-item, .menu-item, [onclick]"
+    ).forEach(function (el) {
+      el.style.pointerEvents = "auto";
+      el.style.cursor = "pointer";
+    });
+
+    /* Make sidebar available */
+    var sidebar = document.querySelector(".sidebar");
+    if (sidebar) {
+      sidebar.style.pointerEvents = "auto";
+    }
+
+    /* Keep main content available */
+    var main = document.querySelector(".main-content");
+    if (main) {
+      main.style.pointerEvents = "auto";
+    }
+  }
+
+  /* Run after page loads */
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function () {
+      setTimeout(unlockClicks, 300);
+    });
+  } else {
+    setTimeout(unlockClicks, 300);
+  }
+
+  /* Run again if app dynamically changes the page */
+  setInterval(unlockClicks, 1500);
+
+})();
+</script>
+```
 
 </body>
 </html>

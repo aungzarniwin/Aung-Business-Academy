@@ -17062,6 +17062,3328 @@ if (document.readyState === "loading") {
   v15Init();
 
 }
+  /* =========================================================
+   AUNG BUSINESS ACADEMY
+   V15.3 SALESMAN INDIVIDUAL PERFORMANCE & ANALYTICS
+   ========================================================= */
+
+const V153_TEAM_KEY = "aung_business_academy_v153_salesmen";
+const V153_DAILY_KEY = "aung_business_academy_v153_daily_sales";
+const V153_SELECTED_KEY = "aung_business_academy_v153_selected_salesman";
+
+
+/* =========================================================
+   STORAGE HELPERS
+   ========================================================= */
+
+function v153Get(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch (e) {
+    return fallback;
+  }
+}
+
+function v153Set(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+function v153Num(value) {
+  const n = Number(value);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function v153Money(value) {
+  return new Intl.NumberFormat("en-US").format(
+    Math.round(v153Num(value))
+  );
+}
+
+function v153Percent(value) {
+  return `${v153Num(value).toFixed(1)}%`;
+}
+
+function v153Esc(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function v153Id() {
+  return "SP-" + Date.now() + "-" + Math.floor(Math.random() * 9999);
+}
+
+
+/* =========================================================
+   SALESMAN DATA
+   ========================================================= */
+
+function v153GetSalesmen() {
+  let salesmen = v153Get(V153_TEAM_KEY, []);
+
+  if (!Array.isArray(salesmen)) {
+    salesmen = [];
+  }
+
+  return salesmen;
+}
+
+function v153SaveSalesmen(data) {
+  v153Set(V153_TEAM_KEY, data);
+}
+
+function v153GetDailySales() {
+  let data = v153Get(V153_DAILY_KEY, []);
+
+  if (!Array.isArray(data)) {
+    data = [];
+  }
+
+  return data;
+}
+
+function v153SaveDailySales(data) {
+  v153Set(V153_DAILY_KEY, data);
+}
+
+
+/* =========================================================
+   BRIDGE OLD V15 TEAM DATA
+   ========================================================= */
+
+function v153ImportOldV15Team() {
+
+  const existing = v153GetSalesmen();
+
+  if (existing.length > 0) {
+    return existing;
+  }
+
+  let oldTeam = [];
+
+  try {
+    oldTeam = v15Get(V15_TEAM_KEY, []);
+  } catch (e) {
+    oldTeam = [];
+  }
+
+  if (!Array.isArray(oldTeam)) {
+    oldTeam = [];
+  }
+
+  const converted = oldTeam.map((person, index) => ({
+    id: person.id || `SP-OLD-${index + 1}`,
+    name: person.name || `Salesman ${index + 1}`,
+    target: v153Num(person.target),
+    actual: v153Num(person.actual),
+    previousMonthSales: v153Num(
+      person.previousMonthSales || person.previous || 0
+    ),
+    role: person.role || "Salesman",
+    territory: person.territory || "",
+    active: person.active !== false
+  }));
+
+  if (converted.length > 0) {
+    v153SaveSalesmen(converted);
+  }
+
+  return converted;
+}
+
+
+/* =========================================================
+   SALES CALCULATIONS
+   ========================================================= */
+
+function v153GetSalesmanMetrics(salesmanId) {
+
+  const salesmen = v153GetSalesmen();
+
+  const salesman = salesmen.find(
+    x => String(x.id) === String(salesmanId)
+  );
+
+  if (!salesman) {
+    return null;
+  }
+
+  const daily = v153GetDailySales().filter(
+    x => String(x.salesmanId) === String(salesmanId)
+  );
+
+  const target = v153Num(salesman.target);
+
+  let actual = v153Num(salesman.actual);
+
+  const dailyActual = daily.reduce(
+    (sum, item) => sum + v153Num(item.sales),
+    0
+  );
+
+  if (daily.length > 0) {
+    actual = dailyActual;
+  }
+
+  const previous = v153Num(
+    salesman.previousMonthSales
+  );
+
+  const achievement =
+    target > 0
+      ? (actual / target) * 100
+      : 0;
+
+  const gap = Math.max(target - actual, 0);
+
+  const growth =
+    previous > 0
+      ? ((actual - previous) / previous) * 100
+      : 0;
+
+  const workingDays = 26;
+
+  const uniqueDates = [
+    ...new Set(
+      daily
+        .map(x => x.date)
+        .filter(Boolean)
+    )
+  ].sort();
+
+  const daysPassed = Math.min(
+    workingDays,
+    Math.max(uniqueDates.length, 0)
+  );
+
+  const remainingDays = Math.max(
+    workingDays - daysPassed,
+    0
+  );
+
+  const dailyTarget =
+    target > 0
+      ? target / workingDays
+      : 0;
+
+  const dailyActual =
+    daysPassed > 0
+      ? actual / daysPassed
+      : 0;
+
+  const requiredDaily =
+    remainingDays > 0
+      ? gap / remainingDays
+      : gap;
+
+  const forecast =
+    dailyActual * workingDays;
+
+  const forecastAchievement =
+    target > 0
+      ? (forecast / target) * 100
+      : 0;
+
+  const visits = daily.reduce(
+    (sum, item) => sum + v153Num(item.visits),
+    0
+  );
+
+  const orders = daily.reduce(
+    (sum, item) => sum + v153Num(item.orders),
+    0
+  );
+
+  const collections = daily.reduce(
+    (sum, item) => sum + v153Num(item.collections),
+    0
+  );
+
+  const newCustomers = daily.reduce(
+    (sum, item) => sum + v153Num(item.newCustomers),
+    0
+  );
+
+  return {
+    salesman,
+    daily,
+    target,
+    actual,
+    previous,
+    achievement,
+    gap,
+    growth,
+    workingDays,
+    daysPassed,
+    remainingDays,
+    dailyTarget,
+    dailyActual,
+    requiredDaily,
+    forecast,
+    forecastAchievement,
+    visits,
+    orders,
+    collections,
+    newCustomers
+  };
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+function v153Status(achievement) {
+
+  if (achievement >= 100) {
+    return {
+      text: "Target Achieved",
+      className: "v153-success",
+      icon: "🏆"
+    };
+  }
+
+  if (achievement >= 80) {
+    return {
+      text: "On Track",
+      className: "v153-good",
+      icon: "🟢"
+    };
+  }
+
+  if (achievement >= 60) {
+    return {
+      text: "Needs Attention",
+      className: "v153-warning",
+      icon: "🟡"
+    };
+  }
+
+  return {
+    text: "Critical",
+    className: "v153-danger",
+    icon: "🔴"
+  };
+}
+
+
+/* =========================================================
+   MAIN SALESMAN MANAGEMENT
+   ========================================================= */
+
+function openV153Salesmen() {
+
+  if (typeof closeSidebarMobile === "function") {
+    closeSidebarMobile();
+  }
+
+  v153ImportOldV15Team();
+
+  if (typeof setPage === "function") {
+    setPage(
+      "Salesman Performance",
+      "Salesman တစ်ယောက်ချင်းစီ၏ Target, Actual, KPI နှင့် Performance ကို စီမံခန့်ခွဲပါ"
+    );
+  }
+
+  const salesmen = v153GetSalesmen();
+
+  const activeSalesmen = salesmen.filter(
+    x => x.active !== false
+  );
+
+  const totalTarget = activeSalesmen.reduce(
+    (sum, x) => sum + v153Num(x.target),
+    0
+  );
+
+  const totalActual = activeSalesmen.reduce(
+    (sum, x) => sum + v153Num(x.actual),
+    0
+  );
+
+  const achievement =
+    totalTarget > 0
+      ? (totalActual / totalTarget) * 100
+      : 0;
+
+  const html = `
+    <div class="v153-page">
+
+      <div class="v153-header">
+
+        <div>
+          <div class="v153-kicker">
+            SALES MANAGEMENT
+          </div>
+
+          <h2>
+            👥 Salesman Performance
+          </h2>
+
+          <p>
+            Salesman တစ်ယောက်ချင်းစီရဲ့ KPI နဲ့ Performance ကို ကြည့်နိုင်ပါတယ်
+          </p>
+        </div>
+
+        <button
+          class="primary-button"
+          onclick="openV153AddSalesman()"
+        >
+          ＋ Add Salesman
+        </button>
+
+      </div>
+
+
+      <div class="v153-summary-grid">
+
+        <div class="v153-summary-card">
+          <span>Total Salesmen</span>
+          <strong>${activeSalesmen.length}</strong>
+        </div>
+
+        <div class="v153-summary-card">
+          <span>Total Target</span>
+          <strong>${v153Money(totalTarget)}</strong>
+        </div>
+
+        <div class="v153-summary-card">
+          <span>Total Actual</span>
+          <strong>${v153Money(totalActual)}</strong>
+        </div>
+
+        <div class="v153-summary-card">
+          <span>Achievement</span>
+          <strong>${v153Percent(achievement)}</strong>
+        </div>
+
+      </div>
+
+
+      <div class="v153-toolbar">
+
+        <input
+          id="v153Search"
+          class="tool-input"
+          placeholder="🔎 Salesman ရှာရန်..."
+          oninput="v153RenderSalesmen()"
+        />
+
+        <select
+          id="v153StatusFilter"
+          class="tool-input"
+          onchange="v153RenderSalesmen()"
+        >
+          <option value="all">All Salesmen</option>
+          <option value="achieved">Target Achieved</option>
+          <option value="good">On Track</option>
+          <option value="warning">Needs Attention</option>
+          <option value="danger">Critical</option>
+        </select>
+
+      </div>
+
+
+      <div
+        id="v153SalesmanList"
+        class="v153-salesman-grid"
+      ></div>
+
+    </div>
+  `;
+
+  const container = document.getElementById("app");
+
+  if (container) {
+    container.innerHTML = html;
+  }
+
+  v153RenderSalesmen();
+}
+
+
+/* =========================================================
+   SALESMAN LIST
+   ========================================================= */
+
+function v153RenderSalesmen() {
+
+  const container = document.getElementById(
+    "v153SalesmanList"
+  );
+
+  if (!container) {
+    return;
+  }
+
+  const salesmen = v153GetSalesmen()
+    .filter(x => x.active !== false);
+
+  const search =
+    document.getElementById("v153Search")
+      ?.value
+      ?.toLowerCase()
+      ?.trim() || "";
+
+  const filter =
+    document.getElementById("v153StatusFilter")
+      ?.value || "all";
+
+  const filtered = salesmen.filter(person => {
+
+    const name = String(
+      person.name || ""
+    ).toLowerCase();
+
+    if (
+      search &&
+      !name.includes(search)
+    ) {
+      return false;
+    }
+
+    const metrics =
+      v153GetSalesmanMetrics(person.id);
+
+    const achievement =
+      metrics?.achievement || 0;
+
+    if (
+      filter === "achieved" &&
+      achievement < 100
+    ) {
+      return false;
+    }
+
+    if (
+      filter === "good" &&
+      (achievement < 80 ||
+       achievement >= 100)
+    ) {
+      return false;
+    }
+
+    if (
+      filter === "warning" &&
+      (achievement < 60 ||
+       achievement >= 80)
+    ) {
+      return false;
+    }
+
+    if (
+      filter === "danger" &&
+      achievement >= 60
+    ) {
+      return false;
+    }
+
+    return true;
+  });
+
+
+  if (filtered.length === 0) {
+
+    container.innerHTML = `
+      <div class="v153-empty">
+
+        <div class="v153-empty-icon">
+          👥
+        </div>
+
+        <h3>
+          Salesman မရှိသေးပါ
+        </h3>
+
+        <p>
+          Add Salesman ကိုနှိပ်ပြီး Salesman အသစ်ထည့်ပါ
+        </p>
+
+        <button
+          class="primary-button"
+          onclick="openV153AddSalesman()"
+        >
+          ＋ Add Salesman
+        </button>
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  const sorted = filtered.sort(
+    (a, b) => {
+
+      const ma =
+        v153GetSalesmanMetrics(a.id);
+
+      const mb =
+        v153GetSalesmanMetrics(b.id);
+
+      return (
+        (mb?.achievement || 0) -
+        (ma?.achievement || 0)
+      );
+    }
+  );
+
+
+  container.innerHTML = sorted
+    .map((person, index) =>
+      v153SalesmanCard(
+        person,
+        index + 1
+      )
+    )
+    .join("");
+}
+
+
+/* =========================================================
+   SALESMAN CARD
+   ========================================================= */
+
+function v153SalesmanCard(
+  person,
+  ranking
+) {
+
+  const m =
+    v153GetSalesmanMetrics(person.id);
+
+  const status =
+    v153Status(m.achievement);
+
+  const progress =
+    Math.min(
+      Math.max(m.achievement, 0),
+      100
+    );
+
+  return `
+    <div
+      class="v153-salesman-card"
+      onclick="openV153SalesmanDetail('${v153Esc(person.id)}')"
+    >
+
+      <div class="v153-card-top">
+
+        <div class="v153-avatar">
+          ${v153Esc(
+            String(person.name || "S")
+              .charAt(0)
+              .toUpperCase()
+          )}
+        </div>
+
+        <div class="v153-person-info">
+
+          <h3>
+            ${v153Esc(person.name)}
+          </h3>
+
+          <span>
+            ${v153Esc(
+              person.territory || "Sales Territory"
+            )}
+          </span>
+
+        </div>
+
+        <div class="v153-rank">
+          #${ranking}
+        </div>
+
+      </div>
+
+
+      <div class="v153-status ${status.className}">
+        ${status.icon}
+        ${status.text}
+      </div>
+
+
+      <div class="v153-progress">
+
+        <div class="v153-progress-label">
+
+          <span>
+            Achievement
+          </span>
+
+          <strong>
+            ${v153Percent(m.achievement)}
+          </strong>
+
+        </div>
+
+        <div class="v153-progress-track">
+
+          <div
+            class="v153-progress-fill"
+            style="width:${progress}%"
+          ></div>
+
+        </div>
+
+      </div>
+
+
+      <div class="v153-card-metrics">
+
+        <div>
+          <small>Target</small>
+          <strong>${v153Money(m.target)}</strong>
+        </div>
+
+        <div>
+          <small>Actual</small>
+          <strong>${v153Money(m.actual)}</strong>
+        </div>
+
+        <div>
+          <small>Gap</small>
+          <strong>${v153Money(m.gap)}</strong>
+        </div>
+
+        <div>
+          <small>Growth</small>
+          <strong>${v153Percent(m.growth)}</strong>
+        </div>
+
+      </div>
+
+
+      <div class="v153-card-footer">
+
+        <span>
+          📅 Daily Target:
+          ${v153Money(m.dailyTarget)}
+        </span>
+
+        <span>
+          →
+        </span>
+
+      </div>
+
+    </div>
+  `;
+}
+
+
+/* =========================================================
+   ADD SALESMAN
+   ========================================================= */
+
+function openV153AddSalesman() {
+
+  const html = `
+    <div class="v153-modal">
+
+      <h2>
+        ＋ Add Salesman
+      </h2>
+
+      <p>
+        Salesman အချက်အလက် ထည့်သွင်းပါ
+      </p>
+
+
+      <label>Name</label>
+
+      <input
+        id="v153Name"
+        class="tool-input"
+        placeholder="Salesman Name"
+      />
+
+
+      <label>Territory</label>
+
+      <input
+        id="v153Territory"
+        class="tool-input"
+        placeholder="Yangon / North / South..."
+      />
+
+
+      <label>Monthly Target</label>
+
+      <input
+        id="v153Target"
+        class="tool-input"
+        type="number"
+        placeholder="25000000"
+      />
+
+
+      <label>Previous Month Sales</label>
+
+      <input
+        id="v153Previous"
+        class="tool-input"
+        type="number"
+        placeholder="20000000"
+      />
+
+
+      <label>Role</label>
+
+      <input
+        id="v153Role"
+        class="tool-input"
+        value="Salesman"
+      />
+
+
+      <div class="v153-modal-actions">
+
+        <button
+          class="primary-button"
+          onclick="v153SaveNewSalesman()"
+        >
+          Save Salesman
+        </button>
+
+        <button
+          class="secondary-button"
+          onclick="closeModal()"
+        >
+          Cancel
+        </button>
+
+      </div>
+
+    </div>
+  `;
+
+  showModal(html);
+}
+
+
+function v153SaveNewSalesman() {
+
+  const name =
+    document.getElementById("v153Name")
+      ?.value
+      ?.trim();
+
+  if (!name) {
+    showToast("Salesman Name ထည့်ပါ");
+    return;
+  }
+
+  const salesmen =
+    v153GetSalesmen();
+
+  salesmen.push({
+
+    id: v153Id(),
+
+    name,
+
+    target: v153Num(
+      document.getElementById("v153Target")
+        ?.value
+    ),
+
+    actual: 0,
+
+    previousMonthSales:
+      v153Num(
+        document.getElementById("v153Previous")
+          ?.value
+      ),
+
+    role:
+      document.getElementById("v153Role")
+        ?.value
+        ?.trim() || "Salesman",
+
+    territory:
+      document.getElementById("v153Territory")
+        ?.value
+        ?.trim() || "",
+
+    active: true
+
+  });
+
+  v153SaveSalesmen(salesmen);
+
+  closeModal();
+
+  openV153Salesmen();
+
+  showToast(
+    "Salesman successfully added"
+  );
+}
+
+
+/* =========================================================
+   SALESMAN DETAIL
+   ========================================================= */
+
+function openV153SalesmanDetail(
+  salesmanId
+) {
+
+  v153Set(
+    V153_SELECTED_KEY,
+    salesmanId
+  );
+
+  const m =
+    v153GetSalesmanMetrics(
+      salesmanId
+    );
+
+  if (!m) {
+    showToast(
+      "Salesman data မတွေ့ပါ"
+    );
+    return;
+  }
+
+  const status =
+    v153Status(
+      m.achievement
+    );
+
+
+  if (typeof setPage === "function") {
+    setPage(
+      `${m.salesman.name} - Performance`,
+      "Individual Salesman Performance Dashboard"
+    );
+  }
+
+
+  const dailyRows =
+    [...m.daily]
+      .sort(
+        (a, b) =>
+          String(b.date)
+            .localeCompare(
+              String(a.date)
+            )
+      )
+      .slice(0, 10);
+
+
+  const html = `
+    <div class="v153-page">
+
+      <div class="v153-detail-header">
+
+        <button
+          class="secondary-button"
+          onclick="openV153Salesmen()"
+        >
+          ← Back to Sales Team
+        </button>
+
+        <div class="v153-detail-person">
+
+          <div class="v153-big-avatar">
+            ${v153Esc(
+              String(m.salesman.name)
+                .charAt(0)
+                .toUpperCase()
+            )}
+          </div>
+
+          <div>
+
+            <h2>
+              ${v153Esc(m.salesman.name)}
+            </h2>
+
+            <p>
+              ${v153Esc(
+                m.salesman.role || "Salesman"
+              )}
+              ${
+                m.salesman.territory
+                  ? " · " +
+                    v153Esc(
+                      m.salesman.territory
+                    )
+                  : ""
+              }
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="v153-detail-actions">
+
+          <button
+            class="primary-button"
+            onclick="openV153DailyEntry('${v153Esc(m.salesman.id)}')"
+          >
+            ＋ Daily Sales
+          </button>
+
+          <button
+            class="secondary-button"
+            onclick="v153AskSalesmanAI('${v153Esc(m.salesman.id)}')"
+          >
+            🤖 AI Analysis
+          </button>
+
+          <button
+            class="secondary-button"
+            onclick="openV153EditSalesman('${v153Esc(m.salesman.id)}')"
+          >
+            ✏️ Edit
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="v153-status-banner ${status.className}">
+
+        <strong>
+          ${status.icon}
+          ${status.text}
+        </strong>
+
+        <span>
+          ${v153Percent(m.achievement)}
+          of monthly target achieved
+        </span>
+
+      </div>
+
+
+      <div class="v153-summary-grid">
+
+        <div class="v153-kpi-card">
+          <span>🎯 Target</span>
+          <strong>${v153Money(m.target)}</strong>
+        </div>
+
+        <div class="v153-kpi-card">
+          <span>💰 Actual</span>
+          <strong>${v153Money(m.actual)}</strong>
+        </div>
+
+        <div class="v153-kpi-card">
+          <span>📊 Achievement</span>
+          <strong>${v153Percent(m.achievement)}</strong>
+        </div>
+
+        <div class="v153-kpi-card">
+          <span>🔻 Gap</span>
+          <strong>${v153Money(m.gap)}</strong>
+        </div>
+
+        <div class="v153-kpi-card">
+          <span>📈 Growth</span>
+          <strong>${v153Percent(m.growth)}</strong>
+        </div>
+
+        <div class="v153-kpi-card">
+          <span>🔥 Required Daily</span>
+          <strong>${v153Money(m.requiredDaily)}</strong>
+        </div>
+
+        <div class="v153-kpi-card">
+          <span>📅 Daily Target</span>
+          <strong>${v153Money(m.dailyTarget)}</strong>
+        </div>
+
+        <div class="v153-kpi-card">
+          <span>🔮 Forecast</span>
+          <strong>${v153Money(m.forecast)}</strong>
+        </div>
+
+      </div>
+
+
+      <div class="v153-section">
+
+        <div class="v153-section-title">
+          📊 Performance Analysis
+        </div>
+
+        <div class="v153-analysis-grid">
+
+          <div class="v153-analysis-box">
+
+            <span>
+              Daily Average
+            </span>
+
+            <strong>
+              ${v153Money(m.dailyActual)}
+            </strong>
+
+          </div>
+
+          <div class="v153-analysis-box">
+
+            <span>
+              Remaining Days
+            </span>
+
+            <strong>
+              ${m.remainingDays}
+            </strong>
+
+          </div>
+
+          <div class="v153-analysis-box">
+
+            <span>
+              Forecast Achievement
+            </span>
+
+            <strong>
+              ${v153Percent(
+                m.forecastAchievement
+              )}
+            </strong>
+
+          </div>
+
+          <div class="v153-analysis-box">
+
+            <span>
+              Customer Visits
+            </span>
+
+            <strong>
+              ${m.visits}
+            </strong>
+
+          </div>
+
+          <div class="v153-analysis-box">
+
+            <span>
+              Orders
+            </span>
+
+            <strong>
+              ${m.orders}
+            </strong>
+
+          </div>
+
+          <div class="v153-analysis-box">
+
+            <span>
+              New Customers
+            </span>
+
+            <strong>
+              ${m.newCustomers}
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="v153-chart-grid">
+
+        <div class="v153-chart-card">
+
+          <h3>
+            🎯 Target vs Actual
+          </h3>
+
+          <div
+            id="v153TargetActualChart"
+          ></div>
+
+        </div>
+
+
+        <div class="v153-chart-card">
+
+          <h3>
+            📈 Daily Sales Trend
+          </h3>
+
+          <div
+            id="v153DailyChart"
+          ></div>
+
+        </div>
+
+
+        <div class="v153-chart-card">
+
+          <h3>
+            📊 Cumulative Target vs Actual
+          </h3>
+
+          <div
+            id="v153CumulativeChart"
+          ></div>
+
+        </div>
+
+
+        <div class="v153-chart-card">
+
+          <h3>
+            📈 Monthly Growth
+          </h3>
+
+          <div
+            id="v153GrowthChart"
+          ></div>
+
+        </div>
+
+      </div>
+
+
+      <div class="v153-section">
+
+        <div class="v153-section-title">
+          📅 Recent Daily Sales
+        </div>
+
+        ${
+          dailyRows.length
+            ? `
+              <div class="v153-table-wrap">
+
+                <table class="v153-table">
+
+                  <thead>
+
+                    <tr>
+                      <th>Date</th>
+                      <th>Sales</th>
+                      <th>Target</th>
+                      <th>Visits</th>
+                      <th>Orders</th>
+                      <th>Collection</th>
+                    </tr>
+
+                  </thead>
+
+                  <tbody>
+
+                    ${dailyRows
+                      .map(
+                        row => `
+                        <tr>
+
+                          <td>
+                            ${v153Esc(row.date)}
+                          </td>
+
+                          <td>
+                            ${v153Money(row.sales)}
+                          </td>
+
+                          <td>
+                            ${v153Money(row.target)}
+                          </td>
+
+                          <td>
+                            ${v153Num(row.visits)}
+                          </td>
+
+                          <td>
+                            ${v153Num(row.orders)}
+                          </td>
+
+                          <td>
+                            ${v153Money(row.collections)}
+                          </td>
+
+                        </tr>
+                      `
+                      )
+                      .join("")}
+
+                  </tbody>
+
+                </table>
+
+              </div>
+            `
+            : `
+              <div class="v153-no-data">
+                Daily sales data မထည့်ရသေးပါ
+              </div>
+            `
+        }
+
+      </div>
+
+
+      <div
+        id="v153AIResult"
+        class="v153-ai-result"
+      ></div>
+
+    </div>
+  `;
+
+
+  const container =
+    document.getElementById("app");
+
+  if (container) {
+    container.innerHTML = html;
+  }
+
+
+  setTimeout(() => {
+
+    v153RenderTargetActualChart(m);
+
+    v153RenderDailyChart(m);
+
+    v153RenderCumulativeChart(m);
+
+    v153RenderGrowthChart(m);
+
+  }, 50);
+}
+
+
+/* =========================================================
+   DAILY ENTRY
+   ========================================================= */
+
+function openV153DailyEntry(
+  salesmanId
+) {
+
+  const m =
+    v153GetSalesmanMetrics(
+      salesmanId
+    );
+
+  if (!m) {
+    return;
+  }
+
+  showModal(`
+
+    <div class="v153-modal">
+
+      <h2>
+        📅 Daily Sales Entry
+      </h2>
+
+      <p>
+        ${v153Esc(m.salesman.name)}
+      </p>
+
+
+      <label>Date</label>
+
+      <input
+        id="v153DailyDate"
+        class="tool-input"
+        type="date"
+        value="${new Date()
+          .toISOString()
+          .slice(0,10)}"
+      />
+
+
+      <label>Daily Sales</label>
+
+      <input
+        id="v153DailySales"
+        class="tool-input"
+        type="number"
+        placeholder="Sales Amount"
+      />
+
+
+      <label>Daily Target</label>
+
+      <input
+        id="v153DailyTarget"
+        class="tool-input"
+        type="number"
+        value="${Math.round(
+          m.dailyTarget
+        )}"
+      />
+
+
+      <label>Customer Visits</label>
+
+      <input
+        id="v153DailyVisits"
+        class="tool-input"
+        type="number"
+        value="0"
+      />
+
+
+      <label>Orders</label>
+
+      <input
+        id="v153DailyOrders"
+        class="tool-input"
+        type="number"
+        value="0"
+      />
+
+
+      <label>Collections</label>
+
+      <input
+        id="v153DailyCollections"
+        class="tool-input"
+        type="number"
+        value="0"
+      />
+
+
+      <label>New Customers</label>
+
+      <input
+        id="v153DailyNewCustomers"
+        class="tool-input"
+        type="number"
+        value="0"
+      />
+
+
+      <label>Notes</label>
+
+      <textarea
+        id="v153DailyNotes"
+        class="tool-input"
+        rows="3"
+        placeholder="Today's market / customer notes"
+      ></textarea>
+
+
+      <div class="v153-modal-actions">
+
+        <button
+          class="primary-button"
+          onclick="v153SaveDailyEntry('${v153Esc(salesmanId)}')"
+        >
+          Save Daily KPI
+        </button>
+
+        <button
+          class="secondary-button"
+          onclick="closeModal()"
+        >
+          Cancel
+        </button>
+
+      </div>
+
+    </div>
+
+  `);
+}
+
+
+function v153SaveDailyEntry(
+  salesmanId
+) {
+
+  const date =
+    document.getElementById(
+      "v153DailyDate"
+    )?.value;
+
+  const sales =
+    v153Num(
+      document.getElementById(
+        "v153DailySales"
+      )?.value
+    );
+
+  if (!date) {
+    showToast("Date ထည့်ပါ");
+    return;
+  }
+
+  const daily =
+    v153GetDailySales();
+
+  const existingIndex =
+    daily.findIndex(
+      x =>
+        String(x.salesmanId) ===
+          String(salesmanId) &&
+        String(x.date) ===
+          String(date)
+    );
+
+  const record = {
+
+    id:
+      existingIndex >= 0
+        ? daily[existingIndex].id
+        : v153Id(),
+
+    salesmanId,
+
+    date,
+
+    sales,
+
+    target:
+      v153Num(
+        document.getElementById(
+          "v153DailyTarget"
+        )?.value
+      ),
+
+    visits:
+      v153Num(
+        document.getElementById(
+          "v153DailyVisits"
+        )?.value
+      ),
+
+    orders:
+      v153Num(
+        document.getElementById(
+          "v153DailyOrders"
+        )?.value
+      ),
+
+    collections:
+      v153Num(
+        document.getElementById(
+          "v153DailyCollections"
+        )?.value
+      ),
+
+    newCustomers:
+      v153Num(
+        document.getElementById(
+          "v153DailyNewCustomers"
+        )?.value
+      ),
+
+    notes:
+      document.getElementById(
+        "v153DailyNotes"
+      )?.value || ""
+
+  };
+
+
+  if (existingIndex >= 0) {
+    daily[existingIndex] = record;
+  } else {
+    daily.push(record);
+  }
+
+
+  v153SaveDailySales(daily);
+
+  closeModal();
+
+  openV153SalesmanDetail(
+    salesmanId
+  );
+
+  showToast(
+    "Daily KPI saved successfully"
+  );
+}
+
+
+/* =========================================================
+   EDIT SALESMAN
+   ========================================================= */
+
+function openV153EditSalesman(
+  salesmanId
+) {
+
+  const salesmen =
+    v153GetSalesmen();
+
+  const person =
+    salesmen.find(
+      x =>
+        String(x.id) ===
+        String(salesmanId)
+    );
+
+  if (!person) {
+    return;
+  }
+
+  showModal(`
+
+    <div class="v153-modal">
+
+      <h2>
+        ✏️ Edit Salesman
+      </h2>
+
+
+      <label>Name</label>
+
+      <input
+        id="v153EditName"
+        class="tool-input"
+        value="${v153Esc(person.name)}"
+      />
+
+
+      <label>Territory</label>
+
+      <input
+        id="v153EditTerritory"
+        class="tool-input"
+        value="${v153Esc(
+          person.territory || ""
+        )}"
+      />
+
+
+      <label>Monthly Target</label>
+
+      <input
+        id="v153EditTarget"
+        class="tool-input"
+        type="number"
+        value="${v153Num(
+          person.target
+        )}"
+      />
+
+
+      <label>Previous Month Sales</label>
+
+      <input
+        id="v153EditPrevious"
+        class="tool-input"
+        type="number"
+        value="${v153Num(
+          person.previousMonthSales
+        )}"
+      />
+
+
+      <label>Role</label>
+
+      <input
+        id="v153EditRole"
+        class="tool-input"
+        value="${v153Esc(
+          person.role || "Salesman"
+        )}"
+      />
+
+
+      <div class="v153-modal-actions">
+
+        <button
+          class="primary-button"
+          onclick="v153UpdateSalesman('${v153Esc(salesmanId)}')"
+        >
+          Save Changes
+        </button>
+
+        <button
+          class="secondary-button"
+          onclick="closeModal()"
+        >
+          Cancel
+        </button>
+
+      </div>
+
+    </div>
+
+  `);
+}
+
+
+function v153UpdateSalesman(
+  salesmanId
+) {
+
+  const salesmen =
+    v153GetSalesmen();
+
+  const index =
+    salesmen.findIndex(
+      x =>
+        String(x.id) ===
+        String(salesmanId)
+    );
+
+  if (index < 0) {
+    return;
+  }
+
+  salesmen[index].name =
+    document.getElementById(
+      "v153EditName"
+    )?.value
+      ?.trim() || salesmen[index].name;
+
+  salesmen[index].territory =
+    document.getElementById(
+      "v153EditTerritory"
+    )?.value
+      ?.trim() || "";
+
+  salesmen[index].target =
+    v153Num(
+      document.getElementById(
+        "v153EditTarget"
+      )?.value
+    );
+
+  salesmen[index].previousMonthSales =
+    v153Num(
+      document.getElementById(
+        "v153EditPrevious"
+      )?.value
+    );
+
+  salesmen[index].role =
+    document.getElementById(
+      "v153EditRole"
+    )?.value
+      ?.trim() || "Salesman";
+
+  v153SaveSalesmen(
+    salesmen
+  );
+
+  closeModal();
+
+  openV153SalesmanDetail(
+    salesmanId
+  );
+
+  showToast(
+    "Salesman updated"
+  );
+}
+
+
+/* =========================================================
+   SVG CHART HELPERS
+   ========================================================= */
+
+function v153EmptyChart(
+  message
+) {
+
+  return `
+    <div class="v153-chart-empty">
+      ${v153Esc(message)}
+    </div>
+  `;
+}
+
+
+/* =========================================================
+   TARGET VS ACTUAL CHART
+   ========================================================= */
+
+function v153RenderTargetActualChart(m) {
+
+  const box =
+    document.getElementById(
+      "v153TargetActualChart"
+    );
+
+  if (!box) {
+    return;
+  }
+
+  const max =
+    Math.max(
+      m.target,
+      m.actual,
+      1
+    );
+
+  const targetWidth =
+    (m.target / max) * 100;
+
+  const actualWidth =
+    (m.actual / max) * 100;
+
+  box.innerHTML = `
+
+    <div class="v153-bar-row">
+
+      <div class="v153-bar-label">
+        Target
+      </div>
+
+      <div class="v153-bar-track">
+
+        <div
+          class="v153-bar-target"
+          style="width:${targetWidth}%"
+        ></div>
+
+      </div>
+
+      <strong>
+        ${v153Money(m.target)}
+      </strong>
+
+    </div>
+
+
+    <div class="v153-bar-row">
+
+      <div class="v153-bar-label">
+        Actual
+      </div>
+
+      <div class="v153-bar-track">
+
+        <div
+          class="v153-bar-actual"
+          style="width:${actualWidth}%"
+        ></div>
+
+      </div>
+
+      <strong>
+        ${v153Money(m.actual)}
+      </strong>
+
+    </div>
+
+  `;
+}
+
+
+/* =========================================================
+   DAILY SALES TREND
+   ========================================================= */
+
+function v153RenderDailyChart(m) {
+
+  const box =
+    document.getElementById(
+      "v153DailyChart"
+    );
+
+  if (!box) {
+    return;
+  }
+
+  const rows =
+    [...m.daily]
+      .sort(
+        (a,b) =>
+          String(a.date)
+            .localeCompare(
+              String(b.date)
+            )
+      )
+      .slice(-14);
+
+
+  if (!rows.length) {
+
+    box.innerHTML =
+      v153EmptyChart(
+        "Daily data မထည့်ရသေးပါ"
+      );
+
+    return;
+  }
+
+
+  const width = 520;
+  const height = 220;
+
+  const max =
+    Math.max(
+      ...rows.map(
+        x => v153Num(x.sales)
+      ),
+      1
+    );
+
+  const points =
+    rows.map(
+      (row, index) => {
+
+        const x =
+          25 +
+          index *
+          (
+            (width - 50) /
+            Math.max(rows.length - 1,1)
+          );
+
+        const y =
+          height -
+          25 -
+          (
+            v153Num(row.sales) /
+            max
+          ) *
+          160;
+
+        return `${x},${y}`;
+      }
+    )
+    .join(" ");
+
+
+  box.innerHTML = `
+
+    <svg
+      viewBox="0 0 ${width} ${height}"
+      class="v153-svg"
+      preserveAspectRatio="none"
+    >
+
+      <polyline
+        points="${points}"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="4"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+
+    </svg>
+
+    <div class="v153-chart-caption">
+      Last ${rows.length} recorded days
+    </div>
+
+  `;
+}
+
+
+/* =========================================================
+   CUMULATIVE CHART
+   ========================================================= */
+
+function v153RenderCumulativeChart(m) {
+
+  const box =
+    document.getElementById(
+      "v153CumulativeChart"
+    );
+
+  if (!box) {
+    return;
+  }
+
+  const rows =
+    [...m.daily]
+      .sort(
+        (a,b) =>
+          String(a.date)
+            .localeCompare(
+              String(b.date)
+            )
+      );
+
+
+  if (!rows.length) {
+
+    box.innerHTML =
+      v153EmptyChart(
+        "Daily data မထည့်ရသေးပါ"
+      );
+
+    return;
+  }
+
+
+  let cumulativeActual = 0;
+
+  const pointsActual = [];
+
+  const pointsTarget = [];
+
+  const width = 520;
+
+  const height = 220;
+
+  const max =
+    Math.max(
+      m.target,
+      rows.reduce(
+        (sum, x) =>
+          sum + v153Num(x.sales),
+        0
+      ),
+      1
+    );
+
+
+  rows.forEach(
+    (row,index) => {
+
+      cumulativeActual +=
+        v153Num(row.sales);
+
+      const cumulativeTarget =
+        m.dailyTarget *
+        (index + 1);
+
+      const x =
+        25 +
+        index *
+        (
+          (width - 50) /
+          Math.max(rows.length - 1,1)
+        );
+
+      const yActual =
+        height -
+        25 -
+        (
+          cumulativeActual /
+          max
+        ) *
+        160;
+
+      const yTarget =
+        height -
+        25 -
+        (
+          cumulativeTarget /
+          max
+        ) *
+        160;
+
+      pointsActual.push(
+        `${x},${yActual}`
+      );
+
+      pointsTarget.push(
+        `${x},${yTarget}`
+      );
+
+    }
+  );
+
+
+  box.innerHTML = `
+
+    <svg
+      viewBox="0 0 ${width} ${height}"
+      class="v153-svg"
+      preserveAspectRatio="none"
+    >
+
+      <polyline
+        points="${pointsTarget.join(" ")}"
+        fill="none"
+        stroke="currentColor"
+        stroke-opacity=".35"
+        stroke-width="3"
+        stroke-dasharray="8 6"
+      />
+
+      <polyline
+        points="${pointsActual.join(" ")}"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="4"
+      />
+
+    </svg>
+
+    <div class="v153-chart-caption">
+      Actual vs cumulative target
+    </div>
+
+  `;
+}
+
+
+/* =========================================================
+   GROWTH CHART
+   ========================================================= */
+
+function v153RenderGrowthChart(m) {
+
+  const box =
+    document.getElementById(
+      "v153GrowthChart"
+    );
+
+  if (!box) {
+    return;
+  }
+
+  const growth =
+    m.growth;
+
+  const width =
+    Math.min(
+      Math.abs(growth),
+      100
+    );
+
+
+  box.innerHTML = `
+
+    <div class="v153-growth-value">
+
+      <strong>
+        ${v153Percent(growth)}
+      </strong>
+
+      <span>
+        vs previous month
+      </span>
+
+    </div>
+
+
+    <div class="v153-growth-track">
+
+      <div
+        class="v153-growth-fill"
+        style="width:${width}%"
+      ></div>
+
+    </div>
+
+  `;
+}
+
+
+/* =========================================================
+   TEAM RANKING
+   ========================================================= */
+
+function openV153TeamRanking() {
+
+  const salesmen =
+    v153GetSalesmen()
+      .filter(x => x.active !== false)
+      .sort(
+        (a,b) => {
+
+          const ma =
+            v153GetSalesmanMetrics(a.id);
+
+          const mb =
+            v153GetSalesmanMetrics(b.id);
+
+          return (
+            (mb?.achievement || 0) -
+            (ma?.achievement || 0)
+          );
+
+        }
+      );
+
+
+  showModal(`
+
+    <div class="v153-ranking-modal">
+
+      <h2>
+        🏆 Salesman Ranking
+      </h2>
+
+      <p>
+        Achievement အလိုက် Salesman Performance Ranking
+      </p>
+
+
+      <div class="v153-ranking-list">
+
+        ${
+          salesmen.length
+            ? salesmen
+                .map(
+                  (person,index) => {
+
+                    const m =
+                      v153GetSalesmanMetrics(
+                        person.id
+                      );
+
+                    const status =
+                      v153Status(
+                        m.achievement
+                      );
+
+                    return `
+
+                      <div
+                        class="v153-ranking-row"
+                        onclick="closeModal();openV153SalesmanDetail('${v153Esc(person.id)}')"
+                      >
+
+                        <div class="v153-ranking-number">
+                          ${index + 1}
+                        </div>
+
+                        <div class="v153-ranking-name">
+                          ${v153Esc(person.name)}
+                        </div>
+
+                        <div class="v153-ranking-achievement">
+                          ${v153Percent(
+                            m.achievement
+                          )}
+                        </div>
+
+                        <div>
+                          ${status.icon}
+                        </div>
+
+                      </div>
+
+                    `;
+                  }
+                )
+                .join("")
+            : `
+              <div class="v153-no-data">
+                Salesman data မရှိသေးပါ
+              </div>
+            `
+        }
+
+      </div>
+
+    </div>
+
+  `);
+}
+
+
+/* =========================================================
+   AI SALESman ANALYSIS
+   ========================================================= */
+
+async function v153AskSalesmanAI(
+  salesmanId
+) {
+
+  const m =
+    v153GetSalesmanMetrics(
+      salesmanId
+    );
+
+  if (!m) {
+    return;
+  }
+
+  const result =
+    document.getElementById(
+      "v153AIResult"
+    );
+
+  if (result) {
+
+    result.innerHTML = `
+      <div class="v153-ai-loading">
+        🤖 AI Business Advisor စဉ်းစားနေပါတယ်...
+      </div>
+    `;
+
+    result.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
+  }
+
+
+  const prompt = `
+
+You are a professional Sales Manager AI Advisor.
+
+Analyze this individual salesperson performance.
+
+Salesman:
+${m.salesman.name}
+
+Territory:
+${m.salesman.territory || "Not specified"}
+
+Monthly Target:
+${m.target}
+
+Actual Sales:
+${m.actual}
+
+Achievement:
+${m.achievement.toFixed(1)}%
+
+Target Gap:
+${m.gap}
+
+Previous Month Sales:
+${m.previous}
+
+Growth:
+${m.growth.toFixed(1)}%
+
+Daily Target:
+${m.dailyTarget}
+
+Daily Average:
+${m.dailyActual}
+
+Required Daily:
+${m.requiredDaily}
+
+Remaining Days:
+${m.remainingDays}
+
+Forecast:
+${m.forecast}
+
+Forecast Achievement:
+${m.forecastAchievement.toFixed(1)}%
+
+Customer Visits:
+${m.visits}
+
+Orders:
+${m.orders}
+
+Collections:
+${m.collections}
+
+New Customers:
+${m.newCustomers}
+
+Please provide a detailed management report in Burmese.
+
+Use these sections:
+
+1. လက်ရှိ Performance အခြေအနေ
+2. KPI Analysis
+3. အားသာချက်များ
+4. အားနည်းချက်များ
+5. Root Cause ဖြစ်နိုင်ခြေများ
+6. ယနေ့လုပ်ရမည့် Sales Actions
+7. Customer Actions
+8. Daily KPI Targets
+9. နောက် 7 ရက် Action Plan
+10. Manager Follow-up Plan
+11. Target Achieve လုပ်ရန် အကြံပြုချက်
+12. Final Management Recommendation
+
+Give practical numbers and actions whenever possible.
+
+Do not give generic motivational advice.
+`;
+
+
+  try {
+
+    let answer = "";
+
+    if (
+      typeof v12SafeAIFetch ===
+      "function"
+    ) {
+
+      answer =
+        await v12SafeAIFetch(
+          prompt
+        );
+
+    } else {
+
+      const response =
+        await fetch(
+          typeof AI_API_URL !==
+          "undefined"
+            ? AI_API_URL
+            : "",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+            body: JSON.stringify({
+              message: prompt
+            })
+          }
+        );
+
+      if (!response.ok) {
+        throw new Error(
+          "AI server error"
+        );
+      }
+
+      const data =
+        await response.json();
+
+      answer =
+        data.reply ||
+        data.response ||
+        data.message ||
+        "";
+    }
+
+
+    if (!answer) {
+      throw new Error(
+        "No AI response"
+      );
+    }
+
+
+    if (result) {
+
+      result.innerHTML = `
+
+        <div class="v153-ai-header">
+          🤖 AI Business Advisor
+        </div>
+
+        <div class="v153-ai-body">
+          ${v153Esc(answer)
+            .replace(/\n/g,"<br>")}
+        </div>
+
+      `;
+
+    }
+
+  } catch (error) {
+
+    if (result) {
+
+      result.innerHTML = `
+
+        <div class="v153-ai-header">
+          🤖 AI Management Insight
+        </div>
+
+        <div class="v153-ai-body">
+
+          <strong>
+            ${v153Esc(m.salesman.name)}
+          </strong>
+          ၏ လက်ရှိ Achievement သည်
+          <strong>
+            ${v153Percent(m.achievement)}
+          </strong>
+          ဖြစ်ပါတယ်
+
+          <br><br>
+
+          Target သို့ရောက်ရန်
+          <strong>
+            ${v153Money(m.gap)}
+          </strong>
+          ထပ်မံရောင်းချရန်လိုအပ်ပါတယ်
+
+          <br><br>
+
+          Remaining Days:
+          <strong>
+            ${m.remainingDays}
+          </strong>
+
+          <br><br>
+
+          Required Daily Sales:
+          <strong>
+            ${v153Money(m.requiredDaily)}
+          </strong>
+
+          <br><br>
+
+          <strong>
+            နောက် 7 ရက်အတွက် အဓိကလုပ်ဆောင်ရန်
+          </strong>
+
+          <br>
+
+          1. High-value customers များကို Priority ပေးပါ
+
+          <br>
+
+          2. Daily customer visits ကို တိုးမြှင့်ပါ
+
+          <br>
+
+          3. Pending orders များကို Close လုပ်ပါ
+
+          <br>
+
+          4. Collection ကို Daily Follow-up လုပ်ပါ
+
+          <br>
+
+          5. Manager နဲ့ Daily KPI Review ပြုလုပ်ပါ
+
+        </div>
+
+      `;
+
+    }
+
+  }
+}
+
+
+/* =========================================================
+   ADD V15.3 BUTTONS
+   ========================================================= */
+
+function v153AddButtons() {
+
+  if (
+    document.getElementById(
+      "v153ManagementButtons"
+    )
+  ) {
+    return;
+  }
+
+
+  const box =
+    document.createElement("div");
+
+  box.id =
+    "v153ManagementButtons";
+
+  box.innerHTML = `
+
+    <div class="v153-floating-buttons">
+
+      <button
+        onclick="openV153Salesmen()"
+        title="Salesman Performance"
+      >
+        👥 Salesmen
+      </button>
+
+      <button
+        onclick="openV153TeamRanking()"
+        title="Salesman Ranking"
+      >
+        🏆 Ranking
+      </button>
+
+    </div>
+
+  `;
+
+  document.body.appendChild(box);
+}
+
+
+/* =========================================================
+   CSS
+   ========================================================= */
+
+function v153InjectStyles() {
+
+  if (
+    document.getElementById(
+      "v153Styles"
+    )
+  ) {
+    return;
+  }
+
+
+  const style =
+    document.createElement("style");
+
+  style.id =
+    "v153Styles";
+
+  style.textContent = `
+
+    .v153-page {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .v153-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .v153-kicker {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      opacity: .55;
+      margin-bottom: 6px;
+    }
+
+    .v153-header h2 {
+      margin: 0 0 6px;
+      font-size: 30px;
+    }
+
+    .v153-header p {
+      margin: 0;
+      opacity: .7;
+    }
+
+    .v153-summary-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(4, minmax(0,1fr));
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .v153-summary-card,
+    .v153-kpi-card {
+      background: var(--card-bg, #fff);
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.05);
+    }
+
+    .v153-summary-card span,
+    .v153-kpi-card span {
+      display: block;
+      font-size: 13px;
+      opacity: .65;
+      margin-bottom: 8px;
+    }
+
+    .v153-summary-card strong,
+    .v153-kpi-card strong {
+      display: block;
+      font-size: 24px;
+    }
+
+    .v153-toolbar {
+      display: grid;
+      grid-template-columns:
+        1fr 220px;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .v153-salesman-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(3,minmax(0,1fr));
+      gap: 18px;
+    }
+
+    .v153-salesman-card {
+      background: var(--card-bg,#fff);
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 18px;
+      padding: 20px;
+      cursor: pointer;
+      transition: .2s ease;
+      box-shadow: 0 8px 24px rgba(0,0,0,.05);
+    }
+
+    .v153-salesman-card:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        0 14px 34px rgba(0,0,0,.10);
+    }
+
+    .v153-card-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .v153-avatar,
+    .v153-big-avatar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-weight: 800;
+      background: #111827;
+      color: white;
+    }
+
+    .v153-avatar {
+      width: 46px;
+      height: 46px;
+    }
+
+    .v153-big-avatar {
+      width: 64px;
+      height: 64px;
+      font-size: 24px;
+    }
+
+    .v153-person-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .v153-person-info h3 {
+      margin: 0 0 4px;
+      font-size: 17px;
+    }
+
+    .v153-person-info span {
+      font-size: 12px;
+      opacity: .6;
+    }
+
+    .v153-rank {
+      font-weight: 800;
+      opacity: .6;
+    }
+
+    .v153-status {
+      display: inline-flex;
+      padding: 7px 11px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .v153-success {
+      background: rgba(34,197,94,.12);
+      color: #15803d;
+    }
+
+    .v153-good {
+      background: rgba(59,130,246,.12);
+      color: #2563eb;
+    }
+
+    .v153-warning {
+      background: rgba(245,158,11,.14);
+      color: #b45309;
+    }
+
+    .v153-danger {
+      background: rgba(239,68,68,.12);
+      color: #dc2626;
+    }
+
+    .v153-progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 7px;
+    }
+
+    .v153-progress-track {
+      height: 9px;
+      background: rgba(0,0,0,.08);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+
+    .v153-progress-fill {
+      height: 100%;
+      background: currentColor;
+      border-radius: inherit;
+      min-width: 2px;
+    }
+
+    .v153-card-metrics {
+      display: grid;
+      grid-template-columns:
+        repeat(2,1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .v153-card-metrics div {
+      padding: 11px;
+      background: rgba(0,0,0,.035);
+      border-radius: 10px;
+    }
+
+    .v153-card-metrics small {
+      display: block;
+      opacity: .55;
+      margin-bottom: 3px;
+    }
+
+    .v153-card-metrics strong {
+      font-size: 14px;
+    }
+
+    .v153-card-footer {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      opacity: .65;
+    }
+
+    .v153-empty,
+    .v153-no-data {
+      text-align: center;
+      padding: 50px 20px;
+      opacity: .7;
+    }
+
+    .v153-empty-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .v153-detail-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .v153-detail-person {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .v153-detail-person h2 {
+      margin: 0 0 4px;
+    }
+
+    .v153-detail-person p {
+      margin: 0;
+      opacity: .6;
+    }
+
+    .v153-detail-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .v153-status-banner {
+      padding: 16px 20px;
+      border-radius: 14px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .v153-kpi-card {
+      padding: 17px;
+    }
+
+    .v153-section {
+      margin-top: 22px;
+    }
+
+    .v153-section-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .v153-analysis-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(3,1fr);
+      gap: 14px;
+    }
+
+    .v153-analysis-box {
+      background: var(--card-bg,#fff);
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 14px;
+      padding: 17px;
+    }
+
+    .v153-analysis-box span {
+      display: block;
+      opacity: .6;
+      font-size: 12px;
+      margin-bottom: 7px;
+    }
+
+    .v153-analysis-box strong {
+      font-size: 20px;
+    }
+
+    .v153-chart-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(2,1fr);
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .v153-chart-card {
+      background: var(--card-bg,#fff);
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 16px;
+      padding: 20px;
+      min-height: 260px;
+    }
+
+    .v153-chart-card h3 {
+      margin: 0 0 20px;
+      font-size: 16px;
+    }
+
+    .v153-bar-row {
+      display: grid;
+      grid-template-columns:
+        70px 1fr 100px;
+      gap: 10px;
+      align-items: center;
+      margin: 28px 0;
+    }
+
+    .v153-bar-track {
+      height: 25px;
+      background: rgba(0,0,0,.07);
+      border-radius: 7px;
+      overflow: hidden;
+    }
+
+    .v153-bar-target,
+    .v153-bar-actual {
+      height: 100%;
+      border-radius: 7px;
+      background: currentColor;
+    }
+
+    .v153-svg {
+      width: 100%;
+      height: 190px;
+      overflow: visible;
+    }
+
+    .v153-chart-caption {
+      text-align: center;
+      font-size: 12px;
+      opacity: .55;
+      margin-top: 8px;
+    }
+
+    .v153-chart-empty {
+      min-height: 190px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: .55;
+    }
+
+    .v153-growth-value {
+      text-align: center;
+      padding: 30px 0 20px;
+    }
+
+    .v153-growth-value strong {
+      display: block;
+      font-size: 42px;
+      margin-bottom: 8px;
+    }
+
+    .v153-growth-value span {
+      opacity: .6;
+    }
+
+    .v153-growth-track {
+      height: 20px;
+      background: rgba(0,0,0,.08);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .v153-growth-fill {
+      height: 100%;
+      background: currentColor;
+      border-radius: inherit;
+    }
+
+    .v153-table-wrap {
+      overflow-x: auto;
+    }
+
+    .v153-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 700px;
+      background: var(--card-bg,#fff);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .v153-table th,
+    .v153-table td {
+      padding: 13px 14px;
+      border-bottom: 1px solid rgba(0,0,0,.07);
+      text-align: left;
+      font-size: 13px;
+    }
+
+    .v153-table th {
+      font-weight: 800;
+      background: rgba(0,0,0,.035);
+    }
+
+    .v153-ai-result {
+      margin-top: 22px;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .v153-ai-header {
+      padding: 16px 20px;
+      font-weight: 800;
+      background: rgba(0,0,0,.06);
+    }
+
+    .v153-ai-body {
+      padding: 20px;
+      line-height: 1.8;
+      background: var(--card-bg,#fff);
+      border: 1px solid rgba(0,0,0,.08);
+    }
+
+    .v153-ai-loading {
+      padding: 25px;
+      text-align: center;
+      background: var(--card-bg,#fff);
+      border-radius: 14px;
+    }
+
+    .v153-modal {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .v153-modal h2 {
+      margin-top: 0;
+    }
+
+    .v153-modal label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      margin: 13px 0 6px;
+      opacity: .7;
+    }
+
+    .v153-modal-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .v153-ranking-modal {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .v153-ranking-list {
+      margin-top: 20px;
+    }
+
+    .v153-ranking-row {
+      display: grid;
+      grid-template-columns:
+        45px 1fr 100px 40px;
+      gap: 12px;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid rgba(0,0,0,.08);
+      cursor: pointer;
+    }
+
+    .v153-ranking-number {
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .v153-ranking-name {
+      font-weight: 700;
+    }
+
+    .v153-ranking-achievement {
+      text-align: right;
+      font-weight: 800;
+    }
+
+    .v153-floating-buttons {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 9990;
+      display: flex;
+      gap: 8px;
+      flex-direction: column;
+    }
+
+    .v153-floating-buttons button {
+      border: none;
+      border-radius: 999px;
+      padding: 11px 16px;
+      background: #111827;
+      color: #fff;
+      cursor: pointer;
+      font-weight: 700;
+      box-shadow:
+        0 8px 25px rgba(0,0,0,.2);
+    }
+
+    @media(max-width:1100px) {
+
+      .v153-salesman-grid {
+        grid-template-columns:
+          repeat(2,minmax(0,1fr));
+      }
+
+      .v153-summary-grid {
+        grid-template-columns:
+          repeat(2,minmax(0,1fr));
+      }
+
+    }
+
+    @media(max-width:800px) {
+
+      .v153-page {
+        padding: 16px;
+      }
+
+      .v153-header {
+        flex-direction: column;
+      }
+
+      .v153-salesman-grid,
+      .v153-chart-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .v153-analysis-grid {
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+      .v153-toolbar {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+    @media(max-width:520px) {
+
+      .v153-summary-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .v153-summary-card,
+      .v153-kpi-card {
+        padding: 14px;
+      }
+
+      .v153-summary-card strong,
+      .v153-kpi-card strong {
+        font-size: 18px;
+      }
+
+      .v153-analysis-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .v153-detail-actions {
+        width: 100%;
+      }
+
+      .v153-detail-actions button {
+        flex: 1;
+      }
+
+      .v153-bar-row {
+        grid-template-columns:
+          55px 1fr 75px;
+      }
+
+      .v153-floating-buttons {
+        right: 12px;
+        bottom: 12px;
+      }
+
+      .v153-floating-buttons button {
+        font-size: 11px;
+        padding: 9px 12px;
+      }
+
+    }
+
+  `;
+
+  document.head.appendChild(style);
+}
+
+
+/* =========================================================
+   SIDEBAR BUTTON
+   ========================================================= */
+
+function v153AddSidebarButton() {
+
+  const sidebar =
+    document.querySelector(
+      ".sidebar"
+    );
+
+  if (!sidebar) {
+    return;
+  }
+
+  if (
+    document.getElementById(
+      "v153SidebarButton"
+    )
+  ) {
+    return;
+  }
+
+
+  const button =
+    document.createElement("button");
+
+  button.id =
+    "v153SidebarButton";
+
+  button.className =
+    "nav-item";
+
+  button.innerHTML =
+    "👥 Salesman Performance";
+
+  button.onclick =
+    openV153Salesmen;
+
+
+  sidebar.appendChild(button);
+}
+
+
+/* =========================================================
+   INIT
+   ========================================================= */
+
+function v153Init() {
+
+  v153ImportOldV15Team();
+
+  v153InjectStyles();
+
+  v153AddButtons();
+
+  v153AddSidebarButton();
+}
+
+
+if (
+  document.readyState ===
+  "loading"
+) {
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+      setTimeout(
+        v153Init,
+        1200
+      );
+    }
+  );
+
+} else {
+
+  setTimeout(
+    v153Init,
+    1200
+  );
+
+}
+
+
+/* =========================================================
+   GLOBAL EXPORTS
+   ========================================================= */
+
+window.openV153Salesmen =
+  openV153Salesmen;
+
+window.openV153AddSalesman =
+  openV153AddSalesman;
+
+window.v153SaveNewSalesman =
+  v153SaveNewSalesman;
+
+window.openV153SalesmanDetail =
+  openV153SalesmanDetail;
+
+window.openV153DailyEntry =
+  openV153DailyEntry;
+
+window.v153SaveDailyEntry =
+  v153SaveDailyEntry;
+
+window.openV153EditSalesman =
+  openV153EditSalesman;
+
+window.v153UpdateSalesman =
+  v153UpdateSalesman;
+
+window.openV153TeamRanking =
+  openV153TeamRanking;
+
+window.v153AskSalesmanAI =
+  v153AskSalesmanAI;
+
+window.v153RenderSalesmen =
+  v153RenderSalesmen;
   // START
   // ============================================================
 

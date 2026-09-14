@@ -25121,3 +25121,2703 @@ if (
   }
 
 })();
+// ============================================================
+// AUNG BUSINESS ACADEMY
+// V16 PROFESSIONAL ACADEMY CORE
+// Lesson -> Practice -> Tool -> KPI -> AI
+// ============================================================
+
+(function () {
+  "use strict";
+
+  const V16_KEY = "aung_business_academy_v16_professional";
+  const V16_GOAL_KEY = "aung_business_academy_v16_goals";
+  const V16_PRACTICE_KEY = "aung_business_academy_v16_practice";
+
+  // ------------------------------------------------------------
+  // STORAGE
+  // ------------------------------------------------------------
+
+  function v16Get(key, fallback) {
+    try {
+      const value = localStorage.getItem(key);
+      return value ? JSON.parse(value) : fallback;
+    } catch (error) {
+      console.warn("V16 storage read error:", error);
+      return fallback;
+    }
+  }
+
+  function v16Set(key, value) {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch (error) {
+      console.warn("V16 storage write error:", error);
+      return false;
+    }
+  }
+
+  function v16Esc(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function v16Money(value) {
+    const n = Number(value || 0);
+    return n.toLocaleString("en-US") + " Ks";
+  }
+
+  function v16Num(value) {
+    const n = Number(value);
+    return Number.isFinite(n) ? n : 0;
+  }
+
+  function v16Percent(value) {
+    return v16Num(value).toFixed(1) + "%";
+  }
+
+  // ------------------------------------------------------------
+  // PROFESSIONAL ACADEMY MODULES
+  // ------------------------------------------------------------
+
+  const V16_MODULES = [
+    {
+      id: "business",
+      icon: "🏢",
+      name: "Business Fundamentals",
+      lesson: "Business Basics",
+      description: "Business model, customers, value creation and business health",
+      kpis: ["Revenue", "Profit", "Customers", "Cash Flow"],
+      color: "business"
+    },
+    {
+      id: "strategy",
+      icon: "🎯",
+      name: "Strategic Thinking",
+      lesson: "Strategic Thinking",
+      description: "Vision, mission, competitive advantage, SWOT and strategic priorities",
+      kpis: ["Growth", "Market Share", "Strategic Goals"],
+      color: "strategy"
+    },
+    {
+      id: "brand",
+      icon: "🏷️",
+      name: "Brand Management",
+      lesson: "Brand Basics",
+      description: "Brand positioning, customer perception and brand value",
+      kpis: ["Awareness", "Preference", "Retention"],
+      color: "brand"
+    },
+    {
+      id: "marketing",
+      icon: "📣",
+      name: "Marketing Management",
+      lesson: "Marketing Basics",
+      description: "Target market, campaigns, leads, conversion, CAC and ROI",
+      kpis: ["Leads", "Conversion", "CAC", "Marketing ROI"],
+      color: "marketing"
+    },
+    {
+      id: "sales",
+      icon: "📈",
+      name: "Sales Management",
+      lesson: "Sales Basics",
+      description: "Target, actual sales, pipeline, forecast and sales execution",
+      kpis: ["Target", "Achievement", "Growth", "Forecast"],
+      color: "sales"
+    },
+    {
+      id: "negotiation",
+      icon: "🤝",
+      name: "Negotiation",
+      lesson: "Negotiation",
+      description: "Preparation, value, objections, margin and closing",
+      kpis: ["Win Rate", "Margin", "Deal Value"],
+      color: "negotiation"
+    },
+    {
+      id: "customer",
+      icon: "❤️",
+      name: "Customer Management",
+      lesson: "Customer Service",
+      description: "Customer satisfaction, complaints, retention and loyalty",
+      kpis: ["CSAT", "Retention", "Repeat Rate", "Complaints"],
+      color: "customer"
+    },
+    {
+      id: "people",
+      icon: "👥",
+      name: "People Management",
+      lesson: "People Management",
+      description: "Team structure, KPI, coaching, performance and development",
+      kpis: ["Performance", "Productivity", "Retention"],
+      color: "people"
+    },
+    {
+      id: "finance",
+      icon: "💰",
+      name: "Finance & P&L",
+      lesson: "Profit & Loss",
+      description: "Revenue, cost, gross profit, net profit, margin and cash",
+      kpis: ["Gross Margin", "Net Margin", "Profit", "Cash Flow"],
+      color: "finance"
+    },
+    {
+      id: "inventory",
+      icon: "📦",
+      name: "Inventory Management",
+      lesson: "Inventory",
+      description: "Stock control, turnover, reorder point and inventory cost",
+      kpis: ["Stock Turnover", "Days Inventory", "Stock Value"],
+      color: "inventory"
+    },
+    {
+      id: "goals",
+      icon: "🚩",
+      name: "Goal Setting",
+      lesson: "Goal Setting",
+      description: "SMART goals, milestones, priorities and execution",
+      kpis: ["Goal Achievement", "Completion", "Consistency"],
+      color: "goals"
+    },
+    {
+      id: "leadership",
+      icon: "👔",
+      name: "Leadership",
+      lesson: "Leadership",
+      description: "Decision making, coaching, accountability and team leadership",
+      kpis: ["Team Performance", "Engagement", "Execution"],
+      color: "leadership"
+    },
+    {
+      id: "growth",
+      icon: "🚀",
+      name: "Business Growth",
+      lesson: "Growth",
+      description: "Growth strategy, expansion, customer growth and profitability",
+      kpis: ["Revenue Growth", "Customer Growth", "Profit Growth"],
+      color: "growth"
+    }
+  ];
+
+  // ------------------------------------------------------------
+  // LESSON MAPPING
+  // ------------------------------------------------------------
+
+  const V16_LESSON_MAP = {
+    1: {
+      module: "business",
+      title: "Business Fundamentals",
+      tool: "Business Health",
+      kpis: ["Revenue", "Profit", "Customers", "Cash Flow"]
+    },
+    2: {
+      module: "strategy",
+      title: "Strategic Thinking",
+      tool: "Strategy Planner",
+      kpis: ["Growth", "Strategic Goals", "Market Position"]
+    },
+    3: {
+      module: "brand",
+      title: "Brand Basics",
+      tool: "Brand Planner",
+      kpis: ["Awareness", "Preference", "Retention"]
+    },
+    4: {
+      module: "marketing",
+      title: "Marketing Basics",
+      tool: "Marketing Planner",
+      kpis: ["Leads", "Conversion", "CAC", "ROI"]
+    },
+    5: {
+      module: "sales",
+      title: "Sales Basics",
+      tool: "Sales Management",
+      kpis: ["Target", "Achievement", "Growth", "Forecast"]
+    },
+    6: {
+      module: "negotiation",
+      title: "Negotiation",
+      tool: "Negotiation Planner",
+      kpis: ["Win Rate", "Margin", "Deal Value"]
+    },
+    7: {
+      module: "customer",
+      title: "Customer Service",
+      tool: "Customer Management",
+      kpis: ["CSAT", "Retention", "Repeat Rate"]
+    },
+    8: {
+      module: "people",
+      title: "People Management",
+      tool: "Team Management",
+      kpis: ["Performance", "Productivity", "Retention"]
+    },
+    9: {
+      module: "finance",
+      title: "Profit & Loss",
+      tool: "P&L Analysis",
+      kpis: ["Revenue", "Gross Profit", "Net Profit", "Margin"]
+    },
+    10: {
+      module: "goals",
+      title: "Goal Setting",
+      tool: "Goal Planner",
+      kpis: ["Achievement", "Completion", "Consistency"]
+    }
+  };
+
+  // Lessons 11-30 receive professional category routing
+  const V16_EXTRA_LESSONS = [
+    "Leadership",
+    "Productivity",
+    "Financial Management",
+    "Cash Flow Management",
+    "Budget Management",
+    "Pricing Strategy",
+    "Inventory Management",
+    "Operations Management",
+    "Customer Relationship Management",
+    "Market Analysis",
+    "Competitive Strategy",
+    "Business Growth",
+    "Digital Marketing",
+    "Team Building",
+    "Coaching & Development",
+    "Performance Management",
+    "Decision Making",
+    "Problem Solving",
+    "Business Planning",
+    "Management Review"
+  ];
+
+  for (let i = 11; i <= 30; i++) {
+    const title = V16_EXTRA_LESSONS[i - 11];
+
+    V16_LESSON_MAP[i] = {
+      module:
+        title.toLowerCase().includes("finance") ||
+        title.toLowerCase().includes("cash") ||
+        title.toLowerCase().includes("budget") ||
+        title.toLowerCase().includes("pricing")
+          ? "finance"
+          : title.toLowerCase().includes("inventory")
+          ? "inventory"
+          : title.toLowerCase().includes("customer")
+          ? "customer"
+          : title.toLowerCase().includes("team") ||
+            title.toLowerCase().includes("coaching") ||
+            title.toLowerCase().includes("performance")
+          ? "people"
+          : title.toLowerCase().includes("marketing")
+          ? "marketing"
+          : title.toLowerCase().includes("growth")
+          ? "growth"
+          : title.toLowerCase().includes("leadership")
+          ? "leadership"
+          : "strategy",
+      title: title,
+      tool: title + " Tool",
+      kpis: ["Progress", "Performance", "Business Result"]
+    };
+  }
+
+  // ------------------------------------------------------------
+  // PREMIUM CHECK
+  // ------------------------------------------------------------
+
+  function v16HasPremium() {
+    try {
+      if (typeof window.hasPremiumAccess === "function") {
+        return !!window.hasPremiumAccess();
+      }
+
+      const premium = v16Get("aung_business_academy_premium", null);
+
+      if (!premium || !premium.expiresAt) {
+        return false;
+      }
+
+      return Date.now() < Number(premium.expiresAt);
+    } catch (error) {
+      return false;
+    }
+  }
+
+  function v16PremiumGate() {
+    try {
+      if (typeof window.openPremiumAccess === "function") {
+        window.openPremiumAccess();
+        return;
+      }
+
+      if (typeof window.openPremium === "function") {
+        window.openPremium();
+        return;
+      }
+    } catch (error) {
+      console.warn("Premium gate error:", error);
+    }
+
+    if (typeof window.showToast === "function") {
+      window.showToast("Premium access required");
+    } else {
+      alert("Premium access required");
+    }
+  }
+
+  // ------------------------------------------------------------
+  // MODULE TOOL ROUTER
+  // ------------------------------------------------------------
+
+  function v16OpenModuleTool(moduleId) {
+    const module = V16_MODULES.find(item => item.id === moduleId);
+
+    if (!module) return;
+
+    if (moduleId === "sales") {
+      if (typeof window.openV153Salesmen === "function") {
+        if (!v16HasPremium()) {
+          v16PremiumGate();
+          return;
+        }
+
+        window.openV153Salesmen();
+        return;
+      }
+
+      if (typeof window.openV15SalesDashboard === "function") {
+        window.openV15SalesDashboard();
+        return;
+      }
+    }
+
+    if (moduleId === "customer") {
+      if (typeof window.openV14CustomerCRM === "function") {
+        if (!v16HasPremium()) {
+          v16PremiumGate();
+          return;
+        }
+
+        window.openV14CustomerCRM();
+        return;
+      }
+    }
+
+    if (moduleId === "people") {
+      if (typeof window.openV15TeamManagement === "function") {
+        if (!v16HasPremium()) {
+          v16PremiumGate();
+          return;
+        }
+
+        window.openV15TeamManagement();
+        return;
+      }
+
+      if (typeof window.openV153Salesmen === "function") {
+        if (!v16HasPremium()) {
+          v16PremiumGate();
+          return;
+        }
+
+        window.openV153Salesmen();
+        return;
+      }
+    }
+
+    if (moduleId === "finance") {
+      if (typeof window.openV14FinanceCenter === "function") {
+        if (!v16HasPremium()) {
+          v16PremiumGate();
+          return;
+        }
+
+        window.openV14FinanceCenter();
+        return;
+      }
+
+      if (typeof window.openV13BusinessSimulator === "function") {
+        window.openV13BusinessSimulator();
+        return;
+      }
+    }
+
+    if (moduleId === "business") {
+      if (typeof window.openV14ProfessionalDashboard === "function") {
+        window.openV14ProfessionalDashboard();
+        return;
+      }
+    }
+
+    if (moduleId === "strategy" || moduleId === "growth") {
+      v16OpenPlanner(moduleId);
+      return;
+    }
+
+    if (moduleId === "marketing") {
+      v16OpenMarketingPlanner();
+      return;
+    }
+
+    if (moduleId === "negotiation") {
+      v16OpenNegotiationPlanner();
+      return;
+    }
+
+    if (moduleId === "goals") {
+      v16OpenGoalPlanner();
+      return;
+    }
+
+    if (moduleId === "inventory") {
+      v16OpenInventoryPlanner();
+      return;
+    }
+
+    if (moduleId === "leadership") {
+      v16OpenLeadershipPlanner();
+      return;
+    }
+
+    v16OpenGenericModule(module);
+  }
+
+  // ------------------------------------------------------------
+  // ACADEMY DASHBOARD
+  // ------------------------------------------------------------
+
+  function openV16Academy() {
+    const completed =
+      typeof window.getCompletedLessons === "function"
+        ? window.getCompletedLessons()
+        : v16Get("aung_business_academy_completed", []);
+
+    const completedCount = Array.isArray(completed)
+      ? completed.length
+      : 0;
+
+    const progress = Math.min(
+      100,
+      Math.round((completedCount / 30) * 100)
+    );
+
+    if (typeof window.setPage === "function") {
+      window.setPage(
+        "Professional Academy",
+        "Learn, practice and manage your business"
+      );
+    }
+
+    const moduleCards = V16_MODULES.map(module => `
+      <div class="v16-module-card">
+        <div class="v16-module-icon">${module.icon}</div>
+
+        <div class="v16-module-content">
+          <h3>${v16Esc(module.name)}</h3>
+
+          <p>${v16Esc(module.description)}</p>
+
+          <div class="v16-kpi-row">
+            ${module.kpis
+              .map(kpi => `<span>${v16Esc(kpi)}</span>`)
+              .join("")}
+          </div>
+
+          <button
+            class="v16-primary-btn"
+            onclick="window.v16OpenModuleTool('${module.id}')"
+          >
+            Open Module →
+          </button>
+        </div>
+      </div>
+    `).join("");
+
+    const html = `
+      <div class="v16-page">
+
+        <div class="v16-hero">
+          <div>
+            <div class="v16-eyebrow">
+              AUNG BUSINESS ACADEMY
+            </div>
+
+            <h1>
+              Professional Business Academy
+            </h1>
+
+            <p>
+              Learn the concept, practice the skill, measure the KPI
+              and apply it to your real business
+            </p>
+          </div>
+
+          <div class="v16-hero-badge">
+            V16
+            <span>Professional</span>
+          </div>
+        </div>
+
+        <div class="v16-summary-grid">
+
+          <div class="v16-summary-card">
+            <span>📚</span>
+            <strong>30</strong>
+            <small>Lessons</small>
+          </div>
+
+          <div class="v16-summary-card">
+            <span>✅</span>
+            <strong>${completedCount}</strong>
+            <small>Completed</small>
+          </div>
+
+          <div class="v16-summary-card">
+            <span>📊</span>
+            <strong>${progress}%</strong>
+            <small>Learning Progress</small>
+          </div>
+
+          <div class="v16-summary-card">
+            <span>🛠️</span>
+            <strong>${V16_MODULES.length}</strong>
+            <small>Business Areas</small>
+          </div>
+
+        </div>
+
+        <div class="v16-section-title">
+          <div>
+            <h2>Business Management Areas</h2>
+            <p>Each area connects learning with practical management</p>
+          </div>
+        </div>
+
+        <div class="v16-module-grid">
+          ${moduleCards}
+        </div>
+
+        <div class="v16-learning-system">
+
+          <div class="v16-learning-header">
+            <span>🎓</span>
+
+            <div>
+              <h2>Professional Learning System</h2>
+              <p>
+                Every lesson follows the same practical business framework
+              </p>
+            </div>
+          </div>
+
+          <div class="v16-learning-flow">
+
+            <div>
+              <b>01</b>
+              <span>📖 Learn</span>
+            </div>
+
+            <div>
+              <b>02</b>
+              <span>🧠 Understand</span>
+            </div>
+
+            <div>
+              <b>03</b>
+              <span>💼 Case</span>
+            </div>
+
+            <div>
+              <b>04</b>
+              <span>🛠 Practice</span>
+            </div>
+
+            <div>
+              <b>05</b>
+              <span>📊 KPI</span>
+            </div>
+
+            <div>
+              <b>06</b>
+              <span>🤖 AI Advisor</span>
+            </div>
+
+            <div>
+              <b>07</b>
+              <span>❓ Quiz</span>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="v16-action-grid">
+
+          <button
+            class="v16-action-card"
+            onclick="window.v16OpenBusinessHealth()"
+          >
+            🏢
+            <strong>Business Health</strong>
+            <small>Overall business condition</small>
+          </button>
+
+          <button
+            class="v16-action-card"
+            onclick="window.v16OpenAIAdvisor()"
+          >
+            🤖
+            <strong>AI Business Advisor</strong>
+            <small>Get management recommendations</small>
+          </button>
+
+          <button
+            class="v16-action-card"
+            onclick="window.v16OpenGoalPlanner()"
+          >
+            🎯
+            <strong>Goal Planner</strong>
+            <small>Plan and track business goals</small>
+          </button>
+
+          <button
+            class="v16-action-card"
+            onclick="window.v16OpenLearningMap()"
+          >
+            🗺️
+            <strong>Learning Map</strong>
+            <small>See your academy roadmap</small>
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+    v16Render(html);
+  }
+
+  // ------------------------------------------------------------
+  // RENDER
+  // ------------------------------------------------------------
+
+  function v16Render(html) {
+    let container =
+      document.querySelector(".main-content") ||
+      document.querySelector("#mainContent") ||
+      document.querySelector(".content") ||
+      document.querySelector(".page-content") ||
+      document.querySelector(".app-content");
+
+    if (container) {
+      container.innerHTML = html;
+      return;
+    }
+
+    if (typeof window.showModal === "function") {
+      window.showModal(html);
+      return;
+    }
+
+    const existing = document.getElementById("v16AcademyRoot");
+
+    if (existing) {
+      existing.innerHTML = html;
+      return;
+    }
+
+    const div = document.createElement("div");
+    div.id = "v16AcademyRoot";
+    div.innerHTML = html;
+
+    document.body.appendChild(div);
+  }
+
+  // ------------------------------------------------------------
+  // BUSINESS HEALTH
+  // ------------------------------------------------------------
+
+  function v16OpenBusinessHealth() {
+    const businessData =
+      typeof window.v14GetBusinessData === "function"
+        ? window.v14GetBusinessData()
+        : v16Get("aung_business_academy_v14_business", {});
+
+    const revenue = v16Num(
+      businessData.revenue ||
+      businessData.monthlyRevenue ||
+      businessData.sales
+    );
+
+    const target = v16Num(
+      businessData.target ||
+      businessData.monthlyTarget
+    );
+
+    const profit = v16Num(
+      businessData.netProfit ||
+      businessData.profit
+    );
+
+    const customers = v16Num(
+      businessData.customers ||
+      businessData.customerCount
+    );
+
+    const achievement =
+      target > 0
+        ? (revenue / target) * 100
+        : 0;
+
+    const health =
+      achievement >= 100
+        ? "Strong"
+        : achievement >= 80
+        ? "Healthy"
+        : achievement >= 60
+        ? "Needs Attention"
+        : "Critical";
+
+    const html = `
+      <div class="v16-tool-page">
+
+        <div class="v16-tool-header">
+          <span>🏢</span>
+          <div>
+            <h2>Business Health</h2>
+            <p>Overall management view</p>
+          </div>
+        </div>
+
+        <div class="v16-health-status">
+          <small>Business Health</small>
+          <strong>${health}</strong>
+          <span>${v16Percent(achievement)} Target Achievement</span>
+        </div>
+
+        <div class="v16-metric-grid">
+
+          <div>
+            <small>Revenue</small>
+            <strong>${v16Money(revenue)}</strong>
+          </div>
+
+          <div>
+            <small>Target</small>
+            <strong>${v16Money(target)}</strong>
+          </div>
+
+          <div>
+            <small>Profit</small>
+            <strong>${v16Money(profit)}</strong>
+          </div>
+
+          <div>
+            <small>Customers</small>
+            <strong>${customers.toLocaleString()}</strong>
+          </div>
+
+        </div>
+
+        <div class="v16-insight-box">
+
+          <h3>Management Insight</h3>
+
+          <p>
+            ${health === "Strong"
+              ? "Business performance is currently strong. Focus on sustainable growth, customer retention and profit quality."
+              : health === "Healthy"
+              ? "Business is performing reasonably well. Focus on closing the remaining target gap and improving execution."
+              : health === "Needs Attention"
+              ? "Business requires management attention. Review revenue drivers, customer activity, cost and team execution."
+              : "Immediate management action is required. Review revenue, costs, customers, cash flow and operational execution."
+            }
+          </p>
+
+        </div>
+
+        <button
+          class="v16-primary-btn"
+          onclick="window.v16OpenAIAdvisor()"
+        >
+          🤖 Ask AI Business Advisor
+        </button>
+
+      </div>
+    `;
+
+    v16Render(html);
+  }
+
+  // ------------------------------------------------------------
+  // STRATEGY / GROWTH PLANNER
+  // ------------------------------------------------------------
+
+  function v16OpenPlanner(type) {
+    const title =
+      type === "growth"
+        ? "🚀 Business Growth Planner"
+        : "🎯 Strategic Planning";
+
+    const saved = v16Get(V16_GOAL_KEY, {});
+
+    const html = `
+      <div class="v16-tool-page">
+
+        <div class="v16-tool-header">
+          <span>${type === "growth" ? "🚀" : "🎯"}</span>
+          <div>
+            <h2>${title}</h2>
+            <p>Turn strategy into measurable action</p>
+          </div>
+        </div>
+
+        <label>Business Objective</label>
+
+        <input
+          id="v16StrategyObjective"
+          class="v16-input"
+          value="${v16Esc(saved.objective || "")}"
+          placeholder="Example: Increase revenue by 20%"
+        />
+
+        <label>Current Situation</label>
+
+        <textarea
+          id="v16StrategySituation"
+          class="v16-input"
+          rows="4"
+          placeholder="Describe your current business situation"
+        >${v16Esc(saved.situation || "")}</textarea>
+
+        <label>Key Action</label>
+
+        <textarea
+          id="v16StrategyAction"
+          class="v16-input"
+          rows="4"
+          placeholder="What will you do to achieve the objective?"
+        >${v16Esc(saved.action || "")}</textarea>
+
+        <label>Success KPI</label>
+
+        <input
+          id="v16StrategyKPI"
+          class="v16-input"
+          value="${v16Esc(saved.kpi || "")}"
+          placeholder="Example: Revenue Growth 20%"
+        />
+
+        <button
+          class="v16-primary-btn"
+          onclick="window.v16SaveStrategy()"
+        >
+          💾 Save Plan
+        </button>
+
+      </div>
+    `;
+
+    v16Render(html);
+  }
+
+  function v16SaveStrategy() {
+    const data = {
+      objective:
+        document.getElementById("v16StrategyObjective")?.value || "",
+      situation:
+        document.getElementById("v16StrategySituation")?.value || "",
+      action:
+        document.getElementById("v16StrategyAction")?.value || "",
+      kpi:
+        document.getElementById("v16StrategyKPI")?.value || "",
+      updatedAt: new Date().toISOString()
+    };
+
+    v16Set(V16_GOAL_KEY, data);
+
+    if (typeof window.showToast === "function") {
+      window.showToast("Strategy plan saved");
+    }
+
+    v16OpenPlanner("strategy");
+  }
+
+  // ------------------------------------------------------------
+  // MARKETING PLANNER
+  // ------------------------------------------------------------
+
+  function v16OpenMarketingPlanner() {
+    const html = `
+      <div class="v16-tool-page">
+
+        <div class="v16-tool-header">
+          <span>📣</span>
+          <div>
+            <h2>Marketing Planner</h2>
+            <p>Plan campaigns and measure marketing performance</p>
+          </div>
+        </div>
+
+        <div class="v16-form-grid">
+
+          <div>
+            <label>Target Customer</label>
+            <input id="v16MarketingCustomer" class="v16-input"
+              placeholder="Who are you targeting?">
+          </div>
+
+          <div>
+            <label>Campaign Budget</label>
+            <input id="v16MarketingBudget" class="v16-input"
+              type="number"
+              placeholder="0">
+          </div>
+
+          <div>
+            <label>Expected Leads</label>
+            <input id="v16MarketingLeads" class="v16-input"
+              type="number"
+              placeholder="0">
+          </div>
+
+          <div>
+            <label>Expected Customers</label>
+            <input id="v16MarketingCustomers" class="v16-input"
+              type="number"
+              placeholder="0">
+          </div>
+
+        </div>
+
+        <button
+          class="v16-primary-btn"
+          onclick="window.v16CalculateMarketing()"
+        >
+          📊 Calculate Marketing KPI
+        </button>
+
+        <div id="v16MarketingResult"></div>
+
+      </div>
+    `;
+
+    v16Render(html);
+  }
+
+  function v16CalculateMarketing() {
+    const budget = v16Num(
+      document.getElementById("v16MarketingBudget")?.value
+    );
+
+    const leads = v16Num(
+      document.getElementById("v16MarketingLeads")?.value
+    );
+
+    const customers = v16Num(
+      document.getElementById("v16MarketingCustomers")?.value
+    );
+
+    const cpl = leads > 0 ? budget / leads : 0;
+    const cac = customers > 0 ? budget / customers : 0;
+    const conversion =
+      leads > 0 ? (customers / leads) * 100 : 0;
+
+    const result = document.getElementById(
+      "v16MarketingResult"
+    );
+
+    if (!result) return;
+
+    result.innerHTML = `
+      <div class="v16-result-grid">
+
+        <div>
+          <small>Cost / Lead</small>
+          <strong>${v16Money(cpl)}</strong>
+        </div>
+
+        <div>
+          <small>Customer Acquisition Cost</small>
+          <strong>${v16Money(cac)}</strong>
+        </div>
+
+        <div>
+          <small>Lead Conversion</small>
+          <strong>${v16Percent(conversion)}</strong>
+        </div>
+
+      </div>
+
+      <div class="v16-insight-box">
+        <h3>Marketing Insight</h3>
+        <p>
+          ${conversion >= 10
+            ? "Conversion performance looks strong. Focus on scaling qualified leads."
+            : conversion >= 5
+            ? "Conversion is moderate. Improve lead quality and sales follow-up."
+            : "Conversion is low. Review targeting, offer, lead quality and customer journey."
+          }
+        </p>
+      </div>
+    `;
+  }
+
+  // ------------------------------------------------------------
+  // NEGOTIATION
+  // ------------------------------------------------------------
+
+  function v16OpenNegotiationPlanner() {
+    const html = `
+      <div class="v16-tool-page">
+
+        <div class="v16-tool-header">
+          <span>🤝</span>
+          <div>
+            <h2>Negotiation Planner</h2>
+            <p>Prepare the deal before entering negotiation</p>
+          </div>
+        </div>
+
+        <label>Customer / Partner</label>
+        <input id="v16NegCustomer" class="v16-input"
+          placeholder="Customer name">
+
+        <label>Your Objective</label>
+        <textarea id="v16NegObjective" class="v16-input"
+          rows="3"
+          placeholder="What do you want to achieve?"></textarea>
+
+        <label>Customer Need</label>
+        <textarea id="v16NegNeed" class="v16-input"
+          rows="3"
+          placeholder="What does the customer really need?"></textarea>
+
+        <label>Minimum Acceptable Deal</label>
+        <input id="v16NegMinimum" class="v16-input"
+          placeholder="Minimum acceptable terms">
+
+        <label>Negotiation Strategy</label>
+        <textarea id="v16NegStrategy" class="v16-input"
+          rows="3"
+          placeholder="What is your strategy?"></textarea>
+
+        <button
+          class="v16-primary-btn"
+          onclick="window.v16SaveNegotiation()"
+        >
+          💾 Save Negotiation Plan
+        </button>
+
+      </div>
+    `;
+
+    v16Render(html);
+  }
+
+  function v16SaveNegotiation() {
+    const data = {
+      customer:
+        document.getElementById("v16NegCustomer")?.value || "",
+      objective:
+        document.getElementById("v16NegObjective")?.value || "",
+      need:
+        document.getElementById("v16NegNeed")?.value || "",
+      minimum:
+        document.getElementById("v16NegMinimum")?.value || "",
+      strategy:
+        document.getElementById("v16NegStrategy")?.value || "",
+      savedAt: new Date().toISOString()
+    };
+
+    v16Set(
+      "aung_business_academy_v16_negotiation",
+      data
+    );
+
+    if (typeof window.showToast === "function") {
+      window.showToast("Negotiation plan saved");
+    }
+  }
+
+  // ------------------------------------------------------------
+  // GOAL PLANNER
+  // ------------------------------------------------------------
+
+  function v16OpenGoalPlanner() {
+    const goals = v16Get(V16_GOAL_KEY, {});
+
+    const html = `
+      <div class="v16-tool-page">
+
+        <div class="v16-tool-header">
+          <span>🎯</span>
+          <div>
+            <h2>SMART Goal Planner</h2>
+            <p>Convert business goals into measurable actions</p>
+          </div>
+        </div>
+
+        <label>Goal</label>
+
+        <input
+          id="v16Goal"
+          class="v16-input"
+          value="${v16Esc(goals.goal || "")}"
+          placeholder="What do you want to achieve?"
+        >
+
+        <label>Deadline</label>
+
+        <input
+          id="v16Deadline"
+          class="v16-input"
+          type="date"
+          value="${v16Esc(goals.deadline || "")}"
+        >
+
+        <label>Measurement</label>
+
+        <input
+          id="v16Measurement"
+          class="v16-input"
+          value="${v16Esc(goals.measurement || "")}"
+          placeholder="How will you measure success?"
+        >
+
+        <label>Action</label>
+
+        <textarea
+          id="v16GoalAction"
+          class="v16-input"
+          rows="4"
+          placeholder="What will you do?"
+        >${v16Esc(goals.action || "")}</textarea>
+
+        <button
+          class="v16-primary-btn"
+          onclick="window.v16SaveGoal()"
+        >
+          💾 Save Goal
+        </button>
+
+      </div>
+    `;
+
+    v16Render(html);
+  }
+
+  function v16SaveGoal() {
+    const data = {
+      goal:
+        document.getElementById("v16Goal")?.value || "",
+      deadline:
+        document.getElementById("v16Deadline")?.value || "",
+      measurement:
+        document.getElementById("v16Measurement")?.value || "",
+      action:
+        document.getElementById("v16GoalAction")?.value || "",
+      updatedAt: new Date().toISOString()
+    };
+
+    v16Set(V16_GOAL_KEY, data);
+
+    if (typeof window.showToast === "function") {
+      window.showToast("Goal saved successfully");
+    }
+  }
+
+  // ------------------------------------------------------------
+  // INVENTORY
+  // ------------------------------------------------------------
+
+  function v16OpenInventoryPlanner() {
+    const html = `
+      <div class="v16-tool-page">
+
+        <div class="v16-tool-header">
+          <span>📦</span>
+          <div>
+            <h2>Inventory Management</h2>
+            <p>Understand stock requirements and inventory efficiency</p>
+          </div>
+        </div>
+
+        <div class="v16-form-grid">
+
+          <div>
+            <label>Average Inventory Value</label>
+            <input id="v16InvValue" class="v16-input"
+              type="number" placeholder="0">
+          </div>
+
+          <div>
+            <label>Annual Cost of Goods</label>
+            <input id="v16InvCOGS" class="v16-input"
+              type="number" placeholder="0">
+          </div>
+
+          <div>
+            <label>Lead Time (Days)</label>
+            <input id="v16InvLead" class="v16-input"
+              type="number" placeholder="0">
+          </div>
+
+          <div>
+            <label>Average Daily Usage</label>
+            <input id="v16InvUsage" class="v16-input"
+              type="number" placeholder="0">
+          </div>
+
+        </div>
+
+        <button
+          class="v16-primary-btn"
+          onclick="window.v16CalculateInventory()"
+        >
+          📊 Calculate Inventory KPI
+        </button>
+
+        <div id="v16InventoryResult"></div>
+
+      </div>
+    `;
+
+    v16Render(html);
+  }
+
+  function v16CalculateInventory() {
+    const inventory = v16Num(
+      document.getElementById("v16InvValue")?.value
+    );
+
+    const cogs = v16Num(
+      document.getElementById("v16InvCOGS")?.value
+    );
+
+    const lead = v16Num(
+      document.getElementById("v16InvLead")?.value
+    );
+
+    const usage = v16Num(
+      document.getElementById("v16InvUsage")?.value
+    );
+
+    const turnover =
+      inventory > 0 ? cogs / inventory : 0;
+
+    const reorderPoint =
+      lead * usage;
+
+    const result = document.getElementById(
+      "v16InventoryResult"
+    );
+
+    if (!result) return;
+
+    result.innerHTML = `
+      <div class="v16-result-grid">
+
+        <div>
+          <small>Inventory Turnover</small>
+          <strong>${turnover.toFixed(2)}x</strong>
+        </div>
+
+        <div>
+          <small>Reorder Point</small>
+          <strong>${reorderPoint.toLocaleString()}</strong>
+        </div>
+
+      </div>
+
+      <div class="v16-insight-box">
+        <h3>Inventory Insight</h3>
+        <p>
+          Review slow-moving stock, stock-out risk and inventory cash tied up
+          before making your next purchasing decision
+        </p>
+      </div>
+    `;
+  }
+
+  // ------------------------------------------------------------
+  // LEADERSHIP
+  // ------------------------------------------------------------
+
+  function v16OpenLeadershipPlanner() {
+    const html = `
+      <div class="v16-tool-page">
+
+        <div class="v16-tool-header">
+          <span>👔</span>
+          <div>
+            <h2>Leadership & Coaching</h2>
+            <p>Develop people instead of only managing numbers</p>
+          </div>
+        </div>
+
+        <label>Team Member</label>
+
+        <input
+          id="v16LeaderPerson"
+          class="v16-input"
+          placeholder="Name"
+        >
+
+        <label>Strength</label>
+
+        <textarea
+          id="v16LeaderStrength"
+          class="v16-input"
+          rows="3"
+          placeholder="What is this person doing well?"
+        ></textarea>
+
+        <label>Development Area</label>
+
+        <textarea
+          id="v16LeaderDevelopment"
+          class="v16-input"
+          rows="3"
+          placeholder="What needs improvement?"
+        ></textarea>
+
+        <label>Next Coaching Action</label>
+
+        <textarea
+          id="v16LeaderAction"
+          class="v16-input"
+          rows="3"
+          placeholder="What will you coach or support?"
+        ></textarea>
+
+        <button
+          class="v16-primary-btn"
+          onclick="window.v16SaveLeadership()"
+        >
+          💾 Save Coaching Plan
+        </button>
+
+      </div>
+    `;
+
+    v16Render(html);
+  }
+
+  function v16SaveLeadership() {
+    const data = {
+      person:
+        document.getElementById("v16LeaderPerson")?.value || "",
+      strength:
+        document.getElementById("v16LeaderStrength")?.value || "",
+      development:
+        document.getElementById("v16LeaderDevelopment")?.value || "",
+      action:
+        document.getElementById("v16LeaderAction")?.value || "",
+      updatedAt: new Date().toISOString()
+    };
+
+    v16Set(
+      "aung_business_academy_v16_leadership",
+      data
+    );
+
+    if (typeof window.showToast === "function") {
+      window.showToast("Coaching plan saved");
+    }
+  }
+
+  // ------------------------------------------------------------
+  // GENERIC MODULE
+  // ------------------------------------------------------------
+
+  function v16OpenGenericModule(module) {
+    const html = `
+      <div class="v16-tool-page">
+
+        <div class="v16-tool-header">
+          <span>${module.icon}</span>
+          <div>
+            <h2>${v16Esc(module.name)}</h2>
+            <p>${v16Esc(module.description)}</p>
+          </div>
+        </div>
+
+        <div class="v16-insight-box">
+          <h3>Professional Management Focus</h3>
+
+          <p>
+            Use this area to connect your lesson knowledge
+            with real business decisions and measurable outcomes
+          </p>
+        </div>
+
+        <div class="v16-kpi-large">
+          ${module.kpis.map(kpi => `
+            <div>
+              <span>📊</span>
+              <strong>${v16Esc(kpi)}</strong>
+            </div>
+          `).join("")}
+        </div>
+
+        <button
+          class="v16-primary-btn"
+          onclick="window.v16OpenAIAdvisor('${v16Esc(module.name)}')"
+        >
+          🤖 Ask AI Advisor
+        </button>
+
+      </div>
+    `;
+
+    v16Render(html);
+  }
+
+  // ------------------------------------------------------------
+  // AI BUSINESS ADVISOR
+  // ------------------------------------------------------------
+
+  function v16OpenAIAdvisor(topic) {
+    const defaultTopic =
+      topic ||
+      "Analyze my overall business performance and tell me what I should improve first";
+
+    const html = `
+      <div class="v16-tool-page">
+
+        <div class="v16-tool-header">
+          <span>🤖</span>
+          <div>
+            <h2>AI Business Advisor</h2>
+            <p>Ask for practical management recommendations</p>
+          </div>
+        </div>
+
+        <div class="v16-ai-quick-grid">
+
+          <button onclick="window.v16AskAI('Analyze my overall business performance')">
+            🏢 Business Analysis
+          </button>
+
+          <button onclick="window.v16AskAI('How can I increase profit?')">
+            💰 Increase Profit
+          </button>
+
+          <button onclick="window.v16AskAI('How can I improve marketing performance?')">
+            📣 Marketing
+          </button>
+
+          <button onclick="window.v16AskAI('How can I improve my team performance?')">
+            👥 Team
+          </button>
+
+          <button onclick="window.v16AskAI('How can I improve customer retention?')">
+            ❤️ Customers
+          </button>
+
+          <button onclick="window.v16AskAI('What should my management priority be this week?')">
+            🎯 Weekly Priority
+          </button>
+
+        </div>
+
+        <textarea
+          id="v16AIInput"
+          class="v16-input"
+          rows="5"
+          placeholder="Ask your business question..."
+        >${v16Esc(defaultTopic)}</textarea>
+
+        <button
+          class="v16-primary-btn"
+          onclick="window.v16AskAI()"
+        >
+          🤖 Ask AI Business Advisor
+        </button>
+
+        <div id="v16AIResult"></div>
+
+      </div>
+    `;
+
+    v16Render(html);
+  }
+
+  async function v16AskAI(question) {
+    const input = document.getElementById("v16AIInput");
+
+    const text =
+      question ||
+      input?.value?.trim();
+
+    if (!text) {
+      if (typeof window.showToast === "function") {
+        window.showToast("Please enter a business question");
+      }
+      return;
+    }
+
+    const result = document.getElementById("v16AIResult");
+
+    if (result) {
+      result.innerHTML = `
+        <div class="v16-ai-thinking">
+          🤖 AI Business Advisor is analyzing your question...
+        </div>
+      `;
+    }
+
+    try {
+      let answer = "";
+
+      if (typeof window.v12SafeAIFetch === "function") {
+        answer = await window.v12SafeAIFetch(
+          `
+You are the Professional AI Business Advisor inside Aung Business Academy.
+
+The user is asking:
+${text}
+
+Give a detailed but practical business management response.
+
+Structure the response using:
+
+1. Current Situation
+2. Key Business Issue
+3. KPI Analysis
+4. Root Cause
+5. Business Impact
+6. Immediate Action
+7. Customer Action
+8. Team Action
+9. Financial Action
+10. 7-Day Action Plan
+11. KPI to Monitor
+12. Management Recommendation
+
+Answer in Burmese when the user asks in Burmese.
+Do not give generic motivational advice.
+Give practical actions, measurable KPIs and management decisions.
+          `
+        );
+      } else if (
+        typeof window.sendAIMessage === "function"
+      ) {
+        answer = await window.sendAIMessage(text);
+      } else {
+        answer =
+          "AI service is not connected yet. You can still use the Professional Business Tools in this section";
+      }
+
+      if (result) {
+        result.innerHTML = `
+          <div class="v16-ai-result">
+            <div class="v16-ai-result-title">
+              🤖 AI Business Advisor
+            </div>
+
+            <div class="v16-ai-answer">
+              ${v16Esc(answer)
+                .replace(/\n/g, "<br>")}
+            </div>
+          </div>
+        `;
+      }
+
+    } catch (error) {
+      console.error("V16 AI error:", error);
+
+      if (result) {
+        result.innerHTML = `
+          <div class="v16-insight-box">
+            <h3>AI temporarily unavailable</h3>
+            <p>
+              Please try again later or continue using the Business Tools
+            </p>
+          </div>
+        `;
+      }
+    }
+  }
+
+  // ------------------------------------------------------------
+  // LEARNING MAP
+  // ------------------------------------------------------------
+
+  function v16OpenLearningMap() {
+    const completed =
+      v16Get(
+        "aung_business_academy_completed",
+        []
+      );
+
+    const completedList =
+      Array.isArray(completed)
+        ? completed.map(Number)
+        : [];
+
+    const rows = Object.keys(V16_LESSON_MAP)
+      .map(Number)
+      .sort((a, b) => a - b)
+      .map(id => {
+        const lesson = V16_LESSON_MAP[id];
+        const done = completedList.includes(id);
+
+        return `
+          <div class="v16-lesson-map-row">
+
+            <div class="v16-lesson-number">
+              ${id}
+            </div>
+
+            <div class="v16-lesson-info">
+              <strong>${v16Esc(lesson.title)}</strong>
+              <small>
+                ${v16Esc(lesson.tool)}
+              </small>
+            </div>
+
+            <div class="v16-lesson-status">
+              ${done ? "✅ Completed" : "📖 Learning"}
+            </div>
+
+            <button
+              onclick="window.v16OpenLessonPractice(${id})"
+            >
+              Practice
+            </button>
+
+          </div>
+        `;
+      })
+      .join("");
+
+    const html = `
+      <div class="v16-tool-page">
+
+        <div class="v16-tool-header">
+          <span>🗺️</span>
+          <div>
+            <h2>Professional Learning Map</h2>
+            <p>
+              30 lessons connected to practical business management
+            </p>
+          </div>
+        </div>
+
+        <div class="v16-lesson-map">
+          ${rows}
+        </div>
+
+      </div>
+    `;
+
+    v16Render(html);
+  }
+
+  // ------------------------------------------------------------
+  // LESSON PRACTICE
+  // ------------------------------------------------------------
+
+  function v16OpenLessonPractice(lessonId) {
+    const id = Number(lessonId);
+    const lesson = V16_LESSON_MAP[id];
+
+    if (!lesson) {
+      return;
+    }
+
+    if (id !== 1 && !v16HasPremium()) {
+      v16PremiumGate();
+      return;
+    }
+
+    const practiceData = v16Get(
+      V16_PRACTICE_KEY,
+      {}
+    );
+
+    const saved =
+      practiceData[id] || {};
+
+    const html = `
+      <div class="v16-tool-page">
+
+        <div class="v16-tool-header">
+
+          <span>📚</span>
+
+          <div>
+            <small>Lesson ${id}</small>
+            <h2>${v16Esc(lesson.title)}</h2>
+            <p>
+              Apply what you learned to your real business
+            </p>
+          </div>
+
+        </div>
+
+        <div class="v16-practice-flow">
+
+          <div class="v16-practice-step">
+            <span>📖</span>
+            <strong>Learn</strong>
+            <small>Understand the lesson</small>
+          </div>
+
+          <div class="v16-practice-step">
+            <span>💼</span>
+            <strong>Apply</strong>
+            <small>Connect it to your business</small>
+          </div>
+
+          <div class="v16-practice-step">
+            <span>📊</span>
+            <strong>Measure</strong>
+            <small>Track the KPI</small>
+          </div>
+
+          <div class="v16-practice-step">
+            <span>🤖</span>
+            <strong>Improve</strong>
+            <small>Ask AI Advisor</small>
+          </div>
+
+        </div>
+
+        <div class="v16-practice-box">
+
+          <h3>💼 Real Business Application</h3>
+
+          <p>
+            What will you apply from this lesson in your business?
+          </p>
+
+          <textarea
+            id="v16PracticeAction"
+            class="v16-input"
+            rows="5"
+            placeholder="Write your practical action..."
+          >${v16Esc(saved.action || "")}</textarea>
+
+          <h3>📊 KPI</h3>
+
+          <div class="v16-kpi-large">
+            ${lesson.kpis.map(kpi => `
+              <div>
+                <span>📊</span>
+                <strong>${v16Esc(kpi)}</strong>
+              </div>
+            `).join("")}
+          </div>
+
+          <h3>🎯 Expected Result</h3>
+
+          <textarea
+            id="v16PracticeResult"
+            class="v16-input"
+            rows="4"
+            placeholder="What result do you expect?"
+          >${v16Esc(saved.result || "")}</textarea>
+
+        </div>
+
+        <div class="v16-practice-actions">
+
+          <button
+            class="v16-primary-btn"
+            onclick="window.v16SaveLessonPractice(${id})"
+          >
+            💾 Save Practice
+          </button>
+
+          <button
+            class="v16-secondary-btn"
+            onclick="window.v16OpenAIAdvisor('${v16Esc(lesson.title)}')"
+          >
+            🤖 Ask AI Advisor
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+    v16Render(html);
+  }
+
+  function v16SaveLessonPractice(lessonId) {
+    const all =
+      v16Get(V16_PRACTICE_KEY, {});
+
+    all[lessonId] = {
+      action:
+        document.getElementById(
+          "v16PracticeAction"
+        )?.value || "",
+
+      result:
+        document.getElementById(
+          "v16PracticeResult"
+        )?.value || "",
+
+      updatedAt:
+        new Date().toISOString()
+    };
+
+    v16Set(
+      V16_PRACTICE_KEY,
+      all
+    );
+
+    if (typeof window.showToast === "function") {
+      window.showToast(
+        "Lesson practice saved successfully"
+      );
+    }
+  }
+
+  // ------------------------------------------------------------
+  // SIDEBAR
+  // ------------------------------------------------------------
+
+  function v16FindSidebar() {
+    return (
+      document.querySelector(".sidebar") ||
+      document.querySelector("#sidebar") ||
+      document.querySelector(".app-sidebar") ||
+      document.querySelector(".side-bar") ||
+      document.querySelector("aside") ||
+      document.querySelector("nav")
+    );
+  }
+
+  function v16AddSidebarButton() {
+    if (document.getElementById("aungV16AcademyButton")) {
+      return;
+    }
+
+    const sidebar = v16FindSidebar();
+
+    if (!sidebar) {
+      return;
+    }
+
+    const button = document.createElement("button");
+
+    button.id = "aungV16AcademyButton";
+    button.className = "v16-sidebar-button";
+    button.innerHTML = `
+      <span>🎓</span>
+      <span>Professional Academy</span>
+    `;
+
+    button.onclick = function () {
+      openV16Academy();
+    };
+
+    const settings =
+      Array.from(
+        sidebar.querySelectorAll("button")
+      ).find(btn =>
+        (btn.textContent || "")
+          .toLowerCase()
+          .includes("settings")
+      );
+
+    if (settings) {
+      sidebar.insertBefore(
+        button,
+        settings
+      );
+    } else {
+      sidebar.appendChild(button);
+    }
+  }
+
+  // ------------------------------------------------------------
+  // FLOATING BUTTON
+  // ------------------------------------------------------------
+
+  function v16AddFloatingButton() {
+    if (
+      document.getElementById(
+        "aungV16FloatingButton"
+      )
+    ) {
+      return;
+    }
+
+    const button =
+      document.createElement("button");
+
+    button.id =
+      "aungV16FloatingButton";
+
+    button.innerHTML =
+      "🎓 Academy";
+
+    button.onclick =
+      openV16Academy;
+
+    document.body.appendChild(button);
+  }
+
+  // ------------------------------------------------------------
+  // CSS
+  // ------------------------------------------------------------
+
+  function v16InjectStyles() {
+    if (
+      document.getElementById(
+        "aungV16Styles"
+      )
+    ) {
+      return;
+    }
+
+    const style =
+      document.createElement("style");
+
+    style.id =
+      "aungV16Styles";
+
+    style.textContent = `
+      .v16-page,
+      .v16-tool-page {
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 24px;
+        font-family: Arial, sans-serif;
+      }
+
+      .v16-hero {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+        padding: 30px;
+        border-radius: 22px;
+        background:
+          linear-gradient(
+            135deg,
+            #111827,
+            #1f2937
+          );
+        color: #fff;
+        margin-bottom: 22px;
+      }
+
+      .v16-eyebrow {
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        opacity: .7;
+        margin-bottom: 8px;
+      }
+
+      .v16-hero h1 {
+        margin: 0 0 8px;
+        font-size: 32px;
+      }
+
+      .v16-hero p {
+        margin: 0;
+        max-width: 720px;
+        opacity: .8;
+        line-height: 1.6;
+      }
+
+      .v16-hero-badge {
+        min-width: 100px;
+        height: 100px;
+        border-radius: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255,255,255,.1);
+        font-size: 30px;
+        font-weight: 900;
+      }
+
+      .v16-hero-badge span {
+        font-size: 11px;
+        opacity: .7;
+      }
+
+      .v16-summary-grid {
+        display: grid;
+        grid-template-columns:
+          repeat(4, minmax(0, 1fr));
+        gap: 16px;
+        margin-bottom: 28px;
+      }
+
+      .v16-summary-card {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 18px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        box-shadow: 0 5px 20px rgba(0,0,0,.04);
+      }
+
+      .v16-summary-card span {
+        font-size: 25px;
+      }
+
+      .v16-summary-card strong {
+        font-size: 28px;
+      }
+
+      .v16-summary-card small {
+        color: #6b7280;
+      }
+
+      .v16-section-title {
+        margin-bottom: 16px;
+      }
+
+      .v16-section-title h2 {
+        margin: 0 0 5px;
+      }
+
+      .v16-section-title p {
+        margin: 0;
+        color: #6b7280;
+      }
+
+      .v16-module-grid {
+        display: grid;
+        grid-template-columns:
+          repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .v16-module-card {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 20px;
+        padding: 20px;
+        display: flex;
+        gap: 15px;
+        box-shadow: 0 6px 22px rgba(0,0,0,.04);
+      }
+
+      .v16-module-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f3f4f6;
+        font-size: 25px;
+        flex-shrink: 0;
+      }
+
+      .v16-module-content {
+        flex: 1;
+      }
+
+      .v16-module-content h3 {
+        margin: 0 0 6px;
+        font-size: 17px;
+      }
+
+      .v16-module-content p {
+        margin: 0 0 12px;
+        color: #6b7280;
+        line-height: 1.5;
+        font-size: 14px;
+      }
+
+      .v16-kpi-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 14px;
+      }
+
+      .v16-kpi-row span {
+        background: #f3f4f6;
+        border-radius: 20px;
+        padding: 5px 9px;
+        font-size: 11px;
+        color: #374151;
+      }
+
+      .v16-primary-btn,
+      .v16-secondary-btn {
+        border: 0;
+        border-radius: 12px;
+        padding: 12px 17px;
+        cursor: pointer;
+        font-weight: 700;
+        margin-top: 10px;
+      }
+
+      .v16-primary-btn {
+        background: #111827;
+        color: #fff;
+      }
+
+      .v16-secondary-btn {
+        background: #f3f4f6;
+        color: #111827;
+      }
+
+      .v16-learning-system {
+        margin-top: 28px;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 20px;
+        padding: 22px;
+      }
+
+      .v16-learning-header {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .v16-learning-header > span {
+        font-size: 30px;
+      }
+
+      .v16-learning-header h2 {
+        margin: 0 0 4px;
+      }
+
+      .v16-learning-header p {
+        margin: 0;
+        color: #6b7280;
+      }
+
+      .v16-learning-flow {
+        display: grid;
+        grid-template-columns:
+          repeat(7, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .v16-learning-flow div {
+        text-align: center;
+        padding: 14px 8px;
+        border-radius: 14px;
+        background: #f9fafb;
+      }
+
+      .v16-learning-flow b {
+        display: block;
+        font-size: 11px;
+        color: #9ca3af;
+        margin-bottom: 5px;
+      }
+
+      .v16-learning-flow span {
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .v16-action-grid {
+        display: grid;
+        grid-template-columns:
+          repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 22px;
+      }
+
+      .v16-action-card {
+        border: 1px solid #e5e7eb;
+        background: #fff;
+        border-radius: 18px;
+        padding: 20px;
+        text-align: left;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
+
+      .v16-action-card:hover {
+        transform: translateY(-2px);
+      }
+
+      .v16-action-card strong {
+        font-size: 16px;
+      }
+
+      .v16-action-card small {
+        color: #6b7280;
+      }
+
+      .v16-tool-page {
+        background: #fff;
+        border-radius: 20px;
+        min-height: 500px;
+      }
+
+      .v16-tool-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 22px;
+      }
+
+      .v16-tool-header > span {
+        font-size: 35px;
+      }
+
+      .v16-tool-header h2 {
+        margin: 0 0 5px;
+      }
+
+      .v16-tool-header p {
+        margin: 0;
+        color: #6b7280;
+      }
+
+      .v16-input {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #d1d5db;
+        border-radius: 12px;
+        margin: 6px 0 15px;
+        font-size: 14px;
+        box-sizing: border-box;
+      }
+
+      .v16-form-grid {
+        display: grid;
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+        gap: 15px;
+      }
+
+      .v16-metric-grid,
+      .v16-result-grid {
+        display: grid;
+        grid-template-columns:
+          repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin: 20px 0;
+      }
+
+      .v16-metric-grid > div,
+      .v16-result-grid > div {
+        background: #f9fafb;
+        border-radius: 15px;
+        padding: 18px;
+      }
+
+      .v16-metric-grid small,
+      .v16-result-grid small {
+        display: block;
+        color: #6b7280;
+        margin-bottom: 7px;
+      }
+
+      .v16-metric-grid strong,
+      .v16-result-grid strong {
+        font-size: 20px;
+      }
+
+      .v16-health-status {
+        padding: 22px;
+        border-radius: 18px;
+        background: #f3f4f6;
+        margin-bottom: 18px;
+      }
+
+      .v16-health-status small,
+      .v16-health-status strong,
+      .v16-health-status span {
+        display: block;
+      }
+
+      .v16-health-status strong {
+        font-size: 30px;
+        margin: 5px 0;
+      }
+
+      .v16-insight-box {
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        padding: 20px;
+        margin: 18px 0;
+      }
+
+      .v16-insight-box h3 {
+        margin-top: 0;
+      }
+
+      .v16-kpi-large {
+        display: grid;
+        grid-template-columns:
+          repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin: 15px 0;
+      }
+
+      .v16-kpi-large > div {
+        padding: 15px;
+        border-radius: 14px;
+        background: #f9fafb;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .v16-ai-quick-grid {
+        display: grid;
+        grid-template-columns:
+          repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+
+      .v16-ai-quick-grid button {
+        border: 1px solid #e5e7eb;
+        background: #fff;
+        padding: 13px;
+        border-radius: 12px;
+        cursor: pointer;
+        font-weight: 700;
+      }
+
+      .v16-ai-thinking,
+      .v16-ai-result {
+        margin-top: 18px;
+        padding: 20px;
+        border-radius: 16px;
+        background: #f9fafb;
+      }
+
+      .v16-ai-result-title {
+        font-weight: 800;
+        margin-bottom: 12px;
+      }
+
+      .v16-ai-answer {
+        line-height: 1.8;
+      }
+
+      .v16-practice-flow {
+        display: grid;
+        grid-template-columns:
+          repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        margin-bottom: 22px;
+      }
+
+      .v16-practice-step {
+        background: #f9fafb;
+        padding: 18px;
+        border-radius: 16px;
+        text-align: center;
+      }
+
+      .v16-practice-step span {
+        display: block;
+        font-size: 25px;
+        margin-bottom: 7px;
+      }
+
+      .v16-practice-step strong,
+      .v16-practice-step small {
+        display: block;
+      }
+
+      .v16-practice-step small {
+        color: #6b7280;
+        margin-top: 4px;
+      }
+
+      .v16-practice-box {
+        border: 1px solid #e5e7eb;
+        border-radius: 18px;
+        padding: 20px;
+      }
+
+      .v16-practice-actions {
+        margin-top: 15px;
+      }
+
+      .v16-lesson-map {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .v16-lesson-map-row {
+        display: grid;
+        grid-template-columns:
+          50px 1fr auto auto;
+        gap: 12px;
+        align-items: center;
+        border: 1px solid #e5e7eb;
+        border-radius: 15px;
+        padding: 12px;
+      }
+
+      .v16-lesson-number {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        background: #f3f4f6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+      }
+
+      .v16-lesson-info strong,
+      .v16-lesson-info small {
+        display: block;
+      }
+
+      .v16-lesson-info small {
+        color: #6b7280;
+        margin-top: 4px;
+      }
+
+      .v16-lesson-status {
+        font-size: 12px;
+        color: #6b7280;
+      }
+
+      .v16-lesson-map-row button {
+        border: 0;
+        background: #111827;
+        color: #fff;
+        padding: 9px 12px;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      .v16-sidebar-button {
+        width: calc(100% - 16px);
+        margin: 5px 8px;
+        padding: 11px 13px;
+        border: 0;
+        border-radius: 11px;
+        background: #111827;
+        color: #fff;
+        cursor: pointer;
+        display: flex;
+        gap: 9px;
+        align-items: center;
+        font-weight: 700;
+        text-align: left;
+      }
+
+      #aungV16FloatingButton {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 9998;
+        border: 0;
+        border-radius: 30px;
+        padding: 13px 18px;
+        background: #111827;
+        color: #fff;
+        font-weight: 800;
+        cursor: pointer;
+        box-shadow: 0 8px 30px rgba(0,0,0,.2);
+      }
+
+      @media (max-width: 1000px) {
+        .v16-module-grid {
+          grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+        }
+
+        .v16-action-grid {
+          grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+        }
+
+        .v16-learning-flow {
+          grid-template-columns:
+            repeat(4, minmax(0, 1fr));
+        }
+
+        .v16-summary-grid {
+          grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+        }
+
+        .v16-metric-grid,
+        .v16-result-grid {
+          grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 700px) {
+        .v16-page,
+        .v16-tool-page {
+          padding: 14px;
+        }
+
+        .v16-hero {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .v16-hero h1 {
+          font-size: 25px;
+        }
+
+        .v16-module-grid,
+        .v16-action-grid,
+        .v16-summary-grid,
+        .v16-form-grid,
+        .v16-ai-quick-grid,
+        .v16-practice-flow,
+        .v16-kpi-large {
+          grid-template-columns: 1fr;
+        }
+
+        .v16-learning-flow {
+          grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+        }
+
+        .v16-metric-grid,
+        .v16-result-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .v16-lesson-map-row {
+          grid-template-columns:
+            42px 1fr;
+        }
+
+        .v16-lesson-status,
+        .v16-lesson-map-row button {
+          grid-column: 2;
+        }
+
+        #aungV16FloatingButton {
+          right: 12px;
+          bottom: 12px;
+        }
+      }
+    `;
+
+    document.head.appendChild(style);
+  }
+
+  // ------------------------------------------------------------
+  // GLOBAL EXPORTS
+  // ------------------------------------------------------------
+
+  window.openV16Academy =
+    openV16Academy;
+
+  window.v16OpenModuleTool =
+    v16OpenModuleTool;
+
+  window.v16OpenBusinessHealth =
+    v16OpenBusinessHealth;
+
+  window.v16OpenPlanner =
+    v16OpenPlanner;
+
+  window.v16SaveStrategy =
+    v16SaveStrategy;
+
+  window.v16OpenMarketingPlanner =
+    v16OpenMarketingPlanner;
+
+  window.v16CalculateMarketing =
+    v16CalculateMarketing;
+
+  window.v16OpenNegotiationPlanner =
+    v16OpenNegotiationPlanner;
+
+  window.v16SaveNegotiation =
+    v16SaveNegotiation;
+
+  window.v16OpenGoalPlanner =
+    v16OpenGoalPlanner;
+
+  window.v16SaveGoal =
+    v16SaveGoal;
+
+  window.v16OpenInventoryPlanner =
+    v16OpenInventoryPlanner;
+
+  window.v16CalculateInventory =
+    v16CalculateInventory;
+
+  window.v16OpenLeadershipPlanner =
+    v16OpenLeadershipPlanner;
+
+  window.v16SaveLeadership =
+    v16SaveLeadership;
+
+  window.v16OpenAIAdvisor =
+    v16OpenAIAdvisor;
+
+  window.v16AskAI =
+    v16AskAI;
+
+  window.v16OpenLearningMap =
+    v16OpenLearningMap;
+
+  window.v16OpenLessonPractice =
+    v16OpenLessonPractice;
+
+  window.v16SaveLessonPractice =
+    v16SaveLessonPractice;
+
+  // ------------------------------------------------------------
+  // STARTUP
+  // ------------------------------------------------------------
+
+  function v16Init() {
+    try {
+      v16InjectStyles();
+      v16AddSidebarButton();
+      v16AddFloatingButton();
+
+      setTimeout(v16AddSidebarButton, 500);
+      setTimeout(v16AddSidebarButton, 1200);
+      setTimeout(v16AddSidebarButton, 2500);
+      setTimeout(v16AddSidebarButton, 5000);
+
+    } catch (error) {
+      console.error(
+        "Aung Business Academy V16 initialization error:",
+        error
+      );
+    }
+  }
+
+  if (
+    document.readyState === "loading"
+  ) {
+    document.addEventListener(
+      "DOMContentLoaded",
+      v16Init
+    );
+  } else {
+    v16Init();
+  }
+
+})();

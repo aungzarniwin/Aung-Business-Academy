@@ -185,10 +185,7 @@
      * Put English module at the TOP of the lesson page.
      */
 
-    page.insertBefore(
-      section,
-      page.firstChild
-    );
+   page.appendChild(section);
 
     renderEnglishLessons();
 

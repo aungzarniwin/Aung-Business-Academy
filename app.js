@@ -22670,6 +22670,1688 @@ if (
   );
 
 }
+  /* =========================================================
+   AUNG BUSINESS ACADEMY
+   V15.6 PREMIUM SALES TEAM
+   SAFE PREMIUM GATE + SIDEBAR
+   ========================================================= */
+
+(function () {
+
+  "use strict";
+
+
+  /* =======================================================
+     PREMIUM CHECK
+     Uses existing Academy Premium system
+     ======================================================= */
+
+  function v156HasPremium() {
+
+    try {
+
+      /* Existing function from main app */
+
+      if (
+        typeof hasPremiumAccess === "function"
+      ) {
+        return !!hasPremiumAccess();
+      }
+
+
+      /* Existing global Premium system */
+
+      if (
+        window.AungPremium &&
+        typeof window.AungPremium.hasAccess === "function"
+      ) {
+        return !!window.AungPremium.hasAccess();
+      }
+
+
+      if (
+        window.AungPremium &&
+        typeof window.AungPremium.isPremiumActive === "function"
+      ) {
+        return !!window.AungPremium.isPremiumActive();
+      }
+
+
+      /* Existing local Premium key */
+
+      const raw =
+        localStorage.getItem(
+          "aung_business_academy_premium"
+        );
+
+      if (!raw) {
+        return false;
+      }
+
+
+      const premium =
+        JSON.parse(raw);
+
+
+      if (
+        !premium ||
+        !premium.expiresAt
+      ) {
+        return false;
+      }
+
+
+      if (
+        Date.now() >=
+        Number(premium.expiresAt)
+      ) {
+
+        localStorage.removeItem(
+          "aung_business_academy_premium"
+        );
+
+        return false;
+      }
+
+
+      return true;
+
+    } catch (error) {
+
+      console.warn(
+        "V15.6 Premium check error:",
+        error
+      );
+
+      return false;
+
+    }
+
+  }
+
+
+  /* =======================================================
+     PREMIUM REQUIRED SCREEN
+     ======================================================= */
+
+  function v156RequirePremium() {
+
+    try {
+
+      if (
+        typeof openPremium ===
+        "function"
+      ) {
+
+        openPremium();
+
+        return;
+
+      }
+
+
+      if (
+        typeof openPremiumAccess ===
+        "function"
+      ) {
+
+        openPremiumAccess();
+
+        return;
+
+      }
+
+
+      /* Emergency fallback */
+
+      if (
+        typeof showModal ===
+        "function"
+      ) {
+
+        showModal(`
+
+          <div class="v156-premium-lock">
+
+            <div class="v156-lock-icon">
+              🔐
+            </div>
+
+            <h2>
+              Premium Feature
+            </h2>
+
+            <p>
+              Sales Team Management ကို
+              Premium Member များအတွက်သာ
+              အသုံးပြုနိုင်ပါတယ်
+            </p>
+
+            <button
+              class="primary-button"
+              onclick="
+                if(typeof openPremium === 'function'){
+                  openPremium();
+                }
+              "
+            >
+              👑 Upgrade Premium
+            </button>
+
+          </div>
+
+        `);
+
+      }
+
+    } catch (error) {
+
+      console.warn(
+        "V15.6 Premium screen error:",
+        error
+      );
+
+    }
+
+  }
+
+
+  /* =======================================================
+     OPEN SALES TEAM
+     ======================================================= */
+
+  function v156OpenSalesTeam() {
+
+    /* FIRST: PREMIUM CHECK */
+
+    if (
+      !v156HasPremium()
+    ) {
+
+      v156RequirePremium();
+
+      return;
+
+    }
+
+
+    /* THEN OPEN V15.3 */
+
+    try {
+
+      if (
+        typeof openV153Salesmen ===
+        "function"
+      ) {
+
+        openV153Salesmen();
+
+        return;
+
+      }
+
+
+      if (
+        typeof window.openV153Salesmen ===
+        "function"
+      ) {
+
+        window.openV153Salesmen();
+
+        return;
+
+      }
+
+
+      /* Fallback */
+
+      v156SalesTeamFallback();
+
+    } catch (error) {
+
+      console.error(
+        "V15.6 Sales Team error:",
+        error
+      );
+
+      v156SalesTeamFallback();
+
+    }
+
+  }
+
+
+  /* =======================================================
+     FALLBACK SALES TEAM PAGE
+     ======================================================= */
+
+  function v156SalesTeamFallback() {
+
+    if (
+      !v156HasPremium()
+    ) {
+
+      v156RequirePremium();
+
+      return;
+
+    }
+
+
+    const salesmen =
+      v156GetSalesmen();
+
+
+    let html = `
+
+      <div class="v156-page">
+
+        <div class="v156-page-header">
+
+          <div>
+
+            <div class="v156-title">
+              👥 Sales Team
+            </div>
+
+            <div class="v156-subtitle">
+              Salesman Performance & KPI
+            </div>
+
+          </div>
+
+
+          <button
+            class="primary-button"
+            onclick="v156AddSalesman()"
+          >
+            ＋ Add Salesman
+          </button>
+
+        </div>
+
+
+        <div class="v156-grid">
+    `;
+
+
+    if (
+      !salesmen.length
+    ) {
+
+      html += `
+
+        <div class="v156-empty">
+
+          <div class="v156-empty-icon">
+            👥
+          </div>
+
+          <h3>
+            Salesman မရှိသေးပါ
+          </h3>
+
+          <p>
+            Salesman တစ်ယောက်ထည့်ပြီး
+            Target နဲ့ Daily Sales ကို
+            စတင်မှတ်တမ်းတင်ပါ
+          </p>
+
+          <button
+            class="primary-button"
+            onclick="v156AddSalesman()"
+          >
+            ＋ Add First Salesman
+          </button>
+
+        </div>
+
+      `;
+
+    } else {
+
+      salesmen.forEach(
+        function (person) {
+
+          const target =
+            Number(
+              person.target || 0
+            );
+
+          const actual =
+            Number(
+              person.actual || 0
+            );
+
+          const achievement =
+            target > 0
+              ? (
+                  actual /
+                  target
+                ) * 100
+              : 0;
+
+          const gap =
+            Math.max(
+              target - actual,
+              0
+            );
+
+
+          html += `
+
+            <div
+              class="v156-salesman-card"
+            >
+
+              <div class="v156-person">
+
+                <div class="v156-avatar">
+
+                  ${String(
+                    person.name ||
+                    "S"
+                  )
+                    .charAt(0)
+                    .toUpperCase()}
+
+                </div>
+
+
+                <div>
+
+                  <h3>
+                    ${v156Esc(
+                      person.name ||
+                      "Salesman"
+                    )}
+                  </h3>
+
+                  <span>
+                    ${v156Esc(
+                      person.territory ||
+                      "Territory မသတ်မှတ်ရသေးပါ"
+                    )}
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div class="v156-kpis">
+
+                <div>
+
+                  <small>
+                    Target
+                  </small>
+
+                  <strong>
+                    ${v156Money(
+                      target
+                    )}
+                  </strong>
+
+                </div>
+
+
+                <div>
+
+                  <small>
+                    Actual
+                  </small>
+
+                  <strong>
+                    ${v156Money(
+                      actual
+                    )}
+                  </strong>
+
+                </div>
+
+
+                <div>
+
+                  <small>
+                    Achievement
+                  </small>
+
+                  <strong>
+                    ${achievement.toFixed(
+                      1
+                    )}%
+                  </strong>
+
+                </div>
+
+              </div>
+
+
+              <div
+                class="v156-progress"
+              >
+
+                <div
+                  class="v156-progress-bar"
+                  style="
+                    width:${Math.min(
+                      Math.max(
+                        achievement,
+                        0
+                      ),
+                      100
+                    )}%
+                  "
+                ></div>
+
+              </div>
+
+
+              <div
+                class="v156-gap"
+              >
+
+                Target Gap
+
+                <strong>
+                  ${v156Money(
+                    gap
+                  )}
+                </strong>
+
+              </div>
+
+
+              <div
+                class="v156-actions"
+              >
+
+                <button
+                  class="secondary-button"
+                  onclick="
+                    v156OpenDetail(
+                      '${v156Esc(
+                        person.id
+                      )}'
+                    )
+                  "
+                >
+                  📊 View Detail
+                </button>
+
+
+                <button
+                  class="secondary-button"
+                  onclick="
+                    v156DailyEntry(
+                      '${v156Esc(
+                        person.id
+                      )}'
+                    )
+                  "
+                >
+                  ＋ Daily Sales
+                </button>
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      );
+
+    }
+
+
+    html += `
+
+        </div>
+
+      </div>
+
+    `;
+
+
+    v156SetPageContent(
+      html
+    );
+
+  }
+
+
+  /* =======================================================
+     GET SALESMEN
+     ======================================================= */
+
+  function v156GetSalesmen() {
+
+    try {
+
+      if (
+        typeof v153GetSalesmen ===
+        "function"
+      ) {
+
+        return v153GetSalesmen() || [];
+
+      }
+
+
+      const raw =
+        localStorage.getItem(
+          "aung_business_academy_v153_salesmen"
+        );
+
+
+      if (!raw) {
+        return [];
+      }
+
+
+      const data =
+        JSON.parse(raw);
+
+
+      return Array.isArray(data)
+        ? data
+        : [];
+
+    } catch (error) {
+
+      console.warn(
+        "V15.6 Salesman data error:",
+        error
+      );
+
+      return [];
+
+    }
+
+  }
+
+
+  /* =======================================================
+     DETAIL
+     ======================================================= */
+
+  function v156OpenDetail(
+    id
+  ) {
+
+    if (
+      !v156HasPremium()
+    ) {
+
+      v156RequirePremium();
+
+      return;
+
+    }
+
+
+    if (
+      typeof openV153SalesmanDetail ===
+      "function"
+    ) {
+
+      openV153SalesmanDetail(
+        id
+      );
+
+      return;
+
+    }
+
+
+    alert(
+      "Salesman Detail is loading..."
+    );
+
+  }
+
+
+  /* =======================================================
+     DAILY ENTRY
+     ======================================================= */
+
+  function v156DailyEntry(
+    id
+  ) {
+
+    if (
+      !v156HasPremium()
+    ) {
+
+      v156RequirePremium();
+
+      return;
+
+    }
+
+
+    if (
+      typeof openV153DailyEntry ===
+      "function"
+    ) {
+
+      openV153DailyEntry(
+        id
+      );
+
+      return;
+
+    }
+
+
+    alert(
+      "Daily Sales is loading..."
+    );
+
+  }
+
+
+  /* =======================================================
+     ADD SALESMAN
+     ======================================================= */
+
+  function v156AddSalesman() {
+
+    if (
+      !v156HasPremium()
+    ) {
+
+      v156RequirePremium();
+
+      return;
+
+    }
+
+
+    if (
+      typeof openV153AddSalesman ===
+      "function"
+    ) {
+
+      openV153AddSalesman();
+
+      return;
+
+    }
+
+
+    alert(
+      "Add Salesman is loading..."
+    );
+
+  }
+
+
+  /* =======================================================
+     SET PAGE CONTENT
+     ======================================================= */
+
+  function v156SetPageContent(
+    html
+  ) {
+
+    try {
+
+      if (
+        typeof setPage ===
+        "function"
+      ) {
+
+        setPage(
+          "Sales Team",
+          "Salesman Performance & KPI"
+        );
+
+      }
+
+
+      if (
+        typeof setContent ===
+        "function"
+      ) {
+
+        setContent(
+          html
+        );
+
+        return;
+
+      }
+
+
+      const container =
+        document.querySelector(
+          ".main-content"
+        ) ||
+        document.querySelector(
+          ".content"
+        ) ||
+        document.querySelector(
+          "main"
+        );
+
+
+      if (container) {
+
+        container.innerHTML =
+          html;
+
+      }
+
+    } catch (error) {
+
+      console.error(
+        "V15.6 page error:",
+        error
+      );
+
+    }
+
+  }
+
+
+  /* =======================================================
+     SIDEBAR BUTTON
+     ======================================================= */
+
+  function v156InjectSidebar() {
+
+    try {
+
+      const sidebar =
+        document.querySelector(
+          ".sidebar"
+        );
+
+
+      if (!sidebar) {
+        return;
+      }
+
+
+      /* Remove previous V15.5 button */
+
+      const oldButton =
+        document.getElementById(
+          "v155SalesTeamButton"
+        );
+
+      if (oldButton) {
+
+        oldButton.remove();
+
+      }
+
+
+      /* Already installed */
+
+      if (
+        document.getElementById(
+          "v156SalesTeamButton"
+        )
+      ) {
+
+        return;
+
+      }
+
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+
+      button.id =
+        "v156SalesTeamButton";
+
+
+      button.type =
+        "button";
+
+
+      button.className =
+        "v156-sidebar-button";
+
+
+      button.innerHTML = `
+
+        <span class="v156-sidebar-icon">
+          👥
+        </span>
+
+        <span class="v156-sidebar-text">
+          Sales Team
+        </span>
+
+        <span class="v156-premium-badge">
+          PRO
+        </span>
+
+      `;
+
+
+      button.addEventListener(
+        "click",
+        function () {
+
+          v156OpenSalesTeam();
+
+        }
+      );
+
+
+      /* ----------------------------------
+         Find Sales Management
+         ---------------------------------- */
+
+      const buttons =
+        Array.from(
+          sidebar.querySelectorAll(
+            "button"
+          )
+        );
+
+
+      let inserted =
+        false;
+
+
+      for (
+        const existing
+        of buttons
+      ) {
+
+        if (
+          existing === button
+        ) {
+          continue;
+        }
+
+
+        const text =
+          (
+            existing.innerText ||
+            existing.textContent ||
+            ""
+          )
+            .trim()
+            .toLowerCase();
+
+
+        if (
+          text ===
+            "sales management" ||
+          text.includes(
+            "sales management"
+          )
+        ) {
+
+          existing.insertAdjacentElement(
+            "afterend",
+            button
+          );
+
+          inserted =
+            true;
+
+          break;
+
+        }
+
+      }
+
+
+      /* ----------------------------------
+         Find Sales Manager
+         ---------------------------------- */
+
+      if (!inserted) {
+
+        for (
+          const existing
+          of buttons
+        ) {
+
+          const text =
+            (
+              existing.innerText ||
+              existing.textContent ||
+              ""
+            )
+              .trim()
+              .toLowerCase();
+
+
+          if (
+            text.includes(
+              "sales manager"
+            )
+          ) {
+
+            existing.insertAdjacentElement(
+              "afterend",
+              button
+            );
+
+            inserted =
+              true;
+
+            break;
+
+          }
+
+        }
+
+      }
+
+
+      /* ----------------------------------
+         Before Settings
+         ---------------------------------- */
+
+      if (!inserted) {
+
+        for (
+          const existing
+          of buttons
+        ) {
+
+          const text =
+            (
+              existing.innerText ||
+              existing.textContent ||
+              ""
+            )
+              .trim()
+              .toLowerCase();
+
+
+          if (
+            text.includes(
+              "settings"
+            )
+          ) {
+
+            existing.insertAdjacentElement(
+              "beforebegin",
+              button
+            );
+
+            inserted =
+              true;
+
+            break;
+
+          }
+
+        }
+
+      }
+
+
+      /* ----------------------------------
+         Last fallback
+         ---------------------------------- */
+
+      if (!inserted) {
+
+        sidebar.appendChild(
+          button
+        );
+
+      }
+
+    } catch (error) {
+
+      console.error(
+        "V15.6 sidebar error:",
+        error
+      );
+
+    }
+
+  }
+
+
+  /* =======================================================
+     HTML HELPERS
+     ======================================================= */
+
+  function v156Money(
+    value
+  ) {
+
+    return new Intl.NumberFormat(
+      "en-US"
+    ).format(
+      Math.round(
+        Number(value) || 0
+      )
+    );
+
+  }
+
+
+  function v156Esc(
+    value
+  ) {
+
+    return String(
+      value ?? ""
+    )
+      .replace(
+        /&/g,
+        "&amp;"
+      )
+      .replace(
+        /</g,
+        "&lt;"
+      )
+      .replace(
+        />/g,
+        "&gt;"
+      )
+      .replace(
+        /"/g,
+        "&quot;"
+      )
+      .replace(
+        /'/g,
+        "&#039;"
+      );
+
+  }
+
+
+  /* =======================================================
+     CSS
+     ======================================================= */
+
+  function v156Styles() {
+
+    if (
+      document.getElementById(
+        "v156Styles"
+      )
+    ) {
+
+      return;
+
+    }
+
+
+    const style =
+      document.createElement(
+        "style"
+      );
+
+
+    style.id =
+      "v156Styles";
+
+
+    style.textContent = `
+
+      #v156SalesTeamButton {
+        display: none !important;
+      }
+
+
+      .v156-sidebar-button {
+
+        width: 100%;
+
+        min-height: 44px;
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 10px;
+
+        padding: 11px 14px;
+
+        margin: 3px 0;
+
+        border: 0;
+
+        border-radius: 10px;
+
+        background: transparent;
+
+        color: inherit;
+
+        font-size: 14px;
+
+        font-weight: 650;
+
+        text-align: left;
+
+        cursor: pointer;
+
+        transition:
+          background .2s ease,
+          transform .2s ease;
+
+      }
+
+
+      .v156-sidebar-button:hover {
+
+        background:
+          rgba(59,130,246,.10);
+
+        transform:
+          translateX(2px);
+
+      }
+
+
+      .v156-sidebar-icon {
+
+        width: 24px;
+
+        min-width: 24px;
+
+        text-align: center;
+
+        font-size: 18px;
+
+      }
+
+
+      .v156-sidebar-text {
+
+        flex: 1;
+
+      }
+
+
+      .v156-premium-badge {
+
+        font-size: 9px;
+
+        font-weight: 800;
+
+        padding: 3px 6px;
+
+        border-radius: 5px;
+
+        background:
+          rgba(245,158,11,.15);
+
+        color:
+          #b45309;
+
+      }
+
+
+      .v156-page {
+
+        width: 100%;
+
+        max-width: 1200px;
+
+        margin: 0 auto;
+
+      }
+
+
+      .v156-page-header {
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        gap: 18px;
+
+        padding: 20px;
+
+        margin-bottom: 20px;
+
+        border-radius: 18px;
+
+        background:
+          rgba(59,130,246,.07);
+
+        border:
+          1px solid
+          rgba(59,130,246,.12);
+
+      }
+
+
+      .v156-title {
+
+        font-size: 25px;
+
+        font-weight: 850;
+
+        margin-bottom: 5px;
+
+      }
+
+
+      .v156-subtitle {
+
+        opacity: .65;
+
+        font-size: 14px;
+
+      }
+
+
+      .v156-grid {
+
+        display: grid;
+
+        grid-template-columns:
+          repeat(
+            auto-fit,
+            minmax(
+              280px,
+              1fr
+            )
+          );
+
+        gap: 18px;
+
+      }
+
+
+      .v156-salesman-card {
+
+        padding: 18px;
+
+        border-radius: 18px;
+
+        background:
+          var(--card-bg,#fff);
+
+        border:
+          1px solid
+          rgba(0,0,0,.08);
+
+        box-shadow:
+          0 6px 24px
+          rgba(0,0,0,.05);
+
+      }
+
+
+      .v156-person {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 12px;
+
+        margin-bottom: 18px;
+
+      }
+
+
+      .v156-avatar {
+
+        width: 48px;
+
+        height: 48px;
+
+        min-width: 48px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        border-radius: 50%;
+
+        background:
+          rgba(59,130,246,.12);
+
+        font-size: 19px;
+
+        font-weight: 850;
+
+      }
+
+
+      .v156-person h3 {
+
+        margin: 0 0 4px;
+
+      }
+
+
+      .v156-person span {
+
+        font-size: 12px;
+
+        opacity: .6;
+
+      }
+
+
+      .v156-kpis {
+
+        display: grid;
+
+        grid-template-columns:
+          repeat(3,1fr);
+
+        gap: 8px;
+
+      }
+
+
+      .v156-kpis > div {
+
+        padding: 10px 6px;
+
+        border-radius: 10px;
+
+        background:
+          rgba(0,0,0,.035);
+
+        text-align: center;
+
+      }
+
+
+      .v156-kpis small {
+
+        display: block;
+
+        font-size: 10px;
+
+        opacity: .6;
+
+        margin-bottom: 4px;
+
+      }
+
+
+      .v156-kpis strong {
+
+        font-size: 12px;
+
+      }
+
+
+      .v156-progress {
+
+        height: 8px;
+
+        margin:
+          14px 0 12px;
+
+        overflow: hidden;
+
+        border-radius: 99px;
+
+        background:
+          rgba(0,0,0,.08);
+
+      }
+
+
+      .v156-progress-bar {
+
+        height: 100%;
+
+        border-radius: 99px;
+
+        background:
+          linear-gradient(
+            90deg,
+            #2563eb,
+            #7c3aed
+          );
+
+      }
+
+
+      .v156-gap {
+
+        display: flex;
+
+        justify-content: space-between;
+
+        padding: 10px;
+
+        margin-bottom: 14px;
+
+        border-radius: 10px;
+
+        background:
+          rgba(239,68,68,.07);
+
+        font-size: 13px;
+
+      }
+
+
+      .v156-actions {
+
+        display: grid;
+
+        grid-template-columns:
+          1fr 1fr;
+
+        gap: 8px;
+
+      }
+
+
+      .v156-actions button {
+
+        width: 100%;
+
+        font-size: 12px;
+
+      }
+
+
+      .v156-empty {
+
+        grid-column:
+          1 / -1;
+
+        text-align: center;
+
+        padding: 60px 20px;
+
+        border-radius: 18px;
+
+        border:
+          1px dashed
+          rgba(0,0,0,.16);
+
+      }
+
+
+      .v156-empty-icon {
+
+        font-size: 50px;
+
+        margin-bottom: 14px;
+
+      }
+
+
+      .v156-premium-lock {
+
+        max-width: 520px;
+
+        margin: auto;
+
+        text-align: center;
+
+        padding: 20px;
+
+      }
+
+
+      .v156-lock-icon {
+
+        font-size: 58px;
+
+        margin-bottom: 12px;
+
+      }
+
+
+      @media (
+        max-width: 700px
+      ) {
+
+        .v156-page-header {
+
+          flex-direction:
+            column;
+
+          align-items:
+            stretch;
+
+        }
+
+
+        .v156-kpis {
+
+          grid-template-columns:
+            1fr;
+
+        }
+
+
+        .v156-actions {
+
+          grid-template-columns:
+            1fr;
+
+        }
+
+      }
+
+    `;
+
+
+    document.head.appendChild(
+      style
+    );
+
+  }
+
+
+  /* =======================================================
+     INIT
+     ======================================================= */
+
+  function v156Init() {
+
+    v156Styles();
+
+
+    v156InjectSidebar();
+
+
+    /*
+       Retry because the main app
+       may rebuild its sidebar
+    */
+
+    setTimeout(
+      v156InjectSidebar,
+      800
+    );
+
+
+    setTimeout(
+      v156InjectSidebar,
+      1800
+    );
+
+
+    setTimeout(
+      v156InjectSidebar,
+      3500
+    );
+
+
+    setTimeout(
+      v156InjectSidebar,
+      6000
+    );
+
+  }
+
+
+  /* =======================================================
+     EXPORTS
+     ======================================================= */
+
+  window.v156HasPremium =
+    v156HasPremium;
+
+  window.v156OpenSalesTeam =
+    v156OpenSalesTeam;
+
+  window.v156RequirePremium =
+    v156RequirePremium;
+
+  window.v156AddSalesman =
+    v156AddSalesman;
+
+  window.v156OpenDetail =
+    v156OpenDetail;
+
+  window.v156DailyEntry =
+    v156DailyEntry;
+
+
+  /* =======================================================
+     START
+     ======================================================= */
+
+  if (
+    document.readyState ===
+    "loading"
+  ) {
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      function () {
+
+        setTimeout(
+          v156Init,
+          700
+        );
+
+      }
+    );
+
+  } else {
+
+    setTimeout(
+      v156Init,
+      700
+    );
+
+  }
+
+})();
   // START
   // ============================================================
 

@@ -6858,6 +6858,2982 @@
   }
 
   // ------------------------------------------------------------
+  /* ============================================================
+   AUNG BUSINESS ACADEMY
+   V11 QUIZ + FINAL EXAM + CERTIFICATE
+   SAFE ADD-ON
+   Does not replace existing V9/V10 features
+   ============================================================ */
+
+const V11_QUIZ_KEY = "aung_business_academy_v11_quiz";
+const V11_EXAM_KEY = "aung_business_academy_v11_exam";
+const V11_CERT_KEY = "aung_business_academy_v11_certificate";
+
+/* ------------------------------------------------------------
+   V11 LESSON TITLES
+   ------------------------------------------------------------ */
+
+const V11_LESSON_TITLES = [
+  "Business Fundamentals",
+  "Business Model",
+  "Market Research",
+  "Customer Finding",
+  "Marketing Fundamentals",
+  "Digital Marketing",
+  "Content Marketing",
+  "Sales Fundamentals",
+  "Sales Strategy",
+  "Negotiation Skills",
+  "Sales Management",
+  "Leadership Fundamentals",
+  "Strategic Thinking",
+  "Decision Making",
+  "Team Leadership",
+  "Brand Fundamentals",
+  "Brand Positioning",
+  "People Management",
+  "Recruitment",
+  "Performance Management",
+  "Coaching",
+  "Revenue Management",
+  "Profit & Loss",
+  "Cash Flow",
+  "Financial Analysis",
+  "Time Management",
+  "Goal Setting",
+  "Daily Planning",
+  "Business Growth Strategy",
+  "Business Execution"
+];
+
+/* ------------------------------------------------------------
+   V11 QUIZ BANK
+   5 questions for every lesson
+   ------------------------------------------------------------ */
+
+const V11_QUIZ_BANK = {
+
+  1: [
+    {
+      q: "What is the main purpose of a business?",
+      a: ["To create value for customers and earn sustainable profit", "To spend money", "To avoid customers", "To copy competitors"],
+      c: 0
+    },
+    {
+      q: "What should a business understand first?",
+      a: ["Customer needs", "Office decoration", "Employee hobbies", "Competitor salaries"],
+      c: 0
+    },
+    {
+      q: "What does revenue mean?",
+      a: ["Money generated from sales", "Only business expenses", "Employee salary", "Company debt"],
+      c: 0
+    },
+    {
+      q: "Why is customer value important?",
+      a: ["It helps customers choose and stay with the business", "It increases office size", "It removes competition", "It eliminates all costs"],
+      c: 0
+    },
+    {
+      q: "A strong business foundation should include:",
+      a: ["Customers, value, revenue and execution", "Only advertising", "Only employees", "Only products"],
+      c: 0
+    }
+  ],
+
+  2: [
+    {
+      q: "What is a business model?",
+      a: ["How a business creates, delivers and captures value", "A company logo", "An employee list", "A sales receipt"],
+      c: 0
+    },
+    {
+      q: "Which is part of a business model?",
+      a: ["Customer segments", "Office furniture only", "Personal hobbies", "Employee birthdays"],
+      c: 0
+    },
+    {
+      q: "Why should a business model be clear?",
+      a: ["To understand how the business makes money", "To avoid customers", "To increase paperwork", "To remove planning"],
+      c: 0
+    },
+    {
+      q: "A revenue stream explains:",
+      a: ["Where business income comes from", "Where employees live", "Where products are stored only", "Competitor locations"],
+      c: 0
+    },
+    {
+      q: "A good business model should be:",
+      a: ["Practical and financially sustainable", "Impossible to execute", "Focused only on cost", "Focused only on competitors"],
+      c: 0
+    }
+  ],
+
+  3: [
+    {
+      q: "What is market research?",
+      a: ["Collecting and analyzing market information", "Guessing customer names", "Only designing products", "Only hiring staff"],
+      c: 0
+    },
+    {
+      q: "What should market research identify?",
+      a: ["Customers, competitors and market trends", "Employee birthdays", "Office furniture", "Personal hobbies"],
+      c: 0
+    },
+    {
+      q: "Why analyze competitors?",
+      a: ["To understand their strengths, weaknesses and positioning", "To copy everything", "To avoid customers", "To stop selling"],
+      c: 0
+    },
+    {
+      q: "Customer research helps identify:",
+      a: ["Needs, behavior and buying preferences", "Office rent only", "Employee salary only", "Tax numbers only"],
+      c: 0
+    },
+    {
+      q: "Good market research should be based on:",
+      a: ["Reliable information and evidence", "Rumors only", "Guessing only", "One person's opinion"],
+      c: 0
+    }
+  ],
+
+  4: [
+    {
+      q: "What is customer finding?",
+      a: ["Identifying potential customers for a product or service", "Finding employees", "Finding office space", "Finding suppliers only"],
+      c: 0
+    },
+    {
+      q: "What is a target customer?",
+      a: ["A customer group most likely to need and buy the offering", "Any random person", "Only competitors", "Only employees"],
+      c: 0
+    },
+    {
+      q: "Why define customer segments?",
+      a: ["To focus sales and marketing efforts", "To increase confusion", "To avoid selling", "To remove customer data"],
+      c: 0
+    },
+    {
+      q: "A customer profile can include:",
+      a: ["Needs, behavior and purchasing power", "Only name", "Only phone model", "Only favorite color"],
+      c: 0
+    },
+    {
+      q: "Effective customer finding starts with:",
+      a: ["Understanding who has the problem your business solves", "Calling everyone randomly", "Ignoring the market", "Copying competitors"],
+      c: 0
+    }
+  ],
+
+  5: [
+    {
+      q: "What is marketing?",
+      a: ["Creating, communicating and delivering value to customers", "Only selling", "Only advertising", "Only discounting"],
+      c: 0
+    },
+    {
+      q: "The marketing mix commonly includes:",
+      a: ["Product, Price, Place and Promotion", "People, Office, Car and Phone", "Profit, Tax, Salary and Rent", "Sales, Debt, Loan and Cash"],
+      c: 0
+    },
+    {
+      q: "Why is positioning important?",
+      a: ["It defines how customers perceive the offering", "It controls employee attendance", "It sets office rent", "It removes competitors"],
+      c: 0
+    },
+    {
+      q: "A marketing strategy should focus on:",
+      a: ["Target customers and value proposition", "Only internal meetings", "Only company expenses", "Only competitors"],
+      c: 0
+    },
+    {
+      q: "Good marketing should ultimately support:",
+      a: ["Customer value and business growth", "More paperwork", "Higher internal costs", "Less customer contact"],
+      c: 0
+    }
+  ],
+
+  6: [
+    {
+      q: "What is digital marketing?",
+      a: ["Marketing through digital channels and technologies", "Only newspaper advertising", "Only outdoor posters", "Only face-to-face selling"],
+      c: 0
+    },
+    {
+      q: "Which is a digital marketing channel?",
+      a: ["Social media", "Warehouse", "Office desk", "Delivery truck"],
+      c: 0
+    },
+    {
+      q: "Why track digital marketing results?",
+      a: ["To understand performance and improve ROI", "To avoid customers", "To increase costs", "To remove content"],
+      c: 0
+    },
+    {
+      q: "A useful digital metric is:",
+      a: ["Conversion rate", "Office size", "Employee age", "Parking spaces"],
+      c: 0
+    },
+    {
+      q: "Effective digital marketing should be:",
+      a: ["Targeted, measurable and customer-focused", "Random and unmeasured", "Only expensive", "Only promotional"],
+      c: 0
+    }
+  ],
+
+  7: [
+    {
+      q: "What is content marketing?",
+      a: ["Creating useful content to attract and engage customers", "Only cold calling", "Only discounting", "Only accounting"],
+      c: 0
+    },
+    {
+      q: "Good content should provide:",
+      a: ["Useful value to the target audience", "Confusion", "Unrelated information", "Only company slogans"],
+      c: 0
+    },
+    {
+      q: "Which can be content marketing?",
+      a: ["Educational videos", "Warehouse counting", "Salary processing", "Office cleaning"],
+      c: 0
+    },
+    {
+      q: "A content strategy should define:",
+      a: ["Audience, topics, channels and goals", "Only logo size", "Only employee names", "Only office location"],
+      c: 0
+    },
+    {
+      q: "Consistent content helps build:",
+      a: ["Trust and brand awareness", "More inventory waste", "Higher office rent", "Less customer interest"],
+      c: 0
+    }
+  ],
+
+  8: [
+    {
+      q: "What is the purpose of selling?",
+      a: ["Solve customer needs while creating business value", "Pressure everyone to buy", "Only reduce prices", "Avoid customers"],
+      c: 0
+    },
+    {
+      q: "A strong salesperson should first:",
+      a: ["Understand customer needs", "Talk continuously", "Offer the biggest discount", "Ignore objections"],
+      c: 0
+    },
+    {
+      q: "What is a sales pipeline?",
+      a: ["Stages prospects move through toward purchase", "A delivery truck", "A warehouse", "A price list"],
+      c: 0
+    },
+    {
+      q: "Good selling requires:",
+      a: ["Listening, questioning and value communication", "Only talking", "Only discounting", "Only product knowledge"],
+      c: 0
+    },
+    {
+      q: "A sales conversion measures:",
+      a: ["How many prospects become customers", "Employee attendance", "Inventory value only", "Office expenses"],
+      c: 0
+    }
+  ],
+
+  9: [
+    {
+      q: "What is sales strategy?",
+      a: ["A planned approach to achieve sales objectives", "A random sales activity", "A salary plan", "A warehouse plan"],
+      c: 0
+    },
+    {
+      q: "Sales strategy should align with:",
+      a: ["Business goals and customer needs", "Employee hobbies", "Office design", "Competitor rumors"],
+      c: 0
+    },
+    {
+      q: "A sales target should be:",
+      a: ["Specific and measurable", "Impossible", "Unknown", "Random"],
+      c: 0
+    },
+    {
+      q: "Territory planning helps:",
+      a: ["Allocate sales resources effectively", "Remove customers", "Increase travel without purpose", "Stop reporting"],
+      c: 0
+    },
+    {
+      q: "Sales strategy should be reviewed when:",
+      a: ["Market conditions or performance changes", "Never", "Only at company parties", "Only after resignation"],
+      c: 0
+    }
+  ],
+
+  10: [
+    {
+      q: "What is negotiation?",
+      a: ["A process of reaching an agreement between parties", "A price list", "A sales report", "A complaint"],
+      c: 0
+    },
+    {
+      q: "Good negotiation starts with:",
+      a: ["Understanding interests and objectives", "Threatening the other party", "Giving away everything", "Ignoring information"],
+      c: 0
+    },
+    {
+      q: "A win-win negotiation aims to:",
+      a: ["Create acceptable value for both parties", "Make one side lose", "Avoid agreement", "Increase conflict"],
+      c: 0
+    },
+    {
+      q: "Before negotiation, you should know your:",
+      a: ["Target and minimum acceptable position", "Competitor's salary", "Office size", "Employee hobbies"],
+      c: 0
+    },
+    {
+      q: "Effective negotiation requires:",
+      a: ["Listening, preparation and clear communication", "Anger", "Pressure only", "Silence only"],
+      c: 0
+    }
+  ],
+
+  11: [
+    {
+      q: "What is sales management?",
+      a: ["Planning, leading and controlling sales activities", "Only selling products", "Only hiring", "Only accounting"],
+      c: 0
+    },
+    {
+      q: "A sales manager should monitor:",
+      a: ["Targets, pipeline, productivity and execution", "Only attendance", "Only office expenses", "Only competitor salaries"],
+      c: 0
+    },
+    {
+      q: "Why conduct field visits?",
+      a: ["To understand execution and coach the team", "To avoid customers", "To reduce communication", "To replace reporting"],
+      c: 0
+    },
+    {
+      q: "A good sales review should be:",
+      a: ["Data-driven and action-oriented", "Only criticism", "Only informal", "Without targets"],
+      c: 0
+    },
+    {
+      q: "Sales leadership should focus on:",
+      a: ["People, numbers and execution", "Numbers only", "People only", "Products only"],
+      c: 0
+    }
+  ],
+
+  12: [
+    {
+      q: "What is leadership?",
+      a: ["Influencing and guiding people toward a shared goal", "Giving orders only", "Controlling every detail", "Avoiding decisions"],
+      c: 0
+    },
+    {
+      q: "Good leaders create:",
+      a: ["Clear direction and accountability", "Fear only", "Confusion", "No expectations"],
+      c: 0
+    },
+    {
+      q: "Effective delegation means:",
+      a: ["Giving responsibility with clear expectations and support", "Giving work without instructions", "Doing everything yourself", "Avoiding ownership"],
+      c: 0
+    },
+    {
+      q: "Trust is built through:",
+      a: ["Consistency, honesty and accountability", "Threats", "Silence", "Favoritism"],
+      c: 0
+    },
+    {
+      q: "A leader should develop:",
+      a: ["People and performance", "Only reports", "Only products", "Only budgets"],
+      c: 0
+    }
+  ],
+
+  13: [
+    {
+      q: "What is strategic thinking?",
+      a: ["Understanding the bigger picture and long-term direction", "Only daily tasks", "Only reacting", "Avoiding planning"],
+      c: 0
+    },
+    {
+      q: "Strategy should consider:",
+      a: ["Goals, market, capabilities and competition", "Only office design", "Only employee hobbies", "Only short-term discounts"],
+      c: 0
+    },
+    {
+      q: "A strategic priority is:",
+      a: ["An important area requiring focused resources", "Every small task", "An optional activity", "A random idea"],
+      c: 0
+    },
+    {
+      q: "Strategic thinking helps leaders:",
+      a: ["Make better long-term choices", "Avoid decisions", "Ignore risks", "Remove goals"],
+      c: 0
+    },
+    {
+      q: "A strategy without execution is:",
+      a: ["Unlikely to create results", "Always successful", "A financial report", "A customer segment"],
+      c: 0
+    }
+  ],
+
+  14: [
+    {
+      q: "What is decision making?",
+      a: ["Choosing an action among alternatives", "Avoiding all choices", "Only asking others", "Only collecting data"],
+      c: 0
+    },
+    {
+      q: "Good decisions should use:",
+      a: ["Relevant information and clear objectives", "Rumors only", "Emotion only", "No evidence"],
+      c: 0
+    },
+    {
+      q: "What is a risk?",
+      a: ["Potential uncertainty that may affect results", "Guaranteed profit", "A customer", "A product"],
+      c: 0
+    },
+    {
+      q: "A decision matrix can help:",
+      a: ["Compare alternatives systematically", "Increase confusion", "Remove choices", "Replace customers"],
+      c: 0
+    },
+    {
+      q: "After making a decision, leaders should:",
+      a: ["Monitor results and adjust when needed", "Never review", "Ignore outcomes", "Blame others"],
+      c: 0
+    }
+  ],
+
+  15: [
+    {
+      q: "What is team leadership?",
+      a: ["Guiding a group toward shared objectives", "Doing every task alone", "Avoiding communication", "Only checking attendance"],
+      c: 0
+    },
+    {
+      q: "High-performing teams need:",
+      a: ["Clear goals, roles and accountability", "Confusion", "No feedback", "No goals"],
+      c: 0
+    },
+    {
+      q: "Team communication should be:",
+      a: ["Clear, regular and constructive", "Rare and unclear", "Only written", "Only negative"],
+      c: 0
+    },
+    {
+      q: "Team conflict should be:",
+      a: ["Addressed professionally and early", "Ignored forever", "Encouraged", "Hidden"],
+      c: 0
+    },
+    {
+      q: "Recognition can help improve:",
+      a: ["Engagement and motivation", "Confusion", "Costs only", "Inventory"],
+      c: 0
+    }
+  ],
+
+  16: [
+    {
+      q: "What is a brand?",
+      a: ["The overall perception and identity associated with an offering", "Only a logo", "Only a product", "Only a slogan"],
+      c: 0
+    },
+    {
+      q: "Brand consistency helps build:",
+      a: ["Recognition and trust", "Confusion", "Higher costs only", "Lower awareness"],
+      c: 0
+    },
+    {
+      q: "A strong brand should have:",
+      a: ["Clear identity and value proposition", "No positioning", "Random messages", "No customer focus"],
+      c: 0
+    },
+    {
+      q: "Brand promise means:",
+      a: ["The value and experience customers can expect", "Employee salary", "Product cost", "Office policy"],
+      c: 0
+    },
+    {
+      q: "Brand building is:",
+      a: ["A long-term process", "A one-day activity", "Only a logo change", "Only advertising"],
+      c: 0
+    }
+  ],
+
+  17: [
+    {
+      q: "What is brand positioning?",
+      a: ["How a brand is intended to be perceived relative to alternatives", "Where the office is located", "Product storage", "Employee ranking"],
+      c: 0
+    },
+    {
+      q: "Effective positioning should be:",
+      a: ["Clear, relevant and differentiated", "Confusing", "Identical to competitors", "Unrelated to customers"],
+      c: 0
+    },
+    {
+      q: "Differentiation means:",
+      a: ["Creating meaningful reasons to choose your brand", "Copying competitors", "Lowering quality", "Avoiding customers"],
+      c: 0
+    },
+    {
+      q: "Positioning should be based on:",
+      a: ["Customer needs and competitive context", "Only company preference", "Only office design", "Only employee opinion"],
+      c: 0
+    },
+    {
+      q: "Strong positioning helps:",
+      a: ["Customers understand why the brand is valuable", "Increase confusion", "Remove value", "Avoid marketing"],
+      c: 0
+    }
+  ],
+
+  18: [
+    {
+      q: "What is people management?",
+      a: ["Managing, developing and supporting employees", "Only payroll", "Only recruitment", "Only attendance"],
+      c: 0
+    },
+    {
+      q: "Good people management includes:",
+      a: ["Communication, development and accountability", "Only control", "Only criticism", "No feedback"],
+      c: 0
+    },
+    {
+      q: "Employee motivation can be improved through:",
+      a: ["Recognition, growth and meaningful goals", "Fear only", "Confusion", "No communication"],
+      c: 0
+    },
+    {
+      q: "Performance conversations should be:",
+      a: ["Regular and constructive", "Only once a year", "Always negative", "Avoided"],
+      c: 0
+    },
+    {
+      q: "A manager should treat employees with:",
+      a: ["Respect and fairness", "Favoritism", "Fear", "Silence"],
+      c: 0
+    }
+  ],
+
+  19: [
+    {
+      q: "What is recruitment?",
+      a: ["Finding and selecting suitable candidates", "Training customers", "Selling products", "Managing inventory"],
+      c: 0
+    },
+    {
+      q: "A good job description should include:",
+      a: ["Responsibilities, requirements and expectations", "Only salary", "Only company name", "Only location"],
+      c: 0
+    },
+    {
+      q: "Interview questions should assess:",
+      a: ["Skills, experience and suitability", "Personal gossip", "Unrelated hobbies", "Family details"],
+      c: 0
+    },
+    {
+      q: "The best candidate is not always:",
+      a: ["The person with the most experience", "The suitable person", "The qualified person", "The capable person"],
+      c: 0
+    },
+    {
+      q: "Good recruitment reduces:",
+      a: ["Hiring mistakes", "Customer value", "Team performance", "Business growth"],
+      c: 0
+    }
+  ],
+
+  20: [
+    {
+      q: "What is performance management?",
+      a: ["Managing performance toward agreed objectives", "Only giving warnings", "Only salary payment", "Only recruitment"],
+      c: 0
+    },
+    {
+      q: "KPIs should be:",
+      a: ["Relevant and measurable", "Random", "Impossible", "Hidden"],
+      c: 0
+    },
+    {
+      q: "Performance reviews should focus on:",
+      a: ["Results, behaviors and development", "Only mistakes", "Only attendance", "Only salary"],
+      c: 0
+    },
+    {
+      q: "A performance gap means:",
+      a: ["Difference between expected and actual performance", "A promotion", "A customer complaint", "A product discount"],
+      c: 0
+    },
+    {
+      q: "Performance improvement should include:",
+      a: ["Clear actions and follow-up", "Only criticism", "No support", "No measurement"],
+      c: 0
+    }
+  ],
+
+  21: [
+    {
+      q: "What is coaching?",
+      a: ["Helping people improve through guidance and questioning", "Giving orders only", "Doing their work", "Ignoring problems"],
+      c: 0
+    },
+    {
+      q: "Effective coaching starts with:",
+      a: ["Understanding the current situation", "Giving punishment", "Talking continuously", "Avoiding questions"],
+      c: 0
+    },
+    {
+      q: "A coach should encourage:",
+      a: ["Ownership and self-reflection", "Dependence", "Fear", "Silence"],
+      c: 0
+    },
+    {
+      q: "Good feedback should be:",
+      a: ["Specific, timely and constructive", "Personal and emotional", "Vague", "Always negative"],
+      c: 0
+    },
+    {
+      q: "The goal of coaching is:",
+      a: ["Improve capability and performance", "Control people", "Increase paperwork", "Avoid accountability"],
+      c: 0
+    }
+  ],
+
+  22: [
+    {
+      q: "What is revenue management?",
+      a: ["Managing revenue opportunities to improve business performance", "Only collecting cash", "Only setting salaries", "Only reducing costs"],
+      c: 0
+    },
+    {
+      q: "Revenue can increase through:",
+      a: ["More customers, higher value and better conversion", "Only more expenses", "Less selling", "Fewer customers"],
+      c: 0
+    },
+    {
+      q: "Average transaction value measures:",
+      a: ["Average revenue per transaction", "Employee salary", "Inventory quantity", "Office rent"],
+      c: 0
+    },
+    {
+      q: "Revenue analysis should examine:",
+      a: ["Volume, price, mix and customer behavior", "Only office costs", "Only attendance", "Only branding"],
+      c: 0
+    },
+    {
+      q: "Healthy revenue growth should be:",
+      a: ["Sustainable and profitable", "Based only on discounts", "Always unplanned", "Without customers"],
+      c: 0
+    }
+  ],
+
+  23: [
+    {
+      q: "What is profit?",
+      a: ["Revenue minus expenses", "Revenue plus expenses", "Expenses only", "Sales volume only"],
+      c: 0
+    },
+    {
+      q: "P&L stands for:",
+      a: ["Profit and Loss", "Price and Logistics", "People and Leadership", "Planning and Learning"],
+      c: 0
+    },
+    {
+      q: "Gross profit is generally:",
+      a: ["Revenue minus cost of goods sold", "Revenue plus salary", "Cash minus customers", "Sales minus tax only"],
+      c: 0
+    },
+    {
+      q: "Why monitor expenses?",
+      a: ["To protect profitability", "To reduce customers", "To stop sales", "To remove products"],
+      c: 0
+    },
+    {
+      q: "A profitable business needs:",
+      a: ["Healthy revenue and controlled costs", "Only high sales volume", "Only low expenses", "Only high prices"],
+      c: 0
+    }
+  ],
+
+  24: [
+    {
+      q: "What is cash flow?",
+      a: ["Movement of cash into and out of a business", "Profit only", "Sales only", "Inventory only"],
+      c: 0
+    },
+    {
+      q: "Positive cash flow means:",
+      a: ["More cash is coming in than going out during the period", "No sales", "More expenses only", "No customers"],
+      c: 0
+    },
+    {
+      q: "Why can a profitable business have cash problems?",
+      a: ["Timing of collections and payments can differ", "Profit is always cash", "Customers never pay", "Costs do not exist"],
+      c: 0
+    },
+    {
+      q: "Accounts receivable represents:",
+      a: ["Money customers owe the business", "Cash in hand", "Inventory", "Employee salary"],
+      c: 0
+    },
+    {
+      q: "Cash flow management requires:",
+      a: ["Monitoring collections, payments and timing", "Ignoring invoices", "Avoiding budgets", "Only tracking sales"],
+      c: 0
+    }
+  ],
+
+  25: [
+    {
+      q: "What is financial analysis?",
+      a: ["Evaluating financial information to support decisions", "Only counting cash", "Only selling", "Only hiring"],
+      c: 0
+    },
+    {
+      q: "A financial ratio can help:",
+      a: ["Compare business performance", "Choose employee uniforms", "Find office space", "Write advertisements"],
+      c: 0
+    },
+    {
+      q: "Profit margin measures:",
+      a: ["Profit relative to revenue", "Employees per office", "Customers per phone", "Inventory per employee"],
+      c: 0
+    },
+    {
+      q: "Financial trends help identify:",
+      a: ["Changes in performance over time", "Employee hobbies", "Office design", "Customer birthdays"],
+      c: 0
+    },
+    {
+      q: "Financial analysis should support:",
+      a: ["Better business decisions", "More paperwork", "Less planning", "Random actions"],
+      c: 0
+    }
+  ],
+
+  26: [
+    {
+      q: "What is time management?",
+      a: ["Planning and controlling how time is used", "Working all day without planning", "Avoiding priorities", "Doing everything at once"],
+      c: 0
+    },
+    {
+      q: "A priority is:",
+      a: ["An important task requiring focused attention", "Any random task", "An optional distraction", "A break"],
+      c: 0
+    },
+    {
+      q: "Time blocking means:",
+      a: ["Allocating specific time for specific activities", "Avoiding schedules", "Doing many things at once", "Ignoring deadlines"],
+      c: 0
+    },
+    {
+      q: "Delegation can help managers:",
+      a: ["Use time for higher-value responsibilities", "Avoid leadership", "Increase confusion", "Stop teamwork"],
+      c: 0
+    },
+    {
+      q: "Effective time management starts with:",
+      a: ["Clear priorities and goals", "More meetings", "No plan", "Constant interruptions"],
+      c: 0
+    }
+  ],
+
+  27: [
+    {
+      q: "What is goal setting?",
+      a: ["Defining desired outcomes and how to achieve them", "Only making wishes", "Avoiding targets", "Only planning meetings"],
+      c: 0
+    },
+    {
+      q: "SMART goals are:",
+      a: ["Specific, Measurable, Achievable, Relevant and Time-bound", "Simple, Modern, Active, Rapid and Temporary", "Sales, Marketing, Accounting, Revenue and Training", "None"],
+      c: 0
+    },
+    {
+      q: "Why measure goals?",
+      a: ["To know whether progress is being made", "To create confusion", "To avoid accountability", "To stop execution"],
+      c: 0
+    },
+    {
+      q: "A good goal should have:",
+      a: ["A clear deadline", "No deadline", "No owner", "No measurement"],
+      c: 0
+    },
+    {
+      q: "Goals should connect to:",
+      a: ["Business priorities", "Random activities", "Office decoration", "Employee hobbies"],
+      c: 0
+    }
+  ],
+
+  28: [
+    {
+      q: "What is daily planning?",
+      a: ["Organizing key activities for the day", "Working randomly", "Avoiding priorities", "Only checking email"],
+      c: 0
+    },
+    {
+      q: "A daily plan should identify:",
+      a: ["Top priorities and actions", "Every possible distraction", "Only meetings", "Only breaks"],
+      c: 0
+    },
+    {
+      q: "Why choose top priorities?",
+      a: ["To focus effort on high-impact work", "To make more lists", "To avoid results", "To increase distractions"],
+      c: 0
+    },
+    {
+      q: "At the end of the day, review:",
+      a: ["Completed work and unfinished priorities", "Only messages", "Only breaks", "Nothing"],
+      c: 0
+    },
+    {
+      q: "Daily planning improves:",
+      a: ["Focus and execution", "Confusion", "Delay", "Unnecessary work"],
+      c: 0
+    }
+  ],
+
+  29: [
+    {
+      q: "What is business growth?",
+      a: ["Increasing business value, revenue or market presence sustainably", "Only increasing expenses", "Only hiring", "Only opening offices"],
+      c: 0
+    },
+    {
+      q: "Growth can come from:",
+      a: ["More customers, new products or new markets", "Only discounts", "Only costs", "Only reducing staff"],
+      c: 0
+    },
+    {
+      q: "Before scaling, a business should:",
+      a: ["Understand its economics and operational capacity", "Ignore costs", "Ignore customers", "Avoid planning"],
+      c: 0
+    },
+    {
+      q: "Sustainable growth requires:",
+      a: ["Profitable economics and strong execution", "Only high sales", "Only advertising", "Only borrowing"],
+      c: 0
+    },
+    {
+      q: "Growth strategy should consider:",
+      a: ["Market opportunity, resources and risks", "Only competitors", "Only office size", "Only employee count"],
+      c: 0
+    }
+  ],
+
+  30: [
+    {
+      q: "What is business execution?",
+      a: ["Turning plans and strategies into measurable actions and results", "Only planning", "Only meetings", "Only reporting"],
+      c: 0
+    },
+    {
+      q: "Execution requires:",
+      a: ["Clear priorities, ownership and follow-up", "Only ideas", "No accountability", "No measurement"],
+      c: 0
+    },
+    {
+      q: "Why track execution?",
+      a: ["To know whether actions are producing results", "To create paperwork", "To avoid decisions", "To stop planning"],
+      c: 0
+    },
+    {
+      q: "Accountability means:",
+      a: ["Taking responsibility for agreed outcomes", "Blaming others", "Avoiding tasks", "Ignoring results"],
+      c: 0
+    },
+    {
+      q: "The best strategy is valuable when:",
+      a: ["It is executed consistently and improved from results", "It stays on paper", "Nobody owns it", "It has no target"],
+      c: 0
+    }
+  ]
+};
+
+
+/* ------------------------------------------------------------
+   V11 SAFE STORAGE
+   ------------------------------------------------------------ */
+
+function v11Get(key, fallback) {
+  try {
+    const value = localStorage.getItem(key);
+    return value ? JSON.parse(value) : fallback;
+  } catch (e) {
+    return fallback;
+  }
+}
+
+function v11Set(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (e) {
+    console.warn("V11 storage error:", e);
+  }
+}
+
+function v11Escape(value) {
+  if (typeof escapeHTML === "function") {
+    return escapeHTML(String(value));
+  }
+
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+/* ------------------------------------------------------------
+   QUIZ STATUS
+   ------------------------------------------------------------ */
+
+function v11GetQuizData() {
+  return v11Get(V11_QUIZ_KEY, {});
+}
+
+function v11GetExamData() {
+  return v11Get(V11_EXAM_KEY, {
+    attempts: 0,
+    bestScore: 0,
+    passed: false
+  });
+}
+
+function v11GetCertificate() {
+  return v11Get(V11_CERT_KEY, null);
+}
+
+
+/* ------------------------------------------------------------
+   LESSON QUIZ
+   ------------------------------------------------------------ */
+
+function openV11Quiz(lessonNumber) {
+
+  lessonNumber = Number(lessonNumber);
+
+  if (
+    !lessonNumber ||
+    lessonNumber < 1 ||
+    lessonNumber > 30
+  ) {
+    if (typeof showToast === "function") {
+      showToast("Invalid lesson.");
+    }
+    return;
+  }
+
+  const questions = V11_QUIZ_BANK[lessonNumber];
+
+  if (!questions || questions.length === 0) {
+    if (typeof showToast === "function") {
+      showToast("Quiz is not available yet.");
+    }
+    return;
+  }
+
+  const title =
+    V11_LESSON_TITLES[lessonNumber - 1] ||
+    "Lesson " + lessonNumber;
+
+  let html = `
+    <div class="v11-quiz-container">
+
+      <div class="v11-quiz-header">
+        <div class="v11-badge">📝 LESSON QUIZ</div>
+        <h2>Lesson ${lessonNumber}: ${v11Escape(title)}</h2>
+        <p>Answer all 5 questions and check your knowledge.</p>
+      </div>
+
+      <form id="v11QuizForm">
+  `;
+
+  questions.forEach((item, index) => {
+
+    html += `
+      <div class="v11-question-card">
+
+        <div class="v11-question-number">
+          Question ${index + 1} of ${questions.length}
+        </div>
+
+        <h3>${v11Escape(item.q)}</h3>
+
+        <div class="v11-options">
+    `;
+
+    item.a.forEach((answer, answerIndex) => {
+
+      html += `
+        <label class="v11-option">
+          <input
+            type="radio"
+            name="v11q${index}"
+            value="${answerIndex}"
+          >
+          <span>${v11Escape(answer)}</span>
+        </label>
+      `;
+    });
+
+    html += `
+        </div>
+      </div>
+    `;
+  });
+
+  html += `
+        <button
+          type="button"
+          class="v11-main-button"
+          onclick="submitV11Quiz(${lessonNumber})"
+        >
+          ✅ Submit Quiz
+        </button>
+
+      </form>
+
+    </div>
+  `;
+
+  if (typeof showModal === "function") {
+    showModal(
+      "Lesson Quiz",
+      html
+    );
+  } else {
+    alert("Quiz system is ready.");
+  }
+}
+
+
+/* ------------------------------------------------------------
+   SUBMIT LESSON QUIZ
+   ------------------------------------------------------------ */
+
+function submitV11Quiz(lessonNumber) {
+
+  lessonNumber = Number(lessonNumber);
+
+  const questions = V11_QUIZ_BANK[lessonNumber];
+
+  if (!questions) return;
+
+  let score = 0;
+  let answered = 0;
+
+  questions.forEach(function(item, index) {
+
+    const selected =
+      document.querySelector(
+        'input[name="v11q' + index + '"]:checked'
+      );
+
+    if (selected) {
+      answered++;
+
+      if (
+        Number(selected.value) ===
+        Number(item.c)
+      ) {
+        score++;
+      }
+    }
+  });
+
+  if (answered < questions.length) {
+
+    if (typeof showToast === "function") {
+      showToast("Please answer all questions first.");
+    } else {
+      alert("Please answer all questions first.");
+    }
+
+    return;
+  }
+
+  const percentage =
+    Math.round(
+      (score / questions.length) * 100
+    );
+
+  const passed = percentage >= 70;
+
+  const quizData = v11GetQuizData();
+
+  quizData[lessonNumber] = {
+    score: score,
+    total: questions.length,
+    percentage: percentage,
+    passed: passed,
+    date: new Date().toISOString()
+  };
+
+  v11Set(
+    V11_QUIZ_KEY,
+    quizData
+  );
+
+  if (passed) {
+
+    /* Automatically complete lesson
+       when the quiz is passed */
+
+    if (
+      typeof markLessonComplete === "function"
+    ) {
+      try {
+        markLessonComplete(lessonNumber);
+      } catch (e) {
+        console.warn(
+          "Could not mark lesson complete:",
+          e
+        );
+      }
+    }
+  }
+
+  v11ShowQuizResult(
+    lessonNumber,
+    score,
+    questions.length,
+    percentage,
+    passed
+  );
+}
+
+
+/* ------------------------------------------------------------
+   QUIZ RESULT
+   ------------------------------------------------------------ */
+
+function v11ShowQuizResult(
+  lessonNumber,
+  score,
+  total,
+  percentage,
+  passed
+) {
+
+  const title =
+    V11_LESSON_TITLES[lessonNumber - 1] ||
+    "Lesson " + lessonNumber;
+
+  const resultIcon =
+    passed ? "🎉" : "📚";
+
+  const resultTitle =
+    passed ? "Quiz Passed!" : "Keep Learning!";
+
+  const resultMessage =
+    passed
+      ? "Excellent! You passed this lesson quiz."
+      : "You need 70% or higher to pass. Review the lesson and try again.";
+
+  const html = `
+    <div class="v11-result-card">
+
+      <div class="v11-result-icon">
+        ${resultIcon}
+      </div>
+
+      <h2>${resultTitle}</h2>
+
+      <p>
+        ${v11Escape(title)}
+      </p>
+
+      <div class="v11-score-circle">
+        <strong>${percentage}%</strong>
+      </div>
+
+      <h3>
+        Score: ${score} / ${total}
+      </h3>
+
+      <p class="v11-result-message">
+        ${resultMessage}
+      </p>
+
+      <div class="v11-result-actions">
+
+        ${
+          passed
+            ? `
+              <button
+                class="v11-main-button"
+                onclick="closeModal(); openV11QuizDashboard();"
+              >
+                📊 Quiz Dashboard
+              </button>
+            `
+            : `
+              <button
+                class="v11-main-button"
+                onclick="closeModal(); openV11Quiz(${lessonNumber});"
+              >
+                🔄 Try Again
+              </button>
+            `
+        }
+
+      </div>
+
+    </div>
+  `;
+
+  if (typeof showModal === "function") {
+    showModal(
+      "Quiz Result",
+      html
+    );
+  }
+}
+
+
+/* ------------------------------------------------------------
+   QUIZ DASHBOARD
+   ------------------------------------------------------------ */
+
+function openV11QuizDashboard() {
+
+  const quizData = v11GetQuizData();
+
+  let passedCount = 0;
+  let attemptedCount = 0;
+  let totalScore = 0;
+
+  for (let i = 1; i <= 30; i++) {
+
+    if (quizData[i]) {
+
+      attemptedCount++;
+
+      if (quizData[i].passed) {
+        passedCount++;
+      }
+
+      totalScore +=
+        Number(quizData[i].percentage || 0);
+    }
+  }
+
+  const average =
+    attemptedCount > 0
+      ? Math.round(
+          totalScore / attemptedCount
+        )
+      : 0;
+
+  const quizProgress =
+    Math.round(
+      (passedCount / 30) * 100
+    );
+
+  let html = `
+    <div class="v11-dashboard">
+
+      <div class="v11-dashboard-header">
+        <div class="v11-badge">🏆 V11 LEARNING CENTER</div>
+        <h2>Quiz & Achievement Center</h2>
+        <p>Test your knowledge and complete your learning journey.</p>
+      </div>
+
+      <div class="v11-stat-grid">
+
+        <div class="v11-stat-card">
+          <span>📝</span>
+          <strong>${attemptedCount}</strong>
+          <small>Attempted</small>
+        </div>
+
+        <div class="v11-stat-card">
+          <span>✅</span>
+          <strong>${passedCount}</strong>
+          <small>Passed</small>
+        </div>
+
+        <div class="v11-stat-card">
+          <span>📊</span>
+          <strong>${average}%</strong>
+          <small>Average Score</small>
+        </div>
+
+        <div class="v11-stat-card">
+          <span>🏆</span>
+          <strong>${quizProgress}%</strong>
+          <small>Quiz Progress</small>
+        </div>
+
+      </div>
+
+      <div class="v11-progress-box">
+        <div class="v11-progress-title">
+          <strong>Quiz Completion</strong>
+          <span>${passedCount}/30</span>
+        </div>
+
+        <div class="v11-progress-track">
+          <div
+            class="v11-progress-fill"
+            style="width:${quizProgress}%"
+          ></div>
+        </div>
+      </div>
+
+      <div class="v11-section-title">
+        📚 Lesson Quizzes
+      </div>
+
+      <div class="v11-lesson-grid">
+  `;
+
+  for (let i = 1; i <= 30; i++) {
+
+    const result = quizData[i];
+
+    let status = "Not Started";
+    let statusClass = "locked";
+
+    if (result) {
+
+      if (result.passed) {
+        status = "Passed";
+        statusClass = "passed";
+      } else {
+        status =
+          result.percentage + "%";
+        statusClass = "failed";
+      }
+    }
+
+    html += `
+      <div class="v11-lesson-card">
+
+        <div class="v11-lesson-top">
+          <span class="v11-lesson-number">
+            ${i}
+          </span>
+
+          <span class="v11-status ${statusClass}">
+            ${v11Escape(status)}
+          </span>
+        </div>
+
+        <h3>
+          ${v11Escape(
+            V11_LESSON_TITLES[i - 1]
+          )}
+        </h3>
+
+        <p>
+          5 Questions
+        </p>
+
+        <button
+          class="v11-small-button"
+          onclick="openV11Quiz(${i})"
+        >
+          ${
+            result
+              ? "🔄 Retake Quiz"
+              : "📝 Start Quiz"
+          }
+        </button>
+
+      </div>
+    `;
+  }
+
+  html += `
+      </div>
+
+      <div class="v11-final-exam-box">
+
+        <div>
+          <div class="v11-badge">
+            🎓 FINAL EXAM
+          </div>
+
+          <h2>Business Academy Final Exam</h2>
+
+          <p>
+            Complete the 30 lesson quizzes and take your final exam.
+          </p>
+        </div>
+
+        <button
+          class="v11-main-button"
+          onclick="openV11FinalExam()"
+        >
+          🎓 Open Final Exam
+        </button>
+
+      </div>
+
+      <div class="v11-certificate-box">
+
+        <div>
+          <div class="v11-badge">
+            🏆 CERTIFICATE
+          </div>
+
+          <h2>My Certificate</h2>
+
+          <p>
+            ${
+              v11GetCertificate()
+                ? "Your certificate is available."
+                : "Pass the final exam to earn your certificate."
+            }
+          </p>
+        </div>
+
+        <button
+          class="v11-main-button"
+          onclick="openV11Certificate()"
+        >
+          🏆 View Certificate
+        </button>
+
+      </div>
+
+    </div>
+  `;
+
+  if (typeof showModal === "function") {
+    showModal(
+      "Quiz & Achievement Center",
+      html
+    );
+  }
+}
+
+
+/* ------------------------------------------------------------
+   FINAL EXAM
+   ------------------------------------------------------------ */
+
+function v11AllQuizzesPassed() {
+
+  const quizData = v11GetQuizData();
+
+  for (let i = 1; i <= 30; i++) {
+
+    if (
+      !quizData[i] ||
+      !quizData[i].passed
+    ) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+
+function openV11FinalExam() {
+
+  if (!v11AllQuizzesPassed()) {
+
+    const quizData = v11GetQuizData();
+
+    let completed = 0;
+
+    for (let i = 1; i <= 30; i++) {
+      if (
+        quizData[i] &&
+        quizData[i].passed
+      ) {
+        completed++;
+      }
+    }
+
+    const html = `
+      <div class="v11-lock-box">
+
+        <div class="v11-result-icon">
+          🔒
+        </div>
+
+        <h2>Final Exam Locked</h2>
+
+        <p>
+          You need to pass all 30 lesson quizzes first.
+        </p>
+
+        <div class="v11-lock-progress">
+          <strong>${completed} / 30</strong>
+          <span>Lesson quizzes passed</span>
+        </div>
+
+        <button
+          class="v11-main-button"
+          onclick="closeModal(); openV11QuizDashboard();"
+        >
+          📚 Continue Quizzes
+        </button>
+
+      </div>
+    `;
+
+    if (typeof showModal === "function") {
+      showModal(
+        "Final Exam",
+        html
+      );
+    }
+
+    return;
+  }
+
+  const examQuestions = v11CreateFinalExamQuestions();
+
+  let html = `
+    <div class="v11-quiz-container">
+
+      <div class="v11-quiz-header">
+
+        <div class="v11-badge">
+          🎓 FINAL EXAM
+        </div>
+
+        <h2>
+          Aung Business Academy
+        </h2>
+
+        <p>
+          Final Business Management Examination
+        </p>
+
+        <div class="v11-exam-info">
+          30 Questions • 70% Pass Mark
+        </div>
+
+      </div>
+
+      <form id="v11ExamForm">
+  `;
+
+  examQuestions.forEach(
+    function(item, index) {
+
+      html += `
+        <div class="v11-question-card">
+
+          <div class="v11-question-number">
+            Question ${index + 1} of 30
+          </div>
+
+          <h3>
+            ${v11Escape(item.q)}
+          </h3>
+
+          <div class="v11-options">
+      `;
+
+      item.a.forEach(
+        function(answer, answerIndex) {
+
+          html += `
+            <label class="v11-option">
+
+              <input
+                type="radio"
+                name="v11exam${index}"
+                value="${answerIndex}"
+              >
+
+              <span>
+                ${v11Escape(answer)}
+              </span>
+
+            </label>
+          `;
+        }
+      );
+
+      html += `
+          </div>
+
+        </div>
+      `;
+    }
+  );
+
+  html += `
+        <button
+          type="button"
+          class="v11-main-button v11-exam-submit"
+          onclick="submitV11FinalExam()"
+        >
+          🎓 Submit Final Exam
+        </button>
+
+      </form>
+
+    </div>
+  `;
+
+  if (typeof showModal === "function") {
+    showModal(
+      "Final Exam",
+      html
+    );
+  }
+}
+
+
+/* ------------------------------------------------------------
+   CREATE FINAL EXAM
+   1 question from each lesson
+   ------------------------------------------------------------ */
+
+function v11CreateFinalExamQuestions() {
+
+  const questions = [];
+
+  for (let i = 1; i <= 30; i++) {
+
+    const bank =
+      V11_QUIZ_BANK[i];
+
+    if (
+      bank &&
+      bank.length > 0
+    ) {
+
+      /* Rotate the question selected
+         using lesson number */
+
+      const index =
+        (i - 1) % bank.length;
+
+      questions.push(
+        bank[index]
+      );
+    }
+  }
+
+  return questions;
+}
+
+
+/* ------------------------------------------------------------
+   SUBMIT FINAL EXAM
+   ------------------------------------------------------------ */
+
+function submitV11FinalExam() {
+
+  const questions =
+    v11CreateFinalExamQuestions();
+
+  let score = 0;
+  let answered = 0;
+
+  questions.forEach(
+    function(item, index) {
+
+      const selected =
+        document.querySelector(
+          'input[name="v11exam' +
+          index +
+          '"]:checked'
+        );
+
+      if (selected) {
+
+        answered++;
+
+        if (
+          Number(selected.value) ===
+          Number(item.c)
+        ) {
+          score++;
+        }
+      }
+    }
+  );
+
+  if (
+    answered <
+    questions.length
+  ) {
+
+    if (typeof showToast === "function") {
+      showToast(
+        "Please answer all 30 questions."
+      );
+    } else {
+      alert(
+        "Please answer all 30 questions."
+      );
+    }
+
+    return;
+  }
+
+  const percentage =
+    Math.round(
+      (score / questions.length) * 100
+    );
+
+  const passed =
+    percentage >= 70;
+
+  const examData =
+    v11GetExamData();
+
+  examData.attempts =
+    Number(examData.attempts || 0) + 1;
+
+  examData.lastScore =
+    percentage;
+
+  examData.lastDate =
+    new Date().toISOString();
+
+  if (
+    percentage >
+    Number(examData.bestScore || 0)
+  ) {
+    examData.bestScore =
+      percentage;
+  }
+
+  examData.passed =
+    examData.passed || passed;
+
+  v11Set(
+    V11_EXAM_KEY,
+    examData
+  );
+
+  if (passed) {
+    v11CreateCertificate(
+      percentage
+    );
+  }
+
+  v11ShowExamResult(
+    score,
+    questions.length,
+    percentage,
+    passed
+  );
+}
+
+
+/* ------------------------------------------------------------
+   FINAL EXAM RESULT
+   ------------------------------------------------------------ */
+
+function v11ShowExamResult(
+  score,
+  total,
+  percentage,
+  passed
+) {
+
+  const html = `
+    <div class="v11-result-card">
+
+      <div class="v11-result-icon">
+        ${passed ? "🏆" : "📚"}
+      </div>
+
+      <h2>
+        ${
+          passed
+            ? "Congratulations!"
+            : "Keep Learning!"
+        }
+      </h2>
+
+      <p>
+        ${
+          passed
+            ? "You passed the Aung Business Academy Final Exam."
+            : "You need at least 70% to pass the Final Exam."
+        }
+      </p>
+
+      <div class="v11-score-circle">
+        <strong>${percentage}%</strong>
+      </div>
+
+      <h3>
+        Score: ${score} / ${total}
+      </h3>
+
+      ${
+        passed
+          ? `
+            <div class="v11-success-message">
+              🎓 Your Certificate has been created.
+            </div>
+          `
+          : `
+            <div class="v11-warning-message">
+              Review your lessons and try the Final Exam again.
+            </div>
+          `
+      }
+
+      <div class="v11-result-actions">
+
+        ${
+          passed
+            ? `
+              <button
+                class="v11-main-button"
+                onclick="closeModal(); openV11Certificate();"
+              >
+                🏆 View Certificate
+              </button>
+            `
+            : `
+              <button
+                class="v11-main-button"
+                onclick="closeModal(); openV11FinalExam();"
+              >
+                🔄 Try Final Exam Again
+              </button>
+            `
+        }
+
+      </div>
+
+    </div>
+  `;
+
+  if (typeof showModal === "function") {
+    showModal(
+      "Final Exam Result",
+      html
+    );
+  }
+}
+
+
+/* ------------------------------------------------------------
+   CERTIFICATE
+   ------------------------------------------------------------ */
+
+function v11CreateCertificate(score) {
+
+  const userName =
+    typeof getUserName === "function"
+      ? getUserName()
+      : (
+          v11Get(
+            USER_KEY,
+            {}
+          ).name || "Aung Zar Ni Win"
+        );
+
+  const certificate = {
+
+    name:
+      userName ||
+      "Aung Zar Ni Win",
+
+    score:
+      Number(score),
+
+    course:
+      "Business Management Mastery",
+
+    academy:
+      "Aung Business Academy",
+
+    date:
+      new Date().toISOString(),
+
+    certificateId:
+      "ABA-" +
+      Date.now().toString(36).toUpperCase()
+
+  };
+
+  v11Set(
+    V11_CERT_KEY,
+    certificate
+  );
+
+  return certificate;
+}
+
+
+function openV11Certificate() {
+
+  const certificate =
+    v11GetCertificate();
+
+  if (!certificate) {
+
+    const html = `
+      <div class="v11-lock-box">
+
+        <div class="v11-result-icon">
+          🎓
+        </div>
+
+        <h2>Certificate Not Available</h2>
+
+        <p>
+          Pass the Final Exam with at least 70% to receive your certificate.
+        </p>
+
+        <button
+          class="v11-main-button"
+          onclick="closeModal(); openV11QuizDashboard();"
+        >
+          📚 Go to Learning Center
+        </button>
+
+      </div>
+    `;
+
+    if (typeof showModal === "function") {
+      showModal(
+        "Certificate",
+        html
+      );
+    }
+
+    return;
+  }
+
+  const date =
+    new Date(
+      certificate.date
+    ).toLocaleDateString(
+      "en-GB",
+      {
+        day: "2-digit",
+        month: "long",
+        year: "numeric"
+      }
+    );
+
+  const html = `
+    <div class="v11-certificate-wrapper">
+
+      <div
+        id="v11Certificate"
+        class="v11-certificate"
+      >
+
+        <div class="v11-certificate-border">
+
+          <div class="v11-certificate-logo">
+            ABA
+          </div>
+
+          <div class="v11-certificate-small">
+            AUNG BUSINESS ACADEMY
+          </div>
+
+          <h1>
+            CERTIFICATE
+          </h1>
+
+          <h2>
+            OF COMPLETION
+          </h2>
+
+          <p class="v11-certificate-label">
+            This certificate is proudly presented to
+          </p>
+
+          <div class="v11-certificate-name">
+            ${v11Escape(
+              certificate.name
+            )}
+          </div>
+
+          <p class="v11-certificate-text">
+            for successfully completing the
+          </p>
+
+          <h3>
+            Business Management Mastery
+          </h3>
+
+          <p class="v11-certificate-text">
+            at Aung Business Academy
+          </p>
+
+          <div class="v11-certificate-score">
+            Final Exam Score:
+            <strong>
+              ${certificate.score}%
+            </strong>
+          </div>
+
+          <div class="v11-certificate-footer">
+
+            <div>
+              <strong>
+                ${v11Escape(date)}
+              </strong>
+              <span>Date</span>
+            </div>
+
+            <div>
+              <strong>
+                ${v11Escape(
+                  certificate.certificateId
+                )}
+              </strong>
+              <span>Certificate ID</span>
+            </div>
+
+            <div>
+              <strong>
+                Aung Business Academy
+              </strong>
+              <span>Academy</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="v11-certificate-actions">
+
+        <button
+          class="v11-main-button"
+          onclick="v11PrintCertificate()"
+        >
+          🖨️ Print / Save Certificate
+        </button>
+
+      </div>
+
+    </div>
+  `;
+
+  if (typeof showModal === "function") {
+    showModal(
+      "My Certificate",
+      html
+    );
+  }
+}
+
+
+/* ------------------------------------------------------------
+   PRINT CERTIFICATE
+   ------------------------------------------------------------ */
+
+function v11PrintCertificate() {
+
+  const certificate =
+    document.getElementById(
+      "v11Certificate"
+    );
+
+  if (!certificate) {
+    return;
+  }
+
+  const printWindow =
+    window.open(
+      "",
+      "_blank",
+      "width=1000,height=800"
+    );
+
+  if (!printWindow) {
+
+    if (typeof showToast === "function") {
+      showToast(
+        "Please allow pop-ups to print the certificate."
+      );
+    }
+
+    return;
+  }
+
+  printWindow.document.write(`
+    <!DOCTYPE html>
+
+    <html>
+
+    <head>
+
+      <title>
+        Aung Business Academy Certificate
+      </title>
+
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+      >
+
+      <style>
+
+        * {
+          box-sizing: border-box;
+        }
+
+        body {
+          margin: 0;
+          padding: 30px;
+          background: white;
+          font-family:
+            Arial,
+            Helvetica,
+            sans-serif;
+        }
+
+        .v11-certificate {
+          width: 100%;
+          max-width: 1000px;
+          margin: 0 auto;
+          padding: 12px;
+          border: 8px solid #111827;
+        }
+
+        .v11-certificate-border {
+          border: 2px solid #111827;
+          padding: 55px 45px;
+          text-align: center;
+          min-height: 650px;
+        }
+
+        .v11-certificate-logo {
+          width: 70px;
+          height: 70px;
+          border-radius: 50%;
+          margin: 0 auto 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #111827;
+          color: white;
+          font-weight: 800;
+          font-size: 22px;
+        }
+
+        .v11-certificate-small {
+          font-size: 13px;
+          letter-spacing: 3px;
+          font-weight: 700;
+        }
+
+        .v11-certificate h1 {
+          font-size: 52px;
+          margin: 20px 0 5px;
+          letter-spacing: 6px;
+        }
+
+        .v11-certificate h2 {
+          font-size: 20px;
+          letter-spacing: 5px;
+          margin: 0 0 35px;
+        }
+
+        .v11-certificate-label,
+        .v11-certificate-text {
+          font-size: 16px;
+          line-height: 1.6;
+        }
+
+        .v11-certificate-name {
+          font-size: 40px;
+          font-weight: 800;
+          margin: 25px 0;
+        }
+
+        .v11-certificate h3 {
+          font-size: 27px;
+          margin: 18px 0;
+        }
+
+        .v11-certificate-score {
+          margin: 30px auto;
+          font-size: 16px;
+        }
+
+        .v11-certificate-score strong {
+          font-size: 24px;
+        }
+
+        .v11-certificate-footer {
+          display: flex;
+          justify-content: space-between;
+          gap: 20px;
+          margin-top: 45px;
+        }
+
+        .v11-certificate-footer div {
+          flex: 1;
+        }
+
+        .v11-certificate-footer strong,
+        .v11-certificate-footer span {
+          display: block;
+        }
+
+        .v11-certificate-footer span {
+          margin-top: 7px;
+          font-size: 12px;
+        }
+
+        @media print {
+
+          body {
+            padding: 0;
+          }
+
+          .v11-certificate {
+            max-width: none;
+            width: 100%;
+          }
+
+        }
+
+      </style>
+
+    </head>
+
+    <body>
+
+      ${certificate.outerHTML}
+
+      <script>
+        window.onload = function() {
+          window.print();
+        };
+      <\/script>
+
+    </body>
+
+    </html>
+  `);
+
+  printWindow.document.close();
+}
+
+
+/* ------------------------------------------------------------
+   V11 DASHBOARD BUTTON
+   ------------------------------------------------------------ */
+
+function v11AddQuizButton() {
+
+  if (
+    document.getElementById(
+      "v11QuizFloatingButton"
+    )
+  ) {
+    return;
+  }
+
+  const button =
+    document.createElement("button");
+
+  button.id =
+    "v11QuizFloatingButton";
+
+  button.type =
+    "button";
+
+  button.innerHTML =
+    "🎓 Quiz";
+
+  button.title =
+    "Quiz & Certificate";
+
+  button.onclick =
+    function() {
+      openV11QuizDashboard();
+    };
+
+  document.body.appendChild(button);
+}
+
+
+/* ------------------------------------------------------------
+   V11 STYLES
+   Inject CSS without touching style.css
+   ------------------------------------------------------------ */
+
+function v11InjectStyles() {
+
+  if (
+    document.getElementById(
+      "v11Styles"
+    )
+  ) {
+    return;
+  }
+
+  const style =
+    document.createElement("style");
+
+  style.id =
+    "v11Styles";
+
+  style.textContent = `
+
+    .v11-quiz-container,
+    .v11-dashboard,
+    .v11-certificate-wrapper {
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .v11-quiz-header,
+    .v11-dashboard-header {
+      padding: 20px;
+      border-radius: 18px;
+      background:
+        linear-gradient(
+          135deg,
+          #111827,
+          #374151
+        );
+      color: white;
+      margin-bottom: 18px;
+    }
+
+    .v11-quiz-header h2,
+    .v11-dashboard-header h2 {
+      margin: 10px 0 6px;
+      font-size: 25px;
+    }
+
+    .v11-quiz-header p,
+    .v11-dashboard-header p {
+      margin: 0;
+      opacity: .85;
+      line-height: 1.6;
+    }
+
+    .v11-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.15);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .5px;
+    }
+
+    .v11-question-card {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow:
+        0 5px 18px rgba(0,0,0,.05);
+    }
+
+    .v11-question-number {
+      font-size: 12px;
+      font-weight: 800;
+      color: #6b7280;
+      margin-bottom: 8px;
+    }
+
+    .v11-question-card h3 {
+      font-size: 16px;
+      line-height: 1.55;
+      margin: 0 0 14px;
+      color: #111827;
+    }
+
+    .v11-options {
+      display: grid;
+      gap: 9px;
+    }
+
+    .v11-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: .2s ease;
+      background: #f9fafb;
+    }
+
+    .v11-option:hover {
+      transform: translateY(-1px);
+      border-color: #9ca3af;
+    }
+
+    .v11-option input {
+      margin-top: 3px;
+      flex: 0 0 auto;
+    }
+
+    .v11-option span {
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .v11-main-button,
+    .v11-small-button {
+      border: 0;
+      border-radius: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .v11-main-button {
+      width: 100%;
+      padding: 14px 18px;
+      background: #111827;
+      color: white;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    .v11-main-button:hover,
+    .v11-small-button:hover {
+      transform: translateY(-1px);
+      opacity: .92;
+    }
+
+    .v11-small-button {
+      width: 100%;
+      padding: 10px 12px;
+      background: #111827;
+      color: white;
+      font-size: 12px;
+    }
+
+    .v11-stat-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .v11-stat-card {
+      padding: 18px;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      text-align: center;
+    }
+
+    .v11-stat-card span {
+      display: block;
+      font-size: 25px;
+      margin-bottom: 6px;
+    }
+
+    .v11-stat-card strong {
+      display: block;
+      font-size: 25px;
+      color: #111827;
+    }
+
+    .v11-stat-card small {
+      display: block;
+      margin-top: 4px;
+      color: #6b7280;
+    }
+
+    .v11-progress-box {
+      background: white;
+      padding: 18px;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+
+    .v11-progress-title {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+
+    .v11-progress-track {
+      height: 10px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      overflow: hidden;
+    }
+
+    .v11-progress-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: #111827;
+      transition: width .4s ease;
+    }
+
+    .v11-section-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin: 20px 0 12px;
+      color: #111827;
+    }
+
+    .v11-lesson-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .v11-lesson-card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 15px;
+    }
+
+    .v11-lesson-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .v11-lesson-number {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #111827;
+      color: white;
+      font-weight: 800;
+    }
+
+    .v11-status {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 5px 8px;
+      border-radius: 999px;
+    }
+
+    .v11-status.passed {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .v11-status.failed {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .v11-status.locked {
+      background: #f3f4f6;
+      color: #6b7280;
+    }
+
+    .v11-lesson-card h3 {
+      font-size: 14px;
+      line-height: 1.45;
+      min-height: 42px;
+      margin: 0 0 4px;
+    }
+
+    .v11-lesson-card p {
+      font-size: 12px;
+      color: #6b7280;
+      margin: 0 0 12px;
+    }
+
+    .v11-final-exam-box,
+    .v11-certificate-box {
+      margin-top: 18px;
+      padding: 20px;
+      border-radius: 18px;
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+    }
+
+    .v11-final-exam-box h2,
+    .v11-certificate-box h2 {
+      margin: 8px 0;
+      font-size: 20px;
+    }
+
+    .v11-final-exam-box p,
+    .v11-certificate-box p {
+      color: #6b7280;
+      line-height: 1.6;
+    }
+
+    .v11-result-card,
+    .v11-lock-box {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .v11-result-icon {
+      font-size: 55px;
+      margin-bottom: 8px;
+    }
+
+    .v11-result-card h2,
+    .v11-lock-box h2 {
+      margin: 8px 0;
+      font-size: 25px;
+    }
+
+    .v11-score-circle {
+      width: 125px;
+      height: 125px;
+      border-radius: 50%;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 10px solid #111827;
+      background: white;
+    }
+
+    .v11-score-circle strong {
+      font-size: 28px;
+    }
+
+    .v11-result-message {
+      color: #6b7280;
+      line-height: 1.6;
+    }
+
+    .v11-success-message {
+      margin: 15px 0;
+      padding: 12px;
+      border-radius: 12px;
+      background: #dcfce7;
+      color: #166534;
+      font-weight: 700;
+    }
+
+    .v11-warning-message {
+      margin: 15px 0;
+      padding: 12px;
+      border-radius: 12px;
+      background: #fef3c7;
+      color: #92400e;
+      font-weight: 700;
+    }
+
+    .v11-lock-progress {
+      padding: 18px;
+      margin: 18px 0;
+      background: #f3f4f6;
+      border-radius: 15px;
+    }
+
+    .v11-lock-progress strong,
+    .v11-lock-progress span {
+      display: block;
+    }
+
+    .v11-lock-progress strong {
+      font-size: 30px;
+      margin-bottom: 5px;
+    }
+
+    .v11-exam-info {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.1);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .v11-certificate-wrapper {
+      text-align: center;
+    }
+
+    .v11-certificate {
+      background: white;
+      border: 8px solid #111827;
+      padding: 10px;
+      box-shadow:
+        0 10px 35px rgba(0,0,0,.12);
+    }
+
+    .v11-certificate-border {
+      border: 2px solid #111827;
+      padding: 40px 25px;
+    }
+
+    .v11-certificate-logo {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      margin: 0 auto 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #111827;
+      color: white;
+      font-weight: 900;
+      font-size: 19px;
+    }
+
+    .v11-certificate-small {
+      font-size: 10px;
+      letter-spacing: 2px;
+      font-weight: 800;
+    }
+
+    .v11-certificate h1 {
+      font-size: 35px;
+      margin: 15px 0 3px;
+      letter-spacing: 4px;
+    }
+
+    .v11-certificate h2 {
+      font-size: 13px;
+      letter-spacing: 3px;
+      margin: 0 0 25px;
+    }
+
+    .v11-certificate-label,
+    .v11-certificate-text {
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .v11-certificate-name {
+      font-size: 27px;
+      font-weight: 900;
+      margin: 18px 0;
+      word-break: break-word;
+    }
+
+    .v11-certificate h3 {
+      font-size: 20px;
+      margin: 12px 0;
+    }
+
+    .v11-certificate-score {
+      margin: 20px 0;
+      font-size: 13px;
+    }
+
+    .v11-certificate-score strong {
+      font-size: 18px;
+    }
+
+    .v11-certificate-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 30px;
+    }
+
+    .v11-certificate-footer div {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .v11-certificate-footer strong {
+      display: block;
+      font-size: 10px;
+      word-break: break-word;
+    }
+
+    .v11-certificate-footer span {
+      display: block;
+      margin-top: 5px;
+      font-size: 9px;
+      color: #6b7280;
+    }
+
+    .v11-certificate-actions {
+      margin-top: 15px;
+    }
+
+    #v11QuizFloatingButton {
+      position: fixed;
+      right: 16px;
+      bottom: 80px;
+      z-index: 9998;
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 16px;
+      background: #111827;
+      color: white;
+      font-weight: 800;
+      font-size: 13px;
+      box-shadow:
+        0 8px 25px rgba(0,0,0,.22);
+      cursor: pointer;
+    }
+
+    @media (max-width: 800px) {
+
+      .v11-stat-grid {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+
+      .v11-lesson-grid {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+
+    }
+
+    @media (max-width: 520px) {
+
+      .v11-stat-grid {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .v11-stat-card {
+        padding: 13px 8px;
+      }
+
+      .v11-stat-card strong {
+        font-size: 20px;
+      }
+
+      .v11-lesson-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .v11-quiz-header,
+      .v11-dashboard-header {
+        padding: 16px;
+      }
+
+      .v11-question-card {
+        padding: 14px;
+      }
+
+      .v11-certificate-border {
+        padding: 25px 12px;
+      }
+
+      .v11-certificate h1 {
+        font-size: 28px;
+        letter-spacing: 2px;
+      }
+
+      .v11-certificate-name {
+        font-size: 22px;
+      }
+
+      .v11-certificate-footer {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      #v11QuizFloatingButton {
+        right: 12px;
+        bottom: 72px;
+      }
+
+    }
+
+  `;
+
+  document.head.appendChild(style);
+}
+
+
+/* ------------------------------------------------------------
+   V11 EXPORTS
+   ------------------------------------------------------------ */
+
+window.openV11Quiz =
+  openV11Quiz;
+
+window.submitV11Quiz =
+  submitV11Quiz;
+
+window.openV11QuizDashboard =
+  openV11QuizDashboard;
+
+window.openV11FinalExam =
+  openV11FinalExam;
+
+window.submitV11FinalExam =
+  submitV11FinalExam;
+
+window.openV11Certificate =
+  openV11Certificate;
+
+window.v11PrintCertificate =
+  v11PrintCertificate;
+
+
+/* ------------------------------------------------------------
+   V11 STARTUP
+   ------------------------------------------------------------ */
+
+function v11Init() {
+
+  v11InjectStyles();
+
+  v11AddQuizButton();
+
+}
+
+
+/* ------------------------------------------------------------
+   START V11 AFTER APP LOAD
+   ------------------------------------------------------------ */
+
+if (
+  document.readyState ===
+  "loading"
+) {
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+      setTimeout(
+        v11Init,
+        800
+      );
+
+    }
+  );
+
+} else {
+
+  setTimeout(
+    v11Init,
+    800
+  );
+
+}
+
+
+/* ============================================================
+   END V11
+   ============================================================ */
   // 8. V10 GLOBAL EXPORTS
   // ------------------------------------------------------------
 

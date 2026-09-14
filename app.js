@@ -13554,6 +13554,1528 @@ function v13Init() {
 }
 
 /* ============================================================
+/* =========================================================
+   AUNG BUSINESS ACADEMY
+   V14 PROFESSIONAL BUSINESS EDITION
+   EXECUTIVE DASHBOARD
+   ========================================================= */
+
+const V14_PRO_KEY = "aung_business_academy_v14_professional";
+
+function v14Get() {
+  try {
+    return JSON.parse(localStorage.getItem(V14_PRO_KEY)) || {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function v14Set(data) {
+  localStorage.setItem(V14_PRO_KEY, JSON.stringify(data));
+}
+
+function v14Num(value) {
+  const n = Number(value);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function v14Money(value) {
+  return new Intl.NumberFormat("en-US").format(
+    Math.round(v14Num(value))
+  );
+}
+
+function v14Percent(value) {
+  return `${Math.round(v14Num(value))}%`;
+}
+
+function v14Esc(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+/* =========================================================
+   BUSINESS PROFILE DATA
+   ========================================================= */
+
+function v14GetBusinessData() {
+  const data = v14Get();
+
+  return {
+    revenue: v14Num(data.revenue),
+    target: v14Num(data.target),
+    cost: v14Num(data.cost),
+    expense: v14Num(data.expense),
+    customers: v14Num(data.customers),
+    newCustomers: v14Num(data.newCustomers),
+    previousRevenue: v14Num(data.previousRevenue),
+    team: v14Num(data.team)
+  };
+}
+
+
+/* =========================================================
+   KPI CALCULATIONS
+   ========================================================= */
+
+function v14CalculateKPIs(data) {
+  const revenue = v14Num(data.revenue);
+  const target = v14Num(data.target);
+  const cost = v14Num(data.cost);
+  const expense = v14Num(data.expense);
+  const previousRevenue = v14Num(data.previousRevenue);
+
+  const grossProfit = revenue - cost;
+  const netProfit = grossProfit - expense;
+
+  const grossMargin =
+    revenue > 0 ? (grossProfit / revenue) * 100 : 0;
+
+  const netMargin =
+    revenue > 0 ? (netProfit / revenue) * 100 : 0;
+
+  const targetAchievement =
+    target > 0 ? (revenue / target) * 100 : 0;
+
+  const growth =
+    previousRevenue > 0
+      ? ((revenue - previousRevenue) / previousRevenue) * 100
+      : 0;
+
+  let health = 50;
+
+  if (targetAchievement >= 100) health += 15;
+  else if (targetAchievement >= 80) health += 8;
+
+  if (grossMargin >= 40) health += 10;
+  else if (grossMargin >= 25) health += 5;
+
+  if (netMargin >= 15) health += 10;
+  else if (netMargin >= 8) health += 5;
+
+  if (growth >= 10) health += 10;
+  else if (growth > 0) health += 5;
+
+  health = Math.max(0, Math.min(100, health));
+
+  return {
+    revenue,
+    target,
+    cost,
+    expense,
+    grossProfit,
+    netProfit,
+    grossMargin,
+    netMargin,
+    targetAchievement,
+    growth,
+    health
+  };
+}
+
+
+/* =========================================================
+   KPI CARD
+   ========================================================= */
+
+function v14KPICard(icon, label, value, sub, type = "normal") {
+  return `
+    <div class="v14-kpi-card ${type}">
+      <div class="v14-kpi-top">
+        <div class="v14-kpi-icon">${icon}</div>
+        <span class="v14-kpi-label">${label}</span>
+      </div>
+
+      <div class="v14-kpi-value">${value}</div>
+
+      <div class="v14-kpi-sub">
+        ${sub}
+      </div>
+    </div>
+  `;
+}
+
+
+/* =========================================================
+   BUSINESS HEALTH
+   ========================================================= */
+
+function v14HealthStatus(score) {
+  if (score >= 80) {
+    return {
+      label: "Excellent",
+      icon: "🟢",
+      text: "Business performance is strong"
+    };
+  }
+
+  if (score >= 65) {
+    return {
+      label: "Healthy",
+      icon: "🟢",
+      text: "Business performance is stable"
+    };
+  }
+
+  if (score >= 50) {
+    return {
+      label: "Needs Attention",
+      icon: "🟡",
+      text: "Some areas require management attention"
+    };
+  }
+
+  return {
+    label: "Critical",
+    icon: "🔴",
+    text: "Immediate action is recommended"
+  };
+}
+
+
+/* =========================================================
+   BUSINESS PRIORITIES
+   ========================================================= */
+
+function v14BuildPriorities(kpi) {
+  const priorities = [];
+
+  if (kpi.targetAchievement < 80) {
+    priorities.push({
+      icon: "🎯",
+      title: "Sales Target",
+      text: "Sales achievement is below 80%. Focus on high-value customers and active pipeline opportunities.",
+      action: "openV14SalesAction()"
+    });
+  }
+
+  if (kpi.grossMargin < 25) {
+    priorities.push({
+      icon: "💰",
+      title: "Gross Margin",
+      text: "Gross margin needs improvement. Review product pricing, discounts and cost structure.",
+      action: "openV14FinanceAction()"
+    });
+  }
+
+  if (kpi.growth <= 0) {
+    priorities.push({
+      icon: "📈",
+      title: "Business Growth",
+      text: "Revenue growth is flat or negative. Build a focused customer acquisition and retention plan.",
+      action: "openV14GrowthAction()"
+    });
+  }
+
+  if (priorities.length === 0) {
+    priorities.push(
+      {
+        icon: "🚀",
+        title: "Accelerate Growth",
+        text: "Core KPIs are healthy. Focus on scaling revenue while protecting profitability.",
+        action: "openV14GrowthAction()"
+      },
+      {
+        icon: "👥",
+        title: "Strengthen Customers",
+        text: "Develop key accounts and increase repeat business from existing customers.",
+        action: "openV14CustomerAction()"
+      },
+      {
+        icon: "📊",
+        title: "Review Performance",
+        text: "Review your KPI performance and identify the next management priority.",
+        action: "openV14ReviewAction()"
+      }
+    );
+  }
+
+  return priorities.slice(0, 3);
+}
+
+
+/* =========================================================
+   EXECUTIVE DASHBOARD
+   ========================================================= */
+
+function openV14ProfessionalDashboard() {
+  closeSidebarMobile();
+
+  const data = v14GetBusinessData();
+  const kpi = v14CalculateKPIs(data);
+  const health = v14HealthStatus(kpi.health);
+  const priorities = v14BuildPriorities(kpi);
+
+  setPage(
+    "Executive Dashboard",
+    "Professional business performance and management overview"
+  );
+
+  showModal(`
+    <div class="v14-dashboard">
+
+      <div class="v14-header">
+
+        <div>
+          <div class="v14-eyebrow">
+            AUNG BUSINESS ACADEMY
+          </div>
+
+          <h2>
+            Executive Dashboard
+          </h2>
+
+          <p>
+            Business performance at a glance
+          </p>
+        </div>
+
+        <div class="v14-business-badge">
+          <span>●</span>
+          Professional Edition
+        </div>
+
+      </div>
+
+
+      <div class="v14-health-card">
+
+        <div class="v14-health-left">
+
+          <div class="v14-health-icon">
+            ${health.icon}
+          </div>
+
+          <div>
+            <div class="v14-small-title">
+              BUSINESS HEALTH
+            </div>
+
+            <div class="v14-health-title">
+              ${health.label}
+            </div>
+
+            <div class="v14-health-text">
+              ${health.text}
+            </div>
+          </div>
+
+        </div>
+
+        <div class="v14-health-score">
+          <strong>${Math.round(kpi.health)}</strong>
+          <span>/100</span>
+        </div>
+
+      </div>
+
+
+      <div class="v14-section-title">
+        KEY PERFORMANCE INDICATORS
+      </div>
+
+
+      <div class="v14-kpi-grid">
+
+        ${v14KPICard(
+          "💰",
+          "Revenue",
+          v14Money(kpi.revenue),
+          "Current period"
+        )}
+
+        ${v14KPICard(
+          "🎯",
+          "Target Achievement",
+          v14Percent(kpi.targetAchievement),
+          "Sales target"
+        )}
+
+        ${v14KPICard(
+          "📈",
+          "Revenue Growth",
+          v14Percent(kpi.growth),
+          "vs previous period",
+          kpi.growth >= 0 ? "positive" : "negative"
+        )}
+
+        ${v14KPICard(
+          "💵",
+          "Net Profit",
+          v14Money(kpi.netProfit),
+          `Margin ${v14Percent(kpi.netMargin)}`
+        )}
+
+      </div>
+
+
+      <div class="v14-two-column">
+
+        <div class="v14-panel">
+
+          <div class="v14-panel-header">
+            <div>
+              <div class="v14-small-title">
+                FINANCIAL PERFORMANCE
+              </div>
+
+              <h3>
+                Profitability
+              </h3>
+            </div>
+
+            <span class="v14-panel-icon">
+              💼
+            </span>
+          </div>
+
+
+          <div class="v14-finance-row">
+            <span>Revenue</span>
+            <strong>${v14Money(kpi.revenue)}</strong>
+          </div>
+
+          <div class="v14-finance-row">
+            <span>Product Cost</span>
+            <strong>${v14Money(kpi.cost)}</strong>
+          </div>
+
+          <div class="v14-finance-row">
+            <span>Gross Profit</span>
+            <strong>${v14Money(kpi.grossProfit)}</strong>
+          </div>
+
+          <div class="v14-finance-row">
+            <span>Operating Expense</span>
+            <strong>${v14Money(kpi.expense)}</strong>
+          </div>
+
+          <div class="v14-finance-total">
+            <span>Net Profit</span>
+            <strong>${v14Money(kpi.netProfit)}</strong>
+          </div>
+
+        </div>
+
+
+        <div class="v14-panel">
+
+          <div class="v14-panel-header">
+
+            <div>
+              <div class="v14-small-title">
+                SALES PERFORMANCE
+              </div>
+
+              <h3>
+                Target Achievement
+              </h3>
+            </div>
+
+            <span class="v14-panel-icon">
+              🎯
+            </span>
+
+          </div>
+
+
+          <div class="v14-progress-big">
+
+            <div class="v14-progress-number">
+              ${v14Percent(kpi.targetAchievement)}
+            </div>
+
+            <div class="v14-progress-track">
+              <div
+                class="v14-progress-fill"
+                style="width:${Math.min(
+                  100,
+                  Math.max(0, kpi.targetAchievement)
+                )}%"
+              ></div>
+            </div>
+
+            <div class="v14-progress-caption">
+              Target: ${v14Money(kpi.target)}
+            </div>
+
+          </div>
+
+
+          <div class="v14-mini-metrics">
+
+            <div>
+              <span>Gross Margin</span>
+              <strong>${v14Percent(kpi.grossMargin)}</strong>
+            </div>
+
+            <div>
+              <span>Net Margin</span>
+              <strong>${v14Percent(kpi.netMargin)}</strong>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="v14-section-title">
+        TODAY'S BUSINESS PRIORITIES
+      </div>
+
+
+      <div class="v14-priority-grid">
+
+        ${priorities.map(item => `
+          <div class="v14-priority-card">
+
+            <div class="v14-priority-icon">
+              ${item.icon}
+            </div>
+
+            <div class="v14-priority-content">
+
+              <h4>
+                ${v14Esc(item.title)}
+              </h4>
+
+              <p>
+                ${v14Esc(item.text)}
+              </p>
+
+              <button
+                class="v14-link-button"
+                onclick="${item.action}"
+              >
+                Take Action →
+              </button>
+
+            </div>
+
+          </div>
+        `).join("")}
+
+      </div>
+
+
+      <div class="v14-section-title">
+        MANAGEMENT ACTIONS
+      </div>
+
+
+      <div class="v14-action-grid">
+
+        <button
+          class="v14-action-card"
+          onclick="openV13BusinessSimulator()"
+        >
+          <span>📊</span>
+          <strong>Business Simulator</strong>
+          <small>Model revenue and profit</small>
+        </button>
+
+
+        <button
+          class="v14-action-card"
+          onclick="openAI()"
+        >
+          <span>🤖</span>
+          <strong>AI Business Advisor</strong>
+          <small>Get strategic advice</small>
+        </button>
+
+
+        <button
+          class="v14-action-card"
+          onclick="openV11QuizDashboard()"
+        >
+          <span>🎓</span>
+          <strong>Learning Center</strong>
+          <small>Continue your development</small>
+        </button>
+
+
+        <button
+          class="v14-action-card"
+          onclick="openV14BusinessInput()"
+        >
+          <span>⚙️</span>
+          <strong>Update KPIs</strong>
+          <small>Update business numbers</small>
+        </button>
+
+      </div>
+
+
+      <div class="v14-footer-note">
+        Aung Business Academy · Professional Business Learning & Management Platform
+      </div>
+
+    </div>
+  `);
+}
+
+
+/* =========================================================
+   BUSINESS KPI INPUT
+   ========================================================= */
+
+function openV14BusinessInput() {
+
+  const data = v14GetBusinessData();
+
+  showModal(`
+    <div class="v14-input-page">
+
+      <div class="v14-form-header">
+        <div class="v14-eyebrow">
+          BUSINESS MANAGEMENT
+        </div>
+
+        <h2>
+          Update Business KPIs
+        </h2>
+
+        <p>
+          Enter your current business performance numbers
+        </p>
+      </div>
+
+
+      <div class="v14-form-grid">
+
+        <div class="v14-field">
+          <label>Current Revenue</label>
+          <input
+            id="v14Revenue"
+            type="number"
+            value="${data.revenue || ""}"
+            placeholder="e.g. 50000000"
+          >
+        </div>
+
+
+        <div class="v14-field">
+          <label>Sales Target</label>
+          <input
+            id="v14Target"
+            type="number"
+            value="${data.target || ""}"
+            placeholder="e.g. 60000000"
+          >
+        </div>
+
+
+        <div class="v14-field">
+          <label>Product Cost / COGS</label>
+          <input
+            id="v14Cost"
+            type="number"
+            value="${data.cost || ""}"
+            placeholder="e.g. 30000000"
+          >
+        </div>
+
+
+        <div class="v14-field">
+          <label>Operating Expense</label>
+          <input
+            id="v14Expense"
+            type="number"
+            value="${data.expense || ""}"
+            placeholder="e.g. 8000000"
+          >
+        </div>
+
+
+        <div class="v14-field">
+          <label>Current Customers</label>
+          <input
+            id="v14Customers"
+            type="number"
+            value="${data.customers || ""}"
+            placeholder="e.g. 120"
+          >
+        </div>
+
+
+        <div class="v14-field">
+          <label>New Customers</label>
+          <input
+            id="v14NewCustomers"
+            type="number"
+            value="${data.newCustomers || ""}"
+            placeholder="e.g. 20"
+          >
+        </div>
+
+
+        <div class="v14-field">
+          <label>Previous Period Revenue</label>
+          <input
+            id="v14PreviousRevenue"
+            type="number"
+            value="${data.previousRevenue || ""}"
+            placeholder="e.g. 45000000"
+          >
+        </div>
+
+
+        <div class="v14-field">
+          <label>Sales Team Size</label>
+          <input
+            id="v14Team"
+            type="number"
+            value="${data.team || ""}"
+            placeholder="e.g. 10"
+          >
+        </div>
+
+      </div>
+
+
+      <div class="v14-form-actions">
+
+        <button
+          class="primary-button"
+          onclick="v14SaveBusinessData()"
+        >
+          Save Business KPIs
+        </button>
+
+        <button
+          class="secondary-button"
+          onclick="openV14ProfessionalDashboard()"
+        >
+          Cancel
+        </button>
+
+      </div>
+
+    </div>
+  `);
+}
+
+
+/* =========================================================
+   SAVE BUSINESS DATA
+   ========================================================= */
+
+function v14SaveBusinessData() {
+
+  const data = {
+    revenue: v14Num(document.getElementById("v14Revenue")?.value),
+    target: v14Num(document.getElementById("v14Target")?.value),
+    cost: v14Num(document.getElementById("v14Cost")?.value),
+    expense: v14Num(document.getElementById("v14Expense")?.value),
+    customers: v14Num(document.getElementById("v14Customers")?.value),
+    newCustomers: v14Num(document.getElementById("v14NewCustomers")?.value),
+    previousRevenue: v14Num(
+      document.getElementById("v14PreviousRevenue")?.value
+    ),
+    team: v14Num(document.getElementById("v14Team")?.value)
+  };
+
+  v14Set(data);
+
+  showToast("Business KPIs updated successfully");
+
+  setTimeout(() => {
+    openV14ProfessionalDashboard();
+  }, 300);
+}
+
+
+/* =========================================================
+   QUICK ACTIONS
+   ========================================================= */
+
+function openV14SalesAction() {
+  if (typeof openV13BusinessSimulator === "function") {
+    openV13BusinessSimulator();
+    return;
+  }
+
+  openV14BusinessInput();
+}
+
+function openV14FinanceAction() {
+  openV14BusinessInput();
+}
+
+function openV14GrowthAction() {
+  if (typeof openAI === "function") {
+    openAI();
+    setTimeout(() => {
+      if (typeof v12SetAIInput === "function") {
+        v12SetAIInput(
+          "Analyze my business growth and create a practical 30-day growth action plan."
+        );
+      }
+    }, 300);
+    return;
+  }
+
+  openV14BusinessInput();
+}
+
+function openV14CustomerAction() {
+  if (typeof openAI === "function") {
+    openAI();
+    setTimeout(() => {
+      if (typeof v12SetAIInput === "function") {
+        v12SetAIInput(
+          "Create a customer retention and customer acquisition plan for my business."
+        );
+      }
+    }, 300);
+    return;
+  }
+
+  openV14BusinessInput();
+}
+
+function openV14ReviewAction() {
+  openV14ProfessionalDashboard();
+}
+
+
+/* =========================================================
+   SIDEBAR BUTTON
+   ========================================================= */
+
+function v14AddSidebarButton() {
+
+  if (document.getElementById("v14SidebarButton")) {
+    return;
+  }
+
+  const sidebar = document.querySelector(".sidebar");
+
+  if (!sidebar) {
+    return;
+  }
+
+  const button = document.createElement("button");
+
+  button.id = "v14SidebarButton";
+
+  button.className = "v14-sidebar-button";
+
+  button.innerHTML = `
+    <span>▣</span>
+    <span>Executive Dashboard</span>
+  `;
+
+  button.onclick = openV14ProfessionalDashboard;
+
+  sidebar.appendChild(button);
+}
+
+
+/* =========================================================
+   FLOATING PROFESSIONAL BUTTON
+   ========================================================= */
+
+function v14AddFloatingButton() {
+
+  if (document.getElementById("v14FloatingButton")) {
+    return;
+  }
+
+  const button = document.createElement("button");
+
+  button.id = "v14FloatingButton";
+
+  button.className = "v14-floating-button";
+
+  button.innerHTML = "▣";
+
+  button.title = "Executive Dashboard";
+
+  button.onclick = openV14ProfessionalDashboard;
+
+  document.body.appendChild(button);
+}
+
+
+/* =========================================================
+   PROFESSIONAL CSS
+   ========================================================= */
+
+function v14InjectStyles() {
+
+  if (document.getElementById("v14ProfessionalStyles")) {
+    return;
+  }
+
+  const style = document.createElement("style");
+
+  style.id = "v14ProfessionalStyles";
+
+  style.textContent = `
+
+    .v14-dashboard {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 10px 4px 30px;
+      font-family: Arial, sans-serif;
+    }
+
+
+    .v14-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 22px;
+    }
+
+
+    .v14-eyebrow {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      opacity: .65;
+      margin-bottom: 6px;
+    }
+
+
+    .v14-header h2 {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -.5px;
+    }
+
+
+    .v14-header p {
+      margin: 7px 0 0;
+      opacity: .65;
+    }
+
+
+    .v14-business-badge {
+      padding: 9px 13px;
+      border-radius: 999px;
+      background: #f1f5f9;
+      color: #334155;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+
+    .v14-business-badge span {
+      color: #16a34a;
+      margin-right: 5px;
+    }
+
+
+    .v14-health-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 22px;
+      border-radius: 18px;
+      background: linear-gradient(135deg,#0f172a,#1e293b);
+      color: white;
+      margin-bottom: 26px;
+      box-shadow: 0 12px 30px rgba(15,23,42,.18);
+    }
+
+
+    .v14-health-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+
+    .v14-health-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,.1);
+      font-size: 22px;
+    }
+
+
+    .v14-small-title {
+      font-size: 10px;
+      letter-spacing: 1.3px;
+      font-weight: 800;
+      opacity: .65;
+    }
+
+
+    .v14-health-title {
+      font-size: 21px;
+      font-weight: 800;
+      margin-top: 3px;
+    }
+
+
+    .v14-health-text {
+      font-size: 12px;
+      opacity: .7;
+      margin-top: 3px;
+    }
+
+
+    .v14-health-score {
+      text-align: right;
+    }
+
+
+    .v14-health-score strong {
+      font-size: 42px;
+      line-height: 1;
+    }
+
+
+    .v14-health-score span {
+      opacity: .6;
+      font-size: 14px;
+    }
+
+
+    .v14-section-title {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.3px;
+      color: #64748b;
+      margin: 24px 0 11px;
+    }
+
+
+    .v14-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 14px;
+    }
+
+
+    .v14-kpi-card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 17px;
+      box-shadow: 0 5px 18px rgba(15,23,42,.05);
+    }
+
+
+    .v14-kpi-top {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+
+    .v14-kpi-icon {
+      font-size: 20px;
+    }
+
+
+    .v14-kpi-label {
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 700;
+    }
+
+
+    .v14-kpi-value {
+      font-size: 25px;
+      font-weight: 800;
+      margin-top: 13px;
+      word-break: break-word;
+    }
+
+
+    .v14-kpi-sub {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-top: 6px;
+    }
+
+
+    .v14-kpi-card.positive .v14-kpi-value {
+      color: #16a34a;
+    }
+
+
+    .v14-kpi-card.negative .v14-kpi-value {
+      color: #dc2626;
+    }
+
+
+    .v14-two-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+
+    .v14-panel {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 5px 18px rgba(15,23,42,.05);
+    }
+
+
+    .v14-panel-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 17px;
+    }
+
+
+    .v14-panel h3 {
+      margin: 4px 0 0;
+      font-size: 18px;
+    }
+
+
+    .v14-panel-icon {
+      font-size: 22px;
+    }
+
+
+    .v14-finance-row,
+    .v14-finance-total {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 13px;
+    }
+
+
+    .v14-finance-row span {
+      color: #64748b;
+    }
+
+
+    .v14-finance-total {
+      margin-top: 5px;
+      border: 0;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+
+    .v14-progress-number {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+
+    .v14-progress-track {
+      width: 100%;
+      height: 11px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+
+    .v14-progress-fill {
+      height: 100%;
+      background: #2563eb;
+      border-radius: 999px;
+      transition: width .5s ease;
+    }
+
+
+    .v14-progress-caption {
+      margin-top: 9px;
+      color: #64748b;
+      font-size: 12px;
+    }
+
+
+    .v14-mini-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+
+    .v14-mini-metrics div {
+      background: #f8fafc;
+      padding: 12px;
+      border-radius: 12px;
+    }
+
+
+    .v14-mini-metrics span {
+      display: block;
+      font-size: 10px;
+      color: #64748b;
+    }
+
+
+    .v14-mini-metrics strong {
+      display: block;
+      margin-top: 4px;
+      font-size: 18px;
+    }
+
+
+    .v14-priority-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 14px;
+    }
+
+
+    .v14-priority-card {
+      display: flex;
+      gap: 12px;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 17px;
+    }
+
+
+    .v14-priority-icon {
+      width: 40px;
+      height: 40px;
+      flex: 0 0 40px;
+      border-radius: 12px;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+    }
+
+
+    .v14-priority-content h4 {
+      margin: 0;
+      font-size: 14px;
+    }
+
+
+    .v14-priority-content p {
+      margin: 6px 0 9px;
+      font-size: 11px;
+      line-height: 1.55;
+      color: #64748b;
+    }
+
+
+    .v14-link-button {
+      border: 0;
+      background: none;
+      padding: 0;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+
+    .v14-action-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 12px;
+    }
+
+
+    .v14-action-card {
+      border: 1px solid #e2e8f0;
+      background: white;
+      border-radius: 15px;
+      padding: 17px;
+      text-align: left;
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+
+
+    .v14-action-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(15,23,42,.08);
+    }
+
+
+    .v14-action-card span {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+
+    .v14-action-card strong {
+      display: block;
+      font-size: 13px;
+    }
+
+
+    .v14-action-card small {
+      display: block;
+      color: #64748b;
+      font-size: 10px;
+      margin-top: 4px;
+    }
+
+
+    .v14-footer-note {
+      text-align: center;
+      color: #94a3b8;
+      font-size: 10px;
+      margin-top: 30px;
+    }
+
+
+    .v14-input-page {
+      max-width: 760px;
+      margin: auto;
+    }
+
+
+    .v14-form-header {
+      margin-bottom: 20px;
+    }
+
+
+    .v14-form-header h2 {
+      margin: 0;
+      font-size: 25px;
+    }
+
+
+    .v14-form-header p {
+      color: #64748b;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+
+    .v14-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+
+    .v14-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+
+    .v14-field input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      outline: none;
+    }
+
+
+    .v14-field input:focus {
+      border-color: #2563eb;
+    }
+
+
+    .v14-form-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+
+    .v14-sidebar-button {
+      width: calc(100% - 20px);
+      margin: 8px 10px;
+      padding: 11px 13px;
+      border: 0;
+      border-radius: 10px;
+      background: #0f172a;
+      color: white;
+      text-align: left;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+
+    .v14-sidebar-button span:first-child {
+      margin-right: 8px;
+    }
+
+
+    .v14-floating-button {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      width: 50px;
+      height: 50px;
+      border: 0;
+      border-radius: 50%;
+      background: #0f172a;
+      color: white;
+      font-size: 20px;
+      box-shadow: 0 10px 25px rgba(15,23,42,.25);
+      z-index: 9999;
+      cursor: pointer;
+    }
+
+
+    @media (max-width: 900px) {
+
+      .v14-kpi-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .v14-priority-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .v14-action-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+    }
+
+
+    @media (max-width: 650px) {
+
+      .v14-dashboard {
+        padding: 4px 0 25px;
+      }
+
+      .v14-header {
+        flex-direction: column;
+      }
+
+      .v14-header h2 {
+        font-size: 24px;
+      }
+
+      .v14-health-card {
+        padding: 17px;
+      }
+
+      .v14-health-score strong {
+        font-size: 32px;
+      }
+
+      .v14-kpi-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+      }
+
+      .v14-kpi-card {
+        padding: 13px;
+      }
+
+      .v14-kpi-value {
+        font-size: 19px;
+      }
+
+      .v14-two-column {
+        grid-template-columns: 1fr;
+      }
+
+      .v14-action-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .v14-form-grid {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+  `;
+
+  document.head.appendChild(style);
+}
+
+
+/* =========================================================
+   V14 INITIALIZATION
+   ========================================================= */
+
+function v14Init() {
+
+  v14InjectStyles();
+
+  setTimeout(() => {
+    v14AddSidebarButton();
+    v14AddFloatingButton();
+  }, 1000);
+}
+
+
+/* =========================================================
+   V14 GLOBAL EXPORTS
+   ========================================================= */
+
+window.openV14ProfessionalDashboard =
+  openV14ProfessionalDashboard;
+
+window.openV14BusinessInput =
+  openV14BusinessInput;
+
+window.v14SaveBusinessData =
+  v14SaveBusinessData;
+
+window.openV14SalesAction =
+  openV14SalesAction;
+
+window.openV14FinanceAction =
+  openV14FinanceAction;
+
+window.openV14GrowthAction =
+  openV14GrowthAction;
+
+window.openV14CustomerAction =
+  openV14CustomerAction;
+
+window.openV14ReviewAction =
+  openV14ReviewAction;
+
+
+/* =========================================================
+   START V14
+   ========================================================= */
+
+if (document.readyState === "loading") {
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+      setTimeout(v14Init, 800);
+    }
+  );
+
+} else {
+
+  setTimeout(v14Init, 800);
+
+}
    V13 GLOBAL EXPORTS
    ============================================================ */
 

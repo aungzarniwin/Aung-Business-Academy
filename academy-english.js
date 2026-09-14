@@ -122,7 +122,7 @@
           margin:0 0 8px 0;
           font-size:27px;
         ">
-          🇬🇧 Business English
+         Business English
         </h2>
 
         <p style="

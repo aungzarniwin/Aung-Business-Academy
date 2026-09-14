@@ -12810,6 +12810,775 @@ if (
 /* ============================================================
    END V11
    ============================================================ */
+  /* ============================================================
+   AUNG BUSINESS ACADEMY
+   V13 BUSINESS SIMULATOR
+   ============================================================ */
+
+const V13_SIM_KEY = "aung_business_academy_v13_simulator";
+
+function v13Get(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch (e) {
+    return fallback;
+  }
+}
+
+function v13Set(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (e) {
+    console.warn("V13 storage error:", e);
+  }
+}
+
+function v13Num(id) {
+  const el = document.getElementById(id);
+  if (!el) return 0;
+
+  const value = parseFloat(
+    String(el.value || "").replace(/,/g, "")
+  );
+
+  return Number.isFinite(value) ? value : 0;
+}
+
+function v13Money(value) {
+  const number = Number(value) || 0;
+
+  return new Intl.NumberFormat("en-US", {
+    maximumFractionDigits: 0
+  }).format(Math.round(number));
+}
+
+function v13Percent(value) {
+  const number = Number(value) || 0;
+
+  return number.toFixed(1) + "%";
+}
+
+function v13Esc(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+/* ============================================================
+   BUSINESS SIMULATOR
+   ============================================================ */
+
+function openV13BusinessSimulator() {
+
+  if (typeof showModal !== "function") {
+    console.warn("showModal is not available.");
+    return;
+  }
+
+  const saved = v13Get(V13_SIM_KEY, {
+    capital: "",
+    cost: "",
+    price: "",
+    customers: "",
+    monthlyExpense: ""
+  });
+
+  showModal(`
+    <div class="v13-simulator">
+
+      <div style="
+        display:flex;
+        align-items:center;
+        gap:10px;
+        margin-bottom:8px;
+      ">
+        <div style="font-size:30px;">📊</div>
+        <div>
+          <h2 style="margin:0;">
+            Business Simulator
+          </h2>
+          <div style="
+            color:#64748b;
+            font-size:13px;
+            margin-top:3px;
+          ">
+            Test your business numbers before making decisions.
+          </div>
+        </div>
+      </div>
+
+      <div style="
+        background:rgba(59,130,246,.08);
+        padding:12px;
+        border-radius:12px;
+        margin:14px 0;
+        line-height:1.6;
+      ">
+        💡 သင့်လုပ်ငန်းရဲ့ Capital, Cost, Selling Price,
+        Customers နဲ့ Monthly Expense ကို ထည့်ပြီး
+        Business Result ကို ချက်ချင်းတွက်ချက်နိုင်ပါတယ်။
+      </div>
+
+      <div style="
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+        gap:12px;
+      ">
+
+        <div>
+          <label style="font-weight:600;">
+            💰 Starting Capital (Ks)
+          </label>
+          <input
+            id="v13Capital"
+            class="tool-input"
+            type="number"
+            min="0"
+            value="${v13Esc(saved.capital)}"
+            placeholder="ဥပမာ 10000000"
+          >
+        </div>
+
+        <div>
+          <label style="font-weight:600;">
+            📦 Product Cost / Unit (Ks)
+          </label>
+          <input
+            id="v13Cost"
+            class="tool-input"
+            type="number"
+            min="0"
+            value="${v13Esc(saved.cost)}"
+            placeholder="ဥပမာ 7000"
+          >
+        </div>
+
+        <div>
+          <label style="font-weight:600;">
+            💵 Selling Price / Unit (Ks)
+          </label>
+          <input
+            id="v13Price"
+            class="tool-input"
+            type="number"
+            min="0"
+            value="${v13Esc(saved.price)}"
+            placeholder="ဥပမာ 10000"
+          >
+        </div>
+
+        <div>
+          <label style="font-weight:600;">
+            👥 Monthly Customers / Units
+          </label>
+          <input
+            id="v13Customers"
+            class="tool-input"
+            type="number"
+            min="0"
+            value="${v13Esc(saved.customers)}"
+            placeholder="ဥပမာ 500"
+          >
+        </div>
+
+        <div>
+          <label style="font-weight:600;">
+            🏢 Monthly Operating Expense (Ks)
+          </label>
+          <input
+            id="v13Expense"
+            class="tool-input"
+            type="number"
+            min="0"
+            value="${v13Esc(saved.monthlyExpense)}"
+            placeholder="ဥပမာ 1000000"
+          >
+        </div>
+
+      </div>
+
+      <button
+        class="primary-button"
+        style="
+          width:100%;
+          margin-top:16px;
+          padding:14px;
+          font-size:15px;
+        "
+        onclick="calculateV13BusinessSimulator()"
+      >
+        📊 Calculate Business
+      </button>
+
+      <div
+        id="v13Result"
+        style="margin-top:16px;"
+      ></div>
+
+    </div>
+  `);
+}
+
+/* ============================================================
+   CALCULATE BUSINESS
+   ============================================================ */
+
+function calculateV13BusinessSimulator() {
+
+  const capital = v13Num("v13Capital");
+  const cost = v13Num("v13Cost");
+  const price = v13Num("v13Price");
+  const customers = v13Num("v13Customers");
+  const monthlyExpense = v13Num("v13Expense");
+
+  v13Set(V13_SIM_KEY, {
+    capital,
+    cost,
+    price,
+    customers,
+    monthlyExpense
+  });
+
+  const result = document.getElementById("v13Result");
+
+  if (!result) return;
+
+  if (price <= 0) {
+
+    result.innerHTML = `
+      <div style="
+        padding:14px;
+        border-radius:12px;
+        background:#fff7ed;
+        color:#9a3412;
+      ">
+        ⚠️ Selling Price ကို 0 ထက်ကြီးအောင် ထည့်ပေးပါ။
+      </div>
+    `;
+
+    return;
+  }
+
+  if (cost < 0 || customers < 0 || monthlyExpense < 0) {
+
+    result.innerHTML = `
+      <div style="
+        padding:14px;
+        border-radius:12px;
+        background:#fff7ed;
+        color:#9a3412;
+      ">
+        ⚠️ Number တွေကို မှန်ကန်စွာ ထည့်ပေးပါ။
+      </div>
+    `;
+
+    return;
+  }
+
+  const revenue = price * customers;
+
+  const totalProductCost = cost * customers;
+
+  const grossProfit =
+    revenue - totalProductCost;
+
+  const grossMargin =
+    revenue > 0
+      ? (grossProfit / revenue) * 100
+      : 0;
+
+  const netProfit =
+    grossProfit - monthlyExpense;
+
+  const netMargin =
+    revenue > 0
+      ? (netProfit / revenue) * 100
+      : 0;
+
+  const unitProfit =
+    price - cost;
+
+  const breakEvenUnits =
+    unitProfit > 0
+      ? Math.ceil(monthlyExpense / unitProfit)
+      : 0;
+
+  const breakEvenRevenue =
+    unitProfit > 0
+      ? breakEvenUnits * price
+      : 0;
+
+  const roi =
+    capital > 0
+      ? (netProfit / capital) * 100
+      : 0;
+
+  let health = "";
+  let advice = "";
+
+  if (unitProfit <= 0) {
+
+    health = "🔴 Loss Risk";
+
+    advice = `
+      <strong>အရေးကြီး:</strong>
+      Selling Price က Product Cost ထက် မမြင့်တဲ့အတွက်
+      Unit တစ်ခုရောင်းတိုင်း အမြတ်မရနိုင်ပါ။
+      Price / Cost structure ကို ပြန်စစ်ပါ။
+    `;
+
+  } else if (netProfit < 0) {
+
+    health = "🟠 Needs Improvement";
+
+    advice = `
+      လုပ်ငန်းမှာ Gross Profit ရနေသော်လည်း
+      Operating Expense ကြောင့် Net Profit အနုတ်ဖြစ်နေပါတယ်။
+      Expense လျှော့ချခြင်း၊ Price တိုးခြင်း၊
+      Sales Volume တိုးခြင်းတို့ကို စဉ်းစားပါ။
+    `;
+
+  } else if (netMargin < 10) {
+
+    health = "🟡 Stable but Low Margin";
+
+    advice = `
+      Profit ရနေပြီဖြစ်ပေမယ့် Net Margin နည်းပါတယ်။
+      Cost Control နဲ့ Pricing Strategy ကို
+      အထူးအာရုံစိုက်ပါ။
+    `;
+
+  } else if (netMargin < 20) {
+
+    health = "🟢 Healthy";
+
+    advice = `
+      လုပ်ငန်းရဲ့ Basic Economics က ကောင်းပါတယ်။
+      နောက်တစ်ဆင့်အနေနဲ့ Customers တိုးခြင်း၊
+      Repeat Purchase တိုးခြင်းနဲ့
+      Average Order Value တိုးခြင်းကို အာရုံစိုက်ပါ။
+    `;
+
+  } else {
+
+    health = "🟢 Strong Business";
+
+    advice = `
+      Profitability ကောင်းပါတယ်။
+      အခုအခြေအနေမှာ Sales Scale-up,
+      Distribution Expansion နဲ့
+      Customer Retention ကို အာရုံစိုက်နိုင်ပါတယ်။
+    `;
+  }
+
+  result.innerHTML = `
+
+    <div style="
+      background:linear-gradient(
+        135deg,
+        rgba(16,185,129,.12),
+        rgba(59,130,246,.08)
+      );
+      padding:16px;
+      border-radius:16px;
+      margin-bottom:14px;
+    ">
+
+      <div style="
+        font-size:12px;
+        color:#64748b;
+      ">
+        BUSINESS HEALTH
+      </div>
+
+      <div style="
+        font-size:22px;
+        font-weight:800;
+        margin-top:4px;
+      ">
+        ${health}
+      </div>
+
+    </div>
+
+    <div style="
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
+      gap:10px;
+    ">
+
+      ${v13MetricCard(
+        "💵",
+        "Revenue",
+        v13Money(revenue) + " Ks"
+      )}
+
+      ${v13MetricCard(
+        "📦",
+        "Product Cost",
+        v13Money(totalProductCost) + " Ks"
+      )}
+
+      ${v13MetricCard(
+        "📈",
+        "Gross Profit",
+        v13Money(grossProfit) + " Ks"
+      )}
+
+      ${v13MetricCard(
+        "📊",
+        "Gross Margin",
+        v13Percent(grossMargin)
+      )}
+
+      ${v13MetricCard(
+        "💰",
+        "Net Profit",
+        v13Money(netProfit) + " Ks"
+      )}
+
+      ${v13MetricCard(
+        "📉",
+        "Net Margin",
+        v13Percent(netMargin)
+      )}
+
+      ${v13MetricCard(
+        "🎯",
+        "Break-even",
+        breakEvenUnits > 0
+          ? v13Money(breakEvenUnits) + " Units"
+          : "N/A"
+      )}
+
+      ${v13MetricCard(
+        "🚀",
+        "ROI",
+        capital > 0
+          ? v13Percent(roi)
+          : "N/A"
+      )}
+
+    </div>
+
+    <div style="
+      margin-top:14px;
+      padding:14px;
+      border-radius:12px;
+      background:#f8fafc;
+      line-height:1.7;
+    ">
+
+      <strong>🎯 Business Coach Advice</strong>
+
+      <div style="margin-top:6px;">
+        ${advice}
+      </div>
+
+      ${
+        breakEvenUnits > 0
+          ? `
+            <div style="margin-top:10px;">
+              <strong>Break-even Revenue:</strong>
+              ${v13Money(breakEvenRevenue)} Ks
+            </div>
+          `
+          : ""
+      }
+
+    </div>
+
+    <button
+      class="secondary-button"
+      style="width:100%;margin-top:12px;"
+      onclick="v13AskSimulatorAI()"
+    >
+      🤖 Ask AI About This Business
+    </button>
+
+  `;
+}
+
+/* ============================================================
+   METRIC CARD
+   ============================================================ */
+
+function v13MetricCard(icon, label, value) {
+
+  return `
+    <div style="
+      padding:14px;
+      border:1px solid #e5e7eb;
+      border-radius:14px;
+      background:#ffffff;
+    ">
+
+      <div style="font-size:20px;">
+        ${icon}
+      </div>
+
+      <div style="
+        font-size:11px;
+        color:#64748b;
+        margin-top:5px;
+      ">
+        ${v13Esc(label)}
+      </div>
+
+      <div style="
+        font-size:15px;
+        font-weight:800;
+        margin-top:4px;
+        word-break:break-word;
+      ">
+        ${v13Esc(value)}
+      </div>
+
+    </div>
+  `;
+}
+
+/* ============================================================
+   ASK AI ABOUT SIMULATION
+   ============================================================ */
+
+function v13AskSimulatorAI() {
+
+  const capital = v13Num("v13Capital");
+  const cost = v13Num("v13Cost");
+  const price = v13Num("v13Price");
+  const customers = v13Num("v13Customers");
+  const expense = v13Num("v13Expense");
+
+  const revenue = price * customers;
+  const grossProfit = revenue - (cost * customers);
+  const netProfit = grossProfit - expense;
+
+  const margin =
+    revenue > 0
+      ? (netProfit / revenue) * 100
+      : 0;
+
+  const question = `
+Analyze this business simulation:
+
+Starting Capital: ${capital} Ks
+Product Cost: ${cost} Ks
+Selling Price: ${price} Ks
+Monthly Units/Customers: ${customers}
+Monthly Expense: ${expense} Ks
+Revenue: ${revenue} Ks
+Gross Profit: ${grossProfit} Ks
+Net Profit: ${netProfit} Ks
+Net Margin: ${margin.toFixed(1)}%
+
+Give me:
+1. Business health
+2. Biggest risk
+3. Best improvement
+4. 30-day action plan
+`;
+
+  if (typeof v12AskAI === "function") {
+
+    closeModal();
+    setTimeout(() => {
+      openV12AITools();
+
+      setTimeout(() => {
+        v12AskAI(question);
+      }, 300);
+
+    }, 200);
+
+  } else {
+
+    alert(
+      "AI Coach is not available yet. " +
+      "Please use AI Business Tools."
+    );
+  }
+}
+
+/* ============================================================
+   DASHBOARD CARD
+   ============================================================ */
+
+function v13AddDashboardCard() {
+
+  const containers = [
+    document.querySelector(".dashboard-grid"),
+    document.querySelector(".stats-grid"),
+    document.querySelector(".dashboard-cards"),
+    document.querySelector(".main-content")
+  ];
+
+  let container = null;
+
+  for (const item of containers) {
+    if (item) {
+      container = item;
+      break;
+    }
+  }
+
+  if (!container) return;
+
+  if (document.getElementById("v13-dashboard-card")) {
+    return;
+  }
+
+  const card = document.createElement("div");
+
+  card.id = "v13-dashboard-card";
+
+  card.style.cssText = `
+    margin:16px 0;
+    padding:18px;
+    border-radius:18px;
+    background:
+      linear-gradient(
+        135deg,
+        rgba(59,130,246,.12),
+        rgba(16,185,129,.10)
+      );
+    border:1px solid rgba(59,130,246,.12);
+  `;
+
+  card.innerHTML = `
+    <div style="
+      display:flex;
+      align-items:center;
+      gap:12px;
+    ">
+
+      <div style="
+        font-size:30px;
+      ">
+        📊
+      </div>
+
+      <div style="flex:1;">
+        <div style="
+          font-size:16px;
+          font-weight:800;
+        ">
+          Business Simulator
+        </div>
+
+        <div style="
+          font-size:12px;
+          color:#64748b;
+          margin-top:3px;
+        ">
+          Test Revenue, Profit, Margin, Break-even & ROI.
+        </div>
+      </div>
+
+      <button
+        class="primary-button"
+        onclick="openV13BusinessSimulator()"
+      >
+        Open
+      </button>
+
+    </div>
+  `;
+
+  container.appendChild(card);
+}
+
+/* ============================================================
+   FLOATING SIMULATOR BUTTON
+   ============================================================ */
+
+function v13AddSimulatorButton() {
+
+  if (document.getElementById("v13-simulator-launcher")) {
+    return;
+  }
+
+  const button = document.createElement("button");
+
+  button.id = "v13-simulator-launcher";
+
+  button.innerHTML = "📊";
+
+  button.title = "Business Simulator";
+
+  button.onclick = function() {
+    openV13BusinessSimulator();
+  };
+
+  button.style.cssText = `
+    position:fixed;
+    right:18px;
+    bottom:95px;
+    z-index:9997;
+    width:52px;
+    height:52px;
+    border:none;
+    border-radius:50%;
+    font-size:22px;
+    cursor:pointer;
+    box-shadow:0 8px 24px rgba(0,0,0,.18);
+  `;
+
+  document.body.appendChild(button);
+}
+
+/* ============================================================
+   V13 INIT
+   ============================================================ */
+
+function v13Init() {
+
+  try {
+    v13AddSimulatorButton();
+
+    setTimeout(() => {
+      v13AddDashboardCard();
+    }, 1200);
+
+  } catch (error) {
+
+    console.warn(
+      "V13 Business Simulator initialization error:",
+      error
+    );
+  }
+}
+
+/* ============================================================
+   V13 GLOBAL EXPORTS
+   ============================================================ */
+
+window.openV13BusinessSimulator =
+  openV13BusinessSimulator;
+
+window.calculateV13BusinessSimulator =
+  calculateV13BusinessSimulator;
+
+window.v13AskSimulatorAI =
+  v13AskSimulatorAI;
+
+if (document.readyState === "loading") {
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+      setTimeout(v13Init, 1000);
+    }
+  );
+
+} else {
+
+  setTimeout(v13Init, 1000);
+}
   // 8. V10 GLOBAL EXPORTS
   // ------------------------------------------------------------
 

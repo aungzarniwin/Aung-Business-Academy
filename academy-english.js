@@ -185,7 +185,13 @@
      * Put English module at the TOP of the lesson page.
      */
 
-   page.appendChild(section);
+const careerSection = document.getElementById("careerPersonalLeadership");
+
+if (careerSection) {
+  careerSection.insertAdjacentElement("afterend", section);
+} else {
+  page.appendChild(section);
+}
 
     renderEnglishLessons();
 

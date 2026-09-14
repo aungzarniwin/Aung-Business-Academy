@@ -1,205 +1,212 @@
 /* ============================================================
    AUNG BUSINESS ACADEMY
-   LONG DETAILED LESSON UPGRADE
+   ACADEMY LONG LESSONS
    ============================================================
+
+   PURPOSE
+   ------------------------------------------------------------
+   Upgrade existing 230 Business Lessons.
 
    IMPORTANT
    ------------------------------------------------------------
-   • Existing Business Lessons only
-   • No new lesson titles
-   • No tables
-   • No graphs
-   • No horizontal overflow
-   • Business English remains untouched
-   • Long detailed text-based professional lessons
+   • Existing lesson titles are NOT changed
+   • Existing lesson list is NOT changed
+   • Business English is NOT changed
+   • No graph
+   • No table
+   • Mobile friendly
+   • Long detailed Burmese lessons
    ============================================================ */
 
 (function () {
 
   "use strict";
 
-  console.log(
-    "Aung Business Academy — Long Detailed Lesson Upgrade Loading..."
-  );
+  console.log("Aung Business Academy: Long Lessons Loading...");
 
 
   /* ============================================================
-     MODULE INFORMATION
+     BUSINESS MODULE KNOWLEDGE
      ============================================================ */
 
-  const MODULE_INFO = {
+  const MODULE_KNOWLEDGE = {
 
     "Business Basics": {
-      focus:
-        "Business အခြေခံသဘောတရား၊ Customer၊ Revenue၊ Cost၊ Profit နှင့် Business Model",
-      example:
-        "Retail / Distribution Business"
+      focus: "Business အခြေခံသဘောတရားများ၊ Customer၊ Revenue၊ Cost၊ Profit၊ Business Model နှင့် Value Creation",
+      example: "Retail နှင့် Distribution Business",
+      manager: "Business တစ်ခုလုံးကို အပေါ်စီးကနေ နားလည်ပြီး Revenue တိုးအောင်၊ Cost ထိန်းအောင်နှင့် Profit တိုးအောင် စီမံခန့်ခွဲနိုင်ခြင်း"
     },
 
     "Strategic Thinking": {
-      focus:
-        "Business Direction၊ Market၊ Competition၊ Opportunity နှင့် Long-term Strategy",
-      example:
-        "Market Expansion Business"
+      focus: "Business Direction၊ Market Opportunity၊ Competition၊ Competitive Advantage နှင့် Long-term Strategy",
+      example: "Market Expansion Business",
+      manager: "နေ့စဉ်အလုပ်တွေအပြင် ရေရှည် Business Direction ကို စဉ်းစားပြီး အခွင့်အလမ်းနှင့် Risk ကို ကြိုတင်မြင်နိုင်ခြင်း"
     },
 
     "Brand Basics": {
-      focus:
-        "Brand Identity၊ Customer Perception၊ Trust၊ Positioning နှင့် Brand Value",
-      example:
-        "Consumer Brand"
+      focus: "Brand Identity၊ Brand Image၊ Customer Perception၊ Trust၊ Positioning နှင့် Brand Value",
+      example: "Consumer Brand နှင့် FMCG Brand",
+      manager: "Customer ရဲ့စိတ်ထဲမှာ Company/Product ရဲ့ တန်ဖိုးရှိတဲ့ Position တစ်ခု တည်ဆောက်နိုင်ခြင်း"
     },
 
     "Marketing Basics": {
-      focus:
-        "Customer Need၊ Market Research၊ Marketing Mix၊ Promotion နှင့် Customer Acquisition",
-      example:
-        "FMCG Marketing"
+      focus: "Customer Need၊ Market Research၊ Segmentation၊ Positioning၊ Promotion နှင့် Customer Acquisition",
+      example: "FMCG Marketing Business",
+      manager: "Customer ဘာလိုချင်သလဲကို နားလည်ပြီး သင့်တော်တဲ့ Product၊ Price၊ Promotion နှင့် Channel ကို ချိတ်ဆက်နိုင်ခြင်း"
     },
 
     "Sales Basics": {
-      focus:
-        "Prospecting၊ Customer Visit၊ Need Discovery၊ Presentation၊ Negotiation နှင့် Closing",
-      example:
-        "FMCG Sales Team"
+      focus: "Prospecting၊ Customer Visit၊ Need Discovery၊ Presentation၊ Objection Handling နှင့် Closing",
+      example: "FMCG Sales Team",
+      manager: "Sales Process တစ်ခုလုံးကို နားလည်ပြီး Customer ကို Value ပေးကာ Sustainable Sales Result ရအောင် လုပ်နိုင်ခြင်း"
     },
 
     "Sales Management": {
-      focus:
-        "Sales Target၊ Team Management၊ Territory၊ Distribution၊ Execution၊ KPI နှင့် Performance",
-      example:
-        "Area Sales Management"
+      focus: "Sales Target၊ Territory၊ Team Management၊ Distribution၊ Execution၊ KPI နှင့် Performance Management",
+      example: "Area Sales Management",
+      manager: "Target ကို Team၊ Territory၊ Customer နှင့် Daily Execution တွေအဖြစ် ခွဲပြီး Result ရအောင် စီမံနိုင်ခြင်း"
     },
 
     "Negotiation": {
-      focus:
-        "Customer Need၊ Value Creation၊ Objection Handling၊ Trade-off နှင့် Win-Win Agreement",
-      example:
-        "Distributor / Key Account Negotiation"
+      focus: "Customer Need၊ Value၊ Objection၊ Trade-off၊ Win-Win Agreement နှင့် Commercial Negotiation",
+      example: "Distributor နှင့် Key Account Negotiation",
+      manager: "Price တစ်ခုတည်းကို မကြည့်ဘဲ Value၊ Volume၊ Terms နှင့် Long-term Relationship ကို ချိန်ညှိနိုင်ခြင်း"
     },
 
     "Customer Service": {
-      focus:
-        "Customer Experience၊ Complaint Handling၊ Service Quality၊ Retention နှင့် Loyalty",
-      example:
-        "Customer Service Management"
+      focus: "Customer Experience၊ Complaint Handling၊ Service Recovery၊ Retention နှင့် Customer Loyalty",
+      example: "Customer Service Management",
+      manager: "Customer Problem ကို မြန်မြန်၊ မှန်မှန် ဖြေရှင်းပြီး Customer Relationship ကို ပိုမိုခိုင်မာအောင် တည်ဆောက်နိုင်ခြင်း"
     },
 
     "People Management": {
-      focus:
-        "Team Performance၊ Coaching၊ Motivation၊ Accountability၊ Delegation နှင့် Development",
-      example:
-        "Sales Team Management"
+      focus: "Team Performance၊ Coaching၊ Motivation၊ Delegation၊ Accountability နှင့် Employee Development",
+      example: "Sales Team Management",
+      manager: "Team Member တစ်ယောက်ချင်းစီရဲ့ အားသာချက်၊ အားနည်းချက်ကို နားလည်ပြီး Result ရအောင် လူကို စီမံနိုင်ခြင်း"
     },
 
     "Profit & Loss": {
-      focus:
-        "Revenue၊ COGS၊ Gross Profit၊ Operating Cost၊ Profit Margin နှင့် Business Profitability",
-      example:
-        "Distribution Business P&L"
+      focus: "Revenue၊ Cost of Goods Sold၊ Gross Profit၊ Operating Cost၊ Margin နှင့် Net Profit",
+      example: "Distribution Business P&L",
+      manager: "Sales တက်တာတစ်ခုတည်းမဟုတ်ဘဲ အမြတ်တကယ်ကျန်မကျန်ကို နားလည်ပြီး Profitability ကို စီမံနိုင်ခြင်း"
     },
 
     "Goal Setting": {
-      focus:
-        "Goal၊ KPI၊ Action Plan၊ Measurement၊ Accountability နှင့် Continuous Improvement",
-      example:
-        "Monthly Business Goal"
+      focus: "Goal၊ KPI၊ Target၊ Measurement၊ Action Plan၊ Accountability နှင့် Continuous Improvement",
+      example: "Monthly Sales Goal",
+      manager: "Business Goal ကို တိုင်းတာလို့ရတဲ့ KPI နဲ့ Action Plan တွေအဖြစ် ပြောင်းလဲနိုင်ခြင်း"
     },
 
     "Customer Relationship Management": {
-      focus:
-        "Customer Retention၊ Customer Value၊ Relationship Building၊ Follow-up နှင့် Key Account Management",
-      example:
-        "Key Customer Management"
+      focus: "Customer Retention၊ Customer Value၊ Follow-up၊ Customer Development နှင့် Key Account Management",
+      example: "Key Customer Management",
+      manager: "Customer ကို Order တစ်ကြိမ်ရတဲ့သူအဖြစ် မမြင်ဘဲ ရေရှည် Business Partner အဖြစ် တည်ဆောက်နိုင်ခြင်း"
     },
 
     "Distribution Management": {
-      focus:
-        "Distributor၊ Outlet Coverage၊ Stock၊ Availability၊ Route၊ Delivery နှင့် Market Execution",
-      example:
-        "FMCG Distribution"
+      focus: "Distributor၊ Outlet Coverage၊ Availability၊ Stock၊ Route Planning၊ Delivery နှင့် Market Execution",
+      example: "FMCG Distribution",
+      manager: "Product ကို Market ထဲမှာ မှန်ကန်တဲ့နေရာ၊ မှန်ကန်တဲ့အချိန်မှာ ရရှိနိုင်အောင် Distribution System ကို စီမံနိုင်ခြင်း"
     },
 
     "Retail & Trade Marketing": {
-      focus:
-        "Outlet Execution၊ Visibility၊ Availability၊ Promotion၊ Merchandising နှင့် Retail Sales",
-      example:
-        "Retail Execution"
+      focus: "Outlet Execution၊ Visibility၊ Availability၊ Merchandising၊ Promotion နှင့် Trade Relationship",
+      example: "Retail Market Execution",
+      manager: "Customer ဝယ်ယူနိုင်တဲ့အချိန်မှာ Product ရှိနေဖို့၊ မြင်သာဖို့နဲ့ ဝယ်ချင်စိတ်ဖြစ်ဖို့ Market Execution ကို စီမံနိုင်ခြင်း"
     },
 
     "Business Analytics": {
-      focus:
-        "Data Collection၊ KPI၊ Trend၊ Variance၊ Root Cause၊ Insight နှင့် Business Decision",
-      example:
-        "Business Performance Analysis"
+      focus: "Data Collection၊ KPI၊ Trend၊ Variance၊ Root Cause၊ Insight နှင့် Data-driven Decision Making",
+      example: "Sales Performance Analysis",
+      manager: "Data ကို Report အဖြစ်ပဲမထားဘဲ Insight ထုတ်ပြီး Business Decision အဖြစ် ပြောင်းလဲနိုင်ခြင်း"
     },
 
     "Financial Management": {
-      focus:
-        "Budget၊ Cash Flow၊ Cost Control၊ Financial Planning နှင့် Financial Decision",
-      example:
-        "Business Financial Management"
+      focus: "Budget၊ Cash Flow၊ Cost Control၊ Financial Planning၊ Working Capital နှင့် Financial Decision",
+      example: "Business Financial Management",
+      manager: "Business ရဲ့ ငွေဝင်ငွေထွက်၊ Cash Flow၊ Cost နှင့် Financial Risk ကို ထိန်းချုပ်နိုင်ခြင်း"
     },
 
     "Operations Management": {
-      focus:
-        "Process၊ Productivity၊ Quality၊ Cost၊ Time Management နှင့် Operational Efficiency",
-      example:
-        "Business Operations"
+      focus: "Process၊ Productivity၊ Quality၊ Cost၊ Time၊ Resource နှင့် Operational Efficiency",
+      example: "Business Operations",
+      manager: "လုပ်ငန်းစဉ်တွေကို ပိုမြန်၊ ပိုမှန်၊ ပိုသက်သာပြီး Quality မကျအောင် စီမံနိုင်ခြင်း"
     },
 
     "Leadership": {
-      focus:
-        "Vision၊ Direction၊ Coaching၊ Empowerment၊ Accountability နှင့် Team Performance",
-      example:
-        "Sales Leadership"
+      focus: "Vision၊ Direction၊ Coaching၊ Empowerment၊ Accountability၊ Motivation နှင့် Team Performance",
+      example: "Sales Leadership",
+      manager: "လူတွေကို အမိန့်ပေးတာထက် Direction ပေးပြီး Ownership ရှိအောင် ဦးဆောင်နိုင်ခြင်း"
     },
 
     "Communication": {
-      focus:
-        "Clear Message၊ Listening၊ Feedback၊ Meeting၊ Presentation နှင့် Manager Communication",
-      example:
-        "Manager Communication"
+      focus: "Clear Communication၊ Listening၊ Feedback၊ Meeting၊ Presentation နှင့် Managerial Communication",
+      example: "Manager Communication",
+      manager: "လိုချင်တဲ့ Message ကို ရှင်းလင်းစွာ ပေးနိုင်ပြီး Team ရဲ့ Response ကိုလည်း မှန်ကန်စွာ နားထောင်နိုင်ခြင်း"
     },
 
     "Productivity": {
-      focus:
-        "Priority၊ Planning၊ Time Management၊ Delegation၊ Focus နှင့် Result",
-      example:
-        "Manager Productivity"
+      focus: "Priority၊ Planning၊ Time Management၊ Focus၊ Delegation နှင့် Result-oriented Work",
+      example: "Manager Productivity",
+      manager: "အလုပ်များတာကို Productivity လို့ မယူဆဘဲ အရေးကြီးတဲ့ Result တွေ ရအောင် အချိန်နဲ့ Resource ကို စီမံနိုင်ခြင်း"
     },
 
     "Problem Solving": {
-      focus:
-        "Problem Identification၊ Root Cause၊ Alternatives၊ Solution နှင့် Follow-up",
-      example:
-        "Sales Problem Solving"
+      focus: "Problem Identification၊ Root Cause၊ Analysis၊ Alternatives၊ Solution၊ Execution နှင့် Follow-up",
+      example: "Sales Problem Solving",
+      manager: "ပြဿနာကို လူအပေါ်ပုံချတာမဟုတ်ဘဲ Systematically ခွဲခြမ်းပြီး Root Cause ကို ဖြေရှင်းနိုင်ခြင်း"
     },
 
     "Business Planning": {
-      focus:
-        "Business Objective၊ Strategy၊ Action Plan၊ Resource၊ Budget နှင့် Measurement",
-      example:
-        "Annual Business Planning"
+      focus: "Business Objective၊ Strategy၊ Market၊ Resource၊ Budget၊ Action Plan နှင့် Measurement",
+      example: "Annual Business Planning",
+      manager: "Business ရဲ့ ရည်မှန်းချက်ကို Strategy၊ Resource နှင့် Action Plan အဖြစ် ပြောင်းလဲနိုင်ခြင်း"
     },
 
     "Decision Making & Problem Solving": {
-      focus:
-        "Data Analysis၊ Options၊ Risk၊ Decision၊ Execution နှင့် Result Evaluation",
-      example:
-        "Management Decision Making"
+      focus: "Data၊ Situation၊ Options၊ Risk၊ Decision၊ Execution နှင့် Result Evaluation",
+      example: "Management Decision Making",
+      manager: "အချက်အလက်ကို စုစည်း၊ အခြေအနေကို သုံးသပ်၊ ရွေးချယ်စရာတွေကို နှိုင်းယှဉ်ပြီး မှန်ကန်တဲ့ Decision ချနိုင်ခြင်း"
     }
 
   };
 
 
   /* ============================================================
-     HELPER
+     GET MODULE
      ============================================================ */
 
-  function escapeHTML(value) {
+  function getKnowledge(module) {
 
-    return String(value || "")
+    if (MODULE_KNOWLEDGE[module]) {
+
+      return MODULE_KNOWLEDGE[module];
+
+    }
+
+    return {
+
+      focus:
+        "Business Management၊ Customer၊ Team၊ Performance နှင့် Result",
+
+      example:
+        "Business Management",
+
+      manager:
+        "Business Result ကောင်းအောင် People၊ Process၊ Customer နှင့် Performance ကို စီမံခန့်ခွဲနိုင်ခြင်း"
+
+    };
+
+  }
+
+
+  /* ============================================================
+     ESCAPE HTML
+     ============================================================ */
+
+  function esc(text) {
+
+    return String(text || "")
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
@@ -209,141 +216,51 @@
   }
 
 
-  function getModuleInfo(module) {
-
-    return MODULE_INFO[module] || {
-      focus:
-        "Business Management၊ Customer၊ Team၊ Performance နှင့် Result",
-      example:
-        "Business Management"
-    };
-
-  }
-
-
   /* ============================================================
-     LESSON INTRO
+     SECTION 1
      ============================================================ */
 
-  function buildIntroduction(module, title) {
+  function introduction(module, title) {
 
-    const info =
-      getModuleInfo(module);
+    const k = getKnowledge(module);
 
     return `
 
-      <section class="long-lesson-section">
+      <section class="abl-section">
 
-        <h2>🎯 ဒီသင်ခန်းစာရဲ့ ရည်ရွယ်ချက်</h2>
-
-        <p>
-          <strong>${escapeHTML(title)}</strong>
-          ဆိုတဲ့အကြောင်းအရာကို သီအိုရီအနေနဲ့သာ သိထားရုံနဲ့
-          Professional Manager တစ်ယောက်ဖြစ်လာမှာ မဟုတ်ပါဘူး။
-          လက်တွေ့ Business မှာ ဘယ်လိုအသုံးချရမလဲ၊
-          ဘယ်လိုစဉ်းစားရမလဲ၊ ဘယ်လိုဆုံးဖြတ်ရမလဲဆိုတာ
-          နားလည်ဖို့လိုပါတယ်။
-        </p>
+        <h2>🎯 ဒီသင်ခန်းစာကို ဘာကြောင့်လေ့လာသင့်သလဲ</h2>
 
         <p>
-          ဒီသင်ခန်းစာမှာ
-          ${escapeHTML(info.focus)}
-          ကို အခြေခံပြီး
-          လက်တွေ့လုပ်ငန်းခွင်မှာ အသုံးချနိုင်အောင်
-          အဆင့်ဆင့်ရှင်းပြသွားမှာ ဖြစ်ပါတယ်။
-        </p>
-
-        <p>
-          Manager တစ်ယောက်ဟာ အလုပ်တွေကို ကိုယ်တိုင်လုပ်ပေးနေတဲ့
-         သူတစ်ယောက်ဖြစ်ဖို့ထက်
-          Team ကို မှန်ကန်တဲ့ Direction ပေးနိုင်သူ၊
-          Problem ကို မှန်ကန်စွာရှာဖွေနိုင်သူ၊
-          Result ရအောင် စီမံခန့်ခွဲနိုင်သူ ဖြစ်ရပါမယ်။
-        </p>
-
-      </section>
-
-    `;
-
-  }
-
-
-  /* ============================================================
-     DETAILED EXPLANATION
-     ============================================================ */
-
-  function buildDetailedExplanation(module, title) {
-
-    const info =
-      getModuleInfo(module);
-
-    return `
-
-      <section class="long-lesson-section">
-
-        <h2>📖 အသေးစိတ်ရှင်းလင်းချက်</h2>
-
-        <p>
-          Business Management မှာ
-          <strong>${escapeHTML(title)}</strong>
-          ကို နားလည်ဖို့အတွက်
-          အကြောင်းအရာတစ်ခုတည်းကို သီးခြားကြည့်လို့မရပါဘူး။
-          Customer၊ People၊ Process၊ Money၊ Market နဲ့
-          Business Result တွေဟာ တစ်ခုနဲ့တစ်ခု
+          <strong>${esc(title)}</strong>
+          ဆိုတဲ့အကြောင်းအရာဟာ Business Management မှာ
+          သီးခြားအကြောင်းအရာတစ်ခုတည်းမဟုတ်ပါဘူး။
+          Business တစ်ခုရဲ့ Customer၊ Sales၊ People၊
+          Finance၊ Operation နဲ့ Result တွေအားလုံးနဲ့
           ဆက်စပ်နေပါတယ်။
         </p>
 
         <p>
-          ဥပမာ Sales Result ကျဆင်းလာတယ်ဆိုပါစို့။
-          Sales ကျတာကို Sales Person တွေရဲ့
-          Performance မကောင်းလို့ဆိုပြီး ချက်ချင်းဆုံးဖြတ်လိုက်ရင်
-          Manager အနေနဲ့ အရေးကြီးတဲ့ Root Cause တချို့ကို
-          မတွေ့နိုင်တော့ပါဘူး။
+          Manager တစ်ယောက်အနေနဲ့ ဒီအကြောင်းအရာကို
+          သီအိုရီအနေနဲ့ သိထားရုံနဲ့ မလုံလောက်ပါဘူး။
+          လက်တွေ့လုပ်ငန်းခွင်မှာ ဘယ်လိုအသုံးချမလဲ၊
+          ဘယ်လိုစဉ်းစားမလဲ၊ ဘယ်လိုဆုံးဖြတ်မလဲဆိုတာ
+          နားလည်ဖို့ အရေးကြီးပါတယ်။
         </p>
 
         <p>
-          Product Availability မရှိတာလား၊
-          Customer Demand ပြောင်းသွားတာလား၊
-          Price Competition ပြင်းလာတာလား၊
-          Distributor Stock မလုံလောက်တာလား၊
-          Outlet Coverage လျော့သွားတာလား၊
-          Team Execution မကောင်းတာလားဆိုတာ
-          တစ်ဆင့်ချင်း စစ်ဆေးရပါမယ်။
+          ${esc(k.focus)}
+          ကို မှန်မှန်ကန်ကန် နားလည်ထားနိုင်ရင်
+          Business Problem တွေကို ပိုမြန်မြန်
+          သုံးသပ်နိုင်ပြီး Result ကို ပိုကောင်းအောင်
+          ပြောင်းလဲနိုင်ပါမယ်။
         </p>
 
         <p>
-          ဒါကြောင့် Professional Manager တစ်ယောက်အနေနဲ့
-          Result ကိုသာ မကြည့်ဘဲ
-          Result ဖြစ်ပေါ်လာစေတဲ့ Process ကိုပါ
-          နားလည်ထားရပါမယ်။
-        </p>
-
-        <p>
-          ${escapeHTML(info.focus)}
-          ဟာ Business Result နဲ့ တိုက်ရိုက်သက်ဆိုင်တဲ့
-          အရေးကြီးတဲ့ Management Area ဖြစ်ပါတယ်။
-          ဒီအပိုင်းကို ကောင်းကောင်းစီမံနိုင်ရင်
-          Business ရဲ့ Growth နဲ့ Stability ကို
-          တိုးတက်အောင်လုပ်နိုင်ပါတယ်။
-        </p>
-
-        <p>
-          Manager တစ်ယောက်အနေနဲ့
-          “ဘာလုပ်ခဲ့လဲ” ဆိုတာထက်
-          “ဘာ Result ရခဲ့လဲ”
-          ဆိုတာကို ပိုအရေးထားရပါမယ်။
-          ဒါပေမယ့် Result မကောင်းတဲ့အခါ
-          Result ကိုပဲကြည့်ပြီး လူကိုအပြစ်တင်တာမျိုး
-          မလုပ်သင့်ပါဘူး။
-        </p>
-
-        <p>
-          အရင်ဆုံး Situation ကို နားလည်ရပါမယ်။
-          ပြီးရင် Problem ကို သတ်မှတ်ရပါမယ်။
-          နောက်တစ်ဆင့် Root Cause ရှာရပါမယ်။
-          Root Cause သိပြီးမှ Solution ရွေးရပါမယ်။
-          နောက်ဆုံး Action ကို သတ်မှတ်ပြီး
-          Result ကို ပြန်လည်တိုင်းတာရပါမယ်။
+          ဒီ Lesson ကိုဖတ်တဲ့အခါ စာကိုဖတ်ပြီး
+          သိထားရုံမဟုတ်ဘဲ ကိုယ့်ရဲ့ လက်ရှိအလုပ်၊
+          ကိုယ့် Team၊ ကိုယ့် Customer နဲ့
+          ကိုယ့် Business မှာ ဘယ်လိုအသုံးချနိုင်မလဲ
+          တစ်ခါတည်း စဉ်းစားသွားပါ။
         </p>
 
       </section>
@@ -354,62 +271,80 @@
 
 
   /* ============================================================
-     IMPORTANT PRINCIPLES
+     SECTION 2
      ============================================================ */
 
-  function buildPrinciples(module, title) {
+  function detailedExplanation(module, title) {
+
+    const k = getKnowledge(module);
 
     return `
 
-      <section class="long-lesson-section">
+      <section class="abl-section">
 
-        <h2>🧠 အရေးကြီးတဲ့ Management Principles</h2>
-
-        <h3>၁။ Result ကို အမြဲစောင့်ကြည့်ပါ</h3>
+        <h2>📖 အသေးစိတ်ရှင်းလင်းချက်</h2>
 
         <p>
-          Manager တစ်ယောက်အနေနဲ့
-          နေ့စဉ်လုပ်ဆောင်ချက်တွေကို သိထားရုံမလုံလောက်ပါဘူး။
-          နောက်ဆုံးရလဒ်က ဘယ်လောက်ရလာသလဲဆိုတာ
-          ပုံမှန်စောင့်ကြည့်ရပါမယ်။
+          Business တစ်ခုမှာ Result တစ်ခုထွက်လာတိုင်း
+          အဲဒီ Result ရဲ့နောက်မှာ အကြောင်းရင်းတွေ
+          အများကြီးရှိပါတယ်။ Sales Result တက်လာတာ၊
+          Sales Result ကျလာတာ၊ Customer တိုးလာတာ၊
+          Customer လျော့သွားတာ၊ Team Performance
+          ကောင်းလာတာ၊ Performance ကျလာတာတွေဟာ
+          အကြောင်းရင်းတစ်ခုတည်းကြောင့် ဖြစ်တာ
+          မဟုတ်တတ်ပါဘူး။
         </p>
 
-        <h3>၂။ Gap ကို ရှာပါ</h3>
-
         <p>
-          Target ရှိပြီး Actual ရှိရင်
-          နှစ်ခုကြားမှာ Gap ရှိမရှိ စစ်ဆေးရပါမယ်။
-          Gap ရှိရင် ဘာကြောင့်ဖြစ်လာသလဲဆိုတာ
+          ဒါကြောင့် Professional Manager တစ်ယောက်ဟာ
+          Result ကိုမြင်တာနဲ့ ချက်ချင်းဆုံးဖြတ်မလုပ်သင့်ပါဘူး။
+          အရင်ဆုံး “ဘာဖြစ်နေတာလဲ” ဆိုတာ နားလည်ရပါမယ်။
+          ပြီးရင် “ဘာကြောင့်ဖြစ်တာလဲ” ဆိုတာ
           ဆက်ပြီးရှာရပါမယ်။
         </p>
 
-        <h3>၃။ Root Cause ကို ရှာပါ</h3>
-
         <p>
-          အပြင်ပန်းမြင်ရတဲ့ Problem ကိုပဲ
-          ဖြေရှင်းလိုက်ရင် Problem က
-          နောက်တစ်ကြိမ် ပြန်ဖြစ်နိုင်ပါတယ်။
-          ဒါကြောင့် အဓိကအကြောင်းရင်းကို
-          ရှာဖွေဖို့လိုပါတယ်။
+          ${esc(k.focus)}
+          ကို စီမံတဲ့အခါ Customer Perspective,
+          Business Perspective နဲ့ Team Perspective
+          သုံးခုလုံးကို ထည့်သွင်းစဉ်းစားသင့်ပါတယ်။
         </p>
 
-        <h3>၄။ Action ကို ရှင်းရှင်းလင်းလင်း သတ်မှတ်ပါ</h3>
-
         <p>
-          “ပိုကြိုးစားပါ”
-          “Sales တိုးအောင်လုပ်ပါ”
-          ဆိုတာ Action Plan ကောင်းတစ်ခု မဟုတ်ပါဘူး။
-          ဘယ်သူက၊ ဘာကို၊ ဘယ်အချိန်မှာ၊
-          ဘယ်လိုလုပ်မလဲဆိုတာ သတ်မှတ်ရပါမယ်။
+          Customer Perspective ကနေကြည့်ရင်
+          Customer ရဲ့ Need ဘာလဲ၊ Customer ဘာကြောင့်
+          ဝယ်တယ်၊ ဘာကြောင့် မဝယ်တော့ဘူး၊
+          ဘာကြောင့် Competitor ဆီသွားတယ်ဆိုတာ
+          နားလည်ဖို့လိုပါတယ်။
         </p>
 
-        <h3>၅။ Follow-up လုပ်ပါ</h3>
+        <p>
+          Business Perspective ကနေကြည့်ရင်
+          Revenue၊ Cost၊ Margin၊ Market Share၊
+          Distribution၊ Productivity နဲ့
+          Long-term Growth ကို စဉ်းစားရပါမယ်။
+        </p>
 
         <p>
-          Action Plan ချပြီးတာနဲ့ အလုပ်ပြီးသွားတာမဟုတ်ပါဘူး။
-          Action က တကယ်အကောင်အထည်ဖော်ပြီးပြီလား၊
-          Result ပြောင်းလဲလာလားဆိုတာ
-          ပြန်စစ်ရပါမယ်။
+          Team Perspective ကနေကြည့်ရင်
+          လူတွေမှာ Skill ရှိလား၊ Direction ရှင်းလား၊
+          Target နားလည်လား၊ Resource လုံလောက်လား၊
+          Coaching လိုအပ်လား၊ Accountability ရှိလား
+          ဆိုတာတွေကို ကြည့်ရပါမယ်။
+        </p>
+
+        <p>
+          ဒီအချက်တွေကို တစ်ခုချင်းစီ ခွဲခြမ်းပြီး
+          နောက်ဆုံးမှာ Business Result နဲ့
+          ပြန်ချိတ်ဆက်စဉ်းစားနိုင်ရင်
+          Management Skill က ပိုမိုမြင့်မားလာပါမယ်။
+        </p>
+
+        <p>
+          အရေးကြီးဆုံးကတော့ Problem ဖြစ်တဲ့အခါ
+          “ဘယ်သူ့အမှားလဲ” လို့ မေးတာထက်
+          “ဘယ် Process မှာ Gap ဖြစ်နေတာလဲ”
+          လို့ မေးတတ်ဖို့ ဖြစ်ပါတယ်။
         </p>
 
       </section>
@@ -420,125 +355,135 @@
 
 
   /* ============================================================
-     REAL BUSINESS EXAMPLE
+     SECTION 3
      ============================================================ */
 
-  function buildBusinessExample(module, title) {
-
-    const info =
-      getModuleInfo(module);
+  function keyConcepts(module, title) {
 
     return `
 
-      <section class="long-lesson-section">
+      <section class="abl-section">
+
+        <h2>🧠 အရေးကြီးတဲ့ Key Concepts</h2>
+
+        <h3>၁။ Objective ကို အရင်သတ်မှတ်ပါ</h3>
+
+        <p>
+          ဘာကိုရချင်တာလဲ မသိဘဲ အလုပ်လုပ်ရင်
+          Team တစ်ခုလုံး အလုပ်များနေပေမယ့်
+          Result က မထွက်နိုင်ပါဘူး။
+          ဒါကြောင့် အရင်ဆုံး Objective ကို
+          ရှင်းလင်းစွာ သတ်မှတ်ရပါမယ်။
+        </p>
+
+        <h3>၂။ Current Situation ကို သိပါ</h3>
+
+        <p>
+          လက်ရှိ Business အခြေအနေကို မသိဘဲ
+          Plan ချလို့မရပါဘူး။
+          Customer ဘယ်လိုပြောင်းနေသလဲ၊
+          Market ဘယ်လိုဖြစ်နေသလဲ၊
+          Team Performance ဘယ်လိုရှိသလဲဆိုတာ
+          နားလည်ရပါမယ်။
+        </p>
+
+        <h3>၃။ Gap ကို ရှာပါ</h3>
+
+        <p>
+          Target နဲ့ Actual ကြားမှာ
+          ဘယ်လောက်ကွာနေသလဲဆိုတာ သိရပါမယ်။
+          Gap ကို မသိရင် Improvement ဘယ်လောက်
+          လိုအပ်တယ်ဆိုတာလည်း မသိနိုင်ပါဘူး။
+        </p>
+
+        <h3>၄။ Root Cause ကို ရှာပါ</h3>
+
+        <p>
+          မြင်နေရတဲ့ Problem က အမြဲတမ်း
+          အဓိကအကြောင်းရင်း မဟုတ်ပါဘူး။
+          Problem ရဲ့နောက်မှာ ဘာတွေရှိနေလဲ
+          တစ်ဆင့်ချင်းစီ စဉ်းစားရပါမယ်။
+        </p>
+
+        <h3>၅။ Action ကို Result နဲ့ချိတ်ပါ</h3>
+
+        <p>
+          Action လုပ်တာကို အောင်မြင်မှုလို့
+          မယူဆသင့်ပါဘူး။
+          Action လုပ်ပြီး Result တကယ်တိုးတက်လာမှ
+          အဲဒီ Action ရဲ့ ထိရောက်မှုကို
+          အကဲဖြတ်နိုင်မှာ ဖြစ်ပါတယ်။
+        </p>
+
+      </section>
+
+    `;
+
+  }
+
+
+  /* ============================================================
+     SECTION 4
+     ============================================================ */
+
+  function realBusinessExample(module, title) {
+
+    const k = getKnowledge(module);
+
+    return `
+
+      <section class="abl-section">
 
         <h2>💼 လက်တွေ့ Business Example</h2>
 
         <p>
-          ${escapeHTML(info.example)} တစ်ခုကို
-          ဥပမာအနေနဲ့ စဉ်းစားကြည့်ပါမယ်။
+          အခု ${esc(k.example)} ကို
+          လက်တွေ့ဥပမာအနေနဲ့ စဉ်းစားကြည့်ပါမယ်။
         </p>
 
         <p>
-          Company က ဒီလမှာ Sales Target ကို
-          သတ်မှတ်ထားပေမယ့် လကုန်ခါနီးတဲ့အချိန်မှာ
-          Result က Target ထက် နောက်ကျနေပါတယ်။
+          Company တစ်ခုမှာ ဒီလ Business Target ကို
+          ပြည့်မီအောင်လုပ်ရမယ်လို့ သတ်မှတ်ထားပါတယ်။
+          လကုန်ခါနီးတဲ့အချိန်မှာ Result က
+          Target ထက် နောက်ကျနေပါတယ်။
         </p>
 
         <p>
-          ဒီအခြေအနေမှာ Manager တချို့က
-          Team ကို Target မပြည့်တဲ့အတွက်
-          ဖိအားပေးတတ်ပါတယ်။
-          ဒါပေမယ့် Professional Manager ကတော့
-          အရင်ဆုံး Data နဲ့ Situation ကို
-          နားလည်အောင်လုပ်ပါမယ်။
+          ဒီအချိန်မှာ Manager တစ်ယောက်အနေနဲ့
+          Team ကို “ပိုကြိုးစားပါ၊ Target ပြည့်အောင်လုပ်ပါ”
+          လို့ပဲ ပြောလိုက်ရင် လုံလောက်မှာ မဟုတ်ပါဘူး။
         </p>
 
         <p>
-          Customer Visit လုံလောက်ရဲ့လား။
-          Order Conversion ကောင်းရဲ့လား။
-          Product ရှိရဲ့လား။
-          Distributor က Stock ထားပေးထားရဲ့လား။
-          Outlet Coverage မှန်ရဲ့လား။
-          Competitor Promotion ရှိနေလား။
+          အရင်ဆုံး ဘာကြောင့် Result နောက်ကျနေတာလဲ
+          ဆိုတာကို ရှာရပါမယ်။ Customer Visit လျော့နေလား။
+          Order Conversion ကျနေလား။ Product Availability
+          ပြဿနာရှိနေလား။ Distributor Stock မရှိဘူးလား။
+          Competitor Promotion ပိုကောင်းနေလား။
           Customer Demand ပြောင်းနေလား။
-          Team Member တစ်ယောက်ချင်းစီရဲ့
-          Execution ကောင်းရဲ့လားဆိုတာ
-          စစ်ဆေးပါမယ်။
+          Team Member တစ်ယောက်ချင်းစီရဲ့ Execution
+          ကောင်းရဲ့လားဆိုတာ စစ်ဆေးရပါမယ်။
         </p>
 
         <p>
-          အဲဒီလို စစ်ဆေးပြီးနောက်မှာ
-          Problem ရဲ့ အဓိကအကြောင်းရင်းကို
-          သတ်မှတ်နိုင်ပါမယ်။
-          Root Cause ကို သိလာတဲ့အခါ
-          Action Plan ကလည်း ပိုပြီးတိကျလာပါမယ်။
+          ဥပမာ Sales Result ကျနေတယ်ဆိုရင်
+          Sales Person ကို အပြစ်တင်ဖို့ထက်
+          Territory တစ်ခုချင်းစီရဲ့ Performance ကို
+          ကြည့်သင့်ပါတယ်။
         </p>
 
         <p>
-          ဥပမာ Coverage က ပြဿနာဖြစ်နေရင်
-          Sales Team ကို “ပိုရောင်းပါ” လို့ပြောတာထက်
-          Priority Outlet တွေ သတ်မှတ်ပေးပြီး
-          Visit Plan ပြန်ဆွဲပေးတာက
-          ပိုထိရောက်ပါတယ်။
-        </p>
-
-      </section>
-
-    `;
-
-  }
-
-
-  /* ============================================================
-     MANAGER THINKING
-     ============================================================ */
-
-  function buildManagerThinking(module, title) {
-
-    return `
-
-      <section class="long-lesson-section">
-
-        <h2>👨‍💼 Professional Manager ဘယ်လိုစဉ်းစားမလဲ</h2>
-
-        <p>
-          Professional Manager တစ်ယောက်ဟာ
-          Problem တစ်ခုကြုံလာတဲ့အခါ
-          စိတ်ခံစားချက်နဲ့ ချက်ချင်းဆုံးဖြတ်တာထက်
-          အချက်အလက်ကို အရင်နားလည်အောင်လုပ်ပါတယ်။
+          Territory တစ်ခုမှာ Customer Demand ကျနေတာ
+          ဖြစ်နိုင်သလို၊ တခြား Territory တစ်ခုမှာ
+          Distribution Coverage မလုံလောက်တာ
+          ဖြစ်နိုင်ပါတယ်။
         </p>
 
         <p>
-          “ဘာဖြစ်နေတာလဲ?”
-          ဆိုတဲ့မေးခွန်းက ပထမအဆင့်ပါ။
-        </p>
-
-        <p>
-          “ဘာကြောင့်ဖြစ်တာလဲ?”
-          ဆိုတာက ဒုတိယအဆင့်ပါ။
-        </p>
-
-        <p>
-          “ဘယ်လိုဖြေရှင်းမလဲ?”
-          ဆိုတာက တတိယအဆင့်ပါ။
-        </p>
-
-        <p>
-          “ဘယ်သူက ဘယ်အချိန်မှာ ဘာလုပ်မလဲ?”
-          ဆိုတာက Execution အဆင့်ပါ။
-        </p>
-
-        <p>
-          “လုပ်ပြီးနောက် Result ဘယ်လိုပြောင်းသွားလဲ?”
-          ဆိုတာက Follow-up အဆင့် ဖြစ်ပါတယ်။
-        </p>
-
-        <p>
-          ဒီစဉ်းစားပုံကို အမြဲလေ့ကျင့်ထားရင်
-          Manager အနေနဲ့ ပြဿနာတိုင်းကို
-          ပိုပြီးတည်ငြိမ်စွာနဲ့
-          Systematic ဖြစ်အောင် ဖြေရှင်းနိုင်ပါမယ်။
+          ဒါကြောင့် Manager ရဲ့အလုပ်က
+          Problem တစ်ခုကို တစ်ကြောင်းတည်းနဲ့
+          သတ်မှတ်တာမဟုတ်ဘဲ Problem ကို ခွဲခြမ်းပြီး
+          မှန်ကန်တဲ့ Action ကို ရွေးချယ်ပေးဖို့ ဖြစ်ပါတယ်။
         </p>
 
       </section>
@@ -549,62 +494,135 @@
 
 
   /* ============================================================
-     COMMON MISTAKES
+     SECTION 5
      ============================================================ */
 
-  function buildMistakes(module, title) {
+  function managerThinking(module, title) {
+
+    const k = getKnowledge(module);
 
     return `
 
-      <section class="long-lesson-section">
+      <section class="abl-section">
 
-        <h2>⚠️ Manager တွေ မကြာခဏလုပ်မိတတ်တဲ့ အမှားများ</h2>
-
-        <h3>❌ အမှား (၁) Result မကောင်းတာနဲ့ လူကို အပြစ်တင်ခြင်း</h3>
+        <h2>👨‍💼 Professional Manager Thinking</h2>
 
         <p>
-          Result မကောင်းတာဟာ လူတစ်ယောက်တည်းကြောင့်
-          ဖြစ်တယ်လို့ ချက်ချင်းမဆုံးဖြတ်သင့်ပါဘူး။
-          Process၊ Resource၊ Customer၊ Market၊
-          Product နဲ့ Execution ကိုပါ စစ်ဆေးရပါမယ်။
+          Professional Manager တစ်ယောက်ရဲ့
+          စဉ်းစားပုံဟာ Staff တစ်ယောက်ရဲ့
+          စဉ်းစားပုံနဲ့ မတူပါဘူး။
         </p>
 
-        <h3>❌ အမှား (၂) Data မကြည့်ဘဲ ခန့်မှန်းခြင်း</h3>
+        <p>
+          Staff တစ်ယောက်က “ငါ့အလုပ်ကို
+          ဘယ်လိုပြီးအောင်လုပ်မလဲ” ကို အဓိက
+          စဉ်းစားနိုင်ပါတယ်။
+        </p>
 
         <p>
-          “ထင်တယ်”
-          “ဖြစ်မယ်ထင်တယ်”
-          ဆိုတာတွေထက်
+          Manager ကတော့ “ဒီအလုပ်ပြီးရင်
+          Business Result ဘာဖြစ်လာမလဲ” ဆိုတာကို
+          ထပ်ပြီး စဉ်းစားရပါမယ်။
+        </p>
+
+        <p>
+          ${esc(k.manager)}
+          ဆိုတဲ့ Mindset က ဒီနေရာမှာ အရေးကြီးပါတယ်။
+        </p>
+
+        <p>
+          Manager တစ်ယောက်ဟာ ကိုယ်တိုင်အလုပ်
+          အများကြီးလုပ်နိုင်တာထက် Team တစ်ခုလုံးကို
+          Result ရအောင် စီမံနိုင်တာ ပိုတန်ဖိုးရှိပါတယ်။
+        </p>
+
+        <p>
+          ဒါကြောင့် Team Member တစ်ယောက်
+          မလုပ်နိုင်တဲ့အခါ ချက်ချင်း ကိုယ်တိုင်
+          ဝင်လုပ်ပေးတာထက် ဘာကြောင့်မလုပ်နိုင်တာလဲ
+          ရှာပြီး Coaching လုပ်ပေးသင့်ပါတယ်။
+        </p>
+
+        <p>
+          ဒီလို Management Mindset ရှိလာရင်
+          Manager ရဲ့အလုပ်က “အလုပ်တွေကို လိုက်လုပ်ခြင်း”
+          ကနေ “Business ကို ဦးဆောင်ခြင်း” အဖြစ်
+          ပြောင်းလဲလာပါမယ်။
+        </p>
+
+      </section>
+
+    `;
+
+  }
+
+
+  /* ============================================================
+     SECTION 6
+     ============================================================ */
+
+  function commonMistakes(module, title) {
+
+    return `
+
+      <section class="abl-section">
+
+        <h2>⚠️ မကြာခဏဖြစ်တတ်တဲ့ Management အမှားများ</h2>
+
+        <h3>❌ အမှား (၁) Data မကြည့်ဘဲ ဆုံးဖြတ်ခြင်း</h3>
+
+        <p>
+          Manager တစ်ယောက်အနေနဲ့ ကိုယ့်အတွေ့အကြုံကို
+          အသုံးချလို့ရပါတယ်။ ဒါပေမယ့် Experience
+          တစ်ခုတည်းကို အားကိုးပြီး ဆုံးဖြတ်တာက
+          Risk ရှိပါတယ်။
           ရနိုင်တဲ့ Data ကို အရင်ကြည့်သင့်ပါတယ်။
+        </p>
+
+        <h3>❌ အမှား (၂) Problem ဖြစ်တာနဲ့ လူကို အပြစ်တင်ခြင်း</h3>
+
+        <p>
+          Result မကောင်းတာဟာ လူတစ်ယောက်တည်းရဲ့
+          အမှားဖြစ်ချင်မှ ဖြစ်ပါမယ်။
+          Process၊ Training၊ Resource၊ Customer၊
+          Market၊ Product နဲ့ Management Direction
+          တွေမှာလည်း Gap ရှိနိုင်ပါတယ်။
         </p>
 
         <h3>❌ အမှား (၃) Action Plan မရှင်းခြင်း</h3>
 
         <p>
-          ဘာလုပ်မလဲ၊ ဘယ်သူလုပ်မလဲ၊
-          ဘယ်နေ့ပြီးရမလဲ မသတ်မှတ်ထားရင်
-          Action Plan က လက်တွေ့အကောင်အထည်ဖော်ဖို့
-          ခက်ခဲနိုင်ပါတယ်။
+          “Sales တိုးအောင်လုပ်ပါ”
+          “Customer ကိုပိုဂရုစိုက်ပါ”
+          “Team ကိုပိုကြိုးစားခိုင်းပါ”
+          ဆိုတာတွေဟာ ရှင်းလင်းတဲ့ Action Plan
+          မဟုတ်ပါဘူး။
+        </p>
+
+        <p>
+          ဘယ်သူက ဘာလုပ်မလဲ၊ ဘယ်အချိန်မှာလုပ်မလဲ၊
+          ဘယ် Result ကို ရချင်လဲဆိုတာ
+          သတ်မှတ်ထားရပါမယ်။
         </p>
 
         <h3>❌ အမှား (၄) Follow-up မလုပ်ခြင်း</h3>
 
         <p>
-          Meeting လုပ်ပြီးတာနဲ့
-          Problem ဖြေရှင်းပြီးပြီလို့
+          Meeting လုပ်ပြီး၊ Plan ချပြီး၊
+          Team ကို ပြောပြီးတာနဲ့ အလုပ်ပြီးသွားပြီလို့
           မယူဆသင့်ပါဘူး။
-          Result ကို ပြန်စစ်ဖို့လိုပါတယ်။
+          Action တကယ်ဖြစ်လာလား၊ Result ပြောင်းလဲလား
+          ပြန်စစ်ဖို့လိုပါတယ်။
         </p>
 
-        <h3>❌ အမှား (၅) Short-term Result ကိုပဲကြည့်ခြင်း</h3>
+        <h3>❌ အမှား (၅) Short-term Result ကိုပဲ ကြည့်ခြင်း</h3>
 
         <p>
           ဒီနေ့ Sales တက်လာတာတစ်ခုတည်းနဲ့
-          Business အောင်မြင်နေပြီလို့
-          မဆုံးဖြတ်သင့်ပါဘူး။
-          Long-term Customer Relationship၊
-          Margin၊ Team Capability နဲ့
-          Sustainable Growth ကိုပါ ကြည့်ရပါမယ်။
+          Business အောင်မြင်နေပြီလို့ မဆိုနိုင်ပါဘူး။
+          Margin၊ Customer Relationship၊
+          Team Capability နဲ့ Long-term Growth ကိုပါ
+          ထည့်သွင်းစဉ်းစားရပါမယ်။
         </p>
 
       </section>
@@ -615,75 +633,151 @@
 
 
   /* ============================================================
-     PRACTICAL APPLICATION
+     SECTION 7
      ============================================================ */
 
-  function buildPracticalApplication(module, title) {
+  function practicalApplication(module, title) {
 
     return `
 
-      <section class="long-lesson-section">
+      <section class="abl-section">
 
         <h2>🛠️ လက်တွေ့အသုံးချနည်း</h2>
 
         <p>
-          ဒီသင်ခန်းစာကို လေ့လာပြီးတဲ့အခါ
-          ကိုယ့်လုပ်ငန်းမှာ ချက်ချင်းအသုံးချနိုင်ဖို့
-          အောက်ပါအဆင့်တွေအတိုင်း လုပ်ကြည့်ပါ။
+          ဒီသင်ခန်းစာကို အလုပ်ခွင်မှာ အသုံးချတဲ့အခါ
+          ပထမဆုံး ကိုယ့်လုပ်ငန်းမှာ လက်ရှိဖြစ်နေတဲ့
+          Situation တစ်ခုကို ရွေးပါ။
         </p>
 
         <p>
-          <strong>Step 1 — လက်ရှိအခြေအနေကို ရေးပါ။</strong>
+          ဥပမာ Sales Target မပြည့်တာ၊
+          Customer Complaint တက်တာ၊
+          Team Performance ကျတာ၊
+          Distributor Stock ပြဿနာရှိတာ၊
+          Customer Retention ကျတာ စတဲ့
+          လက်တွေ့ Problem တစ်ခု ဖြစ်နိုင်ပါတယ်။
         </p>
 
         <p>
-          လက်ရှိမှာ ဘာဖြစ်နေသလဲဆိုတာ
-          ရိုးရိုးရှင်းရှင်းရေးပါ။
-          ဥပမာ Sales ကျနေတယ်၊
-          Customer Complaint တက်နေတယ်၊
-          Team Performance ကျနေတယ်ဆိုတာမျိုးပါ။
+          ပြီးရင် Problem ကို တစ်ကြောင်းတည်းနဲ့
+          ရှင်းလင်းစွာရေးပါ။
+          Problem ကို ရှင်းရှင်းလင်းလင်း
+          သတ်မှတ်နိုင်မှ Solution ကို
+          မှန်မှန်ကန်ကန် ရှာနိုင်မှာ ဖြစ်ပါတယ်။
         </p>
 
         <p>
-          <strong>Step 2 — Target နဲ့ လက်ရှိ Result ကို နှိုင်းယှဉ်ပါ။</strong>
+          နောက်တစ်ဆင့်မှာ “ဘာကြောင့်ဖြစ်တာလဲ”
+          ဆိုတဲ့မေးခွန်းကို မေးပါ။
+          အကြောင်းရင်းတစ်ခုတည်းနဲ့ ရပ်မနေဘဲ
+          အနည်းဆုံး အကြောင်းရင်းအမျိုးမျိုးကို
+          စဉ်းစားပါ။
         </p>
 
         <p>
-          ကိုယ်လိုချင်တဲ့ Result နဲ့
-          လက်ရှိရနေတဲ့ Result ကြား
-          ဘယ်လောက်ကွာနေသလဲဆိုတာ
+          အဲဒီအကြောင်းရင်းတွေထဲမှာ
+          Business Result ကို အများဆုံး
+          ထိခိုက်စေတဲ့အကြောင်းရင်းကို
+          Priority ပေးပါ။
+        </p>
+
+        <p>
+          ပြီးရင် Action တစ်ခုကို သတ်မှတ်ပါ။
+          Action ဟာ လက်တွေ့လုပ်လို့ရရမယ်။
+          တာဝန်ရှိသူ ရှိရမယ်။
+          Deadline ရှိရမယ်။
+          ပြီးတော့ Result ကို တိုင်းတာနိုင်ရမယ်။
+        </p>
+
+      </section>
+
+    `;
+
+  }
+
+
+  /* ============================================================
+     SECTION 8
+     ============================================================ */
+
+  function actionPlan(module, title) {
+
+    return `
+
+      <section class="abl-section">
+
+        <h2>📋 Manager Action Plan</h2>
+
+        <p>
+          <strong>Step 1 — Problem ရွေးပါ</strong>
+        </p>
+
+        <p>
+          ကိုယ့်လုပ်ငန်းမှာ အခုလက်ရှိ အရေးကြီးဆုံး
+          Problem တစ်ခုကို ရွေးပါ။
+          Problem အများကြီးကို တစ်ပြိုင်နက်တည်း
+          ဖြေရှင်းဖို့ မကြိုးစားပါနဲ့။
+          Business Impact အများဆုံး Problem ကို
+          အရင် Priority ပေးပါ။
+        </p>
+
+        <p>
+          <strong>Step 2 — Current Situation ကို သိပါ</strong>
+        </p>
+
+        <p>
+          လက်ရှိအခြေအနေကို အချက်အလက်နဲ့
+          နားလည်အောင်လုပ်ပါ။
+          ကိုယ့်အမြင်နဲ့ပဲ မဆုံးဖြတ်ပါနဲ့။
+          Customer Feedback၊ Team Feedback၊
+          Sales Result၊ Market Information
+          စတာတွေကို ထည့်သွင်းစဉ်းစားပါ။
+        </p>
+
+        <p>
+          <strong>Step 3 — Root Cause ရှာပါ</strong>
+        </p>
+
+        <p>
+          “ဘာကြောင့်လဲ” ဆိုတဲ့မေးခွန်းကို
+          အကြိမ်ကြိမ်မေးပြီး အဓိကအကြောင်းရင်းကို
           ရှာပါ။
         </p>
 
         <p>
-          <strong>Step 3 — Root Cause ရှာပါ။</strong>
+          <strong>Step 4 — Solution ရွေးပါ</strong>
         </p>
 
         <p>
-          “ဘာကြောင့်လဲ?”
-          ဆိုတဲ့မေးခွန်းကို ထပ်ခါထပ်ခါမေးပြီး
-          အဓိကအကြောင်းရင်းကို ရှာပါ။
+          Solution တစ်ခုတည်းကို ချက်ချင်းမရွေးဘဲ
+          လုပ်နိုင်တဲ့နည်းလမ်းတွေကို စဉ်းစားပါ။
+          Cost၊ Time၊ People၊ Risk နဲ့
+          Expected Result ကို ချိန်ညှိပြီး
+          အကောင်းဆုံးနည်းလမ်းကို ရွေးပါ။
         </p>
 
         <p>
-          <strong>Step 4 — Action Plan ချပါ။</strong>
+          <strong>Step 5 — Responsibility သတ်မှတ်ပါ</strong>
         </p>
 
         <p>
-          ဘယ်သူက ဘာလုပ်မလဲ၊
-          ဘယ်အချိန်မှာ လုပ်မလဲ၊
-          ဘယ်လို Result ရချင်လဲဆိုတာ
-          သတ်မှတ်ပါ။
+          Action တစ်ခုချင်းစီကို ဘယ်သူက
+          တာဝန်ယူမလဲဆိုတာ ရှင်းလင်းရပါမယ်။
+          လူတိုင်းတာဝန်ရှိတယ်လို့ ပြောထားရင်
+          တကယ်တော့ ဘယ်သူမှ တာဝန်မရှိသလို
+          ဖြစ်သွားနိုင်ပါတယ်။
         </p>
 
         <p>
-          <strong>Step 5 — Follow-up လုပ်ပါ။</strong>
+          <strong>Step 6 — Follow-up လုပ်ပါ</strong>
         </p>
 
         <p>
-          Action လုပ်ပြီးတဲ့နောက်
-          Result တကယ်ပြောင်းလာသလား
-          ပြန်စစ်ပါ။
+          Action ပြီးသွားတဲ့နောက် Result ကို
+          ပြန်စစ်ပါ။ မတိုးတက်သေးရင်
+          အကြောင်းရင်းကို ပြန်စစ်ပြီး
+          Action Plan ကို ပြန်ပြင်ပါ။
         </p>
 
       </section>
@@ -694,84 +788,18 @@
 
 
   /* ============================================================
-     ACTION PLAN
+     SECTION 9
      ============================================================ */
 
-  function buildActionPlan(module, title) {
+  function knowledgeCheck(module, title) {
 
     return `
 
-      <section class="long-lesson-section">
-
-        <h2>📋 ဒီနေ့ကစပြီး လုပ်နိုင်တဲ့ Action Plan</h2>
-
-        <p>
-          <strong>Action 1:</strong>
-          ကိုယ့်လုပ်ငန်းမှာ
-          ${escapeHTML(title)}
-          နဲ့ပတ်သက်တဲ့ လက်ရှိ Problem တစ်ခုကို
-          ရွေးပါ။
-        </p>
-
-        <p>
-          <strong>Action 2:</strong>
-          လက်ရှိ Situation ကို
-          အချက်အလက်နဲ့ ရေးပါ။
-        </p>
-
-        <p>
-          <strong>Action 3:</strong>
-          Problem ရဲ့ Root Cause
-          အနည်းဆုံး ၃ ခု စဉ်းစားပါ။
-        </p>
-
-        <p>
-          <strong>Action 4:</strong>
-          အရေးကြီးဆုံး Root Cause ကို
-          ရွေးပြီး ဖြေရှင်းမယ့် Action တစ်ခု
-          သတ်မှတ်ပါ။
-        </p>
-
-        <p>
-          <strong>Action 5:</strong>
-          Team Member သို့မဟုတ် ကိုယ်တိုင်
-          လုပ်ဆောင်ရမယ့် Deadline ကို
-          သတ်မှတ်ပါ။
-        </p>
-
-        <p>
-          <strong>Action 6:</strong>
-          နောက်တစ်ကြိမ် Review လုပ်မယ့်
-          အချိန်ကို သတ်မှတ်ပါ။
-        </p>
-
-        <p>
-          <strong>Action 7:</strong>
-          Result ကို ပြန်တိုင်းပြီး
-          လိုအပ်ရင် Action Plan ကို
-          ပြန်ပြင်ပါ။
-        </p>
-
-      </section>
-
-    `;
-
-  }
-
-
-  /* ============================================================
-     QUIZ
-     ============================================================ */
-
-  function buildQuiz(module, title) {
-
-    return `
-
-      <section class="long-lesson-section">
+      <section class="abl-section">
 
         <h2>❓ Knowledge Check</h2>
 
-        <div class="long-quiz">
+        <div class="abl-question">
 
           <h3>မေးခွန်း (၁)</h3>
 
@@ -790,81 +818,76 @@
         </div>
 
 
-        <div class="long-quiz">
+        <div class="abl-question">
 
           <h3>မေးခွန်း (၂)</h3>
 
           <p>
-            Target နဲ့ Actual ကြားမှာ
-            ကွာခြားချက်ရှိရင် ဘာကိုရှာသင့်သလဲ?
+            Problem ကိုမြင်တာနဲ့ ချက်ချင်း
+            Solution ချလိုက်ရင် ဘာဖြစ်နိုင်သလဲ?
           </p>
 
           <p>
             <strong>အဖြေ:</strong>
-            Gap ရဲ့ Root Cause ကို ရှာသင့်ပါတယ်။
+            Root Cause မမှန်ရင် Solution က
+            Problem ကို အမှန်တကယ် မဖြေရှင်းနိုင်ပါဘူး။
           </p>
 
         </div>
 
 
-        <div class="long-quiz">
+        <div class="abl-question">
 
           <h3>မေးခွန်း (၃)</h3>
 
           <p>
             Action Plan ကောင်းတစ်ခုမှာ
-            ဘာတွေရှင်းလင်းရမလဲ?
+            ဘာတွေ ရှင်းလင်းရမလဲ?
           </p>
 
           <p>
             <strong>အဖြေ:</strong>
-            ဘယ်သူ၊ ဘာလုပ်မလဲ၊
-            ဘယ်အချိန်မှာလုပ်မလဲ၊
-            ဘယ် Result ရချင်လဲဆိုတာ
-            ရှင်းလင်းရပါမယ်။
+            ဘယ်သူ၊ ဘာလုပ်မလဲ၊ ဘယ်အချိန်မှာ
+            လုပ်မလဲ၊ ဘယ် Result ကို ရချင်လဲ
+            ဆိုတာ ရှင်းလင်းရပါမယ်။
           </p>
 
         </div>
 
 
-        <div class="long-quiz">
+        <div class="abl-question">
 
           <h3>မေးခွန်း (၄)</h3>
 
           <p>
-            Action Plan ချပြီးရင်
-            ဘာကြောင့် Follow-up လုပ်ဖို့လိုသလဲ?
+            Manager က Team Member ကို
+            ဘာကြောင့် Coaching လုပ်ပေးသင့်သလဲ?
           </p>
 
           <p>
             <strong>အဖြေ:</strong>
-            Action တကယ်လုပ်ဖြစ်မဖြစ်နဲ့
-            Result ပြောင်းလဲလာမလာကို
-            သိနိုင်ဖို့ ဖြစ်ပါတယ်။
+            ခဏတာအလုပ်ပြီးသွားဖို့ထက်
+            Team Member ရဲ့ Capability ကို
+            ရေရှည်တိုးတက်အောင်လုပ်ဖို့ ဖြစ်ပါတယ်။
           </p>
 
         </div>
 
 
-        <div class="long-quiz">
+        <div class="abl-question">
 
           <h3>မေးခွန်း (၅)</h3>
 
           <p>
-            Professional Manager တစ်ယောက်ရဲ့
-            အရေးကြီးဆုံး စဉ်းစားပုံက ဘာလဲ?
+            Professional Manager ရဲ့
+            အခြေခံစဉ်းစားပုံက ဘာလဲ?
           </p>
 
           <p>
             <strong>အဖြေ:</strong>
-            Data / Situation →
-            Analysis →
-            Root Cause →
-            Decision →
-            Action →
-            Result →
-            Improvement
-            ဆိုတဲ့ စနစ်တကျ စဉ်းစားပုံ ဖြစ်ပါတယ်။
+            Situation → Analysis → Root Cause
+            → Decision → Action → Result
+            → Improvement ဖြစ်ပါတယ်။
           </p>
 
         </div>
@@ -877,53 +900,55 @@
 
 
   /* ============================================================
-     REFLECTION
+     SECTION 10
      ============================================================ */
 
-  function buildReflection(module, title) {
+  function reflection(module, title) {
 
     return `
 
-      <section class="long-lesson-section">
+      <section class="abl-section">
 
         <h2>🤔 Manager Reflection</h2>
 
         <p>
-          ဒီသင်ခန်းစာကို လေ့လာပြီးတဲ့အခါ
-          ကိုယ့်လုပ်ငန်းအပေါ် ပြန်စဉ်းစားကြည့်ပါ။
+          ဒီသင်ခန်းစာကို ဖတ်ပြီးတဲ့အခါ
+          ကိုယ့်ရဲ့ လက်ရှိအလုပ်ကို ပြန်စဉ်းစားကြည့်ပါ။
         </p>
 
         <p>
           <strong>①</strong>
-          ${escapeHTML(title)}
+          ${esc(title)}
           နဲ့ပတ်သက်ပြီး
-          ကိုယ့်လုပ်ငန်းမှာ အဓိက Problem က ဘာလဲ?
+          ကိုယ့်လုပ်ငန်းမှာ လက်ရှိအခက်အခဲက ဘာလဲ?
         </p>
 
         <p>
           <strong>②</strong>
-          လက်ရှိ Result က
-          ကိုယ်လိုချင်တဲ့ Result နဲ့
-          ဘယ်လောက်ကွာနေသလဲ?
-        </p>
-
-        <p>
-          <strong>③</strong>
-          Problem ရဲ့ Root Cause က
+          အဲဒီအခက်အခဲရဲ့ အဓိက Root Cause က
           ဘာဖြစ်နိုင်သလဲ?
         </p>
 
         <p>
+          <strong>③</strong>
+          အခုလက်ရှိ ကိုယ်လုပ်နေတဲ့ Action က
+          Result ကို တကယ်တိုးတက်စေသလား?
+        </p>
+
+        <p>
           <strong>④</strong>
-          ကိုယ့် Team ကို
-          ဘယ်လို Coaching လုပ်ပေးနိုင်မလဲ?
+          ကိုယ့် Team Member တွေကို
+          ကိုယ်တိုင်အလုပ်လုပ်ပေးနေသလား၊
+          ဒါမှမဟုတ် သူတို့ကို
+          အလုပ်လုပ်နိုင်အောင် Coaching
+          လုပ်ပေးနေသလား?
         </p>
 
         <p>
           <strong>⑤</strong>
-          ဒီနေ့ကစပြီး
-          ဘာ Action တစ်ခုကို
-          လက်တွေ့စလုပ်မလဲ?
+          ဒီ Lesson ကနေ သင်ယူခဲ့တာတွေထဲမှာ
+          မနက်ဖြန်ကစပြီး ချက်ချင်းအသုံးချမယ့်
+          အရာတစ်ခုက ဘာလဲ?
         </p>
 
       </section>
@@ -934,59 +959,80 @@
 
 
   /* ============================================================
-     SUMMARY
+     SECTION 11
      ============================================================ */
 
-  function buildSummary(module, title) {
+  function summary(module, title) {
 
-    const info =
-      getModuleInfo(module);
+    const k = getKnowledge(module);
 
     return `
 
-      <section class="long-lesson-section long-summary">
+      <section class="abl-section abl-summary">
 
         <h2>📌 သင်ခန်းစာအနှစ်ချုပ်</h2>
 
         <p>
-          <strong>${escapeHTML(title)}</strong>
-          ကို Professional Business Management
-          ရှုထောင့်ကနေ နားလည်တဲ့အခါ
-          သီအိုရီသိရုံထက် လက်တွေ့အသုံးချနိုင်ဖို့
-          ပိုအရေးကြီးပါတယ်။
+          ဒီ Lesson မှာ
+          <strong>${esc(title)}</strong>
+          ကို Business Management ရှုထောင့်ကနေ
+          အသေးစိတ်လေ့လာခဲ့ပါတယ်။
         </p>
 
         <p>
-          ${escapeHTML(info.focus)}
-          ကို စနစ်တကျနားလည်ပြီး
-          Business Result နဲ့ ချိတ်ဆက်စဉ်းစားနိုင်ရပါမယ်။
+          ${esc(k.focus)}
+          ကို နားလည်ထားခြင်းဟာ
+          Business Result ကောင်းမွန်ဖို့
+          အရေးကြီးတဲ့ အခြေခံတစ်ခု ဖြစ်ပါတယ်။
         </p>
 
         <p>
           Professional Manager တစ်ယောက်ဟာ
-          Problem တစ်ခုဖြစ်လာတိုင်း
-          ချက်ချင်းဆုံးဖြတ်တာမဟုတ်ဘဲ
-          Situation ကိုနားလည်၊
-          Problem ကိုသတ်မှတ်၊
-          Root Cause ရှာ၊
-          Solution ရွေး၊
-          Action ချ၊
-          Result ကို Follow-up လုပ်ရပါမယ်။
+          Result ကိုသာ ကြည့်တာမဟုတ်ဘဲ
+          Result ဖြစ်ပေါ်လာစေတဲ့ Process၊
+          People၊ Customer၊ Market နဲ့
+          Business Environment ကိုပါ
+          စဉ်းစားရပါတယ်။
         </p>
 
-        <div class="golden-rule-text">
+        <p>
+          Problem တစ်ခုဖြစ်လာတဲ့အခါ
+          လူကို အပြစ်တင်ဖို့ထက်
+          Root Cause ကို ရှာဖွေပြီး
+          မှန်ကန်တဲ့ Solution ကို ရွေးချယ်ရပါမယ်။
+        </p>
+
+        <p>
+          Solution ရွေးပြီးတာနဲ့ အလုပ်ပြီးသွားတာ
+          မဟုတ်ပါဘူး။ Action Plan ချရပါမယ်။
+          Responsibility သတ်မှတ်ရပါမယ်။
+          Deadline ထားရပါမယ်။
+          ပြီးရင် Result ကို Follow-up
+          လုပ်ရပါမယ်။
+        </p>
+
+        <p>
+          ဒီလို စနစ်တကျ လုပ်ဆောင်နိုင်တဲ့
+          Manager တစ်ယောက်ဟာ
+          အလုပ်များတဲ့ Manager မဟုတ်ဘဲ
+          Result ထွက်အောင် လုပ်နိုင်တဲ့
+          Professional Manager ဖြစ်လာပါမယ်။
+        </p>
+
+        <div class="abl-final-message">
 
           <strong>
             PROFESSIONAL MANAGER MINDSET
           </strong>
 
           <p>
-            “ပြဿနာကို မကြောက်ပါနဲ့။
-            ပြဿနာကို နားလည်ပါ။
-            Root Cause ကိုရှာပါ။
-            မှန်ကန်တဲ့ Action ကိုလုပ်ပါ။
-            Result ကိုတိုင်းပါ။
-            ပြီးရင် ပိုကောင်းအောင်ပြန်လုပ်ပါ။”
+            Problem ကို မကြောက်ပါနဲ့။
+            Problem ကို နားလည်ပါ။
+            Root Cause ကို ရှာပါ။
+            မှန်ကန်တဲ့ Decision ချပါ။
+            Action လုပ်ပါ။
+            Result ကို တိုင်းပါ။
+            ပြီးရင် ပိုကောင်းအောင် ပြန်လုပ်ပါ။
           </p>
 
         </div>
@@ -999,100 +1045,57 @@
 
 
   /* ============================================================
-     FULL LESSON
+     COMPLETE LESSON BUILDER
      ============================================================ */
 
-  function buildLongLesson(module, title) {
+  function buildLesson(module, title) {
 
     return `
 
-      <div class="aung-long-lesson">
+      <div class="academy-long-lesson">
 
-        <div class="long-lesson-header">
+        <div class="abl-header">
 
-          <span>
+          <div class="abl-label">
             PROFESSIONAL BUSINESS LESSON
-          </span>
+          </div>
 
           <h1>
-            ${escapeHTML(title)}
+            ${esc(title)}
           </h1>
 
-          <p>
-            ${escapeHTML(module)}
-          </p>
+          <div class="abl-module">
+            ${esc(module)}
+          </div>
 
-          <small>
-            ⏱️ Detailed Learning • Practical Business Application
-          </small>
+          <div class="abl-time">
+            📚 Detailed Professional Learning
+          </div>
 
         </div>
 
 
-        ${buildIntroduction(
-          module,
-          title
-        )}
+        ${introduction(module, title)}
 
+        ${detailedExplanation(module, title)}
 
-        ${buildDetailedExplanation(
-          module,
-          title
-        )}
+        ${keyConcepts(module, title)}
 
+        ${realBusinessExample(module, title)}
 
-        ${buildPrinciples(
-          module,
-          title
-        )}
+        ${managerThinking(module, title)}
 
+        ${commonMistakes(module, title)}
 
-        ${buildBusinessExample(
-          module,
-          title
-        )}
+        ${practicalApplication(module, title)}
 
+        ${actionPlan(module, title)}
 
-        ${buildManagerThinking(
-          module,
-          title
-        )}
+        ${knowledgeCheck(module, title)}
 
+        ${reflection(module, title)}
 
-        ${buildMistakes(
-          module,
-          title
-        )}
-
-
-        ${buildPracticalApplication(
-          module,
-          title
-        )}
-
-
-        ${buildActionPlan(
-          module,
-          title
-        )}
-
-
-        ${buildQuiz(
-          module,
-          title
-        )}
-
-
-        ${buildReflection(
-          module,
-          title
-        )}
-
-
-        ${buildSummary(
-          module,
-          title
-        )}
+        ${summary(module, title)}
 
       </div>
 
@@ -1102,202 +1105,14 @@
 
 
   /* ============================================================
-     FIND MODAL
-     ============================================================ */
-
-  function findModal() {
-
-    const selectors = [
-
-      "#lessonModal",
-      "#lesson-modal",
-      "#lessonDetailModal",
-      "#lessonDetail",
-      ".lesson-modal",
-      ".lessonModal"
-
-    ];
-
-    for (
-      let i = 0;
-      i < selectors.length;
-      i++
-    ) {
-
-      const element =
-        document.querySelector(
-          selectors[i]
-        );
-
-      if (element) {
-        return element;
-      }
-
-    }
-
-    return null;
-
-  }
-
-
-  /* ============================================================
-     FIND LESSON INFORMATION
-     ============================================================ */
-
-  function getCurrentLesson() {
-
-    const modal =
-      findModal();
-
-    if (!modal) {
-      return null;
-    }
-
-    let title = "";
-
-    const titleSelectors = [
-
-      ".lesson-title",
-      ".modal-title",
-      ".lesson-name",
-      "[data-lesson-title]",
-      "h1",
-      "h2",
-      "h3",
-      "h4"
-
-    ];
-
-    for (
-      let i = 0;
-      i < titleSelectors.length;
-      i++
-    ) {
-
-      const element =
-        modal.querySelector(
-          titleSelectors[i]
-        );
-
-      if (
-        element &&
-        element.textContent.trim()
-      ) {
-
-        title =
-          element.textContent.trim();
-
-        break;
-
-      }
-
-    }
-
-
-    if (!title) {
-      return null;
-    }
-
-
-    let module = "";
-
-    const moduleSelectors = [
-
-      ".lesson-module",
-      ".module-name",
-      ".lesson-category",
-      ".category",
-      "[data-module]"
-
-    ];
-
-
-    for (
-      let i = 0;
-      i < moduleSelectors.length;
-      i++
-    ) {
-
-      const element =
-        modal.querySelector(
-          moduleSelectors[i]
-        );
-
-      if (
-        element &&
-        element.textContent.trim()
-      ) {
-
-        module =
-          element.textContent.trim();
-
-        break;
-
-      }
-
-    }
-
-
-    /*
-      Try to identify module from modal text.
-    */
-
-    if (!module) {
-
-      const modalText =
-        modal.textContent || "";
-
-      Object.keys(
-        MODULE_INFO
-      ).some(function (moduleName) {
-
-        if (
-          modalText
-            .toLowerCase()
-            .includes(
-              moduleName.toLowerCase()
-            )
-        ) {
-
-          module =
-            moduleName;
-
-          return true;
-
-        }
-
-        return false;
-
-      });
-
-    }
-
-
-    if (!module) {
-
-      module =
-        "Business Basics";
-
-    }
-
-
-    return {
-      title: title,
-      module: module
-    };
-
-  }
-
-
-  /* ============================================================
      CSS
      ============================================================ */
 
-  function addCSS() {
+  function addStyles() {
 
     if (
       document.getElementById(
-        "aung-long-lesson-css"
+        "academy-long-lessons-style"
       )
     ) {
       return;
@@ -1305,38 +1120,38 @@
 
 
     const style =
-      document.createElement(
-        "style"
-      );
+      document.createElement("style");
+
 
     style.id =
-      "aung-long-lesson-css";
+      "academy-long-lessons-style";
 
 
     style.textContent = `
 
       /*
-        IMPORTANT:
-        Everything wraps inside mobile width.
-        No table.
-        No graph.
-        No horizontal overflow.
+       ==========================================================
+       AUNG BUSINESS ACADEMY LONG LESSON STYLE
+       ==========================================================
       */
 
+      .academy-long-lesson {
 
-      .aung-long-lesson {
+        width: 100% !important;
 
-        width: 100%;
-        max-width: 900px;
+        max-width: 900px !important;
 
-        margin: 0 auto;
+        margin: 0 auto !important;
 
-        padding: 4px 0 30px;
+        padding: 0 !important;
 
-        box-sizing: border-box;
+        box-sizing: border-box !important;
 
-        overflow-wrap: anywhere;
-        word-break: normal;
+        overflow-x: hidden !important;
+
+        overflow-wrap: anywhere !important;
+
+        word-wrap: break-word !important;
 
         color: #1e293b;
 
@@ -1350,22 +1165,22 @@
       }
 
 
-      .aung-long-lesson * {
+      .academy-long-lesson * {
 
-        box-sizing: border-box;
+        box-sizing: border-box !important;
 
-        max-width: 100%;
+        max-width: 100% !important;
 
       }
 
 
-      .long-lesson-header {
+      .abl-header {
 
-        width: 100%;
-
-        padding: 24px 20px;
+        width: 100% !important;
 
         margin-bottom: 18px;
+
+        padding: 24px 20px;
 
         border-radius: 16px;
 
@@ -1376,123 +1191,141 @@
             #1e293b
           );
 
-        color: white;
-
-        overflow-wrap: anywhere;
-
-      }
-
-
-      .long-lesson-header span {
-
-        display: inline-block;
-
-        font-size: 10px;
-
-        font-weight: 800;
-
-        letter-spacing: 1px;
-
-        opacity: .8;
-
-        margin-bottom: 8px;
-
-      }
-
-
-      .long-lesson-header h1 {
-
-        margin: 0 0 7px;
-
-        font-size: 29px;
-
-        line-height: 1.4;
-
-        overflow-wrap: anywhere;
-
-      }
-
-
-      .long-lesson-header p {
-
-        margin: 0 0 8px;
-
-        opacity: .85;
-
-        overflow-wrap: anywhere;
-
-      }
-
-
-      .long-lesson-header small {
-
-        display: block;
-
-        opacity: .8;
-
-        font-size: 12px;
-
-      }
-
-
-      .long-lesson-section {
-
-        width: 100%;
-
-        margin-bottom: 18px;
-
-        padding: 23px 20px;
-
-        border-radius: 15px;
-
-        background: #ffffff;
-
-        border: 1px solid #e2e8f0;
-
-        box-shadow:
-          0 3px 12px
-          rgba(15,23,42,.04);
+        color: #ffffff;
 
         overflow: hidden;
 
       }
 
 
-      .long-lesson-section h2 {
+      .abl-label {
 
-        margin: 0 0 15px;
+        font-size: 11px;
 
-        color: #0f172a;
+        font-weight: 800;
 
-        font-size: 21px;
+        letter-spacing: 1px;
 
-        line-height: 1.5;
+        opacity: .75;
+
+        margin-bottom: 9px;
+
+      }
+
+
+      .abl-header h1 {
+
+        width: 100%;
+
+        margin: 0 0 8px;
+
+        padding: 0;
+
+        font-size: 28px;
+
+        line-height: 1.45;
 
         overflow-wrap: anywhere;
 
       }
 
 
-      .long-lesson-section h3 {
+      .abl-module {
 
-        margin: 18px 0 7px;
+        font-size: 15px;
 
-        color: #334155;
+        opacity: .9;
+
+        margin-bottom: 8px;
+
+        overflow-wrap: anywhere;
+
+      }
+
+
+      .abl-time {
+
+        font-size: 12px;
+
+        opacity: .75;
+
+      }
+
+
+      .abl-section {
+
+        width: 100% !important;
+
+        max-width: 100% !important;
+
+        margin: 0 0 17px;
+
+        padding: 23px 20px;
+
+        background: #ffffff;
+
+        border: 1px solid #e2e8f0;
+
+        border-radius: 15px;
+
+        box-shadow:
+          0 3px 12px
+          rgba(15, 23, 42, .045);
+
+        overflow: hidden !important;
+
+        overflow-wrap: anywhere !important;
+
+      }
+
+
+      .abl-section h2 {
+
+        margin: 0 0 16px;
+
+        padding: 0;
+
+        font-size: 21px;
+
+        line-height: 1.55;
+
+        color: #0f172a;
+
+        overflow-wrap: anywhere;
+
+      }
+
+
+      .abl-section h3 {
+
+        margin: 20px 0 8px;
+
+        padding: 0;
 
         font-size: 17px;
 
         line-height: 1.6;
 
+        color: #334155;
+
         overflow-wrap: anywhere;
 
       }
 
 
-      .long-lesson-section p {
+      .abl-section p {
+
+        width: 100%;
+
+        max-width: 100%;
 
         margin: 0 0 15px;
 
+        padding: 0;
+
         font-size: 16px;
+
+        line-height: 1.95;
 
         overflow-wrap: anywhere;
 
@@ -1501,20 +1334,22 @@
       }
 
 
-      .long-lesson-section strong {
+      .abl-section p:last-child {
 
-        overflow-wrap: anywhere;
+        margin-bottom: 0;
 
       }
 
 
-      .long-quiz {
+      .abl-question {
 
         width: 100%;
 
-        padding: 16px;
+        max-width: 100%;
 
-        margin: 0 0 12px;
+        margin-bottom: 13px;
+
+        padding: 16px;
 
         border-radius: 12px;
 
@@ -1522,39 +1357,52 @@
 
         border: 1px solid #e2e8f0;
 
-        overflow-wrap: anywhere;
+        overflow: hidden;
 
       }
 
 
-      .long-quiz h3 {
+      .abl-question h3 {
 
         margin: 0 0 8px;
 
         font-size: 16px;
 
+        color: #0f172a;
+
       }
 
 
-      .long-quiz p {
-
-        margin-bottom: 9px;
+      .abl-question p {
 
         font-size: 15px;
 
+        line-height: 1.9;
+
+        margin-bottom: 9px;
+
       }
 
 
-      .long-quiz p:last-child {
+      .abl-question p:last-child {
 
         margin-bottom: 0;
 
       }
 
 
-      .golden-rule-text {
+      .abl-summary {
+
+        background: #f8fafc;
+
+      }
+
+
+      .abl-final-message {
 
         width: 100%;
+
+        max-width: 100%;
 
         margin-top: 20px;
 
@@ -1562,7 +1410,7 @@
 
         border-radius: 13px;
 
-        background: #f8fafc;
+        background: #ffffff;
 
         border-left: 4px solid #334155;
 
@@ -1573,71 +1421,83 @@
       }
 
 
-      .golden-rule-text strong {
+      .abl-final-message strong {
 
         display: block;
 
         margin-bottom: 10px;
+
+        font-size: 14px;
 
         letter-spacing: .8px;
 
       }
 
 
-      .golden-rule-text p {
+      .abl-final-message p {
 
         margin: 0;
 
         font-weight: 700;
 
+        line-height: 1.9;
+
       }
 
 
       /*
-        Remove accidental wide elements
-        inherited from old lesson content.
+       IMPORTANT:
+       Old table/graph elements are hidden inside
+       upgraded lesson only.
       */
 
-      .aung-long-lesson table {
+      .academy-long-lesson table,
 
-        display: block;
+      .academy-long-lesson .table,
 
-        width: 100%;
+      .academy-long-lesson .graph,
 
-        max-width: 100%;
+      .academy-long-lesson .chart,
 
-        overflow: hidden;
+      .academy-long-lesson canvas,
+
+      .academy-long-lesson svg {
+
+        display: none !important;
 
       }
 
 
-      .aung-long-lesson img,
+      /*
+       Prevent horizontal movement
+      */
 
-      .aung-long-lesson iframe,
+      html {
 
-      .aung-long-lesson video,
+        overflow-x: hidden !important;
 
-      .aung-long-lesson canvas {
+      }
 
-        max-width: 100% !important;
 
-        height: auto !important;
+      body {
+
+        overflow-x: hidden !important;
 
       }
 
 
       @media (max-width: 700px) {
 
-        .aung-long-lesson {
+        .academy-long-lesson {
 
-          padding: 0 0 20px;
+          width: 100% !important;
 
-          line-height: 1.85;
+          padding: 0 !important;
 
         }
 
 
-        .long-lesson-header {
+        .abl-header {
 
           padding: 20px 16px;
 
@@ -1646,21 +1506,23 @@
         }
 
 
-        .long-lesson-header h1 {
+        .abl-header h1 {
 
           font-size: 23px;
+
+          line-height: 1.5;
 
         }
 
 
-        .long-lesson-header p {
+        .abl-module {
 
           font-size: 14px;
 
         }
 
 
-        .long-lesson-section {
+        .abl-section {
 
           padding: 19px 16px;
 
@@ -1671,37 +1533,44 @@
         }
 
 
-        .long-lesson-section h2 {
+        .abl-section h2 {
 
           font-size: 19px;
 
         }
 
 
-        .long-lesson-section h3 {
+        .abl-section h3 {
 
           font-size: 16px;
 
         }
 
 
-        .long-lesson-section p {
+        .abl-section p {
 
           font-size: 15px;
 
-          line-height: 1.9;
+          line-height: 1.95;
 
         }
 
 
-        .long-quiz {
+        .abl-question {
 
           padding: 14px;
 
         }
 
 
-        .golden-rule-text {
+        .abl-question p {
+
+          font-size: 14.5px;
+
+        }
+
+
+        .abl-final-message {
 
           padding: 16px;
 
@@ -1712,44 +1581,46 @@
 
       @media (max-width: 430px) {
 
-        .aung-long-lesson {
-
-          width: 100%;
-
-        }
-
-
-        .long-lesson-header {
+        .abl-header {
 
           padding: 18px 14px;
 
         }
 
 
-        .long-lesson-header h1 {
+        .abl-header h1 {
 
           font-size: 21px;
 
         }
 
 
-        .long-lesson-section {
+        .abl-section {
 
           padding: 17px 14px;
 
         }
 
 
-        .long-lesson-section h2 {
+        .abl-section h2 {
 
           font-size: 18px;
 
         }
 
 
-        .long-lesson-section p {
+        .abl-section h3 {
+
+          font-size: 15.5px;
+
+        }
+
+
+        .abl-section p {
 
           font-size: 14.5px;
+
+          line-height: 1.95;
 
         }
 
@@ -1758,45 +1629,356 @@
     `;
 
 
-    document.head.appendChild(
-      style
+    document.head.appendChild(style);
+
+  }
+
+
+  /* ============================================================
+     FIND LESSON MODAL
+     ============================================================ */
+
+  function findModal() {
+
+    const selectors = [
+
+      "#lessonModal",
+      "#lesson-modal",
+      "#lessonDetailModal",
+      "#lessonDetail",
+      ".lesson-modal",
+      ".lessonModal",
+      ".modal.lesson-modal"
+
+    ];
+
+
+    for (
+      let i = 0;
+      i < selectors.length;
+      i++
+    ) {
+
+      const el =
+        document.querySelector(
+          selectors[i]
+        );
+
+      if (el) {
+        return el;
+      }
+
+    }
+
+
+    return null;
+
+  }
+
+
+  /* ============================================================
+     FIND TITLE
+     ============================================================ */
+
+  function findTitle(modal) {
+
+    const selectors = [
+
+      "[data-lesson-title]",
+      ".lesson-title",
+      ".modal-title",
+      ".lesson-name",
+      ".lesson-header h1",
+      ".lesson-header h2",
+      ".modal-header h1",
+      ".modal-header h2",
+      ".modal-header h3",
+      "h1",
+      "h2",
+      "h3"
+
+    ];
+
+
+    for (
+      let i = 0;
+      i < selectors.length;
+      i++
+    ) {
+
+      const el =
+        modal.querySelector(
+          selectors[i]
+        );
+
+
+      if (
+        el &&
+        el.textContent &&
+        el.textContent.trim()
+      ) {
+
+        return el.textContent.trim();
+
+      }
+
+    }
+
+
+    return "";
+
+  }
+
+
+  /* ============================================================
+     FIND MODULE
+     ============================================================ */
+
+  function findModule(modal) {
+
+    const selectors = [
+
+      "[data-module]",
+      ".lesson-module",
+      ".module-name",
+      ".lesson-category",
+      ".category",
+      ".lesson-meta"
+
+    ];
+
+
+    for (
+      let i = 0;
+      i < selectors.length;
+      i++
+    ) {
+
+      const el =
+        modal.querySelector(
+          selectors[i]
+        );
+
+
+      if (
+        el &&
+        el.textContent &&
+        el.textContent.trim()
+      ) {
+
+        const text =
+          el.textContent.trim();
+
+
+        for (
+          const moduleName of
+          Object.keys(MODULE_KNOWLEDGE)
+        ) {
+
+          if (
+            text
+              .toLowerCase()
+              .includes(
+                moduleName.toLowerCase()
+              )
+          ) {
+
+            return moduleName;
+
+          }
+
+        }
+
+      }
+
+    }
+
+
+    /*
+      Try entire modal text.
+    */
+
+    const text =
+      modal.textContent || "";
+
+
+    for (
+      const moduleName of
+      Object.keys(MODULE_KNOWLEDGE)
+    ) {
+
+      if (
+        text
+          .toLowerCase()
+          .includes(
+            moduleName.toLowerCase()
+          )
+      ) {
+
+        return moduleName;
+
+      }
+
+    }
+
+
+    return "Business Basics";
+
+  }
+
+
+  /* ============================================================
+     CHECK ENGLISH
+     ============================================================ */
+
+  function isEnglishLesson(title, module) {
+
+    const text =
+      (
+        String(title || "") +
+        " " +
+        String(module || "")
+      ).toLowerCase();
+
+
+    return (
+      text.includes("business english") ||
+      text.includes("english lesson") ||
+      text.includes("english")
     );
 
   }
 
 
   /* ============================================================
-     APPLY
+     FIND CONTENT AREA
      ============================================================ */
 
-  function applyLongLesson() {
+  function findContent(modal) {
+
+    const selectors = [
+
+      ".modal-body",
+      ".lesson-modal-body",
+      ".lesson-content",
+      ".lesson-body",
+      ".modal-content-body",
+      ".lesson-detail-content",
+      ".lesson-detail-body"
+
+    ];
+
+
+    for (
+      let i = 0;
+      i < selectors.length;
+      i++
+    ) {
+
+      const el =
+        modal.querySelector(
+          selectors[i]
+        );
+
+      if (el) {
+        return el;
+      }
+
+    }
+
+
+    /*
+      Last fallback:
+      find a large content div.
+    */
+
+    const divs =
+      modal.querySelectorAll(
+        "div"
+      );
+
+
+    for (
+      let i = 0;
+      i < divs.length;
+      i++
+    ) {
+
+      const el =
+        divs[i];
+
+
+      if (
+        el.textContent &&
+        el.textContent.length > 300
+      ) {
+
+        return el;
+
+      }
+
+    }
+
+
+    return modal;
+
+  }
+
+
+  /* ============================================================
+     APPLY LONG LESSON
+     ============================================================ */
+
+  function applyLesson() {
 
     const modal =
       findModal();
+
 
     if (!modal) {
       return;
     }
 
 
-    const lesson =
-      getCurrentLesson();
+    /*
+      Check if modal is actually visible.
+    */
 
-    if (!lesson) {
+    const computed =
+      window.getComputedStyle(modal);
+
+
+    if (
+      computed.display === "none" ||
+      computed.visibility === "hidden"
+    ) {
+
+      return;
+
+    }
+
+
+    const title =
+      findTitle(modal);
+
+
+    if (!title) {
       return;
     }
 
 
+    const module =
+      findModule(modal);
+
+
     /*
-      NEVER CHANGE BUSINESS ENGLISH
+      NEVER TOUCH BUSINESS ENGLISH
     */
 
     if (
-      /english/i.test(
-        lesson.title
-      ) ||
-      /english/i.test(
-        lesson.module
+      isEnglishLesson(
+        title,
+        module
       )
     ) {
 
@@ -1806,13 +1988,19 @@
 
 
     /*
-      Don't repeatedly rebuild same lesson.
+      Don't rebuild the same lesson repeatedly.
     */
+
+    const currentKey =
+      module +
+      "::" +
+      title;
+
 
     if (
       modal.dataset
-        .longLessonTitle ===
-      lesson.title
+        .academyLongLesson ===
+      currentKey
     ) {
 
       return;
@@ -1820,61 +2008,62 @@
     }
 
 
-    let body =
-      modal.querySelector(
-        ".modal-body"
-      );
+    const content =
+      findContent(modal);
 
 
-    if (!body) {
-
-      body =
-        modal.querySelector(
-          ".lesson-modal-body"
-        );
-
+    if (!content) {
+      return;
     }
 
 
-    if (!body) {
+    /*
+      Save original content once.
+    */
 
-      body =
-        modal.querySelector(
-          ".modal-content-body"
-        );
+    if (
+      !modal.dataset
+        .academyOriginalContent
+    ) {
 
-    }
-
-
-    if (!body) {
-
-      body =
-        modal;
+      modal.dataset
+        .academyOriginalContent =
+        content.innerHTML;
 
     }
 
 
     /*
-      Preserve important external controls
-      such as close buttons.
-      Only replace lesson body when possible.
+      Replace only lesson content.
     */
 
-    body.innerHTML =
-      buildLongLesson(
-        lesson.module,
-        lesson.title
+    content.innerHTML =
+      buildLesson(
+        module,
+        title
       );
 
 
-    modal.dataset
-      .longLessonTitle =
-      lesson.title;
-
-
     /*
-      Fix modal width.
+      Mobile safety.
     */
+
+    content.style.width =
+      "100%";
+
+    content.style.maxWidth =
+      "100%";
+
+    content.style.overflowX =
+      "hidden";
+
+    content.style.boxSizing =
+      "border-box";
+
+
+    modal.style.overflowX =
+      "hidden";
+
 
     const modalContent =
       modal.querySelector(
@@ -1884,11 +2073,11 @@
 
     if (modalContent) {
 
-      modalContent.style.width =
-        "min(900px, 96vw)";
-
       modalContent.style.maxWidth =
         "900px";
+
+      modalContent.style.width =
+        "min(900px, 96vw)";
 
       modalContent.style.boxSizing =
         "border-box";
@@ -1899,62 +2088,51 @@
     }
 
 
-    modal.style.overflowX =
-      "hidden";
+    modal.dataset
+      .academyLongLesson =
+      currentKey;
 
 
     console.log(
-      "Long Detailed Lesson Applied:",
-      lesson.module,
-      lesson.title
+      "Long Lesson Applied:",
+      title
     );
 
   }
 
 
   /* ============================================================
-     CLICK WATCHER
+     CLICK LISTENER
      ============================================================ */
 
-  function setupClickWatcher() {
+  function setupClickListener() {
 
     document.addEventListener(
       "click",
-      function (event) {
-
-        const card =
-          event.target.closest(
-            ".lesson-card," +
-            ".lesson-item," +
-            ".lesson," +
-            "[data-lesson-id]," +
-            "[data-lesson-index]"
-          );
-
-
-        if (!card) {
-          return;
-        }
-
+      function () {
 
         /*
-          Existing app opens lesson first.
-          Then our upgrade replaces content.
+          Existing app needs time to open modal.
         */
 
         setTimeout(
-          applyLongLesson,
-          200
+          applyLesson,
+          150
         );
 
         setTimeout(
-          applyLongLesson,
-          600
+          applyLesson,
+          400
         );
 
         setTimeout(
-          applyLongLesson,
-          1200
+          applyLesson,
+          800
+        );
+
+        setTimeout(
+          applyLesson,
+          1300
         );
 
       },
@@ -1965,7 +2143,7 @@
 
 
   /* ============================================================
-     OBSERVER
+     MUTATION OBSERVER
      ============================================================ */
 
   function setupObserver() {
@@ -1977,21 +2155,14 @@
           const modal =
             findModal();
 
+
           if (!modal) {
             return;
           }
 
 
-          if (
-            modal.dataset
-              .longLessonTitle
-          ) {
-            return;
-          }
-
-
           setTimeout(
-            applyLongLesson,
+            applyLesson,
             200
           );
 
@@ -2011,7 +2182,7 @@
 
 
   /* ============================================================
-     RESET WHEN MODAL CLOSES
+     RESET
      ============================================================ */
 
   function setupReset() {
@@ -2020,16 +2191,17 @@
       "click",
       function (event) {
 
-        const closeButton =
+        const close =
           event.target.closest(
             ".close," +
             ".modal-close," +
             ".close-modal," +
-            "[data-close]"
+            "[data-close]," +
+            ".modal-close-btn"
           );
 
 
-        if (!closeButton) {
+        if (!close) {
           return;
         }
 
@@ -2048,10 +2220,10 @@
 
             delete
               modal.dataset
-                .longLessonTitle;
+                .academyLongLesson;
 
           },
-          400
+          500
         );
 
       }
@@ -2066,17 +2238,39 @@
 
   function init() {
 
-    addCSS();
+    addStyles();
 
-    setupClickWatcher();
+    setupClickListener();
 
     setupObserver();
 
     setupReset();
 
 
+    /*
+      Try once after page load.
+    */
+
+    setTimeout(
+      applyLesson,
+      1000
+    );
+
+
+    setTimeout(
+      applyLesson,
+      2500
+    );
+
+
+    setTimeout(
+      applyLesson,
+      5000
+    );
+
+
     console.log(
-      "=========================================="
+      "======================================"
     );
 
     console.log(
@@ -2084,19 +2278,11 @@
     );
 
     console.log(
-      "LONG DETAILED LESSON UPGRADE: ACTIVE"
+      "LONG DETAILED LESSONS: ACTIVE"
     );
 
     console.log(
-      "TABLE: REMOVED"
-    );
-
-    console.log(
-      "GRAPH: REMOVED"
-    );
-
-    console.log(
-      "MOBILE OVERFLOW: FIXED"
+      "230 EXISTING BUSINESS LESSONS: PRESERVED"
     );
 
     console.log(
@@ -2104,11 +2290,27 @@
     );
 
     console.log(
-      "=========================================="
+      "GRAPH: REMOVED"
+    );
+
+    console.log(
+      "TABLE: REMOVED"
+    );
+
+    console.log(
+      "MOBILE OVERFLOW: PROTECTED"
+    );
+
+    console.log(
+      "======================================"
     );
 
   }
 
+
+  /* ============================================================
+     START
+     ============================================================ */
 
   if (
     document.readyState ===
@@ -2125,6 +2327,5 @@
     init();
 
   }
-
 
 })();

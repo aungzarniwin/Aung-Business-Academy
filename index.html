@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="my">
 <head>
   <meta charset="UTF-8">
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
   >
 
   <meta
@@ -15,7 +15,7 @@
 
   <meta
     name="theme-color"
-    content="#111827"
+    content="#0f172a"
   >
 
   <title>Aung Business Academy</title>
@@ -25,19 +25,20 @@
 
 <body>
 
-  <!-- =====================================================
-       APP
-       ===================================================== -->
-
   <div class="app">
 
-    <!-- ===================================================
+    <!-- =====================================================
          SIDEBAR
-         =================================================== -->
+         ===================================================== -->
 
-    <aside class="sidebar" id="sidebar">
+    <aside
+      class="sidebar"
+      id="sidebar"
+      aria-label="Main Navigation"
+    >
 
       <!-- Logo -->
+
       <div class="sidebar-header">
 
         <div class="logo">
@@ -46,7 +47,8 @@
             🎓
           </div>
 
-          <div>
+          <div class="logo-text-wrap">
+
             <div class="logo-text">
               Aung Business
             </div>
@@ -54,6 +56,7 @@
             <div class="logo-subtitle">
               Academy
             </div>
+
           </div>
 
         </div>
@@ -62,6 +65,7 @@
 
 
       <!-- Profile -->
+
       <div class="sidebar-profile">
 
         <div class="profile-box">
@@ -70,7 +74,7 @@
             A
           </div>
 
-          <div>
+          <div class="profile-info">
 
             <div class="profile-name">
               Aung Zar Ni Win
@@ -88,12 +92,17 @@
 
 
       <!-- Navigation -->
-      <nav class="sidebar-nav">
+
+      <nav
+        class="sidebar-nav"
+        aria-label="Academy Navigation"
+      >
+
+        <!-- Main -->
 
         <div class="nav-section-title">
           Main
         </div>
-
 
         <button
           class="nav-item active"
@@ -104,7 +113,6 @@
           <span class="nav-text">Dashboard</span>
         </button>
 
-
         <button
           class="nav-item"
           data-section="courses"
@@ -114,7 +122,6 @@
           <span class="nav-text">My Courses</span>
         </button>
 
-
         <button
           class="nav-item"
           data-section="lessons"
@@ -123,7 +130,6 @@
           <span class="nav-icon">📖</span>
           <span class="nav-text">Lessons</span>
         </button>
-
 
         <button
           class="nav-item"
@@ -135,10 +141,11 @@
         </button>
 
 
+        <!-- Business -->
+
         <div class="nav-section-title">
           Business
         </div>
-
 
         <button
           class="nav-item"
@@ -149,7 +156,6 @@
           <span class="nav-text">Sales Manager</span>
         </button>
 
-
         <button
           class="nav-item"
           data-section="pricing"
@@ -158,7 +164,6 @@
           <span class="nav-icon">🧮</span>
           <span class="nav-text">Pricing Calculator</span>
         </button>
-
 
         <button
           class="nav-item"
@@ -170,10 +175,11 @@
         </button>
 
 
+        <!-- AI & Tools -->
+
         <div class="nav-section-title">
           AI & Tools
         </div>
-
 
         <button
           class="nav-item"
@@ -184,21 +190,21 @@
           <span class="nav-text">AI Business Coach</span>
         </button>
 
-
         <button
           class="nav-item"
           data-section="ai-tools"
           type="button"
         >
-          <span class="nav-icon">🛠</span>
+          <span class="nav-icon">🛠️</span>
           <span class="nav-text">AI Tools</span>
         </button>
 
 
+        <!-- System -->
+
         <div class="nav-section-title">
           System
         </div>
-
 
         <button
           class="nav-item"
@@ -212,12 +218,13 @@
       </nav>
 
 
-      <!-- Sidebar Footer -->
+      <!-- Footer -->
+
       <div class="sidebar-footer">
 
-        <span class="version-badge">
-          Aung Business Academy V8.0 Professional
-        </span>
+        <div class="version-badge">
+          Aung Business Academy V15.0 Professional
+        </div>
 
       </div>
 
@@ -225,28 +232,31 @@
 
 
     <!-- Mobile Overlay -->
+
     <div
       class="sidebar-overlay"
       id="sidebarOverlay"
     ></div>
 
 
-    <!-- ===================================================
+    <!-- =====================================================
          MAIN
-         =================================================== -->
+         ===================================================== -->
 
     <div class="main">
 
       <!-- Header -->
+
       <header class="main-header">
 
-        <div style="display:flex;align-items:center;gap:12px;">
+        <div class="header-left">
 
           <button
             class="mobile-menu-btn"
             id="mobileMenuBtn"
             type="button"
             aria-label="Open Menu"
+            aria-expanded="false"
           >
             ☰
           </button>
@@ -263,8 +273,28 @@
 
         <div class="header-right">
 
+          <div class="header-user">
+
+            <div class="header-user-avatar">
+              A
+            </div>
+
+            <div class="header-user-info">
+
+              <div class="header-user-name">
+                Aung Zar Ni Win
+              </div>
+
+              <div class="header-user-role">
+                Business Manager
+              </div>
+
+            </div>
+
+          </div>
+
           <span class="badge">
-            V8.0 Professional
+            V15.0 Professional
           </span>
 
         </div>
@@ -272,10 +302,7 @@
       </header>
 
 
-      <!-- =================================================
-           DYNAMIC CONTENT
-           app.js will render pages here
-           ================================================= -->
+      <!-- App Content -->
 
       <main
         id="app-content"
@@ -313,6 +340,13 @@
 
           sidebar.classList.add("open");
 
+          if (menuButton) {
+            menuButton.setAttribute(
+              "aria-expanded",
+              "true"
+            );
+          }
+
         }
 
 
@@ -321,6 +355,32 @@
           if (!sidebar) return;
 
           sidebar.classList.remove("open");
+
+          if (menuButton) {
+            menuButton.setAttribute(
+              "aria-expanded",
+              "false"
+            );
+          }
+
+        }
+
+
+        function toggleMenu() {
+
+          if (!sidebar) return;
+
+          if (
+            sidebar.classList.contains("open")
+          ) {
+
+            closeMenu();
+
+          } else {
+
+            openMenu();
+
+          }
 
         }
 
@@ -331,19 +391,11 @@
             "click",
             function (event) {
 
+              event.preventDefault();
+
               event.stopPropagation();
 
-              if (
-                sidebar.classList.contains("open")
-              ) {
-
-                closeMenu();
-
-              } else {
-
-                openMenu();
-
-              }
+              toggleMenu();
 
             }
           );
@@ -355,16 +407,29 @@
 
           overlay.addEventListener(
             "click",
-            closeMenu
+            function () {
+
+              closeMenu();
+
+            }
           );
 
         }
 
 
-        /*
-         * Close mobile sidebar after
-         * selecting a navigation item.
-         */
+        document.addEventListener(
+          "keydown",
+          function (event) {
+
+            if (event.key === "Escape") {
+
+              closeMenu();
+
+            }
+
+          }
+        );
+
 
         document.addEventListener(
           "click",
@@ -377,7 +442,7 @@
 
               setTimeout(
                 closeMenu,
-                100
+                120
               );
 
             }

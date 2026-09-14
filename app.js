@@ -30441,3 +30441,184 @@ Use actual business data, KPI tracking and regular review before making major de
   );
 
 })();
+// ============================================================
+// V16 GUARANTEED LAUNCHER
+// ============================================================
+
+(function () {
+
+  "use strict";
+
+  function launchV16() {
+
+    try {
+
+      if (
+        typeof window.openV16SafeAcademy === "function"
+      ) {
+
+        window.openV16SafeAcademy();
+
+        return;
+
+      }
+
+      if (
+        typeof window.openV16Academy === "function"
+      ) {
+
+        window.openV16Academy();
+
+        return;
+
+      }
+
+      if (
+        typeof window.openProfessionalAcademy === "function"
+      ) {
+
+        window.openProfessionalAcademy();
+
+        return;
+
+      }
+
+      alert(
+        "V16 function မတွေ့သေးပါ — app.js ထဲမှာ V16 code ရှိပေမယ့် load မဖြစ်သေးပါ"
+      );
+
+    } catch (error) {
+
+      console.error(
+        "V16 Launch Error:",
+        error
+      );
+
+      alert(
+        "V16 Error: " + error.message
+      );
+
+    }
+
+  }
+
+
+  function createLauncher() {
+
+    if (
+      document.getElementById(
+        "v16GuaranteedLauncher"
+      )
+    ) {
+
+      return;
+
+    }
+
+
+    const button =
+      document.createElement("button");
+
+
+    button.id =
+      "v16GuaranteedLauncher";
+
+
+    button.type =
+      "button";
+
+
+    button.innerHTML =
+      "🎓 V16 Professional Academy";
+
+
+    button.onclick =
+      launchV16;
+
+
+    button.style.position =
+      "fixed";
+
+    button.style.right =
+      "20px";
+
+    button.style.bottom =
+      "20px";
+
+    button.style.zIndex =
+      "2147483647";
+
+    button.style.padding =
+      "15px 20px";
+
+    button.style.border =
+      "none";
+
+    button.style.borderRadius =
+      "14px";
+
+    button.style.background =
+      "#111827";
+
+    button.style.color =
+      "#ffffff";
+
+    button.style.fontSize =
+      "15px";
+
+    button.style.fontWeight =
+      "700";
+
+    button.style.cursor =
+      "pointer";
+
+    button.style.boxShadow =
+      "0 8px 25px rgba(0,0,0,.25)";
+
+
+    document.body.appendChild(
+      button
+    );
+
+  }
+
+
+  function start() {
+
+    try {
+
+      createLauncher();
+
+      console.log(
+        "🎓 V16 GUARANTEED LAUNCHER LOADED"
+      );
+
+    } catch (error) {
+
+      console.error(
+        "V16 launcher error:",
+        error
+      );
+
+    }
+
+  }
+
+
+  if (
+    document.readyState === "loading"
+  ) {
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      start
+    );
+
+  } else {
+
+    start();
+
+  }
+
+
+})();

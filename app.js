@@ -21598,6 +21598,1078 @@ if (
   );
 
 }
+  /* =========================================================
+   AUNG BUSINESS ACADEMY
+   V15.5 SALES TEAM SIDEBAR + SALESMAN ACCESS
+   ========================================================= */
+
+function v155InjectSalesTeamSidebar() {
+
+  /* -----------------------------------------
+     FIND SIDEBAR
+     ----------------------------------------- */
+
+  const sidebar =
+    document.querySelector(".sidebar");
+
+  if (!sidebar) {
+    return;
+  }
+
+
+  /* -----------------------------------------
+     PREVENT DUPLICATE
+     ----------------------------------------- */
+
+  if (
+    document.getElementById(
+      "v155SalesTeamButton"
+    )
+  ) {
+    return;
+  }
+
+
+  /* -----------------------------------------
+     CREATE BUTTON
+     ----------------------------------------- */
+
+  const button =
+    document.createElement("button");
+
+  button.id =
+    "v155SalesTeamButton";
+
+  button.className =
+    "v155-sales-team-button";
+
+  button.innerHTML = `
+    <span class="v155-icon">👥</span>
+    <span class="v155-text">
+      Sales Team
+    </span>
+  `;
+
+
+  button.onclick = function() {
+
+    if (
+      typeof closeSidebarMobile ===
+      "function"
+    ) {
+      closeSidebarMobile();
+    }
+
+    if (
+      typeof openV153Salesmen ===
+      "function"
+    ) {
+
+      openV153Salesmen();
+
+    } else {
+
+      v155OpenSalesTeamFallback();
+
+    }
+
+  };
+
+
+  /* -----------------------------------------
+     FIND BEST PLACE
+     ----------------------------------------- */
+
+  const existingButtons =
+    sidebar.querySelectorAll(
+      "button"
+    );
+
+
+  let inserted = false;
+
+
+  /*
+     Try to place after Sales Management
+  */
+
+  existingButtons.forEach(
+    function(existing) {
+
+      const text =
+        (
+          existing.innerText ||
+          existing.textContent ||
+          ""
+        ).toLowerCase();
+
+
+      if (
+        !inserted &&
+        (
+          text.includes(
+            "sales management"
+          ) ||
+          text.includes(
+            "sales manager"
+          ) ||
+          text.includes(
+            "sales"
+          )
+        )
+      ) {
+
+        existing.insertAdjacentElement(
+          "afterend",
+          button
+        );
+
+        inserted = true;
+
+      }
+
+    }
+  );
+
+
+  /*
+     If no suitable place found,
+     put before Settings
+  */
+
+  if (!inserted) {
+
+    const settingsButton =
+      Array.from(
+        existingButtons
+      ).find(
+        function(btn) {
+
+          const text =
+            (
+              btn.innerText ||
+              btn.textContent ||
+              ""
+            ).toLowerCase();
+
+          return text.includes(
+            "settings"
+          );
+
+        }
+      );
+
+
+    if (settingsButton) {
+
+      settingsButton.insertAdjacentElement(
+        "beforebegin",
+        button
+      );
+
+      inserted = true;
+
+    }
+
+  }
+
+
+  /*
+     Last fallback
+  */
+
+  if (!inserted) {
+
+    sidebar.appendChild(
+      button
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   FALLBACK SALES TEAM PAGE
+   ========================================================= */
+
+function v155OpenSalesTeamFallback() {
+
+  if (
+    typeof setPage ===
+    "function"
+  ) {
+
+    setPage(
+      "Sales Team",
+      "Salesman Performance & KPI"
+    );
+
+  }
+
+
+  const salesmen =
+    typeof v153GetSalesmen ===
+    "function"
+      ? v153GetSalesmen()
+      : [];
+
+
+  let html = `
+
+    <div class="v155-sales-team-page">
+
+      <div class="v155-header">
+
+        <div>
+
+          <h2>
+            👥 Sales Team
+          </h2>
+
+          <p>
+            Salesman တစ်ယောက်ချင်းစီရဲ့
+            Performance ကို စီမံခန့်ခွဲပါ
+          </p>
+
+        </div>
+
+        <button
+          class="primary-button"
+          onclick="openV153AddSalesman()"
+        >
+          ＋ Add Salesman
+        </button>
+
+      </div>
+
+      <div class="v155-team-grid">
+  `;
+
+
+  if (!salesmen.length) {
+
+    html += `
+
+      <div class="v155-empty">
+
+        <div class="v155-empty-icon">
+          👥
+        </div>
+
+        <h3>
+          Salesman မရှိသေးပါ
+        </h3>
+
+        <p>
+          Add Salesman ကိုနှိပ်ပြီး
+          Salesman အသစ်ထည့်ပါ
+        </p>
+
+        <button
+          class="primary-button"
+          onclick="openV153AddSalesman()"
+        >
+          ＋ Add First Salesman
+        </button>
+
+      </div>
+
+    `;
+
+  } else {
+
+    salesmen.forEach(
+      function(person) {
+
+        let metrics = null;
+
+        if (
+          typeof v153GetSalesmanMetrics ===
+          "function"
+        ) {
+
+          metrics =
+            v153GetSalesmanMetrics(
+              person.id
+            );
+
+        }
+
+
+        const target =
+          Number(
+            metrics?.target ||
+            person.target ||
+            0
+          );
+
+        const actual =
+          Number(
+            metrics?.actual ||
+            person.actual ||
+            0
+          );
+
+        const achievement =
+          target > 0
+            ? actual / target * 100
+            : 0;
+
+        const gap =
+          Math.max(
+            target - actual,
+            0
+          );
+
+
+        html += `
+
+          <div class="v155-salesman-card">
+
+            <div class="v155-person-top">
+
+              <div class="v155-avatar">
+                ${(person.name || "S")
+                  .charAt(0)
+                  .toUpperCase()}
+              </div>
+
+              <div>
+
+                <h3>
+                  ${v155Esc(
+                    person.name ||
+                    "Salesman"
+                  )}
+                </h3>
+
+                <span>
+                  ${v155Esc(
+                    person.territory ||
+                    "Territory not set"
+                  )}
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="v155-kpi-row">
+
+              <div>
+
+                <small>
+                  Target
+                </small>
+
+                <strong>
+                  ${v155Money(target)}
+                </strong>
+
+              </div>
+
+              <div>
+
+                <small>
+                  Actual
+                </small>
+
+                <strong>
+                  ${v155Money(actual)}
+                </strong>
+
+              </div>
+
+              <div>
+
+                <small>
+                  Achievement
+                </small>
+
+                <strong>
+                  ${achievement.toFixed(1)}%
+                </strong>
+
+              </div>
+
+            </div>
+
+
+            <div class="v155-progress">
+
+              <div
+                class="v155-progress-fill"
+                style="
+                  width:${Math.min(
+                    achievement,
+                    100
+                  )}%
+                "
+              ></div>
+
+            </div>
+
+
+            <div class="v155-gap">
+
+              Target Gap:
+              <strong>
+                ${v155Money(gap)}
+              </strong>
+
+            </div>
+
+
+            <div class="v155-actions">
+
+              <button
+                class="secondary-button"
+                onclick="
+                  openV153SalesmanDetail(
+                    '${person.id}'
+                  )
+                "
+              >
+                📊 View Detail
+              </button>
+
+              <button
+                class="secondary-button"
+                onclick="
+                  openV153DailyEntry(
+                    '${person.id}'
+                  )
+                "
+              >
+                ＋ Daily Sales
+              </button>
+
+            </div>
+
+          </div>
+
+        `;
+
+      }
+    );
+
+  }
+
+
+  html += `
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  if (
+    typeof setContent ===
+    "function"
+  ) {
+
+    setContent(
+      html
+    );
+
+  } else {
+
+    const main =
+      document.querySelector(
+        ".main-content"
+      ) ||
+      document.querySelector(
+        ".content"
+      ) ||
+      document.querySelector(
+        "main"
+      );
+
+    if (main) {
+      main.innerHTML =
+        html;
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+
+function v155Money(value) {
+
+  return new Intl.NumberFormat(
+    "en-US"
+  ).format(
+    Math.round(
+      Number(value) || 0
+    )
+  );
+
+}
+
+
+function v155Esc(value) {
+
+  return String(
+    value ?? ""
+  )
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+/* =========================================================
+   STYLE
+   ========================================================= */
+
+function v155InjectStyles() {
+
+  if (
+    document.getElementById(
+      "v155Styles"
+    )
+  ) {
+    return;
+  }
+
+
+  const style =
+    document.createElement(
+      "style"
+    );
+
+  style.id =
+    "v155Styles";
+
+
+  style.textContent = `
+
+    /* SALES TEAM SIDEBAR */
+
+    #v155SalesTeamButton {
+
+      width: 100%;
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 12px;
+
+      border: 0;
+
+      background: transparent;
+
+      color: inherit;
+
+      padding: 11px 14px;
+
+      margin: 3px 0;
+
+      border-radius: 10px;
+
+      font-size: 14px;
+
+      font-weight: 600;
+
+      text-align: left;
+
+      cursor: pointer;
+
+      transition:
+        background .2s ease,
+        transform .2s ease;
+
+    }
+
+
+    #v155SalesTeamButton:hover {
+
+      background:
+        rgba(59,130,246,.10);
+
+      transform:
+        translateX(2px);
+
+    }
+
+
+    .v155-icon {
+
+      width: 25px;
+
+      min-width: 25px;
+
+      text-align: center;
+
+      font-size: 18px;
+
+    }
+
+
+    .v155-text {
+
+      flex: 1;
+
+    }
+
+
+    /* PAGE */
+
+    .v155-sales-team-page {
+
+      width: 100%;
+
+      max-width: 1200px;
+
+      margin: 0 auto;
+
+    }
+
+
+    .v155-header {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 20px;
+
+      margin-bottom: 24px;
+
+      padding: 20px;
+
+      border-radius: 18px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(59,130,246,.10),
+          rgba(99,102,241,.06)
+        );
+
+      border:
+        1px solid
+        rgba(59,130,246,.12);
+
+    }
+
+
+    .v155-header h2 {
+
+      margin: 0 0 6px;
+
+    }
+
+
+    .v155-header p {
+
+      margin: 0;
+
+      opacity: .7;
+
+    }
+
+
+    .v155-team-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          auto-fit,
+          minmax(
+            280px,
+            1fr
+          )
+        );
+
+      gap: 18px;
+
+    }
+
+
+    .v155-salesman-card {
+
+      background:
+        var(--card-bg,#fff);
+
+      border:
+        1px solid
+        rgba(0,0,0,.08);
+
+      border-radius: 18px;
+
+      padding: 18px;
+
+      box-shadow:
+        0 5px 20px
+        rgba(0,0,0,.05);
+
+    }
+
+
+    .v155-person-top {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 12px;
+
+      margin-bottom: 18px;
+
+    }
+
+
+    .v155-avatar {
+
+      width: 48px;
+
+      height: 48px;
+
+      border-radius: 50%;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      background:
+        rgba(59,130,246,.12);
+
+      font-size: 19px;
+
+      font-weight: 800;
+
+    }
+
+
+    .v155-person-top h3 {
+
+      margin: 0 0 4px;
+
+    }
+
+
+    .v155-person-top span {
+
+      font-size: 12px;
+
+      opacity: .65;
+
+    }
+
+
+    .v155-kpi-row {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      gap: 8px;
+
+      margin-bottom: 14px;
+
+    }
+
+
+    .v155-kpi-row div {
+
+      padding: 10px;
+
+      border-radius: 10px;
+
+      background:
+        rgba(0,0,0,.035);
+
+      text-align: center;
+
+    }
+
+
+    .v155-kpi-row small {
+
+      display: block;
+
+      font-size: 11px;
+
+      opacity: .65;
+
+      margin-bottom: 4px;
+
+    }
+
+
+    .v155-kpi-row strong {
+
+      font-size: 13px;
+
+    }
+
+
+    .v155-progress {
+
+      height: 8px;
+
+      background:
+        rgba(0,0,0,.08);
+
+      border-radius: 99px;
+
+      overflow: hidden;
+
+      margin-bottom: 12px;
+
+    }
+
+
+    .v155-progress-fill {
+
+      height: 100%;
+
+      background:
+        linear-gradient(
+          90deg,
+          #2563eb,
+          #7c3aed
+        );
+
+      border-radius: 99px;
+
+      transition:
+        width .3s ease;
+
+    }
+
+
+    .v155-gap {
+
+      padding: 10px;
+
+      border-radius: 10px;
+
+      background:
+        rgba(239,68,68,.07);
+
+      margin-bottom: 14px;
+
+      font-size: 13px;
+
+    }
+
+
+    .v155-gap strong {
+
+      float: right;
+
+    }
+
+
+    .v155-actions {
+
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 8px;
+
+    }
+
+
+    .v155-actions button {
+
+      width: 100%;
+
+      font-size: 12px;
+
+    }
+
+
+    .v155-empty {
+
+      grid-column:
+        1 / -1;
+
+      text-align: center;
+
+      padding: 60px 20px;
+
+      border-radius: 18px;
+
+      border:
+        1px dashed
+        rgba(0,0,0,.15);
+
+    }
+
+
+    .v155-empty-icon {
+
+      font-size: 50px;
+
+      margin-bottom: 15px;
+
+    }
+
+
+    @media (
+      max-width: 700px
+    ) {
+
+      .v155-header {
+
+        flex-direction:
+          column;
+
+        align-items:
+          stretch;
+
+      }
+
+
+      .v155-kpi-row {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+
+      .v155-actions {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+    }
+
+  `;
+
+
+  document.head.appendChild(
+    style
+  );
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
+
+function v155Init() {
+
+  v155InjectStyles();
+
+  setTimeout(
+    function() {
+
+      v155InjectSalesTeamSidebar();
+
+    },
+    1200
+  );
+
+  /*
+     Retry because the app may
+     rebuild the sidebar after startup
+  */
+
+  setTimeout(
+    function() {
+
+      v155InjectSalesTeamSidebar();
+
+    },
+    2500
+  );
+
+  setTimeout(
+    function() {
+
+      v155InjectSalesTeamSidebar();
+
+    },
+    5000
+  );
+
+}
+
+
+/* =========================================================
+   EXPORT
+   ========================================================= */
+
+window.v155Init =
+  v155Init;
+
+window.v155OpenSalesTeamFallback =
+  v155OpenSalesTeamFallback;
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
+if (
+  document.readyState ===
+  "loading"
+) {
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+      setTimeout(
+        v155Init,
+        1000
+      );
+
+    }
+  );
+
+} else {
+
+  setTimeout(
+    v155Init,
+    1000
+  );
+
+}
   // START
   // ============================================================
 

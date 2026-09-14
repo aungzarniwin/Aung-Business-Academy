@@ -1,7 +1,11 @@
 /* =========================================================
    AUNG BUSINESS ACADEMY
-   V15 PROFESSIONAL UI
-   Mobile Safe + Desktop Professional
+   V15.0 PROFESSIONAL UI
+   Complete Style Sheet
+   ========================================================= */
+
+/* =========================================================
+   RESET
    ========================================================= */
 
 *,
@@ -23,19 +27,21 @@ body{
   width:100%;
   min-width:0;
   min-height:100vh;
+
   margin:0;
   padding:0;
+
   overflow-x:hidden;
   overflow-y:auto;
+
+  background:#f4f7fb;
+  color:#172033;
 
   font-family:
     Arial,
     "Noto Sans Myanmar",
     "Myanmar Text",
     sans-serif;
-
-  color:#172033;
-  background:#f4f7fb;
 
   -webkit-text-size-adjust:100%;
   text-size-adjust:100%;
@@ -77,6 +83,7 @@ li{
   white-space:normal;
 }
 
+
 /* =========================================================
    APP
    ========================================================= */
@@ -84,20 +91,26 @@ li{
 .app{
   width:100%;
   min-height:100vh;
+
   display:flex;
+
   position:relative;
+
   overflow-x:hidden;
 }
 
+
 /* =========================================================
-   SIDEBAR - V15
+   SIDEBAR
    ========================================================= */
 
 .sidebar{
   position:fixed;
-  left:0;
+
   top:0;
+  left:0;
   bottom:0;
+
   z-index:1000;
 
   width:268px;
@@ -106,12 +119,13 @@ li{
   display:flex;
   flex-direction:column;
 
-  color:#e5edf8;
+  color:#dce6f4;
+
   background:
     linear-gradient(
       180deg,
       #0b1220 0%,
-      #111c31 52%,
+      #111c31 48%,
       #0b1220 100%
     );
 
@@ -120,26 +134,38 @@ li{
   overflow-x:hidden;
   overflow-y:auto;
 
-  box-shadow:8px 0 30px rgba(15,23,42,.08);
+  box-shadow:
+    8px 0 30px rgba(15,23,42,.08);
 
-  transition:transform .25s ease;
+  transition:
+    transform .25s ease;
 }
+
+
+/* =========================================================
+   SIDEBAR HEADER
+   ========================================================= */
 
 .sidebar-header{
   padding:22px 19px 18px;
-  border-bottom:1px solid rgba(255,255,255,.07);
+
+  border-bottom:
+    1px solid rgba(255,255,255,.07);
 }
 
 .logo{
   display:flex;
   align-items:center;
+
   gap:12px;
+
   min-width:0;
 }
 
 .logo-icon{
   width:44px;
   height:44px;
+
   min-width:44px;
 
   display:flex;
@@ -149,28 +175,47 @@ li{
   border-radius:13px;
 
   background:
-    linear-gradient(135deg,#2563eb,#4f46e5);
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #4f46e5
+    );
 
   color:#fff;
+
   font-size:21px;
 
   box-shadow:
     0 8px 20px rgba(37,99,235,.25);
 }
 
+.logo-text-wrap{
+  min-width:0;
+}
+
 .logo-text{
   color:#fff;
+
   font-size:16px;
   font-weight:800;
+
   line-height:1.25;
 }
 
 .logo-subtitle{
   margin-top:3px;
+
   color:#8ea0ba;
+
   font-size:11px;
+
   line-height:1.4;
 }
+
+
+/* =========================================================
+   PROFILE
+   ========================================================= */
 
 .sidebar-profile{
   padding:15px;
@@ -179,21 +224,26 @@ li{
 .profile-box{
   display:flex;
   align-items:center;
+
   gap:10px;
 
   min-width:0;
 
   padding:11px;
 
-  border:1px solid rgba(255,255,255,.06);
+  border:
+    1px solid rgba(255,255,255,.06);
+
   border-radius:13px;
 
-  background:rgba(255,255,255,.045);
+  background:
+    rgba(255,255,255,.045);
 }
 
 .profile-avatar{
   width:39px;
   height:39px;
+
   min-width:39px;
 
   display:flex;
@@ -203,29 +253,49 @@ li{
   border-radius:50%;
 
   background:
-    linear-gradient(135deg,#2563eb,#6366f1);
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #6366f1
+    );
 
   color:#fff;
+
   font-size:14px;
   font-weight:800;
 }
 
+.profile-info{
+  min-width:0;
+}
+
 .profile-name{
   color:#f8fafc;
+
   font-size:12px;
   font-weight:700;
+
   line-height:1.45;
 }
 
 .profile-role{
   margin-top:2px;
+
   color:#8292aa;
+
   font-size:10px;
+
   line-height:1.5;
 }
 
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
 .sidebar-nav{
   flex:1;
+
   padding:4px 11px 18px;
 
   overflow-x:hidden;
@@ -236,8 +306,11 @@ li{
   padding:14px 10px 7px;
 
   color:#61718a;
+
   font-size:9px;
   font-weight:800;
+
+  line-height:1.5;
 
   text-transform:uppercase;
   letter-spacing:.1em;
@@ -249,15 +322,19 @@ li{
 
   display:flex;
   align-items:center;
+
   gap:10px;
 
   margin:3px 0;
   padding:9px 11px;
 
-  border:1px solid transparent;
+  border:
+    1px solid transparent;
+
   border-radius:10px;
 
   background:transparent;
+
   color:#aebbd0;
 
   text-align:left;
@@ -273,7 +350,9 @@ li{
 }
 
 .nav-item:hover{
-  background:rgba(255,255,255,.055);
+  background:
+    rgba(255,255,255,.055);
+
   color:#fff;
 }
 
@@ -283,11 +362,12 @@ li{
   background:
     linear-gradient(
       90deg,
-      rgba(37,99,235,.95),
-      rgba(79,70,229,.85)
+      #2563eb,
+      #4f46e5
     );
 
-  border-color:rgba(147,197,253,.16);
+  border-color:
+    rgba(147,197,253,.16);
 
   box-shadow:
     0 7px 18px rgba(37,99,235,.18);
@@ -297,49 +377,72 @@ li{
   width:21px;
   min-width:21px;
 
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
   text-align:center;
+
   font-size:16px;
 }
 
 .nav-text{
-  min-width:0;
   flex:1;
+
+  min-width:0;
+
   line-height:1.45;
 }
 
+
+/* =========================================================
+   SIDEBAR FOOTER
+   ========================================================= */
+
 .sidebar-footer{
   padding:12px 15px 14px;
-  border-top:1px solid rgba(255,255,255,.07);
+
+  border-top:
+    1px solid rgba(255,255,255,.07);
 }
 
 .version-badge{
   display:block;
 
   color:#63738c;
+
   font-size:9px;
+
   line-height:1.6;
 
   overflow-wrap:anywhere;
 }
 
+
 /* =========================================================
-   SIDEBAR OVERLAY
+   OVERLAY
    ========================================================= */
 
 .sidebar-overlay{
   display:none;
 
   position:fixed;
+
   inset:0;
+
   z-index:999;
 
-  background:rgba(2,6,23,.58);
+  background:
+    rgba(2,6,23,.58);
 
   opacity:0;
+
   pointer-events:none;
 
-  transition:opacity .25s ease;
+  transition:
+    opacity .25s ease;
 }
+
 
 /* =========================================================
    MAIN
@@ -347,6 +450,7 @@ li{
 
 .main{
   width:calc(100% - 268px);
+
   min-width:0;
   min-height:100vh;
 
@@ -355,8 +459,9 @@ li{
   overflow-x:hidden;
 }
 
+
 /* =========================================================
-   HEADER - V15
+   HEADER
    ========================================================= */
 
 .main-header{
@@ -371,15 +476,28 @@ li{
 
   padding:12px 27px;
 
-  background:rgba(255,255,255,.96);
-
-  border-bottom:1px solid #e7edf5;
-
   position:sticky;
   top:0;
+
   z-index:500;
 
-  backdrop-filter:blur(12px);
+  background:
+    rgba(255,255,255,.96);
+
+  border-bottom:
+    1px solid #e7edf5;
+
+  backdrop-filter:
+    blur(12px);
+}
+
+.header-left{
+  min-width:0;
+
+  display:flex;
+  align-items:center;
+
+  gap:12px;
 }
 
 .header-title{
@@ -389,17 +507,72 @@ li{
 
   font-size:19px;
   font-weight:800;
-  line-height:1.4;
 
-  overflow-wrap:anywhere;
+  line-height:1.4;
 }
 
 .header-right{
   display:flex;
   align-items:center;
-  gap:8px;
+
+  gap:12px;
 
   flex-shrink:0;
+}
+
+.header-user{
+  display:flex;
+  align-items:center;
+
+  gap:8px;
+
+  min-width:0;
+}
+
+.header-user-avatar{
+  width:32px;
+  height:32px;
+
+  min-width:32px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #6366f1
+    );
+
+  color:#fff;
+
+  font-size:11px;
+  font-weight:800;
+}
+
+.header-user-info{
+  min-width:0;
+}
+
+.header-user-name{
+  color:#334155;
+
+  font-size:10px;
+  font-weight:750;
+
+  line-height:1.45;
+}
+
+.header-user-role{
+  color:#8a97a9;
+
+  font-size:8px;
+
+  line-height:1.45;
 }
 
 .badge{
@@ -409,10 +582,13 @@ li{
 
   padding:6px 11px;
 
-  border:1px solid #dbeafe;
+  border:
+    1px solid #dbeafe;
+
   border-radius:999px;
 
   background:#eff6ff;
+
   color:#2563eb;
 
   font-size:10px;
@@ -427,17 +603,23 @@ li{
   width:40px;
   height:40px;
 
+  min-width:40px;
+
   align-items:center;
   justify-content:center;
 
-  border:1px solid #dce4ef;
+  border:
+    1px solid #dce4ef;
+
   border-radius:10px;
 
   background:#fff;
+
   color:#172033;
 
   font-size:19px;
 }
+
 
 /* =========================================================
    CONTENT
@@ -446,16 +628,19 @@ li{
 .content{
   width:100%;
   max-width:1450px;
+
   min-width:0;
 
   margin:0 auto;
+
   padding:27px;
 
   overflow-x:hidden;
 }
 
+
 /* =========================================================
-   V15 COMMON TITLES
+   SECTION TITLES
    ========================================================= */
 
 .section-title{
@@ -465,6 +650,7 @@ li{
 
   font-size:25px;
   font-weight:850;
+
   line-height:1.4;
 }
 
@@ -474,11 +660,13 @@ li{
   color:#66758b;
 
   font-size:13px;
+
   line-height:1.8;
 }
 
+
 /* =========================================================
-   CARD BASE
+   CARD
    ========================================================= */
 
 .card,
@@ -494,7 +682,9 @@ li{
 
   background:#fff;
 
-  border:1px solid #e3eaf2;
+  border:
+    1px solid #e3eaf2;
+
   border-radius:15px;
 
   box-shadow:
@@ -508,15 +698,17 @@ li{
 .card-header{
   padding:18px 20px;
 
-  border-bottom:1px solid #e7edf4;
+  border-bottom:
+    1px solid #e7edf4;
 }
 
 .card-body{
   padding:20px;
 }
 
+
 /* =========================================================
-   V15 BUTTONS
+   BUTTONS
    ========================================================= */
 
 .btn{
@@ -525,15 +717,19 @@ li{
   display:inline-flex;
   align-items:center;
   justify-content:center;
+
   gap:7px;
 
   padding:9px 15px;
 
-  border:1px solid transparent;
+  border:
+    1px solid transparent;
+
   border-radius:9px;
 
   font-size:12px;
   font-weight:750;
+
   line-height:1.45;
 
   text-decoration:none;
@@ -576,6 +772,7 @@ li{
   color:#334155;
 
   background:#f8fafc;
+
   border-color:#d9e2ec;
 }
 
@@ -585,23 +782,30 @@ li{
 
 .btn-success{
   color:#fff;
+
   background:#16a34a;
-  box-shadow:0 5px 14px rgba(22,163,74,.16);
+
+  box-shadow:
+    0 5px 14px rgba(22,163,74,.16);
 }
 
 .btn-danger{
   color:#fff;
+
   background:#dc2626;
 }
 
 .btn-small{
   min-height:35px;
+
   padding:7px 11px;
+
   font-size:11px;
 }
 
+
 /* =========================================================
-   DASHBOARD HERO V15
+   DASHBOARD HERO
    ========================================================= */
 
 .dashboard-hero{
@@ -611,6 +815,7 @@ li{
   min-width:0;
 
   margin-bottom:19px;
+
   padding:27px 28px;
 
   border-radius:18px;
@@ -640,18 +845,22 @@ li{
   content:"";
 
   position:absolute;
+
   right:-80px;
   bottom:-100px;
 
   width:240px;
   height:240px;
 
-  border:1px solid rgba(255,255,255,.08);
+  border:
+    1px solid rgba(255,255,255,.08);
+
   border-radius:50%;
 }
 
 .dashboard-hero h1{
   position:relative;
+
   z-index:1;
 
   margin:0 0 8px;
@@ -660,11 +869,13 @@ li{
 
   font-size:27px;
   font-weight:850;
+
   line-height:1.45;
 }
 
 .dashboard-hero p{
   position:relative;
+
   z-index:1;
 
   max-width:850px;
@@ -674,11 +885,13 @@ li{
   color:#cbd5e1;
 
   font-size:13px;
+
   line-height:1.9;
 }
 
+
 /* =========================================================
-   STATS V15
+   STATS
    ========================================================= */
 
 .stats-grid{
@@ -686,7 +899,9 @@ li{
   min-width:0;
 
   display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
+
+  grid-template-columns:
+    repeat(4,minmax(0,1fr));
 
   gap:14px;
 
@@ -705,6 +920,7 @@ li{
   content:"";
 
   position:absolute;
+
   right:-25px;
   bottom:-35px;
 
@@ -718,6 +934,7 @@ li{
 
 .stat-icon{
   position:relative;
+
   z-index:1;
 
   margin-bottom:10px;
@@ -727,6 +944,7 @@ li{
 
 .stat-label{
   position:relative;
+
   z-index:1;
 
   margin-bottom:5px;
@@ -741,16 +959,19 @@ li{
 
 .stat-value{
   position:relative;
+
   z-index:1;
 
   color:#0f172a;
 
   font-size:24px;
   font-weight:850;
+
   line-height:1.3;
 
   overflow-wrap:anywhere;
 }
+
 
 /* =========================================================
    PROGRESS
@@ -763,6 +984,7 @@ li{
   margin:8px 0;
 
   background:#e8eef6;
+
   border-radius:999px;
 
   overflow:hidden;
@@ -770,6 +992,7 @@ li{
 
 .progress-fill{
   height:100%;
+
   min-width:0;
 
   border-radius:999px;
@@ -781,7 +1004,8 @@ li{
       #6366f1
     );
 
-  transition:width .3s ease;
+  transition:
+    width .3s ease;
 }
 
 .progress-text{
@@ -794,20 +1018,20 @@ li{
   color:#718096;
 
   font-size:10px;
+
   line-height:1.6;
 }
 
-.progress-text span{
-  min-width:0;
-}
 
 /* =========================================================
-   FOCUS
+   FOCUS CARDS
    ========================================================= */
 
 .focus-grid{
   display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
+
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
 
   gap:13px;
 
@@ -840,6 +1064,7 @@ li{
 
   font-size:13px;
   font-weight:800;
+
   line-height:1.55;
 }
 
@@ -849,16 +1074,20 @@ li{
   color:#69788e;
 
   font-size:11px;
+
   line-height:1.8;
 }
 
+
 /* =========================================================
-   CATEGORY V15
+   CATEGORY CARDS
    ========================================================= */
 
 .category-grid{
   display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
+
+  grid-template-columns:
+    repeat(4,minmax(0,1fr));
 
   gap:12px;
 
@@ -897,6 +1126,7 @@ li{
 
   font-size:12px;
   font-weight:800;
+
   line-height:1.55;
 }
 
@@ -906,11 +1136,13 @@ li{
   color:#718096;
 
   font-size:10px;
+
   line-height:1.5;
 }
 
+
 /* =========================================================
-   COURSE V15
+   GRID
    ========================================================= */
 
 .grid{
@@ -923,16 +1155,24 @@ li{
 }
 
 .grid-2{
-  grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
 }
 
 .grid-3{
-  grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
 }
 
 .grid-4{
-  grid-template-columns:repeat(4,minmax(0,1fr));
+  grid-template-columns:
+    repeat(4,minmax(0,1fr));
 }
+
+
+/* =========================================================
+   COURSE
+   ========================================================= */
 
 .course-card{
   padding:20px;
@@ -954,6 +1194,7 @@ li{
 
 .course-icon{
   margin-bottom:11px;
+
   font-size:29px;
 }
 
@@ -964,6 +1205,7 @@ li{
 
   font-size:16px;
   font-weight:850;
+
   line-height:1.55;
 }
 
@@ -973,11 +1215,13 @@ li{
   color:#68788d;
 
   font-size:11px;
+
   line-height:1.85;
 }
 
+
 /* =========================================================
-   LESSON TOOLBAR V15
+   LESSON TOOLBAR
    ========================================================= */
 
 .lesson-toolbar{
@@ -986,7 +1230,9 @@ li{
 
   display:flex;
   align-items:center;
+
   gap:9px;
+
   flex-wrap:wrap;
 
   margin-bottom:15px;
@@ -994,6 +1240,7 @@ li{
 
 .search-box{
   flex:1 1 280px;
+
   min-width:0;
 }
 
@@ -1004,12 +1251,15 @@ li{
 
   padding:9px 13px;
 
-  border:1px solid #d8e1ec;
+  border:
+    1px solid #d8e1ec;
+
   border-radius:10px;
 
   outline:none;
 
   background:#fff;
+
   color:#172033;
 
   font-size:12px;
@@ -1029,23 +1279,28 @@ li{
 .filter-select{
   min-width:190px;
   max-width:100%;
+
   height:42px;
 
   padding:8px 11px;
 
-  border:1px solid #d8e1ec;
+  border:
+    1px solid #d8e1ec;
+
   border-radius:10px;
 
   outline:none;
 
   background:#fff;
+
   color:#334155;
 
   font-size:12px;
 }
 
+
 /* =========================================================
-   LESSON LIST V15
+   LESSON LIST
    ========================================================= */
 
 .lesson-list{
@@ -1053,7 +1308,9 @@ li{
   min-width:0;
 
   display:flex;
+
   flex-direction:column;
+
   gap:8px;
 }
 
@@ -1063,6 +1320,7 @@ li{
 
   display:flex;
   align-items:center;
+
   gap:11px;
 
   padding:12px 14px;
@@ -1077,6 +1335,7 @@ li{
 
 .lesson-item:hover{
   background:#fbfdff;
+
   border-color:#bfd5f4;
 
   transform:translateX(2px);
@@ -1085,6 +1344,7 @@ li{
 .lesson-number{
   width:33px;
   height:33px;
+
   min-width:33px;
 
   display:flex;
@@ -1094,6 +1354,7 @@ li{
   border-radius:9px;
 
   background:#eff6ff;
+
   color:#2563eb;
 
   font-size:10px;
@@ -1102,6 +1363,7 @@ li{
 
 .lesson-item-content{
   min-width:0;
+
   flex:1 1 auto;
 }
 
@@ -1110,6 +1372,7 @@ li{
 
   font-size:12px;
   font-weight:750;
+
   line-height:1.65;
 }
 
@@ -1119,6 +1382,7 @@ li{
   color:#8290a3;
 
   font-size:9px;
+
   line-height:1.5;
 }
 
@@ -1130,20 +1394,24 @@ li{
   font-size:15px;
 }
 
+
 /* =========================================================
-   LESSON READER V15
+   LESSON READER
    ========================================================= */
 
 .lesson-reader{
   width:100%;
   max-width:980px;
+
   min-width:0;
 
   margin:0 auto;
 
   background:#fff;
 
-  border:1px solid #e1e8f1;
+  border:
+    1px solid #e1e8f1;
+
   border-radius:17px;
 
   box-shadow:
@@ -1165,7 +1433,8 @@ li{
       #f4f7ff
     );
 
-  border-bottom:1px solid #e4ebf3;
+  border-bottom:
+    1px solid #e4ebf3;
 }
 
 .lesson-reader-category{
@@ -1175,9 +1444,8 @@ li{
 
   font-size:10px;
   font-weight:850;
-  line-height:1.5;
 
-  text-transform:uppercase;
+  line-height:1.5;
 }
 
 .lesson-reader-title{
@@ -1187,6 +1455,7 @@ li{
 
   font-size:25px;
   font-weight:850;
+
   line-height:1.55;
 
   overflow-wrap:anywhere !important;
@@ -1206,14 +1475,18 @@ li{
   min-width:0;
 
   margin-bottom:25px;
+
   padding-bottom:21px;
 
-  border-bottom:1px solid #e9eef4;
+  border-bottom:
+    1px solid #e9eef4;
 }
 
 .lesson-section:last-child{
   margin-bottom:0;
+
   padding-bottom:0;
+
   border-bottom:0;
 }
 
@@ -1224,9 +1497,8 @@ li{
 
   font-size:16px;
   font-weight:850;
-  line-height:1.6;
 
-  overflow-wrap:anywhere;
+  line-height:1.6;
 }
 
 .lesson-section p{
@@ -1235,6 +1507,7 @@ li{
   color:#3f4d61;
 
   font-size:13px;
+
   line-height:2.05;
 
   overflow-wrap:anywhere !important;
@@ -1245,6 +1518,7 @@ li{
 .lesson-section ul,
 .lesson-section ol{
   margin:9px 0 0;
+
   padding-left:22px;
 
   color:#3f4d61;
@@ -1254,6 +1528,7 @@ li{
   margin-bottom:7px;
 
   font-size:13px;
+
   line-height:2;
 
   overflow-wrap:anywhere !important;
@@ -1263,12 +1538,16 @@ li{
 
 .lesson-example{
   margin-top:11px;
+
   padding:15px 16px;
 
   background:#f7faff;
 
-  border:1px solid #e0ebfa;
-  border-left:4px solid #2563eb;
+  border:
+    1px solid #e0ebfa;
+
+  border-left:
+    4px solid #2563eb;
 
   border-radius:10px;
 }
@@ -1281,6 +1560,7 @@ li{
   color:#172033;
 
   font-size:12px;
+
   line-height:1.5;
 }
 
@@ -1288,6 +1568,7 @@ li{
   color:#4b5a6e;
 
   font-size:12px;
+
   line-height:1.95;
 }
 
@@ -1300,18 +1581,17 @@ li{
   justify-content:space-between;
 
   gap:9px;
+
   flex-wrap:wrap;
 
   padding:17px 25px;
 
   background:#f8fafc;
 
-  border-top:1px solid #e4ebf3;
+  border-top:
+    1px solid #e4ebf3;
 }
 
-.lesson-reader-actions > *{
-  min-width:0;
-}
 
 /* =========================================================
    CHECKLIST
@@ -1323,6 +1603,7 @@ li{
 
   display:flex;
   flex-direction:column;
+
   gap:7px;
 
   margin-top:9px;
@@ -1334,6 +1615,7 @@ li{
 
   display:flex;
   align-items:flex-start;
+
   gap:8px;
 
   padding:9px 11px;
@@ -1345,20 +1627,20 @@ li{
   color:#435267;
 
   font-size:12px;
+
   line-height:1.9;
 }
 
-.check-item span{
-  min-width:0;
-}
 
 /* =========================================================
-   REPORTS
+   REPORT
    ========================================================= */
 
 .report-grid{
   display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
 
   gap:16px;
 
@@ -1377,6 +1659,7 @@ li{
 
   font-size:14px;
   font-weight:850;
+
   line-height:1.55;
 }
 
@@ -1392,7 +1675,8 @@ li{
 
   padding:10px 0;
 
-  border-bottom:1px solid #edf1f5;
+  border-bottom:
+    1px solid #edf1f5;
 }
 
 .metric-row:last-child{
@@ -1405,6 +1689,7 @@ li{
   color:#748197;
 
   font-size:11px;
+
   line-height:1.65;
 }
 
@@ -1417,13 +1702,16 @@ li{
   font-weight:850;
 }
 
+
 /* =========================================================
    CALCULATOR
    ========================================================= */
 
 .calculator-grid{
   display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
 
   gap:16px;
 
@@ -1444,6 +1732,7 @@ li{
 
   font-size:11px;
   font-weight:750;
+
   line-height:1.5;
 }
 
@@ -1454,12 +1743,15 @@ li{
 
   padding:9px 11px;
 
-  border:1px solid #d7e0eb;
+  border:
+    1px solid #d7e0eb;
+
   border-radius:9px;
 
   outline:none;
 
   background:#fff;
+
   color:#172033;
 
   font-size:12px;
@@ -1474,7 +1766,9 @@ li{
 
 textarea.form-control{
   min-height:120px;
+
   resize:vertical;
+
   line-height:1.8;
 }
 
@@ -1491,7 +1785,9 @@ textarea.form-control{
       #f5f3ff
     );
 
-  border:1px solid #dbeafe;
+  border:
+    1px solid #dbeafe;
+
   border-radius:13px;
 }
 
@@ -1500,6 +1796,7 @@ textarea.form-control{
 
   font-size:10px;
   font-weight:700;
+
   line-height:1.5;
 }
 
@@ -1510,13 +1807,15 @@ textarea.form-control{
 
   font-size:23px;
   font-weight:850;
+
   line-height:1.4;
 
   overflow-wrap:anywhere;
 }
 
+
 /* =========================================================
-   AI COACH
+   AI
    ========================================================= */
 
 .ai-box{
@@ -1529,7 +1828,9 @@ textarea.form-control{
 
   padding:15px;
 
-  border:1px solid #e3eaf3;
+  border:
+    1px solid #e3eaf3;
+
   border-radius:11px;
 
   background:#f8fafc;
@@ -1537,12 +1838,12 @@ textarea.form-control{
   color:#3f4d61;
 
   font-size:13px;
+
   line-height:2;
 
   overflow-wrap:anywhere;
-  word-break:break-word;
-  white-space:normal;
 }
+
 
 /* =========================================================
    SETTINGS
@@ -1551,6 +1852,7 @@ textarea.form-control{
 .settings-list{
   display:flex;
   flex-direction:column;
+
   gap:8px;
 }
 
@@ -1566,7 +1868,9 @@ textarea.form-control{
 
   padding:14px;
 
-  border:1px solid #e7edf4;
+  border:
+    1px solid #e7edf4;
+
   border-radius:10px;
 
   background:#f8fafc;
@@ -1581,6 +1885,7 @@ textarea.form-control{
 
   font-size:12px;
   font-weight:800;
+
   line-height:1.5;
 }
 
@@ -1590,11 +1895,13 @@ textarea.form-control{
   color:#748197;
 
   font-size:10px;
+
   line-height:1.7;
 }
 
+
 /* =========================================================
-   EMPTY STATE
+   EMPTY
    ========================================================= */
 
 .empty-state{
@@ -1620,6 +1927,7 @@ textarea.form-control{
   color:#172033;
 
   font-size:15px;
+
   line-height:1.5;
 }
 
@@ -1629,8 +1937,10 @@ textarea.form-control{
   color:#748197;
 
   font-size:11px;
+
   line-height:1.8;
 }
+
 
 /* =========================================================
    ALERT
@@ -1645,105 +1955,53 @@ textarea.form-control{
   border-radius:9px;
 
   font-size:11px;
+
   line-height:1.8;
 
   overflow-wrap:anywhere;
 }
 
-.alert-info{
-  color:#1e40af;
-  background:#eff6ff;
-  border:1px solid #bfdbfe;
-}
-
-.alert-success{
-  color:#166534;
-  background:#f0fdf4;
-  border:1px solid #bbf7d0;
-}
-
 .alert-warning{
   color:#92400e;
+
   background:#fffbeb;
-  border:1px solid #fde68a;
+
+  border:
+    1px solid #fde68a;
 }
 
-.alert-danger{
-  color:#991b1b;
-  background:#fef2f2;
-  border:1px solid #fecaca;
-}
 
 /* =========================================================
-   TABLES
-   ========================================================= */
-
-.table-wrap{
-  width:100%;
-  max-width:100%;
-
-  overflow-x:auto;
-
-  border:1px solid #e2e8f0;
-  border-radius:10px;
-
-  -webkit-overflow-scrolling:touch;
-}
-
-table{
-  width:100%;
-  min-width:600px;
-
-  border-collapse:collapse;
-}
-
-th,
-td{
-  padding:10px 11px;
-
-  border-bottom:1px solid #e8edf3;
-
-  text-align:left;
-  vertical-align:top;
-
-  font-size:11px;
-  line-height:1.75;
-
-  overflow-wrap:anywhere;
-  word-break:break-word;
-}
-
-th{
-  color:#172033;
-  background:#f8fafc;
-  font-weight:850;
-}
-
-/* =========================================================
-   DESKTOP RESPONSIVE
+   RESPONSIVE TABLET
    ========================================================= */
 
 @media (max-width:1150px){
 
   .stats-grid{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
-
-  .category-grid{
-    grid-template-columns:repeat(3,minmax(0,1fr));
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
   }
 
   .focus-grid{
-    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+  }
+
+  .category-grid{
+    grid-template-columns:
+      repeat(3,minmax(0,1fr));
   }
 
   .grid-4{
-    grid-template-columns:repeat(3,minmax(0,1fr));
+    grid-template-columns:
+      repeat(3,minmax(0,1fr));
   }
+
 }
 
+
 /* =========================================================
-   MOBILE V15
+   MOBILE
    ========================================================= */
 
 @media (max-width:768px){
@@ -1752,12 +2010,14 @@ th{
   body{
     width:100%;
     max-width:100%;
+
     overflow-x:hidden !important;
   }
 
   .app{
     width:100%;
     max-width:100%;
+
     min-width:0;
 
     display:block;
@@ -1765,34 +2025,40 @@ th{
     overflow-x:hidden;
   }
 
-  /* Sidebar */
+
+  /* SIDEBAR */
 
   .sidebar{
     width:280px;
     max-width:86vw;
 
-    transform:translateX(-105%);
+    transform:
+      translateX(-105%);
 
     box-shadow:
       12px 0 35px rgba(2,6,23,.22);
   }
 
   .sidebar.open{
-    transform:translateX(0);
+    transform:
+      translateX(0);
   }
 
   .sidebar.open ~ .sidebar-overlay{
     display:block;
 
     opacity:1;
+
     pointer-events:auto;
   }
 
-  /* Main */
+
+  /* MAIN */
 
   .main{
     width:100%;
     max-width:100%;
+
     min-width:0;
 
     margin-left:0;
@@ -1800,7 +2066,8 @@ th{
     overflow-x:hidden;
   }
 
-  /* Header */
+
+  /* HEADER */
 
   .main-header{
     min-height:60px;
@@ -1818,6 +2085,7 @@ th{
 
   .header-title{
     font-size:15px;
+
     line-height:1.45;
   }
 
@@ -1825,11 +2093,13 @@ th{
     display:none;
   }
 
-  /* Content */
+
+  /* CONTENT */
 
   .content{
     width:100%;
     max-width:100%;
+
     min-width:0;
 
     padding:16px 12px 30px;
@@ -1837,19 +2107,23 @@ th{
     overflow-x:hidden;
   }
 
-  /* Titles */
+
+  /* TITLES */
 
   .section-title{
     font-size:20px;
+
     line-height:1.5;
   }
 
   .section-subtitle{
     font-size:11px;
+
     line-height:1.9;
   }
 
-  /* Hero */
+
+  /* HERO */
 
   .dashboard-hero{
     padding:20px 16px;
@@ -1859,18 +2133,22 @@ th{
 
   .dashboard-hero h1{
     font-size:20px;
+
     line-height:1.6;
   }
 
   .dashboard-hero p{
     font-size:11px;
+
     line-height:1.95;
   }
 
-  /* Stats */
+
+  /* STATS */
 
   .stats-grid{
-    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
 
     gap:9px;
   }
@@ -1893,7 +2171,8 @@ th{
     font-size:19px;
   }
 
-  /* Focus */
+
+  /* FOCUS */
 
   .focus-grid{
     grid-template-columns:1fr;
@@ -1905,10 +2184,12 @@ th{
     padding:13px;
   }
 
-  /* Categories */
+
+  /* CATEGORY */
 
   .category-grid{
-    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
 
     gap:9px;
   }
@@ -1925,6 +2206,7 @@ th{
 
   .category-name{
     font-size:11px;
+
     line-height:1.65;
   }
 
@@ -1932,7 +2214,8 @@ th{
     font-size:9px;
   }
 
-  /* Generic grids */
+
+  /* GRIDS */
 
   .grid-2,
   .grid-3,
@@ -1940,7 +2223,8 @@ th{
     grid-template-columns:1fr;
   }
 
-  /* Courses */
+
+  /* COURSES */
 
   .course-card{
     padding:15px;
@@ -1952,13 +2236,16 @@ th{
 
   .course-description{
     font-size:11px;
+
     line-height:1.9;
   }
 
-  /* Toolbar */
+
+  /* LESSON TOOLBAR */
 
   .lesson-toolbar{
     flex-direction:column;
+
     align-items:stretch;
 
     gap:8px;
@@ -1966,15 +2253,18 @@ th{
 
   .search-box{
     width:100%;
+
     flex:0 0 auto;
   }
 
   .filter-select{
     width:100%;
+
     min-width:0;
   }
 
-  /* Lesson list */
+
+  /* LESSON LIST */
 
   .lesson-item{
     align-items:flex-start;
@@ -1989,6 +2279,7 @@ th{
   .lesson-number{
     width:30px;
     height:30px;
+
     min-width:30px;
 
     border-radius:8px;
@@ -1998,11 +2289,13 @@ th{
 
   .lesson-item-title{
     font-size:11px;
+
     line-height:1.8;
   }
 
   .lesson-item-category{
     font-size:8px;
+
     line-height:1.6;
   }
 
@@ -2010,7 +2303,8 @@ th{
     font-size:13px;
   }
 
-  /* Reader */
+
+  /* LESSON READER */
 
   .lesson-reader{
     width:100%;
@@ -2046,16 +2340,19 @@ th{
 
   .lesson-section{
     margin-bottom:20px;
+
     padding-bottom:18px;
   }
 
   .lesson-section h3{
     font-size:14px;
+
     line-height:1.7;
   }
 
   .lesson-section p{
     font-size:12.5px;
+
     line-height:2.1;
 
     overflow-wrap:anywhere !important;
@@ -2070,6 +2367,7 @@ th{
 
   .lesson-section li{
     font-size:12.5px;
+
     line-height:2.05;
 
     overflow-wrap:anywhere !important;
@@ -2083,13 +2381,18 @@ th{
 
   .lesson-example p{
     font-size:11.5px;
+
     line-height:2;
   }
+
+
+  /* LESSON ACTIONS */
 
   .lesson-reader-actions{
     display:grid;
 
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:
+      1fr 1fr;
 
     gap:7px;
 
@@ -2098,31 +2401,38 @@ th{
 
   .lesson-reader-actions .btn{
     width:100%;
+
     min-width:0;
 
     padding-left:8px;
     padding-right:8px;
   }
 
-  /* Calculator */
+
+  /* CALCULATOR */
 
   .calculator-grid{
     grid-template-columns:1fr;
+
     gap:11px;
   }
 
-  /* Reports */
+
+  /* REPORT */
 
   .report-grid{
     grid-template-columns:1fr;
+
     gap:11px;
   }
 
-  /* Forms */
+
+  /* FORM */
 
   .form-control{
     font-size:16px;
   }
+
 
   /* AI */
 
@@ -2132,10 +2442,12 @@ th{
 
   .ai-message{
     font-size:12px;
+
     line-height:2.05;
   }
 
-  /* Settings */
+
+  /* SETTINGS */
 
   .settings-item{
     align-items:flex-start;
@@ -2143,7 +2455,8 @@ th{
     padding:12px;
   }
 
-  /* Buttons */
+
+  /* BUTTON */
 
   .btn{
     min-height:40px;
@@ -2157,7 +2470,8 @@ th{
     overflow-wrap:anywhere;
   }
 
-  /* Cards */
+
+  /* CARD */
 
   .card-header{
     padding:14px;
@@ -2167,14 +2481,8 @@ th{
     padding:14px;
   }
 
-  /* Table */
-
-  .table-wrap{
-    max-width:100%;
-
-    overflow-x:auto;
-  }
 }
+
 
 /* =========================================================
    SMALL PHONE
@@ -2235,16 +2543,19 @@ th{
   .lesson-section p,
   .lesson-section li{
     font-size:12px;
+
     line-height:2.1;
   }
 
   .lesson-reader-actions{
     grid-template-columns:1fr;
   }
+
 }
 
+
 /* =========================================================
-   MOBILE HARD SAFETY
+   HARD MOBILE TEXT SAFETY
    ========================================================= */
 
 @media (max-width:768px){
@@ -2274,7 +2585,9 @@ th{
   span,
   div{
     overflow-wrap:anywhere !important;
+
     word-break:break-word;
+
     white-space:normal;
   }
 
@@ -2285,14 +2598,18 @@ th{
     white-space:pre-wrap !important;
 
     overflow-wrap:anywhere !important;
+
     word-break:break-word !important;
   }
 
   a{
     overflow-wrap:anywhere;
+
     word-break:break-word;
   }
+
 }
+
 
 /* =========================================================
    FOCUS
@@ -2302,9 +2619,13 @@ button:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible{
-  outline:3px solid rgba(37,99,235,.2);
+
+  outline:
+    3px solid rgba(37,99,235,.2);
+
   outline-offset:2px;
 }
+
 
 /* =========================================================
    PRINT
@@ -2321,16 +2642,20 @@ select:focus-visible{
 
   .main{
     width:100%;
+
     margin:0;
   }
 
   .content{
     max-width:none;
+
     padding:0;
   }
 
   .lesson-reader{
     border:0;
+
     box-shadow:none;
   }
+
 }

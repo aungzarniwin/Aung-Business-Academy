@@ -30501,106 +30501,153 @@ Use actual business data, KPI tracking and regular review before making major de
     }
 
   }
+// ============================================================
+// AUNG BUSINESS ACADEMY
+// V16 SAFE LAUNCHER FINAL
+// ============================================================
 
+(function () {
 
-  function createLauncher() {
+  "use strict";
 
-    if (
-      document.getElementById(
-        "v16GuaranteedLauncher"
-      )
-    ) {
-
-      return;
-
-    }
-
-
-    const button =
-      document.createElement("button");
-
-
-    button.id =
-      "v16GuaranteedLauncher";
-
-
-    button.type =
-      "button";
-
-
-    button.innerHTML =
-      "🎓 V16 Professional Academy";
-
-
-    button.onclick =
-      launchV16;
-
-
-    button.style.position =
-      "fixed";
-
-    button.style.right =
-      "20px";
-
-    button.style.bottom =
-      "20px";
-
-    button.style.zIndex =
-      "2147483647";
-
-    button.style.padding =
-      "15px 20px";
-
-    button.style.border =
-      "none";
-
-    button.style.borderRadius =
-      "14px";
-
-    button.style.background =
-      "#111827";
-
-    button.style.color =
-      "#ffffff";
-
-    button.style.fontSize =
-      "15px";
-
-    button.style.fontWeight =
-      "700";
-
-    button.style.cursor =
-      "pointer";
-
-    button.style.boxShadow =
-      "0 8px 25px rgba(0,0,0,.25)";
-
-
-    document.body.appendChild(
-      button
-    );
-
-  }
-
-
-  function start() {
+  function openV16() {
 
     try {
 
-      createLauncher();
+      if (
+        typeof window.openV16SafeAcademy === "function"
+      ) {
 
-      console.log(
-        "🎓 V16 GUARANTEED LAUNCHER LOADED"
+        window.openV16SafeAcademy();
+        return;
+
+      }
+
+      if (
+        typeof window.openV16Academy === "function"
+      ) {
+
+        window.openV16Academy();
+        return;
+
+      }
+
+      if (
+        typeof window.openProfessionalAcademy === "function"
+      ) {
+
+        window.openProfessionalAcademy();
+        return;
+
+      }
+
+      alert(
+        "V16 Professional Academy code ရှိပေမယ့် Open Function မတွေ့သေးပါ"
       );
 
     } catch (error) {
 
       console.error(
-        "V16 launcher error:",
+        "V16 Open Error:",
+        error
+      );
+
+      alert(
+        "V16 ဖွင့်ရာတွင် Error ဖြစ်နေပါတယ်\n\n" +
+        error.message
+      );
+
+    }
+
+  }
+
+
+  function createV16Button() {
+
+    try {
+
+      if (
+        document.getElementById(
+          "aungV16SafeLauncher"
+        )
+      ) {
+
+        return;
+
+      }
+
+
+      if (!document.body) {
+
+        return;
+
+      }
+
+
+      const button =
+        document.createElement("button");
+
+
+      button.id =
+        "aungV16SafeLauncher";
+
+
+      button.type =
+        "button";
+
+
+      button.textContent =
+        "🎓 V16 Professional Academy";
+
+
+      button.addEventListener(
+        "click",
+        openV16
+      );
+
+
+      button.style.cssText = `
+        position:fixed;
+        right:20px;
+        bottom:20px;
+        z-index:2147483647;
+        padding:15px 20px;
+        border:0;
+        border-radius:14px;
+        background:#111827;
+        color:#ffffff;
+        font-size:15px;
+        font-weight:700;
+        cursor:pointer;
+        box-shadow:0 8px 25px rgba(0,0,0,.25);
+        font-family:Arial,sans-serif;
+      `;
+
+
+      document.body.appendChild(
+        button
+      );
+
+
+      console.log(
+        "🎓 V16 SAFE LAUNCHER CREATED"
+      );
+
+    } catch (error) {
+
+      console.error(
+        "V16 Button Error:",
         error
       );
 
     }
+
+  }
+
+
+  function startV16Launcher() {
+
+    createV16Button();
 
   }
 
@@ -30611,14 +30658,17 @@ Use actual business data, KPI tracking and regular review before making major de
 
     document.addEventListener(
       "DOMContentLoaded",
-      start
+      startV16Launcher,
+      { once: true }
     );
 
   } else {
 
-    start();
+    startV16Launcher();
 
   }
 
 
 })();
+
+ 

@@ -27821,3 +27821,220 @@ Give practical actions, measurable KPIs and management decisions.
   }
 
 })();
+// ============================================================
+// AUNG BUSINESS ACADEMY
+// V16 FORCE LOADER & SIDEBAR FIX
+// ============================================================
+
+(function () {
+
+  "use strict";
+
+  const V16_BUTTON_ID = "aungV16ProfessionalAcademyButton";
+
+  function v16ForceOpen() {
+
+    try {
+
+      if (typeof window.openV16Academy === "function") {
+
+        window.openV16Academy();
+
+        return;
+
+      }
+
+      if (typeof window.openV16Dashboard === "function") {
+
+        window.openV16Dashboard();
+
+        return;
+
+      }
+
+      alert("V16 Professional Academy is loading. Please refresh once.");
+
+    } catch (error) {
+
+      console.error("V16 Open Error:", error);
+
+      alert("V16 Professional Academy error. Please refresh the page.");
+
+    }
+
+  }
+
+
+  function findSidebar() {
+
+    const selectors = [
+
+      ".sidebar",
+      "#sidebar",
+      ".app-sidebar",
+      ".side-bar",
+      "aside",
+      "nav"
+
+    ];
+
+    for (const selector of selectors) {
+
+      const element = document.querySelector(selector);
+
+      if (element) {
+
+        return element;
+
+      }
+
+    }
+
+    return null;
+
+  }
+
+
+  function createV16Button() {
+
+    if (document.getElementById(V16_BUTTON_ID)) {
+
+      return;
+
+    }
+
+    const sidebar = findSidebar();
+
+    if (!sidebar) {
+
+      return;
+
+    }
+
+    const button = document.createElement("button");
+
+    button.id = V16_BUTTON_ID;
+
+    button.type = "button";
+
+    button.innerHTML = `
+      <span style="font-size:20px;">🎓</span>
+      <span>Professional Academy</span>
+    `;
+
+    button.onclick = function () {
+
+      v16ForceOpen();
+
+    };
+
+
+    button.style.width = "calc(100% - 20px)";
+    button.style.margin = "8px 10px";
+    button.style.padding = "13px 14px";
+    button.style.border = "0";
+    button.style.borderRadius = "12px";
+    button.style.cursor = "pointer";
+    button.style.display = "flex";
+    button.style.alignItems = "center";
+    button.style.gap = "10px";
+    button.style.textAlign = "left";
+    button.style.fontWeight = "700";
+    button.style.fontSize = "14px";
+    button.style.background =
+      "linear-gradient(135deg,#111827,#374151)";
+    button.style.color = "#ffffff";
+    button.style.boxShadow =
+      "0 4px 12px rgba(0,0,0,.15)";
+
+
+    const settingsButton =
+      Array.from(
+        sidebar.querySelectorAll("button")
+      ).find(function (btn) {
+
+        return (
+          btn.textContent &&
+          btn.textContent.toLowerCase().includes("settings")
+        );
+
+      });
+
+
+    if (settingsButton) {
+
+      settingsButton.parentNode.insertBefore(
+        button,
+        settingsButton
+      );
+
+    } else {
+
+      sidebar.appendChild(button);
+
+    }
+
+  }
+
+
+  function v16Check() {
+
+    createV16Button();
+
+  }
+
+
+  // Initial attempts
+
+  setTimeout(v16Check, 300);
+
+  setTimeout(v16Check, 800);
+
+  setTimeout(v16Check, 1500);
+
+  setTimeout(v16Check, 2500);
+
+  setTimeout(v16Check, 4000);
+
+
+  // Watch sidebar rebuilds
+
+  try {
+
+    const observer = new MutationObserver(function () {
+
+      createV16Button();
+
+    });
+
+
+    observer.observe(document.body, {
+
+      childList: true,
+      subtree: true
+
+    });
+
+  } catch (error) {
+
+    console.warn(
+      "V16 sidebar observer unavailable",
+      error
+    );
+
+  }
+
+
+  // Global access
+
+  window.openProfessionalAcademy = v16ForceOpen;
+
+  window.openV16ProfessionalAcademy = v16ForceOpen;
+
+
+  console.log(
+    "🎓 Aung Business Academy V16 Force Loader Ready"
+  );
+
+
+})();

@@ -1,23 +1,20 @@
 ```javascript
-/* =========================================================
+/* ============================================================
    AUNG BUSINESS ACADEMY
-   V15 - 260 LESSON SYSTEM
+   PROFESSIONAL LESSON ENGINE
+   260 LESSONS
    230 BUSINESS + 30 BUSINESS ENGLISH
-   ========================================================= */
+   ============================================================ */
 
 (function () {
   "use strict";
 
-  /* =========================================================
-     STORAGE
-     ========================================================= */
-
   const STORAGE_KEY = "aungBusinessAcademy";
   const LESSON_STORAGE_KEY = "aungBusinessAcademyLessons";
 
-  /* =========================================================
-     BASIC STATE
-     ========================================================= */
+  /* ============================================================
+     STATE
+     ============================================================ */
 
   let state = {
     currentPage: "dashboard",
@@ -29,14 +26,11 @@
     if (saved && typeof saved === "object") {
       state = Object.assign(state, saved);
     }
-  } catch (e) {
-    console.warn("Academy state could not be loaded.");
-  }
+  } catch (e) {}
 
   try {
-    const savedLessons = JSON.parse(
-      localStorage.getItem(LESSON_STORAGE_KEY)
-    );
+    const savedLessons =
+      JSON.parse(localStorage.getItem(LESSON_STORAGE_KEY));
 
     if (Array.isArray(savedLessons)) {
       state.completedLessons = savedLessons;
@@ -45,10 +39,10 @@
     state.completedLessons = [];
   }
 
-  /* =========================================================
+  /* ============================================================
      BUSINESS MODULES
-     23 MODULES × 10 = 230
-     ========================================================= */
+     23 × 10 = 230
+     ============================================================ */
 
   const businessModules = [
     {
@@ -66,7 +60,6 @@
         "Business Growth"
       ]
     },
-
     {
       name: "Strategic Thinking",
       lessons: [
@@ -82,7 +75,6 @@
         "Strategic Review"
       ]
     },
-
     {
       name: "Brand Basics",
       lessons: [
@@ -98,7 +90,6 @@
         "Brand Growth"
       ]
     },
-
     {
       name: "Marketing Basics",
       lessons: [
@@ -114,7 +105,6 @@
         "Marketing Planning"
       ]
     },
-
     {
       name: "Sales Basics",
       lessons: [
@@ -130,7 +120,6 @@
         "Sales Discipline"
       ]
     },
-
     {
       name: "Sales Management",
       lessons: [
@@ -146,7 +135,6 @@
         "Sales Manager Excellence"
       ]
     },
-
     {
       name: "Sales Planning",
       lessons: [
@@ -162,7 +150,6 @@
         "Sales Plan Review"
       ]
     },
-
     {
       name: "Sales KPI & Performance",
       lessons: [
@@ -178,7 +165,6 @@
         "Performance Improvement"
       ]
     },
-
     {
       name: "Customer Management",
       lessons: [
@@ -194,7 +180,6 @@
         "Customer Growth"
       ]
     },
-
     {
       name: "Negotiation",
       lessons: [
@@ -210,7 +195,6 @@
         "Negotiation Excellence"
       ]
     },
-
     {
       name: "Customer Service",
       lessons: [
@@ -226,7 +210,6 @@
         "Service Excellence"
       ]
     },
-
     {
       name: "People Management",
       lessons: [
@@ -242,7 +225,6 @@
         "High Performance Teams"
       ]
     },
-
     {
       name: "Coaching & Leadership",
       lessons: [
@@ -258,7 +240,6 @@
         "Leadership Excellence"
       ]
     },
-
     {
       name: "Distribution Management",
       lessons: [
@@ -274,7 +255,6 @@
         "Distribution Excellence"
       ]
     },
-
     {
       name: "Market Analysis",
       lessons: [
@@ -290,7 +270,6 @@
         "Market Action Plan"
       ]
     },
-
     {
       name: "Competitor Management",
       lessons: [
@@ -306,7 +285,6 @@
         "Competitive Strategy"
       ]
     },
-
     {
       name: "Profit & Loss",
       lessons: [
@@ -322,7 +300,6 @@
         "Manager P&L Thinking"
       ]
     },
-
     {
       name: "Pricing Strategy",
       lessons: [
@@ -338,7 +315,6 @@
         "Pricing Strategy"
       ]
     },
-
     {
       name: "Business Finance",
       lessons: [
@@ -354,7 +330,6 @@
         "Manager Financial Thinking"
       ]
     },
-
     {
       name: "Goal Setting",
       lessons: [
@@ -370,7 +345,6 @@
         "Goal Achievement"
       ]
     },
-
     {
       name: "Business Communication",
       lessons: [
@@ -386,7 +360,6 @@
         "Executive Communication"
       ]
     },
-
     {
       name: "Strategic Sales Leadership",
       lessons: [
@@ -402,7 +375,6 @@
         "Strategic Sales Excellence"
       ]
     },
-
     {
       name: "Decision Making & Problem Solving",
       lessons: [
@@ -420,12 +392,12 @@
     }
   ];
 
-  /* =========================================================
+  /* ============================================================
      BUSINESS ENGLISH
      30 LESSONS
-     ========================================================= */
+     ============================================================ */
 
-  const businessEnglishLessons = [
+  const englishLessons = [
     "Business English Fundamentals",
     "Introducing Yourself Professionally",
     "Introducing Your Company",
@@ -458,137 +430,317 @@
     "Professional Business English Mastery"
   ];
 
-  /* =========================================================
-     BUILD BUSINESS LESSONS
-     ========================================================= */
+  /* ============================================================
+     LESSON ARRAY
+     ============================================================ */
 
   const lessons = [];
 
-  let businessLessonNumber = 1;
+  let number = 1;
 
-  businessModules.forEach((module) => {
-    module.lessons.forEach((title, index) => {
+  businessModules.forEach(module => {
+
+    module.lessons.forEach(title => {
 
       lessons.push({
-        id: "B" + businessLessonNumber,
-        number: businessLessonNumber,
+        id: "B" + number,
+        number,
         type: "business",
         module: module.name,
-        title: title,
-        objective:
-          `${title} ကို စီးပွားရေးလုပ်ငန်းနှင့် Sales Management အခြေအနေများတွင် လက်တွေ့အသုံးချနိုင်ရန် နားလည်စေရန်။`,
-        keyPoints: [
-          `${title} ၏ အဓိကအယူအဆကို နားလည်ပါ။`,
-          "Business မှာ ဘာကြောင့်အရေးကြီးသလဲကို သိရှိပါ။",
-          "Data နှင့် လုပ်ငန်းအခြေအနေကို ဆက်စပ်စဉ်းစားပါ။",
-          "Manager တစ်ယောက်အနေနဲ့ Action Plan ချမှတ်နိုင်ပါစေ။"
-        ],
-        managerPoint:
-          "Manager တစ်ယောက်အနေနဲ့ သိရုံနဲ့မပြီးဘဲ Team, Customer, Target, Cost နဲ့ Result တွေကို ဆက်စပ်ပြီး Decision ချနိုင်ရပါမယ်။",
-        action:
-          "ဒီ Lesson ထဲက အချက်တစ်ခုကို ကိုယ့်လက်ရှိလုပ်ငန်းထဲမှာ ဒီနေ့ကစပြီး လက်တွေ့အသုံးချပါ။",
-        reflection:
-          "ဒီအကြောင်းအရာကို ကိုယ့်လုပ်ငန်းမှာ ဘယ်နေရာမှာ အသုံးချနိုင်မလဲ? လက်ရှိအခြေအနေမှာ ဘာကိုပြောင်းလဲသင့်သလဲ?",
-        summary:
-          `${title} သည် Business Manager တစ်ယောက်အတွက် အရေးကြီးသော Management Skill တစ်ခုဖြစ်ပြီး Data → Analysis → Decision → Action → Result ဆိုတဲ့ စနစ်နဲ့ အသုံးချရပါမယ်။`
+        title
       });
 
-      businessLessonNumber++;
+      number++;
     });
+
   });
 
-  /* =========================================================
-     BUILD BUSINESS ENGLISH LESSONS
-     ========================================================= */
-
-  let englishLessonNumber = 1;
-
-  businessEnglishLessons.forEach((title) => {
+  englishLessons.forEach(title => {
 
     lessons.push({
-      id: "E" + englishLessonNumber,
-      number: 230 + englishLessonNumber,
+      id: "E" + (number - 230),
+      number,
       type: "english",
       module: "Business English",
-      title: title,
-
-      objective:
-        `${title} ကို အလုပ်ခွင်၊ Customer Meeting, Sales Visit နှင့် Management Communication တွင် ယုံကြည်စွာအသုံးပြုနိုင်ရန် လေ့ကျင့်ရန်။`,
-
-      keyPoints: [
-        "Business English စကားလုံးနှင့် Sentence Structure ကို နားလည်ပါ။",
-        "Customer နှင့် Professional Communication ပြုလုပ်နိုင်ပါစေ။",
-        "Sales နှင့် Management အခြေအနေများတွင် အသုံးချနိုင်ပါစေ။",
-        "နေ့စဉ်အသုံးချပြီး Speaking Confidence တိုးတက်အောင် လေ့ကျင့်ပါ။"
-      ],
-
-      examples: [
-        {
-          english: "Good morning. How can I help you today?",
-          myanmar: "မင်္ဂလာနံနက်ခင်းပါ။ ဒီနေ့ ဘာကူညီပေးရမလဲခင်ဗျာ။"
-        },
-        {
-          english: "Let me explain our proposal.",
-          myanmar: "ကျွန်တော်တို့ရဲ့ Proposal ကို ရှင်းပြပေးပါမယ်။"
-        },
-        {
-          english: "Could you please share more details?",
-          myanmar: "အသေးစိတ်အချက်အလက်တွေကို ထပ်ပြီးမျှဝေပေးနိုင်မလားခင်ဗျာ။"
-        },
-        {
-          english: "I will follow up with you tomorrow.",
-          myanmar: "မနက်ဖြန်မှာ ပြန်လည်ဆက်သွယ်ပေးပါမယ်။"
-        }
-      ],
-
-      managerPoint:
-        "Business English ကို Grammar စာအဖြစ်ပဲ မလေ့လာဘဲ Meeting, Customer Visit, Sales Presentation, Negotiation, Email နှင့် Interview အတွက် အသုံးချရပါမယ်။",
-
-      action:
-        "ဒီနေ့ English Sentence ၅ ကြောင်းကို အသံထွက်ပြီး အနည်းဆုံး ၃ ကြိမ်စီ လေ့ကျင့်ပါ။",
-
-      reflection:
-        "ဒီ English Sentence တွေထဲက ဘယ် Sentence ကို ကိုယ့်အလုပ်မှာ အများဆုံးအသုံးချနိုင်မလဲ?",
-
-      summary:
-        `${title} သည် Professional Workplace Communication အတွက် အရေးကြီးသော Business English Skill ဖြစ်ပါတယ်။`
+      title
     });
 
-    englishLessonNumber++;
+    number++;
   });
 
-  /* =========================================================
-     VERIFY TOTAL
-     ========================================================= */
+  /* ============================================================
+     DETAILED CONTENT ENGINE
+     ============================================================ */
 
-  console.log("======================================");
-  console.log("AUNG BUSINESS ACADEMY");
-  console.log("Business Lessons:", businessModules.reduce(
-    (total, module) => total + module.lessons.length,
-    0
-  ));
-  console.log("Business English:", businessEnglishLessons.length);
-  console.log("TOTAL LESSONS:", lessons.length);
-  console.log("======================================");
+  const topicMap = {
 
-  /* =========================================================
-     COMPLETED HELPERS
-     ========================================================= */
+    "Sales Target Management": {
+      focus: "Target ကို Number တစ်ခုအဖြစ်ပဲ မကြည့်ဘဲ People + Customer + Territory + Execution + Result အဖြစ် ခွဲခြမ်းစိတ်ဖြာခြင်း",
+      metric: "Target Achievement",
+      values: [62, 70, 76, 84]
+    },
+
+    "Sales Achievement": {
+      focus: "Target နဲ့ Actual Sales ကို နှိုင်းယှဉ်ပြီး Gap ကိုရှာဖွေကာ Action Plan ချမှတ်ခြင်း",
+      metric: "Achievement %",
+      values: [58, 68, 77, 88]
+    },
+
+    "Growth Rate": {
+      focus: "ယခင်ကာလနှင့် လက်ရှိကာလ၏ Result ကို နှိုင်းယှဉ်ပြီး Growth ရဲ့အကြောင်းရင်းကို ရှာဖွေခြင်း",
+      metric: "Growth %",
+      values: [4, 9, 13, 19]
+    },
+
+    "Revenue": {
+      focus: "Revenue ဆိုတာ ဘယ်ကလာသလဲ၊ ဘယ် Customer/Channel/Product က အများဆုံး Contribution ပေးသလဲဆိုတာ ခွဲခြမ်းခြင်း",
+      metric: "Revenue",
+      values: [45, 58, 71, 86]
+    },
+
+    "Gross Profit": {
+      focus: "Sales ရှိတာနဲ့ Profit ရှိတာ မတူကြောင်း နားလည်ပြီး Gross Profit ကို စောင့်ကြည့်ခြင်း",
+      metric: "Gross Profit",
+      values: [22, 31, 39, 47]
+    },
+
+    "Market Share": {
+      focus: "ကိုယ့် Business ရဲ့ Market Position ကို Competitor နဲ့ နှိုင်းယှဉ်ပြီး Growth Opportunity ရှာခြင်း",
+      metric: "Market Share %",
+      values: [21, 25, 29, 34]
+    },
+
+    "Customer Retention": {
+      focus: "Customer အသစ်ရှာခြင်းအပြင် ရှိပြီးသား Customer ကို ထိန်းသိမ်းပြီး Customer Lifetime Value တိုးစေခြင်း",
+      metric: "Retention %",
+      values: [72, 76, 82, 89]
+    },
+
+    "Pricing Strategy": {
+      focus: "Price ကို Cost, Customer Value, Competitor နဲ့ Profit Target အပေါ် အခြေခံပြီး ဆုံးဖြတ်ခြင်း",
+      metric: "Average Price Index",
+      values: [80, 84, 88, 94]
+    },
+
+    "Cash Flow": {
+      focus: "Profit ရှိသော်လည်း Cash မရှိနိုင်သည့်အကြောင်းကို နားလည်ပြီး Cash Inflow/Outflow ကို စီမံခြင်း",
+      metric: "Cash Flow Index",
+      values: [48, 57, 69, 81]
+    },
+
+    "Performance Dashboard": {
+      focus: "Manager တစ်ယောက်အနေနဲ့ KPI များကို တစ်နေရာတည်းမှာ မြင်ပြီး အမြန်ဆုံး Decision ချနိုင်အောင် Dashboard တည်ဆောက်ခြင်း",
+      metric: "Performance Score",
+      values: [55, 64, 78, 91]
+    }
+  };
+
+  function getTopicData(lesson) {
+
+    if (topicMap[lesson.title]) {
+      return topicMap[lesson.title];
+    }
+
+    if (
+      lesson.module.includes("Sales") ||
+      lesson.module.includes("Distribution")
+    ) {
+      return {
+        focus:
+          `${lesson.title} ကို Sales Target, Customer, Team, Territory နဲ့ Execution တို့နဲ့ ဆက်စပ်ပြီး လက်တွေ့အသုံးချခြင်း`,
+        metric: "Performance %",
+        values: [55, 64, 73, 85]
+      };
+    }
+
+    if (
+      lesson.module.includes("Finance") ||
+      lesson.module.includes("Profit") ||
+      lesson.module.includes("Pricing")
+    ) {
+      return {
+        focus:
+          `${lesson.title} ကို Revenue, Cost, Margin, Cash Flow နဲ့ Profitability ရှုထောင့်ကနေ စီမံခြင်း`,
+        metric: "Business Index",
+        values: [52, 63, 75, 88]
+      };
+    }
+
+    if (
+      lesson.module.includes("Customer") ||
+      lesson.module.includes("Service")
+    ) {
+      return {
+        focus:
+          `${lesson.title} ကို Customer Need, Customer Value, Satisfaction နဲ့ Retention တို့နဲ့ ဆက်စပ်ပြီး အသုံးချခြင်း`,
+        metric: "Customer Score",
+        values: [61, 69, 78, 90]
+      };
+    }
+
+    if (
+      lesson.module.includes("People") ||
+      lesson.module.includes("Leadership") ||
+      lesson.module.includes("Coaching")
+    ) {
+      return {
+        focus:
+          `${lesson.title} ကို People Management, Coaching, Communication, Accountability နဲ့ Team Performance တို့နဲ့ ဆက်စပ်ခြင်း`,
+        metric: "Team Performance",
+        values: [57, 66, 79, 87]
+      };
+    }
+
+    if (
+      lesson.module.includes("Marketing") ||
+      lesson.module.includes("Brand")
+    ) {
+      return {
+        focus:
+          `${lesson.title} ကို Customer, Market, Brand Positioning နဲ့ Business Growth တို့နဲ့ ဆက်စပ်ပြီး အသုံးချခြင်း`,
+        metric: "Market Index",
+        values: [50, 61, 74, 86]
+      };
+    }
+
+    return {
+      focus:
+        `${lesson.title} ကို Business Manager တစ်ယောက်အနေနဲ့ Understanding → Analysis → Decision → Action → Result ဆိုတဲ့ Flow နဲ့ အသုံးချခြင်း`,
+      metric: "Business Performance",
+      values: [54, 65, 76, 89]
+    };
+  }
+
+  /* ============================================================
+     ENGLISH CONTENT
+     ============================================================ */
+
+  function englishContent(title) {
+
+    const content = {
+
+      "Business English Fundamentals": [
+        ["Good morning. How are you?", "မင်္ဂလာနံနက်ခင်းပါ။ နေကောင်းပါသလား။"],
+        ["I would like to discuss our business plan.", "ကျွန်တော်တို့ရဲ့ Business Plan ကို ဆွေးနွေးချင်ပါတယ်။"],
+        ["Could you please explain this?", "ဒါကို ရှင်းပြပေးနိုင်မလားခင်ဗျာ။"],
+        ["Thank you for your time.", "အချိန်ပေးတဲ့အတွက် ကျေးဇူးတင်ပါတယ်။"]
+      ],
+
+      "Introducing Yourself Professionally": [
+        ["My name is Aung Zar Ni Win.", "ကျွန်တော့်နာမည် Aung Zar Ni Win ဖြစ်ပါတယ်။"],
+        ["I am a Sales Manager.", "ကျွန်တော် Sales Manager တစ်ယောက်ဖြစ်ပါတယ်။"],
+        ["I have extensive experience in sales management.", "Sales Management ပိုင်းမှာ အတွေ့အကြုံများစွာရှိပါတယ်။"],
+        ["It is a pleasure to meet you.", "တွေ့ဆုံရတာ ဝမ်းသာပါတယ်။"]
+      ],
+
+      "Introducing Your Company": [
+        ["Let me briefly introduce our company.", "ကျွန်တော်တို့ Company ကို အကျဉ်းချုပ် မိတ်ဆက်ပေးပါမယ်။"],
+        ["Our company focuses on customer satisfaction.", "ကျွန်တော်တို့ Company က Customer Satisfaction ကို အဓိကထားပါတယ်။"],
+        ["We operate in several markets.", "ကျွန်တော်တို့ Market အများအပြားမှာ လုပ်ကိုင်နေပါတယ်။"],
+        ["Our main business is distribution.", "ကျွန်တော်တို့ရဲ့ အဓိက Business က Distribution ဖြစ်ပါတယ်။"]
+      ],
+
+      "Sales English Basics": [
+        ["What are your current requirements?", "လက်ရှိ သင့်လိုအပ်ချက်တွေက ဘာတွေလဲ။"],
+        ["Let me explain the benefits.", "အကျိုးကျေးဇူးတွေကို ရှင်းပြပေးပါမယ်။"],
+        ["We can offer a competitive price.", "Competitive Price ပေးနိုင်ပါတယ်။"],
+        ["Would you like to place an order?", "Order တင်ချင်ပါသလား။"]
+      ],
+
+      "Sales Presentation English": [
+        ["Today, I would like to present our proposal.", "ဒီနေ့ ကျွန်တော်တို့ Proposal ကို တင်ပြချင်ပါတယ်။"],
+        ["Let me highlight the key benefits.", "အဓိကအကျိုးကျေးဇူးတွေကို ရှင်းပြပါမယ်။"],
+        ["As you can see from the data...", "Data ထဲမှာ မြင်ရတဲ့အတိုင်း..."],
+        ["Let me summarize the main points.", "အဓိကအချက်တွေကို အကျဉ်းချုပ်ပေးပါမယ်။"]
+      ],
+
+      "Handling Customer Objections": [
+        ["I understand your concern.", "သင့်စိုးရိမ်မှုကို နားလည်ပါတယ်။"],
+        ["Let me offer another option.", "အခြား Option တစ်ခုကို တင်ပြပါမယ်။"],
+        ["May I explain the value behind the price?", "ဒီ Price ရဲ့နောက်က Value ကို ရှင်းပြလို့ရမလား။"],
+        ["What would make this solution work for you?", "ဒီ Solution ကို သင့်အတွက် အဆင်ပြေစေဖို့ ဘာလိုအပ်ပါသလဲ။"]
+      ],
+
+      "Negotiation English": [
+        ["What is your expected price?", "သင်မျှော်မှန်းထားတဲ့ Price ဘယ်လောက်လဲ။"],
+        ["Let us find a solution that works for both sides.", "နှစ်ဖက်လုံးအတွက် အဆင်ပြေမယ့် Solution ရှာကြရအောင်။"],
+        ["We may be able to adjust the terms.", "Terms တွေကို ပြင်ဆင်ပေးနိုင်ကောင်းပေးနိုင်ပါတယ်။"],
+        ["Can we agree on this proposal?", "ဒီ Proposal ကို သဘောတူနိုင်မလား။"]
+      ],
+
+      "Closing Sales in English": [
+        ["Shall we proceed with the order?", "Order ကို ဆက်လုပ်ကြမလား။"],
+        ["Are you ready to move forward?", "ရှေ့ဆက်ဖို့ အဆင်သင့်ဖြစ်ပြီလား။"],
+        ["Let me confirm the order details.", "Order အသေးစိတ်ကို အတည်ပြုပေးပါမယ်။"],
+        ["Thank you for your business.", "ကျွန်တော်တို့နဲ့ Business လုပ်ပေးတဲ့အတွက် ကျေးဇူးတင်ပါတယ်။"]
+      ],
+
+      "Business Meeting English": [
+        ["Let's start the meeting.", "Meeting စလိုက်ကြရအောင်။"],
+        ["I'd like to discuss today's agenda.", "ဒီနေ့ Agenda ကို ဆွေးနွေးချင်ပါတယ်။"],
+        ["Could you give us an update?", "Update ပေးနိုင်မလား။"],
+        ["Let's move to the next point.", "နောက်အချက်ကို ဆက်သွားကြရအောင်။"]
+      ],
+
+      "Interview English": [
+        ["Tell me about yourself.", "ကိုယ့်အကြောင်း ပြောပြပါ။"],
+        ["I have strong experience in sales management.", "Sales Management ပိုင်းမှာ ခိုင်မာတဲ့အတွေ့အကြုံရှိပါတယ်။"],
+        ["My strength is team leadership.", "ကျွန်တော့်ရဲ့အားသာချက်က Team Leadership ဖြစ်ပါတယ်။"],
+        ["I am looking for a long-term career opportunity.", "ရေရှည် Career Opportunity ရှာဖွေနေတာဖြစ်ပါတယ်။"]
+      ],
+
+      "Sales Manager Interview English": [
+        ["How do you manage your sales team?", "Sales Team ကို ဘယ်လိုစီမံခန့်ခွဲပါသလဲ။"],
+        ["I manage through clear targets and regular coaching.", "ရှင်းလင်းတဲ့ Target တွေနဲ့ ပုံမှန် Coaching လုပ်ပြီး စီမံပါတယ်။"],
+        ["How do you handle underperformance?", "Performance မကောင်းတဲ့သူကို ဘယ်လိုကိုင်တွယ်ပါသလဲ။"],
+        ["I identify the root cause and create an action plan.", "Root Cause ရှာပြီး Action Plan ချမှတ်ပါတယ်။"]
+      ]
+
+    };
+
+    return content[title] || [
+      [
+        "Let me explain this point clearly.",
+        "ဒီအချက်ကို ရှင်းရှင်းလင်းလင်း ရှင်းပြပေးပါမယ်။"
+      ],
+      [
+        "We need to focus on the key priorities.",
+        "အဓိက Priority တွေကို အာရုံစိုက်ဖို့ လိုပါတယ်။"
+      ],
+      [
+        "Let's review the data together.",
+        "Data ကို အတူတူ ပြန်လည်သုံးသပ်ကြရအောင်။"
+      ],
+      [
+        "I will follow up with you.",
+        "ပြန်လည် Follow-up လုပ်ပေးပါမယ်။"
+      ]
+    ];
+  }
+
+  /* ============================================================
+     HELPERS
+     ============================================================ */
+
+  function esc(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
 
   function saveState() {
-    try {
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(state)
-      );
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(state)
+    );
 
-      localStorage.setItem(
-        LESSON_STORAGE_KEY,
-        JSON.stringify(state.completedLessons)
-      );
-    } catch (e) {
-      console.warn("Could not save academy state.");
-    }
+    localStorage.setItem(
+      LESSON_STORAGE_KEY,
+      JSON.stringify(state.completedLessons)
+    );
   }
 
   function isCompleted(id) {
@@ -600,203 +752,192 @@
   }
 
   function progressPercent() {
-    if (!lessons.length) return 0;
-
     return Math.round(
-      (completedCount() / lessons.length) * 100
+      completedCount() / lessons.length * 100
     );
   }
 
-  /* =========================================================
-     UPDATE DASHBOARD
-     ========================================================= */
+  /* ============================================================
+     UPDATE PROGRESS
+     ============================================================ */
 
-  function updateProgressUI() {
+  function updateProgress() {
 
     const completed = completedCount();
-    const remaining = Math.max(
-      lessons.length - completed,
-      0
-    );
-
+    const remaining = lessons.length - completed;
     const percent = progressPercent();
 
-    const selectors = {
-      completed: [
-        "#completedLessons",
-        "#progressCompleted",
-        ".completed-count"
-      ],
+    [
+      "#completedLessons",
+      "#progressCompleted",
+      ".completed-count"
+    ].forEach(selector => {
 
-      remaining: [
-        "#progressRemaining",
-        ".remaining-count"
-      ],
+      document.querySelectorAll(selector)
+        .forEach(el => {
+          el.textContent = completed;
+        });
 
-      percent: [
-        "#bigProgress",
-        "#courseProgressText",
-        ".course-progress",
-        ".progress-value"
-      ],
+    });
 
-      bars: [
-        "#courseProgress",
-        ".progress-bar-fill",
-        ".progress-fill"
-      ]
-    };
+    [
+      "#progressRemaining",
+      ".remaining-count"
+    ].forEach(selector => {
 
-    selectors.completed.forEach(selector => {
-      document.querySelectorAll(selector).forEach(el => {
-        el.textContent = completed;
+      document.querySelectorAll(selector)
+        .forEach(el => {
+          el.textContent = remaining;
+        });
+
+    });
+
+    [
+      "#bigProgress",
+      "#courseProgressText",
+      ".progress-value"
+    ].forEach(selector => {
+
+      document.querySelectorAll(selector)
+        .forEach(el => {
+          el.textContent = percent + "%";
+        });
+
+    });
+
+    [
+      "#courseProgress",
+      ".progress-bar-fill",
+      ".progress-fill"
+    ].forEach(selector => {
+
+      document.querySelectorAll(selector)
+        .forEach(el => {
+          el.style.width = percent + "%";
+        });
+
+    });
+
+    document.querySelectorAll("[data-total-lessons]")
+      .forEach(el => {
+        el.textContent = lessons.length;
       });
-    });
-
-    selectors.remaining.forEach(selector => {
-      document.querySelectorAll(selector).forEach(el => {
-        el.textContent = remaining;
-      });
-    });
-
-    selectors.percent.forEach(selector => {
-      document.querySelectorAll(selector).forEach(el => {
-        el.textContent = percent + "%";
-      });
-    });
-
-    selectors.bars.forEach(selector => {
-      document.querySelectorAll(selector).forEach(el => {
-        el.style.width = percent + "%";
-      });
-    });
-
-    document.querySelectorAll("[data-total-lessons]").forEach(el => {
-      el.textContent = lessons.length;
-    });
-
-    document.querySelectorAll("[data-completed-lessons]").forEach(el => {
-      el.textContent = completed;
-    });
-
-    document.querySelectorAll("[data-remaining-lessons]").forEach(el => {
-      el.textContent = remaining;
-    });
-
-    document.querySelectorAll("[data-progress-percent]").forEach(el => {
-      el.textContent = percent + "%";
-    });
   }
 
-  /* =========================================================
+  /* ============================================================
      PAGE NAVIGATION
-     ========================================================= */
+     ============================================================ */
 
-  function showPage(pageName) {
+  function showPage(page) {
 
-    if (!pageName) {
-      pageName = "dashboard";
-    }
-
-    state.currentPage = pageName;
+    state.currentPage = page;
     saveState();
 
     document.querySelectorAll(
       "[id^='page-'], .academy-page"
-    ).forEach(page => {
-      page.style.display = "none";
-      page.classList.remove("active");
+    ).forEach(el => {
+
+      el.style.display = "none";
+      el.classList.remove("active");
+
     });
 
-    const candidates = [
-      document.getElementById("page-" + pageName),
-      document.getElementById(pageName)
-    ];
-
-    let target = candidates.find(Boolean);
+    const target =
+      document.getElementById("page-" + page) ||
+      document.getElementById(page);
 
     if (target) {
+
       target.style.display = "";
       target.classList.add("active");
+
     }
 
-    document.querySelectorAll(
-      "[data-page]"
-    ).forEach(item => {
+    document.querySelectorAll("[data-page]")
+      .forEach(el => {
 
-      item.classList.toggle(
-        "active",
-        item.dataset.page === pageName
-      );
-    });
+        el.classList.toggle(
+          "active",
+          el.dataset.page === page
+        );
+
+      });
 
     if (
-      pageName === "lessons" ||
-      pageName === "my-courses" ||
-      pageName === "progress"
+      page === "lessons" ||
+      page === "my-courses" ||
+      page === "progress"
     ) {
-      setTimeout(renderLessons, 0);
+      setTimeout(renderLessons, 50);
     }
 
-    updateProgressUI();
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
+    updateProgress();
   }
 
-  /* =========================================================
-     NAV CLICK EVENTS
-     ========================================================= */
+  document.addEventListener("click", e => {
 
-  document.addEventListener("click", function (event) {
+    const pageBtn =
+      e.target.closest("[data-page]");
 
-    const pageButton =
-      event.target.closest("[data-page]");
+    if (!pageBtn) return;
 
-    if (pageButton) {
+    e.preventDefault();
 
-      event.preventDefault();
+    showPage(pageBtn.dataset.page);
 
-      const page =
-        pageButton.getAttribute("data-page");
-
-      showPage(page);
-
-      const sidebar =
-        document.querySelector(".sidebar");
-
-      if (sidebar) {
-        sidebar.classList.remove("open");
-      }
-
-      return;
-    }
-
-    const lessonButton =
-      event.target.closest("[data-open-lesson]");
-
-    if (lessonButton) {
-
-      const id =
-        lessonButton.getAttribute("data-open-lesson");
-
-      openLesson(id);
-
-      return;
-    }
+    document.querySelector(".sidebar")
+      ?.classList.remove("open");
   });
 
-  /* =========================================================
-     LESSON FILTER STATE
-     ========================================================= */
+  /* ============================================================
+     LESSON FILTER
+     ============================================================ */
 
   let lessonFilter = "all";
 
-  /* =========================================================
-     RENDER LESSONS
-     ========================================================= */
+  document.addEventListener("input", e => {
+
+    if (e.target.id === "academyLessonSearch") {
+      renderLessons();
+    }
+
+  });
+
+  document.addEventListener("change", e => {
+
+    if (e.target.id === "academyLessonCategory") {
+      renderLessons();
+    }
+
+  });
+
+  document.addEventListener("click", e => {
+
+    const filter =
+      e.target.closest("[data-lesson-filter]");
+
+    if (!filter) return;
+
+    lessonFilter =
+      filter.dataset.lessonFilter;
+
+    document.querySelectorAll(
+      "[data-lesson-filter]"
+    ).forEach(btn => {
+
+      btn.classList.toggle(
+        "active",
+        btn === filter
+      );
+
+    });
+
+    renderLessons();
+  });
+
+  /* ============================================================
+     LESSON LIST
+     ============================================================ */
 
   function renderLessons() {
 
@@ -807,61 +948,74 @@
 
     if (!container) return;
 
-    const searchInput =
+    const search =
       document.getElementById(
         "academyLessonSearch"
-      );
-
-    const categorySelect =
-      document.getElementById(
-        "academyLessonCategory"
-      );
-
-    const search =
-      searchInput
-        ? searchInput.value.trim().toLowerCase()
-        : "";
+      )?.value
+        ?.trim()
+        .toLowerCase() || "";
 
     const category =
-      categorySelect
-        ? categorySelect.value
-        : "all";
+      document.getElementById(
+        "academyLessonCategory"
+      )?.value || "all";
 
     let filtered = lessons.filter(lesson => {
 
-      const matchesSearch =
+      const searchMatch =
         !search ||
         lesson.title.toLowerCase().includes(search) ||
         lesson.module.toLowerCase().includes(search);
 
-      const matchesCategory =
+      const categoryMatch =
         category === "all" ||
-        (category === "business" &&
-          lesson.type === "business") ||
-        (category === "english" &&
-          lesson.type === "english");
+        lesson.type === category;
 
-      const matchesFilter =
+      const filterMatch =
         lessonFilter === "all" ||
         (lessonFilter === "completed" &&
           isCompleted(lesson.id)) ||
         (lessonFilter === "remaining" &&
           !isCompleted(lesson.id));
 
-      return (
-        matchesSearch &&
-        matchesCategory &&
-        matchesFilter
-      );
+      return searchMatch &&
+             categoryMatch &&
+             filterMatch;
     });
 
-    let html = "";
+    let html = `
 
-    /* =======================================================
-       CONTINUE LEARNING
-       ======================================================= */
+      <div style="
+        display:flex;
+        flex-wrap:wrap;
+        gap:9px;
+        margin-bottom:18px;
+      ">
 
-    const nextLesson =
+        <span class="lesson-summary-chip">
+          📚 Total <b>${lessons.length}</b>
+        </span>
+
+        <span class="lesson-summary-chip">
+          💼 Business <b>230</b>
+        </span>
+
+        <span class="lesson-summary-chip">
+          🇬🇧 English <b>30</b>
+        </span>
+
+        <span class="lesson-summary-chip">
+          ✅ Completed <b>${completedCount()}</b>
+        </span>
+
+        <span class="lesson-summary-chip">
+          📈 Progress <b>${progressPercent()}%</b>
+        </span>
+
+      </div>
+    `;
+
+    const continueLesson =
       lessons.find(
         lesson => !isCompleted(lesson.id)
       );
@@ -870,36 +1024,52 @@
       lessonFilter === "all" &&
       !search &&
       category === "all" &&
-      nextLesson
+      continueLesson
     ) {
 
       html += `
-        <div class="continue-learning-card"
-             style="
-               padding:20px;
-               margin-bottom:20px;
-               border-radius:16px;
-               background:linear-gradient(135deg,#0f172a,#1e293b);
-               color:white;
-             ">
 
-          <div style="font-size:13px;opacity:.7;margin-bottom:6px;">
+        <div style="
+          margin-bottom:20px;
+          padding:22px;
+          border-radius:18px;
+          background:linear-gradient(
+            135deg,
+            #0f172a,
+            #1e293b
+          );
+          color:#fff;
+        ">
+
+          <div style="
+            font-size:12px;
+            opacity:.65;
+            margin-bottom:7px;
+          ">
             CONTINUE LEARNING
           </div>
 
-          <div style="font-size:20px;font-weight:700;margin-bottom:6px;">
-            ${escapeHTML(nextLesson.title)}
+          <div style="
+            font-size:20px;
+            font-weight:700;
+            margin-bottom:6px;
+          ">
+            ${esc(continueLesson.title)}
           </div>
 
-          <div style="font-size:13px;opacity:.8;margin-bottom:14px;">
-            Lesson ${nextLesson.number} of ${lessons.length}
-            • ${escapeHTML(nextLesson.module)}
+          <div style="
+            font-size:13px;
+            opacity:.75;
+            margin-bottom:14px;
+          ">
+            Lesson ${continueLesson.number}
+            / ${lessons.length}
+            • ${esc(continueLesson.module)}
           </div>
 
           <button
-            type="button"
-            data-open-lesson="${nextLesson.id}"
-            class="btn btn-primary">
+            class="btn btn-primary"
+            data-open-lesson="${continueLesson.id}">
             Continue Lesson →
           </button>
 
@@ -907,62 +1077,16 @@
       `;
     }
 
-    /* =======================================================
-       SUMMARY
-       ======================================================= */
-
-    html += `
-      <div style="
-        display:flex;
-        flex-wrap:wrap;
-        gap:10px;
-        margin-bottom:18px;
-      ">
-
-        <div class="lesson-summary-chip">
-          📚 Total: <strong>${lessons.length}</strong>
-        </div>
-
-        <div class="lesson-summary-chip">
-          💼 Business: <strong>230</strong>
-        </div>
-
-        <div class="lesson-summary-chip">
-          🇬🇧 English: <strong>30</strong>
-        </div>
-
-        <div class="lesson-summary-chip">
-          ✅ Completed: <strong>${completedCount()}</strong>
-        </div>
-
-        <div class="lesson-summary-chip">
-          📈 Progress: <strong>${progressPercent()}%</strong>
-        </div>
-
-      </div>
-    `;
-
-    /* =======================================================
-       EMPTY
-       ======================================================= */
-
     if (!filtered.length) {
 
       html += `
-        <div class="empty-state"
-             style="
-               text-align:center;
-               padding:50px 20px;
-             ">
-
-          <div style="font-size:48px;">🔎</div>
-
-          <h3>No lessons found</h3>
-
-          <p>
-            Search / Filter ကို ပြန်စစ်ကြည့်ပါ။
-          </p>
-
+        <div style="
+          text-align:center;
+          padding:50px 20px;
+        ">
+          <div style="font-size:45px;">🔎</div>
+          <h3>No Lessons Found</h3>
+          <p>Search / Filter ကို ပြန်စစ်ပါ။</p>
         </div>
       `;
 
@@ -970,103 +1094,93 @@
       return;
     }
 
-    /* =======================================================
-       LESSON CARDS
-       ======================================================= */
-
-    html += `<div class="academy-lesson-grid">`;
+    html += `
+      <div class="academy-lesson-grid">
+    `;
 
     filtered.forEach(lesson => {
 
       const completed =
         isCompleted(lesson.id);
 
-      const badge =
-        lesson.type === "english"
-          ? "🇬🇧 BUSINESS ENGLISH"
-          : "💼 BUSINESS";
-
       html += `
+
         <article
-          class="academy-lesson-card ${completed ? "completed" : ""}"
-          data-lesson-card="${lesson.id}"
+          class="academy-lesson-card
+          ${completed ? "completed" : ""}"
           style="
-            position:relative;
             padding:20px;
             border-radius:16px;
-            margin-bottom:14px;
+            margin-bottom:15px;
           ">
 
           <div style="
             display:flex;
             justify-content:space-between;
-            gap:10px;
-            align-items:flex-start;
+            gap:8px;
             margin-bottom:10px;
           ">
 
             <span style="
               font-size:11px;
               font-weight:700;
-              letter-spacing:.4px;
-              opacity:.75;
+              color:#64748b;
             ">
-              ${badge}
+              ${
+                lesson.type === "english"
+                ? "🇬🇧 BUSINESS ENGLISH"
+                : "💼 BUSINESS"
+              }
             </span>
 
             ${
               completed
-                ? `<span style="
-                    font-size:12px;
-                    padding:5px 9px;
-                    border-radius:20px;
-                    background:#dcfce7;
-                    color:#166534;
-                    font-weight:700;
-                  ">✓ COMPLETED</span>`
-                : `<span style="
-                    font-size:12px;
-                    padding:5px 9px;
-                    border-radius:20px;
-                    background:#f1f5f9;
-                  ">NEW</span>`
+              ? `<span style="
+                  font-size:11px;
+                  color:#15803d;
+                  font-weight:700;
+                ">✓ COMPLETED</span>`
+              : ""
             }
 
           </div>
 
           <div style="
             font-size:12px;
-            opacity:.65;
-            margin-bottom:5px;
+            color:#64748b;
+            margin-bottom:6px;
           ">
             Lesson ${lesson.number}
-            • ${escapeHTML(lesson.module)}
+            • ${esc(lesson.module)}
           </div>
 
           <h3 style="
-            margin:0 0 10px;
-            font-size:18px;
+            margin-bottom:9px;
           ">
-            ${escapeHTML(lesson.title)}
+            ${esc(lesson.title)}
           </h3>
 
           <p style="
             font-size:13px;
             line-height:1.7;
-            opacity:.78;
+            color:#64748b;
             margin-bottom:15px;
           ">
-            ${escapeHTML(lesson.objective)}
+            15-Minute Professional Lesson
+            • Detailed Explanation
+            • Table
+            • Graph
+            • Case Study
+            • Quiz
           </p>
 
           <button
-            type="button"
             class="btn btn-primary"
             data-open-lesson="${lesson.id}">
             ${
               completed
-                ? "Review Lesson"
-                : "Start Lesson"
+              ? "Review Lesson"
+              : "Start 15-Min Lesson"
             }
           </button>
 
@@ -1074,73 +1188,14 @@
       `;
     });
 
-    html += `</div>`;
+    html += "</div>";
 
     container.innerHTML = html;
   }
 
-  /* =========================================================
-     SEARCH
-     ========================================================= */
-
-  document.addEventListener("input", function (event) {
-
-    if (
-      event.target.id ===
-      "academyLessonSearch"
-    ) {
-      renderLessons();
-    }
-  });
-
-  /* =========================================================
-     CATEGORY
-     ========================================================= */
-
-  document.addEventListener("change", function (event) {
-
-    if (
-      event.target.id ===
-      "academyLessonCategory"
-    ) {
-      renderLessons();
-    }
-  });
-
-  /* =========================================================
-     FILTER BUTTONS
-     ========================================================= */
-
-  document.addEventListener("click", function (event) {
-
-    const filterButton =
-      event.target.closest(
-        "[data-lesson-filter]"
-      );
-
-    if (!filterButton) return;
-
-    lessonFilter =
-      filterButton.dataset.lessonFilter ||
-      "all";
-
-    document
-      .querySelectorAll(
-        "[data-lesson-filter]"
-      )
-      .forEach(btn => {
-        btn.classList.toggle(
-          "active",
-          btn === filterButton
-        );
-      });
-
-    renderLessons();
-  });
-
-  /* =========================================================
+  /* ============================================================
      MODAL
-     ========================================================= */
+     ============================================================ */
 
   let modal = null;
   let currentLessonId = null;
@@ -1151,86 +1206,225 @@
 
     modal = document.createElement("div");
 
-    modal.id = "academyLessonModal";
+    modal.id = "academyProfessionalModal";
 
     modal.style.cssText = `
       position:fixed;
       inset:0;
       z-index:99999;
-      display:none;
-      background:rgba(15,23,42,.72);
-      padding:20px;
+      background:rgba(15,23,42,.78);
       overflow:auto;
+      padding:15px;
     `;
 
     modal.innerHTML = `
-      <div id="academyLessonModalBox"
-           style="
-             max-width:980px;
-             margin:30px auto;
-             background:white;
-             border-radius:22px;
-             overflow:hidden;
-             box-shadow:0 25px 70px rgba(0,0,0,.3);
-           ">
+      <div
+        id="academyProfessionalBox"
+        style="
+          max-width:1000px;
+          margin:20px auto;
+          background:#fff;
+          border-radius:22px;
+          overflow:hidden;
+          box-shadow:0 30px 80px rgba(0,0,0,.35);
+        ">
 
-        <div id="academyLessonModalContent"></div>
+        <div id="academyProfessionalContent"></div>
 
       </div>
     `;
 
     document.body.appendChild(modal);
 
-    modal.addEventListener(
-      "click",
-      function (event) {
+    modal.addEventListener("click", e => {
 
-        if (event.target === modal) {
-          closeLesson();
-        }
+      if (e.target === modal) {
+        closeLesson();
+      }
 
-        const close =
-          event.target.closest(
-            "[data-close-lesson]"
-          );
+      if (
+        e.target.closest("[data-close-lesson]")
+      ) {
+        closeLesson();
+      }
 
-        if (close) {
-          closeLesson();
-        }
+      if (
+        e.target.closest("[data-complete-lesson]")
+      ) {
+        completeLesson();
+      }
 
-        const complete =
-          event.target.closest(
-            "[data-complete-lesson]"
-          );
+      if (
+        e.target.closest("[data-prev]")
+      ) {
+        adjacent(-1);
+      }
 
-        if (complete) {
-          completeLesson();
-        }
+      if (
+        e.target.closest("[data-next]")
+      ) {
+        adjacent(1);
+      }
 
-        const previous =
-          event.target.closest(
-            "[data-previous-lesson]"
-          );
+      const quiz =
+        e.target.closest("[data-answer]");
 
-        if (previous) {
-          openAdjacentLesson(-1);
-        }
+      if (quiz) {
 
-        const next =
-          event.target.closest(
-            "[data-next-lesson]"
-          );
+        const correct =
+          quiz.dataset.answer === "correct";
 
-        if (next) {
-          openAdjacentLesson(1);
+        quiz.parentElement
+          .querySelectorAll("[data-answer]")
+          .forEach(btn => {
+
+            btn.disabled = true;
+
+            if (
+              btn.dataset.answer === "correct"
+            ) {
+              btn.style.background = "#dcfce7";
+              btn.style.color = "#166534";
+            }
+          });
+
+        const result =
+          quiz.parentElement
+            .parentElement
+            .querySelector(".quiz-result");
+
+        if (result) {
+
+          result.textContent =
+            correct
+              ? "✅ မှန်ပါတယ်။"
+              : "❌ မမှန်သေးပါ။ အပေါ်က Lesson ကို ပြန်ဖတ်ကြည့်ပါ။";
+
+          result.style.display = "block";
         }
       }
-    );
+
+    });
   }
 
-  /* =========================================================
+  /* ============================================================
+     GRAPH HTML
+     ============================================================ */
+
+  function graphHTML(values, metric) {
+
+    const labels = [
+      "Week 1",
+      "Week 2",
+      "Week 3",
+      "Week 4"
+    ];
+
+    const max = Math.max(...values);
+
+    return `
+
+      <div style="
+        margin-top:15px;
+        padding:20px;
+        border:1px solid #e2e8f0;
+        border-radius:16px;
+        background:#f8fafc;
+      ">
+
+        <div style="
+          font-weight:700;
+          margin-bottom:20px;
+        ">
+          📈 ${esc(metric)} Trend
+        </div>
+
+        <div style="
+          height:220px;
+          display:flex;
+          align-items:flex-end;
+          gap:15px;
+          padding:15px 10px 0;
+          border-bottom:2px solid #cbd5e1;
+        ">
+
+          ${values.map((value, i) => {
+
+            const height =
+              Math.max(
+                12,
+                Math.round(value / max * 170)
+              );
+
+            return `
+
+              <div style="
+                flex:1;
+                display:flex;
+                flex-direction:column;
+                align-items:center;
+                justify-content:flex-end;
+                height:100%;
+              ">
+
+                <div style="
+                  font-size:11px;
+                  margin-bottom:5px;
+                  font-weight:700;
+                ">
+                  ${value}
+                </div>
+
+                <div style="
+                  width:70%;
+                  max-width:70px;
+                  height:${height}px;
+                  border-radius:8px 8px 0 0;
+                  background:#334155;
+                  transition:.3s;
+                "></div>
+
+              </div>
+            `;
+          }).join("")}
+
+        </div>
+
+        <div style="
+          display:flex;
+          gap:15px;
+          margin-top:9px;
+        ">
+
+          ${labels.map(label => `
+            <div style="
+              flex:1;
+              text-align:center;
+              font-size:11px;
+              color:#64748b;
+            ">
+              ${label}
+            </div>
+          `).join("")}
+
+        </div>
+
+        <div style="
+          font-size:11px;
+          color:#64748b;
+          margin-top:14px;
+        ">
+          * ဤ Graph သည် သင်ခန်းစာရှင်းပြရန်အတွက်
+          Example Data ဖြစ်ပါသည်။
+        </div>
+
+      </div>
+    `;
+  }
+
+  /* ============================================================
      OPEN LESSON
-     ========================================================= */
+     ============================================================ */
 
   function openLesson(id) {
 
@@ -1250,497 +1444,835 @@
 
     const previous =
       index > 0
-        ? lessons[index - 1]
-        : null;
+      ? lessons[index - 1]
+      : null;
 
     const next =
       index < lessons.length - 1
-        ? lessons[index + 1]
-        : null;
+      ? lessons[index + 1]
+      : null;
 
     const completed =
-      isCompleted(lesson.id);
+      isCompleted(id);
 
-    const isEnglish =
+    const topic =
+      getTopicData(lesson);
+
+    const english =
       lesson.type === "english";
 
-    let examplesHTML = "";
+    const englishExamples =
+      englishContent(lesson.title);
 
-    if (isEnglish && lesson.examples) {
+    let detailedText = "";
 
-      examplesHTML = `
-        <section style="margin-top:25px;">
-          <h3>🇬🇧 English Examples</h3>
+    if (english) {
 
-          <div style="
-            display:grid;
-            gap:12px;
-            margin-top:12px;
-          ">
+      detailedText = `
+        ဒီ Lesson ရဲ့ ရည်ရွယ်ချက်က English ကို
+        စာအုပ်ထဲမှာပဲ သိထားဖို့မဟုတ်ဘဲ
+        အလုပ်ခွင်မှာ တကယ်အသုံးချနိုင်ဖို့ ဖြစ်ပါတယ်။
 
-            ${lesson.examples.map(example => `
-              <div style="
-                padding:15px;
-                border-radius:12px;
-                background:#f8fafc;
-                border:1px solid #e2e8f0;
-              ">
+        <br><br>
 
-                <div style="
-                  font-weight:700;
-                  margin-bottom:6px;
-                ">
-                  ${escapeHTML(example.english)}
-                </div>
+        Business English မှာ အရေးကြီးဆုံးက
+        စကားလုံးတစ်လုံးချင်းမှတ်တာထက်
+        Situation အလိုက် Sentence ကို
+        မှန်ကန်စွာအသုံးချနိုင်ခြင်း ဖြစ်ပါတယ်။
 
-                <div style="
-                  font-size:13px;
-                  color:#475569;
-                ">
-                  ${escapeHTML(example.myanmar)}
-                </div>
+        <br><br>
 
-              </div>
-            `).join("")}
+        Customer Meeting, Sales Visit,
+        Presentation, Negotiation, Email,
+        Interview နဲ့ Management Communication
+        တွေမှာ Professional Tone ကို
+        ထိန်းသိမ်းပြောဆိုနိုင်ဖို့ လိုပါတယ်။
 
-          </div>
-        </section>
+        <br><br>
+
+        ဒါကြောင့် ဒီ Lesson ကို ဖတ်ပြီးတဲ့အခါ
+        Sentence တွေကို အသံထွက်လေ့ကျင့်ပြီး
+        ကိုယ့်အလုပ်အခြေအနေထဲမှာ ပြန်အသုံးချပါ။
+      `;
+
+    } else {
+
+      detailedText = `
+        ${esc(lesson.title)} ကို Business Manager
+        တစ်ယောက်အနေနဲ့ နားလည်ဖို့ဆိုရင်
+        Definition တစ်ခုသိထားရုံနဲ့ မလုံလောက်ပါဘူး။
+
+        <br><br>
+
+        လက်တွေ့ Business မှာ People,
+        Customer, Product, Price, Distribution,
+        Market, Cost, Revenue နဲ့ Result တွေဟာ
+        တစ်ခုနဲ့တစ်ခု ဆက်စပ်နေပါတယ်။
+
+        <br><br>
+
+        ဒါကြောင့် Manager တစ်ယောက်ဟာ
+        ပြဿနာတစ်ခုကို တွေ့တဲ့အခါ
+        “ဘယ်သူ့အမှားလဲ” ဆိုတာထက်
+        “ဘာကြောင့်ဖြစ်တာလဲ၊ Data ကဘာပြောလဲ၊
+        ဘာ Action လုပ်ရမလဲ” ဆိုတဲ့
+        Management Thinking နဲ့ စဉ်းစားရပါမယ်။
+
+        <br><br>
+
+        ${esc(topic.focus)}
+
+        <br><br>
+
+        ဒီ Lesson ရဲ့ အဓိကရည်ရွယ်ချက်က
+        Knowledge ကို Action အဖြစ် ပြောင်းလဲနိုင်ဖို့ ဖြစ်ပါတယ်။
       `;
     }
 
-    const content = document.getElementById(
-      "academyLessonModalContent"
-    );
+    const tableRows = english
+      ? `
+        <tr>
+          <td>Vocabulary</td>
+          <td>စကားလုံးကို သိခြင်း</td>
+          <td>Situation ထဲမှာ သုံးခြင်း</td>
+        </tr>
+        <tr>
+          <td>Sentence</td>
+          <td>ဝါကျတည်ဆောက်ခြင်း</td>
+          <td>အသံထွက်လေ့ကျင့်ခြင်း</td>
+        </tr>
+        <tr>
+          <td>Conversation</td>
+          <td>Customer / Team</td>
+          <td>Role Play</td>
+        </tr>
+        <tr>
+          <td>Practice</td>
+          <td>နေ့စဉ်လေ့ကျင့်ခြင်း</td>
+          <td>Confidence တိုးခြင်း</td>
+        </tr>
+      `
+      : `
+        <tr>
+          <td>People</td>
+          <td>Team က ဘာလုပ်နေလဲ?</td>
+          <td>Coaching & Follow-up</td>
+        </tr>
+        <tr>
+          <td>Customer</td>
+          <td>Customer ဘာလိုချင်လဲ?</td>
+          <td>Customer Plan</td>
+        </tr>
+        <tr>
+          <td>Numbers</td>
+          <td>Result ဘယ်လောက်ရလဲ?</td>
+          <td>KPI Review</td>
+        </tr>
+        <tr>
+          <td>Execution</td>
+          <td>Plan ကို ဘယ်လို Execute လုပ်မလဲ?</td>
+          <td>Action Plan</td>
+        </tr>
+      `;
+
+    const examples = english
+      ? englishExamples
+      : [
+          [
+            "Target",
+            "လစဉ် Sales Target ကို သတ်မှတ်ခြင်း"
+          ],
+          [
+            "Actual",
+            "တကယ်ရရှိထားတဲ့ Result ကို တိုင်းတာခြင်း"
+          ],
+          [
+            "Gap",
+            "Target နဲ့ Actual ကြားက ကွာဟချက်ကို ရှာခြင်း"
+          ],
+          [
+            "Action",
+            "Gap ကို ဖြည့်ဖို့ လက်တွေ့ Action ချမှတ်ခြင်း"
+          ]
+        ];
+
+    const content =
+      document.getElementById(
+        "academyProfessionalContent"
+      );
 
     content.innerHTML = `
 
-      <div style="
-        padding:22px;
-        border-bottom:1px solid #e2e8f0;
-        display:flex;
-        justify-content:space-between;
-        gap:20px;
-        align-items:flex-start;
-      ">
-
-        <div>
-
-          <div style="
-            font-size:12px;
-            opacity:.6;
-            margin-bottom:5px;
-          ">
-            ${
-              isEnglish
-                ? "🇬🇧 BUSINESS ENGLISH"
-                : "💼 BUSINESS ACADEMY"
-            }
-          </div>
-
-          <div style="
-            font-size:13px;
-            color:#64748b;
-          ">
-            Lesson ${lesson.number} / ${lessons.length}
-          </div>
-
-          <h2 style="
-            margin:7px 0 5px;
-            font-size:26px;
-          ">
-            ${escapeHTML(lesson.title)}
-          </h2>
-
-          <div style="
-            font-size:13px;
-            color:#64748b;
-          ">
-            ${escapeHTML(lesson.module)}
-          </div>
-
-        </div>
-
-        <button
-          type="button"
-          data-close-lesson
-          style="
-            border:0;
-            background:#f1f5f9;
-            width:42px;
-            height:42px;
-            border-radius:50%;
-            font-size:20px;
-            cursor:pointer;
-          ">
-          ×
-        </button>
-
-      </div>
+      <!-- HEADER -->
 
       <div style="
-        padding:24px;
-        line-height:1.8;
+        padding:25px;
+        color:#fff;
+        background:linear-gradient(
+          135deg,
+          #0f172a,
+          #1e293b
+        );
       ">
 
         <div style="
-          display:inline-block;
-          padding:7px 12px;
-          border-radius:20px;
-          background:#eff6ff;
-          color:#1d4ed8;
-          font-size:12px;
-          font-weight:700;
-          margin-bottom:18px;
+          display:flex;
+          justify-content:space-between;
+          gap:20px;
+          align-items:flex-start;
         ">
-          ⏱ Estimated Study Time: 15 Minutes
+
+          <div>
+
+            <div style="
+              font-size:11px;
+              letter-spacing:1px;
+              opacity:.65;
+              margin-bottom:7px;
+            ">
+              ${
+                english
+                ? "🇬🇧 BUSINESS ENGLISH"
+                : "💼 AUNG BUSINESS ACADEMY"
+              }
+            </div>
+
+            <div style="
+              font-size:13px;
+              opacity:.65;
+            ">
+              Lesson ${lesson.number} / ${lessons.length}
+            </div>
+
+            <h2 style="
+              margin:7px 0;
+              font-size:28px;
+            ">
+              ${esc(lesson.title)}
+            </h2>
+
+            <div style="
+              font-size:13px;
+              opacity:.7;
+            ">
+              ${esc(lesson.module)}
+            </div>
+
+          </div>
+
+          <button
+            data-close-lesson
+            style="
+              border:0;
+              width:42px;
+              height:42px;
+              border-radius:50%;
+              background:rgba(255,255,255,.12);
+              color:white;
+              font-size:22px;
+              cursor:pointer;
+            ">
+            ×
+          </button>
+
         </div>
 
+      </div>
+
+      <!-- TIME -->
+
+      <div style="
+        padding:16px 25px;
+        background:#f8fafc;
+        border-bottom:1px solid #e2e8f0;
+      ">
+
+        <span style="
+          display:inline-block;
+          padding:8px 13px;
+          background:#e0f2fe;
+          color:#0369a1;
+          border-radius:20px;
+          font-size:12px;
+          font-weight:700;
+        ">
+          ⏱️ 15-Minute Professional Lesson
+        </span>
+
+      </div>
+
+      <!-- BODY -->
+
+      <div style="
+        padding:25px;
+        line-height:1.85;
+      ">
+
+        <!-- OBJECTIVE -->
+
         <section>
+
           <h3>🎯 Learning Objective</h3>
 
-          <p style="
-            margin-top:10px;
+          <div style="
+            margin-top:12px;
+            padding:17px;
+            border-radius:14px;
+            background:#f8fafc;
             color:#475569;
           ">
-            ${escapeHTML(lesson.objective)}
-          </p>
+            ဒီ Lesson ပြီးဆုံးတဲ့အခါ
+            ${esc(lesson.title)} ကို
+            နားလည်ပြီး လက်တွေ့ Business
+            အခြေအနေမှာ အသုံးချနိုင်ရပါမယ်။
+          </div>
+
         </section>
 
-        <section style="margin-top:25px;">
-          <h3>📚 Key Concepts</h3>
+        <!-- DETAILED -->
+
+        <section style="margin-top:28px;">
+
+          <h3>📖 Detailed Explanation</h3>
+
+          <div style="
+            margin-top:12px;
+            padding:19px;
+            border-radius:14px;
+            background:#fff;
+            border:1px solid #e2e8f0;
+            color:#334155;
+          ">
+            ${detailedText}
+          </div>
+
+        </section>
+
+        <!-- KEY CONCEPTS -->
+
+        <section style="margin-top:28px;">
+
+          <h3>🔑 Key Concepts</h3>
 
           <div style="
             display:grid;
-            gap:10px;
-            margin-top:12px;
+            grid-template-columns:
+              repeat(auto-fit,minmax(210px,1fr));
+            gap:12px;
+            margin-top:13px;
           ">
 
-            ${lesson.keyPoints.map((point, i) => `
-              <div style="
-                padding:13px 15px;
-                background:#f8fafc;
-                border-radius:12px;
-                border-left:4px solid #334155;
-              ">
-                <strong>${i + 1}.</strong>
-                ${escapeHTML(point)}
-              </div>
-            `).join("")}
+            <div style="
+              padding:16px;
+              border-radius:14px;
+              background:#f8fafc;
+            ">
+              <b>01. Understand</b>
+              <br>
+              အခြေခံ Concept ကို နားလည်ပါ။
+            </div>
+
+            <div style="
+              padding:16px;
+              border-radius:14px;
+              background:#f8fafc;
+            ">
+              <b>02. Analyze</b>
+              <br>
+              Data နဲ့ အခြေအနေကို ခွဲခြမ်းပါ။
+            </div>
+
+            <div style="
+              padding:16px;
+              border-radius:14px;
+              background:#f8fafc;
+            ">
+              <b>03. Decide</b>
+              <br>
+              အကောင်းဆုံး Decision ချပါ။
+            </div>
+
+            <div style="
+              padding:16px;
+              border-radius:14px;
+              background:#f8fafc;
+            ">
+              <b>04. Execute</b>
+              <br>
+              Action Plan ကို လက်တွေ့လုပ်ပါ။
+            </div>
 
           </div>
+
         </section>
 
-        ${examplesHTML}
+        <!-- TABLE -->
 
-        <section style="margin-top:25px;">
-          <h3>👨‍💼 Manager Point of View</h3>
+        <section style="margin-top:28px;">
 
-          <div style="
-            margin-top:12px;
-            padding:18px;
-            background:#f8fafc;
-            border-radius:14px;
-          ">
-            ${escapeHTML(lesson.managerPoint)}
-          </div>
-        </section>
-
-        <section style="margin-top:25px;">
-          <h3>📊 Business Thinking Table</h3>
+          <h3>📊 Business Analysis Table</h3>
 
           <div style="
-            overflow-x:auto;
-            margin-top:12px;
+            overflow:auto;
+            margin-top:13px;
           ">
 
             <table style="
               width:100%;
+              min-width:620px;
               border-collapse:collapse;
-              min-width:600px;
             ">
 
               <thead>
+
                 <tr>
-                  <th style="padding:12px;border:1px solid #e2e8f0;text-align:left;">
+
+                  <th style="
+                    padding:13px;
+                    border:1px solid #e2e8f0;
+                    text-align:left;
+                    background:#f8fafc;
+                  ">
                     Area
                   </th>
-                  <th style="padding:12px;border:1px solid #e2e8f0;text-align:left;">
+
+                  <th style="
+                    padding:13px;
+                    border:1px solid #e2e8f0;
+                    text-align:left;
+                    background:#f8fafc;
+                  ">
                     Question
                   </th>
-                  <th style="padding:12px;border:1px solid #e2e8f0;text-align:left;">
-                    Manager Action
+
+                  <th style="
+                    padding:13px;
+                    border:1px solid #e2e8f0;
+                    text-align:left;
+                    background:#f8fafc;
+                  ">
+                    Action
                   </th>
+
                 </tr>
+
               </thead>
 
               <tbody>
 
-                <tr>
-                  <td style="padding:12px;border:1px solid #e2e8f0;">
-                    People
-                  </td>
-                  <td style="padding:12px;border:1px solid #e2e8f0;">
-                    Team က ဘာလုပ်နေလဲ?
-                  </td>
-                  <td style="padding:12px;border:1px solid #e2e8f0;">
-                    Coaching & Follow-up
-                  </td>
-                </tr>
-
-                <tr>
-                  <td style="padding:12px;border:1px solid #e2e8f0;">
-                    Customer
-                  </td>
-                  <td style="padding:12px;border:1px solid #e2e8f0;">
-                    Customer ဘာလိုချင်လဲ?
-                  </td>
-                  <td style="padding:12px;border:1px solid #e2e8f0;">
-                    Customer Plan
-                  </td>
-                </tr>
-
-                <tr>
-                  <td style="padding:12px;border:1px solid #e2e8f0;">
-                    Numbers
-                  </td>
-                  <td style="padding:12px;border:1px solid #e2e8f0;">
-                    Result ဘယ်လောက်ရလဲ?
-                  </td>
-                  <td style="padding:12px;border:1px solid #e2e8f0;">
-                    KPI Review
-                  </td>
-                </tr>
-
-                <tr>
-                  <td style="padding:12px;border:1px solid #e2e8f0;">
-                    Execution
-                  </td>
-                  <td style="padding:12px;border:1px solid #e2e8f0;">
-                    Plan ကို ဘယ်လို Execute လုပ်မလဲ?
-                  </td>
-                  <td style="padding:12px;border:1px solid #e2e8f0;">
-                    Action Plan
-                  </td>
-                </tr>
+                ${tableRows}
 
               </tbody>
 
             </table>
 
           </div>
+
         </section>
 
-        <section style="margin-top:25px;">
-          <h3>📈 Simple Business Graph</h3>
+        <!-- GRAPH -->
+
+        <section style="margin-top:28px;">
+
+          <h3>📈 Performance Graph</h3>
+
+          ${graphHTML(
+            topic.values,
+            topic.metric
+          )}
+
+        </section>
+
+        <!-- PRACTICAL -->
+
+        <section style="margin-top:28px;">
+
+          <h3>
+            ${
+              english
+              ? "🇬🇧 Business English Practice"
+              : "💼 Real Business Application"
+            }
+          </h3>
 
           <div style="
-            margin-top:15px;
-            padding:20px;
-            background:#f8fafc;
-            border-radius:16px;
+            display:grid;
+            gap:11px;
+            margin-top:13px;
           ">
 
-            <div style="
-              display:flex;
-              align-items:flex-end;
-              gap:18px;
-              height:190px;
-              border-bottom:2px solid #cbd5e1;
-              padding:10px;
-            ">
+            ${
+              examples.map((item, i) => `
 
-              <div style="
-                flex:1;
-                height:45%;
-                background:#94a3b8;
-                border-radius:8px 8px 0 0;
-                position:relative;
-              ">
-                <span style="
-                  position:absolute;
-                  top:-25px;
-                  left:50%;
-                  transform:translateX(-50%);
-                  font-size:12px;
-                ">45%</span>
-              </div>
+                <div style="
+                  padding:16px;
+                  border-radius:13px;
+                  background:#f8fafc;
+                  border-left:4px solid #334155;
+                ">
 
-              <div style="
-                flex:1;
-                height:60%;
-                background:#64748b;
-                border-radius:8px 8px 0 0;
-                position:relative;
-              ">
-                <span style="
-                  position:absolute;
-                  top:-25px;
-                  left:50%;
-                  transform:translateX(-50%);
-                  font-size:12px;
-                ">60%</span>
-              </div>
+                  <div style="
+                    font-size:12px;
+                    color:#64748b;
+                    margin-bottom:5px;
+                  ">
+                    ${
+                      english
+                      ? "Practice " + (i + 1)
+                      : "Step " + (i + 1)
+                    }
+                  </div>
 
-              <div style="
-                flex:1;
-                height:72%;
-                background:#475569;
-                border-radius:8px 8px 0 0;
-                position:relative;
-              ">
-                <span style="
-                  position:absolute;
-                  top:-25px;
-                  left:50%;
-                  transform:translateX(-50%);
-                  font-size:12px;
-                ">72%</span>
-              </div>
+                  <b>${esc(item[0])}</b>
 
-              <div style="
-                flex:1;
-                height:86%;
-                background:#334155;
-                border-radius:8px 8px 0 0;
-                position:relative;
-              ">
-                <span style="
-                  position:absolute;
-                  top:-25px;
-                  left:50%;
-                  transform:translateX(-50%);
-                  font-size:12px;
-                ">86%</span>
-              </div>
+                  <div style="
+                    color:#475569;
+                    margin-top:4px;
+                  ">
+                    ${esc(item[1])}
+                  </div>
 
-            </div>
+                </div>
 
-            <div style="
-              display:flex;
-              justify-content:space-around;
-              font-size:12px;
-              margin-top:10px;
-              color:#64748b;
-            ">
-              <span>Week 1</span>
-              <span>Week 2</span>
-              <span>Week 3</span>
-              <span>Week 4</span>
-            </div>
+              `).join("")
+            }
 
-            <p style="
-              font-size:12px;
-              color:#64748b;
-              margin-top:14px;
-            ">
-              * ဤ Graph သည် သင်ခန်းစာရှင်းပြရန်အတွက်
-              Example Data ဖြစ်ပြီး လက်တွေ့ Company Data မဟုတ်ပါ။
+          </div>
+
+        </section>
+
+        <!-- CASE STUDY -->
+
+        <section style="margin-top:28px;">
+
+          <h3>🧩 Real Business Case Study</h3>
+
+          <div style="
+            margin-top:13px;
+            padding:20px;
+            border-radius:15px;
+            background:#f8fafc;
+          ">
+
+            <b>Situation</b>
+
+            <p style="margin:7px 0 15px;">
+              Company တစ်ခုမှာ Business Result က
+              မျှော်မှန်းထားသလောက် မရရှိဘဲ
+              Manager အနေနဲ့ ပြဿနာရဲ့
+              အကြောင်းရင်းကို ရှာဖွေရပါတယ်။
+            </p>
+
+            <b>Manager Analysis</b>
+
+            <p style="margin:7px 0 15px;">
+              Data → Customer → Team → Territory →
+              Execution → Competitor ဆိုတဲ့
+              အချက်တွေကို တစ်ခုချင်းစီ စစ်ဆေးရပါမယ်။
+            </p>
+
+            <b>Decision</b>
+
+            <p style="margin:7px 0 15px;">
+              Root Cause ကို သတ်မှတ်ပြီး
+              အရေးကြီးဆုံး 1–3 Action ကို
+              Priority ပေးရပါမယ်။
+            </p>
+
+            <b>Result</b>
+
+            <p style="margin:7px 0 0;">
+              Action ကို Owner သတ်မှတ်ပြီး
+              Deadline နဲ့ Follow-up ပြုလုပ်ခြင်းဖြင့်
+              Result ကို ပြန်လည်တိုင်းတာရပါမယ်။
             </p>
 
           </div>
+
         </section>
 
-        <section style="margin-top:25px;">
-          <h3>💡 Practical Business Example</h3>
+        <!-- MANAGER THINKING -->
+
+        <section style="margin-top:28px;">
+
+          <h3>🧠 Manager Thinking</h3>
 
           <div style="
-            margin-top:12px;
-            padding:18px;
-            border-radius:14px;
-            background:#f8fafc;
+            margin-top:13px;
+            padding:20px;
+            border-radius:15px;
+            background:#0f172a;
+            color:#fff;
           ">
 
-            ဥပမာအားဖြင့် Sales Team တစ်ခုမှာ
-            Target မပြည့်တဲ့အခါ Manager က
-            “လူတွေမကြိုးစားဘူး” လို့ တစ်ချက်တည်း
-            ဆုံးဖြတ်မထားသင့်ပါဘူး။
+            Manager တစ်ယောက်ဟာ
+            “အလုပ်လုပ်နေတယ်” ဆိုတာထက်
+            “Result ထွက်နေတယ်” ဆိုတာကို
+            အာရုံစိုက်ရပါမယ်။
 
             <br><br>
 
-            Target → Actual → Gap → Root Cause →
-            Action → Follow-up ဆိုတဲ့ အဆင့်တွေကို
-            တစ်ဆင့်ချင်းစီ စစ်ဆေးရပါမယ်။
-
-            <br><br>
-
-            ဒီလို Data-based Management နဲ့
-            ဆုံးဖြတ်နိုင်ခြင်းက Sales Manager
-            တစ်ယောက်ရဲ့ အရေးကြီးတဲ့ Skill ဖြစ်ပါတယ်။
+            ဒါကြောင့် Plan ရှိခြင်း၊
+            Data ရှိခြင်း၊
+            Team ကို Coaching လုပ်ခြင်း၊
+            Customer ကို နားလည်ခြင်း၊
+            Execution ကို Follow-up လုပ်ခြင်း
+            တွေကို တစ်ခုတည်းသော Management System
+            အဖြစ် ချိတ်ဆက်ရပါမယ်။
 
           </div>
+
         </section>
 
-        <section style="margin-top:25px;">
+        <!-- COMMON MISTAKES -->
+
+        <section style="margin-top:28px;">
+
           <h3>⚠️ Common Mistakes</h3>
 
-          <ul style="
-            margin-top:12px;
-            padding-left:22px;
+          <div style="
+            margin-top:13px;
+            display:grid;
+            gap:10px;
           ">
 
-            <li>
-              Data မကြည့်ဘဲ ခန့်မှန်းဆုံးဖြတ်ခြင်း
-            </li>
+            <div style="
+              padding:14px;
+              background:#fff7ed;
+              border-radius:12px;
+            ">
+              ❌ Data မကြည့်ဘဲ ခန့်မှန်းဆုံးဖြတ်ခြင်း
+            </div>
 
-            <li>
-              Team ကို အပြစ်တင်ပြီး Root Cause မရှာခြင်း
-            </li>
+            <div style="
+              padding:14px;
+              background:#fff7ed;
+              border-radius:12px;
+            ">
+              ❌ Problem ကို လူတစ်ယောက်ရဲ့အပြစ်အဖြစ်ပဲ မြင်ခြင်း
+            </div>
 
-            <li>
-              Action Plan မချမှတ်ခြင်း
-            </li>
+            <div style="
+              padding:14px;
+              background:#fff7ed;
+              border-radius:12px;
+            ">
+              ❌ Action Plan မရှိခြင်း
+            </div>
 
-            <li>
-              Follow-up မလုပ်ခြင်း
-            </li>
+            <div style="
+              padding:14px;
+              background:#fff7ed;
+              border-radius:12px;
+            ">
+              ❌ Follow-up မလုပ်ခြင်း
+            </div>
 
-          </ul>
+          </div>
+
         </section>
 
-        <section style="margin-top:25px;">
-          <h3>🎯 Action Plan</h3>
+        <!-- ACTION -->
+
+        <section style="margin-top:28px;">
+
+          <h3>📝 15-Minute Action Plan</h3>
 
           <div style="
-            margin-top:12px;
-            padding:18px;
-            background:#f8fafc;
-            border-radius:14px;
+            margin-top:13px;
+            padding:20px;
+            border-radius:15px;
+            background:#ecfdf5;
+            color:#14532d;
           ">
-            ${escapeHTML(lesson.action)}
+
+            <ol style="
+              padding-left:22px;
+              margin:0;
+            ">
+
+              <li>
+                2 မိနစ် — ဒီ Lesson ရဲ့
+                အဓိကအချက်ကို ပြန်ဖတ်ပါ။
+              </li>
+
+              <li>
+                3 မိနစ် — ကိုယ့် Business မှာ
+                လက်ရှိအခြေအနေကို စဉ်းစားပါ။
+              </li>
+
+              <li>
+                3 မိနစ် — Data / Problem / Gap
+                ကို ရေးချပါ။
+              </li>
+
+              <li>
+                4 မိနစ် — Action 1 ခုကို
+                လက်တွေ့ချမှတ်ပါ။
+              </li>
+
+              <li>
+                3 မိနစ် — ဘယ်လို Result ကို
+                တိုင်းတာမလဲ သတ်မှတ်ပါ။
+              </li>
+
+            </ol>
+
           </div>
+
         </section>
 
-        <section style="margin-top:25px;">
+        <!-- REFLECTION -->
+
+        <section style="margin-top:28px;">
+
           <h3>🤔 Reflection</h3>
 
           <div style="
-            margin-top:12px;
-            padding:18px;
-            background:#f8fafc;
-            border-radius:14px;
+            margin-top:13px;
+            padding:20px;
+            border-radius:15px;
+            border:1px solid #e2e8f0;
           ">
-            ${escapeHTML(lesson.reflection)}
+
+            ① ဒီ Lesson ထဲက
+            အရေးကြီးဆုံးအချက်က ဘာလဲ?
+
+            <br><br>
+
+            ② ကိုယ့်အလုပ်မှာ ဘယ်နေရာမှာ အသုံးချနိုင်လဲ?
+
+            <br><br>
+
+            ③ ဒီနေ့ ဘာတစ်ခုကို ပြောင်းလဲလုပ်မလဲ?
+
           </div>
+
         </section>
 
-        <section style="margin-top:25px;">
-          <h3>📝 Lesson Summary</h3>
+        <!-- QUIZ -->
+
+        <section style="margin-top:28px;">
+
+          <h3>❓ Knowledge Check</h3>
 
           <div style="
-            margin-top:12px;
-            padding:18px;
-            border-radius:14px;
-            background:#0f172a;
-            color:white;
+            margin-top:13px;
+            padding:20px;
+            border-radius:15px;
+            background:#f8fafc;
           ">
-            ${escapeHTML(lesson.summary)}
+
+            <p>
+              <b>
+                Manager တစ်ယောက်က Problem တစ်ခုတွေ့တဲ့အခါ
+                ပထမဆုံး ဘာလုပ်သင့်သလဲ?
+              </b>
+            </p>
+
+            <div style="
+              display:grid;
+              gap:9px;
+              margin-top:14px;
+            ">
+
+              <button
+                data-answer="wrong"
+                style="
+                  padding:13px;
+                  border:1px solid #e2e8f0;
+                  background:#fff;
+                  border-radius:10px;
+                  text-align:left;
+                  cursor:pointer;
+                ">
+                A. Team ကို အပြစ်တင်မယ်
+              </button>
+
+              <button
+                data-answer="correct"
+                style="
+                  padding:13px;
+                  border:1px solid #e2e8f0;
+                  background:#fff;
+                  border-radius:10px;
+                  text-align:left;
+                  cursor:pointer;
+                ">
+                B. Data ကြည့်ပြီး Root Cause ရှာမယ်
+              </button>
+
+              <button
+                data-answer="wrong"
+                style="
+                  padding:13px;
+                  border:1px solid #e2e8f0;
+                  background:#fff;
+                  border-radius:10px;
+                  text-align:left;
+                  cursor:pointer;
+                ">
+                C. ချက်ချင်းဆုံးဖြတ်မယ်
+              </button>
+
+            </div>
+
+            <div
+              class="quiz-result"
+              style="
+                display:none;
+                margin-top:14px;
+                padding:12px;
+                border-radius:10px;
+                background:#fff;
+                font-weight:700;
+              ">
+            </div>
+
           </div>
+
+        </section>
+
+        <!-- SUMMARY -->
+
+        <section style="margin-top:28px;">
+
+          <h3>🎓 Lesson Summary</h3>
+
+          <div style="
+            margin-top:13px;
+            padding:21px;
+            border-radius:15px;
+            background:#0f172a;
+            color:#fff;
+          ">
+
+            <b>${esc(lesson.title)}</b>
+            ကို လက်တွေ့အသုံးချတဲ့အခါ
+
+            <br><br>
+
+            <b>Understand → Analyze → Decide →
+            Execute → Measure → Improve</b>
+
+            ဆိုတဲ့ Cycle ကို အသုံးပြုပါ။
+
+            <br><br>
+
+            Knowledge ကို Action ပြောင်းပြီး
+            Result တိုင်းတာနိုင်မှသာ
+            Professional Manager Skill ဖြစ်လာပါမယ်။
+
+          </div>
+
         </section>
 
       </div>
 
+      <!-- FOOTER -->
+
       <div style="
-        padding:18px 22px;
+        padding:18px 25px;
         border-top:1px solid #e2e8f0;
         display:flex;
         justify-content:space-between;
@@ -1749,49 +2281,39 @@
       ">
 
         <button
-          type="button"
           class="btn"
-          data-previous-lesson
-          ${previous ? "" : "disabled"}
-          style="
-            opacity:${previous ? "1" : ".4"};
-          ">
+          data-prev
+          ${previous ? "" : "disabled"}>
           ← Previous
         </button>
 
         <div style="
           display:flex;
-          gap:10px;
+          gap:9px;
           flex-wrap:wrap;
         ">
 
           <button
-            type="button"
             class="btn btn-primary"
             data-complete-lesson>
-
             ${
               completed
-                ? "✓ Completed"
-                : "✓ Complete Lesson"
+              ? "✓ Lesson Completed"
+              : "✓ Complete Lesson"
             }
-
           </button>
 
           <button
-            type="button"
             class="btn"
-            data-next-lesson
-            ${next ? "" : "disabled"}
-            style="
-              opacity:${next ? "1" : ".4"};
-            ">
+            data-next
+            ${next ? "" : "disabled"}>
             Next →
           </button>
 
         </div>
 
       </div>
+
     `;
 
     modal.style.display = "block";
@@ -1799,9 +2321,9 @@
     document.body.style.overflow = "hidden";
   }
 
-  /* =========================================================
-     CLOSE LESSON
-     ========================================================= */
+  /* ============================================================
+     CLOSE
+     ============================================================ */
 
   function closeLesson() {
 
@@ -1814,9 +2336,9 @@
     currentLessonId = null;
   }
 
-  /* =========================================================
-     COMPLETE LESSON
-     ========================================================= */
+  /* ============================================================
+     COMPLETE
+     ============================================================ */
 
   function completeLesson() {
 
@@ -1835,215 +2357,151 @@
       saveState();
     }
 
-    updateProgressUI();
-
+    updateProgress();
     renderLessons();
 
     openLesson(currentLessonId);
   }
 
-  /* =========================================================
-     PREVIOUS / NEXT
-     ========================================================= */
+  /* ============================================================
+     NEXT / PREVIOUS
+     ============================================================ */
 
-  function openAdjacentLesson(direction) {
+  function adjacent(direction) {
 
     if (!currentLessonId) return;
 
     const index =
       lessons.findIndex(
-        lesson => lesson.id === currentLessonId
+        lesson =>
+          lesson.id === currentLessonId
       );
 
-    if (index === -1) return;
-
-    const newIndex =
+    const nextIndex =
       index + direction;
 
     if (
-      newIndex < 0 ||
-      newIndex >= lessons.length
+      nextIndex < 0 ||
+      nextIndex >= lessons.length
     ) {
       return;
     }
 
     openLesson(
-      lessons[newIndex].id
+      lessons[nextIndex].id
     );
   }
 
-  /* =========================================================
-     ESCAPE KEY
-     ========================================================= */
+  /* ============================================================
+     OPEN LESSON BUTTON
+     ============================================================ */
 
-  document.addEventListener(
-    "keydown",
-    function (event) {
+  document.addEventListener("click", e => {
 
-      if (event.key === "Escape") {
-        closeLesson();
-      }
+    const btn =
+      e.target.closest("[data-open-lesson]");
 
-      if (
-        modal &&
-        modal.style.display === "block" &&
-        event.key === "ArrowRight"
-      ) {
-        openAdjacentLesson(1);
-      }
+    if (!btn) return;
 
-      if (
-        modal &&
-        modal.style.display === "block" &&
-        event.key === "ArrowLeft"
-      ) {
-        openAdjacentLesson(-1);
-      }
-    }
-  );
-
-  /* =========================================================
-     MOBILE MENU
-     ========================================================= */
-
-  document.addEventListener("click", function (event) {
-
-    const menuButton =
-      event.target.closest(
-        ".mobile-menu-btn, #mobileMenuBtn, [data-mobile-menu]"
-      );
-
-    if (menuButton) {
-
-      const sidebar =
-        document.querySelector(".sidebar");
-
-      if (sidebar) {
-        sidebar.classList.toggle("open");
-      }
-    }
+    openLesson(
+      btn.dataset.openLesson
+    );
   });
 
-  /* =========================================================
-     CALCULATOR
-     ========================================================= */
+  /* ============================================================
+     ESC KEY
+     ============================================================ */
 
-  function setupCalculator() {
+  document.addEventListener("keydown", e => {
 
-    const calculateButtons =
-      document.querySelectorAll(
-        "[data-calculate]"
+    if (e.key === "Escape") {
+      closeLesson();
+    }
+
+    if (
+      modal &&
+      modal.style.display === "block"
+    ) {
+
+      if (e.key === "ArrowLeft") {
+        adjacent(-1);
+      }
+
+      if (e.key === "ArrowRight") {
+        adjacent(1);
+      }
+    }
+
+  });
+
+  /* ============================================================
+     MOBILE MENU
+     ============================================================ */
+
+  document.addEventListener("click", e => {
+
+    const menu =
+      e.target.closest(
+        ".mobile-menu-btn,#mobileMenuBtn,[data-mobile-menu]"
       );
 
-    calculateButtons.forEach(button => {
+    if (!menu) return;
 
-      button.addEventListener(
-        "click",
-        function () {
+    document.querySelector(".sidebar")
+      ?.classList.toggle("open");
+  });
 
-          const type =
-            button.dataset.calculate;
-
-          if (type === "profit") {
-
-            const revenue =
-              Number(
-                document.querySelector(
-                  "#calcRevenue"
-                )?.value || 0
-              );
-
-            const cost =
-              Number(
-                document.querySelector(
-                  "#calcCost"
-                )?.value || 0
-              );
-
-            const profit =
-              revenue - cost;
-
-            const result =
-              document.querySelector(
-                "#calcResult"
-              );
-
-            if (result) {
-              result.textContent =
-                profit.toLocaleString();
-            }
-          }
-        }
-      );
-
-    });
-  }
-
-  /* =========================================================
-     ESCAPE HTML
-     ========================================================= */
-
-  function escapeHTML(value) {
-
-    return String(value || "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
-
-  /* =========================================================
+  /* ============================================================
      PUBLIC API
-     ========================================================= */
+     ============================================================ */
 
   window.AungBusinessAcademy = {
 
-    lessons: lessons,
+    lessons,
 
     totalLessons: lessons.length,
 
-    businessLessons: lessons.filter(
-      lesson => lesson.type === "business"
-    ),
+    businessLessons:
+      lessons.filter(
+        lesson => lesson.type === "business"
+      ),
 
-    englishLessons: lessons.filter(
-      lesson => lesson.type === "english"
-    ),
+    englishLessons:
+      lessons.filter(
+        lesson => lesson.type === "english"
+      ),
 
-    completedLessons: function () {
-      return completedCount();
-    },
+    completedLessons:
+      () => completedCount(),
 
-    progress: function () {
-      return progressPercent();
-    },
+    progress:
+      () => progressPercent(),
 
-    openLesson: openLesson,
+    openLesson,
 
-    closeLesson: closeLesson,
+    closeLesson,
 
-    completeLesson: completeLesson,
+    completeLesson,
 
-    showPage: showPage,
+    showPage,
 
-    renderLessons: renderLessons,
+    renderLessons,
 
-    getLesson: function (id) {
-      return lessons.find(
-        lesson => lesson.id === id
-      );
-    }
+    getLesson:
+      id =>
+        lessons.find(
+          lesson => lesson.id === id
+        )
   };
 
-  /* =========================================================
-     EXTRA CSS FOR LESSON UI
-     ========================================================= */
+  /* ============================================================
+     EXTRA STYLE
+     ============================================================ */
 
-  const academyStyle =
+  const style =
     document.createElement("style");
 
-  academyStyle.textContent = `
+  style.textContent = `
 
     .academy-lesson-grid {
       display:grid;
@@ -2057,10 +2515,7 @@
       border:1px solid #e2e8f0;
       box-shadow:
         0 4px 15px rgba(15,23,42,.05);
-      transition:
-        transform .2s ease,
-        box-shadow .2s ease,
-        border-color .2s ease;
+      transition:.2s;
     }
 
     .academy-lesson-card:hover {
@@ -2075,35 +2530,36 @@
     }
 
     .lesson-summary-chip {
-      padding:9px 13px;
+      padding:8px 12px;
+      border-radius:20px;
       background:#f8fafc;
       border:1px solid #e2e8f0;
-      border-radius:20px;
       font-size:13px;
       color:#475569;
     }
 
-    .lesson-summary-chip strong {
-      color:#0f172a;
+    #academyProfessionalModal button:disabled {
+      opacity:.4;
+      cursor:not-allowed;
     }
 
-    #academyLessonModal button:disabled {
-      pointer-events:none;
-    }
+    @media(max-width:700px){
 
-    @media(max-width:768px){
-
-      #academyLessonModal {
-        padding:8px !important;
+      #academyProfessionalModal {
+        padding:6px !important;
       }
 
-      #academyLessonModalBox {
-        margin:8px auto !important;
-        border-radius:16px !important;
+      #academyProfessionalBox {
+        margin:5px auto !important;
+        border-radius:15px !important;
       }
 
-      #academyLessonModalContent h2 {
-        font-size:21px !important;
+      #academyProfessionalContent h2 {
+        font-size:22px !important;
+      }
+
+      #academyProfessionalContent h3 {
+        font-size:18px !important;
       }
 
       .academy-lesson-grid {
@@ -2114,34 +2570,48 @@
 
   `;
 
-  document.head.appendChild(academyStyle);
+  document.head.appendChild(style);
 
-  /* =========================================================
+  /* ============================================================
      INITIALIZE
-     ========================================================= */
+     ============================================================ */
 
-  function initializeAcademy() {
+  function init() {
 
-    updateProgressUI();
-
-    setupCalculator();
+    updateProgress();
 
     renderLessons();
 
-    /* Dashboard */
     showPage(
       state.currentPage || "dashboard"
     );
 
-    /* Force update after page rendering */
-    setTimeout(function () {
+    setTimeout(() => {
 
-      updateProgressUI();
-
+      updateProgress();
       renderLessons();
 
-    }, 300);
+      console.log(
+        "Aung Business Academy:",
+        lessons.length,
+        "TOTAL LESSONS"
+      );
 
+      console.log(
+        "Business:",
+        lessons.filter(
+          x => x.type === "business"
+        ).length
+      );
+
+      console.log(
+        "Business English:",
+        lessons.filter(
+          x => x.type === "english"
+        ).length
+      );
+
+    }, 300);
   }
 
   if (
@@ -2150,12 +2620,12 @@
 
     document.addEventListener(
       "DOMContentLoaded",
-      initializeAcademy
+      init
     );
 
   } else {
 
-    initializeAcademy();
+    init();
 
   }
 

@@ -1,1077 +1,1259 @@
 /* =========================================================
    AUNG BUSINESS ACADEMY
-   COURSE 02 — SALES MANAGEMENT
-   FULL BURMESE LESSONS
-   VERSION 1.0
+   SALES MANAGEMENT MASTERy
+   VERSION 3.0
+   15 PROFESSIONAL BURMESE LESSONS
    ========================================================= */
 
 (function () {
   "use strict";
 
-  const SALES_COURSE = {
-    id: "sales-management",
-    category: "SALES",
-    icon: "🎯",
-    title: "Sales Management",
-    burmeseTitle: "အရောင်းစီမံခန့်ခွဲမှု",
-    description:
-      "Sales Fundamentals မှစ၍ Sales Process, Customer Needs, Target, Planning, Forecasting, KPI, Team Management နှင့် Performance Management အထိ လက်တွေ့ကျကျ လေ့လာနိုင်မည့် Course ဖြစ်သည်။",
-    lessons: 10,
-    level: "Beginner → Manager"
-  };
-
-  const SALES_LESSONS = [
-
-    {
-      id: "sm-01",
-      lessonNo: 1,
-      icon: "🎯",
-      title: "Sales Fundamentals",
-      burmeseTitle: "အရောင်းအခြေခံ",
-      duration: "30 min",
-
-      objective: [
-        "Sales ဆိုတာဘာလဲ နားလည်ရန်",
-        "Salesperson တစ်ယောက်၏ အဓိကတာဝန်များကို သိရန်",
-        "Professional Selling Mindset ကို တည်ဆောက်ရန်"
-      ],
-
-      content: `
-        <h3>📌 Sales ဆိုတာဘာလဲ?</h3>
-
-        <p>
-        Sales ဆိုတာ Product တစ်ခုကို Customer ထံ ငွေနဲ့လဲလှယ်ရောင်းချခြင်း
-        တစ်ခုတည်းမဟုတ်ပါဘူး။ Customer ရဲ့ Need နဲ့ Problem ကို နားလည်ပြီး
-        သင့်တော်တဲ့ Solution ကို ပေးနိုင်အောင် ကူညီပေးတဲ့ လုပ်ငန်းစဉ်တစ်ခု ဖြစ်ပါတယ်။
-        </p>
-
-        <p>
-        Professional Salesperson တစ်ယောက်ဟာ “ငါဘယ်လိုရောင်းမလဲ”
-        ဆိုတာထက် “Customer ဘာလိုအပ်နေလဲ” ဆိုတာကို အရင်စဉ်းစားရပါတယ်။
-        </p>
-
-        <h3>🔄 Sales ရဲ့ အခြေခံလုပ်ငန်းစဉ်</h3>
-
-        <div class="lesson-flow">
-          <div>Prospecting</div>
-          <span>→</span>
-          <div>Approach</div>
-          <span>→</span>
-          <div>Need Analysis</div>
-          <span>→</span>
-          <div>Presentation</div>
-          <span>→</span>
-          <div>Objection</div>
-          <span>→</span>
-          <div>Closing</div>
-          <span>→</span>
-          <div>Follow-up</div>
-        </div>
-
-        <h3>👤 Salesperson ရဲ့ အဓိကတာဝန်</h3>
-
-        <ul class="lesson-list">
-          <li>Customer အသစ်ရှာဖွေခြင်း</li>
-          <li>Customer Relationship တည်ဆောက်ခြင်း</li>
-          <li>Customer Need ရှာဖွေခြင်း</li>
-          <li>Product Value ရှင်းပြခြင်း</li>
-          <li>Order ရရှိအောင်လုပ်ခြင်း</li>
-          <li>Customer ကို Retain လုပ်ခြင်း</li>
-          <li>Market Information ပြန်ပေးခြင်း</li>
-        </ul>
-
-        <h3>💡 Professional Sales Mindset</h3>
-
-        <p>
-        Sales ကို “Customer ကို အတင်းဝယ်ခိုင်းခြင်း” လို့ မမြင်သင့်ပါဘူး။
-        Customer အတွက် မှန်ကန်တဲ့ Solution ကို ရှာပေးခြင်းလို့ မြင်သင့်ပါတယ်။
-        </p>
-
-        <div class="lesson-example">
-          <strong>ဥပမာ</strong><br><br>
-          Customer က ဈေးနှုန်းသက်သာတဲ့ Product တစ်ခုကို လိုချင်တယ်။
-          Salesperson က Product တစ်ခုကိုပဲ အတင်းမရောင်းဘဲ
-          Customer ရဲ့ Budget၊ Usage နဲ့ Requirement ကိုမေးပြီး
-          သင့်တော်တဲ့ Option ကို ရွေးပေးရပါမယ်။
-        </div>
-
-        <h3>👔 Sales Manager Thinking</h3>
-
-        <p>
-        Sales Manager က Salesperson တစ်ယောက်ချင်းစီကို Target ပေးရုံနဲ့
-        မပြီးပါဘူး။ လူ၊ နံပါတ်နဲ့ Execution သုံးခုစလုံးကို စီမံရပါတယ်။
-        </p>
-      `,
-
-      action: [
-        "ကိုယ့် Sales Process ကို အဆင့်လိုက်ရေးပါ။",
-        "Customer ရဲ့ အဓိက Need ၅ ခုရေးပါ။",
-        "ကိုယ့် Sales Team ရဲ့ အားသာချက် ၃ ခုရေးပါ။",
-        "တိုးတက်ဖို့လိုတဲ့ အချက် ၃ ခုရေးပါ။"
-      ],
-
-      quiz: [
-        {
-          q: "Professional Sales ရဲ့ အဓိကအချက်ကဘာလဲ?",
-          a: "Customer ရဲ့ Need ကိုနားလည်ပြီး သင့်တော်တဲ့ Solution ပေးခြင်း ဖြစ်ပါတယ်။"
-        },
-        {
-          q: "Sales Process ရဲ့ ပထမအဆင့်ကဘာလဲ?",
-          a: "Prospecting ဖြစ်ပါတယ်။"
-        }
-      ]
-    },
-
-
-    {
-      id: "sm-02",
-      lessonNo: 2,
-      icon: "🔄",
-      title: "Sales Process",
-      burmeseTitle: "Sales Process အဆင့်များ",
-      duration: "30 min",
-
-      objective: [
-        "Sales Process အဆင့်တိုင်းကို နားလည်ရန်",
-        "Customer ကို Prospect မှ Customer အဖြစ်ပြောင်းနိုင်ရန်",
-        "Sales Funnel ကို စီမံနိုင်ရန်"
-      ],
-
-      content: `
-        <h3>📌 Sales Process ဆိုတာဘာလဲ?</h3>
-
-        <p>
-        Sales Process ဆိုတာ Potential Customer တစ်ယောက်ကို
-        ရှာဖွေတွေ့ရှိချိန်ကနေ Order ရရှိပြီး
-        ရေရှည် Customer ဖြစ်လာတဲ့အထိ ဆောင်ရွက်ရတဲ့ လုပ်ငန်းစဉ် ဖြစ်ပါတယ်။
-        </p>
-
-        <h3>1️⃣ Prospecting</h3>
-
-        <p>
-        Potential Customer တွေကို ရှာဖွေခြင်း ဖြစ်ပါတယ်။
-        Existing Database, Referral, Market Visit, Social Media,
-        Networking စတာတွေကနေ Prospect ရနိုင်ပါတယ်။
-        </p>
-
-        <h3>2️⃣ Approach</h3>
-
-        <p>
-        Customer နဲ့ ပထမဆုံး ဆက်သွယ်တဲ့အဆင့် ဖြစ်ပါတယ်။
-        ဒီအဆင့်မှာ Customer ကို Product ရောင်းဖို့ အလျင်မလုပ်ဘဲ
-        ယုံကြည်မှုရအောင် စတင်ဆက်သွယ်သင့်ပါတယ်။
-        </p>
-
-        <h3>3️⃣ Need Analysis</h3>
-
-        <p>
-        Customer ဘာလိုချင်သလဲ၊ ဘာပြဿနာရှိသလဲ၊
-        ဘာကို ဦးစားပေးသလဲဆိုတာ မေးမြန်းရပါတယ်။
-        </p>
-
-        <h3>4️⃣ Presentation</h3>
-
-        <p>
-        Customer ရဲ့ Need နဲ့ ကိုက်ညီတဲ့ Product Value ကို
-        ရှင်းပြရပါတယ်။
-        </p>
-
-        <h3>5️⃣ Objection Handling</h3>
-
-        <p>
-        Customer က Price, Quality, Timing, Competitor စတဲ့
-        အကြောင်းပြချက်တွေနဲ့ မဝယ်ချင်တဲ့အခါ
-        အကြောင်းရင်းအမှန်ကို ရှာဖွေပြီး ဖြေရှင်းရပါတယ်။
-        </p>
-
-        <h3>6️⃣ Closing</h3>
-
-        <p>
-        Customer ရဲ့ Buying Decision ကို Order အဖြစ်ပြောင်းတဲ့အဆင့် ဖြစ်ပါတယ်။
-        </p>
-
-        <h3>7️⃣ Follow-up</h3>
-
-        <p>
-        ရောင်းပြီးတဲ့နောက် Customer Satisfaction,
-        Repeat Order နဲ့ Relationship ကို စောင့်ရှောက်ရပါတယ်။
-        </p>
-
-        <div class="lesson-formula">
-          Prospect → Qualify → Need → Solution → Objection → Close → Retain
-        </div>
-
-        <h3>👔 Manager Thinking</h3>
-
-        <p>
-        Sales Target မပြည့်ရင် “Salesperson မကြိုးစားဘူး” လို့
-        တစ်ချက်တည်းမဆုံးဖြတ်ဘဲ Funnel ရဲ့ ဘယ်အဆင့်မှာ
-        Drop ဖြစ်နေလဲဆိုတာ အရင်ရှာရပါတယ်။
-        </p>
-      `,
-
-      action: [
-        "ကိုယ့် Sales Funnel ကိုရေးပါ။",
-        "Prospect ဘယ်နှယောက်ရှိလဲတွက်ပါ။",
-        "Customer ဖြစ်သွားသူ ဘယ်နှယောက်ရှိလဲတွက်ပါ။",
-        "Conversion Rate တွက်ပါ။"
-      ],
-
-      quiz: [
-        {
-          q: "Sales Process ရဲ့ အဆင့်တွေကဘာတွေလဲ?",
-          a: "Prospecting, Approach, Need Analysis, Presentation, Objection Handling, Closing, Follow-up တို့ ဖြစ်ပါတယ်။"
-        },
-        {
-          q: "Customer မဝယ်တဲ့အခါ ဘာလုပ်သင့်လဲ?",
-          a: "Customer ရဲ့ အမှန်တကယ် Objection ကို ရှာဖွေပြီး ဖြေရှင်းသင့်ပါတယ်။"
-        }
-      ]
-    },
-
-
-    {
-      id: "sm-03",
-      lessonNo: 3,
-      icon: "🔎",
-      title: "Prospecting",
-      burmeseTitle: "Customer အသစ်ရှာဖွေခြင်း",
-      duration: "30 min",
-
-      objective: [
-        "Prospecting ဆိုတာဘာလဲ နားလည်ရန်",
-        "Potential Customer ရှာဖွေနည်းများ သိရန်",
-        "Lead Quality ကို ခွဲခြားနိုင်ရန်"
-      ],
-
-      content: `
-        <h3>🔎 Prospecting ဆိုတာဘာလဲ?</h3>
-
-        <p>
-        ကိုယ့် Product ကို ဝယ်ယူနိုင်ခြေရှိတဲ့ Potential Customer
-        တွေကို ရှာဖွေစုဆောင်းတဲ့ လုပ်ငန်းစဉ်ကို Prospecting လို့ခေါ်ပါတယ်။
-        </p>
-
-        <h3>📋 Lead Sources</h3>
-
-        <ul class="lesson-list">
-          <li>Existing Customer Referral</li>
-          <li>Market Visit</li>
-          <li>Phone Call</li>
-          <li>Social Media</li>
-          <li>Website</li>
-          <li>Business Networking</li>
-          <li>Distributor / Dealer</li>
-          <li>Customer Database</li>
-        </ul>
-
-        <h3>⭐ Lead Quality</h3>
-
-        <p>
-        Customer အားလုံးကို တူညီတဲ့အဆင့်နဲ့ မကြည့်သင့်ပါဘူး။
-        </p>
-
-        <div class="lesson-example">
-          <strong>Hot Lead</strong> — အခုဝယ်ဖို့ စိတ်ဝင်စားနေသူ<br><br>
-          <strong>Warm Lead</strong> — စိတ်ဝင်စားပေမယ့် ဆုံးဖြတ်ချက်မချရသေးသူ<br><br>
-          <strong>Cold Lead</strong> — လက်ရှိ ဝယ်ယူရန်အလားအလာနည်းသူ
-        </div>
-
-        <h3>📊 Prospecting KPI</h3>
-
-        <ul class="lesson-list">
-          <li>New Leads</li>
-          <li>Qualified Leads</li>
-          <li>Customer Visits</li>
-          <li>Calls</li>
-          <li>Appointments</li>
-          <li>Conversion Rate</li>
-        </ul>
-
-        <h3>👔 Manager Thinking</h3>
-
-        <p>
-        Sales Team က Customer အသစ်မရဘူးဆိုရင်
-        “မကြိုးစားဘူး” လို့ မဆုံးဖြတ်ခင် Prospecting Activity
-        ဘယ်လောက်လုပ်နေလဲဆိုတာ Data နဲ့စစ်ရပါမယ်။
-        </p>
-      `,
-
-      action: [
-        "Potential Customer 50 ယောက်စာရင်းလုပ်ပါ။",
-        "Hot / Warm / Cold ခွဲပါ။",
-        "တစ်နေ့ Prospect အသစ်ဘယ်နှယောက်ရှာမလဲ သတ်မှတ်ပါ။",
-        "Weekly Prospecting KPI သတ်မှတ်ပါ။"
-      ],
-
-      quiz: [
-        {
-          q: "Prospecting ဆိုတာဘာလဲ?",
-          a: "Potential Customer တွေကို ရှာဖွေစုဆောင်းခြင်း ဖြစ်ပါတယ်။"
-        },
-        {
-          q: "Hot Lead ဆိုတာဘာလဲ?",
-          a: "ဝယ်ယူဖို့ စိတ်ဝင်စားမှုမြင့်ပြီး အချိန်တိုအတွင်း ဝယ်နိုင်ခြေရှိတဲ့ Lead ဖြစ်ပါတယ်။"
-        }
-      ]
-    },
-
-
-    {
-      id: "sm-04",
-      lessonNo: 4,
-      icon: "🧠",
-      title: "Customer Needs Analysis",
-      burmeseTitle: "Customer လိုအပ်ချက်ကို ရှာဖွေခြင်း",
-      duration: "35 min",
-
-      objective: [
-        "Customer Need ကို ရှာဖွေနိုင်ရန်",
-        "Professional Questioning Skills တိုးတက်ရန်",
-        "Customer Problem နဲ့ Solution ချိတ်ဆက်နိုင်ရန်"
-      ],
-
-      content: `
-        <h3>🧠 Need Analysis ဆိုတာဘာလဲ?</h3>
-
-        <p>
-        Customer က ဘာလိုအပ်နေသလဲ၊ ဘာပြဿနာရှိသလဲ၊
-        ဘာကို ဦးစားပေးသလဲဆိုတာ ရှာဖွေတဲ့အဆင့် ဖြစ်ပါတယ်။
-        </p>
-
-        <h3>❓ မေးခွန်းအမျိုးအစားများ</h3>
-
-        <p><strong>Open Question</strong></p>
-
-        <p>
-        Customer ကို အသေးစိတ်ပြောစေတဲ့ မေးခွန်းဖြစ်ပါတယ်။
-        </p>
-
-        <div class="lesson-example">
-          “လက်ရှိ သင့်လုပ်ငန်းမှာ ဘာအခက်အခဲတွေ ကြုံနေရပါသလဲ?”
-        </div>
-
-        <p><strong>Probing Question</strong></p>
-
-        <p>
-        Customer ပြောတဲ့အကြောင်းအရာကို ပိုမိုနက်ရှိုင်းစွာ
-        သိနိုင်ဖို့ ထပ်မေးတဲ့မေးခွန်း ဖြစ်ပါတယ်။
-        </p>
-
-        <div class="lesson-example">
-          “အဲဒီပြဿနာကြောင့် Business အပေါ် ဘယ်လိုသက်ရောက်မှုရှိပါသလဲ?”
-        </div>
-
-        <h3>🎯 Need → Problem → Impact → Solution</h3>
-
-        <div class="lesson-flow">
-          <div>Need</div>
-          <span>→</span>
-          <div>Problem</div>
-          <span>→</span>
-          <div>Impact</div>
-          <span>→</span>
-          <div>Solution</div>
-        </div>
-
-        <h3>👔 Sales Manager Thinking</h3>
-
-        <p>
-        Salesperson က Customer ပြောတာကို နားထောင်တာထက်
-        ကိုယ်တိုင်ပဲ အများကြီးပြောနေရင် Need Analysis အားနည်းနေပါတယ်။
-        </p>
-
-        <p>
-        Professional Salesperson ရဲ့ အရေးကြီးဆုံး Skill တစ်ခုက
-        <strong>Active Listening</strong> ဖြစ်ပါတယ်။
-        </p>
-      `,
-
-      action: [
-        "Customer ကိုမေးမယ့် Open Questions 10 ခုရေးပါ။",
-        "Customer Problem 3 ခုရွေးပါ။",
-        "Problem တစ်ခုချင်းစီရဲ့ Business Impact ရေးပါ။",
-        "Solution တစ်ခုစီ ချိတ်ဆက်ပါ။"
-      ],
-
-      quiz: [
-        {
-          q: "Need Analysis ရဲ့ ရည်ရွယ်ချက်ကဘာလဲ?",
-          a: "Customer ရဲ့ Need, Problem နဲ့ Priority ကို နားလည်ဖို့ ဖြစ်ပါတယ်။"
-        },
-        {
-          q: "Professional Salesperson ရဲ့ အရေးကြီးတဲ့ Skill တစ်ခုကဘာလဲ?",
-          a: "Active Listening ဖြစ်ပါတယ်။"
-        }
-      ]
-    },
-
-
-    {
-      id: "sm-05",
-      lessonNo: 5,
-      icon: "🎯",
-      title: "Sales Target",
-      burmeseTitle: "Sales Target သတ်မှတ်ခြင်း",
-      duration: "35 min",
-
-      objective: [
-        "Sales Target ဆိုတာဘာလဲ နားလည်ရန်",
-        "Monthly / Weekly / Daily Target ခွဲခြားနိုင်ရန်",
-        "Target Gap ကို ခွဲခြမ်းနိုင်ရန်"
-      ],
-
-      content: `
-        <h3>🎯 Sales Target ဆိုတာဘာလဲ?</h3>
-
-        <p>
-        သတ်မှတ်ထားတဲ့ ကာလအတွင်း Salesperson သို့မဟုတ် Sales Team
-        ရရှိရမယ့် Sales Result ကို Sales Target လို့ခေါ်ပါတယ်။
-        </p>
-
-        <h3>📅 Target အမျိုးအစား</h3>
-
-        <ul class="lesson-list">
-          <li>Annual Target</li>
-          <li>Quarterly Target</li>
-          <li>Monthly Target</li>
-          <li>Weekly Target</li>
-          <li>Daily Target</li>
-          <li>Individual Target</li>
-          <li>Team Target</li>
-        </ul>
-
-        <h3>📊 Target ဥပမာ</h3>
-
-        <div class="lesson-example">
-          Monthly Target = 1,000 သိန်း<br>
-          Actual Sales = 750 သိန်း<br><br>
-          Achievement = 75%<br>
-          Gap = 250 သိန်း
-        </div>
-
-        <div class="lesson-formula">
-          Achievement % = Actual Sales ÷ Target × 100
-        </div>
-
-        <h3>🔍 Target Gap Analysis</h3>
-
-        <p>
-        Target မပြည့်ရင် Gap ရဲ့ အကြောင်းရင်းကို ရှာရပါတယ်။
-        </p>
-
-        <ul class="lesson-list">
-          <li>Customer မလုံလောက်ခြင်း</li>
-          <li>Stock ပြတ်ခြင်း</li>
-          <li>Price ပြဿနာ</li>
-          <li>Competitor အားသာခြင်း</li>
-          <li>Salesperson Productivity နည်းခြင်း</li>
-          <li>Market Demand ကျခြင်း</li>
-        </ul>
-
-        <h3>👔 Manager Thinking</h3>
-
-        <p>
-        Target မပြည့်တာကို လူကိုအပြစ်တင်တာထက်
-        Gap ဖြစ်ရတဲ့ Root Cause ကို ရှာဖွေပြီး
-        Corrective Action ပြုလုပ်ရပါမယ်။
-        </p>
-      `,
-
-      action: [
-        "Monthly Sales Target သတ်မှတ်ပါ။",
-        "Weekly Target ခွဲပါ။",
-        "Daily Target ခွဲပါ။",
-        "Achievement % တွက်ပါ။",
-        "Gap ဖြစ်ရတဲ့ အကြောင်းရင်း ၃ ခုရှာပါ။"
-      ],
-
-      quiz: [
-        {
-          q: "Achievement % ကို ဘယ်လိုတွက်မလဲ?",
-          a: "Actual Sales ÷ Target × 100 ဖြစ်ပါတယ်။"
-        },
-        {
-          q: "Target မပြည့်တဲ့အခါ ဘာလုပ်သင့်လဲ?",
-          a: "Gap ရဲ့ Root Cause ကို ရှာပြီး Corrective Action ပြုလုပ်သင့်ပါတယ်။"
-        }
-      ]
-    },
-
-
-    {
-      id: "sm-06",
-      lessonNo: 6,
-      icon: "📅",
-      title: "Sales Planning",
-      burmeseTitle: "Sales Planning",
-      duration: "35 min",
-
-      objective: [
-        "Sales Plan ရေးဆွဲနိုင်ရန်",
-        "Target ကို Field Action အဖြစ် ပြောင်းနိုင်ရန်",
-        "Customer / Territory Plan ပြုလုပ်နိုင်ရန်"
-      ],
-
-      content: `
-        <h3>📅 Sales Planning ဆိုတာဘာလဲ?</h3>
-
-        <p>
-        Sales Target ကို ရရှိအောင် ဘယ် Customer ကို၊
-        ဘယ် Product ကို၊ ဘယ်အချိန်မှာ၊ ဘယ်လိုရောင်းမလဲဆိုတာ
-        ကြိုတင်စီမံခြင်း ဖြစ်ပါတယ်။
-        </p>
-
-        <h3>🗺️ Sales Plan ရဲ့ အဓိကအချက်များ</h3>
-
-        <ul class="lesson-list">
-          <li>Sales Target</li>
-          <li>Customer Target</li>
-          <li>Product Focus</li>
-          <li>Territory</li>
-          <li>Sales Activities</li>
-          <li>Resource</li>
-          <li>KPI</li>
-          <li>Review</li>
-        </ul>
-
-        <h3>🎯 Target → Field Execution</h3>
-
-        <div class="lesson-flow">
-          <div>Target</div>
-          <span>→</span>
-          <div>Customer</div>
-          <span>→</span>
-          <div>Activity</div>
-          <span>→</span>
-          <div>Order</div>
-          <span>→</span>
-          <div>Revenue</div>
-        </div>
-
-        <h3>👔 Manager Thinking</h3>
-
-        <p>
-        Target ကို Excel ထဲမှာပဲ ထည့်ထားပြီး Field Action မရှိရင်
-        Sales Plan မဟုတ်ပါဘူး။
-        </p>
-
-        <p>
-        Professional Sales Manager က Target ကို
-        Daily Activity, Customer Visit, Order Conversion နဲ့
-        ချိတ်ဆက်ပေးရပါတယ်။
-        </p>
-      `,
-
-      action: [
-        "Monthly Sales Plan ရေးပါ။",
-        "Top Customer 20 ယောက်ရွေးပါ။",
-        "Customer Visit Plan ဆွဲပါ။",
-        "Product Focus သတ်မှတ်ပါ။",
-        "Weekly Review Schedule သတ်မှတ်ပါ။"
-      ],
-
-      quiz: [
-        {
-          q: "Sales Planning ရဲ့ အဓိကရည်ရွယ်ချက်ကဘာလဲ?",
-          a: "Sales Target ရရှိအောင် Customer, Product, Territory နဲ့ Activities ကို စနစ်တကျ စီမံခြင်း ဖြစ်ပါတယ်။"
-        }
-      ]
-    },
-
-
-    {
-      id: "sm-07",
-      lessonNo: 7,
-      icon: "📈",
-      title: "Sales Forecasting",
-      burmeseTitle: "Sales Forecasting",
-      duration: "35 min",
-
-      objective: [
-        "Sales Forecast ဆိုတာဘာလဲ နားလည်ရန်",
-        "Forecast ပြုလုပ်နိုင်ရန်",
-        "Forecast Accuracy ကို တိုးတက်အောင်လုပ်ရန်"
-      ],
-
-      content: `
-        <h3>📈 Sales Forecasting ဆိုတာဘာလဲ?</h3>
-
-        <p>
-        အနာဂတ်မှာ ဘယ်လောက် Sales ရနိုင်မလဲဆိုတာ
-        ရှိပြီးသား Data နဲ့ Market Information တွေကို အသုံးပြုပြီး
-        ခန့်မှန်းခြင်း ဖြစ်ပါတယ်။
-        </p>
-
-        <h3>📊 Forecast ပြုလုပ်ရာတွင် ကြည့်ရမည့် Data</h3>
-
-        <ul class="lesson-list">
-          <li>Previous Sales</li>
-          <li>Current Pipeline</li>
-          <li>Customer Order</li>
-          <li>Market Trend</li>
-          <li>Seasonality</li>
-          <li>Promotion</li>
-          <li>Competitor Activity</li>
-          <li>Stock Availability</li>
-        </ul>
-
-        <h3>🔢 Simple Forecast</h3>
-
-        <div class="lesson-example">
-          ပြီးခဲ့တဲ့ 3 လ Sales =<br>
-          800 သိန်း / 900 သိန်း / 1,000 သိန်း<br><br>
-          Average Sales = 900 သိန်း<br><br>
-          ဒါကို Base Forecast အဖြစ် အသုံးပြုနိုင်ပါတယ်။
-        </div>
-
-        <h3>⚠️ Forecast Error</h3>
-
-        <p>
-        Forecast အမြဲမှန်ဖို့ မလွယ်ပါဘူး။
-        ဒါပေမယ့် Data ကောင်းလာလေလေ Forecast Accuracy
-        တိုးလာနိုင်ပါတယ်။
-        </p>
-
-        <h3>👔 Manager Thinking</h3>
-
-        <p>
-        “ဒီလ ဘယ်လောက်ရမယ်ထင်လဲ?” ဆိုတာ Forecast မဟုတ်ပါဘူး။
-        Data, Pipeline, Customer Commitment နဲ့ Market Condition
-        အပေါ် အခြေခံပြီး ခန့်မှန်းမှ Professional Forecast ဖြစ်ပါတယ်။
-        </p>
-      `,
-
-      action: [
-        "ပြီးခဲ့တဲ့ 6 လ Sales Data စုပါ။",
-        "Monthly Average တွက်ပါ။",
-        "Current Pipeline စုပါ။",
-        "Next Month Forecast ပြုလုပ်ပါ။",
-        "Actual နဲ့ Forecast ကို နောက်လမှာ ပြန်နှိုင်းယှဉ်ပါ။"
-      ],
-
-      quiz: [
-        {
-          q: "Sales Forecasting ဆိုတာဘာလဲ?",
-          a: "အနာဂတ် Sales Result ကို Data နဲ့ Market Information အပေါ်အခြေခံပြီး ခန့်မှန်းခြင်း ဖြစ်ပါတယ်။"
-        },
-        {
-          q: "Forecast Accuracy တိုးဖို့ ဘာလိုအပ်သလဲ?",
-          a: "မှန်ကန်တဲ့ Sales Data၊ Pipeline နဲ့ Market Information လိုအပ်ပါတယ်။"
-        }
-      ]
-    },
-
-
-    {
-      id: "sm-08",
-      lessonNo: 8,
-      icon: "📊",
-      title: "Sales KPI",
-      burmeseTitle: "Sales KPI နှင့် Performance",
-      duration: "35 min",
-
-      objective: [
-        "Sales KPI ဆိုတာဘာလဲ နားလည်ရန်",
-        "အရေးကြီးသော Sales KPI များကို သိရန်",
-        "KPI ကို Performance Management တွင် အသုံးပြုနိုင်ရန်"
-      ],
-
-      content: `
-        <h3>📊 KPI ဆိုတာဘာလဲ?</h3>
-
-        <p>
-        KPI ဆိုတာ Key Performance Indicator ဖြစ်ပြီး
-        အလုပ်ရဲ့ Performance ကို တိုင်းတာပေးတဲ့ အဓိကညွှန်းကိန်း ဖြစ်ပါတယ်။
-        </p>
-
-        <h3>🎯 Sales KPI များ</h3>
-
-        <ul class="lesson-list">
-          <li>Sales Revenue</li>
-          <li>Sales Volume</li>
-          <li>Achievement %</li>
-          <li>New Customer</li>
-          <li>Conversion Rate</li>
-          <li>Strike Rate</li>
-          <li>Average Order Value</li>
-          <li>Productivity</li>
-          <li>Customer Retention</li>
-          <li>Gross Margin</li>
-        </ul>
-
-        <h3>📌 Achievement %</h3>
-
-        <div class="lesson-formula">
-          Achievement % = Actual ÷ Target × 100
-        </div>
-
-        <h3>📌 Conversion Rate</h3>
-
-        <div class="lesson-formula">
-          Conversion Rate = Customers Won ÷ Qualified Leads × 100
-        </div>
-
-        <h3>📌 Sales Productivity</h3>
-
-        <p>
-        Salesperson တစ်ယောက်က သတ်မှတ်ထားတဲ့ အချိန်အတွင်း
-        ဘယ်လောက် Output ထုတ်ပေးနိုင်သလဲဆိုတာ Productivity နဲ့ တိုင်းနိုင်ပါတယ်။
-        </p>
-
-        <h3>👔 Manager Thinking</h3>
-
-        <p>
-        KPI အများကြီးထားတာထက် Business Result ကို တကယ်သက်ရောက်စေတဲ့
-        KPI အနည်းငယ်ကို ရွေးပြီး စနစ်တကျ စောင့်ကြည့်တာ ပိုကောင်းပါတယ်။
-        </p>
-      `,
-
-      action: [
-        "Sales Team အတွက် KPI 5 ခုရွေးပါ။",
-        "KPI တစ်ခုချင်းစီရဲ့ Target သတ်မှတ်ပါ။",
-        "Weekly Dashboard ပြုလုပ်ပါ။",
-        "Low Performance KPI 2 ခုရွေးပြီး Action Plan ပြုလုပ်ပါ။"
-      ],
-
-      quiz: [
-        {
-          q: "KPI ရဲ့ အဓိပ္ပါယ်ကဘာလဲ?",
-          a: "Key Performance Indicator ဖြစ်ပြီး Performance ကို တိုင်းတာတဲ့ အဓိကညွှန်းကိန်း ဖြစ်ပါတယ်။"
-        },
-        {
-          q: "Sales Manager အတွက် KPI ဘာကြောင့်အရေးကြီးသလဲ?",
-          a: "Performance ကို Data နဲ့ တိုင်းတာပြီး Gap နဲ့ Corrective Action ကို သတ်မှတ်နိုင်လို့ ဖြစ်ပါတယ်။"
-        }
-      ]
-    },
-
-
-    {
-      id: "sm-09",
-      lessonNo: 9,
-      icon: "👥",
-      title: "Sales Team Management",
-      burmeseTitle: "Sales Team စီမံခန့်ခွဲခြင်း",
-      duration: "40 min",
-
-      objective: [
-        "Sales Team ကို စနစ်တကျ စီမံနိုင်ရန်",
-        "Target Assignment ပြုလုပ်နိုင်ရန်",
-        "Coaching နှင့် Performance Review လုပ်နိုင်ရန်"
-      ],
-
-      content: `
-        <h3>👥 Sales Team Management ဆိုတာဘာလဲ?</h3>
-
-        <p>
-        Sales Manager တစ်ယောက်ရဲ့ အဓိကတာဝန်က ကိုယ်တိုင်အများကြီးရောင်းဖို့
-        မဟုတ်ပါဘူး။ Team ကို Result ရအောင် စီမံပေးနိုင်ဖို့ ဖြစ်ပါတယ်။
-        </p>
-
-        <h3>🎯 Team Management Framework</h3>
-
-        <div class="lesson-flow">
-          <div>Set Expectation</div>
-          <span>→</span>
-          <div>Assign Target</div>
-          <span>→</span>
-          <div>Coach</div>
-          <span>→</span>
-          <div>Review</div>
-          <span>→</span>
-          <div>Improve</div>
-        </div>
-
-        <h3>1️⃣ Clear Expectations</h3>
-
-        <p>
-        Team Member တစ်ယောက်ချင်းစီ ဘာလုပ်ရမလဲ၊
-        ဘာ Result ရရမလဲဆိုတာ ရှင်းရှင်းလင်းလင်း သိရပါမယ်။
-        </p>
-
-        <h3>2️⃣ Target Assignment</h3>
-
-        <p>
-        လူတိုင်းကို Target တူတူပေးတာထက် Territory,
-        Customer Base, Experience နဲ့ Market Potential ကို
-        ထည့်စဉ်းစားသင့်ပါတယ်။
-        </p>
-
-        <h3>3️⃣ Coaching</h3>
-
-        <p>
-        Manager က အမိန့်ပေးရုံနဲ့ မပြီးပါဘူး။
-        Salesperson ဘာမှာအားနည်းနေလဲ ရှာပြီး
-        Field Coaching ပြုလုပ်ပေးရပါတယ်။
-        </p>
-
-        <h3>4️⃣ Review & Feedback</h3>
-
-        <p>
-        Performance Review ကို အပြစ်တင်ဖို့ မသုံးဘဲ
-        Improvement အတွက် အသုံးပြုသင့်ပါတယ်။
-        </p>
-
-        <h3>👔 Professional Leadership</h3>
-
-        <p>
-        ကောင်းမွန်တဲ့ Sales Manager ဟာ Micromanagement မလုပ်ဘဲ
-        Clear Expectation, Coaching, Feedback နဲ့ Accountability
-        ကို တည်ဆောက်ပေးပါတယ်။
-        </p>
-      `,
-
-      action: [
-        "Team Member တစ်ယောက်ချင်းစီရဲ့ Target ရေးပါ။",
-        "Performance Gap တစ်ခုစီ ရှာပါ။",
-        "တစ်ယောက်ချင်းစီအတွက် Coaching Plan ရေးပါ။",
-        "Weekly One-on-One Review ပြုလုပ်ပါ။"
-      ],
-
-      quiz: [
-        {
-          q: "Sales Manager ရဲ့ အဓိကတာဝန်ကဘာလဲ?",
-          a: "Team ကို စနစ်တကျ စီမံပြီး Business Result ရရှိအောင် လမ်းညွှန်ပေးခြင်း ဖြစ်ပါတယ်။"
-        },
-        {
-          q: "Coaching ရဲ့ ရည်ရွယ်ချက်ကဘာလဲ?",
-          a: "Salesperson ရဲ့ Skill နဲ့ Performance တိုးတက်လာအောင် ကူညီပေးခြင်း ဖြစ်ပါတယ်။"
-        }
-      ]
-    },
-
-
-    {
-      id: "sm-10",
-      lessonNo: 10,
-      icon: "🏆",
-      title: "Sales Performance Management",
-      burmeseTitle: "Sales Performance စီမံခန့်ခွဲခြင်း",
-      duration: "40 min",
-
-      objective: [
-        "Sales Performance ကို ခွဲခြမ်းနိုင်ရန်",
-        "Performance Gap ရှာနိုင်ရန်",
-        "Corrective Action Plan ပြုလုပ်နိုင်ရန်"
-      ],
-
-      content: `
-        <h3>🏆 Sales Performance Management</h3>
-
-        <p>
-        Sales Performance Management ဆိုတာ Sales Team ရဲ့
-        လက်ရှိ Performance ကို တိုင်းတာပြီး Target နဲ့ နှိုင်းယှဉ်ကာ
-        Gap ကို ရှာပြီး Improvement Action ပြုလုပ်တဲ့ Management Process ဖြစ်ပါတယ်။
-        </p>
-
-        <h3>📊 Performance Review Framework</h3>
-
-        <div class="lesson-flow">
-          <div>Target</div>
-          <span>→</span>
-          <div>Actual</div>
-          <span>→</span>
-          <div>Gap</div>
-          <span>→</span>
-          <div>Root Cause</div>
-          <span>→</span>
-          <div>Action</div>
-          <span>→</span>
-          <div>Review</div>
-        </div>
-
-        <h3>🔍 Root Cause Analysis</h3>
-
-        <p>
-        Performance နိမ့်တဲ့အခါ လူကိုပဲ အပြစ်တင်မယ့်အစား
-        အကြောင်းရင်းကို ရှာဖွေရပါမယ်။
-        </p>
-
-        <ul class="lesson-list">
-          <li>Skill Gap</li>
-          <li>Knowledge Gap</li>
-          <li>Activity Gap</li>
-          <li>Customer Gap</li>
-          <li>Territory Gap</li>
-          <li>Product Gap</li>
-          <li>Stock Gap</li>
-          <li>Motivation Gap</li>
-        </ul>
-
-        <h3>🛠️ Corrective Action</h3>
-
-        <p>
-        Root Cause သိပြီးရင် သင့်တော်တဲ့ Action ကို သတ်မှတ်ရပါမယ်။
-        </p>
-
-        <div class="lesson-example">
-          Skill Gap → Coaching<br>
-          Knowledge Gap → Training<br>
-          Activity Gap → Daily Activity Plan<br>
-          Customer Gap → New Customer Plan<br>
-          Stock Gap → Supply Team နဲ့ ဖြေရှင်းခြင်း
-        </div>
-
-        <h3>🏆 High Performer</h3>
-
-        <p>
-        High Performer တွေကိုလည်း မေ့မထားသင့်ပါဘူး။
-        သူတို့ရဲ့ Best Practice ကို Team အတွင်း မျှဝေပေးနိုင်ရင်
-        Team Performance တစ်ခုလုံး တိုးတက်နိုင်ပါတယ်။
-        </p>
-
-        <h3>👔 Sales Manager Mindset</h3>
-
-        <p>
-        “Target မပြည့်ဘူး” ဆိုတာ Result တစ်ခုသာ ဖြစ်ပါတယ်။
-        Professional Manager က “ဘာကြောင့်မပြည့်တာလဲ?”
-        “ဘာလုပ်ရင် ပြည့်နိုင်မလဲ?” ဆိုတာကို ဆက်မေးပါတယ်။
-        </p>
-
-        <div class="lesson-formula">
-          Performance Management = Measure → Diagnose → Coach → Act → Review
-        </div>
-      `,
-
-      action: [
-        "Sales Team ရဲ့ Target vs Actual Report ပြုလုပ်ပါ။",
-        "Performance Gap ရှာပါ။",
-        "Root Cause တစ်ခုချင်းစီ ရှာပါ။",
-        "Corrective Action Plan ရေးပါ။",
-        "နောက် 4 ပတ် Performance Review ပြုလုပ်ပါ။"
-      ],
-
-      quiz: [
-        {
-          q: "Performance Management ရဲ့ ပထမအဆင့်ကဘာလဲ?",
-          a: "Target နဲ့ Actual Performance ကို တိုင်းတာခြင်း ဖြစ်ပါတယ်။"
-        },
-        {
-          q: "Performance Gap ဖြစ်တဲ့အခါ ဘာလုပ်သင့်လဲ?",
-          a: "Root Cause ရှာပြီး သင့်တော်တဲ့ Corrective Action ပြုလုပ်သင့်ပါတယ်။"
-        },
-        {
-          q: "High Performer ကို ဘယ်လိုအသုံးချနိုင်သလဲ?",
-          a: "သူတို့ရဲ့ Best Practice ကို Team အတွင်း မျှဝေပြီး အခြား Team Members တွေကို Coaching လုပ်ပေးနိုင်ပါတယ်။"
-        }
-      ]
-    }
-
-  ];
-
-
-  /* =========================================================
-     STORAGE
-     ========================================================= */
+  window.AungBusinessAcademy =
+    window.AungBusinessAcademy || {};
+
+  window.AungBusinessAcademy.COURSES =
+    window.AungBusinessAcademy.COURSES || [];
 
   const STORAGE_KEY =
     "aung_business_academy_sales_management_completed_v1";
 
+  const SALES_COURSE = {
+    id: "sales-management",
+    category: "SALES",
+    icon: "🎯",
+    title: "Sales Management Mastery",
+    burmeseTitle: "အရောင်းစီမံခန့်ခွဲမှု",
+    description:
+      "Sales Strategy, Target, Planning, Forecasting, KPI, Team Management နှင့် Sales Performance ကို Manager Level ဖြင့် လေ့လာနိုင်သော Professional Sales Course",
+    lessons: [
+
+      /* =====================================================
+         LESSON 01
+         ===================================================== */
+
+      {
+        id: "sm-01",
+        title: "Sales Management Fundamentals",
+        burmeseTitle: "အရောင်းစီမံခန့်ခွဲမှု အခြေခံများ",
+        objective:
+          "Sales Manager တစ်ယောက်အနေဖြင့် Sales Management ၏ အဓိကတာဝန်၊ ရည်ရွယ်ချက်နှင့် Manager Thinking ကို နားလည်ရန်။",
+        content: `
+<h3>၁။ Sales Management ဆိုတာဘာလဲ?</h3>
+
+<p>
+Sales Management ဆိုသည်မှာ ရောင်းအားတိုးတက်စေရန်
+လူ (People)၊ နံပါတ် (Numbers) နှင့် လုပ်ငန်းဆောင်ရွက်မှု
+(Execution) တို့ကို စနစ်တကျ စီမံခန့်ခွဲခြင်းဖြစ်သည်။
+</p>
+
+<p>
+Sales Manager ၏အလုပ်သည် ကိုယ်တိုင်ရောင်းခြင်းထက်
+Sales Team ကို ရောင်းအားရရှိအောင် ဦးဆောင်ခြင်းဖြစ်သည်။
+</p>
+
+<h3>၂။ Sales Manager ၏ အဓိကတာဝန်များ</h3>
+
+<ul>
+<li>Sales Target သတ်မှတ်ခြင်း</li>
+<li>Sales Plan ရေးဆွဲခြင်း</li>
+<li>Territory နှင့် Customer Planning</li>
+<li>Sales Team ကို Coaching ပြုလုပ်ခြင်း</li>
+<li>KPI စောင့်ကြည့်ခြင်း</li>
+<li>Sales Forecast ပြုလုပ်ခြင်း</li>
+<li>Market နှင့် Competitor Analysis</li>
+<li>Distributor / Customer Management</li>
+<li>Performance Review ပြုလုပ်ခြင်း</li>
+</ul>
+
+<h3>၃။ People + Numbers + Execution</h3>
+
+<p>
+Professional Sales Manager တစ်ယောက်သည်
+လူကိုသာကြည့်၍ မရသကဲ့သို့ နံပါတ်ကိုသာကြည့်၍လည်း မရပါ။
+</p>
+
+<p>
+<strong>People:</strong> Team ရဲ့ skill, motivation, discipline</p>
+<p>
+<strong>Numbers:</strong> Sales, Target, Achievement, Margin, KPI</p>
+<p>
+<strong>Execution:</strong> Visit, Distribution, Availability, Promotion</p>
+
+<h3>Manager Thinking</h3>
+
+<p>
+"Target မပြည့်ဘူး" ဆိုတာ ပြဿနာရဲ့အဖြေမဟုတ်ပါ။
+Target မပြည့်ရတဲ့ Root Cause ကို ရှာပြီး
+Corrective Action ချမှတ်နိုင်ခြင်းက Manager Skill ဖြစ်သည်။
+</p>
+`,
+        action: `
+<p>
+ယနေ့ သင့် Sales Team အတွက် အောက်ပါ ၃ ခုကိုရေးပါ။
+</p>
+
+<ol>
+<li>လက်ရှိ Sales Target</li>
+<li>လက်ရှိ Achievement</li>
+<li>Target Gap ဖြစ်ရသည့် အဓိကအကြောင်းရင်း ၃ ခု</li>
+</ol>
+`,
+        quiz: [
+          {
+            question: "Sales Manager ၏ အဓိကတာဝန်ကဘာလဲ?",
+            answer:
+              "Sales Team ကို People, Numbers, Execution သုံးခုဖြင့် ဦးဆောင်ပြီး Sales Result ရရှိအောင် စီမံခြင်းဖြစ်သည်။"
+          }
+        ]
+      },
+
+
+      /* =====================================================
+         LESSON 02
+         ===================================================== */
+
+      {
+        id: "sm-02",
+        title: "Sales Process Management",
+        burmeseTitle: "အရောင်းလုပ်ငန်းစဉ် စီမံခန့်ခွဲခြင်း",
+        objective:
+          "Lead မှ Customer ဖြစ်လာပြီး Repeat Customer ဖြစ်သည်အထိ Sales Process ကို စနစ်တကျ စီမံနိုင်ရန်။",
+        content: `
+<h3>၁။ Sales Process ဆိုတာ</h3>
+
+<p>
+Sales Process ဆိုသည်မှာ Customer တစ်ယောက်ကို
+စတင်ရှာဖွေခြင်းမှ စ၍ Purchase ပြုလုပ်ပြီး
+နောက်ထပ်ပြန်လည်ဝယ်ယူသည်အထိ လုပ်ဆောင်ရသော
+အဆင့်ဆင့်သော လုပ်ငန်းစဉ်ဖြစ်သည်။
+</p>
+
+<h3>၂။ Professional Sales Process</h3>
+
+<ol>
+<li>Prospecting</li>
+<li>Customer Qualification</li>
+<li>Needs Analysis</li>
+<li>Presentation</li>
+<li>Objection Handling</li>
+<li>Negotiation</li>
+<li>Closing</li>
+<li>Delivery / Fulfillment</li>
+<li>Follow-up</li>
+<li>Retention</li>
+</ol>
+
+<h3>၃။ Conversion Thinking</h3>
+
+<p>
+Sales Manager သည် Total Sales ကိုသာ မကြည့်ဘဲ
+Process တစ်ခုချင်းစီ၏ Conversion Rate ကိုလည်း ကြည့်ရမည်။
+</p>
+
+<p>
+ဥပမာ -
+100 Prospects → 50 Meetings → 30 Proposals →
+15 Orders ဖြစ်လျှင် ဘယ်အဆင့်မှာ Drop ဖြစ်နေသည်ကို
+ရှာဖွေရမည်။
+</p>
+
+<h3>Manager KPI</h3>
+
+<ul>
+<li>Lead Conversion</li>
+<li>Meeting Conversion</li>
+<li>Proposal Conversion</li>
+<li>Close Rate</li>
+<li>Average Order Value</li>
+<li>Repeat Purchase Rate</li>
+</ul>
+`,
+        action: `
+<p>
+သင့်လုပ်ငန်း၏ Sales Process ကို အဆင့် ၅ မှ ၁၀ အထိ
+ရေးဆွဲပြီး Customer ဘယ်အဆင့်မှာ အများဆုံးဆုံးရှုံးနေသည်ကို
+ရှာပါ။
+`,
+        quiz: [
+          {
+            question: "Sales Process ကို ဘာကြောင့်တိုင်းတာရသလဲ?",
+            answer:
+              "Customer ဘယ်အဆင့်မှာ Drop ဖြစ်နေသည်ကို သိပြီး Conversion တိုးတက်အောင် ပြုပြင်နိုင်ရန်ဖြစ်သည်။"
+          }
+        ]
+      },
+
+
+      /* =====================================================
+         LESSON 03
+         ===================================================== */
+
+      {
+        id: "sm-03",
+        title: "Prospecting & Lead Generation",
+        burmeseTitle: "Customer ရှာဖွေခြင်းနှင့် Lead Generation",
+        objective:
+          "Sales Pipeline မပြတ်စေရန် Prospect အသစ်များကို စနစ်တကျရှာဖွေတည်ဆောက်နိုင်ရန်။",
+        content: `
+<h3>၁။ Prospect ဆိုတာ</h3>
+
+<p>
+Prospect ဆိုသည်မှာ သင့် Product သို့မဟုတ် Service ကို
+ဝယ်ယူနိုင်ခြေရှိသော Potential Customer ဖြစ်သည်။
+</p>
+
+<h3>၂။ Lead Source များ</h3>
+
+<ul>
+<li>Existing Customer Referral</li>
+<li>Market Visit</li>
+<li>Distributor Network</li>
+<li>Social Media</li>
+<li>Website / Inquiry</li>
+<li>Events</li>
+<li>Cold Calling</li>
+<li>Business Networking</li>
+</ul>
+
+<h3>၃။ Lead Quality</h3>
+
+<p>
+Lead အများကြီးရှိခြင်းထက် Quality Lead ရှိခြင်းက
+ပိုအရေးကြီးသည်။
+</p>
+
+<p>
+Manager သည် Lead ကို
+<strong>Need + Budget + Authority + Timing</strong>
+အပေါ်မူတည်၍ Qualification ပြုလုပ်နိုင်ရမည်။
+</p>
+
+<h3>၄။ Pipeline Coverage</h3>
+
+<p>
+ဥပမာ Monthly Target = 100 သိန်း ဖြစ်ပြီး
+Average Conversion Rate = 20% ဆိုပါက
+Pipeline Value ကို Target ထက် အကြိမ်များစွာ
+ပိုထားရန်လိုအပ်နိုင်သည်။
+</p>
+`,
+        action: `
+<p>
+သင့် Territory တွင် Potential Customer 20 ယောက်စာ
+Prospect List ပြုလုပ်ပြီး A/B/C အဆင့်ခွဲပါ။
+`,
+        quiz: [
+          {
+            question: "Lead အများကြီးရှိတာနဲ့ Sales က သေချာတိုးမလား?",
+            answer:
+              "မသေချာပါ။ Lead Quality, Qualification, Conversion နှင့် Follow-up တို့က အရေးကြီးသည်။"
+          }
+        ]
+      },
+
+
+      /* =====================================================
+         LESSON 04
+         ===================================================== */
+
+      {
+        id: "sm-04",
+        title: "Customer Needs Analysis",
+        burmeseTitle: "Customer လိုအပ်ချက် ခွဲခြမ်းစိတ်ဖြာခြင်း",
+        objective:
+          "Customer ပြောသောအရာထက် Customer ၏ တကယ့်လိုအပ်ချက်ကို ရှာဖွေနိုင်ရန်။",
+        content: `
+<h3>၁။ Customer Need ကို နားလည်ခြင်း</h3>
+
+<p>
+Professional Sales သည် Product ကို အရင်မရောင်းပါ။
+Customer Problem ကို အရင်နားလည်သည်။
+</p>
+
+<h3>၂။ မေးခွန်းမေးနည်း</h3>
+
+<ul>
+<li>လက်ရှိ ဘာပြဿနာရှိပါသလဲ?</li>
+<li>အဲဒီပြဿနာကြောင့် ဘာအကျိုးသက်ရောက်မှုရှိပါသလဲ?</li>
+<li>လက်ရှိ ဘယ်လိုဖြေရှင်းနေပါသလဲ?</li>
+<li>ဘာက အရေးအကြီးဆုံးလဲ?</li>
+<li>ဆုံးဖြတ်ချက်ကို ဘယ်သူချမှတ်ပါသလဲ?</li>
+<li>ဘယ်အချိန်မှာ ဖြေရှင်းချင်ပါသလဲ?</li>
+</ul>
+
+<h3>၃။ Feature → Benefit → Value</h3>
+
+<p>
+Feature ကိုပြောရုံဖြင့် Customer ဝယ်မည်မဟုတ်ပါ။
+Feature က Customer အတွက် ဘာ Benefit ပေးနိုင်ပြီး
+Business Value ဘယ်လောက်ရှိသည်ကို ရှင်းပြရမည်။
+</p>
+
+<p>
+ဥပမာ -
+"ဒီ Product က Feature X ပါတယ်" ထက်
+"ဒီ Feature ကြောင့် သင့်လုပ်ငန်းမှာ
+Cost လျော့နိုင်ပြီး Productivity တိုးနိုင်ပါတယ်"
+ဟု Value အဖြစ်ပြောနိုင်ရမည်။
+</p>
+`,
+        action: `
+<p>
+Customer တစ်ယောက်ကို ရွေးပြီး
+Open-ended Questions ၅ ခု ပြင်ဆင်ပါ။
+`,
+        quiz: [
+          {
+            question: "Needs Analysis ရဲ့ အဓိကရည်ရွယ်ချက်ကဘာလဲ?",
+            answer:
+              "Customer ၏ တကယ့် Problem, Need, Priority နှင့် Business Value ကို နားလည်ရန်ဖြစ်သည်။"
+          }
+        ]
+      },
+
+
+      /* =====================================================
+         LESSON 05
+         ===================================================== */
+
+      {
+        id: "sm-05",
+        title: "Sales Target Management",
+        burmeseTitle: "Sales Target သတ်မှတ်ခြင်းနှင့် စီမံခြင်း",
+        objective:
+          "Company Target ကို Territory, Customer နှင့် Salesperson Level အထိ ခွဲဝေစီမံနိုင်ရန်။",
+        content: `
+<h3>၁။ Target ဆိုတာ</h3>
+
+<p>
+Target သည် အရောင်းအဖွဲ့၏ လုပ်ဆောင်ရမည့်
+သတ်မှတ်ထားသော Business Result ဖြစ်သည်။
+</p>
+
+<h3>၂။ Target Breakdown</h3>
+
+<p>
+Annual Target → Quarterly Target →
+Monthly Target → Weekly Target → Daily Activity
+အဖြစ် ခွဲနိုင်သည်။
+</p>
+
+<h3>၃။ Target ကို ဘာနဲ့ခွဲမလဲ?</h3>
+
+<ul>
+<li>Territory</li>
+<li>Salesperson</li>
+<li>Customer</li>
+<li>Product</li>
+<li>Channel</li>
+<li>Month</li>
+</ul>
+
+<h3>၄။ SMART Target</h3>
+
+<ul>
+<li>Specific</li>
+<li>Measurable</li>
+<li>Achievable</li>
+<li>Relevant</li>
+<li>Time-bound</li>
+</ul>
+
+<h3>Manager Thinking</h3>
+
+<p>
+Target ကို Team ကိုပေးလိုက်ခြင်းနဲ့ မပြီးပါ။
+Target ရရှိရန် လိုအပ်သော Activity နှင့်
+Resource ကိုလည်း ချိတ်ဆက်ပေးရမည်။
+</p>
+`,
+        action: `
+<p>
+သင့် Monthly Target ကို
+Salesperson / Territory / Week အလိုက် ခွဲရေးပါ။
+`,
+        quiz: [
+          {
+            question: "Target Breakdown ဘာကြောင့်လုပ်ရသလဲ?",
+            answer:
+              "Large Target ကို Manage လုပ်နိုင်သော အပိုင်းငယ်များအဖြစ် ပြောင်းပြီး Execution လုပ်ရန်ဖြစ်သည်။"
+          }
+        ]
+      },
+
+
+      /* =====================================================
+         LESSON 06
+         ===================================================== */
+
+      {
+        id: "sm-06",
+        title: "Sales Planning & Territory Management",
+        burmeseTitle: "Sales Planning နှင့် Territory Management",
+        objective:
+          "Territory တစ်ခုလုံး၏ Customer, Route, Resource နှင့် Opportunity ကို စနစ်တကျ စီမံနိုင်ရန်။",
+        content: `
+<h3>၁။ Sales Plan</h3>
+
+<p>
+Sales Plan ဆိုသည်မှာ Target ရရှိရန်
+ဘယ်သူက၊ ဘယ်နေရာမှာ၊ ဘယ် Customer ကို၊
+ဘယ်အချိန်မှာ၊ ဘယ်လိုလုပ်မည်ဆိုသည်ကို
+ကြိုတင်ရေးဆွဲထားခြင်းဖြစ်သည်။
+</p>
+
+<h3>၂။ Territory Management</h3>
+
+<ul>
+<li>Customer Mapping</li>
+<li>Potential Mapping</li>
+<li>Route Planning</li>
+<li>Visit Frequency</li>
+<li>Coverage</li>
+<li>Product Availability</li>
+<li>Competitor Activity</li>
+</ul>
+
+<h3>၃။ PJP</h3>
+
+<p>
+Planned Journey Plan (PJP) သည် Salesperson ၏
+နေ့စဉ် / အပတ်စဉ် Market Visit ကို စနစ်တကျ
+စီမံရန် အသုံးပြုနိုင်သည်။
+</p>
+
+<h3>၄။ Coverage vs Productivity</h3>
+
+<p>
+Customer များများသွားရုံနှင့် မပြီးပါ။
+Visit တစ်ကြိမ်လျှင် ဘာ Result ရရှိသလဲကိုလည်း
+တိုင်းတာရမည်။
+</p>
+`,
+        action: `
+<p>
+Territory တစ်ခုကို Customer A/B/C အလိုက်ခွဲပြီး
+Visit Frequency နှင့် Route Plan ပြုလုပ်ပါ။
+`,
+        quiz: [
+          {
+            question: "Territory Management ရဲ့ ရည်ရွယ်ချက်ကဘာလဲ?",
+            answer:
+              "Market Coverage, Customer Opportunity နှင့် Sales Resource ကို အကောင်းဆုံးအသုံးချရန်ဖြစ်သည်။"
+          }
+        ]
+      },
+
+
+      /* =====================================================
+         LESSON 07
+         ===================================================== */
+
+      {
+        id: "sm-07",
+        title: "Sales Forecasting",
+        burmeseTitle: "Sales Forecasting",
+        objective:
+          "အနာဂတ် Sales Result ကို Data နှင့် Market Information အသုံးပြု၍ ခန့်မှန်းနိုင်ရန်။",
+        content: `
+<h3>၁။ Forecast ဆိုတာ</h3>
+
+<p>
+Sales Forecast ဆိုသည်မှာ သတ်မှတ်ထားသောကာလအတွင်း
+ဖြစ်လာနိုင်မည့် Sales Result ကို ခန့်မှန်းခြင်းဖြစ်သည်။
+</p>
+
+<h3>၂။ Forecast တွင်ကြည့်ရမည့် Data</h3>
+
+<ul>
+<li>Previous Sales</li>
+<li>Current Achievement</li>
+<li>Open Orders</li>
+<li>Pipeline</li>
+<li>Customer Demand</li>
+<li>Seasonality</li>
+<li>Promotion</li>
+<li>Competitor Activity</li>
+<li>Market Trend</li>
+</ul>
+
+<h3>၃။ Forecast Accuracy</h3>
+
+<p>
+Forecast 100 သိန်းဟု ပြောပြီး Actual 70 သိန်းသာ
+ရလျှင် Forecast Quality ကို ပြန်လည်စစ်ဆေးရန်လိုသည်။
+</p>
+
+<p>
+Professional Manager သည်
+"မျှော်လင့်တာ" နှင့် "Data အပေါ်အခြေခံပြီး ခန့်မှန်းတာ"
+ကို ခွဲခြားနိုင်ရမည်။
+</p>
+`,
+        action: `
+<p>
+လက်ရှိလ၏ Target၊ Achievement၊ Pipeline နှင့်
+Expected Closing ကို အသုံးပြုပြီး Forecast ပြုလုပ်ပါ။
+`,
+        quiz: [
+          {
+            question: "Forecast က ဘာအတွက်အရေးကြီးသလဲ?",
+            answer:
+              "Management အတွက် အနာဂတ် Result နှင့် Resource / Action Planning ပြုလုပ်နိုင်ရန်ဖြစ်သည်။"
+          }
+        ]
+      },
+
+
+      /* =====================================================
+         LESSON 08
+         ===================================================== */
+
+      {
+        id: "sm-08",
+        title: "Sales KPI & Performance Metrics",
+        burmeseTitle: "Sales KPI နှင့် Performance Measurement",
+        objective:
+          "Sales Result ကို KPI များဖြင့် တိကျစွာတိုင်းတာပြီး Performance Gap ရှာဖွေနိုင်ရန်။",
+        content: `
+<h3>၁။ KPI ဆိုတာ</h3>
+
+<p>
+Key Performance Indicator (KPI) ဆိုသည်မှာ
+Business Result နှင့် Execution Performance ကို
+တိုင်းတာရန် အသုံးပြုသော အဓိကညွှန်းကိန်းဖြစ်သည်။
+</p>
+
+<h3>၂။ Sales KPI များ</h3>
+
+<ul>
+<li>Sales Achievement %</li>
+<li>Volume</li>
+<li>Revenue</li>
+<li>Gross Margin</li>
+<li>New Customers</li>
+<li>Active Customers</li>
+<li>Customer Coverage</li>
+<li>Strike Rate</li>
+<li>Average Order Value</li>
+<li>Collection / AR</li>
+</ul>
+
+<h3>၃။ Achievement %</h3>
+
+<p>
+<strong>Achievement % = Actual Sales ÷ Target × 100</strong>
+</p>
+
+<p>
+ဥပမာ Target = 100 သိန်း၊ Actual = 85 သိန်း ဆိုပါက
+Achievement = 85% ဖြစ်သည်။
+</p>
+
+<h3>၄။ Leading vs Lagging KPI</h3>
+
+<p>
+Sales Revenue သည် Lagging Indicator ဖြစ်နိုင်ပြီး
+Customer Visits, Calls, Proposals, New Leads စသည်တို့သည်
+Leading Indicators ဖြစ်နိုင်သည်။
+</p>
+
+<p>
+Manager သည် Result KPI တစ်ခုတည်းမကြည့်ဘဲ
+Result ကိုဖြစ်စေသော Activity KPI များကိုပါ စောင့်ကြည့်ရမည်။
+</p>
+`,
+        action: `
+<p>
+သင့် Team အတွက် Result KPI ၃ ခုနှင့်
+Activity KPI ၃ ခု သတ်မှတ်ပါ။
+`,
+        quiz: [
+          {
+            question: "Leading KPI ဘာကြောင့်လိုသလဲ?",
+            answer:
+              "အနာဂတ် Sales Result ကိုဖြစ်စေသော Activity များကို ကြိုတင်ထိန်းချုပ်နိုင်ရန်ဖြစ်သည်။"
+          }
+        ]
+      },
+
+
+      /* =====================================================
+         LESSON 09
+         ===================================================== */
+
+      {
+        id: "sm-09",
+        title: "Sales Team Management",
+        burmeseTitle: "Sales Team Management",
+        objective:
+          "Sales Team ကို Clear Expectations, Coaching, Review နှင့် Accountability ဖြင့် ဦးဆောင်နိုင်ရန်။",
+        content: `
+<h3>၁။ Strong Sales Team</h3>
+
+<p>
+Strong Sales Team တစ်ခုတည်ဆောက်ရန်
+ကောင်းမွန်သော Salesperson များရှိရုံမလုံလောက်ပါ။
+System ကောင်းရန်လည်းလိုသည်။
+</p>
+
+<h3>၂။ Manager ၏ Team Management Framework</h3>
+
+<ol>
+<li>Clear Target</li>
+<li>Clear Role</li>
+<li>Clear KPI</li>
+<li>Regular Review</li>
+<li>Coaching</li>
+<li>Recognition</li>
+<li>Corrective Action</li>
+</ol>
+
+<h3>၃။ Micromanagement မလုပ်ဘဲ Management လုပ်ခြင်း</h3>
+
+<p>
+Manager သည် လူတိုင်းကို အချိန်တိုင်းလိုက်ကြည့်နေခြင်းထက်
+Expected Result နှင့် Standard ကိုရှင်းလင်းစွာသတ်မှတ်ပြီး
+Performance ကို Review လုပ်သင့်သည်။
+</p>
+
+<h3>၄။ Accountability</h3>
+
+<p>
+"ဘာကြောင့် မရတာလဲ?" ဟုသာမေးခြင်းထက်
+"Next Action ဘာလုပ်မလဲ?" ဟု မေးခြင်းက
+Performance Culture တည်ဆောက်ရာတွင် ပိုကောင်းသည်။
+</p>
+`,
+        action: `
+<p>
+Team Member တစ်ယောက်ချင်းစီအတွက်
+Target + KPI + Development Need ကိုရေးပါ။
+`,
+        quiz: [
+          {
+            question: "Manager က ဘာကြောင့် Micromanagement မလုပ်သင့်သလဲ?",
+            answer:
+              "Ownership နှင့် Accountability လျော့နည်းစေပြီး Team ကို မိမိကိုယ်တိုင်ဆုံးဖြတ်နိုင်စွမ်း လျော့စေနိုင်သောကြောင့်ဖြစ်သည်။"
+          }
+        ]
+      },
+
+
+      /* =====================================================
+         LESSON 10
+         ===================================================== */
+
+      {
+        id: "sm-10",
+        title: "Sales Performance Management",
+        burmeseTitle: "Sales Performance Management",
+        objective:
+          "Salesperson Performance ကို Data, Review, Coaching နှင့် Action Plan ဖြင့် တိုးတက်အောင် စီမံနိုင်ရန်။",
+        content: `
+<h3>၁။ Performance Management</h3>
+
+<p>
+Performance Management သည် လကုန်တွင် Result စစ်ရုံမဟုတ်ပါ။
+Goal Setting → Execution → Coaching → Review →
+Improvement ဟူသော Continuous Process ဖြစ်သည်။
+</p>
+
+<h3>၂။ Performance Review</h3>
+
+<ul>
+<li>Target vs Actual</li>
+<li>Gap Analysis</li>
+<li>Activity Analysis</li>
+<li>Customer Analysis</li>
+<li>Territory Analysis</li>
+<li>Root Cause</li>
+<li>Corrective Action</li>
+</ul>
+
+<h3>၃။ Performance Gap</h3>
+
+<p>
+Performance Gap ကို Result Gap နှင့်
+Capability Gap ဟူ၍ ခွဲကြည့်နိုင်သည်။
+</p>
+
+<p>
+Result မကောင်းတာက Skill မရှိလို့လား?
+Activity မလုပ်လို့လား?
+Market ပြဿနာလား?
+Customer Issue လား?
+Resource မလုံလောက်လို့လား?
+ဆိုသည်ကို ရှာဖွေရမည်။
+</p>
+`,
+        action: `
+<p>
+Team Member တစ်ယောက်ကိုရွေးပြီး
+Performance Gap → Root Cause → Action Plan
+အဖြစ်ရေးပါ။
+`,
+        quiz: [
+          {
+            question: "Performance Review ရဲ့ အဓိကရည်ရွယ်ချက်ကဘာလဲ?",
+            answer:
+              "အပြစ်ရှာရန်မဟုတ်ဘဲ Performance Gap နှင့် Root Cause ကိုရှာပြီး တိုးတက်စေရန်ဖြစ်သည်။"
+          }
+        ]
+      },
+
+
+      /* =====================================================
+         LESSON 11
+         ===================================================== */
+
+      {
+        id: "sm-11",
+        title: "Sales Pipeline & Opportunity Management",
+        burmeseTitle: "Sales Pipeline နှင့် Opportunity Management",
+        objective:
+          "Future Sales Opportunity များကို Pipeline အဖြစ်စနစ်တကျ စီမံပြီး Closing Probability မြှင့်တင်နိုင်ရန်။",
+        content: `
+<h3>၁။ Sales Pipeline</h3>
+
+<p>
+Sales Pipeline ဆိုသည်မှာ အနာဂတ်တွင် Sales ဖြစ်လာနိုင်သော
+Customer Opportunity များကို အဆင့်လိုက်စီထားခြင်းဖြစ်သည်။
+</p>
+
+<h3>၂။ Pipeline Stages</h3>
+
+<ol>
+<li>New Lead</li>
+<li>Qualified</li>
+<li>Meeting</li>
+<li>Proposal</li>
+<li>Negotiation</li>
+<li>Closing</li>
+<li>Won / Lost</li>
+</ol>
+
+<h3>၃။ Pipeline Review</h3>
+
+<p>
+Manager သည် Pipeline ကို စစ်သောအခါ
+Customer Name ရှိတာကိုသာ မကြည့်သင့်ပါ။
+</p>
+
+<ul>
+<li>Customer Need</li>
+<li>Decision Maker</li>
+<li>Budget</li>
+<li>Timeline</li>
+<li>Competitor</li>
+<li>Next Action</li>
+<li>Expected Closing Date</li>
+</ul>
+
+<h3>၄။ Pipeline Quality</h3>
+
+<p>
+Pipeline ကြီးသော်လည်း အရည်အသွေးမကောင်းလျှင်
+Future Sales မဖြစ်နိုင်ပါ။
+</p>
+
+<p>
+Professional Sales Manager သည်
+Pipeline Quantity နှင့် Quality နှစ်ခုလုံးကို စောင့်ကြည့်သည်။
+</p>
+`,
+        action: `
+<p>
+လက်ရှိ Sales Opportunities ၁၀ ခုကို Pipeline Stage
+အလိုက် စာရင်းပြုလုပ်ပြီး Next Action သတ်မှတ်ပါ။
+`,
+        quiz: [
+          {
+            question: "Pipeline Review မှာ အရေးကြီးဆုံးအချက်တစ်ခုကဘာလဲ?",
+            answer:
+              "Opportunity တစ်ခုချင်းစီ၏ Next Action နှင့် Expected Closing ကို သိရှိထားခြင်းဖြစ်သည်။"
+          }
+        ]
+      },
+
+
+      /* =====================================================
+         LESSON 12
+         ===================================================== */
+
+      {
+        id: "sm-12",
+        title: "Customer Relationship & Account Management",
+        burmeseTitle: "Customer Relationship နှင့် Account Management",
+        objective:
+          "အရေးကြီးသော Customer များကို ရေရှည်ဆက်ဆံရေးနှင့် Business Growth အတွက် စနစ်တကျ စီမံနိုင်ရန်။",
+        content: `
+<h3>၁။ Customer Management</h3>
+
+<p>
+Customer ရရှိပြီးနောက် ဆက်ဆံရေးကို ထိန်းသိမ်းခြင်းသည်
+Sales Growth အတွက် အရေးကြီးသည်။
+</p>
+
+<h3>၂။ Customer Segmentation</h3>
+
+<ul>
+<li>High Value Customer</li>
+<li>Growth Customer</li>
+<li>Stable Customer</li>
+<li>Low Value Customer</li>
+<li>At-Risk Customer</li>
+</ul>
+
+<h3>၃။ Key Account Thinking</h3>
+
+<p>
+Key Account တစ်ခုကို Order ရယူရန်အတွက်သာ မကြည့်ဘဲ
+Customer ၏ Business Plan နှင့် ကိုက်ညီအောင်
+Joint Business Opportunity ရှာဖွေရမည်။
+</p>
+
+<h3>၄။ Customer Retention</h3>
+
+<p>
+Customer Retention ကို တိုးတက်စေရန်
+Service Quality, Product Availability,
+Communication, Problem Resolution နှင့်
+Value Creation တို့ကို အာရုံစိုက်ရမည်။
+</p>
+`,
+        action: `
+<p>
+သင့်ရဲ့ Top 10 Customers ကို Sales Value အလိုက်
+စီပြီး Customer တစ်ယောက်ချင်းစီအတွက်
+Growth Opportunity တစ်ခုရေးပါ။
+`,
+        quiz: [
+          {
+            question: "Key Account Management မှာ Order ထက် ဘာကိုပိုကြည့်သင့်သလဲ?",
+            answer:
+              "Customer ၏ ရေရှည် Business Growth နှင့် Joint Business Opportunity ကို ကြည့်သင့်သည်။"
+          }
+        ]
+      },
+
+
+      /* =====================================================
+         LESSON 13
+         ===================================================== */
+
+      {
+        id: "sm-13",
+        title: "Sales Negotiation & Closing",
+        burmeseTitle: "Sales Negotiation နှင့် Closing",
+        objective:
+          "Customer Objection, Price Discussion နှင့် Negotiation ကို Value-based Selling ဖြင့် စီမံနိုင်ရန်။",
+        content: `
+<h3>၁။ Negotiation ဆိုတာ</h3>
+
+<p>
+Negotiation သည် ကိုယ်လိုချင်တာကို Customer ထံမှ
+ရယူခြင်းတစ်ခုတည်းမဟုတ်ဘဲ နှစ်ဖက်စလုံးအတွက်
+Value ရရှိအောင် သဘောတူညီမှုရယူခြင်းဖြစ်သည်။
+</p>
+
+<h3>၂။ Negotiation မတိုင်မီ ပြင်ဆင်ရန်</h3>
+
+<ul>
+<li>Objective</li>
+<li>Ideal Outcome</li>
+<li>Minimum Acceptable Outcome</li>
+<li>BATNA</li>
+<li>Customer Need</li>
+<li>Value Proposition</li>
+<li>Possible Objections</li>
+</ul>
+
+<h3>၃။ Price Objection</h3>
+
+<p>
+Customer က "ဈေးကြီးတယ်" ဟု ပြောသောအခါ
+Discount ပေးခြင်းကို ချက်ချင်းမလုပ်သင့်ပါ။
+</p>
+
+<p>
+အရင်ဆုံး Value ကို နားလည်အောင်ရှင်းပြပြီး
+Customer အတွက် Cost vs Benefit ကို
+ဆွေးနွေးသင့်သည်။
+</p>
+
+<h3>၄။ Closing</h3>
+
+<p>
+Closing သည် အဆုံးမှာသာ လုပ်ရသောအရာမဟုတ်ပါ။
+Sales Process တစ်လျှောက် Customer Commitment
+သေးသေးလေးများကို ရယူထားခြင်းဖြင့် Closing ပိုလွယ်လာသည်။
+</p>
+`,
+        action: `
+<p>
+Customer ၏ Price Objection ၃ မျိုးရေးပြီး
+Value-based Response တစ်ခုစီပြင်ဆင်ပါ။
+`,
+        quiz: [
+          {
+            question: "Price Objection ရတဲ့အခါ Discount ကို ချက်ချင်းပေးသင့်သလား?",
+            answer:
+              "မပေးသင့်ပါ။ Customer Need နှင့် Value ကို အရင်နားလည်ပြီး Value-based Negotiation လုပ်သင့်သည်။"
+          }
+        ]
+      },
+
+
+      /* =====================================================
+         LESSON 14
+         ===================================================== */
+
+      {
+        id: "sm-14",
+        title: "Sales Recovery & Problem Solving",
+        burmeseTitle: "Sales Recovery နှင့် ပြဿနာဖြေရှင်းခြင်း",
+        objective:
+          "Sales Target မပြည့်သောအချိန်တွင် Panic မဖြစ်ဘဲ Root Cause Analysis နှင့် Recovery Plan ပြုလုပ်နိုင်ရန်။",
+        content: `
+<h3>၁။ Sales Gap</h3>
+
+<p>
+Target = 100 သိန်း
+Actual = 75 သိန်း ဆိုပါက
+Sales Gap = 25 သိန်း ဖြစ်သည်။
+</p>
+
+<h3>၂။ Root Cause Analysis</h3>
+
+<p>
+Sales Gap ဖြစ်ရသည့်အကြောင်းရင်းကို
+အောက်ပါအတိုင်း ခွဲခြမ်းနိုင်သည်။
+</p>
+
+<ul>
+<li>People</li>
+<li>Customer</li>
+<li>Product</li>
+<li>Price</li>
+<li>Distribution</li>
+<li>Competition</li>
+<li>Market</li>
+<li>Execution</li>
+</ul>
+
+<h3>၃။ Recovery Plan</h3>
+
+<ol>
+<li>Gap ကို တိတိကျကျသတ်မှတ်</li>
+<li>Root Cause ရှာ</li>
+<li>Quick Win ရှာ</li>
+<li>High Potential Customer ကို အာရုံစိုက်</li>
+<li>Activity တိုး</li>
+<li>Daily Review လုပ်</li>
+<li>Result ပြန်တိုင်း</li>
+</ol>
+
+<h3>Manager Thinking</h3>
+
+<p>
+"ဒီလမရတော့ဘူး" ဟု စောစောဆုံးဖြတ်မည့်အစား
+"ကျန်တဲ့ရက်အတွင်း ဘယ် Opportunity ကို
+ဘယ်လိုပြောင်းလဲနိုင်မလဲ?" ဟု စဉ်းစားရမည်။
+</p>
+`,
+        action: `
+<p>
+သင့်ရဲ့ Sales Gap တစ်ခုကို ရွေးပြီး
+Root Cause ၃ ခု + Recovery Action ၅ ခုရေးပါ။
+`,
+        quiz: [
+          {
+            question: "Sales Recovery မှာ ပထမဆုံးဘာလုပ်သင့်သလဲ?",
+            answer:
+              "Sales Gap ကို တိတိကျကျတွက်ပြီး Root Cause ကိုရှာသင့်သည်။"
+          }
+        ]
+      },
+
+
+      /* =====================================================
+         LESSON 15
+         ===================================================== */
+
+      {
+        id: "sm-15",
+        title: "Strategic Sales Leadership",
+        burmeseTitle: "Strategic Sales Leadership",
+        objective:
+          "Sales Manager မှ Strategic Sales Leader အဖြစ် တက်လှမ်းပြီး ရေရှည်တိုးတက်သော Sales Organization တည်ဆောက်နိုင်ရန်။",
+        content: `
+<h3>၁။ Sales Manager → Sales Leader</h3>
+
+<p>
+Sales Manager သည် လက်ရှိ Target ကို အာရုံစိုက်သည်။
+Sales Leader သည် လက်ရှိ Result နှင့်အတူ
+အနာဂတ် Growth System ကိုပါ တည်ဆောက်သည်။
+</p>
+
+<h3>၂။ Strategic Sales Leadership ရဲ့ အဓိက ၆ ခု</h3>
+
+<ol>
+<li>Revenue Growth</li>
+<li>Market Expansion</li>
+<li>Customer Development</li>
+<li>People Development</li>
+<li>Sales Productivity</li>
+<li>Profitability</li>
+</ol>
+
+<h3>၃။ Revenue တိုးခြင်းထက် Profitable Growth</h3>
+
+<p>
+Sales တိုးလာသော်လည်း Discount အလွန်များခြင်း၊
+Cost မြင့်ခြင်း၊ Collection မကောင်းခြင်းတို့ကြောင့်
+Profit မတိုးနိုင်ပါ။
+</p>
+
+<p>
+ဒါကြောင့် Sales Leader သည်
+Revenue + Margin + Cash Flow ကို တွဲကြည့်ရမည်။
+</p>
+
+<h3>၄။ High Performance Culture</h3>
+
+<p>
+ကောင်းမွန်သော Sales Culture သည်
+Fear ဖြင့်မတည်ဆောက်သင့်ပါ။
+</p>
+
+<ul>
+<li>Clear Expectations</li>
+<li>Data-driven Review</li>
+<li>Coaching</li>
+<li>Recognition</li>
+<li>Accountability</li>
+<li>Continuous Improvement</li>
+</ul>
+
+<h3>၅။ Strategic Manager Thinking</h3>
+
+<p>
+နေ့စဉ်ပြဿနာကိုသာ ဖြေရှင်းနေသော Manager မဖြစ်ဘဲ
+"ဒီနေ့ပြဿနာကို ဖြေရှင်းပြီး မနက်ဖြန်မှာ
+ဒီပြဿနာ မဖြစ်အောင် ဘယ် System တည်ဆောက်မလဲ?"
+ဟု စဉ်းစားနိုင်ရမည်။
+</p>
+
+<h3>Final Manager Framework</h3>
+
+<p>
+<strong>Target → Plan → Execute → Measure →
+Analyze → Coach → Improve → Scale</strong>
+</p>
+
+<p>
+ဒီ Cycle ကို ပုံမှန်လုပ်ဆောင်နိုင်ခြင်းသည်
+Professional Sales Management ၏ အခြေခံဖြစ်သည်။
+</p>
+`,
+        action: `
+<p>
+သင့် Sales Team အတွက်
+90-Day Strategic Sales Plan တစ်ခုရေးပါ။
+
+အောက်ပါ ၅ ခုပါဝင်ရမည်။
+
+1. Revenue Target
+2. Market Growth
+3. Customer Growth
+4. Team Development
+5. KPI & Review System
+`,
+        quiz: [
+          {
+            question: "Strategic Sales Leader တစ်ယောက်က Revenue တစ်ခုတည်းကိုပဲ ကြည့်သင့်သလား?",
+            answer:
+              "မကြည့်သင့်ပါ။ Revenue အပြင် Margin, Cash Flow, Customer Growth, People Development နှင့် Long-term Growth ကိုပါ ကြည့်သင့်သည်။"
+          }
+        ]
+      }
+
+    ]
+  };
+
+
+  /* =========================================================
+     REGISTER COURSE
+     ========================================================= */
+
+  const existingIndex =
+    window.AungBusinessAcademy.COURSES.findIndex(
+      function (course) {
+        return course.id === SALES_COURSE.id;
+      }
+    );
+
+  if (existingIndex >= 0) {
+    window.AungBusinessAcademy.COURSES[
+      existingIndex
+    ] = SALES_COURSE;
+  } else {
+    window.AungBusinessAcademy.COURSES.push(
+      SALES_COURSE
+    );
+  }
+
+
+  /* =========================================================
+     PROGRESS FUNCTIONS
+     ========================================================= */
+
   function getCompleted() {
     try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-    } catch (e) {
+      const data =
+        JSON.parse(
+          localStorage.getItem(STORAGE_KEY)
+        );
+
+      return Array.isArray(data) ? data : [];
+    } catch (error) {
       return [];
     }
   }
+
 
   function saveCompleted(list) {
     localStorage.setItem(
       STORAGE_KEY,
       JSON.stringify(list)
     );
+
+    try {
+      window.dispatchEvent(
+        new CustomEvent(
+          "aungAcademyProgressUpdated"
+        )
+      );
+    } catch (error) {}
   }
 
-  function isCompleted(id) {
-    return getCompleted().includes(id);
+
+  function isCompleted(lessonId) {
+    return getCompleted().includes(
+      lessonId
+    );
+  }
+
+
+  function completeSalesLesson(lessonId) {
+    const lessonExists =
+      SALES_COURSE.lessons.some(
+        function (lesson) {
+          return lesson.id === lessonId;
+        }
+      );
+
+    if (!lessonExists) {
+      return false;
+    }
+
+    const completed =
+      getCompleted();
+
+    if (!completed.includes(lessonId)) {
+      completed.push(lessonId);
+      saveCompleted(completed);
+    }
+
+    return true;
+  }
+
+
+  function resetSalesProgress() {
+    localStorage.removeItem(
+      STORAGE_KEY
+    );
+
+    try {
+      window.dispatchEvent(
+        new CustomEvent(
+          "aungAcademyProgressUpdated"
+        )
+      );
+    } catch (error) {}
+  }
+
+
+  function getSalesProgress() {
+    const completed =
+      getCompleted();
+
+    const total =
+      SALES_COURSE.lessons.length;
+
+    const done =
+      SALES_COURSE.lessons.filter(
+        function (lesson) {
+          return completed.includes(
+            lesson.id
+          );
+        }
+      ).length;
+
+    const percent =
+      total === 0
+        ? 0
+        : Math.round(
+            (done / total) * 100
+          );
+
+    return {
+      courseId:
+        SALES_COURSE.id,
+      total: total,
+      completed: done,
+      remaining:
+        total - done,
+      percent: percent
+    };
+  }
+
+
+  function getSalesLesson(lessonId) {
+    return (
+      SALES_COURSE.lessons.find(
+        function (lesson) {
+          return lesson.id === lessonId;
+        }
+      ) || null
+    );
   }
 
 
   /* =========================================================
-     COURSE API
+     PUBLIC API
      ========================================================= */
 
-  window.AungBusinessAcademy =
-    window.AungBusinessAcademy || {};
-
-  window.AungBusinessAcademy.SALES_COURSE =
+  window.SALES_COURSE =
     SALES_COURSE;
 
-  window.AungBusinessAcademy.SALES_LESSONS =
-    SALES_LESSONS;
+  window.SALES_LESSONS =
+    SALES_COURSE.lessons;
 
-  window.AungBusinessAcademy.getSalesProgress =
-    function () {
+  window.getSalesProgress =
+    getSalesProgress;
 
-      const completed = getCompleted();
+  window.completeSalesLesson =
+    completeSalesLesson;
 
-      const done = SALES_LESSONS.filter(function (lesson) {
-        return completed.includes(lesson.id);
-      }).length;
+  window.isSalesLessonCompleted =
+    isCompleted;
 
-      return {
-        total: SALES_LESSONS.length,
-        completed: done,
-        percent: Math.round(
-          (done / SALES_LESSONS.length) * 100
-        )
-      };
-    };
+  window.getSalesLesson =
+    getSalesLesson;
 
-
-  /* =========================================================
-     COMPLETE LESSON
-     ========================================================= */
-
-  window.AungBusinessAcademy.completeSalesLesson =
-    function (id) {
-
-      const completed = getCompleted();
-
-      if (!completed.includes(id)) {
-        completed.push(id);
-        saveCompleted(completed);
-      }
-
-      const lesson =
-        SALES_LESSONS.find(function (item) {
-          return item.id === id;
-        });
-
-      if (lesson) {
-        alert(
-          "✓ Lesson " +
-          lesson.lessonNo +
-          " ပြီးဆုံးပါပြီ။"
-        );
-      }
-
-    };
-
-
-  /* =========================================================
-     FIND LESSON
-     ========================================================= */
-
-  window.AungBusinessAcademy.getSalesLesson =
-    function (id) {
-
-      return SALES_LESSONS.find(function (lesson) {
-        return lesson.id === id;
-      });
-
-    };
-
-
-  /* =========================================================
-     INIT
-     ========================================================= */
-
-  console.log(
-    "Aung Business Academy — Sales Management loaded:",
-    SALES_LESSONS.length,
-    "lessons"
-  );
+  window.resetSalesProgress =
+    resetSalesProgress;
 
 })();

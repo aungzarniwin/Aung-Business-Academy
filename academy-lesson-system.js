@@ -1,13 +1,14 @@
 /* =========================================================
    AUNG BUSINESS ACADEMY
-   PROFESSIONAL LESSON SYSTEM V1
-   Lesson Detail + Previous + Next + Complete
+   LESSON SYSTEM V2.0
+   Mobile Responsive + Long Lesson Reader
    ========================================================= */
 
 (function () {
   "use strict";
 
-  const STORAGE_KEY = "aung_business_academy_completed_lessons_v1";
+  const STORAGE_KEY =
+    "aung_business_academy_completed_lessons_v1";
 
   /* =========================================================
      STORAGE
@@ -15,32 +16,25 @@
 
   function getCompletedLessons() {
     try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
-    } catch (error) {
-      console.error("Completed lesson storage error:", error);
-      return {};
+      const data = JSON.parse(
+        localStorage.getItem(STORAGE_KEY)
+      );
+
+      return Array.isArray(data) ? data : [];
+    } catch (e) {
+      return [];
     }
   }
 
-  function saveCompletedLessons(data) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  function saveCompletedLessons(list) {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify([...new Set(list)])
+    );
   }
 
   function isCompleted(lessonId) {
-    const completed = getCompletedLessons();
-    return completed[lessonId] === true;
-  }
-
-  function markCompleted(lessonId) {
-    const completed = getCompletedLessons();
-    completed[lessonId] = true;
-    saveCompletedLessons(completed);
-  }
-
-  function unmarkCompleted(lessonId) {
-    const completed = getCompletedLessons();
-    delete completed[lessonId];
-    saveCompletedLessons(completed);
+    return getCompletedLessons().includes(lessonId);
   }
 
   /* =========================================================
@@ -48,45 +42,22 @@
      ========================================================= */
 
   function getCourses() {
-    const courses = [];
-
-    /*
-      Sales Management
-    */
     if (
       window.AungBusinessAcademy &&
-      window.AungBusinessAcademy.SALES_COURSE &&
-      window.AungBusinessAcademy.SALES_LESSONS
+      Array.isArray(
+        window.AungBusinessAcademy.COURSES
+      )
     ) {
-      courses.push({
-        ...window.AungBusinessAcademy.SALES_COURSE,
-        lessons: window.AungBusinessAcademy.SALES_LESSONS
-      });
+      return window.AungBusinessAcademy.COURSES;
     }
 
-    /*
-      Generic course APIs
-    */
-    if (
-      window.AungBusinessAcademy &&
-      Array.isArray(window.AungBusinessAcademy.COURSES)
-    ) {
-      window.AungBusinessAcademy.COURSES.forEach(function (course) {
-        if (!courses.some(c => c.id === course.id)) {
-          courses.push(course);
-        }
-      });
-    }
-
-    return courses;
+    return [];
   }
 
   function getCourse(courseId) {
-    const courses = getCourses();
-
-    return courses.find(function (course) {
+    return getCourses().find(function (course) {
       return course.id === courseId;
-    });
+    }) || null;
   }
 
   function getLesson(courseId, lessonId) {
@@ -97,8 +68,8 @@
     }
 
     return course.lessons.find(function (lesson) {
-      return String(lesson.id) === String(lessonId);
-    });
+      return lesson.id === lessonId;
+    }) || null;
   }
 
   /* =========================================================
@@ -110,49 +81,56 @@
 
     if (!course || !Array.isArray(course.lessons)) {
       return {
-        completed: 0,
         total: 0,
+        completed: 0,
         percent: 0
       };
     }
 
     const total = course.lessons.length;
 
-    const completed = course.lessons.filter(function (lesson) {
-      return isCompleted(lesson.id);
-    }).length;
-
-    const percent =
-      total === 0
-        ? 0
-        : Math.round((completed / total) * 100);
+    const completed = course.lessons.filter(
+      function (lesson) {
+        return isCompleted(lesson.id);
+      }
+    ).length;
 
     return {
-      completed: completed,
       total: total,
-      percent: percent
+      completed: completed,
+      percent:
+        total === 0
+          ? 0
+          : Math.round((completed / total) * 100)
     };
   }
 
   /* =========================================================
-     GLOBAL STYLE
+     STYLE
      ========================================================= */
 
   function injectStyles() {
-    if (document.getElementById("abaLessonSystemStyles")) {
+    if (document.getElementById(
+      "aung-lesson-system-v2-style"
+    )) {
       return;
     }
 
     const style = document.createElement("style");
 
-    style.id = "abaLessonSystemStyles";
+    style.id =
+      "aung-lesson-system-v2-style";
 
-    style.innerHTML = `
-      #abaLessonOverlay {
+    style.textContent = `
+      /* ================================
+         OVERLAY
+         ================================ */
+
+      .aung-lesson-overlay {
         position: fixed;
         inset: 0;
-        background: rgba(15, 23, 42, 0.72);
         z-index: 999999;
+        background: rgba(15,23,42,.72);
         display: none;
         align-items: center;
         justify-content: center;
@@ -160,270 +138,472 @@
         overflow-y: auto;
       }
 
-      #abaLessonOverlay.active {
+      .aung-lesson-overlay.active {
         display: flex;
       }
 
-      .aba-lesson-modal {
-        width: 100%;
-        max-width: 980px;
+      /* ================================
+         MODAL
+         ================================ */
+
+      .aung-lesson-modal {
+        width: min(980px, 100%);
         max-height: 94vh;
         background: #ffffff;
         border-radius: 22px;
         overflow: hidden;
-        box-shadow: 0 25px 80px rgba(0,0,0,.28);
         display: flex;
         flex-direction: column;
+        box-shadow:
+          0 25px 70px rgba(0,0,0,.30);
       }
 
-      .aba-lesson-header {
-        padding: 22px 24px;
-        background: linear-gradient(135deg,#0f172a,#1e293b);
-        color: white;
-        position: relative;
+      /* ================================
+         HEADER
+         ================================ */
+
+      .aung-lesson-header {
+        flex: 0 0 auto;
+        padding: 20px 24px;
+        border-bottom: 1px solid #e5e7eb;
+        background: #ffffff;
       }
 
-      .aba-lesson-category {
+      .aung-lesson-header-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .aung-lesson-category {
         font-size: 12px;
-        font-weight: 700;
-        opacity: .75;
-        letter-spacing: .8px;
-        margin-bottom: 8px;
-      }
-
-      .aba-lesson-title {
-        font-size: 25px;
         font-weight: 800;
-        line-height: 1.35;
-        margin: 0;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: .8px;
+        margin-bottom: 6px;
       }
 
-      .aba-lesson-number {
-        margin-top: 8px;
-        font-size: 14px;
-        opacity: .8;
+      .aung-lesson-title {
+        font-size: 26px;
+        line-height: 1.45;
+        font-weight: 800;
+        color: #0f172a;
+        overflow-wrap: anywhere;
+        word-break: break-word;
       }
 
-      .aba-lesson-close {
-        position: absolute;
-        right: 18px;
-        top: 18px;
-        width: 40px;
-        height: 40px;
+      .aung-lesson-close {
+        flex: 0 0 auto;
+        width: 42px;
+        height: 42px;
         border: 0;
-        border-radius: 50%;
-        background: rgba(255,255,255,.12);
-        color: white;
+        border-radius: 12px;
+        background: #f1f5f9;
+        color: #334155;
         font-size: 22px;
         cursor: pointer;
       }
 
-      .aba-lesson-progress-wrap {
-        padding: 14px 24px;
-        background: #f8fafc;
-        border-bottom: 1px solid #e2e8f0;
+      .aung-lesson-close:hover {
+        background: #e2e8f0;
       }
 
-      .aba-lesson-progress-info {
+      /* ================================
+         PROGRESS
+         ================================ */
+
+      .aung-lesson-progress-area {
+        margin-top: 18px;
+      }
+
+      .aung-lesson-progress-info {
         display: flex;
         justify-content: space-between;
-        gap: 10px;
+        gap: 12px;
         font-size: 13px;
-        color: #475569;
-        margin-bottom: 7px;
-      }
-
-      .aba-lesson-progress-bar {
-        height: 8px;
-        background: #e2e8f0;
-        border-radius: 20px;
-        overflow: hidden;
-      }
-
-      .aba-lesson-progress-fill {
-        height: 100%;
-        width: 0%;
-        background: #16a34a;
-        border-radius: 20px;
-        transition: width .3s ease;
-      }
-
-      .aba-lesson-body {
-        padding: 28px;
-        overflow-y: auto;
-        flex: 1;
-        color: #1e293b;
-        line-height: 1.8;
-      }
-
-      .aba-lesson-body h2 {
-        font-size: 21px;
-        margin: 28px 0 12px;
-        color: #0f172a;
-      }
-
-      .aba-lesson-body h3 {
-        font-size: 18px;
-        margin: 22px 0 10px;
-        color: #1e293b;
-      }
-
-      .aba-lesson-body p {
-        margin: 0 0 15px;
-      }
-
-      .aba-lesson-body ul,
-      .aba-lesson-body ol {
-        padding-left: 24px;
-        margin-bottom: 18px;
-      }
-
-      .aba-lesson-body li {
+        color: #64748b;
         margin-bottom: 8px;
       }
 
-      .aba-lesson-body table {
+      .aung-lesson-progress-track {
         width: 100%;
-        border-collapse: collapse;
-        margin: 18px 0;
+        height: 9px;
+        background: #e2e8f0;
+        border-radius: 999px;
+        overflow: hidden;
       }
 
-      .aba-lesson-body th,
-      .aba-lesson-body td {
-        border: 1px solid #e2e8f0;
-        padding: 10px;
-        text-align: left;
+      .aung-lesson-progress-bar {
+        height: 100%;
+        width: 0;
+        background: #2563eb;
+        border-radius: inherit;
+        transition: width .3s ease;
       }
 
-      .aba-lesson-body th {
+      /* ================================
+         BODY
+         ================================ */
+
+      .aung-lesson-body {
+        flex: 1 1 auto;
+        overflow-y: auto;
+        overflow-x: hidden;
+        min-height: 0;
+        padding: 30px 34px 40px;
         background: #f8fafc;
-        font-weight: 700;
+        overscroll-behavior: contain;
       }
 
-      .aba-lesson-objective {
-        padding: 18px;
-        background: #eff6ff;
-        border-left: 4px solid #2563eb;
-        border-radius: 12px;
-        margin-bottom: 22px;
+      /*
+       IMPORTANT:
+       Prevent long Myanmar text from
+       escaping the screen.
+      */
+
+      .aung-lesson-body,
+      .aung-lesson-body * {
+        max-width: 100%;
+        box-sizing: border-box;
       }
 
-      .aba-lesson-action {
-        padding: 18px;
-        background: #f0fdf4;
-        border-left: 4px solid #16a34a;
-        border-radius: 12px;
-        margin-top: 22px;
+      .aung-lesson-body p,
+      .aung-lesson-body li,
+      .aung-lesson-body td,
+      .aung-lesson-body th,
+      .aung-lesson-body h1,
+      .aung-lesson-body h2,
+      .aung-lesson-body h3,
+      .aung-lesson-body h4,
+      .aung-lesson-body strong,
+      .aung-lesson-body span {
+        overflow-wrap: anywhere;
+        word-break: break-word;
       }
 
-      .aba-lesson-quiz {
-        padding: 20px;
-        background: #fff7ed;
-        border-left: 4px solid #f97316;
-        border-radius: 12px;
-        margin-top: 22px;
+      .aung-lesson-body img {
+        max-width: 100%;
+        height: auto;
       }
 
-      .aba-lesson-footer {
-        border-top: 1px solid #e2e8f0;
+      .aung-lesson-body table {
+        width: 100%;
+        max-width: 100%;
+        border-collapse: collapse;
+        display: table;
+        overflow-x: auto;
+      }
+
+      .aung-lesson-body pre {
+        max-width: 100%;
+        overflow-x: auto;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+
+      .aung-lesson-body code {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+      }
+
+      /* ================================
+         CONTENT
+         ================================ */
+
+      .lesson-section {
+        width: 100%;
         background: #ffffff;
-        padding: 16px 20px;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 22px;
+        margin-bottom: 18px;
       }
 
-      .aba-lesson-buttons {
+      .lesson-section h3 {
+        font-size: 20px;
+        line-height: 1.5;
+        color: #0f172a;
+        margin: 0 0 14px;
+      }
+
+      .lesson-section h4 {
+        font-size: 17px;
+        line-height: 1.5;
+        color: #1e293b;
+        margin: 18px 0 8px;
+      }
+
+      .lesson-section p {
+        font-size: 16px;
+        line-height: 2;
+        color: #334155;
+        margin: 0 0 14px;
+      }
+
+      .lesson-section p:last-child {
+        margin-bottom: 0;
+      }
+
+      .lesson-section ul,
+      .lesson-section ol {
+        padding-left: 24px;
+        margin: 10px 0 16px;
+      }
+
+      .lesson-section li {
+        font-size: 15px;
+        line-height: 1.9;
+        color: #334155;
+        margin-bottom: 7px;
+      }
+
+      .lesson-section strong {
+        color: #0f172a;
+      }
+
+      /* ================================
+         FORMULA
+         ================================ */
+
+      .formula-box {
+        width: 100%;
+        padding: 16px;
+        margin: 14px 0;
+        border-radius: 12px;
+        background: #eff6ff;
+        border: 1px solid #bfdbfe;
+        color: #1e3a8a;
+        line-height: 1.8;
+        overflow-wrap: anywhere;
+      }
+
+      /* ================================
+         TABLE
+         ================================ */
+
+      .lesson-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        margin: 15px 0;
+      }
+
+      .lesson-table {
+        min-width: 520px;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      .lesson-table th,
+      .lesson-table td {
+        border: 1px solid #cbd5e1;
+        padding: 11px;
+        text-align: left;
+        line-height: 1.7;
+        overflow-wrap: anywhere;
+      }
+
+      .lesson-table th {
+        background: #f1f5f9;
+        font-weight: 800;
+      }
+
+      /* ================================
+         FRAMEWORK CARD
+         ================================ */
+
+      .framework-card {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 17px;
+        margin: 12px 0;
+      }
+
+      .framework-card h4 {
+        margin-top: 0;
+      }
+
+      /* ================================
+         TAKEAWAY
+         ================================ */
+
+      .key-takeaway {
+        border-left: 5px solid #2563eb;
+        background: #eff6ff;
+      }
+
+      /* ================================
+         ACTION / QUIZ
+         ================================ */
+
+      .aung-lesson-action,
+      .aung-lesson-quiz {
+        margin-top: 18px;
+      }
+
+      /* ================================
+         FOOTER
+         ================================ */
+
+      .aung-lesson-footer {
+        flex: 0 0 auto;
+        padding: 16px 20px;
+        border-top: 1px solid #e5e7eb;
+        background: #ffffff;
+      }
+
+      .aung-lesson-status {
+        text-align: center;
+        font-size: 13px;
+        color: #64748b;
+        margin-bottom: 12px;
+      }
+
+      .aung-lesson-buttons {
         display: grid;
-        grid-template-columns: 1fr 1.3fr 1fr;
+        grid-template-columns: 1fr 1.2fr 1fr;
         gap: 10px;
       }
 
-      .aba-lesson-btn {
+      .aung-lesson-btn {
         min-height: 48px;
         border: 0;
         border-radius: 12px;
         padding: 10px 14px;
         font-size: 14px;
-        font-weight: 700;
+        font-weight: 800;
         cursor: pointer;
-        transition: .2s ease;
+        overflow-wrap: anywhere;
       }
 
-      .aba-lesson-btn:hover {
-        transform: translateY(-1px);
-      }
-
-      .aba-prev-btn {
+      .aung-lesson-btn.previous {
         background: #f1f5f9;
         color: #334155;
       }
 
-      .aba-next-btn {
-        background: #0f172a;
-        color: white;
-      }
-
-      .aba-complete-btn {
+      .aung-lesson-btn.complete {
         background: #16a34a;
-        color: white;
+        color: #ffffff;
       }
 
-      .aba-complete-btn.completed {
-        background: #15803d;
+      .aung-lesson-btn.next {
+        background: #2563eb;
+        color: #ffffff;
       }
 
-      .aba-lesson-btn:disabled {
+      .aung-lesson-btn:disabled {
         opacity: .45;
         cursor: not-allowed;
-        transform: none;
       }
 
-      .aba-bottom-status {
-        text-align: center;
-        font-size: 12px;
-        color: #64748b;
-        margin-top: 10px;
-      }
+      /* ================================
+         MOBILE
+         ================================ */
 
       @media (max-width: 700px) {
 
-        #abaLessonOverlay {
+        .aung-lesson-overlay {
           padding: 0;
           align-items: stretch;
         }
 
-        .aba-lesson-modal {
+        .aung-lesson-modal {
+          width: 100%;
           max-height: 100vh;
           height: 100vh;
           border-radius: 0;
         }
 
-        .aba-lesson-header {
-          padding: 18px 18px;
+        .aung-lesson-header {
+          padding: 16px;
         }
 
-        .aba-lesson-title {
+        .aung-lesson-title {
           font-size: 20px;
-          padding-right: 42px;
+          line-height: 1.5;
         }
 
-        .aba-lesson-body {
-          padding: 20px 16px;
+        .aung-lesson-body {
+          padding: 16px 12px 28px;
         }
 
-        .aba-lesson-progress-wrap {
-          padding: 12px 16px;
+        .lesson-section {
+          padding: 16px;
+          border-radius: 13px;
+          margin-bottom: 14px;
         }
 
-        .aba-lesson-buttons {
+        .lesson-section h3 {
+          font-size: 18px;
+        }
+
+        .lesson-section p {
+          font-size: 15px;
+          line-height: 1.95;
+        }
+
+        .lesson-section li {
+          font-size: 14px;
+          line-height: 1.85;
+        }
+
+        .aung-lesson-buttons {
           grid-template-columns: 1fr 1fr;
         }
 
-        .aba-complete-btn {
+        .aung-lesson-btn.complete {
           grid-column: 1 / -1;
-          order: -1;
+          grid-row: 1;
         }
 
-        .aba-lesson-footer {
-          padding: 12px;
+        .aung-lesson-btn.previous {
+          grid-column: 1;
+          grid-row: 2;
+        }
+
+        .aung-lesson-btn.next {
+          grid-column: 2;
+          grid-row: 2;
+        }
+      }
+
+      @media (max-width: 420px) {
+
+        .aung-lesson-header {
+          padding: 13px;
+        }
+
+        .aung-lesson-title {
+          font-size: 18px;
+        }
+
+        .aung-lesson-body {
+          padding-left: 9px;
+          padding-right: 9px;
+        }
+
+        .lesson-section {
+          padding: 14px;
+        }
+
+        .lesson-section p {
+          font-size: 14px;
+          line-height: 1.9;
+        }
+
+        .lesson-section li {
+          font-size: 13.5px;
+        }
+
+        .aung-lesson-footer {
+          padding: 11px;
+        }
+
+        .aung-lesson-btn {
+          font-size: 13px;
+          min-height: 45px;
         }
       }
     `;
@@ -432,102 +612,124 @@
   }
 
   /* =========================================================
-     CREATE MODAL
+     MODAL
      ========================================================= */
 
+  let currentCourseId = null;
+  let currentLessonIndex = 0;
+
   function createModal() {
-    if (document.getElementById("abaLessonOverlay")) {
-      return;
+    let overlay =
+      document.getElementById(
+        "aung-lesson-overlay"
+      );
+
+    if (overlay) {
+      return overlay;
     }
 
-    const overlay = document.createElement("div");
+    overlay = document.createElement("div");
 
-    overlay.id = "abaLessonOverlay";
+    overlay.id =
+      "aung-lesson-overlay";
+
+    overlay.className =
+      "aung-lesson-overlay";
 
     overlay.innerHTML = `
-      <div class="aba-lesson-modal">
+      <div class="aung-lesson-modal">
 
-        <div class="aba-lesson-header">
+        <div class="aung-lesson-header">
 
-          <div class="aba-lesson-category"
-               id="abaLessonCategory">
-          </div>
+          <div class="aung-lesson-header-top">
 
-          <h1 class="aba-lesson-title"
-              id="abaLessonTitle">
-          </h1>
+            <div style="min-width:0;flex:1">
 
-          <div class="aba-lesson-number"
-               id="abaLessonNumber">
-          </div>
+              <div
+                id="aung-lesson-category"
+                class="aung-lesson-category">
+              </div>
 
-          <button
-            class="aba-lesson-close"
-            id="abaLessonClose"
-            type="button">
-            ×
-          </button>
+              <div
+                id="aung-lesson-title"
+                class="aung-lesson-title">
+              </div>
 
-        </div>
-
-        <div class="aba-lesson-progress-wrap">
-
-          <div class="aba-lesson-progress-info">
-
-            <span id="abaLessonProgressText">
-              Course Progress
-            </span>
-
-            <span id="abaLessonProgressPercent">
-              0%
-            </span>
-
-          </div>
-
-          <div class="aba-lesson-progress-bar">
-            <div
-              class="aba-lesson-progress-fill"
-              id="abaLessonProgressFill">
             </div>
+
+            <button
+              id="aung-lesson-close"
+              class="aung-lesson-close"
+              type="button"
+              aria-label="Close">
+              ×
+            </button>
+
+          </div>
+
+          <div class="aung-lesson-progress-area">
+
+            <div class="aung-lesson-progress-info">
+
+              <span
+                id="aung-lesson-position">
+              </span>
+
+              <strong
+                id="aung-lesson-percent">
+                0%
+              </strong>
+
+            </div>
+
+            <div class="aung-lesson-progress-track">
+
+              <div
+                id="aung-lesson-progress-bar"
+                class="aung-lesson-progress-bar">
+              </div>
+
+            </div>
+
           </div>
 
         </div>
 
         <div
-          class="aba-lesson-body"
-          id="abaLessonBody">
+          id="aung-lesson-body"
+          class="aung-lesson-body">
         </div>
 
-        <div class="aba-lesson-footer">
+        <div class="aung-lesson-footer">
 
-          <div class="aba-lesson-buttons">
+          <div
+            id="aung-lesson-status"
+            class="aung-lesson-status">
+          </div>
+
+          <div class="aung-lesson-buttons">
 
             <button
-              type="button"
-              id="abaPreviousLesson"
-              class="aba-lesson-btn aba-prev-btn">
+              id="aung-lesson-prev"
+              class="aung-lesson-btn previous"
+              type="button">
               ⬅ Previous
             </button>
 
             <button
-              type="button"
-              id="abaCompleteLesson"
-              class="aba-lesson-btn aba-complete-btn">
+              id="aung-lesson-complete"
+              class="aung-lesson-btn complete"
+              type="button">
               ✅ Mark as Completed
             </button>
 
             <button
-              type="button"
-              id="abaNextLesson"
-              class="aba-lesson-btn aba-next-btn">
+              id="aung-lesson-next"
+              class="aung-lesson-btn next"
+              type="button">
               Next ➡
             </button>
 
-          </div>
-
-          <div
-            class="aba-bottom-status"
-            id="abaLessonBottomStatus">
           </div>
 
         </div>
@@ -537,391 +739,226 @@
 
     document.body.appendChild(overlay);
 
-    document
-      .getElementById("abaLessonClose")
-      .addEventListener("click", closeLesson);
-
-    overlay.addEventListener("click", function (event) {
-      if (event.target === overlay) {
-        closeLesson();
+    overlay.addEventListener(
+      "click",
+      function (event) {
+        if (event.target === overlay) {
+          closeLesson();
+        }
       }
-    });
-
-    document
-      .getElementById("abaPreviousLesson")
-      .addEventListener("click", previousLesson);
+    );
 
     document
-      .getElementById("abaNextLesson")
-      .addEventListener("click", nextLesson);
+      .getElementById("aung-lesson-close")
+      .addEventListener(
+        "click",
+        closeLesson
+      );
 
     document
-      .getElementById("abaCompleteLesson")
-      .addEventListener("click", toggleComplete);
+      .getElementById("aung-lesson-prev")
+      .addEventListener(
+        "click",
+        previousLesson
+      );
 
-    document.addEventListener("keydown", function (event) {
+    document
+      .getElementById("aung-lesson-next")
+      .addEventListener(
+        "click",
+        nextLesson
+      );
 
-      const modal = document.getElementById("abaLessonOverlay");
+    document
+      .getElementById("aung-lesson-complete")
+      .addEventListener(
+        "click",
+        markCompleted
+      );
 
-      if (!modal || !modal.classList.contains("active")) {
-        return;
-      }
-
-      if (event.key === "Escape") {
-        closeLesson();
-      }
-
-      if (event.key === "ArrowLeft") {
-        previousLesson();
-      }
-
-      if (event.key === "ArrowRight") {
-        nextLesson();
-      }
-    });
+    return overlay;
   }
 
   /* =========================================================
-     CURRENT STATE
+     RENDER LESSON
      ========================================================= */
 
-  let currentCourseId = null;
-  let currentLessonIndex = 0;
-
-  /* =========================================================
-     OPEN LESSON
-     ========================================================= */
-
-  function openLesson(courseId, lessonId) {
-
-    const course = getCourse(courseId);
-
-    if (!course) {
-      console.error("Course not found:", courseId);
-      return;
-    }
-
-    if (!Array.isArray(course.lessons) || course.lessons.length === 0) {
-      console.error("No lessons found for:", courseId);
-      return;
-    }
-
-    const index = course.lessons.findIndex(function (lesson) {
-      return String(lesson.id) === String(lessonId);
-    });
-
-    if (index < 0) {
-      console.error("Lesson not found:", lessonId);
-      return;
-    }
-
-    currentCourseId = courseId;
-    currentLessonIndex = index;
-
-    injectStyles();
-    createModal();
-
-    renderCurrentLesson();
-
-    const overlay = document.getElementById("abaLessonOverlay");
-
-    overlay.classList.add("active");
-
-    document.body.style.overflow = "hidden";
-  }
-
-  /* =========================================================
-     RENDER CURRENT LESSON
-     ========================================================= */
-
-  function renderCurrentLesson() {
-
-    const course = getCourse(currentCourseId);
-
-    if (!course) {
-      return;
-    }
-
-    const lessons = course.lessons;
-
-    const lesson = lessons[currentLessonIndex];
-
-    if (!lesson) {
-      return;
-    }
-
-    const total = lessons.length;
-
-    const lessonNumber = currentLessonIndex + 1;
-
-    const progress = getCourseProgress(currentCourseId);
-
-    const completed = isCompleted(lesson.id);
-
-    document.getElementById("abaLessonCategory").textContent =
-      course.category || "BUSINESS";
-
-    document.getElementById("abaLessonTitle").textContent =
-      lesson.title || lesson.name || "Lesson";
-
-    document.getElementById("abaLessonNumber").textContent =
-      "Lesson " +
-      String(lessonNumber).padStart(2, "0") +
-      " / " +
-      String(total);
-
-    document.getElementById("abaLessonProgressText").textContent =
-      progress.completed +
-      " / " +
-      progress.total +
-      " Lessons Completed";
-
-    document.getElementById("abaLessonProgressPercent").textContent =
-      progress.percent + "%";
-
-    document.getElementById("abaLessonProgressFill").style.width =
-      progress.percent + "%";
-
-    renderLessonBody(lesson);
-
-    const previousButton =
-      document.getElementById("abaPreviousLesson");
-
-    const nextButton =
-      document.getElementById("abaNextLesson");
-
-    const completeButton =
-      document.getElementById("abaCompleteLesson");
-
-    previousButton.disabled =
-      currentLessonIndex === 0;
-
-    nextButton.disabled =
-      currentLessonIndex === total - 1;
-
-    if (completed) {
-
-      completeButton.textContent =
-        "✓ Completed";
-
-      completeButton.classList.add("completed");
-
-    } else {
-
-      completeButton.textContent =
-        "✅ Mark as Completed";
-
-      completeButton.classList.remove("completed");
-    }
-
-    let statusText =
-      "Lesson " +
-      lessonNumber +
-      " of " +
-      total;
-
-    if (currentLessonIndex === total - 1) {
-
-      statusText +=
-        " • Final Lesson";
-    }
-
-    document.getElementById("abaLessonBottomStatus").textContent =
-      statusText;
-
-    const body =
-      document.getElementById("abaLessonBody");
-
-    if (body) {
-      body.scrollTop = 0;
-    }
-  }
-
-  /* =========================================================
-     RENDER LESSON BODY
-     ========================================================= */
-
-  function renderLessonBody(lesson) {
-
-    const body =
-      document.getElementById("abaLessonBody");
-
-    if (!body) {
-      return;
-    }
-
-    let html = "";
-
-    if (lesson.objective) {
-
-      html += `
-        <div class="aba-lesson-objective">
-
-          <strong>🎯 Learning Objective</strong>
-
-          <div style="margin-top:8px;">
-            ${lesson.objective}
-          </div>
-
-        </div>
-      `;
-    }
-
-    if (lesson.content) {
-
-      html += `
-        <div class="aba-lesson-content">
-
-          ${lesson.content}
-
-        </div>
-      `;
-
-    } else if (lesson.description) {
-
-      html += `
-        <div class="aba-lesson-content">
-
-          <p>
-            ${lesson.description}
-          </p>
-
-        </div>
-      `;
-
-    } else {
-
-      html += `
-        <div class="aba-lesson-content">
-
-          <p>
-            ဒီ Lesson ရဲ့ အကြောင်းအရာကို
-            ဆက်လက်ထည့်သွင်းသွားပါမယ်။
-          </p>
-
-        </div>
-      `;
-    }
-
-    if (lesson.action) {
-
-      html += `
-        <div class="aba-lesson-action">
-
-          <strong>📝 Practical Action</strong>
-
-          <div style="margin-top:8px;">
-            ${lesson.action}
-          </div>
-
-        </div>
-      `;
-    }
-
-    if (lesson.quiz) {
-
-      html += `
-        <div class="aba-lesson-quiz">
-
-          <strong>❓ Quiz / Knowledge Check</strong>
-
-          <div style="margin-top:8px;">
-            ${lesson.quiz}
-          </div>
-
-        </div>
-      `;
-    }
-
-    body.innerHTML = html;
-  }
-
-  /* =========================================================
-     PREVIOUS
-     ========================================================= */
-
-  function previousLesson() {
-
-    if (currentLessonIndex <= 0) {
-      return;
-    }
-
-    currentLessonIndex--;
-
-    renderCurrentLesson();
-  }
-
-  /* =========================================================
-     NEXT
-     ========================================================= */
-
-  function nextLesson() {
-
-    const course = getCourse(currentCourseId);
-
-    if (!course) {
-      return;
-    }
+  function renderLesson() {
+    const course =
+      getCourse(currentCourseId);
 
     if (
-      currentLessonIndex >=
-      course.lessons.length - 1
+      !course ||
+      !Array.isArray(course.lessons) ||
+      !course.lessons[currentLessonIndex]
     ) {
-      return;
-    }
-
-    currentLessonIndex++;
-
-    renderCurrentLesson();
-  }
-
-  /* =========================================================
-     COMPLETE
-     ========================================================= */
-
-  function toggleComplete() {
-
-    const course = getCourse(currentCourseId);
-
-    if (!course) {
       return;
     }
 
     const lesson =
       course.lessons[currentLessonIndex];
 
-    if (!lesson) {
+    const progress =
+      getCourseProgress(
+        currentCourseId
+      );
+
+    const overlay =
+      createModal();
+
+    document.getElementById(
+      "aung-lesson-category"
+    ).textContent =
+      (course.icon || "📚") +
+      " " +
+      (course.category || "COURSE");
+
+    document.getElementById(
+      "aung-lesson-title"
+    ).textContent =
+      lesson.title || "Lesson";
+
+    document.getElementById(
+      "aung-lesson-position"
+    ).textContent =
+      "Lesson " +
+      (currentLessonIndex + 1) +
+      " / " +
+      course.lessons.length;
+
+    document.getElementById(
+      "aung-lesson-percent"
+    ).textContent =
+      progress.percent + "%";
+
+    document.getElementById(
+      "aung-lesson-progress-bar"
+    ).style.width =
+      progress.percent + "%";
+
+    const body =
+      document.getElementById(
+        "aung-lesson-body"
+      );
+
+    body.innerHTML = `
+      ${lesson.objective || ""}
+
+      ${lesson.content || ""}
+
+      <div class="aung-lesson-action">
+        ${lesson.action || ""}
+      </div>
+
+      <div class="aung-lesson-quiz">
+        ${lesson.quiz || ""}
+      </div>
+    `;
+
+    /*
+      Scroll back to top whenever
+      a new lesson is opened.
+    */
+
+    body.scrollTop = 0;
+
+    const completed =
+      isCompleted(lesson.id);
+
+    const completeButton =
+      document.getElementById(
+        "aung-lesson-complete"
+      );
+
+    completeButton.textContent =
+      completed
+        ? "✓ Completed"
+        : "✅ Mark as Completed";
+
+    completeButton.disabled =
+      completed;
+
+    const prevButton =
+      document.getElementById(
+        "aung-lesson-prev"
+      );
+
+    const nextButton =
+      document.getElementById(
+        "aung-lesson-next"
+      );
+
+    prevButton.disabled =
+      currentLessonIndex === 0;
+
+    nextButton.disabled =
+      currentLessonIndex ===
+      course.lessons.length - 1;
+
+    const status =
+      document.getElementById(
+        "aung-lesson-status"
+      );
+
+    if (completed) {
+      status.textContent =
+        "✓ ဒီ Lesson ကိုပြီးဆုံးထားပါပြီ";
+    } else {
+      status.textContent =
+        "📖 သင်ခန်းစာကို သေချာဖတ်ပြီး ပြီးဆုံးပါက Completed နှိပ်ပါ";
+    }
+
+    overlay.classList.add("active");
+
+    document.body.style.overflow =
+      "hidden";
+  }
+
+  /* =========================================================
+     OPEN
+     ========================================================= */
+
+  function openLesson(
+    courseId,
+    lessonId
+  ) {
+    injectStyles();
+
+    const course =
+      getCourse(courseId);
+
+    if (!course) {
+      console.warn(
+        "Course not found:",
+        courseId
+      );
       return;
     }
 
-    if (isCompleted(lesson.id)) {
+    const index =
+      course.lessons.findIndex(
+        function (lesson) {
+          return lesson.id === lessonId;
+        }
+      );
 
-      unmarkCompleted(lesson.id);
-
-    } else {
-
-      markCompleted(lesson.id);
+    if (index < 0) {
+      console.warn(
+        "Lesson not found:",
+        lessonId
+      );
+      return;
     }
 
-    renderCurrentLesson();
+    currentCourseId =
+      courseId;
 
-    /*
-      Notify other app components
-    */
+    currentLessonIndex =
+      index;
 
-    window.dispatchEvent(
-      new CustomEvent(
-        "aungAcademyProgressUpdated",
-        {
-          detail: {
-            courseId: currentCourseId,
-            lessonId: lesson.id,
-            progress:
-              getCourseProgress(currentCourseId)
-          }
-        }
-      )
-    );
+    createModal();
+
+    renderLesson();
   }
 
   /* =========================================================
@@ -929,213 +966,297 @@
      ========================================================= */
 
   function closeLesson() {
-
     const overlay =
-      document.getElementById("abaLessonOverlay");
+      document.getElementById(
+        "aung-lesson-overlay"
+      );
 
-    if (!overlay) {
-      return;
+    if (overlay) {
+      overlay.classList.remove(
+        "active"
+      );
     }
 
-    overlay.classList.remove("active");
-
-    document.body.style.overflow = "";
-
-    currentCourseId = null;
-    currentLessonIndex = 0;
+    document.body.style.overflow =
+      "";
   }
 
   /* =========================================================
-     COURSE LESSON LIST RENDERER
+     NEXT
+     ========================================================= */
+
+  function nextLesson() {
+    const course =
+      getCourse(currentCourseId);
+
+    if (!course) return;
+
+    if (
+      currentLessonIndex <
+      course.lessons.length - 1
+    ) {
+      currentLessonIndex++;
+
+      renderLesson();
+    }
+  }
+
+  /* =========================================================
+     PREVIOUS
+     ========================================================= */
+
+  function previousLesson() {
+    if (currentLessonIndex > 0) {
+      currentLessonIndex--;
+
+      renderLesson();
+    }
+  }
+
+  /* =========================================================
+     MARK COMPLETED
+     ========================================================= */
+
+  function markCompleted() {
+    const course =
+      getCourse(currentCourseId);
+
+    if (!course) return;
+
+    const lesson =
+      course.lessons[currentLessonIndex];
+
+    if (!lesson) return;
+
+    const completed =
+      getCompletedLessons();
+
+    if (!completed.includes(lesson.id)) {
+      completed.push(lesson.id);
+
+      saveCompletedLessons(
+        completed
+      );
+    }
+
+    window.dispatchEvent(
+      new CustomEvent(
+        "aungAcademyProgressUpdated",
+        {
+          detail: {
+            courseId:
+              currentCourseId,
+            lessonId:
+              lesson.id
+          }
+        }
+      )
+    );
+
+    renderLesson();
+  }
+
+  /* =========================================================
+     RENDER COURSE LESSON LIST
      ========================================================= */
 
   function renderCourseLessons(
-    container,
-    courseId
+    courseId,
+    container
   ) {
+    const course =
+      getCourse(courseId);
 
-    const course = getCourse(courseId);
-
-    if (!course || !Array.isArray(course.lessons)) {
+    if (!course || !container) {
       return;
     }
 
-    const progress =
-      getCourseProgress(courseId);
+    container.innerHTML = "";
 
-    container.innerHTML = `
-      <div style="
-        margin-bottom:18px;
-        padding:16px;
-        border-radius:14px;
-        background:#f8fafc;
-      ">
+    course.lessons.forEach(
+      function (lesson, index) {
 
-        <div style="
-          display:flex;
-          justify-content:space-between;
-          margin-bottom:8px;
-          font-weight:700;
-        ">
-
-          <span>
-            Course Progress
-          </span>
-
-          <span>
-            ${progress.percent}%
-          </span>
-
-        </div>
-
-        <div style="
-          height:8px;
-          background:#e2e8f0;
-          border-radius:20px;
-          overflow:hidden;
-        ">
-
-          <div style="
-            width:${progress.percent}%;
-            height:100%;
-            background:#16a34a;
-            border-radius:20px;
-          "></div>
-
-        </div>
-
-      </div>
-    `;
-
-    course.lessons.forEach(function (lesson, index) {
-
-      const completed =
-        isCompleted(lesson.id);
-
-      const item =
-        document.createElement("button");
-
-      item.type = "button";
-
-      item.style.cssText = `
-        width:100%;
-        display:flex;
-        align-items:center;
-        gap:12px;
-        text-align:left;
-        border:1px solid #e2e8f0;
-        background:#ffffff;
-        padding:15px;
-        margin-bottom:9px;
-        border-radius:14px;
-        cursor:pointer;
-        transition:.2s;
-      `;
-
-      item.innerHTML = `
-
-        <span style="
-          width:34px;
-          height:34px;
-          flex:none;
-          border-radius:50%;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          background:${completed ? "#dcfce7" : "#f1f5f9"};
-          color:${completed ? "#15803d" : "#475569"};
-          font-weight:800;
-        ">
-          ${completed ? "✓" : index + 1}
-        </span>
-
-        <span style="
-          flex:1;
-          font-weight:700;
-          color:#1e293b;
-        ">
-          ${lesson.title || lesson.name}
-        </span>
-
-        <span style="
-          color:#64748b;
-          font-size:18px;
-        ">
-          ›
-        </span>
-
-      `;
-
-      item.addEventListener(
-        "click",
-        function () {
-
-          openLesson(
-            courseId,
+        const completed =
+          isCompleted(
             lesson.id
           );
 
-        }
-      );
+        const item =
+          document.createElement(
+            "button"
+          );
 
-      container.appendChild(item);
-    });
+        item.type = "button";
+
+        item.style.cssText = `
+          width:100%;
+          display:flex;
+          align-items:center;
+          gap:14px;
+          text-align:left;
+          padding:16px;
+          margin-bottom:10px;
+          border:1px solid #e2e8f0;
+          border-radius:14px;
+          background:#ffffff;
+          cursor:pointer;
+          box-sizing:border-box;
+        `;
+
+        item.innerHTML = `
+          <div style="
+            width:38px;
+            height:38px;
+            min-width:38px;
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:${completed
+              ? "#dcfce7"
+              : "#eff6ff"};
+            color:${completed
+              ? "#15803d"
+              : "#2563eb"};
+            font-weight:800;
+          ">
+            ${completed
+              ? "✓"
+              : index + 1}
+          </div>
+
+          <div style="
+            min-width:0;
+            flex:1;
+          ">
+
+            <div style="
+              font-weight:800;
+              color:#0f172a;
+              line-height:1.5;
+              overflow-wrap:anywhere;
+            ">
+              ${lesson.title}
+            </div>
+
+            <div style="
+              margin-top:4px;
+              font-size:12px;
+              color:#64748b;
+            ">
+              ${completed
+                ? "Completed"
+                : "Start Lesson"}
+            </div>
+
+          </div>
+
+          <div style="
+            font-size:20px;
+            color:#94a3b8;
+          ">
+            ›
+          </div>
+        `;
+
+        item.addEventListener(
+          "click",
+          function () {
+            openLesson(
+              courseId,
+              lesson.id
+            );
+          }
+        );
+
+        container.appendChild(item);
+      }
+    );
   }
 
   /* =========================================================
-     GLOBAL API
+     KEYBOARD
+     ========================================================= */
+
+  document.addEventListener(
+    "keydown",
+    function (event) {
+
+      const overlay =
+        document.getElementById(
+          "aung-lesson-overlay"
+        );
+
+      if (
+        !overlay ||
+        !overlay.classList.contains(
+          "active"
+        )
+      ) {
+        return;
+      }
+
+      if (event.key === "Escape") {
+        closeLesson();
+      }
+
+      if (
+        event.key === "ArrowRight"
+      ) {
+        nextLesson();
+      }
+
+      if (
+        event.key === "ArrowLeft"
+      ) {
+        previousLesson();
+      }
+    }
+  );
+
+  /* =========================================================
+     PUBLIC API
      ========================================================= */
 
   window.AungLessonSystem = {
 
-    openLesson: openLesson,
+    openLesson:
+      openLesson,
 
-    closeLesson: closeLesson,
+    closeLesson:
+      closeLesson,
 
-    nextLesson: nextLesson,
+    nextLesson:
+      nextLesson,
 
-    previousLesson: previousLesson,
+    previousLesson:
+      previousLesson,
 
-    markCompleted: markCompleted,
+    markCompleted:
+      markCompleted,
 
-    isCompleted: isCompleted,
+    isCompleted:
+      isCompleted,
 
-    getCourseProgress: getCourseProgress,
+    getCourseProgress:
+      getCourseProgress,
 
-    getCourses: getCourses,
+    getCourses:
+      getCourses,
 
-    getCourse: getCourse,
+    getCourse:
+      getCourse,
 
-    getLesson: getLesson,
+    getLesson:
+      getLesson,
 
     renderCourseLessons:
       renderCourseLessons
+
   };
 
-  /* =========================================================
-     AUTO INIT
-     ========================================================= */
-
-  function init() {
-
-    injectStyles();
-    createModal();
-
-    console.log(
-      "Aung Business Academy — Professional Lesson System loaded"
-    );
-  }
-
-  if (document.readyState === "loading") {
-
-    document.addEventListener(
-      "DOMContentLoaded",
-      init
-    );
-
-  } else {
-
-    init();
-  }
+  console.log(
+    "✅ Aung Lesson System V2.0 loaded"
+  );
 
 })();

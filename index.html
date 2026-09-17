@@ -5,163 +5,220 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0f172a">
   <meta name="description" content="Aung Business Academy - Professional Business Management System">
-  <title>Aung Business Academy V15.1</title>
+  <title>Aung Business Academy | V15.1 Professional</title>
+
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <div class="app-shell">
+  <!-- Mobile Overlay -->
+  <div id="mobileOverlay" class="mobile-overlay"></div>
 
-    <!-- MOBILE OVERLAY -->
-    <div id="mobileOverlay" class="mobile-overlay"></div>
+  <!-- =========================
+       SIDEBAR
+  ========================== -->
+  <aside id="sidebar" class="sidebar">
 
-    <!-- SIDEBAR -->
-    <aside id="sidebar" class="sidebar">
+    <div class="brand-area">
+      <div class="brand-logo">ABA</div>
 
-      <div class="brand">
-        <div class="brand-mark">ABA</div>
-        <div>
-          <div class="brand-title">AUNG BUSINESS</div>
-          <div class="brand-subtitle">ACADEMY</div>
-        </div>
+      <div class="brand-text">
+        <div class="brand-title">AUNG BUSINESS</div>
+        <div class="brand-title">ACADEMY</div>
+      </div>
+    </div>
+
+    <div class="profile-card">
+      <div class="profile-avatar">AZ</div>
+
+      <div class="profile-info">
+        <strong id="sidebarUserName">Aung Zar Ni Win</strong>
+        <span id="sidebarUserRole">Business Manager</span>
+      </div>
+    </div>
+
+    <div class="sidebar-content">
+
+      <div class="menu-label">WORKSPACE</div>
+
+      <button class="nav-item is-active"
+              data-section="dashboard"
+              type="button">
+        <span class="nav-icon">⌂</span>
+        <span>Dashboard</span>
+      </button>
+
+      <button class="nav-item"
+              data-section="academy"
+              type="button">
+        <span class="nav-icon">▣</span>
+        <span>Business Academy</span>
+      </button>
+
+      <button class="nav-item"
+              data-section="lessons"
+              type="button">
+        <span class="nav-icon">▤</span>
+        <span>Lessons</span>
+      </button>
+
+      <button class="nav-item"
+              data-section="progress"
+              type="button">
+        <span class="nav-icon">◔</span>
+        <span>My Progress</span>
+      </button>
+
+
+      <div class="menu-label">MANAGEMENT</div>
+
+      <button class="nav-item"
+              data-section="sales"
+              type="button">
+        <span class="nav-icon">↗</span>
+        <span>Sales Manager</span>
+      </button>
+
+      <button class="nav-item"
+              data-section="kpi"
+              type="button">
+        <span class="nav-icon">▥</span>
+        <span>KPI & Analytics</span>
+      </button>
+
+      <button class="nav-item"
+              data-section="reports"
+              type="button">
+        <span class="nav-icon">▤</span>
+        <span>Business Reports</span>
+      </button>
+
+
+      <div class="menu-label">BUSINESS TOOLS</div>
+
+      <button class="nav-item"
+              data-section="tools"
+              type="button">
+        <span class="nav-icon">⚙</span>
+        <span>Business Tools</span>
+      </button>
+
+      <button class="nav-item"
+              data-section="ai-tools"
+              type="button">
+        <span class="nav-icon">✦</span>
+        <span>AI Business Tools</span>
+      </button>
+
+      <button class="nav-item"
+              data-section="ai-coach"
+              type="button">
+        <span class="nav-icon">◉</span>
+        <span>AI Business Coach</span>
+      </button>
+
+
+      <div class="menu-label">ACCOUNT</div>
+
+      <button class="nav-item premium-nav"
+              data-section="premium"
+              type="button">
+        <span class="nav-icon">◆</span>
+        <span>Premium Membership</span>
+        <span class="premium-badge">PRO</span>
+      </button>
+
+      <button class="nav-item"
+              data-section="settings"
+              type="button">
+        <span class="nav-icon">⚙</span>
+        <span>Settings</span>
+      </button>
+
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="version-text">
+        V15.1 Professional
       </div>
 
-      <div class="profile-box">
-        <div class="profile-avatar">AZ</div>
-        <div class="profile-info">
-          <strong id="sidebarName">Aung Zar Ni Win</strong>
-          <span id="sidebarRole">Business Manager</span>
-        </div>
+      <div class="system-text">
+        Business Management System
       </div>
+    </div>
 
-      <nav class="sidebar-nav">
+  </aside>
 
-        <div class="nav-group">
-          <div class="nav-label">WORKSPACE</div>
 
-          <button class="nav-item active" data-section="dashboard">
-            <span class="nav-icon">⌂</span>
-            <span>Dashboard</span>
-          </button>
+  <!-- =========================
+       MAIN AREA
+  ========================== -->
+  <div class="main-wrapper">
 
-          <button class="nav-item" data-section="academy">
-            <span class="nav-icon">▣</span>
-            <span>Business Academy</span>
-          </button>
+    <!-- TOPBAR -->
+    <header class="topbar">
 
-          <button class="nav-item" data-section="lessons">
-            <span class="nav-icon">▤</span>
-            <span>Lessons</span>
-          </button>
+      <div class="topbar-left">
 
-          <button class="nav-item" data-section="progress">
-            <span class="nav-icon">◔</span>
-            <span>My Progress</span>
-          </button>
-        </div>
-
-        <div class="nav-group">
-          <div class="nav-label">MANAGEMENT</div>
-
-          <button class="nav-item" data-section="sales">
-            <span class="nav-icon">↗</span>
-            <span>Sales Manager</span>
-          </button>
-
-          <button class="nav-item" data-section="kpi">
-            <span class="nav-icon">▥</span>
-            <span>KPI &amp; Analytics</span>
-          </button>
-
-          <button class="nav-item" data-section="reports">
-            <span class="nav-icon">▤</span>
-            <span>Business Reports</span>
-          </button>
-        </div>
-
-        <div class="nav-group">
-          <div class="nav-label">BUSINESS TOOLS</div>
-
-          <button class="nav-item" data-section="tools">
-            <span class="nav-icon">⌘</span>
-            <span>Business Tools</span>
-          </button>
-
-          <button class="nav-item" data-section="ai-tools">
-            <span class="nav-icon">✦</span>
-            <span>AI Business Tools</span>
-          </button>
-
-          <button class="nav-item" data-section="ai-coach">
-            <span class="nav-icon">◉</span>
-            <span>AI Business Coach</span>
-          </button>
-        </div>
-
-        <div class="nav-group">
-          <div class="nav-label">ACCOUNT</div>
-
-          <button class="nav-item premium-nav" data-section="premium">
-            <span class="nav-icon">◆</span>
-            <span>Premium Membership</span>
-            <b>PRO</b>
-          </button>
-
-          <button class="nav-item" data-section="settings">
-            <span class="nav-icon">⚙</span>
-            <span>Settings</span>
-          </button>
-        </div>
-
-      </nav>
-
-      <div class="sidebar-footer">
-        <div class="version">V15.1 Professional</div>
-        <div>Business Management System</div>
-      </div>
-
-    </aside>
-
-    <!-- MAIN -->
-    <main class="main-area">
-
-      <!-- TOPBAR -->
-      <header class="topbar">
-
-        <button id="mobileMenuBtn" class="mobile-menu-btn" type="button">
+        <button id="mobileMenuButton"
+                class="mobile-menu-button"
+                type="button"
+                aria-label="Open menu">
           ☰
         </button>
 
-        <div class="topbar-title">
-          <h1 id="pageTitle">Dashboard</h1>
-          <span id="pageSubtitle">Business Management Command Center</span>
-        </div>
-
-        <div class="topbar-right">
-          <div class="today-box">
-            <span>Today</span>
-            <strong id="todayDate">—</strong>
+        <div>
+          <div id="pageTitle" class="page-title">
+            Dashboard
           </div>
 
-          <div class="top-profile">
-            <div class="mini-avatar">AZ</div>
-            <div>
-              <strong id="topName">Aung Zar Ni Win</strong>
-              <span id="topRole">Business Manager</span>
-            </div>
+          <div id="pageSubtitle" class="page-subtitle">
+            Business Management Command Center
           </div>
         </div>
 
-      </header>
+      </div>
 
-      <!-- APP CONTENT -->
-      <section id="app" class="app-content">
 
-        <div class="loading-screen">
-          <div class="loading-logo">ABA</div>
-          <h2>Loading Aung Business Academy...</h2>
-          <p>Preparing your business management workspace</p>
+      <div class="topbar-right">
+
+        <div class="top-date">
+          <span id="todayText">Today</span>
+        </div>
+
+        <div class="top-profile">
+          <div class="top-avatar">AZ</div>
+
+          <div class="top-profile-text">
+            <strong id="topUserName">Aung Zar Ni Win</strong>
+            <span id="topUserRole">Business Manager</span>
+          </div>
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- APP CONTENT -->
+    <main id="app" class="app-content">
+
+      <!-- Fallback content appears immediately -->
+      <section class="loading-card">
+
+        <div class="loading-icon">
+          ABA
+        </div>
+
+        <h2>Loading Aung Business Academy...</h2>
+
+        <p>
+          Preparing your business management workspace
+        </p>
+
+        <div class="loading-bar">
+          <div class="loading-bar-inner"></div>
         </div>
 
       </section>
@@ -170,20 +227,54 @@
 
   </div>
 
-  <!-- TOAST -->
-  <div id="toast" class="toast"></div>
 
-  <!-- MODAL -->
-  <div id="modal" class="modal">
-    <div class="modal-backdrop" data-action="close-modal"></div>
+  <!-- =========================
+       PREMIUM MODAL
+  ========================== -->
+  <div id="premiumModal"
+       class="modal hidden">
 
-    <div class="modal-card">
-      <button class="modal-close" data-action="close-modal" type="button">×</button>
-      <div id="modalContent"></div>
+    <div class="modal-backdrop"
+         data-action="close-premium"></div>
+
+    <div class="modal-box">
+
+      <button class="modal-close"
+              data-action="close-premium"
+              type="button">
+        ×
+      </button>
+
+      <div class="modal-icon">
+        ◆
+      </div>
+
+      <h2>Premium Membership</h2>
+
+      <p class="modal-description">
+        Lesson 1 is free  
+        Lesson 2 နှင့်အထက်သည် Premium Membership လိုအပ်ပါသည်
+      </p>
+
+      <div id="premiumModalContent"></div>
+
     </div>
+
   </div>
 
-  <!-- JAVASCRIPT -->
+
+  <!-- =========================
+       TOAST
+  ========================== -->
+  <div id="toast"
+       class="toast">
+    <span id="toastMessage"></span>
+  </div>
+
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================== -->
   <script src="app.js"></script>
 
 </body>

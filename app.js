@@ -2,696 +2,316 @@
 
 (function () {
 
-  /* =========================================================
-     AUNG BUSINESS ACADEMY V15.1 STABLE
-     ========================================================= */
-
   var API_BASE_URL = "https://aung-business-academy.onrender.com";
   var AI_API_URL = API_BASE_URL + "/api/ai";
 
-  var KEYS = {
-    completed: "aba_completed_lessons",
-    premium: "aba_premium_status",
-    premiumExpiry: "aba_premium_expiry",
-    profile: "aba_profile",
-    kpi: "aba_kpi_data",
-    settings: "aba_settings"
-  };
+  var USER_KEY = "aung_business_academy_user";
+  var COMPLETED_KEY = "aung_business_academy_completed";
+  var OLD_COMPLETED_KEY = "aba_completed_lessons";
+  var PREMIUM_KEY = "aung_business_academy_premium";
+  var PAYMENT_KEY = "aung_business_academy_payment";
+  var KPI_KEY = "aung_business_academy_kpi";
+  var SETTINGS_KEY = "aung_business_academy_settings";
 
-  var state = {
-    section: "dashboard",
-    lessonId: null,
-    category: "All",
-    search: "",
-    aiLoading: false
-  };
-
-  /* =========================================================
-     CATEGORY DATA
-     ========================================================= */
+  var currentSection = "dashboard";
+  var currentLessonId = null;
+  var currentChat = [];
 
   var courseData = [
     {
       name: "Business Fundamentals",
-      icon: "💼",
-      guide: "Understand how a business creates value, earns revenue and manages resources",
+      description: "စီးပွားရေးအခြေခံ၊ Value Creation၊ Revenue၊ Cost နှင့် Business Model",
       topics: [
-        "Business Fundamentals",
-        "Value Creation",
-        "Customer Problem",
-        "Business Model",
-        "Revenue Model",
-        "Cost Structure",
-        "Value Proposition",
-        "Market Basics",
-        "Business Lifecycle",
-        "Business Ownership",
-        "Business Objectives",
-        "Business Environment",
-        "Business Risk",
-        "Business Ethics",
-        "Business Growth"
+        "Business Fundamentals","Value Creation","Customer Problem","Business Model","Revenue Model",
+        "Cost Structure","Value Proposition","Market Basics","Business Lifecycle","Business Ownership",
+        "Business Objectives","Business Environment","Business Risk","Business Ethics","Business Growth"
       ]
     },
     {
       name: "Business Strategy",
-      icon: "♟",
-      guide: "Build strategic priorities, competitive advantage and execution discipline",
+      description: "Strategy၊ SWOT၊ Competitive Advantage နှင့် Strategic Execution",
       topics: [
-        "Strategic Thinking",
-        "Vision Mission Goals",
-        "SWOT Analysis",
-        "Competitive Advantage",
-        "Market Positioning",
-        "Business Objectives",
-        "Strategy Formulation",
-        "Strategic Priorities",
-        "Resource Allocation",
-        "Strategic Execution",
-        "Scenario Planning",
-        "Risk Strategy",
-        "Growth Strategy",
-        "Diversification",
-        "Strategy Review"
+        "Strategic Thinking","Vision Mission Goals","SWOT Analysis","Competitive Advantage",
+        "Market Positioning","Business Objectives","Strategy Formulation","Strategic Priorities",
+        "Resource Allocation","Strategic Execution","Scenario Planning","Risk Strategy",
+        "Growth Strategy","Diversification","Strategy Review"
       ]
     },
     {
       name: "Sales Management",
-      icon: "📈",
-      guide: "Manage targets, territory, pipeline, forecasting and team execution",
+      description: "Target၊ Territory၊ Pipeline၊ Forecast နှင့် Sales Team Management",
       topics: [
-        "Sales Management Fundamentals",
-        "Sales Target Setting",
-        "Target Breakdown",
-        "Territory Planning",
-        "Route Planning",
-        "Sales Team Structure",
-        "Sales Pipeline",
-        "Sales Activity Management",
-        "Sales Productivity",
-        "Sales Performance Review",
-        "Sales Forecasting",
-        "Sales Coaching",
-        "Sales Meeting",
-        "Sales Motivation",
-        "Sales Incentive",
-        "Sales Reporting",
-        "Sales Control",
-        "Sales Strategy Execution",
-        "Sales Manager Dashboard",
-        "Sales Manager Daily Routine"
+        "Sales Management Fundamentals","Sales Target Setting","Target Breakdown","Territory Planning",
+        "Route Planning","Sales Team Structure","Sales Pipeline","Sales Activity Management",
+        "Sales Productivity","Sales Performance Review","Sales Forecasting","Sales Coaching",
+        "Sales Meeting","Sales Motivation","Sales Incentive","Sales Reporting","Sales Control",
+        "Sales Strategy Execution","Sales Manager Dashboard","Sales Manager Daily Routine"
       ]
     },
     {
       name: "Sales Skills",
-      icon: "🤝",
-      guide: "Develop practical customer selling, negotiation and closing skills",
+      description: "Prospecting၊ Needs Discovery၊ Objection Handling နှင့် Closing",
       topics: [
-        "Selling Fundamentals",
-        "Prospecting",
-        "Customer Approach",
-        "Needs Discovery",
-        "Questioning Skills",
-        "Listening Skills",
-        "Product Presentation",
-        "Value Selling",
-        "Feature Benefit",
-        "Objection Handling",
-        "Negotiation Basics",
-        "Closing Techniques",
-        "Follow-up",
-        "Cross Selling",
-        "Up Selling",
-        "Relationship Selling",
-        "Key Account Selling",
-        "Consultative Selling",
-        "Sales Communication",
-        "Sales Discipline"
+        "Selling Fundamentals","Prospecting","Customer Approach","Needs Discovery","Questioning Skills",
+        "Listening Skills","Product Presentation","Value Selling","Feature Benefit","Objection Handling",
+        "Negotiation Basics","Closing Techniques","Follow-up","Cross Selling","Up Selling",
+        "Relationship Selling","Key Account Selling","Consultative Selling","Sales Communication","Sales Discipline"
       ]
     },
     {
       name: "Customer Management",
-      icon: "👥",
-      guide: "Improve customer experience, retention and customer profitability",
+      description: "Customer Segmentation၊ Retention၊ Service နှင့် Profitability",
       topics: [
-        "Customer Segmentation",
-        "Customer Profiling",
-        "Customer Needs",
-        "Customer Value",
-        "Customer Journey",
-        "Customer Experience",
-        "Complaint Handling",
-        "Customer Retention",
-        "Repeat Purchase",
-        "Loyalty",
-        "Customer Service Standards",
-        "Customer Feedback",
-        "Customer Relationship",
-        "Customer Profitability",
-        "Customer Recovery"
+        "Customer Segmentation","Customer Profiling","Customer Needs","Customer Value","Customer Journey",
+        "Customer Experience","Complaint Handling","Customer Retention","Repeat Purchase","Loyalty",
+        "Customer Service Standards","Customer Feedback","Customer Relationship","Customer Profitability","Customer Recovery"
       ]
     },
     {
       name: "Marketing",
-      icon: "📣",
-      guide: "Build market understanding, campaigns, channels and marketing ROI",
+      description: "Market Research၊ Segmentation၊ Campaign နှင့် Marketing KPI",
       topics: [
-        "Marketing Fundamentals",
-        "Market Research",
-        "Segmentation",
-        "Targeting",
-        "Positioning",
-        "Marketing Mix",
-        "Product Strategy",
-        "Pricing Strategy",
-        "Promotion Strategy",
-        "Place Strategy",
-        "Campaign Planning",
-        "Marketing Funnel",
-        "Lead Generation",
-        "Content Strategy",
-        "Digital Marketing",
-        "Social Media Marketing",
-        "Trade Marketing",
-        "Shopper Marketing",
-        "Marketing KPI",
-        "Marketing ROI"
+        "Marketing Fundamentals","Market Research","Segmentation","Targeting","Positioning",
+        "Marketing Mix","Product Strategy","Pricing Strategy","Promotion Strategy","Place Strategy",
+        "Campaign Planning","Marketing Funnel","Lead Generation","Content Strategy","Digital Marketing",
+        "Social Media Marketing","Trade Marketing","Shopper Marketing","Marketing KPI","Marketing ROI"
       ]
     },
     {
       name: "Branding",
-      icon: "🏷️",
-      guide: "Build brand identity, positioning, trust and consistency",
+      description: "Brand Identity၊ Positioning၊ Trust နှင့် Brand Growth",
       topics: [
-        "Brand Fundamentals",
-        "Brand Identity",
-        "Brand Positioning",
-        "Brand Promise",
-        "Brand Value",
-        "Brand Awareness",
-        "Brand Trust",
-        "Brand Communication",
-        "Brand Consistency",
-        "Brand Growth"
+        "Brand Fundamentals","Brand Identity","Brand Positioning","Brand Promise","Brand Value",
+        "Brand Awareness","Brand Trust","Brand Communication","Brand Consistency","Brand Growth"
       ]
     },
     {
       name: "Finance",
-      icon: "💰",
-      guide: "Manage revenue, cost, cash flow, margin and financial decisions",
+      description: "Revenue၊ Cost၊ Cash Flow၊ Profit၊ Margin နှင့် Financial Decisions",
       topics: [
-        "Business Finance Basics",
-        "Revenue Management",
-        "Cost Management",
-        "Cash Flow",
-        "Working Capital",
-        "Budgeting",
-        "Financial Planning",
-        "Profit Management",
-        "Margin Management",
-        "Break-even Analysis",
-        "Investment Decisions",
-        "Financial Controls",
-        "Cost Reduction",
-        "Cash Management",
-        "Financial Decision Making"
+        "Business Finance Basics","Revenue Management","Cost Management","Cash Flow","Working Capital",
+        "Budgeting","Financial Planning","Profit Management","Margin Management","Break-even Analysis",
+        "Investment Decisions","Financial Controls","Cost Reduction","Cash Management","Financial Decision Making"
       ]
     },
     {
       name: "Accounting & P&L",
-      icon: "📑",
-      guide: "Read income statements, P&L, balance sheet and cash flow information",
+      description: "Income Statement၊ P&L၊ Gross Profit၊ OPEX နှင့် Cash Flow",
       topics: [
-        "Accounting Basics",
-        "Income Statement",
-        "P&L Structure",
-        "Gross Profit",
-        "Gross Margin",
-        "Operating Expenses",
-        "EBITDA Basics",
-        "Balance Sheet Basics",
-        "Cash Flow Statement",
-        "P&L Analysis"
+        "Accounting Basics","Income Statement","P&L Structure","Gross Profit","Gross Margin",
+        "Operating Expenses","EBITDA Basics","Balance Sheet Basics","Cash Flow Statement","P&L Analysis"
       ]
     },
     {
       name: "Distribution & Operations",
-      icon: "🚚",
-      guide: "Manage channels, distributors, inventory, logistics and execution",
+      description: "Distribution၊ Channel၊ Stock၊ Warehouse နှင့် Route to Market",
       topics: [
-        "Distribution Fundamentals",
-        "Channel Strategy",
-        "Distributor Selection",
-        "Distributor Management",
-        "Stock Management",
-        "Inventory Control",
-        "Warehouse Basics",
-        "Delivery Planning",
-        "Order Management",
-        "Supply Chain Basics",
-        "Service Level",
-        "Route to Market",
-        "Distribution KPI",
-        "Distribution Cost",
-        "Operational Excellence"
+        "Distribution Fundamentals","Channel Strategy","Distributor Selection","Distributor Management",
+        "Stock Management","Inventory Control","Warehouse Basics","Delivery Planning","Order Management",
+        "Supply Chain Basics","Service Level","Route to Market","Distribution KPI","Distribution Cost","Operational Excellence"
       ]
     },
     {
       name: "Retail & Modern Trade",
-      icon: "🏪",
-      guide: "Improve retail execution, availability, promotion and store performance",
+      description: "Retail Execution၊ Distribution၊ Shelf၊ Promotion နှင့် Modern Trade",
       topics: [
-        "Retail Fundamentals",
-        "Outlet Classification",
-        "Numeric Distribution",
-        "Weighted Distribution",
-        "Planogram Basics",
-        "Shelf Availability",
-        "Promotion Execution",
-        "Modern Trade Negotiation",
-        "Retail KPI",
-        "Store Execution"
+        "Retail Fundamentals","Outlet Classification","Numeric Distribution","Weighted Distribution",
+        "Planogram Basics","Shelf Availability","Promotion Execution","Modern Trade Negotiation",
+        "Retail KPI","Store Execution"
       ]
     },
     {
       name: "Key Account Management",
-      icon: "⭐",
-      guide: "Manage strategic accounts, profitability and joint business plans",
+      description: "KAM၊ Account Planning၊ JBP၊ Negotiation နှင့် Account Growth",
       topics: [
-        "KAM Fundamentals",
-        "Account Selection",
-        "Account Planning",
-        "Customer Business Plan",
-        "Joint Business Planning",
-        "Key Account Negotiation",
-        "Account Review",
-        "Customer Profitability",
-        "KAM KPI",
-        "Strategic Account Growth"
+        "KAM Fundamentals","Account Selection","Account Planning","Customer Business Plan",
+        "Joint Business Planning","Key Account Negotiation","Account Review","Customer Profitability",
+        "KAM KPI","Strategic Account Growth"
       ]
     },
     {
       name: "Leadership & Management",
-      icon: "👔",
-      guide: "Lead people, set goals, coach teams and improve performance",
+      description: "Leadership၊ Delegation၊ Coaching၊ Performance နှင့် Team Management",
       topics: [
-        "Leadership Fundamentals",
-        "Manager vs Leader",
-        "Leadership Styles",
-        "Goal Setting",
-        "Delegation",
-        "Coaching",
-        "Feedback",
-        "Performance Management",
-        "Decision Making",
-        "Meeting Management",
-        "Team Management",
-        "Motivation",
-        "Conflict Management",
-        "Change Management",
-        "Leadership Discipline"
+        "Leadership Fundamentals","Manager vs Leader","Leadership Styles","Goal Setting","Delegation",
+        "Coaching","Feedback","Performance Management","Decision Making","Meeting Management",
+        "Team Management","Motivation","Conflict Management","Change Management","Leadership Discipline"
       ]
     },
     {
       name: "People & HR",
-      icon: "🧑‍💼",
-      guide: "Build people systems for recruitment, development and retention",
+      description: "Recruitment၊ Onboarding၊ Training၊ Performance နှင့် Retention",
       topics: [
-        "HR Fundamentals",
-        "Recruitment",
-        "Job Description",
-        "Onboarding",
-        "Training Needs",
-        "Employee Development",
-        "Performance Appraisal",
-        "Attendance Discipline",
-        "Compensation Basics",
-        "Retention"
+        "HR Fundamentals","Recruitment","Job Description","Onboarding","Training Needs",
+        "Employee Development","Performance Appraisal","Attendance Discipline","Compensation Basics","Retention"
       ]
     },
     {
       name: "Negotiation",
-      icon: "🤝",
-      guide: "Prepare, negotiate value, manage concessions and protect margin",
+      description: "Preparation၊ BATNA၊ Concession၊ Price Negotiation နှင့် Win-Win",
       topics: [
-        "Negotiation Fundamentals",
-        "Preparation",
-        "BATNA Basics",
-        "Negotiation Objectives",
-        "Questioning",
-        "Concessions",
-        "Price Negotiation",
-        "Win-Win Negotiation",
-        "Difficult Negotiations",
-        "Negotiation Review"
+        "Negotiation Fundamentals","Preparation","BATNA Basics","Negotiation Objectives","Questioning",
+        "Concessions","Price Negotiation","Win-Win Negotiation","Difficult Negotiations","Negotiation Review"
       ]
     },
     {
       name: "Business Development",
-      icon: "🚀",
-      guide: "Identify opportunities, enter markets and build growth pipelines",
+      description: "Opportunity၊ New Market၊ Partnership၊ Channel Expansion နှင့် Growth",
       topics: [
-        "Business Development Fundamentals",
-        "Opportunity Identification",
-        "New Market Entry",
-        "New Product Opportunity",
-        "Partnership Strategy",
-        "Channel Expansion",
-        "Customer Acquisition",
-        "Business Growth Pipeline",
-        "Business Proposal",
-        "Business Development KPI"
+        "Business Development Fundamentals","Opportunity Identification","New Market Entry",
+        "New Product Opportunity","Partnership Strategy","Channel Expansion","Customer Acquisition",
+        "Business Growth Pipeline","Business Proposal","Business Development KPI"
       ]
     },
     {
       name: "KPI & Data Analysis",
-      icon: "📊",
-      guide: "Measure performance, diagnose gaps and make data-based decisions",
+      description: "KPI Design၊ Target vs Actual၊ Gap၊ Trend နှင့် Dashboard",
       topics: [
-        "KPI Fundamentals",
-        "KPI Design",
-        "Target vs Actual",
-        "Achievement %",
-        "Gap Analysis",
-        "Trend Analysis",
-        "Sales Dashboard",
-        "Productivity Analysis",
-        "Data-Based Decision Making",
-        "KPI Review"
+        "KPI Fundamentals","KPI Design","Target vs Actual","Achievement %","Gap Analysis",
+        "Trend Analysis","Sales Dashboard","Productivity Analysis","Data-Based Decision Making","KPI Review"
       ]
     },
     {
       name: "Problem Solving & Decision Making",
-      icon: "🧠",
-      guide: "Find root causes, prioritize issues and create action plans",
+      description: "Root Cause၊ 5 Whys၊ Fishbone၊ Pareto နှင့် Action Planning",
       topics: [
-        "Problem Definition",
-        "Root Cause Analysis",
-        "5 Whys",
-        "Fishbone",
-        "Pareto",
-        "Prioritization",
-        "Decision Framework",
-        "Action Planning",
-        "Risk Assessment",
-        "Review & Learning"
+        "Problem Definition","Root Cause Analysis","5 Whys","Fishbone","Pareto",
+        "Prioritization","Decision Framework","Action Planning","Risk Assessment","Review & Learning"
       ]
     },
     {
       name: "Digital Business & AI",
-      icon: "🤖",
-      guide: "Apply digital tools, automation and AI to practical business work",
+      description: "Digital Transformation၊ AI for Sales၊ Marketing နှင့် Automation",
       topics: [
-        "Digital Business Fundamentals",
-        "Digital Transformation",
-        "AI Fundamentals",
-        "AI for Sales",
-        "AI for Marketing",
-        "AI for Customer Service",
-        "AI for Productivity",
-        "Data & Automation",
-        "AI Business Tools",
-        "Responsible AI Use"
+        "Digital Business Fundamentals","Digital Transformation","AI Fundamentals","AI for Sales",
+        "AI for Marketing","AI for Customer Service","AI for Productivity","Data & Automation",
+        "AI Business Tools","Responsible AI Use"
       ]
     },
     {
       name: "Productivity & Career",
-      icon: "🎯",
-      guide: "Improve time management, focus, communication and professional growth",
+      description: "Time၊ Priority၊ Planning၊ Communication နှင့် Career Development",
       topics: [
-        "Time Management",
-        "Priority Management",
-        "Daily Planning",
-        "Weekly Planning",
-        "Meeting Productivity",
-        "Focus Management",
-        "Professional Communication",
-        "Career Planning",
-        "Interview Preparation",
-        "Personal Development"
+        "Time Management","Priority Management","Daily Planning","Weekly Planning",
+        "Meeting Productivity","Focus Management","Professional Communication","Career Planning",
+        "Interview Preparation","Personal Development"
       ]
     }
   ];
 
-  /* =========================================================
-     BUILD 260 LESSONS
-     ========================================================= */
-
   var lessons = [];
   var lessonCounter = 1;
 
-  for (var c = 0; c < courseData.length; c++) {
-    var course = courseData[c];
-
-    for (var l = 0; l < course.topics.length; l++) {
+  courseData.forEach(function (course) {
+    course.topics.forEach(function (topic) {
       lessons.push({
         id: lessonCounter,
-        title: course.topics[l],
+        number: lessonCounter,
+        title: topic,
         category: course.name,
-        icon: course.icon,
-        guide: course.guide,
-        categoryIndex: c,
-        lessonIndex: l + 1
+        description: course.description,
+        premium: lessonCounter > 1
       });
-
       lessonCounter++;
-    }
-  }
-
-  /* =========================================================
-     STORAGE
-     ========================================================= */
+    });
+  });
 
   function safeGet(key, fallback) {
     try {
       var value = localStorage.getItem(key);
-      if (value === null) {
-        return fallback;
-      }
-      return value;
-    } catch (e) {
+      if (value === null) return fallback;
+      return JSON.parse(value);
+    } catch (error) {
       return fallback;
     }
   }
 
   function safeSet(key, value) {
     try {
-      localStorage.setItem(key, value);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  function safeRemove(key) {
-    try {
-      localStorage.removeItem(key);
-    } catch (e) {}
-  }
-
-  function getJSON(key, fallback) {
-    try {
-      var raw = localStorage.getItem(key);
-      if (!raw) {
-        return fallback;
-      }
-      return JSON.parse(raw);
-    } catch (e) {
-      return fallback;
-    }
-  }
-
-  function setJSON(key, value) {
-    try {
       localStorage.setItem(key, JSON.stringify(value));
       return true;
-    } catch (e) {
+    } catch (error) {
       return false;
     }
   }
 
-  /* =========================================================
-     PROFILE
-     ========================================================= */
-
-  function getProfile() {
-    var profile = getJSON(KEYS.profile, null);
-
-    if (!profile) {
-      profile = {
-        name: "Aung Zar Ni Win",
-        role: "Business Manager"
-      };
-    }
-
-    return profile;
-  }
-
-  function saveProfile(name, role) {
-    setJSON(KEYS.profile, {
-      name: name || "Aung Zar Ni Win",
-      role: role || "Business Manager"
+  function getUser() {
+    return safeGet(USER_KEY, {
+      name: "Aung Zar Ni Win",
+      role: "Business Manager"
     });
-
-    updateProfileUI();
   }
-
-  function updateProfileUI() {
-    var profile = getProfile();
-
-    var ids = [
-      ["sidebarName", profile.name],
-      ["topName", profile.name],
-      ["sidebarRole", profile.role],
-      ["topRole", profile.role]
-    ];
-
-    for (var i = 0; i < ids.length; i++) {
-      var el = document.getElementById(ids[i][0]);
-      if (el) {
-        el.textContent = ids[i][1];
-      }
-    }
-  }
-
-  /* =========================================================
-     COMPLETED LESSONS
-     ========================================================= */
 
   function getCompleted() {
-    var data = getJSON(KEYS.completed, []);
+    var primary = safeGet(COMPLETED_KEY, null);
+    var old = safeGet(OLD_COMPLETED_KEY, []);
 
-    if (!Array.isArray(data)) {
-      return [];
+    if (Array.isArray(primary) && primary.length) {
+      return primary;
     }
 
-    return data;
+    if (Array.isArray(old) && old.length) {
+      return old;
+    }
+
+    return [];
+  }
+
+  function setCompleted(list) {
+    var clean = [];
+    var i;
+
+    for (i = 0; i < list.length; i++) {
+      if (clean.indexOf(Number(list[i])) === -1) {
+        clean.push(Number(list[i]));
+      }
+    }
+
+    safeSet(COMPLETED_KEY, clean);
+    safeSet(OLD_COMPLETED_KEY, clean);
   }
 
   function isCompleted(id) {
     return getCompleted().indexOf(Number(id)) !== -1;
   }
 
-  function toggleCompleted(id) {
-    id = Number(id);
-
-    var completed = getCompleted();
-    var index = completed.indexOf(id);
-
-    if (index === -1) {
-      completed.push(id);
-      setJSON(KEYS.completed, completed);
-      showToast("Lesson completed");
-    } else {
-      completed.splice(index, 1);
-      setJSON(KEYS.completed, completed);
-      showToast("Lesson marked incomplete");
-    }
-  }
-
-  function resetProgress() {
-    var confirmed = window.confirm(
-      "Reset all lesson progress?\n\nThis will remove your completed lesson records"
-    );
-
-    if (!confirmed) {
-      return;
-    }
-
-    safeRemove(KEYS.completed);
-    showToast("Learning progress has been reset");
-    renderCurrent();
-  }
-
   function getProgress() {
-    var completed = getCompleted();
+    var total = lessons.length;
+    var completed = getCompleted().length;
 
-    if (!lessons.length) {
-      return 0;
-    }
+    if (!total) return 0;
 
-    return Math.round((completed.length / lessons.length) * 100);
+    return Math.round((completed / total) * 100);
   }
 
-  function getCategoryProgress(category) {
-    var list = lessons.filter(function (lesson) {
-      return lesson.category === category;
-    });
+  function isPremiumActive() {
+    var premium = safeGet(PREMIUM_KEY, false);
 
-    var completed = list.filter(function (lesson) {
-      return isCompleted(lesson.id);
-    }).length;
-
-    if (!list.length) {
-      return 0;
-    }
-
-    return Math.round((completed / list.length) * 100);
-  }
-
-  /* =========================================================
-     PREMIUM
-     ========================================================= */
-
-  function isPremium() {
-    var status = safeGet(KEYS.premium, "false");
-
-    if (status !== "true") {
-      return false;
-    }
-
-    var expiry = Number(safeGet(KEYS.premiumExpiry, "0"));
-
-    if (expiry > 0 && Date.now() > expiry) {
-      safeSet(KEYS.premium, "false");
-      safeRemove(KEYS.premiumExpiry);
-      return false;
-    }
-
-    return true;
-  }
-
-  function getPremiumPlanText() {
-    if (!isPremium()) {
-      return "BASIC";
-    }
-
-    var expiry = Number(safeGet(KEYS.premiumExpiry, "0"));
-
-    if (!expiry) {
-      return "PRO";
-    }
-
-    var days = Math.ceil((expiry - Date.now()) / 86400000);
-
-    if (days <= 0) {
-      return "BASIC";
-    }
-
-    return "PRO • " + days + " days";
-  }
-
-  function canOpenLesson(id) {
-    id = Number(id);
-
-    /*
-      Lesson 1 = FREE
-      Lesson 2+ = PREMIUM
-    */
-
-    if (id === 1) {
+    if (premium === true) {
       return true;
     }
 
-    return isPremium();
+    if (premium && premium.active === true) {
+      return true;
+    }
+
+    return false;
   }
 
-  /* =========================================================
-     HELPERS
-     ========================================================= */
+  function getKPI() {
+    return safeGet(KPI_KEY, {
+      target: 500,
+      actual: 385,
+      team: 4,
+      customers: 120,
+      orders: 85
+    });
+  }
 
-  function escapeHtml(value) {
-    return String(value === undefined || value === null ? "" : value)
+  function escapeHTML(value) {
+    var text = String(value === undefined || value === null ? "" : value);
+
+    return text
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
@@ -699,2846 +319,1519 @@
       .replace(/'/g, "&#039;");
   }
 
-  function formatNumber(value) {
-    var number = Number(value);
-
-    if (isNaN(number)) {
-      number = 0;
-    }
-
+  function money(value) {
+    var number = Number(value) || 0;
     return number.toLocaleString("en-US");
   }
 
-  function getLesson(id) {
-    id = Number(id);
+  function achievement(target, actual) {
+    target = Number(target) || 0;
+    actual = Number(actual) || 0;
 
-    for (var i = 0; i < lessons.length; i++) {
-      if (lessons[i].id === id) {
-        return lessons[i];
-      }
-    }
+    if (target <= 0) return 0;
 
-    return null;
+    return Math.round((actual / target) * 100);
   }
 
-  function getFirstIncomplete() {
-    for (var i = 0; i < lessons.length; i++) {
-      if (!isCompleted(lessons[i].id)) {
-        return lessons[i];
-      }
-    }
-
-    return lessons[0] || null;
+  function gap(target, actual) {
+    return (Number(target) || 0) - (Number(actual) || 0);
   }
 
-  function getCategoryIcon(category) {
-    for (var i = 0; i < courseData.length; i++) {
-      if (courseData[i].name === category) {
-        return courseData[i].icon;
-      }
-    }
+  function showToast(message) {
+    var toast = document.getElementById("toast");
 
-    return "📚";
+    if (!toast) return;
+
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    clearTimeout(window.__abaToastTimer);
+
+    window.__abaToastTimer = setTimeout(function () {
+      toast.classList.remove("show");
+    }, 2500);
   }
 
-  /* =========================================================
-     PAGE TITLES
-     ========================================================= */
+  function updateProfileUI() {
+    var user = getUser();
 
-  var pageTitles = {
-    dashboard: ["Dashboard", "Business Management Command Center"],
-    academy: ["Business Academy", "Professional Business Management Learning"],
-    lessons: ["Lessons", "260 Professional Business Lessons"],
-    progress: ["My Progress", "Learning performance and completion"],
-    sales: ["Sales Manager", "Sales target, team and execution management"],
-    kpi: ["KPI & Analytics", "Measure performance and identify gaps"],
-    reports: ["Business Reports", "Management reports and performance summaries"],
-    tools: ["Business Tools", "Practical business calculators and tools"],
-    "ai-tools": ["AI Business Tools", "AI-powered management workflows"],
-    coach: ["AI Business Coach", "Practical business problem solving"],
-    premium: ["Premium Membership", "Professional learning and business tools"],
-    settings: ["Settings", "Profile and application settings"]
-  };
+    var ids = [
+      ["sidebarName", user.name],
+      ["sidebarRole", user.role],
+      ["topName", user.name],
+      ["topRole", user.role]
+    ];
 
-  function updatePageTitle() {
-    var title = pageTitles[state.section] || pageTitles.dashboard;
-
-    var titleEl = document.getElementById("pageTitle");
-    var subtitleEl = document.getElementById("pageSubtitle");
-
-    if (titleEl) {
-      titleEl.textContent = title[0];
-    }
-
-    if (subtitleEl) {
-      subtitleEl.textContent = title[1];
-    }
-  }
-
-  function updateActiveNav() {
-    var navs = document.querySelectorAll(".nav-item");
-
-    for (var i = 0; i < navs.length; i++) {
-      navs[i].classList.remove("active");
-
-      if (navs[i].getAttribute("data-section") === state.section) {
-        navs[i].classList.add("active");
-      }
-    }
-  }
-
-  /* =========================================================
-     NAVIGATION
-     ========================================================= */
-
-  function goToSection(section) {
-    if (!section) {
-      section = "dashboard";
-    }
-
-    state.section = section;
-    state.lessonId = null;
-
-    closeMobileMenu();
-    updatePageTitle();
-    updateActiveNav();
-    renderCurrent();
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
+    ids.forEach(function (item) {
+      var element = document.getElementById(item[0]);
+      if (element) element.textContent = item[1];
     });
   }
 
-  /* =========================================================
-     DASHBOARD
-     ========================================================= */
+  function setPageMeta(title, subtitle) {
+    var titleElement = document.getElementById("pageTitle");
+    var subtitleElement = document.getElementById("pageSubtitle");
 
-  function renderDashboard() {
-    var profile = getProfile();
-    var completed = getCompleted().length;
-    var progress = getProgress();
-    var nextLesson = getFirstIncomplete();
-
-    var nextTitle = nextLesson
-      ? escapeHtml(nextLesson.title)
-      : "All lessons completed";
-
-    var nextId = nextLesson ? nextLesson.id : 1;
-
-    var premiumText = getPremiumPlanText();
-
-    return `
-      <div class="hero">
-        <h2>Welcome back, ${escapeHtml(profile.name)}</h2>
-        <p>Build stronger business management, sales execution and leadership skills</p>
-
-        <div class="hero-actions">
-          <button class="btn btn-white" data-action="open-lesson" data-id="${nextId}">
-            Continue Learning
-          </button>
-
-          <button class="btn btn-primary" data-section="sales">
-            Open Sales Manager
-          </button>
-        </div>
-      </div>
-
-      <div class="grid grid-4">
-
-        <div class="card stat-card">
-          <div class="stat-label">Total Lessons</div>
-          <div class="stat-value">${lessons.length}</div>
-          <div class="stat-note">Professional business lessons</div>
-        </div>
-
-        <div class="card stat-card">
-          <div class="stat-label">Completed</div>
-          <div class="stat-value">${completed}</div>
-          <div class="stat-note">Lessons completed</div>
-        </div>
-
-        <div class="card stat-card">
-          <div class="stat-label">Overall Progress</div>
-          <div class="stat-value">${progress}%</div>
-          <div class="stat-note">Learning progress</div>
-        </div>
-
-        <div class="card stat-card">
-          <div class="stat-label">Membership</div>
-          <div class="stat-value">${escapeHtml(premiumText)}</div>
-          <div class="stat-note">Lesson 1 free • Lesson 2+ Premium</div>
-        </div>
-
-      </div>
-
-      <div style="height:18px"></div>
-
-      <div class="grid grid-2">
-
-        <div class="card card-pad">
-          <div class="section-title">Continue Learning</div>
-
-          <p class="muted small">Next recommended lesson</p>
-
-          <h3 style="margin-top:7px;font-size:17px">
-            ${nextTitle}
-          </h3>
-
-          <div class="progress-wrap">
-            <div class="progress-row">
-              <span>Overall Progress</span>
-              <strong>${progress}%</strong>
-            </div>
-
-            <div class="progress-bar">
-              <div class="progress-fill" style="width:${progress}%"></div>
-            </div>
-          </div>
-
-          <button
-            class="btn btn-primary"
-            style="margin-top:15px"
-            data-action="open-lesson"
-            data-id="${nextId}">
-            Open Lesson
-          </button>
-        </div>
-
-        <div class="card card-pad">
-          <div class="section-title">Membership Status</div>
-
-          <div class="result-box">
-            <strong>${escapeHtml(premiumText)}</strong>
-            <p class="muted small" style="margin-top:6px">
-              Lesson 1 is free. Lesson 2 and above require Premium Membership
-            </p>
-          </div>
-
-          <button
-            class="btn ${isPremium() ? "btn-success" : "btn-primary"}"
-            style="margin-top:14px"
-            data-section="premium">
-            ${isPremium() ? "View Premium Status" : "Upgrade to Premium"}
-          </button>
-        </div>
-
-      </div>
-
-      <div style="height:22px"></div>
-
-      <div class="section-title">Business Management Focus</div>
-
-      <div class="grid grid-3">
-
-        <div class="card focus-card">
-          <div class="focus-icon">📈</div>
-          <h3>Sales Management</h3>
-          <p>Target, team, pipeline and execution</p>
-        </div>
-
-        <div class="card focus-card">
-          <div class="focus-icon">📊</div>
-          <h3>KPI & Analytics</h3>
-          <p>Measure performance and identify gaps</p>
-        </div>
-
-        <div class="card focus-card">
-          <div class="focus-icon">🤖</div>
-          <h3>AI Business Coach</h3>
-          <p>Practical business problem solving</p>
-        </div>
-
-      </div>
-
-      <div style="height:22px"></div>
-
-      <div class="section-title">Academy Categories</div>
-
-      <div class="grid grid-4">
-        ${renderCategoryCards()}
-      </div>
-    `;
+    if (titleElement) titleElement.textContent = title;
+    if (subtitleElement) subtitleElement.textContent = subtitle;
   }
 
-  /* =========================================================
-     ACADEMY
-     ========================================================= */
-
-  function renderAcademy() {
-    return `
-      <div class="page-head">
-        <h2>Business Academy</h2>
-        <p>Professional business management curriculum with ${lessons.length} lessons</p>
-      </div>
-
-      <div class="card card-pad" style="margin-bottom:18px">
-        <div class="progress-row">
-          <span>Overall Learning Progress</span>
-          <strong>${getProgress()}%</strong>
-        </div>
-
-        <div class="progress-bar">
-          <div class="progress-fill" style="width:${getProgress()}%"></div>
-        </div>
-      </div>
-
-      <div class="grid grid-3">
-        ${renderCategoryCards()}
-      </div>
-    `;
-  }
-
-  function renderCategoryCards() {
-    var html = "";
-
-    for (var i = 0; i < courseData.length; i++) {
-      var category = courseData[i];
-      var progress = getCategoryProgress(category.name);
-
-      html += `
-        <div
-          class="card category-card"
-          data-action="filter-category"
-          data-category="${escapeHtml(category.name)}">
-
-          <div class="category-icon">${category.icon}</div>
-
-          <h3>${escapeHtml(category.name)}</h3>
-
-          <p>${category.topics.length} lessons</p>
-
-          <div class="progress-wrap">
-            <div class="progress-row">
-              <span>Progress</span>
-              <strong>${progress}%</strong>
-            </div>
-
-            <div class="progress-bar">
-              <div class="progress-fill" style="width:${progress}%"></div>
-            </div>
-          </div>
-        </div>
-      `;
-    }
-
-    return html;
-  }
-
-  /* =========================================================
-     LESSONS
-     ========================================================= */
-
-  function renderLessons() {
-    var filtered = lessons.filter(function (lesson) {
-
-      var categoryMatch =
-        state.category === "All" ||
-        lesson.category === state.category;
-
-      var text =
-        lesson.title.toLowerCase() +
-        " " +
-        lesson.category.toLowerCase();
-
-      var searchMatch =
-        !state.search ||
-        text.indexOf(state.search.toLowerCase()) !== -1;
-
-      return categoryMatch && searchMatch;
-    });
-
-    var options = `<option value="All">All Categories</option>`;
-
-    for (var i = 0; i < courseData.length; i++) {
-      options += `
-        <option
-          value="${escapeHtml(courseData[i].name)}"
-          ${state.category === courseData[i].name ? "selected" : ""}>
-          ${escapeHtml(courseData[i].name)}
-        </option>
-      `;
-    }
-
-    var html = `
-      <div class="page-head">
-        <h2>Lessons</h2>
-        <p>Lesson 1 is free. Lesson 2 and above require Premium Membership</p>
-      </div>
-
-      <div class="lesson-toolbar">
-
-        <input
-          id="lessonSearch"
-          class="search-box"
-          type="search"
-          placeholder="Search lessons..."
-          value="${escapeHtml(state.search)}">
-
-        <select id="categoryFilter" class="select-box">
-          ${options}
-        </select>
-
-      </div>
-
-      <div class="card card-pad" style="margin-bottom:18px">
-        Showing ${filtered.length} of ${lessons.length} lessons
-      </div>
-
-      <div class="lesson-list">
-    `;
-
-    for (var j = 0; j < filtered.length; j++) {
-      var lesson = filtered[j];
-      var complete = isCompleted(lesson.id);
-      var free = lesson.id === 1;
-
-      html += `
-        <div class="lesson-item">
-
-          <div class="lesson-number">
-            ${lesson.id}
-          </div>
-
-          <div class="lesson-info">
-            <h3>${escapeHtml(lesson.title)}</h3>
-            <p>
-              ${escapeHtml(lesson.category)}
-              • ${free ? "Free" : "Premium"}
-            </p>
-          </div>
-
-          <div class="lesson-status">
-            ${complete
-              ? '<span class="completed-mark">✓</span>'
-              : free
-                ? '<span class="lock-mark">○</span>'
-                : '<span class="lock-mark">◆</span>'}
-          </div>
-
-          <div class="lesson-actions">
-
-            <button
-              class="btn ${free || isPremium() ? "btn-primary" : "btn-secondary"}"
-              data-action="open-lesson"
-              data-id="${lesson.id}">
-              ${complete ? "Review" : free ? "Open" : "Premium"}
-            </button>
-
-          </div>
-
-        </div>
-      `;
-    }
-
-    html += `
-      </div>
-    `;
-
-    return html;
-  }
-
-  /* =========================================================
-     LESSON CONTENT
-     ========================================================= */
-
-  function getLessonContent(lesson) {
-
-    var category = lesson.category;
-
-    var objectiveMap = {
-      "Business Fundamentals": "Understand how the business creates customer value and converts that value into sustainable revenue and profit",
-      "Business Strategy": "Learn how to choose strategic priorities and translate them into measurable execution",
-      "Sales Management": "Build a disciplined system for target setting, pipeline management, forecasting and team execution",
-      "Sales Skills": "Develop practical selling skills from customer discovery to negotiation and closing",
-      "Customer Management": "Improve customer value, retention, experience and long-term profitability",
-      "Marketing": "Connect customer insight, market strategy, campaigns and measurable marketing results",
-      "Branding": "Build a clear brand identity, positioning and customer trust",
-      "Finance": "Use financial information to manage revenue, cost, margin, cash and business decisions",
-      "Accounting & P&L": "Read and interpret financial statements for better management decisions",
-      "Distribution & Operations": "Improve channel coverage, stock availability, logistics and operational execution",
-      "Retail & Modern Trade": "Improve store execution, availability, promotion and retail performance",
-      "Key Account Management": "Manage strategic accounts through planning, negotiation, profitability and growth",
-      "Leadership & Management": "Lead teams through goals, delegation, coaching, feedback and performance management",
-      "People & HR": "Build practical people systems for recruitment, development and retention",
-      "Negotiation": "Prepare effectively, negotiate value and protect commercial outcomes",
-      "Business Development": "Identify new opportunities and convert them into a measurable growth pipeline",
-      "KPI & Data Analysis": "Turn business data into clear performance measures and management actions",
-      "Problem Solving & Decision Making": "Find root causes, prioritize issues and make practical decisions",
-      "Digital Business & AI": "Apply digital tools and AI to improve productivity, decisions and business execution",
-      "Productivity & Career": "Improve professional productivity, focus, communication and career development"
-    };
-
-    var kpiMap = {
-      "Business Fundamentals": "Revenue, gross profit, cash conversion and customer value",
-      "Business Strategy": "Growth, market share, strategic initiative completion",
-      "Sales Management": "Target achievement, productivity, pipeline coverage, forecast accuracy",
-      "Sales Skills": "Conversion rate, average order value, repeat purchase",
-      "Customer Management": "Retention rate, repeat rate, complaints, active customers",
-      "Marketing": "Reach, leads, conversion, ROI",
-      "Branding": "Awareness, consideration, trust, repeat purchase",
-      "Finance": "Gross margin, operating expense ratio, cash flow",
-      "Accounting & P&L": "Gross profit, OPEX ratio, operating margin",
-      "Distribution & Operations": "Numeric distribution, fill rate, stock cover, service level",
-      "Retail & Modern Trade": "Availability, distribution, promotion compliance",
-      "Key Account Management": "Account growth, margin, retention, JBP completion",
-      "Leadership & Management": "Goal completion, coaching cadence, team productivity",
-      "People & HR": "Time-to-fill, training completion, retention",
-      "Negotiation": "Win rate, margin, payment terms",
-      "Business Development": "Qualified pipeline, conversion, new revenue",
-      "KPI & Data Analysis": "Achievement %, gap, trend, productivity",
-      "Problem Solving & Decision Making": "Action closure, recurrence rate, resolution time",
-      "Digital Business & AI": "Time saved, adoption, error reduction",
-      "Productivity & Career": "Priority completion, focus time, learning hours"
-    };
-
-    var managerMap = {
-      "Business Fundamentals": "Review the business model, revenue sources, cost structure and customer value with your team",
-      "Business Strategy": "Convert the topic into one strategic priority, one owner and measurable milestones",
-      "Sales Management": "Use the concept during daily sales review, target tracking, pipeline review and coaching",
-      "Sales Skills": "Practice the skill in customer calls and review the result after each customer interaction",
-      "Customer Management": "Apply the concept to your highest-value customers and identify one retention action",
-      "Marketing": "Connect the concept to a real campaign, target customer and measurable commercial outcome",
-      "Branding": "Check whether customer-facing communication is consistent with the intended brand position",
-      "Finance": "Use the concept to identify one financial improvement opportunity in the business",
-      "Accounting & P&L": "Review the relevant P&L or financial line and connect it to an operational business driver",
-      "Distribution & Operations": "Use the concept during route, stock, distributor and service-level reviews",
-      "Retail & Modern Trade": "Translate the concept into outlet-level execution standards and measurable compliance",
-      "Key Account Management": "Apply the concept to account planning, customer profitability and joint business planning",
-      "Leadership & Management": "Use the concept in team meetings, coaching and performance reviews",
-      "People & HR": "Turn the concept into a practical people-management process or team standard",
-      "Negotiation": "Prepare the facts, objectives, alternatives and concessions before the next negotiation",
-      "Business Development": "Add the concept to your opportunity pipeline and assign a clear next action",
-      "KPI & Data Analysis": "Use the concept to identify a performance gap and decide the next management action",
-      "Problem Solving & Decision Making": "Apply a structured root-cause and action-planning process to one current problem",
-      "Digital Business & AI": "Identify one repetitive business task that can be improved using digital tools or AI",
-      "Productivity & Career": "Convert the lesson into one repeatable professional habit"
-    };
-
-    var objective =
-      objectiveMap[category] ||
-      "Understand the concept and apply it to practical business management";
-
-    var kpi =
-      kpiMap[category] ||
-      "Target, actual, achievement and gap";
-
-    var manager =
-      managerMap[category] ||
-      "Apply the lesson to one current business situation";
-
-    return {
-      objective: objective,
-      concept:
-        lesson.title +
-        " is a practical management concept within " +
-        category +
-        ". The manager should understand the principle, identify the business situation where it applies and convert it into a measurable action",
-
-      importance:
-        "The value of this lesson comes from application rather than memorization. A professional manager should be able to explain the concept, use it in a real situation and measure the result",
-
-      steps: [
-        "Define the current business situation and the result you want to improve",
-        "Identify the key factors that influence the result",
-        "Choose a practical action that the team can execute",
-        "Assign an owner, deadline and measurable KPI",
-        "Review the result and adjust the action based on evidence"
-      ],
-
-      example:
-        "Myanmar business example: A sales or business manager identifies a performance gap, discusses the root cause with the team, chooses a focused action for the market or customer group and reviews the KPI during the next management meeting",
-
-      manager: manager,
-
-      kpi: kpi,
-
-      checklist: [
-        "I understand the core concept",
-        "I can explain why it matters",
-        "I identified a real business application",
-        "I assigned a measurable KPI",
-        "I have a next action and review date"
-      ],
-
-      assignment:
-        "Choose one real business situation related to this lesson. Write the current situation, target result, three actions, responsible person and KPI. Review the result after implementation",
-
-      takeaways: [
-        "Understand the concept before applying it",
-        "Connect actions to business outcomes",
-        "Use clear ownership and deadlines",
-        "Measure performance with the right KPI",
-        "Review and improve continuously"
-      ]
-    };
-  }
-
-  /* =========================================================
-     LESSON READER
-     ========================================================= */
-
-  function renderLessonReader() {
-
-    var lesson = getLesson(state.lessonId);
-
-    if (!lesson) {
-      state.section = "lessons";
-      return renderLessons();
-    }
-
-    if (!canOpenLesson(lesson.id)) {
-      return renderPremiumGate(lesson);
-    }
-
-    var content = getLessonContent(lesson);
-    var complete = isCompleted(lesson.id);
-
-    var previous = getLesson(lesson.id - 1);
-    var next = getLesson(lesson.id + 1);
-
-    return `
-      <div class="lesson-reader">
-
-        <button
-          class="btn btn-secondary"
-          data-section="lessons"
-          style="margin-bottom:14px">
-          ← Back to Lessons
-        </button>
-
-        <div class="lesson-header">
-          <div class="badge">
-            ${escapeHtml(lesson.category)}
-            • Lesson ${lesson.id} of ${lessons.length}
-          </div>
-
-          <h2>${escapeHtml(lesson.title)}</h2>
-
-          <p>
-            Professional Business Management Learning
-          </p>
-        </div>
-
-        <div class="card lesson-section">
-          <h3>Objective</h3>
-          <p>${escapeHtml(content.objective)}</p>
-        </div>
-
-        <div class="card lesson-section">
-          <h3>Core Concept</h3>
-          <p>${escapeHtml(content.concept)}</p>
-        </div>
-
-        <div class="card lesson-section">
-          <h3>Why It Matters</h3>
-          <p>${escapeHtml(content.importance)}</p>
-        </div>
-
-        <div class="card lesson-section">
-          <h3>Practical Framework</h3>
-
-          ${content.steps.map(function (step, index) {
-            return `
-              <div class="framework-step">
-                <div class="step-number">${index + 1}</div>
-                <div style="font-size:13px;line-height:1.65">
-                  ${escapeHtml(step)}
-                </div>
-              </div>
-            `;
-          }).join("")}
-
-        </div>
-
-        <div class="card lesson-section">
-          <h3>Myanmar Business Example</h3>
-          <p>${escapeHtml(content.example)}</p>
-        </div>
-
-        <div class="card lesson-section">
-          <h3>Manager Application</h3>
-          <p>${escapeHtml(content.manager)}</p>
-        </div>
-
-        <div class="card lesson-section">
-          <h3>KPI</h3>
-
-          <div class="kpi-box">
-            ${escapeHtml(content.kpi)}
-          </div>
-        </div>
-
-        <div class="card lesson-section">
-          <h3>Manager Checklist</h3>
-
-          <ul>
-            ${content.checklist.map(function (item) {
-              return `<li>${escapeHtml(item)}</li>`;
-            }).join("")}
-          </ul>
-        </div>
-
-        <div class="card lesson-section">
-          <h3>Assignment</h3>
-          <p>${escapeHtml(content.assignment)}</p>
-        </div>
-
-        <div class="card lesson-section">
-          <h3>Key Takeaways</h3>
-
-          <ul>
-            ${content.takeaways.map(function (item) {
-              return `<li>${escapeHtml(item)}</li>`;
-            }).join("")}
-          </ul>
-        </div>
-
-        <div class="lesson-footer">
-
-          <div>
-            ${
-              previous
-              ? `
-                <button
-                  class="btn btn-secondary"
-                  data-action="open-lesson"
-                  data-id="${previous.id}">
-                  ← Previous
-                </button>
-              `
-              : ""
-            }
-          </div>
-
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-
-            <button
-              class="btn ${complete ? "btn-warning" : "btn-success"}"
-              data-action="toggle-complete"
-              data-id="${lesson.id}">
-              ${complete ? "✓ Completed — Mark Incomplete" : "✓ Mark Lesson Complete"}
-            </button>
-
-            ${
-              next
-              ? `
-                <button
-                  class="btn btn-primary"
-                  data-action="open-lesson"
-                  data-id="${next.id}">
-                  Next Lesson →
-                </button>
-              `
-              : ""
-            }
-
-          </div>
-
-        </div>
-
-      </div>
-    `;
-  }
-
-  /* =========================================================
-     PREMIUM GATE
-     ========================================================= */
-
-  function renderPremiumGate(lesson) {
-
-    return `
-      <div class="page-head">
-        <h2>Premium Membership Required</h2>
-        <p>Lesson ${lesson.id} is part of the Premium curriculum</p>
-      </div>
-
-      <div class="premium-hero">
-        <h2>◆ Premium Business Academy</h2>
-        <p>
-          Lesson 1 is free. Lesson 2 and above require Premium Membership
-        </p>
-
-        <div style="margin-top:20px">
-          <button
-            class="btn btn-white"
-            data-section="premium">
-            View Premium Plans
-          </button>
-        </div>
-      </div>
-
-      <div class="card card-pad">
-        <h3 style="margin-bottom:8px">
-          ${escapeHtml(lesson.title)}
-        </h3>
-
-        <p class="muted small">
-          Upgrade to Premium to unlock this lesson, advanced business tools and AI Business Coach features
-        </p>
-      </div>
-    `;
-  }
-
-  /* =========================================================
-     PROGRESS
-     ========================================================= */
-
-  function renderProgress() {
-
-    var completed = getCompleted().length;
-    var remaining = lessons.length - completed;
-    var progress = getProgress();
-
-    return `
-      <div class="page-head">
-        <h2>My Progress</h2>
-        <p>Track your learning performance across the Academy</p>
-      </div>
-
-      <div class="grid grid-4">
-
-        <div class="card stat-card">
-          <div class="stat-label">Total Lessons</div>
-          <div class="stat-value">${lessons.length}</div>
-        </div>
-
-        <div class="card stat-card">
-          <div class="stat-label">Completed</div>
-          <div class="stat-value">${completed}</div>
-        </div>
-
-        <div class="card stat-card">
-          <div class="stat-label">Remaining</div>
-          <div class="stat-value">${remaining}</div>
-        </div>
-
-        <div class="card stat-card">
-          <div class="stat-label">Progress</div>
-          <div class="stat-value">${progress}%</div>
-        </div>
-
-      </div>
-
-      <div style="height:18px"></div>
-
-      <div class="card card-pad">
-        <div class="section-title">Overall Progress</div>
-
-        <div class="progress-row">
-          <span>${completed} of ${lessons.length} lessons</span>
-          <strong>${progress}%</strong>
-        </div>
-
-        <div class="progress-bar">
-          <div class="progress-fill" style="width:${progress}%"></div>
-        </div>
-
-        <button
-          class="btn btn-danger"
-          style="margin-top:18px"
-          data-action="reset-progress">
-          Reset Learning Progress
-        </button>
-      </div>
-
-      <div style="height:22px"></div>
-
-      <div class="section-title">Category Progress</div>
-
-      <div class="grid grid-2">
-        ${courseData.map(function (course) {
-
-          var p = getCategoryProgress(course.name);
-
-          return `
-            <div class="card card-pad">
-
-              <div style="display:flex;justify-content:space-between;gap:10px">
-                <strong style="font-size:13px">
-                  ${course.icon} ${escapeHtml(course.name)}
-                </strong>
-
-                <strong style="font-size:12px">
-                  ${p}%
-                </strong>
-              </div>
-
-              <div class="progress-wrap">
-                <div class="progress-bar">
-                  <div
-                    class="progress-fill"
-                    style="width:${p}%">
-                  </div>
-                </div>
-              </div>
-
-              <p class="muted small" style="margin-top:7px">
-                ${course.topics.length} lessons
-              </p>
-
-            </div>
-          `;
-        }).join("")}
-      </div>
-    `;
-  }
-
-  /* =========================================================
-     SALES MANAGER
-     ========================================================= */
-
-  function getKPI() {
-    return getJSON(KEYS.kpi, {
-      target: 500,
-      actual: 385,
-      team: 4,
-      customers: 0,
-      orders: 0,
-      workingDays: 26
-    });
-  }
-
-  function saveKPI(data) {
-    setJSON(KEYS.kpi, data);
-  }
-
-  function renderSales() {
-
-    var kpi = getKPI();
-
-    var target = Number(kpi.target) || 0;
-    var actual = Number(kpi.actual) || 0;
-
-    var achievement =
-      target > 0
-      ? Math.round((actual / target) * 100)
-      : 0;
-
-    var gap = target - actual;
-
-    if (gap < 0) {
-      gap = 0;
-    }
-
-    var dailyTarget =
-      Number(kpi.workingDays) > 0
-      ? target / Number(kpi.workingDays)
-      : 0;
-
-    return `
-      <div class="page-head">
-        <h2>Sales Manager</h2>
-        <p>Daily target, execution, team performance and management review</p>
-      </div>
-
-      <div class="grid grid-4">
-
-        <div class="card stat-card">
-          <div class="stat-label">Monthly Target</div>
-          <div class="stat-value">${formatNumber(target)} L</div>
-        </div>
-
-        <div class="card stat-card">
-          <div class="stat-label">Actual</div>
-          <div class="stat-value">${formatNumber(actual)} L</div>
-        </div>
-
-        <div class="card stat-card">
-          <div class="stat-label">Achievement</div>
-          <div class="stat-value">${achievement}%</div>
-        </div>
-
-        <div class="card stat-card">
-          <div class="stat-label">Gap</div>
-          <div class="stat-value">${formatNumber(gap)} L</div>
-        </div>
-
-      </div>
-
-      <div style="height:18px"></div>
-
-      <div class="grid grid-2">
-
-        <div class="card card-pad">
-
-          <div class="section-title">Sales Target Control</div>
-
-          <div class="kpi-input-grid">
-
-            <div class="form-group">
-              <label>Monthly Target</label>
-              <input id="salesTarget" class="input" type="number" value="${target}">
-            </div>
-
-            <div class="form-group">
-              <label>Actual Sales</label>
-              <input id="salesActual" class="input" type="number" value="${actual}">
-            </div>
-
-            <div class="form-group">
-              <label>Working Days</label>
-              <input id="workingDays" class="input" type="number" value="${kpi.workingDays}">
-            </div>
-
-          </div>
-
-          <button
-            class="btn btn-primary"
-            style="margin-top:15px"
-            data-action="save-sales-kpi">
-            Save Sales KPI
-          </button>
-
-        </div>
-
-        <div class="card card-pad">
-
-          <div class="section-title">Daily Execution</div>
-
-          <div class="result-box">
-            <div class="muted small">Daily Target</div>
-            <div class="result-big">
-              ${dailyTarget.toFixed(1)} L
-            </div>
-          </div>
-
-          <div class="result-box" style="margin-top:10px">
-            <div class="muted small">Current Gap</div>
-            <div class="result-big">
-              ${gap.toFixed(1)} L
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-
-      <div style="height:20px"></div>
-
-      <div class="grid grid-3">
-
-        <div class="card focus-card">
-          <div class="focus-icon">🎯</div>
-          <h3>Target Control</h3>
-          <p>Break monthly target into daily, territory and salesperson targets</p>
-        </div>
-
-        <div class="card focus-card">
-          <div class="focus-icon">👥</div>
-          <h3>Team Coaching</h3>
-          <p>Review individual performance, activity and execution barriers</p>
-        </div>
-
-        <div class="card focus-card">
-          <div class="focus-icon">📋</div>
-          <h3>Daily Review</h3>
-          <p>Check yesterday actual, today's target, pipeline and action plan</p>
-        </div>
-
-      </div>
-    `;
-  }
-
-  /* =========================================================
-     KPI
-     ========================================================= */
-
-  function renderKPI() {
-
-    var data = getKPI();
-
-    var target = Number(data.target) || 0;
-    var actual = Number(data.actual) || 0;
-
-    var achievement =
-      target > 0
-      ? Math.round(actual / target * 100)
-      : 0;
-
-    var gap = target - actual;
-
-    return `
-      <div class="page-head">
-        <h2>KPI & Analytics</h2>
-        <p>Target vs Actual performance dashboard</p>
-      </div>
-
-      <div class="grid grid-4">
-
-        <div class="card stat-card">
-          <div class="stat-label">Target</div>
-          <div class="stat-value">${formatNumber(target)}</div>
-        </div>
-
-        <div class="card stat-card">
-          <div class="stat-label">Actual</div>
-          <div class="stat-value">${formatNumber(actual)}</div>
-        </div>
-
-        <div class="card stat-card">
-          <div class="stat-label">Achievement</div>
-          <div class="stat-value">${achievement}%</div>
-        </div>
-
-        <div class="card stat-card">
-          <div class="stat-label">Gap</div>
-          <div class="stat-value">${formatNumber(gap < 0 ? 0 : gap)}</div>
-        </div>
-
-      </div>
-
-      <div style="height:18px"></div>
-
-      <div class="card card-pad">
-
-        <div class="section-title">Achievement</div>
-
-        <div class="progress-row">
-          <span>Target vs Actual</span>
-          <strong>${achievement}%</strong>
-        </div>
-
-        <div class="progress-bar">
-          <div class="progress-fill" style="width:${Math.min(achievement,100)}%"></div>
-        </div>
-
-      </div>
-
-      <div style="height:18px"></div>
-
-      <div class="grid grid-3">
-
-        <div class="card card-pad">
-          <div class="section-title">Team</div>
-          <div class="result-big">${formatNumber(data.team)}</div>
-          <div class="muted small">Team members</div>
-        </div>
-
-        <div class="card card-pad">
-          <div class="section-title">Customers</div>
-          <div class="result-big">${formatNumber(data.customers)}</div>
-          <div class="muted small">Active customers</div>
-        </div>
-
-        <div class="card card-pad">
-          <div class="section-title">Orders</div>
-          <div class="result-big">${formatNumber(data.orders)}</div>
-          <div class="muted small">Current orders</div>
-        </div>
-
-      </div>
-
-      <div style="height:18px"></div>
-
-      <div class="card card-pad">
-
-        <div class="section-title">Additional KPI Data</div>
-
-        <div class="kpi-input-grid">
-
-          <div class="form-group">
-            <label>Team Members</label>
-            <input id="kpiTeam" class="input" type="number" value="${data.team}">
-          </div>
-
-          <div class="form-group">
-            <label>Active Customers</label>
-            <input id="kpiCustomers" class="input" type="number" value="${data.customers}">
-          </div>
-
-          <div class="form-group">
-            <label>Orders</label>
-            <input id="kpiOrders" class="input" type="number" value="${data.orders}">
-          </div>
-
-        </div>
-
-        <button
-          class="btn btn-primary"
-          style="margin-top:15px"
-          data-action="save-kpi-data">
-          Save KPI Data
-        </button>
-
-      </div>
-    `;
-  }
-
-  /* =========================================================
-     REPORTS
-     ========================================================= */
-
-  function renderReports() {
-
-    var profile = getProfile();
-    var kpi = getKPI();
-
-    var achievement =
-      Number(kpi.target) > 0
-      ? Math.round(Number(kpi.actual) / Number(kpi.target) * 100)
-      : 0;
-
-    return `
-      <div class="page-head">
-        <h2>Business Reports</h2>
-        <p>Management summary for review and decision making</p>
-      </div>
-
-      <div class="card card-pad">
-
-        <div class="section-title">
-          Business Performance Report
-        </div>
-
-        <p class="muted small">
-          Manager: ${escapeHtml(profile.name)}
-        </p>
-
-        <div style="height:15px"></div>
-
-        <div class="grid grid-2">
-
-          <div class="result-box">
-            <div class="muted small">Sales Target</div>
-            <div class="result-big">${formatNumber(kpi.target)} L</div>
-          </div>
-
-          <div class="result-box">
-            <div class="muted small">Actual Sales</div>
-            <div class="result-big">${formatNumber(kpi.actual)} L</div>
-          </div>
-
-          <div class="result-box">
-            <div class="muted small">Achievement</div>
-            <div class="result-big">${achievement}%</div>
-          </div>
-
-          <div class="result-box">
-            <div class="muted small">Learning Progress</div>
-            <div class="result-big">${getProgress()}%</div>
-          </div>
-
-        </div>
-
-        <button
-          class="btn btn-dark"
-          style="margin-top:18px"
-          data-action="print-report">
-          Print / Save Report
-        </button>
-
-      </div>
-
-      <div style="height:18px"></div>
-
-      <div class="grid grid-3">
-
-        <div class="card focus-card">
-          <div class="focus-icon">📅</div>
-          <h3>Daily Review</h3>
-          <p>Review target, actual, gap and today's priority actions</p>
-        </div>
-
-        <div class="card focus-card">
-          <div class="focus-icon">📊</div>
-          <h3>Weekly Review</h3>
-          <p>Compare weekly performance and identify execution patterns</p>
-        </div>
-
-        <div class="card focus-card">
-          <div class="focus-icon">🎯</div>
-          <h3>Action Plan</h3>
-          <p>Convert management findings into owners, deadlines and KPIs</p>
-        </div>
-
-      </div>
-    `;
-  }
-
-  /* =========================================================
-     BUSINESS TOOLS
-     ========================================================= */
-
-  function renderTools() {
-
-    return `
-      <div class="page-head">
-        <h2>Business Tools</h2>
-        <p>Practical calculators for daily business decisions</p>
-      </div>
-
-      <div class="grid grid-2">
-
-        <div class="card tool-card">
-
-          <h3>Pricing / Profit / Margin</h3>
-
-          <p>
-            Calculate selling price, profit and gross margin
-          </p>
-
-          <div class="form-group">
-            <label>Cost</label>
-            <input id="priceCost" class="input" type="number" placeholder="0">
-          </div>
-
-          <div class="form-group" style="margin-top:10px">
-            <label>Selling Price</label>
-            <input id="priceSelling" class="input" type="number" placeholder="0">
-          </div>
-
-          <button
-            class="btn btn-primary"
-            style="margin-top:12px"
-            data-action="calculate-price">
-            Calculate
-          </button>
-
-          <div id="priceResult" class="tool-result">
-            Enter values and calculate
-          </div>
-
-        </div>
-
-        <div class="card tool-card">
-
-          <h3>Break-even Calculator</h3>
-
-          <p>
-            Calculate break-even units from fixed cost and contribution
-          </p>
-
-          <div class="form-group">
-            <label>Fixed Cost</label>
-            <input id="beFixed" class="input" type="number" placeholder="0">
-          </div>
-
-          <div class="form-group" style="margin-top:10px">
-            <label>Selling Price / Unit</label>
-            <input id="bePrice" class="input" type="number" placeholder="0">
-          </div>
-
-          <div class="form-group" style="margin-top:10px">
-            <label>Variable Cost / Unit</label>
-            <input id="beVariable" class="input" type="number" placeholder="0">
-          </div>
-
-          <button
-            class="btn btn-primary"
-            style="margin-top:12px"
-            data-action="calculate-break-even">
-            Calculate
-          </button>
-
-          <div id="beResult" class="tool-result">
-            Enter values and calculate
-          </div>
-
-        </div>
-
-        <div class="card tool-card">
-
-          <h3>Sales Target Breakdown</h3>
-
-          <p>
-            Convert monthly target into daily target
-          </p>
-
-          <div class="form-group">
-            <label>Monthly Target</label>
-            <input id="targetAmount" class="input" type="number" placeholder="0">
-          </div>
-
-          <div class="form-group" style="margin-top:10px">
-            <label>Working Days</label>
-            <input id="targetDays" class="input" type="number" value="26">
-          </div>
-
-          <button
-            class="btn btn-primary"
-            style="margin-top:12px"
-            data-action="calculate-target">
-            Calculate
-          </button>
-
-          <div id="targetResult" class="tool-result">
-            Enter values and calculate
-          </div>
-
-        </div>
-
-        <div class="card tool-card">
-
-          <h3>Growth Calculator</h3>
-
-          <p>
-            Calculate growth percentage from previous to current result
-          </p>
-
-          <div class="form-group">
-            <label>Previous</label>
-            <input id="growthPrevious" class="input" type="number" placeholder="0">
-          </div>
-
-          <div class="form-group" style="margin-top:10px">
-            <label>Current</label>
-            <input id="growthCurrent" class="input" type="number" placeholder="0">
-          </div>
-
-          <button
-            class="btn btn-primary"
-            style="margin-top:12px"
-            data-action="calculate-growth">
-            Calculate
-          </button>
-
-          <div id="growthResult" class="tool-result">
-            Enter values and calculate
-          </div>
-
-        </div>
-
-      </div>
-    `;
-  }
-
-  /* =========================================================
-     AI BUSINESS TOOLS
-     ========================================================= */
-
-  function renderAITools() {
-
-    return `
-      <div class="page-head">
-        <h2>AI Business Tools</h2>
-        <p>Structured workflows for practical management work</p>
-      </div>
-
-      <div class="grid grid-2">
-
-        <div class="card tool-card">
-          <h3>📅 Daily Sales Action Plan</h3>
-          <p>Build a focused daily execution plan around target, customers and activities</p>
-          <button
-            class="btn btn-primary"
-            data-action="ai-tool"
-            data-tool="daily-sales">
-            Generate Plan
-          </button>
-        </div>
-
-        <div class="card tool-card">
-          <h3>🎯 Target Breakdown</h3>
-          <p>Break a monthly target into daily and team execution levels</p>
-          <button
-            class="btn btn-primary"
-            data-action="ai-tool"
-            data-tool="target-breakdown">
-            Generate Breakdown
-          </button>
-        </div>
-
-        <div class="card tool-card">
-          <h3>🔎 Root Cause Analysis</h3>
-          <p>Structure a business problem using root-cause thinking</p>
-          <button
-            class="btn btn-primary"
-            data-action="ai-tool"
-            data-tool="root-cause">
-            Start Analysis
-          </button>
-        </div>
-
-        <div class="card tool-card">
-          <h3>👥 Coaching Questions</h3>
-          <p>Generate practical questions for sales team coaching</p>
-          <button
-            class="btn btn-primary"
-            data-action="ai-tool"
-            data-tool="coaching">
-            Generate Questions
-          </button>
-        </div>
-
-      </div>
-
-      <div id="aiToolResult" style="margin-top:18px"></div>
-    `;
-  }
-
-  function runAITool(tool) {
-
-    var output = "";
-
-    if (tool === "daily-sales") {
-      output =
-        "DAILY SALES ACTION PLAN\n\n" +
-        "1. Review yesterday target vs actual\n" +
-        "2. Identify today's highest-value customers\n" +
-        "3. Prioritize open opportunities and overdue follow-ups\n" +
-        "4. Set salesperson-level activity targets\n" +
-        "5. Review collection and stock availability\n" +
-        "6. Conduct end-of-day actual vs target review\n\n" +
-        "KPI: Sales achievement %, productive calls, orders, conversion and collection";
-
-    } else if (tool === "target-breakdown") {
-      output =
-        "TARGET BREAKDOWN FRAMEWORK\n\n" +
-        "Monthly Target → Working Days → Daily Target → Territory Target → Salesperson Target\n\n" +
-        "Management rule:\n" +
-        "Target should be converted into measurable execution activities\n\n" +
-        "Review:\n" +
-        "Target / Actual / Achievement % / Gap / Action";
-
-    } else if (tool === "root-cause") {
-      output =
-        "ROOT CAUSE ANALYSIS\n\n" +
-        "1. Define the exact problem\n" +
-        "2. Quantify the gap\n" +
-        "3. Ask Why repeatedly\n" +
-        "4. Separate symptoms from root causes\n" +
-        "5. Identify controllable causes\n" +
-        "6. Create corrective action\n" +
-        "7. Assign owner and deadline\n" +
-        "8. Review whether the problem recurs";
-
-    } else if (tool === "coaching") {
-      output =
-        "SALES COACHING QUESTIONS\n\n" +
-        "1. What is your current target and actual?\n" +
-        "2. Which customers are driving the gap?\n" +
-        "3. What opportunities are in your pipeline?\n" +
-        "4. Which customer objection is blocking the sale?\n" +
-        "5. What action will you take today?\n" +
-        "6. What support do you need from your manager?\n" +
-        "7. What KPI will prove improvement?";
-    }
-
-    var result = document.getElementById("aiToolResult");
-
-    if (result) {
-      result.innerHTML = `
-        <div class="card ai-response">
-          ${escapeHtml(output)}
-        </div>
-      `;
-    }
-  }
-
-  /* =========================================================
-     AI BUSINESS COACH
-     ========================================================= */
-
-  function renderCoach() {
-
-    return `
-      <div class="page-head">
-        <h2>AI Business Coach</h2>
-        <p>Practical business problem solving for managers</p>
-      </div>
-
-      <div class="card ai-box">
-
-        <div class="section-title">
-          Ask your business question
-        </div>
-
-        <textarea
-          id="aiPrompt"
-          class="ai-prompt"
-          placeholder="Example: My sales team is below target. Help me identify the root causes and create a 7-day action plan"></textarea>
-
-        <div class="quick-prompts">
-
-          <button
-            class="quick-prompt"
-            data-action="quick-prompt"
-            data-prompt="My sales team is below target. Give me a practical root cause analysis and action plan">
-            Sales below target
-          </button>
-
-          <button
-            class="quick-prompt"
-            data-action="quick-prompt"
-            data-prompt="Help me improve sales team productivity and daily execution">
-            Team productivity
-          </button>
-
-          <button
-            class="quick-prompt"
-            data-action="quick-prompt"
-            data-prompt="Give me practical ideas to increase customer retention and repeat sales">
-            Customer retention
-          </button>
-
-          <button
-            class="quick-prompt"
-            data-action="quick-prompt"
-            data-prompt="Help me prepare a professional weekly business review">
-            Weekly review
-          </button>
-
-        </div>
-
-        <button
-          class="btn btn-primary"
-          data-action="ask-coach">
-          Ask AI Business Coach
-        </button>
-
-        <div id="aiResponse"></div>
-
-      </div>
-    `;
-  }
-
-  /* =========================================================
-     AI API
-     ========================================================= */
-
-  function fallbackAI(prompt) {
-
-    return (
-      "AI Business Coach — Practical Response\n\n" +
-      "Your business question:\n" +
-      prompt +
-      "\n\n" +
-      "Recommended Management Approach\n\n" +
-      "1. Define the exact business problem and quantify the gap\n" +
-      "2. Separate symptoms from root causes\n" +
-      "3. Identify the top three controllable causes\n" +
-      "4. Create specific actions with owners and deadlines\n" +
-      "5. Measure the result using clear KPIs\n" +
-      "6. Review progress daily or weekly depending on the problem\n\n" +
-      "Suggested KPIs\n" +
-      "• Target vs Actual\n" +
-      "• Achievement %\n" +
-      "• Gap\n" +
-      "• Productivity\n" +
-      "• Conversion\n" +
-      "• Customer retention\n\n" +
-      "Action Plan\n" +
-      "Today: define the gap and top causes\n" +
-      "Tomorrow: execute the highest-impact action\n" +
-      "This week: review KPI movement and adjust execution"
-    );
-  }
-
-  function askAI() {
-
-    var input = document.getElementById("aiPrompt");
-    var response = document.getElementById("aiResponse");
-
-    if (!input || !response) {
-      return;
-    }
-
-    var prompt = input.value.trim();
-
-    if (!prompt) {
-      showToast("Please enter a business question");
-      return;
-    }
-
-    if (state.aiLoading) {
-      return;
-    }
-
-    state.aiLoading = true;
-
-    response.innerHTML = `
-      <div class="ai-response">
-        AI Business Coach is preparing your answer...
-      </div>
-    `;
-
-    var fullPrompt =
-      "You are an AI Business Coach for a Myanmar business manager.\n\n" +
-      "Give practical, professional and actionable management advice.\n" +
-      "Use clear steps, KPIs, numbers, priorities and action plans where appropriate.\n" +
-      "Answer in Burmese when the user asks in Burmese.\n" +
-      "Avoid unnecessary theory.\n\n" +
-      "User question:\n" +
-      prompt;
-
-    fetch(AI_API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        prompt: fullPrompt
-      })
-    })
-    .then(function (res) {
-      if (!res.ok) {
-        throw new Error("AI server unavailable");
-      }
-
-      return res.json();
-    })
-    .then(function (data) {
-
-      var answer =
-        data.answer ||
-        data.response ||
-        data.message ||
-        data.result;
-
-      if (!answer) {
-        throw new Error("No AI answer");
-      }
-
-      response.innerHTML = `
-        <div class="ai-response">
-          ${escapeHtml(answer)}
-        </div>
-      `;
-
-      state.aiLoading = false;
-    })
-    .catch(function () {
-
-      response.innerHTML = `
-        <div class="ai-response">
-          ${escapeHtml(fallbackAI(prompt))}
-        </div>
-      `;
-
-      state.aiLoading = false;
-    });
-  }
-
-  /* =========================================================
-     PREMIUM PAGE
-     ========================================================= */
-
-  function renderPremium() {
-
-    var active = isPremium();
-
-    return `
-      <div class="premium-hero">
-
-        <h2>◆ Premium Membership</h2>
-
-        <p>
-          Unlock Lesson 2+, advanced business tools and AI Business Coach
-        </p>
-
-        <div style="margin-top:15px">
-          <strong>
-            Current Status: ${active ? "PRO" : "BASIC"}
-          </strong>
-        </div>
-
-      </div>
-
-      <div class="grid grid-3">
-
-        ${renderPlan("1 Month", "25,000 Ks", "1 month", false)}
-
-        ${renderPlan("3 Months", "60,000 Ks", "3 months", true)}
-
-        ${renderPlan("6 Months", "100,000 Ks", "6 months", false)}
-
-      </div>
-
-      <div style="height:18px"></div>
-
-      <div class="card payment-box">
-
-        <div class="section-title">Payment Methods</div>
-
-        <span class="payment-method">KPay</span>
-        <span class="payment-method">CB Bank</span>
-
-        <p class="muted small" style="margin-top:12px">
-          Payment account details can be configured separately
-        </p>
-
-      </div>
-
-      <div style="height:18px"></div>
-
-      <div class="card payment-box">
-
-        <div class="section-title">
-          Membership Activation
-        </div>
-
-        <p class="muted small" style="margin-bottom:12px">
-          Enter an activation code provided by the Academy administrator
-        </p>
-
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-
-          <input
-            id="activationCode"
-            class="input"
-            style="max-width:350px"
-            placeholder="Enter activation code">
-
-          <button
-            class="btn btn-primary"
-            data-action="activate-premium">
-            Activate
-          </button>
-
-        </div>
-
-        <p class="muted small" style="margin-top:12px">
-          No automatic premium activation is performed from payment information
-        </p>
-
-      </div>
-
-      <div style="height:18px"></div>
-
-      <div class="card card-pad">
-
-        <div class="section-title">
-          Premium Includes
-        </div>
-
-        <div class="grid grid-2">
-
-          <div class="result-box">
-            ✓ Lesson 1 free
-          </div>
-
-          <div class="result-box">
-            ✓ Lesson 2+ full curriculum
-          </div>
-
-          <div class="result-box">
-            ✓ Business Tools
-          </div>
-
-          <div class="result-box">
-            ✓ AI Business Tools
-          </div>
-
-          <div class="result-box">
-            ✓ AI Business Coach
-          </div>
-
-          <div class="result-box">
-            ✓ Professional management system
-          </div>
-
-        </div>
-
-      </div>
-    `;
-  }
-
-  function renderPlan(name, price, period, featured) {
-
-    return `
-      <div class="card plan-card ${featured ? "featured" : ""}">
-
-        <div class="plan-name">${name}</div>
-
-        <div class="plan-price">${price}</div>
-
-        <div class="plan-period">${period}</div>
-
-        <ul>
-          <li>✓ 260 Business Lessons</li>
-          <li>✓ Lesson 2+ Premium</li>
-          <li>✓ Business Tools</li>
-          <li>✓ AI Business Coach</li>
-          <li>✓ KPI & Analytics</li>
-        </ul>
-
-        <button
-          class="btn btn-primary"
-          data-action="payment-info"
-          data-plan="${name}">
-          Choose ${name}
-        </button>
-
-      </div>
-    `;
-  }
-
-  /* =========================================================
-     SETTINGS
-     ========================================================= */
-
-  function renderSettings() {
-
-    var profile = getProfile();
-
-    return `
-      <div class="page-head">
-        <h2>Settings</h2>
-        <p>Manage your profile and local application data</p>
-      </div>
-
-      <div class="grid grid-2">
-
-        <div class="card card-pad">
-
-          <div class="section-title">Profile</div>
-
-          <div class="setting-row">
-
-            <label>Display Name</label>
-
-            <input
-              id="settingName"
-              class="input"
-              value="${escapeHtml(profile.name)}">
-
-          </div>
-
-          <div class="setting-row">
-
-            <label>Role</label>
-
-            <input
-              id="settingRole"
-              class="input"
-              value="${escapeHtml(profile.role)}">
-
-          </div>
-
-          <button
-            class="btn btn-primary"
-            style="margin-top:15px"
-            data-action="save-settings">
-            Save Profile
-          </button>
-
-        </div>
-
-        <div class="card card-pad">
-
-          <div class="section-title">Application</div>
-
-          <div class="result-box">
-            <strong>Aung Business Academy</strong>
-            <p class="muted small" style="margin-top:5px">
-              V15.1 Professional Business Management System
-            </p>
-          </div>
-
-          <div class="result-box" style="margin-top:10px">
-            <strong>${lessons.length} Lessons</strong>
-            <p class="muted small" style="margin-top:5px">
-              20 professional business categories
-            </p>
-          </div>
-
-          <button
-            class="btn btn-danger"
-            style="margin-top:15px"
-            data-action="reset-all">
-            Reset Local App Data
-          </button>
-
-        </div>
-
-      </div>
-    `;
-  }
-
-  /* =========================================================
-     RENDER
-     ========================================================= */
-
-  function renderCurrent() {
-
-    var app = document.getElementById("app");
-
-    if (!app) {
-      return;
-    }
-
-    try {
-
-      var html = "";
-
-      if (state.lessonId !== null) {
-        html = renderLessonReader();
+  function setActiveNav(section) {
+    var items = document.querySelectorAll("[data-section]");
+
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].getAttribute("data-section") === section) {
+        items[i].classList.add("is-active");
       } else {
-
-        switch (state.section) {
-
-          case "dashboard":
-            html = renderDashboard();
-            break;
-
-          case "academy":
-            html = renderAcademy();
-            break;
-
-          case "lessons":
-            html = renderLessons();
-            break;
-
-          case "progress":
-            html = renderProgress();
-            break;
-
-          case "sales":
-            html = renderSales();
-            break;
-
-          case "kpi":
-            html = renderKPI();
-            break;
-
-          case "reports":
-            html = renderReports();
-            break;
-
-          case "tools":
-            html = renderTools();
-            break;
-
-          case "ai-tools":
-            html = renderAITools();
-            break;
-
-          case "coach":
-            html = renderCoach();
-            break;
-
-          case "premium":
-            html = renderPremium();
-            break;
-
-          case "settings":
-            html = renderSettings();
-            break;
-
-          default:
-            state.section = "dashboard";
-            html = renderDashboard();
-        }
+        items[i].classList.remove("is-active");
       }
-
-      app.innerHTML = html;
-
-    } catch (error) {
-
-      console.error("ABA Render Error:", error);
-
-      app.innerHTML = `
-        <div class="error-card">
-          <h2>Aung Business Academy</h2>
-          <p>
-            The page could not be rendered correctly
-          </p>
-
-          <button
-            class="btn btn-primary"
-            style="margin-top:15px"
-            data-section="dashboard">
-            Return to Dashboard
-          </button>
-        </div>
-      `;
-    }
-  }
-
-  /* =========================================================
-     MOBILE MENU
-     ========================================================= */
-
-  function openMobileMenu() {
-
-    var sidebar = document.getElementById("sidebar");
-    var overlay = document.getElementById("mobileOverlay");
-
-    if (sidebar) {
-      sidebar.classList.add("is-open");
-    }
-
-    if (overlay) {
-      overlay.classList.add("is-open");
     }
   }
 
   function closeMobileMenu() {
-
     var sidebar = document.getElementById("sidebar");
     var overlay = document.getElementById("mobileOverlay");
 
-    if (sidebar) {
-      sidebar.classList.remove("is-open");
-    }
+    if (sidebar) sidebar.classList.remove("mobile-open");
+    if (overlay) overlay.classList.remove("is-open");
+  }
 
-    if (overlay) {
-      overlay.classList.remove("is-open");
+  function openMobileMenu() {
+    var sidebar = document.getElementById("sidebar");
+    var overlay = document.getElementById("mobileOverlay");
+
+    if (sidebar) sidebar.classList.add("mobile-open");
+    if (overlay) overlay.classList.add("is-open");
+  }
+
+  function safeRender(fn) {
+    try {
+      fn();
+    } catch (error) {
+      console.error(error);
+
+      var app = document.getElementById("app");
+
+      if (app) {
+        app.innerHTML =
+          '<div class="error-card">' +
+          '<h3>Application Error</h3>' +
+          '<p>Page ကို render လုပ်ရာမှာ error ဖြစ်သွားပါတယ်</p>' +
+          '<button class="btn btn-primary" data-action="reload-app">Reload App</button>' +
+          '</div>';
+      }
     }
   }
 
-  /* =========================================================
-     TOAST
-     ========================================================= */
+  function renderDashboard() {
+    setPageMeta("Dashboard", "Business Management Command Center");
 
-  function showToast(message) {
+    var user = getUser();
+    var kpi = getKPI();
+    var progress = getProgress();
+    var completed = getCompleted().length;
+    var ach = achievement(kpi.target, kpi.actual);
 
-    var root = document.getElementById("toastRoot");
+    document.getElementById("app").innerHTML =
+      '<div class="welcome-card">' +
+        '<h2>Welcome back, ' + escapeHTML(user.name) + '</h2>' +
+        '<p>Business Management နှင့် Sales Management skills ကို professional ပုံစံနဲ့ ဆက်လက်တိုးတက်အောင်လုပ်ပါ</p>' +
+        '<div class="welcome-actions">' +
+          '<button class="btn btn-primary" data-section="lessons">Continue Learning</button>' +
+          '<button class="btn btn-secondary" data-section="sales">Open Sales Manager</button>' +
+        '</div>' +
+      '</div>' +
 
-    if (!root) {
+      '<div class="stats-grid">' +
+        statCard("TOTAL LESSONS", lessons.length, "Professional business lessons") +
+        statCard("COMPLETED", completed, "Lessons completed") +
+        statCard("OVERALL PROGRESS", progress + "%", "Learning progress") +
+        statCard("SALES ACHIEVEMENT", ach + "%", "Target vs actual") +
+      '</div>' +
+
+      '<div class="dashboard-grid">' +
+        '<div>' +
+          '<div class="card">' +
+            '<div class="card-title">' +
+              '<div><h3>Learning Progress</h3><p>Business Academy learning status</p></div>' +
+              '<button class="btn btn-secondary" data-section="progress">View</button>' +
+            '</div>' +
+            '<div class="progress-row">' +
+              '<div class="progress-row-head"><span>Overall Course Progress</span><strong>' + progress + '%</strong></div>' +
+              '<div class="progress-wrap"><div class="progress-bar" style="width:' + progress + '%"></div></div>' +
+            '</div>' +
+            '<div class="action-grid">' +
+              actionButton("Business Academy", "Explore all categories", "academy") +
+              actionButton("Lessons", "Continue your learning", "lessons") +
+              actionButton("KPI & Analytics", "Review business numbers", "kpi") +
+              actionButton("AI Business Coach", "Solve a business problem", "ai-coach") +
+            '</div>' +
+          '</div>' +
+
+          '<div class="card">' +
+            '<div class="card-title">' +
+              '<div><h3>Continue Learning</h3><p>Latest lessons</p></div>' +
+              '<button class="btn btn-secondary" data-section="lessons">All Lessons</button>' +
+            '</div>' +
+            '<div class="lesson-list">' +
+              lessons.slice(0, 5).map(lessonItem).join("") +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+
+        '<div>' +
+          '<div class="card">' +
+            '<div class="card-title"><div><h3>Sales Snapshot</h3><p>Current manager KPI</p></div></div>' +
+            '<div class="metric-big">' + money(kpi.actual) + ' L</div>' +
+            '<p style="color:#64748b;font-size:11px">Actual Sales</p>' +
+            '<div class="progress-row">' +
+              '<div class="progress-row-head"><span>Achievement</span><strong>' + ach + '%</strong></div>' +
+              '<div class="progress-wrap"><div class="progress-bar" style="width:' + Math.min(100, ach) + '%"></div></div>' +
+            '</div>' +
+            '<div class="table-wrap">' +
+              '<table class="data-table">' +
+                '<tr><td>Target</td><td><strong>' + money(kpi.target) + ' L</strong></td></tr>' +
+                '<tr><td>Gap</td><td><strong>' + money(gap(kpi.target, kpi.actual)) + ' L</strong></td></tr>' +
+                '<tr><td>Team</td><td><strong>' + money(kpi.team) + '</strong></td></tr>' +
+                '<tr><td>Customers</td><td><strong>' + money(kpi.customers) + '</strong></td></tr>' +
+                '<tr><td>Orders</td><td><strong>' + money(kpi.orders) + '</strong></td></tr>' +
+              '</table>' +
+            '</div>' +
+          '</div>' +
+
+          '<div class="card">' +
+            '<div class="card-title"><div><h3>Manager Command</h3><p>Quick access</p></div></div>' +
+            '<div class="action-grid">' +
+              actionButton("Sales Manager", "Target and execution", "sales") +
+              actionButton("Business Reports", "Management report", "reports") +
+              actionButton("Business Tools", "Calculate business numbers", "tools") +
+              actionButton("Premium", "Unlock full system", "premium") +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function statCard(label, value, note) {
+    return '<div class="stat-card">' +
+      '<div class="stat-label">' + escapeHTML(label) + '</div>' +
+      '<div class="stat-value">' + escapeHTML(value) + '</div>' +
+      '<div class="stat-note">' + escapeHTML(note) + '</div>' +
+    '</div>';
+  }
+
+  function actionButton(title, description, section) {
+    return '<button class="action-btn" data-section="' + section + '">' +
+      '<strong>' + escapeHTML(title) + '</strong>' +
+      '<span>' + escapeHTML(description) + '</span>' +
+    '</button>';
+  }
+
+  function lessonItem(lesson) {
+    var done = isCompleted(lesson.id);
+
+    return '<div class="lesson-list-item">' +
+      '<div class="lesson-left">' +
+        '<div class="lesson-number">' + lesson.number + '</div>' +
+        '<div class="lesson-info">' +
+          '<strong>' + escapeHTML(lesson.title) + '</strong>' +
+          '<span>' + escapeHTML(lesson.category) + '</span>' +
+        '</div>' +
+      '</div>' +
+      '<div>' +
+        '<span class="badge ' + (done ? "badge-done" : (lesson.premium ? "badge-premium" : "badge-free")) + '">' +
+          (done ? "COMPLETED" : (lesson.premium ? "PREMIUM" : "FREE")) +
+        '</span> ' +
+        '<button class="btn btn-secondary" data-action="open-lesson" data-id="' + lesson.id + '">Open</button>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function renderAcademy() {
+    setPageMeta("Business Academy", "Professional Business Management Learning System");
+
+    document.getElementById("app").innerHTML =
+      '<div class="page-heading">' +
+        '<h2>Business Academy</h2>' +
+        '<p>' + lessons.length + ' professional lessons across ' + courseData.length + ' business categories</p>' +
+      '</div>' +
+
+      '<div class="academy-stat-grid">' +
+        statCard("CATEGORIES", courseData.length, "Business disciplines") +
+        statCard("TOTAL LESSONS", lessons.length, "Complete academy") +
+        statCard("FREE LESSON", "1", "Lesson 1 only") +
+        statCard("PREMIUM", lessons.length - 1, "Lesson 2 onwards") +
+      '</div>' +
+
+      '<div class="category-grid">' +
+        courseData.map(function (course) {
+          return '<div class="category-card">' +
+            '<h3>' + escapeHTML(course.name) + '</h3>' +
+            '<p>' + escapeHTML(course.description) + '</p>' +
+            '<div class="category-count">' + course.topics.length + '</div>' +
+            '<p>Lessons</p>' +
+            '<button class="btn btn-primary btn-block" data-action="category-lessons" data-category="' + escapeHTML(course.name) + '">View Lessons</button>' +
+          '</div>';
+        }).join("") +
+      '</div>';
+  }
+
+  function renderLessons(filterCategory, searchTerm) {
+    setPageMeta("Lessons", "Business Academy Lessons");
+
+    var category = filterCategory || "All Categories";
+    var search = (searchTerm || "").toLowerCase();
+
+    var filtered = lessons.filter(function (lesson) {
+      var categoryMatch = category === "All Categories" || lesson.category === category;
+      var searchMatch =
+        lesson.title.toLowerCase().indexOf(search) !== -1 ||
+        lesson.category.toLowerCase().indexOf(search) !== -1;
+
+      return categoryMatch && searchMatch;
+    });
+
+    document.getElementById("app").innerHTML =
+      '<div class="page-heading">' +
+        '<h2>Lessons</h2>' +
+        '<p>Lesson 1 is free, Lesson 2 onwards requires Premium Membership</p>' +
+      '</div>' +
+
+      '<div class="card">' +
+        '<div class="filter-bar">' +
+          '<input id="lessonSearch" class="input" type="search" placeholder="Search lesson..." value="' + escapeHTML(searchTerm || "") + '">' +
+          '<select id="lessonCategory" class="select">' +
+            '<option>All Categories</option>' +
+            courseData.map(function (course) {
+              return '<option ' + (course.name === category ? "selected" : "") + '>' + escapeHTML(course.name) + '</option>';
+            }).join("") +
+          '</select>' +
+        '</div>' +
+
+        '<div style="margin-bottom:12px;color:#64748b;font-size:11px">' +
+          'Showing ' + filtered.length + ' lessons' +
+        '</div>' +
+
+        '<div class="lesson-list">' +
+          (filtered.length ? filtered.map(lessonItem).join("") : '<div class="empty-state">Lesson မတွေ့ပါ</div>') +
+        '</div>' +
+      '</div>';
+  }
+
+  function renderProgress() {
+    setPageMeta("My Progress", "Learning Progress & Performance");
+
+    var completed = getCompleted();
+    var progress = getProgress();
+
+    var rows = courseData.map(function (course) {
+      var categoryLessons = lessons.filter(function (lesson) {
+        return lesson.category === course.name;
+      });
+
+      var done = categoryLessons.filter(function (lesson) {
+        return completed.indexOf(lesson.id) !== -1;
+      }).length;
+
+      var percent = categoryLessons.length ? Math.round((done / categoryLessons.length) * 100) : 0;
+
+      return '<div class="progress-row">' +
+        '<div class="progress-row-head">' +
+          '<span>' + escapeHTML(course.name) + '</span>' +
+          '<strong>' + done + '/' + categoryLessons.length + ' (' + percent + '%)</strong>' +
+        '</div>' +
+        '<div class="progress-wrap"><div class="progress-bar" style="width:' + percent + '%"></div></div>' +
+      '</div>';
+    }).join("");
+
+    document.getElementById("app").innerHTML =
+      '<div class="page-heading">' +
+        '<h2>My Progress</h2>' +
+        '<p>Your academy learning performance</p>' +
+      '</div>' +
+
+      '<div class="stats-grid">' +
+        statCard("TOTAL", lessons.length, "All lessons") +
+        statCard("COMPLETED", completed.length, "Finished") +
+        statCard("REMAINING", Math.max(0, lessons.length - completed.length), "Remaining") +
+        statCard("PROGRESS", progress + "%", "Overall") +
+      '</div>' +
+
+      '<div class="card">' +
+        '<div class="card-title">' +
+          '<div><h3>Category Progress</h3><p>Track progress by business discipline</p></div>' +
+          '<button class="btn btn-danger" data-action="reset-progress">Reset</button>' +
+        '</div>' +
+        rows +
+      '</div>';
+  }
+
+  function renderSales() {
+    setPageMeta("Sales Manager", "Sales Target, Team Execution & Daily Management");
+
+    var kpi = getKPI();
+    var ach = achievement(kpi.target, kpi.actual);
+    var salesGap = gap(kpi.target, kpi.actual);
+    var dailyTarget = Number(kpi.target) / 26;
+    var pipeline = Number(kpi.target) * 3;
+
+    document.getElementById("app").innerHTML =
+      '<div class="page-heading">' +
+        '<h2>Sales Manager</h2>' +
+        '<p>Daily execution command center</p>' +
+      '</div>' +
+
+      '<div class="stats-grid">' +
+        statCard("TARGET", money(kpi.target) + " L", "Monthly target") +
+        statCard("ACTUAL", money(kpi.actual) + " L", "Current sales") +
+        statCard("ACHIEVEMENT", ach + "%", "Target achievement") +
+        statCard("GAP", money(salesGap) + " L", "Remaining gap") +
+      '</div>' +
+
+      '<div class="dashboard-grid">' +
+        '<div class="card">' +
+          '<div class="card-title"><div><h3>Sales Execution</h3><p>Manager operating view</p></div></div>' +
+          '<div class="table-wrap">' +
+            '<table class="data-table">' +
+              '<tr><th>Metric</th><th>Value</th><th>Manager Action</th></tr>' +
+              '<tr><td>Daily Target</td><td>' + dailyTarget.toFixed(1) + ' L</td><td>Set daily team plan</td></tr>' +
+              '<tr><td>Pipeline Coverage</td><td>' + pipeline.toFixed(0) + ' L</td><td>Build qualified pipeline</td></tr>' +
+              '<tr><td>Team Size</td><td>' + kpi.team + '</td><td>Review salesperson KPI</td></tr>' +
+              '<tr><td>Customers</td><td>' + kpi.customers + '</td><td>Focus active customers</td></tr>' +
+              '<tr><td>Orders</td><td>' + kpi.orders + '</td><td>Improve conversion</td></tr>' +
+            '</table>' +
+          '</div>' +
+        '</div>' +
+
+        '<div class="card">' +
+          '<div class="card-title"><div><h3>Daily Manager Routine</h3><p>Execution checklist</p></div></div>' +
+          '<div class="checklist">' +
+            '<div class="check-item">☐ Review yesterday actual vs target</div>' +
+            '<div class="check-item">☐ Identify sales gap and root cause</div>' +
+            '<div class="check-item">☐ Check salesperson performance</div>' +
+            '<div class="check-item">☐ Review customer and pipeline movement</div>' +
+            '<div class="check-item">☐ Set today's priorities</div>' +
+            '<div class="check-item">☐ End-day result review</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="card">' +
+        '<div class="card-title"><div><h3>Update Sales KPI</h3><p>Saved locally on this device</p></div></div>' +
+        kpiForm(kpi) +
+      '</div>';
+  }
+
+  function kpiForm(kpi) {
+    return '<form id="kpiForm" class="form-grid">' +
+      formInput("Target", "kpiTarget", kpi.target) +
+      formInput("Actual", "kpiActual", kpi.actual) +
+      formInput("Team", "kpiTeam", kpi.team) +
+      formInput("Customers", "kpiCustomers", kpi.customers) +
+      formInput("Orders", "kpiOrders", kpi.orders) +
+      '<div class="full"><button class="btn btn-primary" type="submit">Save KPI</button></div>' +
+    '</form>';
+  }
+
+  function formInput(label, id, value) {
+    return '<div class="form-group">' +
+      '<label for="' + id + '">' + label + '</label>' +
+      '<input id="' + id + '" class="input" type="number" min="0" step="0.1" value="' + escapeHTML(value) + '">' +
+    '</div>';
+  }
+
+  function renderKPI() {
+    setPageMeta("KPI & Analytics", "Target, Actual, Achievement & Gap Analysis");
+
+    var kpi = getKPI();
+    var ach = achievement(kpi.target, kpi.actual);
+    var salesGap = gap(kpi.target, kpi.actual);
+
+    document.getElementById("app").innerHTML =
+      '<div class="page-heading">' +
+        '<h2>KPI & Analytics</h2>' +
+        '<p>Business performance dashboard</p>' +
+      '</div>' +
+
+      '<div class="stats-grid">' +
+        statCard("TARGET", money(kpi.target) + " L", "Target") +
+        statCard("ACTUAL", money(kpi.actual) + " L", "Actual") +
+        statCard("ACHIEVEMENT", ach + "%", "Achievement") +
+        statCard("GAP", money(salesGap) + " L", "Gap") +
+      '</div>' +
+
+      '<div class="dashboard-grid">' +
+        '<div class="card">' +
+          '<div class="card-title"><div><h3>Achievement Analysis</h3><p>Target vs actual</p></div></div>' +
+          '<div class="metric-big">' + ach + '%</div>' +
+          '<div class="progress-wrap" style="margin-top:15px">' +
+            '<div class="progress-bar" style="width:' + Math.min(100, ach) + '%"></div>' +
+          '</div>' +
+          '<p style="font-size:11px;color:#64748b;margin-top:10px">Target: ' + money(kpi.target) + ' L | Actual: ' + money(kpi.actual) + ' L</p>' +
+        '</div>' +
+
+        '<div class="card">' +
+          '<div class="card-title"><div><h3>Operational KPI</h3><p>Team and customer indicators</p></div></div>' +
+          '<div class="table-wrap">' +
+            '<table class="data-table">' +
+              '<tr><td>Team</td><td><strong>' + kpi.team + '</strong></td></tr>' +
+              '<tr><td>Customers</td><td><strong>' + kpi.customers + '</strong></td></tr>' +
+              '<tr><td>Orders</td><td><strong>' + kpi.orders + '</strong></td></tr>' +
+              '<tr><td>Average Order</td><td><strong>' + (kpi.orders ? (kpi.actual / kpi.orders).toFixed(2) : "0") + ' L</strong></td></tr>' +
+            '</table>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function renderReports() {
+    setPageMeta("Business Reports", "Management Reporting Center");
+
+    var kpi = getKPI();
+    var ach = achievement(kpi.target, kpi.actual);
+
+    document.getElementById("app").innerHTML =
+      '<div class="page-heading">' +
+        '<h2>Business Reports</h2>' +
+        '<p>Management summary and reporting</p>' +
+      '</div>' +
+
+      '<div class="card">' +
+        '<div class="card-title">' +
+          '<div><h3>Management Summary</h3><p>Current business performance snapshot</p></div>' +
+          '<button class="btn btn-primary" data-action="print-report">Print Report</button>' +
+        '</div>' +
+
+        '<div class="table-wrap">' +
+          '<table class="data-table">' +
+            '<tr><th>Area</th><th>Current</th><th>Management Focus</th></tr>' +
+            '<tr><td>Sales</td><td>' + money(kpi.actual) + ' L</td><td>Close gap to target</td></tr>' +
+            '<tr><td>Achievement</td><td>' + ach + '%</td><td>Improve execution</td></tr>' +
+            '<tr><td>Team</td><td>' + kpi.team + '</td><td>Coach low performers</td></tr>' +
+            '<tr><td>Customers</td><td>' + kpi.customers + '</td><td>Increase active customer base</td></tr>' +
+            '<tr><td>Orders</td><td>' + kpi.orders + '</td><td>Improve conversion and average order</td></tr>' +
+          '</table>' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="card">' +
+        '<div class="card-title"><div><h3>Management Questions</h3><p>Use these in weekly reviews</p></div></div>' +
+        '<div class="checklist">' +
+          '<div class="check-item">1. Target gap ဘာကြောင့် ဖြစ်နေလဲ</div>' +
+          '<div class="check-item">2. ဘယ် Territory / Customer / Salesperson က အဓိက သက်ရောက်နေလဲ</div>' +
+          '<div class="check-item">3. ဒီအပတ်မှာ ဘာကို အရင်ဆုံး ပြင်မလဲ</div>' +
+          '<div class="check-item">4. Action တစ်ခုချင်းစီရဲ့ KPI ဘာလဲ</div>' +
+          '<div class="check-item">5. Next review မှာ ဘယ်လို result ကို မျှော်လင့်လဲ</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function renderTools() {
+    setPageMeta("Business Tools", "Pricing, Profit, Margin, Break-even & Sales Calculators");
+
+    document.getElementById("app").innerHTML =
+      '<div class="page-heading">' +
+        '<h2>Business Tools</h2>' +
+        '<p>Practical calculators for business managers</p>' +
+      '</div>' +
+
+      '<div class="tool-grid">' +
+        toolCard("Pricing / Profit / Margin", "Calculate selling price, profit and margin", "pricing") +
+        toolCard("Break-even", "Calculate break-even sales level", "break-even") +
+        toolCard("Sales Target", "Break monthly target into daily target", "sales-target") +
+        toolCard("Growth", "Calculate business growth percentage", "growth") +
+      '</div>' +
+
+      '<div id="toolResult" class="card" style="display:none"></div>';
+  }
+
+  function toolCard(title, description, type) {
+    return '<div class="tool-card">' +
+      '<h3>' + escapeHTML(title) + '</h3>' +
+      '<p>' + escapeHTML(description) + '</p>' +
+      '<button class="btn btn-primary" data-action="open-tool" data-tool="' + type + '">Open Tool</button>' +
+    '</div>';
+  }
+
+  function openTool(type) {
+    var modalRoot = document.getElementById("modalRoot");
+
+    var content = "";
+
+    if (type === "pricing") {
+      content =
+        '<div class="form-grid">' +
+          formInput("Cost", "toolCost", 100) +
+          formInput("Selling Price", "toolPrice", 150) +
+        '</div>' +
+        '<button class="btn btn-primary btn-block" data-action="calculate-pricing" style="margin-top:15px">Calculate</button>';
+    }
+
+    if (type === "break-even") {
+      content =
+        '<div class="form-grid">' +
+          formInput("Fixed Cost", "beFixed", 1000000) +
+          formInput("Selling Price / Unit", "bePrice", 10000) +
+          formInput("Variable Cost / Unit", "beVariable", 6000) +
+        '</div>' +
+        '<button class="btn btn-primary btn-block" data-action="calculate-break-even" style="margin-top:15px">Calculate</button>';
+    }
+
+    if (type === "sales-target") {
+      content =
+        '<div class="form-grid">' +
+          formInput("Monthly Target", "stTarget", 500) +
+          formInput("Working Days", "stDays", 26) +
+        '</div>' +
+        '<button class="btn btn-primary btn-block" data-action="calculate-sales-target" style="margin-top:15px">Calculate</button>';
+    }
+
+    if (type === "growth") {
+      content =
+        '<div class="form-grid">' +
+          formInput("Previous Sales", "growthPrevious", 300) +
+          formInput("Current Sales", "growthCurrent", 385) +
+        '</div>' +
+        '<button class="btn btn-primary btn-block" data-action="calculate-growth" style="margin-top:15px">Calculate</button>';
+    }
+
+    modalRoot.innerHTML =
+      '<div class="modal-backdrop is-open" id="toolModal">' +
+        '<div class="modal">' +
+          '<div class="modal-head">' +
+            '<h3>Business Calculator</h3>' +
+            '<button class="modal-close" data-action="close-modal">×</button>' +
+          '</div>' +
+          '<div class="modal-body">' +
+            content +
+            '<div id="calculatorResult" style="margin-top:15px"></div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function renderAITools() {
+    setPageMeta("AI Business Tools", "Practical AI-Powered Management Tools");
+
+    var tools = [
+      ["Daily Sales Action Plan", "နေ့စဉ် sales target အတွက် action plan", "daily-plan"],
+      ["Target Gap Analysis", "Target မပြည့်တဲ့အကြောင်းရင်းရှာရန်", "gap-analysis"],
+      ["Root Cause Analysis", "Problem ရဲ့ root cause ခွဲခြမ်းရန်", "root-cause"],
+      ["Sales Meeting Agenda", "Professional sales meeting agenda", "meeting"],
+      ["Team Coaching Questions", "Salesperson coaching questions", "coaching"]
+    ];
+
+    document.getElementById("app").innerHTML =
+      '<div class="page-heading">' +
+        '<h2>AI Business Tools</h2>' +
+        '<p>AI ကို manager workflow ထဲမှာ practical အဖြစ် အသုံးချရန်</p>' +
+      '</div>' +
+
+      '<div class="tool-grid">' +
+        tools.map(function (item) {
+          return '<div class="tool-card">' +
+            '<h3>' + escapeHTML(item[0]) + '</h3>' +
+            '<p>' + escapeHTML(item[1]) + '</p>' +
+            '<button class="btn btn-purple" data-action="ai-tool" data-tool="' + item[2] + '">Generate</button>' +
+          '</div>';
+        }).join("") +
+      '</div>' +
+
+      '<div id="aiToolResult" class="card" style="display:none"></div>';
+  }
+
+  function renderAICoach() {
+    setPageMeta("AI Business Coach", "Business Strategy, Sales & Management Coach");
+
+    document.getElementById("app").innerHTML =
+      '<div class="page-heading">' +
+        '<h2>AI Business Coach</h2>' +
+        '<p>Business problem ကိုရေးပြီး practical action plan ရယူပါ</p>' +
+      '</div>' +
+
+      '<div class="card">' +
+        '<div id="aiChat" class="ai-chat">' +
+          '<div class="ai-message ai-bot">' +
+            '<strong>AI Business Coach</strong><br>' +
+            'Business problem၊ sales problem၊ marketing idea၊ staff management သို့မဟုတ် business plan အကြောင်း မေးနိုင်ပါတယ်' +
+          '</div>' +
+        '</div>' +
+
+        '<form id="aiForm" class="chat-form">' +
+          '<input id="aiInput" class="input" type="text" placeholder="ဥပမာ - Sales target မပြည့်တာကို ဘယ်လိုပြင်မလဲ" autocomplete="off">' +
+          '<button class="btn btn-primary" type="submit">Ask AI</button>' +
+        '</form>' +
+      '</div>';
+  }
+
+  function renderPremium() {
+    setPageMeta("Premium Membership", "Unlock the Full Business Management System");
+
+    var active = isPremiumActive();
+
+    document.getElementById("app").innerHTML =
+      '<div class="page-heading">' +
+        '<h2>Premium Membership</h2>' +
+        '<p>Lesson 1 free • Lesson 2 onwards Premium</p>' +
+      '</div>' +
+
+      '<div class="notice notice-info">' +
+        '<strong>Premium Access</strong><br>' +
+        'Premium Membership မှာ full lessons, business tools, AI Business Coach နှင့် management features များ ပါဝင်ပါမယ်' +
+      '</div>' +
+
+      (active ?
+        '<div class="notice notice-success">Premium Membership Status: ACTIVE</div>' :
+        '<div class="notice notice-warning">Premium Membership Status: BASIC / Pending Activation</div>') +
+
+      '<div class="plan-grid">' +
+        premiumPlan("1 Month", "25,000 Ks", "25,000", false) +
+        premiumPlan("3 Months", "60,000 Ks", "60,000", true) +
+        premiumPlan("6 Months", "100,000 Ks", "100,000", false) +
+      '</div>' +
+
+      '<div class="card">' +
+        '<div class="card-title"><div><h3>Payment Methods</h3><p>Manual payment confirmation</p></div></div>' +
+        '<div class="checklist">' +
+          '<div class="check-item"><strong>KPay</strong> — Payment ပြီးပါက Transaction Reference ထည့်ပါ</div>' +
+          '<div class="check-item"><strong>CB Bank</strong> — Payment ပြီးပါက Transaction Reference ထည့်ပါ</div>' +
+        '</div>' +
+        '<div class="notice notice-warning" style="margin-top:15px;margin-bottom:0">' +
+          'Payment confirmation တင်ပြီးနောက် Premium ကို manually verify / activate လုပ်ရပါမယ်. ဒီ app က payment အတုမဖန်တီးပါ' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="card">' +
+        '<div class="card-title"><div><h3>Payment Confirmation</h3><p>Activation request သိမ်းရန်</p></div></div>' +
+        '<form id="paymentForm" class="form-grid">' +
+          '<div class="form-group"><label>Plan</label><select id="paymentPlan" class="select"><option>1 Month - 25,000 Ks</option><option>3 Months - 60,000 Ks</option><option>6 Months - 100,000 Ks</option></select></div>' +
+          '<div class="form-group"><label>Payment Method</label><select id="paymentMethod" class="select"><option>KPay</option><option>CB Bank</option></select></div>' +
+          '<div class="form-group full"><label>Transaction Reference</label><input id="paymentReference" class="input" type="text" placeholder="Transaction reference ထည့်ပါ"></div>' +
+          '<div class="full"><button class="btn btn-primary" type="submit">Submit Confirmation</button></div>' +
+        '</form>' +
+      '</div>';
+  }
+
+  function premiumPlan(name, price, amount, featured) {
+    return '<div class="plan-card ' + (featured ? "featured" : "") + '">' +
+      (featured ? '<div class="featured-label">POPULAR</div>' : '') +
+      '<h3>' + name + '</h3>' +
+      '<div class="plan-price">' + price + '</div>' +
+      '<p>Full Academy + Tools + AI Business Coach</p>' +
+      '<button class="btn btn-primary btn-block" data-action="select-plan" data-plan="' + escapeHTML(name + " - " + amount + " Ks") + '">Choose Plan</button>' +
+    '</div>';
+  }
+
+  function renderSettings() {
+    setPageMeta("Settings", "Profile & Application Settings");
+
+    var user = getUser();
+
+    document.getElementById("app").innerHTML =
+      '<div class="page-heading">' +
+        '<h2>Settings</h2>' +
+        '<p>Manage your profile and local app data</p>' +
+      '</div>' +
+
+      '<div class="card">' +
+        '<div class="card-title"><div><h3>Profile</h3><p>Displayed throughout the academy</p></div></div>' +
+        '<form id="settingsForm" class="form-grid">' +
+          '<div class="form-group"><label>Name</label><input id="settingsName" class="input" value="' + escapeHTML(user.name) + '"></div>' +
+          '<div class="form-group"><label>Role</label><input id="settingsRole" class="input" value="' + escapeHTML(user.role) + '"></div>' +
+          '<div class="full"><button class="btn btn-primary" type="submit">Save Profile</button></div>' +
+        '</form>' +
+      '</div>' +
+
+      '<div class="card">' +
+        '<div class="card-title"><div><h3>Application Data</h3><p>Local device storage</p></div></div>' +
+        '<button class="btn btn-danger" data-action="reset-all-data">Reset Local App Data</button>' +
+      '</div>';
+  }
+
+  function renderSection() {
+    safeRender(function () {
+      updateProfileUI();
+      setActiveNav(currentSection);
+
+      if (currentSection === "dashboard") renderDashboard();
+      else if (currentSection === "academy") renderAcademy();
+      else if (currentSection === "lessons") renderLessons();
+      else if (currentSection === "progress") renderProgress();
+      else if (currentSection === "sales") renderSales();
+      else if (currentSection === "kpi") renderKPI();
+      else if (currentSection === "reports") renderReports();
+      else if (currentSection === "tools") renderTools();
+      else if (currentSection === "ai-tools") renderAITools();
+      else if (currentSection === "ai-coach") renderAICoach();
+      else if (currentSection === "premium") renderPremium();
+      else if (currentSection === "settings") renderSettings();
+      else {
+        currentSection = "dashboard";
+        renderDashboard();
+      }
+    });
+  }
+
+  function goToSection(section) {
+    if (!section) return;
+
+    currentSection = section;
+    currentLessonId = null;
+
+    closeMobileMenu();
+    window.scrollTo(0, 0);
+
+    renderSection();
+  }
+
+  function openLesson(id) {
+    var lesson = lessons.find(function (item) {
+      return item.id === Number(id);
+    });
+
+    if (!lesson) {
+      showToast("Lesson မတွေ့ပါ");
       return;
     }
 
-    root.innerHTML =
-      '<div class="toast">' +
-      escapeHtml(message) +
-      "</div>";
+    if (lesson.premium && !isPremiumActive()) {
+      openPremiumModal(lesson);
+      return;
+    }
 
-    window.setTimeout(function () {
-      root.innerHTML = "";
-    }, 2600);
+    currentLessonId = lesson.id;
+
+    setPageMeta("Lesson " + lesson.number, lesson.category);
+
+    document.getElementById("app").innerHTML =
+      '<div class="lesson-detail">' +
+        '<button class="btn btn-secondary" data-section="lessons">← Back to Lessons</button>' +
+
+        '<div class="lesson-hero" style="margin-top:15px">' +
+          '<span class="badge ' + (lesson.premium ? "badge-premium" : "badge-free") + '">' +
+            (lesson.premium ? "PREMIUM" : "FREE") +
+          '</span>' +
+          '<h2 style="margin-top:10px">Lesson ' + lesson.number + ': ' + escapeHTML(lesson.title) + '</h2>' +
+          '<p>' + escapeHTML(lesson.category) + '</p>' +
+        '</div>' +
+
+        lessonContent(lesson) +
+
+        '<div class="card">' +
+          '<div class="card-title"><div><h3>Lesson Completion</h3><p>Complete this lesson after applying the key actions</p></div></div>' +
+          '<button class="btn ' + (isCompleted(lesson.id) ? "btn-success" : "btn-primary") + ' btn-block" data-action="toggle-complete" data-id="' + lesson.id + '">' +
+            (isCompleted(lesson.id) ? "✓ Completed" : "Mark Lesson as Complete") +
+          '</button>' +
+        '</div>' +
+
+      '</div>';
   }
 
-  /* =========================================================
-     CALCULATORS
-     ========================================================= */
+  function lessonContent(lesson) {
+    var category = lesson.category;
 
-  function calculatePrice() {
+    var guide = {
+      "Business Fundamentals": {
+        concept: "Business ဆိုတာ Customer အတွက် value ဖန်တီးပြီး revenue ရရှိကာ sustainable profit နှင့် cash flow ထိန်းချုပ်နိုင်အောင်လုပ်ဆောင်တဲ့ system တစ်ခုဖြစ်ပါတယ်",
+        actions: ["Customer problem ကို သတ်မှတ်ပါ", "Value proposition ကို ရှင်းလင်းပါ", "Revenue နှင့် cost structure ကို ခွဲပါ", "Profit နှင့် cash flow KPI ကို စောင့်ကြည့်ပါ"],
+        kpi: "Revenue, Gross Profit, Gross Margin, Cash Flow"
+      },
+      "Business Strategy": {
+        concept: "Strategy ဆိုတာ resource အကန့်အသတ်အတွင်း ဘာကို အဓိကလုပ်မလဲ၊ ဘာကို မလုပ်ဘူးလဲ ဆိုတာကို ရွေးချယ်ခြင်းဖြစ်ပါတယ်",
+        actions: ["SWOT ပြုလုပ်ပါ", "Competitive advantage သတ်မှတ်ပါ", "Strategic priorities 3 ခုထက် မပိုအောင်ထားပါ", "Execution review ပြုလုပ်ပါ"],
+        kpi: "Growth %, Market Share, Strategic Initiative Completion"
+      },
+      "Sales Management": {
+        concept: "Sales Manager ရဲ့အဓိကတာဝန်က Target ကို Breakdown လုပ်ပြီး Team, Territory, Pipeline, Forecast နဲ့ Execution ကို ထိန်းချုပ်ခြင်းဖြစ်ပါတယ်",
+        actions: ["Monthly target ကို daily / salesperson level ခွဲပါ", "Pipeline coverage စစ်ပါ", "Forecast accuracy စောင့်ကြည့်ပါ", "Low performance ကို coaching လုပ်ပါ"],
+        kpi: "Achievement %, Productivity, Pipeline Coverage, Forecast Accuracy"
+      },
+      "Sales Skills": {
+        concept: "Professional selling ဆိုတာ Product ကိုပဲမရောင်းဘဲ Customer ရဲ့လိုအပ်ချက်နဲ့ Business Value ကို ချိတ်ဆက်ပြီး decision ကို ဦးဆောင်ပေးခြင်းဖြစ်ပါတယ်",
+        actions: ["Open questions မေးပါ", "Customer need ကို နားထောင်ပါ", "Feature ကို benefit အဖြစ်ပြောင်းပါ", "Objection ကို clarify လုပ်ပြီး close လုပ်ပါ"],
+        kpi: "Conversion %, Average Order, Repeat Purchase"
+      },
+      "Customer Management": {
+        concept: "Customer Management ရဲ့အဓိကက Customer တစ်ဦးချင်းရဲ့ value, need, experience နဲ့ retention ကို စနစ်တကျစီမံခြင်းဖြစ်ပါတယ်",
+        actions: ["Customer segmentation ပြုလုပ်ပါ", "High-value customers သတ်မှတ်ပါ", "Complaint root cause ရှာပါ", "Retention action plan ထားပါ"],
+        kpi: "Retention %, Repeat Rate, Active Customers, Complaint Rate"
+      },
+      "Marketing": {
+        concept: "Marketing က Market, Customer, Offer နဲ့ Communication ကို ချိတ်ဆက်ပြီး demand ဖန်တီးပေးတဲ့ business function ဖြစ်ပါတယ်",
+        actions: ["Target customer သတ်မှတ်ပါ", "Offer ကို ရှင်းလင်းပါ", "Campaign KPI ထားပါ", "ROI ပြန်တိုင်းပါ"],
+        kpi: "Leads, Conversion %, Marketing ROI"
+      },
+      "Branding": {
+        concept: "Brand ဆိုတာ Customer စိတ်ထဲမှာ Business အပေါ် ဖြစ်ပေါ်နေတဲ့ perception နဲ့ trust ဖြစ်ပါတယ်",
+        actions: ["Brand promise သတ်မှတ်ပါ", "Positioning ရှင်းပါ", "Communication consistent ဖြစ်ပါစေ", "Customer trust တည်ဆောက်ပါ"],
+        kpi: "Awareness, Consideration, Repeat Purchase"
+      },
+      "Finance": {
+        concept: "Finance Management ရဲ့အဓိကက Revenue တိုးစေရုံမက Cost, Profit, Cash Flow နဲ့ Working Capital ကို ထိန်းချုပ်ခြင်းဖြစ်ပါတယ်",
+        actions: ["Revenue နှင့် cost ခွဲပါ", "Gross margin စစ်ပါ", "Cash flow forecast ပြုလုပ်ပါ", "Unnecessary cost လျှော့ပါ"],
+        kpi: "Gross Margin, OPEX Ratio, Cash Flow"
+      },
+      "Accounting & P&L": {
+        concept: "P&L ကိုဖတ်နိုင်ခြင်းက Business Manager အတွက် financial performance ကို နားလည်ပြီး decision ချနိုင်ဖို့ အရေးကြီးပါတယ်",
+        actions: ["Revenue စစ်ပါ", "Gross Profit စစ်ပါ", "OPEX ratio စစ်ပါ", "Net result ကို trend နဲ့ကြည့်ပါ"],
+        kpi: "Gross Profit, Gross Margin, OPEX Ratio, Net Margin"
+      },
+      "Distribution & Operations": {
+        concept: "Distribution Management က Product ကို မှန်ကန်တဲ့ Channel မှာ မှန်ကန်တဲ့ Stock နဲ့ Customer ဆီရောက်အောင် စီမံခြင်းဖြစ်ပါတယ်",
+        actions: ["Channel structure စစ်ပါ", "Stock cover ထိန်းပါ", "Route efficiency စစ်ပါ", "Service level စောင့်ကြည့်ပါ"],
+        kpi: "Numeric Distribution, Fill Rate, Stock Cover, Distribution Cost"
+      },
+      "Retail & Modern Trade": {
+        concept: "Retail execution မှာ availability, visibility, distribution နဲ့ promotion execution က အဓိကဖြစ်ပါတယ်",
+        actions: ["Outlet classification ပြုလုပ်ပါ", "Shelf availability စစ်ပါ", "Promotion compliance စစ်ပါ", "Store execution audit လုပ်ပါ"],
+        kpi: "Availability %, Distribution %, Promotion Compliance"
+      },
+      "Key Account Management": {
+        concept: "KAM က Account တစ်ခုချင်းစီကို relationship သက်သက်မဟုတ်ဘဲ joint business growth နဲ့ profitability အမြင်နဲ့ စီမံခြင်းဖြစ်ပါတယ်",
+        actions: ["Account potential စစ်ပါ", "Account plan ရေးပါ", "JBP ပြုလုပ်ပါ", "Profitability စောင့်ကြည့်ပါ"],
+        kpi: "Account Growth, Margin, Retention"
+      },
+      "Leadership & Management": {
+        concept: "Leadership က Team ကို direction ပေးပြီး Management က target, process, people နဲ့ performance ကို စနစ်တကျထိန်းချုပ်ခြင်းဖြစ်ပါတယ်",
+        actions: ["Clear goals ပေးပါ", "Delegate လုပ်ပါ", "Regular coaching ပြုလုပ်ပါ", "Performance feedback ပေးပါ"],
+        kpi: "Goal Completion, Coaching Cadence, Team Performance"
+      },
+      "People & HR": {
+        concept: "People Management က Right Person, Right Role, Right Development နဲ့ Retention ကို စနစ်တကျစီမံခြင်းဖြစ်ပါတယ်",
+        actions: ["Job requirement ရှင်းပါ", "Onboarding plan ထားပါ", "Training needs ရှာပါ", "Performance review ပြုလုပ်ပါ"],
+        kpi: "Time-to-Fill, Training Completion, Retention"
+      },
+      "Negotiation": {
+        concept: "Negotiation မှာ preparation, objective, BATNA, value နဲ့ concession discipline က အဓိကဖြစ်ပါတယ်",
+        actions: ["Objective သတ်မှတ်ပါ", "BATNA စဉ်းစားပါ", "Customer priority ရှာပါ", "Concession ကို condition နဲ့ပေးပါ"],
+        kpi: "Win Rate, Margin, Payment Terms"
+      },
+      "Business Development": {
+        concept: "Business Development က New Customers, New Channels, New Markets နဲ့ New Revenue Opportunities ရှာဖွေဖော်ထုတ်ခြင်းဖြစ်ပါတယ်",
+        actions: ["Opportunity map ပြုလုပ်ပါ", "Qualified pipeline တည်ဆောက်ပါ", "Business case ရေးပါ", "Conversion စောင့်ကြည့်ပါ"],
+        kpi: "Qualified Pipeline, Conversion, New Revenue"
+      },
+      "KPI & Data Analysis": {
+        concept: "KPI ဆိုတာ Business Objective ကို measurable result အဖြစ် ပြောင်းလဲပြီး decision ချနိုင်အောင် အသုံးပြုတဲ့ measurement system ဖြစ်ပါတယ်",
+        actions: ["Objective သတ်မှတ်ပါ", "Target ထားပါ", "Actual စုပါ", "Gap ရှာပြီး action ချပါ"],
+        kpi: "Achievement %, Gap, Trend"
+      },
+      "Problem Solving & Decision Making": {
+        concept: "Problem ကို symptom အနေနဲ့မကြည့်ဘဲ root cause ကိုရှာပြီး priority အလိုက် action ချမှသာ sustainable result ရနိုင်ပါတယ်",
+        actions: ["Problem statement ရေးပါ", "5 Whys အသုံးပြုပါ", "Root cause စစ်ပါ", "Action owner နှင့် deadline သတ်မှတ်ပါ"],
+        kpi: "Recurrence Rate, Action Closure"
+      },
+      "Digital Business & AI": {
+        concept: "Digital Business နဲ့ AI ကို repetitive work လျှော့ချရန်၊ data ကို မြန်မြန်အသုံးချရန်နဲ့ decision quality မြှင့်ရန် အသုံးပြုနိုင်ပါတယ်",
+        actions: ["Repetitive tasks ရှာပါ", "AI use case သတ်မှတ်ပါ", "Data quality စစ်ပါ", "Output ကို human review လုပ်ပါ"],
+        kpi: "Time Saved, Adoption, Error Reduction"
+      },
+      "Productivity & Career": {
+        concept: "Professional productivity က အလုပ်များများလုပ်ခြင်းမဟုတ်ဘဲ Business Impact အများဆုံးအလုပ်ကို priority ပေးပြီး အချိန်ကို ထိရောက်စွာအသုံးပြုခြင်းဖြစ်ပါတယ်",
+        actions: ["Weekly priorities 3 ခုထားပါ", "Daily plan ရေးပါ", "Deep work time ထားပါ", "Weekly review ပြုလုပ်ပါ"],
+        kpi: "Priority Completion, Learning Hours"
+      }
+    };
 
-    var cost = Number(document.getElementById("priceCost").value) || 0;
-    var selling = Number(document.getElementById("priceSelling").value) || 0;
+    var item = guide[category] || guide["Business Fundamentals"];
 
-    var profit = selling - cost;
+    return '<div class="card">' +
+      '<div class="lesson-section">' +
+        '<h3>Core Concept</h3>' +
+        '<p>' + escapeHTML(item.concept) + '</p>' +
+      '</div>' +
 
-    var margin =
-      selling > 0
-      ? (profit / selling) * 100
-      : 0;
+      '<div class="lesson-section">' +
+        '<h3>Practical Manager Actions</h3>' +
+        '<ul>' +
+          item.actions.map(function (action) {
+            return '<li>' + escapeHTML(action) + '</li>';
+          }).join("") +
+        '</ul>' +
+      '</div>' +
 
-    var result = document.getElementById("priceResult");
+      '<div class="lesson-section">' +
+        '<h3>Manager Application</h3>' +
+        '<p>ဒီ Lesson ကို လက်တွေ့အသုံးချတဲ့အခါ လက်ရှိ Business သို့မဟုတ် Sales Team ထဲက issue တစ်ခုကိုရွေးပြီး action တစ်ခုအဖြစ် ပြောင်းလဲလုပ်ဆောင်ပါ</p>' +
+      '</div>' +
 
-    if (result) {
-      result.innerHTML =
-        "Profit: <strong>" +
-        profit.toFixed(2) +
-        "</strong><br>" +
-        "Gross Margin: <strong>" +
-        margin.toFixed(1) +
-        "%</strong>";
+      '<div class="lesson-section">' +
+        '<h3>Recommended KPI</h3>' +
+        '<p><strong>' + escapeHTML(item.kpi) + '</strong></p>' +
+      '</div>' +
+
+      '<div class="lesson-section">' +
+        '<h3>Manager Checklist</h3>' +
+        '<div class="checklist">' +
+          '<div class="check-item">☐ Objective ကို ရှင်းလင်းထားပါ</div>' +
+          '<div class="check-item">☐ Current situation ကို data နဲ့ စစ်ပါ</div>' +
+          '<div class="check-item">☐ Action owner သတ်မှတ်ပါ</div>' +
+          '<div class="check-item">☐ KPI နဲ့ result ကို ပြန်တိုင်းပါ</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function openPremiumModal(lesson) {
+    var modalRoot = document.getElementById("modalRoot");
+
+    modalRoot.innerHTML =
+      '<div class="modal-backdrop is-open">' +
+        '<div class="modal">' +
+          '<div class="modal-head">' +
+            '<h3>Premium Lesson</h3>' +
+            '<button class="modal-close" data-action="close-modal">×</button>' +
+          '</div>' +
+          '<div class="modal-body">' +
+            '<div class="notice notice-warning">' +
+              '<strong>Lesson ' + lesson.number + ' - ' + escapeHTML(lesson.title) + '</strong><br>' +
+              'ဒီ Lesson က Premium Membership လိုအပ်ပါတယ်' +
+            '</div>' +
+            '<p style="font-size:12px;line-height:1.7">Lesson 1 ကို Free အသုံးပြုနိုင်ပြီး Lesson 2 onwards အတွက် Premium Membership လိုအပ်ပါတယ်</p>' +
+            '<button class="btn btn-primary btn-block" data-section="premium">View Premium Plans</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function closeModal() {
+    var root = document.getElementById("modalRoot");
+
+    if (root) root.innerHTML = "";
+  }
+
+  function handleClick(event) {
+    var target = event.target.closest ? event.target.closest("[data-section], [data-action]") : null;
+
+    if (!target) return;
+
+    var section = target.getAttribute("data-section");
+    var action = target.getAttribute("data-action");
+
+    if (section) {
+      closeModal();
+
+      if (section === "lessons" && currentSection === "lessons") {
+        renderLessons();
+      } else {
+        goToSection(section);
+      }
+
+      return;
+    }
+
+    if (!action) return;
+
+    if (action === "open-lesson") {
+      openLesson(target.getAttribute("data-id"));
+      return;
+    }
+
+    if (action === "toggle-complete") {
+      toggleComplete(target.getAttribute("data-id"));
+      return;
+    }
+
+    if (action === "reset-progress") {
+      resetProgress();
+      return;
+    }
+
+    if (action === "reload-app") {
+      window.location.reload();
+      return;
+    }
+
+    if (action === "close-modal") {
+      closeModal();
+      return;
+    }
+
+    if (action === "open-tool") {
+      openTool(target.getAttribute("data-tool"));
+      return;
+    }
+
+    if (action === "calculate-pricing") {
+      calculatePricing();
+      return;
+    }
+
+    if (action === "calculate-break-even") {
+      calculateBreakEven();
+      return;
+    }
+
+    if (action === "calculate-sales-target") {
+      calculateSalesTarget();
+      return;
+    }
+
+    if (action === "calculate-growth") {
+      calculateGrowth();
+      return;
+    }
+
+    if (action === "category-lessons") {
+      var category = target.getAttribute("data-category");
+      currentSection = "lessons";
+      closeMobileMenu();
+      setActiveNav("lessons");
+      renderLessons(category, "");
+      return;
+    }
+
+    if (action === "print-report") {
+      window.print();
+      return;
+    }
+
+    if (action === "ai-tool") {
+      generateAITool(target.getAttribute("data-tool"));
+      return;
+    }
+
+    if (action === "select-plan") {
+      var plan = target.getAttribute("data-plan");
+      goToSection("premium");
+
+      setTimeout(function () {
+        var select = document.getElementById("paymentPlan");
+
+        if (select) {
+          for (var i = 0; i < select.options.length; i++) {
+            if (select.options[i].text.indexOf(plan.split(" - ")[0]) !== -1) {
+              select.selectedIndex = i;
+              break;
+            }
+          }
+        }
+
+        showToast("Plan selected");
+      }, 50);
+
+      return;
+    }
+
+    if (action === "reset-all-data") {
+      resetAllData();
+      return;
     }
   }
 
-  function calculateBreakEven() {
+  function toggleComplete(id) {
+    id = Number(id);
 
+    var completed = getCompleted();
+    var index = completed.indexOf(id);
+
+    if (index === -1) {
+      completed.push(id);
+      showToast("Lesson completed");
+    } else {
+      completed.splice(index, 1);
+      showToast("Lesson completion removed");
+    }
+
+    setCompleted(completed);
+
+    if (currentLessonId) {
+      openLesson(currentLessonId);
+    } else {
+      renderSection();
+    }
+  }
+
+  function resetProgress() {
+    if (!window.confirm("Learning progress အားလုံး reset လုပ်မလား")) {
+      return;
+    }
+
+    setCompleted([]);
+    showToast("Progress reset ပြီးပါပြီ");
+    renderProgress();
+  }
+
+  function resetAllData() {
+    if (!window.confirm("Local app data အားလုံးကို ဖျက်မလား")) {
+      return;
+    }
+
+    try {
+      localStorage.removeItem(USER_KEY);
+      localStorage.removeItem(COMPLETED_KEY);
+      localStorage.removeItem(OLD_COMPLETED_KEY);
+      localStorage.removeItem(PREMIUM_KEY);
+      localStorage.removeItem(PAYMENT_KEY);
+      localStorage.removeItem(KPI_KEY);
+      localStorage.removeItem(SETTINGS_KEY);
+    } catch (error) {
+      console.error(error);
+    }
+
+    showToast("App data reset ပြီးပါပြီ");
+
+    setTimeout(function () {
+      window.location.reload();
+    }, 500);
+  }
+
+  function calculatePricing() {
+    var cost = Number(document.getElementById("toolCost").value) || 0;
+    var price = Number(document.getElementById("toolPrice").value) || 0;
+
+    var profit = price - cost;
+    var margin = price > 0 ? (profit / price) * 100 : 0;
+    var markup = cost > 0 ? (profit / cost) * 100 : 0;
+
+    showCalculatorResult(
+      "<strong>Profit:</strong> " + money(profit) +
+      "<br><strong>Margin:</strong> " + margin.toFixed(2) + "%" +
+      "<br><strong>Markup:</strong> " + markup.toFixed(2) + "%"
+    );
+  }
+
+  function calculateBreakEven() {
     var fixed = Number(document.getElementById("beFixed").value) || 0;
     var price = Number(document.getElementById("bePrice").value) || 0;
     var variable = Number(document.getElementById("beVariable").value) || 0;
 
     var contribution = price - variable;
 
-    var units =
-      contribution > 0
-      ? fixed / contribution
-      : 0;
-
-    var result = document.getElementById("beResult");
-
-    if (result) {
-
-      if (contribution <= 0) {
-        result.textContent =
-          "Selling price must be greater than variable cost";
-      } else {
-        result.innerHTML =
-          "Contribution / Unit: <strong>" +
-          contribution.toFixed(2) +
-          "</strong><br>" +
-          "Break-even Units: <strong>" +
-          Math.ceil(units) +
-          "</strong>";
-      }
+    if (contribution <= 0) {
+      showCalculatorResult("Selling Price က Variable Cost ထက်များရပါမယ်");
+      return;
     }
+
+    var units = fixed / contribution;
+    var sales = units * price;
+
+    showCalculatorResult(
+      "<strong>Break-even Units:</strong> " + units.toFixed(1) +
+      "<br><strong>Break-even Sales:</strong> " + money(sales)
+    );
   }
 
-  function calculateTarget() {
+  function calculateSalesTarget() {
+    var target = Number(document.getElementById("stTarget").value) || 0;
+    var days = Number(document.getElementById("stDays").value) || 0;
 
-    var amount =
-      Number(document.getElementById("targetAmount").value) || 0;
+    var daily = days > 0 ? target / days : 0;
 
-    var days =
-      Number(document.getElementById("targetDays").value) || 0;
-
-    var daily =
-      days > 0
-      ? amount / days
-      : 0;
-
-    var result = document.getElementById("targetResult");
-
-    if (result) {
-      result.innerHTML =
-        "Daily Target: <strong>" +
-        daily.toFixed(2) +
-        "</strong>";
-    }
+    showCalculatorResult(
+      "<strong>Monthly Target:</strong> " + money(target) +
+      "<br><strong>Daily Target:</strong> " + daily.toFixed(2)
+    );
   }
 
   function calculateGrowth() {
+    var previous = Number(document.getElementById("growthPrevious").value) || 0;
+    var current = Number(document.getElementById("growthCurrent").value) || 0;
 
-    var previous =
-      Number(document.getElementById("growthPrevious").value) || 0;
-
-    var current =
-      Number(document.getElementById("growthCurrent").value) || 0;
-
-    var growth =
-      previous !== 0
-      ? ((current - previous) / previous) * 100
-      : 0;
-
-    var result =
-      document.getElementById("growthResult");
-
-    if (result) {
-      result.innerHTML =
-        "Growth: <strong>" +
-        growth.toFixed(1) +
-        "%</strong>";
-    }
-  }
-
-  /* =========================================================
-     MODAL
-     ========================================================= */
-
-  function showPremiumModal() {
-
-    var root = document.getElementById("modalRoot");
-
-    if (!root) {
+    if (previous <= 0) {
+      showCalculatorResult("Previous Sales ကို 0 ထက်ကြီးအောင်ထည့်ပါ");
       return;
     }
 
-    root.innerHTML = `
-      <div class="modal-backdrop" data-action="close-modal">
+    var growth = ((current - previous) / previous) * 100;
 
-        <div class="modal" onclick="event.stopPropagation()">
-
-          <div class="modal-head">
-            <h2>◆ Premium Membership</h2>
-
-            <button
-              class="modal-close"
-              data-action="close-modal">
-              ×
-            </button>
-          </div>
-
-          <p class="muted small">
-            Lesson 1 is free. Lesson 2 and above require Premium Membership
-          </p>
-
-          <div style="height:15px"></div>
-
-          <div class="grid grid-3">
-
-            <div class="result-box">
-              <strong>1 Month</strong>
-              <div style="font-size:20px;font-weight:800;margin-top:6px">
-                25,000 Ks
-              </div>
-            </div>
-
-            <div class="result-box">
-              <strong>3 Months</strong>
-              <div style="font-size:20px;font-weight:800;margin-top:6px">
-                60,000 Ks
-              </div>
-            </div>
-
-            <div class="result-box">
-              <strong>6 Months</strong>
-              <div style="font-size:20px;font-weight:800;margin-top:6px">
-                100,000 Ks
-              </div>
-            </div>
-
-          </div>
-
-          <div style="height:15px"></div>
-
-          <p class="small">
-            Payment Methods: <strong>KPay</strong> / <strong>CB Bank</strong>
-          </p>
-
-          <button
-            class="btn btn-primary"
-            style="margin-top:15px"
-            data-section="premium"
-            data-action="close-modal">
-            Open Premium Membership
-          </button>
-
-        </div>
-
-      </div>
-    `;
+    showCalculatorResult(
+      "<strong>Growth:</strong> " + growth.toFixed(2) + "%"
+    );
   }
 
-  function closeModal() {
+  function showCalculatorResult(html) {
+    var result = document.getElementById("calculatorResult");
 
-    var root = document.getElementById("modalRoot");
+    if (!result) return;
 
-    if (root) {
-      root.innerHTML = "";
+    result.innerHTML =
+      '<div class="notice notice-success">' + html + '</div>';
+  }
+
+  function generateAITool(type) {
+    var result = document.getElementById("aiToolResult");
+
+    if (!result) return;
+
+    var content = "";
+
+    if (type === "daily-plan") {
+      content =
+        "<strong>Daily Sales Action Plan</strong><br><br>" +
+        "1. Yesterday actual vs target စစ်ပါ<br>" +
+        "2. Gap ရဲ့ Top 3 causes ရှာပါ<br>" +
+        "3. High-potential customers ကို priority ပေးပါ<br>" +
+        "4. Salesperson တစ်ဦးချင်း daily action သတ်မှတ်ပါ<br>" +
+        "5. End-of-day actual ကို ပြန်တိုင်းပါ";
     }
+
+    if (type === "gap-analysis") {
+      content =
+        "<strong>Target Gap Analysis</strong><br><br>" +
+        "Target → Actual → Gap → Root Cause → Corrective Action ဆိုတဲ့ flow နဲ့ စစ်ပါ<br><br>" +
+        "အရင်ဆုံး Volume, Distribution, Conversion, Average Order နဲ့ Team Productivity ကို ခွဲပြီးကြည့်ပါ";
+    }
+
+    if (type === "root-cause") {
+      content =
+        "<strong>Root Cause Analysis</strong><br><br>" +
+        "Problem ကို statement တစ်ကြောင်းနဲ့ရေးပြီး 5 Whys မေးပါ<br>" +
+        "People / Process / Product / Customer / Market ဆိုပြီး cause category ခွဲပါ<br>" +
+        "Root cause တစ်ခုချင်းစီအတွက် owner နဲ့ deadline ထားပါ";
+    }
+
+    if (type === "meeting") {
+      content =
+        "<strong>Sales Meeting Agenda</strong><br><br>" +
+        "1. Target vs Actual<br>" +
+        "2. Gap analysis<br>" +
+        "3. Territory / Customer update<br>" +
+        "4. Pipeline<br>" +
+        "5. Key problems<br>" +
+        "6. Action owner<br>" +
+        "7. Deadline<br>" +
+        "8. Next review";
+    }
+
+    if (type === "coaching") {
+      content =
+        "<strong>Team Coaching Questions</strong><br><br>" +
+        "• Target ဘာကြောင့် မရသေးလဲ<br>" +
+        "• ဘယ် customer ကို priority ပေးမလဲ<br>" +
+        "• Pipeline ထဲမှာ ဘယ် opportunity က အနီးဆုံးလဲ<br>" +
+        "• ဘာ support လိုအပ်လဲ<br>" +
+        "• ဒီနေ့ ဘာ action လုပ်မလဲ";
+    }
+
+    result.style.display = "block";
+    result.innerHTML = '<div class="notice notice-info">' + content + '</div>';
   }
 
-  /* =========================================================
-     EVENT DELEGATION
-     ========================================================= */
+  async function askAI(question) {
+    var chat = document.getElementById("aiChat");
 
-  function handleClick(event) {
+    if (!chat) return;
 
+    currentChat.push({
+      role: "user",
+      content: question
+    });
+
+    chat.innerHTML +=
+      '<div class="ai-message ai-user">' +
+      escapeHTML(question) +
+      '</div>';
+
+    var thinking = document.createElement("div");
+    thinking.className = "ai-message ai-bot";
+    thinking.textContent = "AI စဉ်းစားနေပါတယ်...";
+    chat.appendChild(thinking);
+
+    try {
+      var response = await fetch(AI_API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: question,
+          prompt: question,
+          context: "You are an AI Business Coach for a Myanmar business manager. Give practical, concise, actionable business advice with steps, KPIs and examples. Respond in the user's language when possible."
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error("AI API unavailable");
+      }
+
+      var data = await response.json();
+
+      thinking.remove();
+
+      var answer =
+        data.reply ||
+        data.response ||
+        data.message ||
+        data.answer ||
+        "AI response မရရှိသေးပါ";
+
+      currentChat.push({
+        role: "assistant",
+        content: answer
+      });
+
+      chat.innerHTML +=
+        '<div class="ai-message ai-bot">' +
+        escapeHTML(answer).replace(/\n/g, "<br>") +
+        '</div>';
+
+    } catch (error) {
+      thinking.remove();
+
+      var fallback = localAIFallback(question);
+
+      chat.innerHTML +=
+        '<div class="ai-message ai-bot">' +
+        '<strong>Business Coach Advice</strong><br>' +
+        escapeHTML(fallback).replace(/\n/g, "<br>") +
+        '</div>';
+    }
+
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function localAIFallback(question) {
+    var q = question.toLowerCase();
+
+    if (q.indexOf("sales") !== -1 || q.indexOf("target") !== -1) {
+      return "Sales target မပြည့်ရင် Target → Actual → Gap → Root Cause → Action ဆိုတဲ့ flow နဲ့ စစ်ပါ။ အရင်ဆုံး salesperson, territory, customer, conversion နဲ့ pipeline ကို ခွဲပြီးကြည့်ပါ";
+    }
+
+    if (q.indexOf("staff") !== -1 || q.indexOf("team") !== -1) {
+      return "Team problem အတွက် expectation ကိုရှင်းပါ၊ KPI ကိုသတ်မှတ်ပါ၊ weekly coaching လုပ်ပါ၊ performance gap ကို data နဲ့ဆွေးနွေးပြီး action owner နဲ့ deadline သတ်မှတ်ပါ";
+    }
+
+    if (q.indexOf("marketing") !== -1) {
+      return "Marketing အတွက် Target Customer → Problem → Offer → Channel → Campaign → KPI ဆိုတဲ့ flow နဲ့ စီမံပါ။ Leads နဲ့ Conversion ကို အဓိကတိုင်းပါ";
+    }
+
+    return "Problem ကို တစ်ကြောင်းနဲ့ သတ်မှတ်ပြီး Current Data → Root Cause → Options → Action → KPI → Review ဆိုတဲ့ management framework နဲ့ ဖြေရှင်းပါ";
+  }
+
+  function handleSubmit(event) {
     var target = event.target;
 
-    var button = target.closest
-      ? target.closest("[data-action], [data-section]")
-      : null;
+    if (target.id === "kpiForm") {
+      event.preventDefault();
 
-    if (!button) {
+      var kpi = {
+        target: Number(document.getElementById("kpiTarget").value) || 0,
+        actual: Number(document.getElementById("kpiActual").value) || 0,
+        team: Number(document.getElementById("kpiTeam").value) || 0,
+        customers: Number(document.getElementById("kpiCustomers").value) || 0,
+        orders: Number(document.getElementById("kpiOrders").value) || 0
+      };
+
+      safeSet(KPI_KEY, kpi);
+      showToast("KPI saved");
+      renderSection();
       return;
     }
 
-    var action = button.getAttribute("data-action");
-    var section = button.getAttribute("data-section");
+    if (target.id === "settingsForm") {
+      event.preventDefault();
 
-    if (section) {
+      var user = {
+        name: document.getElementById("settingsName").value.trim() || "Aung Zar Ni Win",
+        role: document.getElementById("settingsRole").value.trim() || "Business Manager"
+      };
 
-      if (action === "close-modal") {
-        closeModal();
+      safeSet(USER_KEY, user);
+      showToast("Profile saved");
+      renderSection();
+      return;
+    }
+
+    if (target.id === "paymentForm") {
+      event.preventDefault();
+
+      var plan = document.getElementById("paymentPlan").value;
+      var method = document.getElementById("paymentMethod").value;
+      var reference = document.getElementById("paymentReference").value.trim();
+
+      if (!reference) {
+        showToast("Transaction Reference ထည့်ပါ");
+        return;
       }
 
-      goToSection(section);
+      safeSet(PAYMENT_KEY, {
+        plan: plan,
+        method: method,
+        reference: reference,
+        status: "pending",
+        submittedAt: new Date().toISOString()
+      });
+
+      showToast("Payment confirmation submitted");
+
+      target.reset();
       return;
     }
 
-    if (!action) {
-      return;
-    }
+    if (target.id === "aiForm") {
+      event.preventDefault();
 
-    switch (action) {
+      var input = document.getElementById("aiInput");
 
-      case "open-lesson":
+      if (!input) return;
 
-        var id = Number(button.getAttribute("data-id"));
+      var question = input.value.trim();
 
-        if (!canOpenLesson(id)) {
-          showPremiumModal();
-          return;
-        }
+      if (!question) {
+        showToast("မေးခွန်းထည့်ပါ");
+        return;
+      }
 
-        state.lessonId = id;
-        state.section = "lessons";
-
-        updatePageTitle();
-        updateActiveNav();
-        renderCurrent();
-
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
-
-        break;
-
-      case "toggle-complete":
-
-        toggleCompleted(
-          Number(button.getAttribute("data-id"))
-        );
-
-        renderCurrent();
-
-        break;
-
-      case "reset-progress":
-
-        resetProgress();
-
-        break;
-
-      case "filter-category":
-
-        state.category =
-          button.getAttribute("data-category") || "All";
-
-        state.search = "";
-        state.section = "lessons";
-        state.lessonId = null;
-
-        updatePageTitle();
-        updateActiveNav();
-        renderCurrent();
-
-        break;
-
-      case "calculate-price":
-
-        calculatePrice();
-
-        break;
-
-      case "calculate-break-even":
-
-        calculateBreakEven();
-
-        break;
-
-      case "calculate-target":
-
-        calculateTarget();
-
-        break;
-
-      case "calculate-growth":
-
-        calculateGrowth();
-
-        break;
-
-      case "ask-coach":
-
-        askAI();
-
-        break;
-
-      case "quick-prompt":
-
-        var prompt =
-          button.getAttribute("data-prompt") || "";
-
-        var promptInput =
-          document.getElementById("aiPrompt");
-
-        if (promptInput) {
-          promptInput.value = prompt;
-          promptInput.focus();
-        }
-
-        break;
-
-      case "ai-tool":
-
-        runAITool(
-          button.getAttribute("data-tool")
-        );
-
-        break;
-
-      case "save-sales-kpi":
-
-        saveSalesKPI();
-
-        break;
-
-      case "save-kpi-data":
-
-        saveAdditionalKPI();
-
-        break;
-
-      case "save-settings":
-
-        saveSettings();
-
-        break;
-
-      case "reset-all":
-
-        resetAllData();
-
-        break;
-
-      case "payment-info":
-
-        showToast(
-          "Payment instructions can be configured in Premium Membership"
-        );
-
-        break;
-
-      case "activate-premium":
-
-        activatePremium();
-
-        break;
-
-      case "close-modal":
-
-        closeModal();
-
-        break;
-
-      case "print-report":
-
-        printReport();
-
-        break;
+      input.value = "";
+      askAI(question);
     }
   }
-
-  /* =========================================================
-     SAVE SALES KPI
-     ========================================================= */
-
-  function saveSalesKPI() {
-
-    var data = getKPI();
-
-    var target =
-      Number(document.getElementById("salesTarget").value) || 0;
-
-    var actual =
-      Number(document.getElementById("salesActual").value) || 0;
-
-    var days =
-      Number(document.getElementById("workingDays").value) || 26;
-
-    data.target = target;
-    data.actual = actual;
-    data.workingDays = days;
-
-    saveKPI(data);
-
-    showToast("Sales KPI saved");
-
-    renderCurrent();
-  }
-
-  function saveAdditionalKPI() {
-
-    var data = getKPI();
-
-    data.team =
-      Number(document.getElementById("kpiTeam").value) || 0;
-
-    data.customers =
-      Number(document.getElementById("kpiCustomers").value) || 0;
-
-    data.orders =
-      Number(document.getElementById("kpiOrders").value) || 0;
-
-    saveKPI(data);
-
-    showToast("KPI data saved");
-
-    renderCurrent();
-  }
-
-  /* =========================================================
-     SETTINGS
-     ========================================================= */
-
-  function saveSettings() {
-
-    var name =
-      document.getElementById("settingName").value.trim();
-
-    var role =
-      document.getElementById("settingRole").value.trim();
-
-    saveProfile(
-      name || "Aung Zar Ni Win",
-      role || "Business Manager"
-    );
-
-    showToast("Profile saved");
-
-    renderCurrent();
-  }
-
-  function resetAllData() {
-
-    var confirmed = window.confirm(
-      "Reset local application data?\n\nThis will remove your local profile, KPI and lesson progress"
-    );
-
-    if (!confirmed) {
-      return;
-    }
-
-    safeRemove(KEYS.completed);
-    safeRemove(KEYS.profile);
-    safeRemove(KEYS.kpi);
-    safeRemove(KEYS.settings);
-
-    showToast("Local app data reset");
-
-    updateProfileUI();
-
-    state.section = "dashboard";
-    state.lessonId = null;
-
-    updatePageTitle();
-    updateActiveNav();
-    renderCurrent();
-  }
-
-  /* =========================================================
-     PREMIUM ACTIVATION
-     ========================================================= */
-
-  function activatePremium() {
-
-    var input =
-      document.getElementById("activationCode");
-
-    if (!input) {
-      return;
-    }
-
-    var code = input.value.trim();
-
-    if (!code) {
-      showToast("Please enter an activation code");
-      return;
-    }
-
-    /*
-      Real activation codes should be managed by the
-      Academy administrator or backend.
-
-      This demo does NOT invent a fake code.
-    */
-
-    showToast(
-      "Activation code submitted for verification"
-    );
-
-    input.value = "";
-  }
-
-  /* =========================================================
-     PRINT
-     ========================================================= */
-
-  function printReport() {
-
-    var kpi = getKPI();
-
-    var achievement =
-      Number(kpi.target) > 0
-      ? Math.round(Number(kpi.actual) / Number(kpi.target) * 100)
-      : 0;
-
-    var profile = getProfile();
-
-    var report =
-      "<html><head><title>ABA Business Report</title>" +
-      "<style>" +
-      "body{font-family:Arial;padding:40px;color:#172033}" +
-      "h1{font-size:24px}" +
-      "p{font-size:14px}" +
-      ".box{border:1px solid #ddd;padding:15px;margin:10px 0}" +
-      "</style></head><body>" +
-
-      "<h1>Aung Business Academy</h1>" +
-
-      "<p>Business Performance Report</p>" +
-
-      "<div class='box'>Manager: " +
-      escapeHtml(profile.name) +
-      "</div>" +
-
-      "<div class='box'>Sales Target: " +
-      formatNumber(kpi.target) +
-      " L</div>" +
-
-      "<div class='box'>Actual Sales: " +
-      formatNumber(kpi.actual) +
-      " L</div>" +
-
-      "<div class='box'>Achievement: " +
-      achievement +
-      "%</div>" +
-
-      "<div class='box'>Learning Progress: " +
-      getProgress() +
-      "%</div>" +
-
-      "</body></html>";
-
-    var win = window.open("", "_blank");
-
-    if (!win) {
-      showToast("Please allow pop-ups to print the report");
-      return;
-    }
-
-    win.document.write(report);
-    win.document.close();
-
-    win.focus();
-
-    window.setTimeout(function () {
-      win.print();
-    }, 300);
-  }
-
-  /* =========================================================
-     INPUT EVENTS
-     ========================================================= */
 
   function handleInput(event) {
+    if (event.target.id === "lessonSearch") {
+      var categoryElement = document.getElementById("lessonCategory");
+      var category = categoryElement ? categoryElement.value : "All Categories";
 
-    var id = event.target.id;
-
-    if (id === "lessonSearch") {
-
-      state.search = event.target.value;
-      renderCurrent();
-
-      var searchInput =
-        document.getElementById("lessonSearch");
-
-      if (searchInput) {
-        searchInput.focus();
-
-        try {
-          searchInput.setSelectionRange(
-            searchInput.value.length,
-            searchInput.value.length
-          );
-        } catch (e) {}
-      }
+      renderLessons(category, event.target.value);
     }
   }
 
   function handleChange(event) {
+    if (event.target.id === "lessonCategory") {
+      var searchElement = document.getElementById("lessonSearch");
+      var search = searchElement ? searchElement.value : "";
 
-    if (event.target.id === "categoryFilter") {
-
-      state.category = event.target.value;
-      state.search = "";
-
-      renderCurrent();
+      renderLessons(event.target.value, search);
     }
   }
-
-  /* =========================================================
-     INITIALIZATION
-     ========================================================= */
 
   function init() {
-
-    /*
-      Important stability checks
-    */
-
-    if (lessons.length !== 260) {
-      console.warn(
-        "ABA lesson count is " + lessons.length
-      );
-    }
-
     updateProfileUI();
-    updatePageTitle();
-    updateActiveNav();
-
-    renderCurrent();
-
-    var menuButton =
-      document.getElementById("menuButton");
-
-    if (menuButton) {
-      menuButton.addEventListener(
-        "click",
-        openMobileMenu
-      );
-    }
-
-    var overlay =
-      document.getElementById("mobileOverlay");
-
-    if (overlay) {
-      overlay.addEventListener(
-        "click",
-        closeMobileMenu
-      );
-    }
-
-    document.addEventListener(
-      "click",
-      handleClick
-    );
-
-    document.addEventListener(
-      "input",
-      handleInput
-    );
-
-    document.addEventListener(
-      "change",
-      handleChange
-    );
-
-    window.addEventListener(
-      "error",
-      function (event) {
-        console.error(
-          "ABA Runtime Error:",
-          event.error || event.message
-        );
-      }
-    );
+    renderSection();
   }
 
-  /* =========================================================
-     PUBLIC API
-     ========================================================= */
+  document.addEventListener("click", handleClick);
+  document.addEventListener("submit", handleSubmit);
+  document.addEventListener("input", handleInput);
+  document.addEventListener("change", handleChange);
+
+  document.addEventListener("click", function (event) {
+    if (event.target.id === "mobileMenuBtn") {
+      openMobileMenu();
+    }
+
+    if (event.target.id === "mobileOverlay") {
+      closeMobileMenu();
+    }
+  });
+
+  window.addEventListener("error", function (event) {
+    console.error("ABA Runtime Error:", event.error || event.message);
+  });
 
   window.AungBusinessAcademy = {
     lessons: lessons,
     courseData: courseData,
-    getLessonContent: getLessonContent,
+    getLessonContent: lessonContent,
     goToSection: goToSection,
-    openLesson: function (id) {
-
-      id = Number(id);
-
-      if (!canOpenLesson(id)) {
-        showPremiumModal();
-        return;
-      }
-
-      state.section = "lessons";
-      state.lessonId = id;
-
-      updatePageTitle();
-      updateActiveNav();
-      renderCurrent();
-    },
+    openLesson: openLesson,
     resetProgress: resetProgress,
     getCompleted: getCompleted,
     getProgress: getProgress,
-    isPremium: isPremium
+    isPremiumActive: isPremiumActive
   };
 
-  /* =========================================================
-     START
-     ========================================================= */
-
-  if (
-    document.readyState === "loading"
-  ) {
-    document.addEventListener(
-      "DOMContentLoaded",
-      init
-    );
-  } else {
-    init();
-  }
+  document.addEventListener("DOMContentLoaded", init);
 
 })();
